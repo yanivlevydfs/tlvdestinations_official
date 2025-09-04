@@ -191,3 +191,35 @@ body.dark-mode h1,
 body.dark-mode .page-title {
   color: #63b3ed !important; /* accent blue */
 }
+
+
+/* RTL fix for DataTables search box */
+body[dir="rtl"] .dataTables_filter {
+  text-align: right !important;   /* move label + input to the right */
+}
+
+body[dir="rtl"] .dataTables_filter label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body[dir="rtl"] .dataTables_filter input {
+  margin-left: 0 !important;
+  margin-right: .5rem !important;
+  direction: rtl;
+  text-align: right;
+}
+/* RTL fixes for DataTables buttons */
+body[dir="rtl"] .dataTables_wrapper .dt-buttons {
+  display: flex !important;
+  flex-direction: row-reverse !important;  /* flip order */
+  justify-content: flex-end !important;   /* align to right */
+  gap: 0.5rem;
+}
+
+body[dir="rtl"] .dataTables_wrapper .dt-buttons .btn {
+  order: unset !important;  /* ensure order respects row-reverse */
+}
+
