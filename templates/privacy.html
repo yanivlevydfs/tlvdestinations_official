@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ "Privacy Policy" if lang == "en" else "מדיניות פרטיות" }}</h1>
+  <p>
+    {{ "We respect your privacy. No personal data is collected or stored." 
+       if lang == "en"
+       else "אנחנו מכבדים את פרטיותך. לא נאספים או נשמרים נתונים אישיים." }}
+  </p>
+  <p>
+    {{ "This site uses public flight data APIs to display information." 
+       if lang == "en"
+       else "האתר עושה שימוש ב-API ציבוריים להצגת מידע טיסות." }}
+  </p>
+{% endblock %}

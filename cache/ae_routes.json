@@ -1,0 +1,49 @@
+{
+  "LCA": [
+    "Aegean Airlines",
+    "Arkia Israel Airlines",
+    "Armavia",
+    "Blue Air",
+    "Cal Cargo Air Lines",
+    "Continental Express",
+    "Cyprus Airways",
+    "El Al Israel Airlines",
+    "Elysian Airlines",
+    "Israir",
+    "North Pacific Airlines",
+    "Travel Service"
+  ],
+  "PFO": [
+    "Armavia"
+  ],
+  "ATH": [
+    "Aegean Airlines",
+    "Alitalia",
+    "Arkia Israel Airlines",
+    "El Al Israel Airlines",
+    "Israir",
+    "North Pacific Airlines",
+    "Smartlynx Airlines"
+  ],
+  "HER": [
+    "Aegean Airlines",
+    "Air Guinee Express",
+    "Airblue",
+    "Black Stallion Airways",
+    "El Al Israel Airlines",
+    "North Pacific Airlines"
+  ],
+  "KGS": [
+    "Black Stallion Airways"
+  ],
+  "RHO": [
+    "Air Guinee Express",
+    "Airblue",
+    "El Al Israel Airlines"
+  ],
+  "SKG": [
+    "Aegean Airlines",
+    "Arkia Israel Airlines",
+    "Israir"
+  ]
+}

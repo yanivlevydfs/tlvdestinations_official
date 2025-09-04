@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ "About Flights Explorer" if lang == "en" else "על חוקר טיסות" }}</h1>
+  <p>
+    {{ "This platform provides real-time routes and flight data between TLV and destinations in Greece and Cyprus." 
+      if lang == "en"
+      else "האתר מציג נתוני טיסות בזמן אמת בין תל אביב ליעדים ביוון וקפריסין." }}
+  </p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ "Contact Us" if lang == "en" else "צור קשר" }}</h1>
+  <p>
+    {{ "For questions or feedback, please email us at:" 
+       if lang == "en"
+       else "לשאלות או הערות, ניתן לשלוח דוא\"ל לכתובת:" }}
+  </p>
+  <p>
+    <a href="mailto:support@flightsexplorer.com">support@flightsexplorer.com</a>
+  </p>
+{% endblock %}

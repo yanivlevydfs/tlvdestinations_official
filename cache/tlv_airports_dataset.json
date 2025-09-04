@@ -1,0 +1,129 @@
+{
+  "date": "2025-09-04",
+  "airports": [
+    {
+      "IATA": "LCA",
+      "Name": "Larnaca International Airport",
+      "City": "Larnarca",
+      "Country": "Cyprus",
+      "Region": "Cyprus",
+      "lat": 34.8751,
+      "lon": 33.6249,
+      "Airlines": [
+        "Armavia",
+        "Cal Cargo Air Lines",
+        "Elysian Airlines",
+        "North Pacific Airlines",
+        "Continental Express",
+        "Arkia Israel Airlines",
+        "Aegean Airlines",
+        "Blue Air",
+        "Israir",
+        "Travel Service",
+        "El Al Israel Airlines",
+        "Cyprus Airways"
+      ],
+      "Distance_km": 339.7,
+      "FlightTime_hr": 0.42
+    },
+    {
+      "IATA": "PFO",
+      "Name": "Paphos International Airport",
+      "City": "Paphos",
+      "Country": "Cyprus",
+      "Region": "Cyprus",
+      "lat": 34.718,
+      "lon": 32.4857,
+      "Airlines": [
+        "Armavia"
+      ],
+      "Distance_km": 374.9,
+      "FlightTime_hr": 0.47
+    },
+    {
+      "IATA": "ATH",
+      "Name": "Eleftherios Venizelos International Airport",
+      "City": "Athens",
+      "Country": "Greece",
+      "Region": "Mainland",
+      "lat": 37.9364,
+      "lon": 23.9445,
+      "Airlines": [
+        "Alitalia",
+        "North Pacific Airlines",
+        "Arkia Israel Airlines",
+        "Israir",
+        "Aegean Airlines",
+        "Smartlynx Airlines",
+        "El Al Israel Airlines"
+      ],
+      "Distance_km": 1193.9,
+      "FlightTime_hr": 1.49
+    },
+    {
+      "IATA": "HER",
+      "Name": "Heraklion International Nikos Kazantzakis Airport",
+      "City": "Heraklion",
+      "Country": "Greece",
+      "Region": "Crete",
+      "lat": 35.3397,
+      "lon": 25.1803,
+      "Airlines": [
+        "Airblue",
+        "North Pacific Airlines",
+        "Black Stallion Airways",
+        "Aegean Airlines",
+        "Air Guinee Express",
+        "El Al Israel Airlines"
+      ],
+      "Distance_km": 971.0,
+      "FlightTime_hr": 1.21
+    },
+    {
+      "IATA": "KGS",
+      "Name": "Kos Airport",
+      "City": "Kos Island",
+      "Country": "Greece",
+      "Region": "Dodecanese",
+      "lat": 36.7933,
+      "lon": 27.0917,
+      "Airlines": [
+        "Black Stallion Airways"
+      ],
+      "Distance_km": 890.8,
+      "FlightTime_hr": 1.11
+    },
+    {
+      "IATA": "RHO",
+      "Name": "Diagoras Airport",
+      "City": "Rodes Island",
+      "Country": "Greece",
+      "Region": "Mainland",
+      "lat": 36.4054,
+      "lon": 28.0862,
+      "Airlines": [
+        "Air Guinee Express",
+        "Airblue",
+        "El Al Israel Airlines"
+      ],
+      "Distance_km": 793.4,
+      "FlightTime_hr": 0.99
+    },
+    {
+      "IATA": "SKG",
+      "Name": "Thessaloniki Macedonia International Airport",
+      "City": "Thessaloniki",
+      "Country": "Greece",
+      "Region": "Mainland",
+      "lat": 40.5197,
+      "lon": 22.9709,
+      "Airlines": [
+        "Israir",
+        "Arkia Israel Airlines",
+        "Aegean Airlines"
+      ],
+      "Distance_km": 1424.8,
+      "FlightTime_hr": 1.78
+    }
+  ]
+}

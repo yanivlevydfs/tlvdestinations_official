@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TLV → Greek Mainland, Islands & Cyprus Airlines Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/static/favicon.ico">
+  <!-- Bootswatch (default light) -->
+  <link id="bs-theme-link" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- DataTables + Bootstrap5 integration (CSS) -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
+  <!-- DataTables + Bootstrap5 integration (JS) -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/fixedHeader.bootstrap5.min.js"></script>
+
+  <!-- Export deps -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+  <!-- Bootstrap bundle (for modal/offcanvas/toasts) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"
+     crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
+    <div class="container-fluid">
+      <a id="brand-title" class="navbar-brand d-flex align-items-center" href="#">
+        <i class="bi bi-airplane-engines me-2"></i> TLV → Greek Mainland, Islands & Cyprus Airlines Explorer
+      </a>
+
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <!-- View Map -->
+        <button id="view-map-btn" class="btn btn-outline-primary">
+          <i class="bi bi-globe-americas me-1"></i> View Map
+        </button>
+
+        <!-- Refresh Routes -->
+        <button id="refresh-btn" class="btn btn-primary">
+          <i class="bi bi-arrow-repeat me-1"></i> Refresh Routes
+        </button>
+
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="btn btn-outline-secondary" type="button" aria-label="Toggle theme">
+          <i id="theme-icon" class="bi bi-moon-stars me-1"></i> Theme
+        </button>
+
+        <!-- Filters toggle (mobile only) -->
+        <button id="filters-toggle-mobile" class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersCanvas">
+          <i class="bi bi-sliders me-1"></i> Filters
+        </button>
+
+        <!-- Language toggle -->
+        <button id="lang-toggle" class="btn btn-outline-secondary" type="button" aria-label="Toggle language">
+          <i class="bi bi-translate me-1"></i> <span id="lang-label">עברית</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <!-- Top banner ad -->
+  <div class="container my-3 text-center">
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:320px;height:50px"
+         data-ad-client="ca-pub-7964221655161384"
+         data-ad-slot="1111111111"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <!-- Body -->
+  <main class="container-fluid px-3 px-md-4 mt-3 mb-5">
+    <div class="row g-3">
+      <!-- Filters -->
+      <div class="col-lg-3">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="filtersCanvas">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="filters-title">
+              <i class="bi bi-sliders me-2"></i>Filters
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#filtersCanvas"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="card shadow-sm">
+              <div class="card-header fw-semibold" id="filters-header">
+                Search & Filter
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label class="form-label" id="lbl-country">Country</label>
+                  <select id="country-filter" class="form-select">
+                    <option value="All">All</option>
+                    <option value="Greece">Greece</option>
+                    <option value="Cyprus">Cyprus</option>
+                  </select>
+                </div>
+
+                <!-- Sidebar ad -->
+                <div class="card mt-3 shadow-sm">
+                  <div class="card-body text-center">
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-client="ca-pub-7964221655161384"
+                         data-ad-slot="2222222222"
+                         data-ad-format="rectangle"
+                         data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                  </div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                  <label class="form-label" id="lbl-search">Search</label>
+                  <input type="text" id="query-filter" class="form-control" placeholder="Search airport, city, country, region…">
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label" id="lbl-regions">Regions</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    {% for r in all_regions %}
+                      <div class="form-check">
+                        <input class="form-check-input region-filter" type="checkbox" value="{{r}}" id="r-{{ loop.index }}">
+                        <label class="form-check-label chip" for="r-{{ loop.index }}">{{r}}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="border-top pt-3 mt-3 d-flex gap-2">
+                  <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
+                    <i class="bi bi-x-circle me-1"></i> Clear
+                  </button>
+                  <span class="ms-auto text-muted small" id="active-filters">No filters</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /offcanvas -->
+      </div>
+
+      <!-- Table -->
+      <div class="col-lg-9">
+        <div class="card shadow-sm">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <div>
+              <strong id="main-title">✈️ TLV → Greek Islands & Cyprus</strong>
+              <div class="small text-muted" id="subheader-text">Real routes, distances and estimated flight times</div>
+            </div>
+            <div class="text-end">
+              <span class="chip" id="export-label"><i class="bi bi-database me-1"></i>Export: Copy/CSV/Excel/PDF/Print</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <table id="airports-table" class="table table-striped table-hover w-100 align-middle">
+              <thead class="table-primary">
+                <tr>
+                  <th>IATA</th>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Country</th>
+                  <th>Region</th>
+                  <th>Airlines</th>
+                  <th>Distance</th>
+                  <th>Flight Time</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for ap in airports %}
+                <tr>
+                  <td>{{ ap.IATA }}</td>
+                  <td>{{ ap.Name }}</td>
+                  <td>{{ ap.City }}</td>
+                  <td>{{ ap.Country }}</td>
+                  <td>{{ ap.Region }}</td>
+					 <td class="airline-cell">
+					  {% if ap.Airlines and ap.Airlines[0] != "—" %}
+						{% for airline in ap.Airlines %}
+						  {% set airline_name = airline.strip().title() %}
+						  {% set website = AIRLINE_WEBSITES.get(airline_name) %}
+						  {% if website %}
+							<a
+							  href="{{ website }}"
+							  target="_blank"
+							  rel="noopener"
+							  class="airline-chip text-decoration-none"
+							  title="Visit {{ airline_name }} website"
+							>
+							  {{ airline_name }}
+							  <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.85em;"></i>
+							</a>
+						  {% else %}
+							<span class="airline-chip" title="{{ airline_name }}">{{ airline_name }}</span>
+						  {% endif %}
+						{% endfor %}
+					  {% else %} — {% endif %}
+					</td>
+                  <td>{{ ap.Distance_km if ap.Distance_km else "—" }} Kilometer</td>
+                  <td>{{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }} Hours</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <!-- Inline ad under table -->
+            <div class="mt-4 text-center">
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-7964221655161384"
+                   data-ad-slot="3333333333"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>
+            </div>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Map Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl" style="max-width:95%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-map me-2"></i>
+          <span id="map-title">Flight Map</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="height:80vh;overflow:hidden;padding:0">
+        <iframe id="map-frame" src="/map" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay">
+    <div class="text-center">
+      <h4 class="mb-3" id="overlay-title">Refreshing routes…</h4>
+      <div class="progress" style="height:24px; width:320px;">
+        <div id="loadingBar" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%;">0%</div>
+      </div>
+      <div id="loadingDetail" class="mt-2">Please wait…</div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index:2100">
+    <div id="app-toast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toast-text">Done.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+<footer class="mt-5 border-top">
+  <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-3 mb-md-0">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-airplane-engines text-primary me-2 fs-5"></i>
+        <span id="footer-brand" class="fw-semibold">TLV → Greek Mainland, Islands & Cyprus Airlines Explorer</span>
+      </div>
+      <div id="footer-tagline" class="small text-muted mt-1">
+        Real routes, distances & estimated flight times.
+      </div>
+    </div>
+
+    <nav class="small mb-3 mb-md-0">
+      <a id="footer-link-about"   class="text-decoration-none me-3 text-muted" href="/about">About</a>
+      <a id="footer-link-privacy" class="text-decoration-none me-3 text-muted" href="/privacy">Privacy</a>
+      <a id="footer-link-contact" class="text-decoration-none me-3 text-muted" href="/contact">Contact</a>
+      <a id="footer-link-sitemap" class="text-decoration-none text-muted"    href="/sitemap.xml" rel="sitemap">Sitemap</a>
+    </nav>
+  </div>
+
+  <div class="bg-light-subtle dark-bg-dark py-2">
+    <div class="container small text-center text-muted">
+      © <span id="footer-year"></span> <span id="footer-brand-inline">TLV → Greek Mainland, Islands & Cyprus Airlines Explorer</span>. <span id="footer-rights">All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+<script src="/static/js/lang.js"></script>
+<script src="/static/js/app.js"></script>
+
+<script>
+window.addEventListener("message", function(e) {
+  if (e.data === "modal-shown") {
+    // Find the Folium map object (they’re named map_xxxxx)
+    for (var key in window) {
+      if (key.startsWith("map_")) {
+        var map = window[key];
+        setTimeout(function() {
+          map.invalidateSize();  // force Leaflet to recalc
+          try {
+            map.fitBounds(map.getBounds(), { padding:[30,30] });
+          } catch (err) {
+            console.warn("fitBounds failed", err);
+          }
+        }, 200);
+      }
+    }
+  }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const modal = document.getElementById("mapModal");
+  const iframe = document.getElementById("map-frame");
+
+  modal.addEventListener("shown.bs.modal", function () {
+    // Send signal into iframe that modal is now visible
+    iframe.contentWindow.postMessage("modal-shown", "*");
+  });
+});
+</script>
+</body>
+</html>

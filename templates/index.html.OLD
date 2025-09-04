@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flights Explorer</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+  <!-- jQuery + DataTables + Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    /* Airlines column list */
+    #airports-table td ul {
+      list-style-type: disc;
+      margin: 0;
+      padding-left: 16px;
+    }
+    #airports-table td ul li {
+      margin: 2px 0;
+      line-height: 1.3;
+    }
+    #airports-table td ul li a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    #airports-table td ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Borders for the whole table */
+    #airports-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    #airports-table th,
+    #airports-table td {
+      border: 1px solid #333;
+      padding: 6px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    #airports-table th {
+      background-color: #f5f5f5;
+      font-weight: bold;
+    }
+
+    #airports-table tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    #airports-table td:nth-child(6) {
+      white-space: normal !important;
+      word-wrap: break-word;
+      max-width: 280px;
+    }
+
+    #airports-table td:nth-child(7),
+    #airports-table td:nth-child(8) {
+      white-space: nowrap !important;
+      text-align: center;
+    }
+
+    :root {
+      --bg: #ffffff; --text: #1e3a8a; --form-bg: #f0f6ff; --form-border: #93c5fd;
+      --header: #2563eb; --thead-bg: #2563eb; --thead-text: #ffffff;
+      --row-hover: #f0f9ff; --btn-bg: #2563eb; --btn-text: #ffffff;
+      --paginate-bg: #e0f2fe; --paginate-border: #93c5fd;
+    }
+    body.dark-mode {
+      --bg: #0f172a; --text: #e2e8f0; --form-bg: #1e293b; --form-border: #334155;
+      --header: #60a5fa; --thead-bg: #1e3a8a; --thead-text: #e2e8f0;
+      --row-hover: #1e293b; --btn-bg: #3b82f6; --btn-text: #ffffff;
+      --paginate-bg: #1e293b; --paginate-border: #475569;
+    }
+    body { background: var(--bg); color: var(--text); font-family: "Segoe UI", Arial, sans-serif; margin: 20px; transition: all 0.3s ease; }
+    h1 { color: var(--header); text-align: center; margin-bottom: 20px; }
+    form { background: var(--form-bg); border: 1px solid var(--form-border); padding: 12px; border-radius: 10px; margin-bottom: 20px; }
+    form label { margin-right: 15px; font-weight: 600; }
+    form input[type="text"], form select { padding: 4px 6px; border: 1px solid var(--header); border-radius: 5px; }
+    form button { background: var(--btn-bg); color: var(--btn-text); border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+    form button:hover { background: #1d4ed8; }
+    a { color: var(--header); font-weight: bold; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    table.dataTable { border-collapse: collapse !important; background: var(--bg); border: 1px solid var(--form-border); border-radius: 10px; overflow: hidden; }
+    table.dataTable thead { background: var(--thead-bg); color: var(--thead-text); }
+    table.dataTable tbody tr:hover { background: var(--row-hover); }
+
+    .dt-buttons button { background: var(--btn-bg) !important; color: var(--btn-text) !important; border: none !important; border-radius: 6px; margin-right: 5px; cursor: pointer; }
+    .dataTables_paginate a { background: var(--paginate-bg); border: 1px solid var(--paginate-border); color: var(--header) !important; margin: 2px; padding: 4px 8px; border-radius: 5px; }
+    .dataTables_paginate .current { background: var(--btn-bg) !important; color: var(--btn-text) !important; }
+
+    #theme-toggle { position: absolute; top: 15px; right: 20px; background: var(--btn-bg); color: var(--btn-text); border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
+    #loadingOverlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: none;
+      align-items: center; justify-content: center; color: white;
+    }
+  </style>
+</head>
+<body>
+  <button id="theme-toggle">🌙 Dark Mode</button>
+
+  <h1>✈️ Flights Explorer — TLV → Greek Islands & Cyprus</h1>
+
+  <!-- Filter form -->
+  <form id="filters-form" onsubmit="return false;">
+    <label>Country:
+      <select id="country-filter">
+        <option value="All">All</option>
+        <option value="Greece">Greece</option>
+        <option value="Cyprus">Cyprus</option>
+      </select>
+    </label>
+
+    <label>Search:
+      <input type="text" id="query-filter" placeholder="Search...">
+    </label>
+
+    <label>Regions:</label>
+    {% for r in all_regions %}
+      <input type="checkbox" value="{{r}}" class="region-filter"> {{r}}
+    {% endfor %}
+
+    <button id="refresh-btn" type="button" class="btn btn-warning ms-2">♻ Refresh routes (daily)</button>
+    <button id="view-map-btn" type="button" class="btn btn-success ms-2">🌍 View Map</button>
+  </form>
+
+  <!-- DataTable -->
+  <table id="airports-table" class="display nowrap" style="width:100%">
+    <thead>
+      <tr>
+        <th>IATA</th><th>Name</th><th>City</th><th>Country</th><th>Region</th>
+        <th>Airlines</th><th>Distance</th><th>Flight Time</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for ap in airports %}
+      <tr>
+        <td>{{ ap.IATA }}</td>
+        <td>{{ ap.Name }}</td>
+        <td>{{ ap.City }}</td>
+        <td>{{ ap.Country }}</td>
+        <td>{{ ap.Region }}</td>
+        <td>
+          {% if ap.Airlines and ap.Airlines[0] != "—" %}
+            <ul>
+              {% for airline in ap.Airlines %}
+                {% set airline_name = airline.strip() %}
+                {% set website = AIRLINE_WEBSITES.get(airline_name) %}
+                <li>
+                  {% if website %}
+                    <a href="{{ website }}" target="_blank">{{ airline_name }}</a>
+                  {% else %}
+                    {{ airline_name }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %} — {% endif %}
+        </td>
+        <td>{{ ap.Distance_km if ap.Distance_km else "—" }} Kilometer</td>
+        <td>{{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }} Hours</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Map Modal -->
+  <div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width:95%">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Flight Map</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="height:80vh">
+          <iframe id="map-frame" src="" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay">
+    <div class="text-center">
+      <h4 class="mb-3">Refreshing routes…</h4>
+      <div class="progress" style="height: 25px; width: 320px;">
+        <div id="loadingBar" class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: 0%;">0%</div>
+      </div>
+      <div id="loadingDetail" class="mt-2">Please wait…</div>
+    </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const table = $('#airports-table').DataTable({
+    dom: 'Bfrtip',
+    buttons: ['copy','csv','excel','pdf','print'],
+    pageLength: 10,
+    lengthMenu: [5,10,25,50],
+    language: {
+      search: "🔎 Search table:",
+      lengthMenu: "Show _MENU_ entries",
+      info: "Showing _START_ to _END_ of _TOTAL_ destinations",
+      paginate: { first:"First", last:"Last", next:"Next", previous:"Prev" }
+    }
+  });
+
+  // ---------------- Progress UI ----------------
+  const overlay       = document.getElementById('loadingOverlay');
+  const loadingBar    = document.getElementById('loadingBar');
+  const loadingDetail = document.getElementById('loadingDetail');
+
+  function showOverlay(msg = 'Working…') {
+    overlay.style.display = 'flex';
+    loadingBar.style.width = '0%';
+    loadingBar.textContent = '0%';
+    loadingDetail.textContent = msg;
+  }
+  function hideOverlay() { overlay.style.display = 'none'; }
+  function updateProgress(p) {
+    if (!p) return;
+    if (p.running) {
+      const total = Math.max(1, p.total || 1);
+      const done  = p.done || 0;
+      const pct   = Math.min(100, Math.round((done/total)*100));
+      overlay.style.display = 'flex';
+      loadingBar.style.width = pct + '%';
+      loadingBar.textContent = pct + '%';
+      loadingDetail.textContent = `Processed ${done} of ${total} airports…`;
+    } else {
+      hideOverlay();
+    }
+  }
+
+  // ---------------- SSE ----------------
+  const evtSource = new EventSource("/api/progress/stream");
+  evtSource.addEventListener("progress", (e) => {
+    updateProgress(JSON.parse(e.data));
+  });
+  evtSource.addEventListener("ping", () => console.debug("Keep-alive ping"));
+
+  // ---------------- Filters ----------------
+  function escapeRegex(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  $('#country-filter').on('change', function() {
+    const val = this.value === "All" ? '' : this.value;
+    table.column(3).search(escapeRegex(val), true, false).draw();
+  });
+
+  let debounceTimer;
+  $('#query-filter').on('keyup', function() {
+    clearTimeout(debounceTimer);
+    const val = this.value;
+    debounceTimer = setTimeout(() => {
+      table.search(escapeRegex(val), true, false).draw();
+    }, 300);
+  });
+
+  $('.region-filter').on('change', function() {
+    const regions = $('.region-filter:checked')
+      .map(function(){ return escapeRegex(this.value); })
+      .get();
+    const regex = regions.length ? regions.join('|') : '';
+    table.column(4).search(regex, true, false).draw();
+  });
+
+  // ---------------- Buttons ----------------
+  const refreshBtn = document.getElementById('refresh-btn');
+  const viewMapBtn = document.getElementById('view-map-btn');
+  const mapFrame   = document.getElementById('map-frame');
+  const mapModalEl = document.getElementById('mapModal');
+
+  refreshBtn.addEventListener('click', async () => {
+    showOverlay('Starting…');
+    try {
+      const res  = await fetch('/admin/refresh?force=true', { method: 'POST' });
+      const body = await res.json().catch(() => ({}));
+      console.log('Refresh response:', res.status, body);
+    } catch (err) {
+      hideOverlay();
+      alert('❌ Failed to trigger refresh.');
+    }
+  });
+
+  viewMapBtn.addEventListener('click', async () => {
+    showOverlay('Loading map…');
+    try {
+      mapFrame.src = '/map';
+      mapFrame.onload = () => {
+        hideOverlay();
+        const modal = new bootstrap.Modal(mapModalEl);
+        modal.show();
+      };
+    } catch (err) {
+      hideOverlay();
+      alert('❌ Failed to open the map.');
+    }
+  });
+    // ---------------- Dark Mode ----------------
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      toggleBtn.textContent = document.body.classList.contains('dark-mode')
+        ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+  });
+  </script>
+</body>
+</html>

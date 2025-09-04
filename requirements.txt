@@ -1,1 +1,20 @@
+# === Data / Utils ===
+pandas
+requests
+
+# === Maps & Geo ===
+folium
+airportsdata
+
+# === Scheduling ===
+APScheduler
+
+# === FastAPI & Web ===
 fastapi[all]
+uvicorn[standard]
+jinja2
+sse-starlette
+starlette
+
+# === Optional (לוגים צבעוניים) ===
+colorlog

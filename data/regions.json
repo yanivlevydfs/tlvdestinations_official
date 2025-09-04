@@ -1,0 +1,20 @@
+{
+  "Regions": {
+    "CYPRUS": "Cyprus",
+    "CRETE": "Crete",
+    "DODECANESE": "Dodecanese",
+    "CYCLADES": "Cyclades",
+    "IONIAN": "Ionian",
+    "NORTH_AEGEAN": "North Aegean",
+    "SPORADES": "Sporades"
+  },
+  "RegionKeywords": {
+    "CYPRUS": ["cyprus", "larnaca", "paphos"],
+    "CRETE": ["crete", "heraklion", "chani", "sitia"],
+    "DODECANESE": ["rhodes", "kos", "karpathos", "leros"],
+    "CYCLADES": ["mykonos", "santorini", "naxos", "paros"],
+    "IONIAN": ["corfu", "kefalonia", "zakynthos", "kythira"],
+    "NORTH_AEGEAN": ["samos", "chios", "lesbos", "ikaria"],
+    "SPORADES": ["skiathos", "skyros", "skopelos"]
+  }
+}
