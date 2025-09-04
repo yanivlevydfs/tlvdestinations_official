@@ -4,27 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title | default("Flights Explorer") }}</title>
+
+  <!-- ✅ SEO -->
+  <meta name="description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide with schedules, maps, and travel data.') }}">
+  <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, schedules, travel">
+
+  <!-- ✅ Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ title | default('Flights Explorer — TLV Destinations') }}">
+  <meta property="og:description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide.') }}">
+  <meta property="og:url" content="https://fly-tlv.com/">
+  <meta property="og:image" content="https://fly-tlv.com/static/preview.png">
+
+  <!-- ✅ Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title | default('Flights Explorer — TLV Destinations') }}">
+  <meta name="twitter:description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide.') }}">
+  <meta name="twitter:image" content="https://fly-tlv.com/static/preview.png">
+
+  <!-- ✅ Google verification & ads -->
+  <meta name="google-site-verification" content="YOUR_GOOGLE_TOKEN_HERE">
+  <meta name="google-adsense-account" content="ca-pub-7964221655161384">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"
+    crossorigin="anonymous"></script>
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" href="/static/favicon.ico">
+
+  <!-- ✅ Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- ✅ Custom Styles -->
   <style>
     body { background-color: #f8f9fa; }
     .navbar { background-color: #2563eb; }
-    .navbar a, .navbar-brand, .navbar-toggler-icon {
-      color: white !important;
-    }
-    .footer {
-      background-color: #2563eb;
-      color: white;
-      padding: 1rem 0;
-      margin-top: 2rem;
-    }
-    .language-toggle {
-      font-size: 0.9rem;
-    }
+    .navbar a, .navbar-brand, .navbar-toggler-icon { color: white !important; }
+    .footer { background-color: #2563eb; color: white; padding: 1rem 0; margin-top: 2rem; }
+    .language-toggle { font-size: 0.9rem; }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <nav class="navbar navbar-expand-lg px-3">
+  <!-- ✅ Header with nav for sitelinks -->
+  <nav class="navbar navbar-expand-lg px-3" role="navigation">
     <a class="navbar-brand fw-bold" href="/">✈️ Flights Explorer</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
       <span class="navbar-toggler-icon"></span>
@@ -44,13 +65,13 @@
     </div>
   </nav>
 
-  <!-- Content -->
-  <div class="container mt-4">
+  <!-- ✅ Content -->
+  <main class="container mt-4" role="main">
     {% block content %}{% endblock %}
-  </div>
+  </main>
 
-  <!-- Footer -->
-  <footer class="footer text-center">
+  <!-- ✅ Footer -->
+  <footer class="footer text-center" role="contentinfo">
     <div class="container">
       <p class="mb-0">&copy; {{ now.year }} Flights Explorer. {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}</p>
       <p class="mb-0">
