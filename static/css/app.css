@@ -223,3 +223,6 @@ body[dir="rtl"] .dataTables_wrapper .dt-buttons .btn {
   order: unset !important;  /* ensure order respects row-reverse */
 }
 
+body[dir="rtl"] .navbar .d-flex {
+  margin-left: 15rem; /* space between title and buttons */
+}
