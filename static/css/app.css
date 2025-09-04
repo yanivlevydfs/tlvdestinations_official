@@ -128,4 +128,45 @@
 	  height: 100%;
 	  border: none;}
 	  
-    #airports-table td.airline-cell {vertical-align: top;}
+    #airports-table td.airline-cell {vertical-align: top;}	
+	
+	
+	body.dark-mode .card-header,
+	body.dark-mode .card-header .card-title,
+	body.dark-mode .card-title,
+	body.dark-mode h1,
+	body.dark-mode h2,
+	body.dark-mode h3 {
+	  color: #e5e5e5 !important;  /* light gray for readability */
+	}
+
+	body.dark-mode .card-title {
+	  color: #63b3ed !important;  /* soft blue */
+	}
+	/* Headings / page titles in dark mode */
+	body.dark-mode h1,
+	body.dark-mode h2,
+	body.dark-mode h3,
+	body.dark-mode .page-title,
+	body.dark-mode .header-title,
+	body.dark-mode .card-title {
+	  color: #e5e5e5 !important;   /* light gray */
+	}
+	body.dark-mode h1,
+	body.dark-mode h2,
+	body.dark-mode h3,
+	body.dark-mode .page-title,
+	body.dark-mode .header-title,
+	body.dark-mode .navbar-brand {
+	  color: #e5e5e5 !important;   /* light gray for visibility */
+	}
+
+	/* Optional: give the very top header accent blue */
+	body.dark-mode h1,
+	body.dark-mode .page-title {
+	  color: #63b3ed !important;   /* soft blue */
+	}
+
+	
+	
+	
