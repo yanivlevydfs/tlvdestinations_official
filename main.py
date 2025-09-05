@@ -733,13 +733,31 @@ def map_view(
                     "color:#111827;"
                     "text-decoration:none;"
                     "border:1px solid #d1d5db;"
+                    "transition:all 0.25s ease-in-out;"
                 )
                 if url:
-                    chips.append(f"<a href='{escape(url)}' target='_blank' style='{style}'>{escape(name)}</a>")
+                    chips.append(f"<a href='{escape(url)}' target='_blank' class='chip' style='{style}'>{escape(name)}</a>")
                 else:
-                    chips.append(f"<span style='{style}'>{escape(name)}</span>")
+                    chips.append(f"<span class='chip' style='{style}'>{escape(name)}</span>")
+
+            # ✅ add CSS once
+            chip_css = """
+            <style>
+            a.chip, span.chip {
+              transition: all 0.25s ease-in-out;
+            }
+            a.chip:hover, span.chip:hover {
+              background-color:#0d6efd !important;
+              color:#fff !important;
+              border-color:#0d6efd !important;
+              transform:scale(1.08);
+              box-shadow:0 3px 6px rgba(0,0,0,.2);
+            }
+            </style>
+            """
 
             airline_html = (
+                chip_css +
                 "<div style='margin-top:6px;font-size:13px'>Airlines:<br>"
                 + "".join(chips) +
                 "</div>"

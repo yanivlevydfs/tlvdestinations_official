@@ -7,50 +7,50 @@ body.dark-mode {
   --chip-border: rgba(99,179,237,.5);
 }
 
+/* Base chip style */
 .chip, .airline-chip {
   display: inline-block;
   padding: .25rem .6rem;
   border-radius: 999px;
-  background: var(--chip-bg);
-  border: 1px solid var(--chip-border);
+  background: var(--chip-bg, #f3f4f6);
+  border: 1px solid var(--chip-border, #d1d5db);
   font-size: .8rem;
   margin: 2px;
   white-space: nowrap;
   line-height: 1.2;
-  cursor: default; /* default unless it’s a link */
   transition: all 0.25s ease-in-out;
+  color: #111827 !important;         /* ✅ override blue links */
+  text-decoration: none !important;  /* ✅ remove underline */
+  cursor: pointer;
 }
 
-/* ✅ Hover (light mode) */
-.chip:hover,
-.airline-chip:hover {
-  background-color: #0d6efd;
-  color: #fff;
-  border-color: #0d6efd;
+/* Links behave like normal chips */
+a.chip, a.airline-chip {
+  color: inherit !important;       /* prevent default link blue/purple */
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+/* Hover (light mode) */
+.chip:hover, .airline-chip:hover {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+  border-color: #0d6efd !important;
   transform: scale(1.08);
   box-shadow: 0 3px 6px rgba(0,0,0,.2);
 }
 
-/* ✅ Hover (dark mode) */
+/* Hover (dark mode) */
 body.dark-mode .chip:hover,
 body.dark-mode .airline-chip:hover {
-  background-color: #63b3ed;
-  color: #121212;
-  border-color: #63b3ed;
+  background-color: #63b3ed !important;
+  color: #121212 !important;
+  border-color: #63b3ed !important;
   transform: scale(1.08);
   box-shadow: 0 3px 6px rgba(0,0,0,.5);
 }
 
-/* ✅ Links get pointer cursor */
-a.chip,
-a.airline-chip {
-  cursor: pointer !important;
-  text-decoration: none; /* keep chips clean */
-}
-
-
-
-/* Wrap airlines neatly */
+/* Airline cell wrapper */
 .airline-cell {
   display: flex;
   flex-wrap: wrap;
@@ -59,7 +59,9 @@ a.airline-chip {
   white-space: normal;
   align-items: center;
 }
-#airports-table td.airline-cell { vertical-align: top; }
+#airports-table td.airline-cell {
+  vertical-align: top;
+}
 
 .navbar-brand { font-weight: 700; }
 .card { border-radius: .8rem; }
@@ -76,15 +78,25 @@ a.airline-chip {
   color: #fff;
 }
 
-/* DataTables export buttons */
+/* ✅ DataTables export buttons (light + dark) */
 .dataTables_wrapper .dt-buttons .btn {
-  display: inline-block !important;
-  width: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 38px !important;
+  width: 120px !important;          /* fixed same width */
+  max-width: 120px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  font-size: 0.9rem !important;
+  line-height: 1.2 !important;
   background-color: #0d6efd !important;
   border-color: #0d6efd !important;
   color: #fff !important;
   border-radius: 50px !important;
-  padding: .45rem 1.25rem !important;
+  padding: .45rem 0 !important;
   font-weight: 500;
   margin: 0 .25rem .25rem 0 !important;
   transition: all .2s ease-in-out;
@@ -97,18 +109,19 @@ a.airline-chip {
   box-shadow: 0 4px 10px rgba(0,0,0,.2);
 }
 
-/* Fix dark mode DataTables buttons alignment */
-body.dark-mode .dataTables_wrapper .dt-buttons {
+/* Buttons container */
+/* DataTables export buttons container (light + dark) */
+.dataTables_wrapper .dt-buttons {
   display: flex !important;
-  flex-wrap: nowrap !important;
+  flex-wrap: nowrap !important;   /* stay in one row */
   gap: 0.25rem;
 }
-body.dark-mode .dataTables_wrapper .dt-buttons .btn {
-  flex: 0 0 auto !important;
-  width: auto !important;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
+
+body[dir="rtl"] .dataTables_wrapper .dt-buttons {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-end !important;
+  gap: 0.5rem;
 }
 
 /* Table container */
@@ -131,16 +144,14 @@ body.dark-mode #airports-table {
   text-transform: uppercase;
   letter-spacing: .5px;
 }
-body.dark-mode #airports-table thead {
-  background: #0b5ed7;
-}
+body.dark-mode #airports-table thead { background: #0b5ed7; }
 #airports-table thead th {
   border: none !important;
   padding: 12px 14px;
   font-size: 0.85rem;
 }
 
-/* Table rows */
+/* Rows */
 #airports-table tbody tr { transition: background .15s ease-in-out; }
 #airports-table tbody tr:hover { background: rgba(13,110,253,.08); }
 body.dark-mode #airports-table tbody tr:hover { background: rgba(99,179,237,.15); }
@@ -150,9 +161,7 @@ body.dark-mode #airports-table tbody tr:hover { background: rgba(99,179,237,.15)
   vertical-align: middle;
   border-color: #e9ecef !important;
 }
-body.dark-mode #airports-table td {
-  border-color: #2c2c2c !important;
-}
+body.dark-mode #airports-table td { border-color: #2c2c2c !important; }
 
 /* Footer */
 footer .hover-opacity:hover { opacity: 0.7; }
@@ -161,22 +170,27 @@ body.dark-mode footer a { color: #bbb !important; }
 .dark-bg-dark { background: #121212 !important; }
 
 /* RTL tweaks */
-body[dir="rtl"] .dataTables_filter { text-align: left; }
-body[dir="rtl"] .dataTables_filter input { margin-left: .5rem; margin-right: 0; }
+body[dir="rtl"] .dataTables_filter { text-align: right !important; }
+body[dir="rtl"] .dataTables_filter label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+body[dir="rtl"] .dataTables_filter input {
+  margin-left: 0 !important;
+  margin-right: .5rem !important;
+  direction: rtl;
+  text-align: right;
+}
+body[dir="rtl"] .dataTables_wrapper .dt-buttons .btn { order: unset !important; }
+body[dir="rtl"] .navbar .d-flex { margin-left: 10rem; }
 
 /* Modal map fix */
-#mapModal .modal-body {
-  overflow: hidden;
-  padding: 0;
-}
-#mapModal #map-frame {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+#mapModal .modal-body { overflow: hidden; padding: 0; }
+#mapModal #map-frame { display: block; width: 100%; height: 100%; border: none; }
 
-/* Headings & titles in dark mode */
+/* Headings dark mode */
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
@@ -188,72 +202,22 @@ body.dark-mode .navbar-brand {
   color: #e5e5e5 !important;
 }
 body.dark-mode h1,
-body.dark-mode .page-title {
-  color: #63b3ed !important; /* accent blue */
+body.dark-mode .page-title { color: #63b3ed !important; }
+
+/* Responsive brand title */
+#brand-title {
+  font-weight: 700;
+  font-size: 1.25rem;  /* default desktop size */
+  white-space: nowrap;
 }
 
-
-/* RTL fix for DataTables search box */
-body[dir="rtl"] .dataTables_filter {
-  text-align: right !important;   /* move label + input to the right */
-}
-
-body[dir="rtl"] .dataTables_filter label {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-body[dir="rtl"] .dataTables_filter input {
-  margin-left: 0 !important;
-  margin-right: .5rem !important;
-  direction: rtl;
-  text-align: right;
-}
-/* RTL fixes for DataTables buttons */
-body[dir="rtl"] .dataTables_wrapper .dt-buttons {
-  display: flex !important;
-  flex-direction: row-reverse !important;  /* flip order */
-  justify-content: flex-end !important;   /* align to right */
-  gap: 0.5rem;
-}
-
-body[dir="rtl"] .dataTables_wrapper .dt-buttons .btn {
-  order: unset !important;  /* ensure order respects row-reverse */
-}
-
-body[dir="rtl"] .navbar .d-flex {
-  margin-left: 10rem; /* space between title and buttons */
-}
-/* DataTables export buttons (light + dark) */
-.dataTables_wrapper .dt-buttons .btn {
-  display: inline-flex !important;   /* same in both modes */
-  align-items: center !important;    /* vertical centering */
-  justify-content: center !important;
-  min-height: 38px !important;       /* lock Bootstrap default height */
-  line-height: 1.2 !important;       /* fix Hebrew taller text */
-  width: auto !important;
-  background-color: #0d6efd !important;
-  border-color: #0d6efd !important;
-  color: #fff !important;
-  border-radius: 50px !important;
-  padding: .45rem 1.25rem !important;
-  font-weight: 500;
-  margin: 0 .25rem .25rem 0 !important;
-  transition: all .2s ease-in-out;
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
-}
-.dataTables_wrapper .dt-buttons .btn:hover {
-  background-color: #0b5ed7 !important;
-  border-color: #0b5ed7 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,.2);
-}
-
-/* Dark mode — keep flex wrap tidy */
-body.dark-mode .dataTables_wrapper .dt-buttons {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  gap: 0.25rem;
+@media (max-width: 768px) {
+  #brand-title {
+    font-size: 1rem;       /* smaller font on mobile */
+    max-width: 200px;      /* limit width */
+    overflow: hidden;      /* cut if too long */
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
