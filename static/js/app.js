@@ -206,9 +206,21 @@ document.addEventListener('DOMContentLoaded', () => {
     updateActiveFilters(d);
   }
 
-  langBtn.addEventListener('click', () => {
-    applyLanguage(currentLang === 'en' ? 'he' : 'en', true);
-  });
+	langBtn.addEventListener('click', () => {
+	  const u = new URL(window.location.href);
+	  const isHe = u.searchParams.get('lang') === 'he';
+
+	  if (isHe) {
+		u.searchParams.delete('lang');       // back to EN (canonical /)
+		localStorage.setItem('fe-lang', 'en');
+	  } else {
+		u.searchParams.set('lang', 'he');    // switch to HE
+		localStorage.setItem('fe-lang', 'he');
+	  }
+
+	  // reload with new URL so server renders correct <html lang>, meta, title etc.
+	  window.location.href = u.toString();
+	});
 
   // ---------- DataTable (first init with saved lang) ----------
   const savedLang = localStorage.getItem('fe-lang') || 'en';

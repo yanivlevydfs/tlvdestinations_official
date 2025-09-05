@@ -224,5 +224,36 @@ body[dir="rtl"] .dataTables_wrapper .dt-buttons .btn {
 }
 
 body[dir="rtl"] .navbar .d-flex {
-  margin-left: 15rem; /* space between title and buttons */
+  margin-left: 10rem; /* space between title and buttons */
+}
+/* DataTables export buttons (light + dark) */
+.dataTables_wrapper .dt-buttons .btn {
+  display: inline-flex !important;   /* same in both modes */
+  align-items: center !important;    /* vertical centering */
+  justify-content: center !important;
+  min-height: 38px !important;       /* lock Bootstrap default height */
+  line-height: 1.2 !important;       /* fix Hebrew taller text */
+  width: auto !important;
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: #fff !important;
+  border-radius: 50px !important;
+  padding: .45rem 1.25rem !important;
+  font-weight: 500;
+  margin: 0 .25rem .25rem 0 !important;
+  transition: all .2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+.dataTables_wrapper .dt-buttons .btn:hover {
+  background-color: #0b5ed7 !important;
+  border-color: #0b5ed7 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
+
+/* Dark mode — keep flex wrap tidy */
+body.dark-mode .dataTables_wrapper .dt-buttons {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 0.25rem;
 }

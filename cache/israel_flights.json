@@ -1,1459 +1,7 @@
 {
-  "updated": "2025-09-04T13:57:46.036265",
-  "count": 453,
+  "updated": "2025-09-05T14:59:13.906481",
+  "count": 450,
   "flights": [
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T13:40:00",
-      "actual": "2025-09-03T13:50:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T13:00:00",
-      "actual": "2025-09-03T13:56:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T13:50:00",
-      "actual": "2025-09-03T14:00:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T13:50:00",
-      "actual": "2025-09-03T14:05:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T13:50:00",
-      "actual": "2025-09-03T14:06:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T13:55:00",
-      "actual": "2025-09-03T14:11:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "CYPRUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T14:15:00",
-      "actual": "2025-09-03T14:23:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T14:00:00",
-      "actual": "2025-09-03T14:25:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T14:15:00",
-      "actual": "2025-09-03T14:36:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T13:05:00",
-      "actual": "2025-09-03T14:42:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T14:30:00",
-      "actual": "2025-09-03T14:44:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T14:25:00",
-      "actual": "2025-09-03T14:47:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T14:25:00",
-      "actual": "2025-09-03T14:52:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "KGS",
-      "airport": "KOS",
-      "city": "KOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T13:25:00",
-      "actual": "2025-09-03T14:54:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "CYPRUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T15:25:00",
-      "actual": "2025-09-03T15:30:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T15:40:00",
-      "actual": "2025-09-03T15:46:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T15:10:00",
-      "actual": "2025-09-03T15:47:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T15:15:00",
-      "actual": "2025-09-03T16:11:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T16:20:00",
-      "actual": "2025-09-03T16:26:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T14:05:00",
-      "actual": "2025-09-03T16:35:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T13:20:00",
-      "actual": "2025-09-03T17:16:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T17:00:00",
-      "actual": "2025-09-03T17:26:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T17:30:00",
-      "actual": "2025-09-03T17:36:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T16:20:00",
-      "actual": "2025-09-03T17:54:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T17:15:00",
-      "actual": "2025-09-03T17:58:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T17:55:00",
-      "actual": "2025-09-03T18:01:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T18:10:00",
-      "actual": "2025-09-03T18:10:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T18:00:00",
-      "actual": "2025-09-03T18:25:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "JTR",
-      "airport": "SANTORINI",
-      "city": "SANTORINI",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T17:45:00",
-      "actual": "2025-09-03T18:29:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T18:50:00",
-      "actual": "2025-09-03T18:41:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T18:50:00",
-      "actual": "2025-09-03T18:45:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T14:45:00",
-      "actual": "2025-09-03T18:46:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T19:00:00",
-      "actual": "2025-09-03T19:11:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T19:20:00",
-      "actual": "2025-09-03T19:20:00",
-      "direction": "A",
-      "status": "CANCELED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T19:35:00",
-      "actual": "2025-09-03T19:35:00",
-      "direction": "D",
-      "status": "CANCELED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T19:35:00",
-      "actual": "2025-09-03T19:42:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T19:30:00",
-      "actual": "2025-09-03T19:47:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T19:05:00",
-      "actual": "2025-09-03T19:56:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T20:35:00",
-      "actual": "2025-09-03T20:09:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T19:55:00",
-      "actual": "2025-09-03T20:23:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T18:35:00",
-      "actual": "2025-09-03T20:47:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T20:30:00",
-      "actual": "2025-09-03T20:50:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T20:20:00",
-      "actual": "2025-09-03T20:54:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T21:10:00",
-      "actual": "2025-09-03T20:57:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T20:15:00",
-      "actual": "2025-09-03T21:01:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T20:30:00",
-      "actual": "2025-09-03T21:19:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T20:35:00",
-      "actual": "2025-09-03T21:21:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T20:30:00",
-      "actual": "2025-09-03T21:43:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T20:00:00",
-      "actual": "2025-09-03T21:57:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "JTR",
-      "airport": "SANTORINI",
-      "city": "SANTORINI",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T22:40:00",
-      "actual": "2025-09-03T22:10:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T22:10:00",
-      "actual": "2025-09-03T22:14:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T18:50:00",
-      "actual": "2025-09-03T22:43:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T22:30:00",
-      "actual": "2025-09-03T22:45:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T22:35:00",
-      "actual": "2025-09-03T22:55:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-03T23:15:00",
-      "actual": "2025-09-03T23:27:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T23:55:00",
-      "actual": "2025-09-03T23:37:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T00:15:00",
-      "actual": "2025-09-04T00:15:00",
-      "direction": "A",
-      "status": "CANCELED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T23:05:00",
-      "actual": "2025-09-04T00:17:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-03T23:45:00",
-      "actual": "2025-09-04T00:30:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T00:50:00",
-      "actual": "2025-09-04T00:52:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "LUFTHANSA",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T00:45:00",
-      "actual": "2025-09-04T01:24:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BRUSSELS AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T00:45:00",
-      "actual": "2025-09-04T01:24:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "UNITED AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T00:45:00",
-      "actual": "2025-09-04T01:24:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T01:50:00",
-      "actual": "2025-09-04T01:50:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T01:50:00",
-      "actual": "2025-09-04T01:57:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T02:30:00",
-      "actual": "2025-09-04T02:08:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T02:00:00",
-      "actual": "2025-09-04T02:09:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T02:55:00",
-      "actual": "2025-09-04T02:47:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T03:05:00",
-      "actual": "2025-09-04T02:50:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T05:00:00",
-      "actual": "2025-09-04T05:53:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T05:40:00",
-      "actual": "2025-09-04T06:21:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T06:00:00",
-      "actual": "2025-09-04T06:41:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T06:20:00",
-      "actual": "2025-09-04T06:46:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T06:25:00",
-      "actual": "2025-09-04T06:51:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T06:40:00",
-      "actual": "2025-09-04T07:11:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T06:45:00",
-      "actual": "2025-09-04T07:13:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T07:00:00",
-      "actual": "2025-09-04T07:22:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T06:50:00",
-      "actual": "2025-09-04T07:24:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T07:00:00",
-      "actual": "2025-09-04T07:29:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T07:05:00",
-      "actual": "2025-09-04T07:44:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T07:00:00",
-      "actual": "2025-09-04T07:52:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T07:35:00",
-      "actual": "2025-09-04T07:58:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T07:45:00",
-      "actual": "2025-09-04T08:16:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T08:10:00",
-      "actual": "2025-09-04T08:31:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T08:10:00",
-      "actual": "2025-09-04T08:37:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T08:15:00",
-      "actual": "2025-09-04T08:38:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T07:55:00",
-      "actual": "2025-09-04T08:40:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T09:20:00",
-      "actual": "2025-09-04T09:00:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "KGS",
-      "airport": "KOS",
-      "city": "KOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T08:35:00",
-      "actual": "2025-09-04T09:05:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T08:10:00",
-      "actual": "2025-09-04T09:10:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T08:20:00",
-      "actual": "2025-09-04T09:13:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "JMK",
-      "airport": "MIKONOS",
-      "city": "MYKONOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T08:55:00",
-      "actual": "2025-09-04T09:28:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "JMK",
-      "airport": "MIKONOS",
-      "city": "MYKONOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T09:20:00",
-      "actual": "2025-09-04T09:39:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T09:00:00",
-      "actual": "2025-09-04T09:54:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T09:10:00",
-      "actual": "2025-09-04T10:05:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T08:50:00",
-      "actual": "2025-09-04T10:07:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "NEOS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T09:15:00",
-      "actual": "2025-09-04T10:08:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T10:15:00",
-      "actual": "2025-09-04T10:28:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T11:00:00",
-      "actual": "2025-09-04T10:42:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T10:30:00",
-      "actual": "2025-09-04T10:45:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T10:45:00",
-      "actual": "2025-09-04T10:53:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "FLY LILI",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T09:50:00",
-      "actual": "2025-09-04T11:10:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T11:10:00",
-      "actual": "2025-09-04T11:15:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T11:20:00",
-      "actual": "2025-09-04T11:29:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T11:45:00",
-      "actual": "2025-09-04T11:44:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T10:50:00",
-      "actual": "2025-09-04T11:46:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T07:30:00",
-      "actual": "2025-09-04T12:03:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:10:00",
-      "actual": "2025-09-04T12:10:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T12:00:00",
-      "actual": "2025-09-04T12:16:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "FLYYO",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T11:25:00",
-      "actual": "2025-09-04T12:20:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:20:00",
-      "actual": "2025-09-04T12:25:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:00:00",
-      "actual": "2025-09-04T12:26:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T12:05:00",
-      "actual": "2025-09-04T12:35:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:30:00",
-      "actual": "2025-09-04T12:36:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:45:00",
-      "actual": "2025-09-04T12:39:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "NEOS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T12:15:00",
-      "actual": "2025-09-04T12:51:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:25:00",
-      "actual": "2025-09-04T12:53:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T12:20:00",
-      "actual": "2025-09-04T12:54:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:50:00",
-      "actual": "2025-09-04T12:56:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "KGS",
-      "airport": "KOS",
-      "city": "KOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:00:00",
-      "actual": "2025-09-04T12:58:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:00:00",
-      "actual": "2025-09-04T13:03:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T13:20:00",
-      "actual": "2025-09-04T13:07:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T12:45:00",
-      "actual": "2025-09-04T13:16:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "JMK",
-      "airport": "MIKONOS",
-      "city": "MYKONOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:35:00",
-      "actual": "2025-09-04T13:20:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:00:00",
-      "actual": "2025-09-04T13:25:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:20:00",
-      "actual": "2025-09-04T13:28:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "JTR",
-      "airport": "SANTORINI",
-      "city": "SANTORINI",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:10:00",
-      "actual": "2025-09-04T13:34:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "NEOS",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:35:00",
-      "actual": "2025-09-04T13:35:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T09:05:00",
-      "actual": "2025-09-04T13:40:00",
-      "direction": "D",
-      "status": "DELAYED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:10:00",
-      "actual": "2025-09-04T13:40:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "EFL",
-      "airport": "KEFALLINIA",
-      "city": "KEFALONIA",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:25:00",
-      "actual": "2025-09-04T13:41:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:50:00",
-      "actual": "2025-09-04T13:50:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
     {
       "airline": "BLUE BIRD AIRWAYS",
       "iata": "HER",
@@ -1461,86 +9,9 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-04T13:55:00",
-      "actual": "2025-09-04T13:55:00",
+      "actual": "2025-09-04T14:48:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T14:00:00",
-      "actual": "2025-09-04T14:00:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "JMK",
-      "airport": "MIKONOS",
-      "city": "MYKONOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T14:20:00",
-      "actual": "2025-09-04T14:06:00",
-      "direction": "A",
-      "status": "FINAL"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T14:10:00",
-      "actual": "2025-09-04T14:10:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T14:15:00",
-      "actual": "2025-09-04T14:15:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T14:15:00",
-      "actual": "2025-09-04T14:15:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "CYPRUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T14:25:00",
-      "actual": "2025-09-04T14:25:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T13:20:00",
-      "actual": "2025-09-04T14:28:00",
-      "direction": "A",
-      "status": "FINAL"
+      "status": "DEPARTED"
     },
     {
       "airline": "TUS AIRWAYS",
@@ -1549,31 +20,9 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T15:00:00",
-      "actual": "2025-09-04T15:00:00",
+      "actual": "2025-09-04T14:55:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "CYPRUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T15:20:00",
-      "actual": "2025-09-04T15:20:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "FLYYO",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T15:30:00",
-      "actual": "2025-09-04T15:30:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -1582,42 +31,20 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T15:30:00",
-      "actual": "2025-09-04T15:30:00",
+      "actual": "2025-09-04T15:29:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "FLY LILI",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T14:50:00",
-      "actual": "2025-09-04T15:37:00",
-      "direction": "A",
-      "status": "DELAYED"
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T15:40:00",
-      "actual": "2025-09-04T15:40:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "TUS AIRWAYS",
       "iata": "CFU",
       "airport": "CORFU",
       "city": "CORFU",
       "country": "GREECE",
-      "scheduled": "2025-09-04T15:55:00",
-      "actual": "2025-09-04T15:55:00",
+      "scheduled": "2025-09-04T14:10:00",
+      "actual": "2025-09-04T15:46:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -1626,9 +53,42 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T14:30:00",
-      "actual": "2025-09-04T16:00:00",
+      "actual": "2025-09-04T15:47:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T15:20:00",
+      "actual": "2025-09-04T15:50:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "FLYYO",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T15:30:00",
+      "actual": "2025-09-04T15:57:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T15:55:00",
+      "actual": "2025-09-04T16:15:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -1637,9 +97,31 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-04T16:10:00",
-      "actual": "2025-09-04T16:10:00",
+      "actual": "2025-09-04T16:19:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T15:40:00",
+      "actual": "2025-09-04T16:29:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "FLY LILI",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T14:50:00",
+      "actual": "2025-09-04T16:33:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -1648,31 +130,9 @@
       "city": "PREVEZA",
       "country": "GREECE",
       "scheduled": "2025-09-04T16:25:00",
-      "actual": "2025-09-04T16:25:00",
+      "actual": "2025-09-04T17:03:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T16:40:00",
-      "actual": "2025-09-04T16:40:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T17:05:00",
-      "actual": "2025-09-04T17:05:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "status": "DEPARTED"
     },
     {
       "airline": "TUS AIRWAYS",
@@ -1681,9 +141,42 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T17:10:00",
-      "actual": "2025-09-04T17:10:00",
+      "actual": "2025-09-04T17:14:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T17:15:00",
+      "actual": "2025-09-04T17:18:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "WIZZAIR",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T17:30:00",
+      "actual": "2025-09-04T17:26:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T17:15:00",
+      "actual": "2025-09-04T17:31:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -1692,42 +185,9 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-04T13:15:00",
-      "actual": "2025-09-04T17:14:00",
+      "actual": "2025-09-04T17:50:00",
       "direction": "A",
-      "status": "DELAYED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T17:15:00",
-      "actual": "2025-09-04T17:15:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T17:15:00",
-      "actual": "2025-09-04T17:15:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T17:20:00",
-      "actual": "2025-09-04T17:20:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -1736,42 +196,9 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-04T17:25:00",
-      "actual": "2025-09-04T17:25:00",
+      "actual": "2025-09-04T17:52:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T17:30:00",
-      "actual": "2025-09-04T17:30:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "WIZZAIR",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T17:30:00",
-      "actual": "2025-09-04T17:30:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T17:40:00",
-      "actual": "2025-09-04T17:40:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -1780,9 +207,31 @@
       "city": "SANTORINI",
       "country": "GREECE",
       "scheduled": "2025-09-04T17:55:00",
-      "actual": "2025-09-04T17:55:00",
+      "actual": "2025-09-04T17:54:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T17:40:00",
+      "actual": "2025-09-04T18:11:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T16:40:00",
+      "actual": "2025-09-04T18:14:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -1790,10 +239,32 @@
       "airport": "ATHENS",
       "city": "ATHENS",
       "country": "GREECE",
-      "scheduled": "2025-09-04T18:05:00",
-      "actual": "2025-09-04T18:05:00",
+      "scheduled": "2025-09-04T17:05:00",
+      "actual": "2025-09-04T18:20:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T17:20:00",
+      "actual": "2025-09-04T18:29:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T17:30:00",
+      "actual": "2025-09-04T18:35:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -1802,9 +273,9 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-04T18:10:00",
-      "actual": "2025-09-04T18:10:00",
+      "actual": "2025-09-04T18:36:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -1813,31 +284,9 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-04T18:25:00",
-      "actual": "2025-09-04T18:25:00",
+      "actual": "2025-09-04T18:51:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "WIZZAIR",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T18:25:00",
-      "actual": "2025-09-04T18:25:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T18:45:00",
-      "actual": "2025-09-04T18:45:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "LANDED"
     },
     {
       "airline": "TUS AIRWAYS",
@@ -1846,42 +295,42 @@
       "city": "THESSALONIKI",
       "country": "GREECE",
       "scheduled": "2025-09-04T13:35:00",
-      "actual": "2025-09-04T18:50:00",
+      "actual": "2025-09-04T18:55:00",
       "direction": "A",
-      "status": "DELAYED"
+      "status": "LANDED"
     },
     {
-      "airline": "AEGEAN  AIRLINES",
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T18:45:00",
+      "actual": "2025-09-04T19:04:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "WIZZAIR",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T18:25:00",
+      "actual": "2025-09-04T19:13:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
       "iata": "ATH",
       "airport": "ATHENS",
       "city": "ATHENS",
       "country": "GREECE",
-      "scheduled": "2025-09-04T19:00:00",
-      "actual": "2025-09-04T19:00:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T19:15:00",
-      "actual": "2025-09-04T19:15:00",
+      "scheduled": "2025-09-04T18:05:00",
+      "actual": "2025-09-04T19:20:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T19:25:00",
-      "actual": "2025-09-04T19:25:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -1890,31 +339,9 @@
       "city": "KEFALONIA",
       "country": "GREECE",
       "scheduled": "2025-09-04T19:25:00",
-      "actual": "2025-09-04T19:25:00",
+      "actual": "2025-09-04T19:34:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T19:30:00",
-      "actual": "2025-09-04T19:30:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T19:10:00",
-      "actual": "2025-09-04T19:45:00",
-      "direction": "D",
-      "status": "DELAYED"
+      "status": "LANDED"
     },
     {
       "airline": "AEGEAN  AIRLINES",
@@ -1922,10 +349,10 @@
       "airport": "ATHENS",
       "city": "ATHENS",
       "country": "GREECE",
-      "scheduled": "2025-09-04T19:55:00",
-      "actual": "2025-09-04T19:55:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "scheduled": "2025-09-04T19:00:00",
+      "actual": "2025-09-04T19:40:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -1934,20 +361,53 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-04T19:55:00",
-      "actual": "2025-09-04T19:55:00",
+      "actual": "2025-09-04T19:47:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
       "country": "GREECE",
-      "scheduled": "2025-09-04T20:15:00",
-      "actual": "2025-09-04T20:15:00",
+      "scheduled": "2025-09-04T19:30:00",
+      "actual": "2025-09-04T19:48:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T19:25:00",
+      "actual": "2025-09-04T20:16:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T19:10:00",
+      "actual": "2025-09-04T20:41:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T20:55:00",
+      "actual": "2025-09-04T20:54:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -1956,20 +416,20 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T20:30:00",
-      "actual": "2025-09-04T20:30:00",
+      "actual": "2025-09-04T20:57:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T20:40:00",
-      "actual": "2025-09-04T20:40:00",
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T19:55:00",
+      "actual": "2025-09-04T21:04:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -1978,9 +438,42 @@
       "city": "THESSALONIKI",
       "country": "GREECE",
       "scheduled": "2025-09-04T20:40:00",
-      "actual": "2025-09-04T20:40:00",
+      "actual": "2025-09-04T21:06:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T21:15:00",
+      "actual": "2025-09-04T21:15:00",
+      "direction": "A",
+      "status": "CANCELED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T20:15:00",
+      "actual": "2025-09-04T21:22:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T20:40:00",
+      "actual": "2025-09-04T21:29:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -1989,31 +482,9 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T20:55:00",
-      "actual": "2025-09-04T20:55:00",
+      "actual": "2025-09-04T21:34:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T20:55:00",
-      "actual": "2025-09-04T20:55:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T21:35:00",
-      "actual": "2025-09-04T21:35:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2022,20 +493,20 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T21:45:00",
-      "actual": "2025-09-04T21:45:00",
+      "actual": "2025-09-04T21:41:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
       "country": "CYPRUS",
-      "scheduled": "2025-09-04T21:55:00",
-      "actual": "2025-09-04T21:55:00",
+      "scheduled": "2025-09-04T22:00:00",
+      "actual": "2025-09-04T22:00:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "CANCELED"
     },
     {
       "airline": "TUS AIRWAYS",
@@ -2044,42 +515,20 @@
       "city": "CORFU",
       "country": "GREECE",
       "scheduled": "2025-09-04T21:55:00",
-      "actual": "2025-09-04T21:55:00",
+      "actual": "2025-09-04T22:09:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-04T22:30:00",
-      "actual": "2025-09-04T22:30:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T22:35:00",
-      "actual": "2025-09-04T22:35:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T22:40:00",
-      "actual": "2025-09-04T22:40:00",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T21:35:00",
+      "actual": "2025-09-04T22:42:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2088,20 +537,42 @@
       "city": "PREVEZA",
       "country": "GREECE",
       "scheduled": "2025-09-04T22:40:00",
-      "actual": "2025-09-04T22:40:00",
+      "actual": "2025-09-04T22:50:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "BLUE BIRD AIRWAYS",
+      "airline": "EL AL ISRAEL AIRLINES",
       "iata": "ATH",
       "airport": "ATHENS",
       "city": "ATHENS",
       "country": "GREECE",
-      "scheduled": "2025-09-04T23:20:00",
-      "actual": "2025-09-04T23:20:00",
+      "scheduled": "2025-09-04T22:35:00",
+      "actual": "2025-09-04T22:52:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T21:55:00",
+      "actual": "2025-09-04T23:18:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T22:40:00",
+      "actual": "2025-09-04T23:43:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -2110,31 +581,20 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-04T23:20:00",
-      "actual": "2025-09-04T23:20:00",
+      "actual": "2025-09-04T23:50:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T23:35:00",
-      "actual": "2025-09-04T23:35:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-04T23:45:00",
-      "actual": "2025-09-04T23:45:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T19:15:00",
+      "actual": "2025-09-05T00:02:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2143,9 +603,31 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-04T23:55:00",
-      "actual": "2025-09-04T23:55:00",
+      "actual": "2025-09-05T00:03:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T23:45:00",
+      "actual": "2025-09-05T00:09:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T23:20:00",
+      "actual": "2025-09-05T00:17:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2154,53 +636,20 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T00:15:00",
-      "actual": "2025-09-05T00:15:00",
+      "actual": "2025-09-05T00:27:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "LUFTHANSA",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T00:45:00",
-      "actual": "2025-09-05T00:45:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "BRUSSELS AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T00:45:00",
-      "actual": "2025-09-05T00:45:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "UNITED AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T00:45:00",
-      "actual": "2025-09-05T00:45:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T00:45:00",
-      "actual": "2025-09-05T00:45:00",
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-04T23:35:00",
+      "actual": "2025-09-05T00:31:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2209,9 +658,9 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T00:50:00",
-      "actual": "2025-09-05T00:50:00",
+      "actual": "2025-09-05T00:49:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2220,31 +669,53 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T00:55:00",
-      "actual": "2025-09-05T00:55:00",
+      "actual": "2025-09-05T00:57:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T01:50:00",
-      "actual": "2025-09-05T01:50:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
+      "airline": "LUFTHANSA",
       "iata": "LCA",
       "airport": "LARNACA",
       "city": "LARNACA",
       "country": "CYPRUS",
-      "scheduled": "2025-09-05T02:30:00",
-      "actual": "2025-09-05T02:30:00",
+      "scheduled": "2025-09-05T00:45:00",
+      "actual": "2025-09-05T01:03:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "BRUSSELS AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T00:45:00",
+      "actual": "2025-09-05T01:03:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "UNITED AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T00:45:00",
+      "actual": "2025-09-05T01:03:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-04T22:30:00",
+      "actual": "2025-09-05T02:29:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2253,20 +724,9 @@
       "city": "THESSALONIKI",
       "country": "GREECE",
       "scheduled": "2025-09-05T02:35:00",
-      "actual": "2025-09-05T02:35:00",
+      "actual": "2025-09-05T02:33:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T02:55:00",
-      "actual": "2025-09-05T02:55:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2280,15 +740,59 @@
       "status": "CANCELED"
     },
     {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T00:45:00",
+      "actual": "2025-09-05T03:00:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T01:50:00",
+      "actual": "2025-09-05T03:02:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T02:55:00",
+      "actual": "2025-09-05T03:18:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T02:30:00",
+      "actual": "2025-09-05T03:24:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
       "airline": "ARKIA  ISRAELI  AIRLINES",
       "iata": "ATH",
       "airport": "ATHENS",
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T04:10:00",
-      "actual": "2025-09-05T04:10:00",
+      "actual": "2025-09-05T04:17:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "AEGEAN  AIRLINES",
@@ -2297,9 +801,9 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T05:00:00",
-      "actual": "2025-09-05T05:00:00",
+      "actual": "2025-09-05T05:12:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2308,9 +812,9 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T05:15:00",
-      "actual": "2025-09-05T05:15:00",
+      "actual": "2025-09-05T05:26:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2319,9 +823,9 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T05:20:00",
-      "actual": "2025-09-05T05:20:00",
+      "actual": "2025-09-05T05:41:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "AEGEAN  AIRLINES",
@@ -2330,20 +834,9 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T05:40:00",
-      "actual": "2025-09-05T05:40:00",
+      "actual": "2025-09-05T05:45:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "JMK",
-      "airport": "MIKONOS",
-      "city": "MYKONOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T05:40:00",
-      "actual": "2025-09-05T05:40:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2352,20 +845,20 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-05T05:45:00",
-      "actual": "2025-09-05T05:45:00",
+      "actual": "2025-09-05T05:55:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
+      "iata": "JMK",
+      "airport": "MIKONOS",
+      "city": "MYKONOS",
       "country": "GREECE",
-      "scheduled": "2025-09-05T06:00:00",
-      "actual": "2025-09-05T06:00:00",
+      "scheduled": "2025-09-05T05:40:00",
+      "actual": "2025-09-05T06:03:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "AEGEAN  AIRLINES",
@@ -2374,9 +867,20 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-05T06:05:00",
-      "actual": "2025-09-05T06:05:00",
+      "actual": "2025-09-05T06:19:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T06:00:00",
+      "actual": "2025-09-05T06:29:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -2385,20 +889,9 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-05T06:25:00",
-      "actual": "2025-09-05T06:25:00",
+      "actual": "2025-09-05T06:52:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "FLYYO",
-      "iata": "MJT",
-      "airport": "MITILINI",
-      "city": "LESBOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T06:45:00",
-      "actual": "2025-09-05T06:45:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -2407,9 +900,9 @@
       "city": "KHANIA",
       "country": "GREECE",
       "scheduled": "2025-09-05T06:45:00",
-      "actual": "2025-09-05T06:45:00",
+      "actual": "2025-09-05T06:58:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -2423,15 +916,15 @@
       "status": "CANCELED"
     },
     {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T07:00:00",
-      "actual": "2025-09-05T07:00:00",
+      "airline": "FLYYO",
+      "iata": "MJT",
+      "airport": "MITILINI",
+      "city": "LESBOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T06:45:00",
+      "actual": "2025-09-05T07:07:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2440,9 +933,20 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T07:00:00",
-      "actual": "2025-09-05T07:00:00",
+      "actual": "2025-09-05T07:20:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T07:00:00",
+      "actual": "2025-09-05T07:41:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2451,9 +955,9 @@
       "city": "CORFU",
       "country": "GREECE",
       "scheduled": "2025-09-05T07:10:00",
-      "actual": "2025-09-05T07:10:00",
+      "actual": "2025-09-05T07:42:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2462,9 +966,9 @@
       "city": "KARPATHOS",
       "country": "GREECE",
       "scheduled": "2025-09-05T07:20:00",
-      "actual": "2025-09-05T07:20:00",
+      "actual": "2025-09-05T07:46:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2473,9 +977,9 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T07:25:00",
-      "actual": "2025-09-05T07:25:00",
+      "actual": "2025-09-05T07:53:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -2484,9 +988,9 @@
       "city": "MYKONOS",
       "country": "GREECE",
       "scheduled": "2025-09-05T07:55:00",
-      "actual": "2025-09-05T07:55:00",
+      "actual": "2025-09-05T08:17:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -2495,20 +999,9 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T08:00:00",
-      "actual": "2025-09-05T08:00:00",
+      "actual": "2025-09-05T08:24:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T08:00:00",
-      "actual": "2025-09-05T08:00:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -2517,64 +1010,20 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T08:15:00",
-      "actual": "2025-09-05T08:15:00",
+      "actual": "2025-09-05T08:33:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "KGS",
-      "airport": "KOS",
-      "city": "KOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T08:30:00",
-      "actual": "2025-09-05T08:30:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "TUS AIRWAYS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
       "country": "CYPRUS",
-      "scheduled": "2025-09-05T08:40:00",
-      "actual": "2025-09-05T08:40:00",
+      "scheduled": "2025-09-05T08:00:00",
+      "actual": "2025-09-05T08:35:00",
       "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T08:50:00",
-      "actual": "2025-09-05T08:50:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T09:00:00",
-      "actual": "2025-09-05T09:00:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T09:10:00",
-      "actual": "2025-09-05T09:10:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "CYPRUS AIRWAYS",
@@ -2583,9 +1032,9 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T09:20:00",
-      "actual": "2025-09-05T09:20:00",
+      "actual": "2025-09-05T09:05:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2594,42 +1043,42 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T09:30:00",
-      "actual": "2025-09-05T09:30:00",
+      "actual": "2025-09-05T09:20:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
       "country": "CYPRUS",
-      "scheduled": "2025-09-05T09:50:00",
-      "actual": "2025-09-05T09:50:00",
+      "scheduled": "2025-09-05T09:10:00",
+      "actual": "2025-09-05T09:34:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T09:55:00",
-      "actual": "2025-09-05T09:55:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T08:50:00",
+      "actual": "2025-09-05T09:44:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T09:55:00",
-      "actual": "2025-09-05T09:55:00",
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "KGS",
+      "airport": "KOS",
+      "city": "KOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T08:30:00",
+      "actual": "2025-09-05T09:52:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2638,20 +1087,42 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-05T10:15:00",
-      "actual": "2025-09-05T10:15:00",
+      "actual": "2025-09-05T09:53:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "CYPRUS AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
       "country": "GREECE",
-      "scheduled": "2025-09-05T10:20:00",
-      "actual": "2025-09-05T10:20:00",
+      "scheduled": "2025-09-05T09:00:00",
+      "actual": "2025-09-05T10:03:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T09:50:00",
+      "actual": "2025-09-05T10:10:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T09:55:00",
+      "actual": "2025-09-05T10:12:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2660,9 +1131,20 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T10:25:00",
-      "actual": "2025-09-05T10:25:00",
+      "actual": "2025-09-05T10:17:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T09:55:00",
+      "actual": "2025-09-05T10:35:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2671,42 +1153,9 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-05T10:30:00",
-      "actual": "2025-09-05T10:30:00",
+      "actual": "2025-09-05T10:37:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T10:50:00",
-      "actual": "2025-09-05T10:50:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T10:55:00",
-      "actual": "2025-09-05T10:55:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T10:55:00",
-      "actual": "2025-09-05T10:55:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "status": "LANDED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -2715,9 +1164,20 @@
       "city": "MYKONOS",
       "country": "GREECE",
       "scheduled": "2025-09-05T10:55:00",
-      "actual": "2025-09-05T10:55:00",
+      "actual": "2025-09-05T10:43:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T10:20:00",
+      "actual": "2025-09-05T10:48:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "TUS AIRWAYS",
@@ -2726,42 +1186,31 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T11:00:00",
-      "actual": "2025-09-05T11:00:00",
+      "actual": "2025-09-05T11:04:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "FLYYO",
-      "iata": "MJT",
-      "airport": "MITILINI",
-      "city": "LESBOS",
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
       "country": "GREECE",
-      "scheduled": "2025-09-05T11:25:00",
-      "actual": "2025-09-05T11:25:00",
+      "scheduled": "2025-09-05T10:55:00",
+      "actual": "2025-09-05T11:07:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "AOK",
-      "airport": "KARPATHOS",
-      "city": "KARPATHOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T11:25:00",
-      "actual": "2025-09-05T11:25:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
       "country": "GREECE",
-      "scheduled": "2025-09-05T11:30:00",
-      "actual": "2025-09-05T11:30:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "scheduled": "2025-09-05T10:50:00",
+      "actual": "2025-09-05T11:09:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -2770,53 +1219,53 @@
       "city": "KHANIA",
       "country": "GREECE",
       "scheduled": "2025-09-05T11:35:00",
-      "actual": "2025-09-05T11:35:00",
+      "actual": "2025-09-05T11:17:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
+      "iata": "AOK",
+      "airport": "KARPATHOS",
+      "city": "KARPATHOS",
       "country": "GREECE",
-      "scheduled": "2025-09-05T11:40:00",
-      "actual": "2025-09-05T11:40:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "TUS AIRWAYS",
-      "iata": "PFO",
-      "airport": "PAPHOS",
-      "city": "PAPHOS",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T11:50:00",
-      "actual": "2025-09-05T11:50:00",
+      "scheduled": "2025-09-05T11:25:00",
+      "actual": "2025-09-05T11:23:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "HER",
-      "airport": "HERAKLION",
-      "city": "HERAKLION",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T11:55:00",
-      "actual": "2025-09-05T11:55:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "TUS AIRWAYS",
+      "airline": "ARKIA  ISRAELI  AIRLINES",
       "iata": "LCA",
       "airport": "LARNACA",
       "city": "LARNACA",
       "country": "CYPRUS",
-      "scheduled": "2025-09-05T12:00:00",
-      "actual": "2025-09-05T12:00:00",
+      "scheduled": "2025-09-05T10:55:00",
+      "actual": "2025-09-05T11:32:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "FLYYO",
+      "iata": "MJT",
+      "airport": "MITILINI",
+      "city": "LESBOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T11:25:00",
+      "actual": "2025-09-05T11:34:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T11:30:00",
+      "actual": "2025-09-05T11:37:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -2825,9 +1274,9 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T12:10:00",
-      "actual": "2025-09-05T12:10:00",
+      "actual": "2025-09-05T12:08:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -2836,9 +1285,20 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T12:20:00",
-      "actual": "2025-09-05T12:20:00",
+      "actual": "2025-09-05T12:09:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T11:55:00",
+      "actual": "2025-09-05T12:21:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -2847,20 +1307,31 @@
       "city": "MYKONOS",
       "country": "GREECE",
       "scheduled": "2025-09-05T12:25:00",
-      "actual": "2025-09-05T12:25:00",
+      "actual": "2025-09-05T12:23:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T12:35:00",
-      "actual": "2025-09-05T12:35:00",
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T11:40:00",
+      "actual": "2025-09-05T12:27:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T12:45:00",
+      "actual": "2025-09-05T12:32:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "AEGEAN  AIRLINES",
@@ -2869,9 +1340,9 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T12:45:00",
-      "actual": "2025-09-05T12:45:00",
+      "actual": "2025-09-05T12:41:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2880,20 +1351,31 @@
       "city": "MYKONOS",
       "country": "GREECE",
       "scheduled": "2025-09-05T12:45:00",
-      "actual": "2025-09-05T12:45:00",
+      "actual": "2025-09-05T12:54:00",
       "direction": "D",
-      "status": "ON TIME"
+      "status": "DEPARTED"
     },
     {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T12:45:00",
-      "actual": "2025-09-05T12:45:00",
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T12:35:00",
+      "actual": "2025-09-05T12:56:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T08:40:00",
+      "actual": "2025-09-05T13:02:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "AEGEAN  AIRLINES",
@@ -2902,20 +1384,9 @@
       "city": "ATHENS",
       "country": "GREECE",
       "scheduled": "2025-09-05T12:50:00",
-      "actual": "2025-09-05T12:50:00",
+      "actual": "2025-09-05T13:03:00",
       "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "CFU",
-      "airport": "CORFU",
-      "city": "CORFU",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T13:00:00",
-      "actual": "2025-09-05T13:00:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -2924,31 +1395,9 @@
       "city": "PAPHOS",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T13:00:00",
-      "actual": "2025-09-05T13:00:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-05T13:05:00",
-      "actual": "2025-09-05T13:05:00",
-      "direction": "A",
-      "status": "NOT FINAL"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "KGS",
-      "airport": "KOS",
-      "city": "KOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T13:15:00",
       "actual": "2025-09-05T13:15:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -2957,53 +1406,42 @@
       "city": "RHODES",
       "country": "GREECE",
       "scheduled": "2025-09-05T13:30:00",
-      "actual": "2025-09-05T13:30:00",
+      "actual": "2025-09-05T13:23:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "AEGEAN  AIRLINES",
+      "airline": "ISRAIR AIRLINES",
       "iata": "LCA",
       "airport": "LARNACA",
       "city": "LARNACA",
       "country": "CYPRUS",
-      "scheduled": "2025-09-05T13:45:00",
-      "actual": "2025-09-05T13:45:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "AEGEAN  AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T13:50:00",
-      "actual": "2025-09-05T13:50:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "SKG",
-      "airport": "THESSALONIKI",
-      "city": "THESSALONIKI",
-      "country": "GREECE",
-      "scheduled": "2025-09-05T13:55:00",
-      "actual": "2025-09-05T13:55:00",
-      "direction": "D",
-      "status": "ON TIME"
+      "scheduled": "2025-09-05T13:05:00",
+      "actual": "2025-09-05T13:26:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
+      "iata": "KGS",
+      "airport": "KOS",
+      "city": "KOS",
       "country": "GREECE",
-      "scheduled": "2025-09-05T14:00:00",
-      "actual": "2025-09-05T14:00:00",
+      "scheduled": "2025-09-05T13:15:00",
+      "actual": "2025-09-05T13:42:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T13:00:00",
+      "actual": "2025-09-05T13:44:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -3012,20 +1450,31 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T14:00:00",
-      "actual": "2025-09-05T14:00:00",
+      "actual": "2025-09-05T13:57:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
     },
     {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T13:45:00",
+      "actual": "2025-09-05T14:04:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
       "country": "GREECE",
-      "scheduled": "2025-09-05T14:15:00",
-      "actual": "2025-09-05T14:15:00",
-      "direction": "A",
-      "status": "NOT FINAL"
+      "scheduled": "2025-09-05T13:55:00",
+      "actual": "2025-09-05T14:21:00",
+      "direction": "D",
+      "status": "DEPARTED"
     },
     {
       "airline": "CYPRUS AIRWAYS",
@@ -3034,9 +1483,42 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-05T14:30:00",
-      "actual": "2025-09-05T14:30:00",
+      "actual": "2025-09-05T14:25:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDED"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T13:50:00",
+      "actual": "2025-09-05T14:31:00",
+      "direction": "D",
+      "status": "DEPARTED"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T14:00:00",
+      "actual": "2025-09-05T14:40:00",
+      "direction": "A",
+      "status": "LANDING"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-05T14:15:00",
+      "actual": "2025-09-05T14:51:00",
+      "direction": "A",
+      "status": "LANDING"
     },
     {
       "airline": "CYPRUS AIRWAYS",
@@ -3045,9 +1527,20 @@
       "city": "HERAKLION",
       "country": "GREECE",
       "scheduled": "2025-09-05T15:00:00",
-      "actual": "2025-09-05T15:00:00",
+      "actual": "2025-09-05T14:51:00",
       "direction": "A",
-      "status": "NOT FINAL"
+      "status": "LANDING"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T11:50:00",
+      "actual": "2025-09-05T15:10:00",
+      "direction": "A",
+      "status": "DELAYED"
     },
     {
       "airline": "EL AL ISRAEL AIRLINES",
@@ -3147,6 +1640,17 @@
       "actual": "2025-09-05T16:05:00",
       "direction": "D",
       "status": "ON TIME"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-05T12:00:00",
+      "actual": "2025-09-05T16:10:00",
+      "direction": "D",
+      "status": "DELAYED"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -4982,6 +3486,1469 @@
       "country": "CYPRUS",
       "scheduled": "2025-09-07T13:45:00",
       "actual": "2025-09-07T13:45:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T13:50:00",
+      "actual": "2025-09-07T13:50:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T13:55:00",
+      "actual": "2025-09-07T13:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T14:00:00",
+      "actual": "2025-09-07T14:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T14:10:00",
+      "actual": "2025-09-07T14:10:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T14:10:00",
+      "actual": "2025-09-07T14:10:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T14:15:00",
+      "actual": "2025-09-07T14:15:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T14:20:00",
+      "actual": "2025-09-07T14:20:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T15:20:00",
+      "actual": "2025-09-07T15:20:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T15:40:00",
+      "actual": "2025-09-07T15:40:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T15:40:00",
+      "actual": "2025-09-07T15:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T16:00:00",
+      "actual": "2025-09-07T16:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "FLYYO",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T16:05:00",
+      "actual": "2025-09-07T16:05:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T16:15:00",
+      "actual": "2025-09-07T16:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T16:20:00",
+      "actual": "2025-09-07T16:20:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T16:25:00",
+      "actual": "2025-09-07T16:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T16:35:00",
+      "actual": "2025-09-07T16:35:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T16:45:00",
+      "actual": "2025-09-07T16:45:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T17:00:00",
+      "actual": "2025-09-07T17:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T17:00:00",
+      "actual": "2025-09-07T17:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T17:15:00",
+      "actual": "2025-09-07T17:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T17:15:00",
+      "actual": "2025-09-07T17:15:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T17:25:00",
+      "actual": "2025-09-07T17:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T17:40:00",
+      "actual": "2025-09-07T17:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:00:00",
+      "actual": "2025-09-07T18:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "JTR",
+      "airport": "SANTORINI",
+      "city": "SANTORINI",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:00:00",
+      "actual": "2025-09-07T18:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:10:00",
+      "actual": "2025-09-07T18:10:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:10:00",
+      "actual": "2025-09-07T18:10:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T18:10:00",
+      "actual": "2025-09-07T18:10:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:20:00",
+      "actual": "2025-09-07T18:20:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:40:00",
+      "actual": "2025-09-07T18:40:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "PVK",
+      "airport": "PREVEZA",
+      "city": "PREVEZA",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T18:45:00",
+      "actual": "2025-09-07T18:45:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T19:00:00",
+      "actual": "2025-09-07T19:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T19:00:00",
+      "actual": "2025-09-07T19:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T19:15:00",
+      "actual": "2025-09-07T19:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T19:15:00",
+      "actual": "2025-09-07T19:15:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T19:20:00",
+      "actual": "2025-09-07T19:20:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T19:20:00",
+      "actual": "2025-09-07T19:20:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "EFL",
+      "airport": "KEFALLINIA",
+      "city": "KEFALONIA",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T19:25:00",
+      "actual": "2025-09-07T19:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T19:55:00",
+      "actual": "2025-09-07T19:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T19:55:00",
+      "actual": "2025-09-07T19:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T20:15:00",
+      "actual": "2025-09-07T20:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T20:30:00",
+      "actual": "2025-09-07T20:30:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T20:30:00",
+      "actual": "2025-09-07T20:30:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T20:40:00",
+      "actual": "2025-09-07T20:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T20:55:00",
+      "actual": "2025-09-07T20:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T21:15:00",
+      "actual": "2025-09-07T21:15:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T21:20:00",
+      "actual": "2025-09-07T21:20:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T21:40:00",
+      "actual": "2025-09-07T21:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T21:55:00",
+      "actual": "2025-09-07T21:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T21:55:00",
+      "actual": "2025-09-07T21:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T22:25:00",
+      "actual": "2025-09-07T22:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T22:35:00",
+      "actual": "2025-09-07T22:35:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T22:45:00",
+      "actual": "2025-09-07T22:45:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T22:45:00",
+      "actual": "2025-09-07T22:45:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T23:20:00",
+      "actual": "2025-09-07T23:20:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-07T23:30:00",
+      "actual": "2025-09-07T23:30:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-07T23:45:00",
+      "actual": "2025-09-07T23:45:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:15:00",
+      "actual": "2025-09-08T00:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "NEOS",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T00:15:00",
+      "actual": "2025-09-08T00:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:25:00",
+      "actual": "2025-09-08T00:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:40:00",
+      "actual": "2025-09-08T00:40:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "LUFTHANSA",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:45:00",
+      "actual": "2025-09-08T00:45:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BRUSSELS AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:45:00",
+      "actual": "2025-09-08T00:45:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "UNITED AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:45:00",
+      "actual": "2025-09-08T00:45:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T00:55:00",
+      "actual": "2025-09-08T00:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T00:55:00",
+      "actual": "2025-09-08T00:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "PVK",
+      "airport": "PREVEZA",
+      "city": "PREVEZA",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T00:55:00",
+      "actual": "2025-09-08T00:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T02:00:00",
+      "actual": "2025-09-08T02:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T02:55:00",
+      "actual": "2025-09-08T02:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T03:05:00",
+      "actual": "2025-09-08T03:05:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T03:05:00",
+      "actual": "2025-09-08T03:05:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T05:00:00",
+      "actual": "2025-09-08T05:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T05:40:00",
+      "actual": "2025-09-08T05:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "JMK",
+      "airport": "MIKONOS",
+      "city": "MYKONOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T05:55:00",
+      "actual": "2025-09-08T05:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T06:00:00",
+      "actual": "2025-09-08T06:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T06:00:00",
+      "actual": "2025-09-08T06:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T06:35:00",
+      "actual": "2025-09-08T06:35:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "FLYYO",
+      "iata": "MJT",
+      "airport": "MITILINI",
+      "city": "LESBOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T06:45:00",
+      "actual": "2025-09-08T06:45:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T06:55:00",
+      "actual": "2025-09-08T06:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:05:00",
+      "actual": "2025-09-08T07:05:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "JMK",
+      "airport": "MIKONOS",
+      "city": "MYKONOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:20:00",
+      "actual": "2025-09-08T07:20:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:30:00",
+      "actual": "2025-09-08T07:30:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:50:00",
+      "actual": "2025-09-08T07:50:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:50:00",
+      "actual": "2025-09-08T07:50:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "JMK",
+      "airport": "MIKONOS",
+      "city": "MYKONOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:55:00",
+      "actual": "2025-09-08T07:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "NEOS",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T07:55:00",
+      "actual": "2025-09-08T07:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T08:00:00",
+      "actual": "2025-09-08T08:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "AOK",
+      "airport": "KARPATHOS",
+      "city": "KARPATHOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T08:25:00",
+      "actual": "2025-09-08T08:25:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T08:30:00",
+      "actual": "2025-09-08T08:30:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "KGS",
+      "airport": "KOS",
+      "city": "KOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T08:35:00",
+      "actual": "2025-09-08T08:35:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T08:40:00",
+      "actual": "2025-09-08T08:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T08:50:00",
+      "actual": "2025-09-08T08:50:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T09:00:00",
+      "actual": "2025-09-08T09:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T09:00:00",
+      "actual": "2025-09-08T09:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T09:10:00",
+      "actual": "2025-09-08T09:10:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T09:10:00",
+      "actual": "2025-09-08T09:10:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T09:35:00",
+      "actual": "2025-09-08T09:35:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T09:50:00",
+      "actual": "2025-09-08T09:50:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T10:05:00",
+      "actual": "2025-09-08T10:05:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "FLYYO",
+      "iata": "MJT",
+      "airport": "MITILINI",
+      "city": "LESBOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T11:15:00",
+      "actual": "2025-09-08T11:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "JMK",
+      "airport": "MIKONOS",
+      "city": "MYKONOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T11:15:00",
+      "actual": "2025-09-08T11:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T11:25:00",
+      "actual": "2025-09-08T11:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T11:25:00",
+      "actual": "2025-09-08T11:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T11:35:00",
+      "actual": "2025-09-08T11:35:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T11:50:00",
+      "actual": "2025-09-08T11:50:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T11:50:00",
+      "actual": "2025-09-08T11:50:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T11:55:00",
+      "actual": "2025-09-08T11:55:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "JMK",
+      "airport": "MIKONOS",
+      "city": "MYKONOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:00:00",
+      "actual": "2025-09-08T12:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "NEOS",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:05:00",
+      "actual": "2025-09-08T12:05:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T12:10:00",
+      "actual": "2025-09-08T12:10:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:25:00",
+      "actual": "2025-09-08T12:25:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "AOK",
+      "airport": "KARPATHOS",
+      "city": "KARPATHOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:25:00",
+      "actual": "2025-09-08T12:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:25:00",
+      "actual": "2025-09-08T12:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:30:00",
+      "actual": "2025-09-08T12:30:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "CHQ",
+      "airport": "KHANIA-SOUDABAY",
+      "city": "KHANIA",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T12:50:00",
+      "actual": "2025-09-08T12:50:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "KGS",
+      "airport": "KOS",
+      "city": "KOS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:00:00",
+      "actual": "2025-09-08T13:00:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "TUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T13:00:00",
+      "actual": "2025-09-08T13:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:10:00",
+      "actual": "2025-09-08T13:10:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T13:20:00",
+      "actual": "2025-09-08T13:20:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:20:00",
+      "actual": "2025-09-08T13:20:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:25:00",
+      "actual": "2025-09-08T13:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:30:00",
+      "actual": "2025-09-08T13:30:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "HER",
+      "airport": "HERAKLION",
+      "city": "HERAKLION",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:40:00",
+      "actual": "2025-09-08T13:40:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "PFO",
+      "airport": "PAPHOS",
+      "city": "PAPHOS",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T13:40:00",
+      "actual": "2025-09-08T13:40:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "SKG",
+      "airport": "THESSALONIKI",
+      "city": "THESSALONIKI",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:40:00",
+      "actual": "2025-09-08T13:40:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T13:55:00",
+      "actual": "2025-09-08T13:55:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T14:00:00",
+      "actual": "2025-09-08T14:00:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "BLUE BIRD AIRWAYS",
+      "iata": "ATH",
+      "airport": "ATHENS",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T14:10:00",
+      "actual": "2025-09-08T14:10:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEGEAN  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T14:15:00",
+      "actual": "2025-09-08T14:15:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T14:25:00",
+      "actual": "2025-09-08T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T14:30:00",
+      "actual": "2025-09-08T14:30:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-08T14:45:00",
+      "actual": "2025-09-08T14:45:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-08T14:45:00",
+      "actual": "2025-09-08T14:45:00",
       "direction": "A",
       "status": "NOT FINAL"
     }

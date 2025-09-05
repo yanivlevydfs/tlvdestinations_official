@@ -31,6 +31,7 @@ from fastapi.responses import HTMLResponse
 from typing import List
 from html import escape
 from logging_setup import setup_logging, get_app_logger
+from fastapi import Depends
 
 # === Local Modules ===
 from sitemap_tool import Url, build_sitemap
@@ -142,7 +143,8 @@ def _is_dataset_fresh_today() -> tuple[bool, str | None]:
     file_date = _dataset_file_date()
     return (file_date == today), file_date
 
-
+def get_lang(request: Request) -> str:
+    return "he" if request.query_params.get("lang") == "he" else "en"
 # ──────────────────────────────────────────────────────────────────────────────
 # Progress tracker for refresh
 # ──────────────────────────────────────────────────────────────────────────────
@@ -577,7 +579,8 @@ def home(
     request: Request,
     country: str = "All",
     query: str = "",
-    region: List[str] = Query(default=[])
+    region: List[str] = Query(default=[]),
+    lang: str = Depends(get_lang), 
 ):
     # DO NOT trigger refresh here; just use cached data
     df = get_dataset(trigger_refresh=False).copy()
@@ -630,6 +633,8 @@ def home(
         "index.html",
         {
             "request": request,
+            "lang": lang,
+            "now": datetime.now(), 
             "airports": airports,
             "all_regions": list(Regions.values()),
             "country": country,
@@ -954,7 +959,7 @@ def sitemap():
     
     
 @app.get("/about", response_class=HTMLResponse)
-async def about(request: Request, lang: str = "en"):
+async def about(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("about.html", {
         "request": request,
         "lang": lang,
@@ -962,7 +967,7 @@ async def about(request: Request, lang: str = "en"):
     })
 
 @app.get("/privacy", response_class=HTMLResponse)
-async def privacy(request: Request, lang: str = "en"):
+async def privacy(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("privacy.html", {
         "request": request,
         "lang": lang,
@@ -970,7 +975,7 @@ async def privacy(request: Request, lang: str = "en"):
     })
 
 @app.get("/contact", response_class=HTMLResponse)
-async def contact(request: Request, lang: str = "en"):
+async def contact(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("contact.html", {
         "request": request,
         "lang": lang,
