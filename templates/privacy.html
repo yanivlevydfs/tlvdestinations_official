@@ -1,14 +1,156 @@
 {% extends "base.html" %}
+
+{% block title -%}
+  {{ 'Privacy Policy — Fly TLV' if lang != 'he' else 'מדיניות פרטיות — Fly TLV' }}
+{%- endblock %}
+
+{% block head_extra %}
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://fly-tlv.com/privacy{{ '' if lang != 'he' else '?lang=he' }}" />
+  <link rel="alternate" href="https://fly-tlv.com/privacy" hreflang="en" />
+  <link rel="alternate" href="https://fly-tlv.com/privacy?lang=he" hreflang="he" />
+  <link rel="alternate" href="https://fly-tlv.com/privacy" hreflang="x-default" />
+
+  <meta name="robots" content="index,follow" />
+  <meta name="description" content="{{
+    'Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights.'
+    if lang != 'he' else
+    'קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם.'
+  }}" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fly-tlv.com/privacy{{ '' if lang != 'he' else '?lang=he' }}" />
+  <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
+  <meta property="og:title" content="{{ 'Privacy Policy — Fly TLV' if lang != 'he' else 'מדיניות פרטיות — Fly TLV' }}" />
+  <meta property="og:description" content="{{
+    'Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights.'
+    if lang != 'he' else
+    'קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם.'
+  }}" />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ 'Privacy Policy — Fly TLV' if lang != 'he' else 'מדיניות פרטיות — Fly TLV' }}" />
+  <meta name="twitter:description" content="{{
+    'Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights.'
+    if lang != 'he' else
+    'קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם.'
+  }}" />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name": {{ '"Privacy Policy — Fly TLV"' if lang != 'he' else '"מדיניות פרטיות — Fly TLV"' }},
+    "url": {{ '"https://fly-tlv.com/privacy"' if lang != 'he' else '"https://fly-tlv.com/privacy?lang=he"' }},
+    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
+    "description": {{
+      '"Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights."'
+      if lang != 'he' else
+      '"קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם."'
+    }}
+  }
+  </script>
+{% endblock %}
+
 {% block content %}
-  <h1>{{ "Privacy Policy" if lang == "en" else "מדיניות פרטיות" }}</h1>
-  <p>
-    {{ "We respect your privacy. No personal data is collected or stored." 
-       if lang == "en"
-       else "אנחנו מכבדים את פרטיותך. לא נאספים או נשמרים נתונים אישיים." }}
-  </p>
-  <p>
-    {{ "This site uses public flight data APIs to display information." 
-       if lang == "en"
-       else "האתר עושה שימוש ב-API ציבוריים להצגת מידע טיסות." }}
-  </p>
+<div class="container py-3 px-2 px-md-3">
+
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'Privacy Policy' if lang != 'he' else 'מדיניות פרטיות' }}
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-shield-lock fs-3 text-primary me-3"></i>
+      <div>
+        <h1 class="h4 mb-1">{{ 'Privacy Policy' if lang != 'he' else 'מדיניות פרטיות' }}</h1>
+        <p class="text-muted mb-0">
+          {{ 'How Fly TLV handles your data and protects your privacy.' 
+             if lang != 'he'
+             else 'כיצד Fly TLV מטפלת בנתוניכם ושומרת על פרטיותכם.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Policy Sections -->
+  <div class="row g-3">
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Data Collection' if lang != 'he' else 'איסוף נתונים' }}
+        </div>
+        <div class="card-body">
+          <p>
+            {{ "We do not require user accounts. Basic analytics and logs (such as browser type and visited pages) may be collected for performance monitoring."
+               if lang != 'he' else
+               "אין דרישה לפתוח חשבון משתמש. ייתכן ואנו אוספים נתוני שימוש בסיסיים (כגון סוג הדפדפן ודפים נצפים) לצורך ניטור ביצועים." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Cookies & Ads' if lang != 'he' else 'קוקיות ופרסומות' }}
+        </div>
+        <div class="card-body">
+          <p>
+            {{ "We use cookies for functionality and Google AdSense for ads. Third-party services may place their own cookies."
+               if lang != 'he' else
+               "אנו משתמשים בקוקיות לצורך תפקוד האתר וב-Google AdSense להצגת פרסומות. שירותי צד ג׳ עשויים להגדיר קוקיות משלהם." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Use of Data' if lang != 'he' else 'שימוש בנתונים' }}
+        </div>
+        <div class="card-body">
+          <p>
+            {{ "Collected data is used only for improving the site, analyzing traffic, and serving relevant ads. We never sell personal data."
+               if lang != 'he' else
+               "הנתונים שנאספים משמשים לשיפור האתר, ניתוח תנועה והצגת פרסומות רלוונטיות. לעולם לא נמכור נתונים אישיים." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Your Rights' if lang != 'he' else 'הזכויות שלכם' }}
+        </div>
+        <div class="card-body">
+          <p>
+            {{ "You can clear cookies via your browser settings. If you have concerns, contact us through the contact page."
+               if lang != 'he' else
+               "באפשרותכם לנקות קוקיות דרך הגדרות הדפדפן. במידה ויש לכם שאלות או חששות, פנו אלינו דרך עמוד יצירת קשר." }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}

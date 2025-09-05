@@ -1,9 +1,283 @@
 {% extends "base.html" %}
+
+{# ─────────────────────────────────────────────────────────
+   Page <title> (used if base.html defines a `title` block)
+   ───────────────────────────────────────────────────────── #}
+{% block title -%}
+  {{ 'About — Fly TLV: Greek Mainland, Islands & Cyprus Airlines Explorer'
+     if lang != 'he' else
+     'אודות — Fly TLV: טיסות ישירות מנתב״ג ליוון וקפריסין' }}
+{%- endblock %}
+
+{# ─────────────────────────────────────────────────────────
+   SEO / Social meta specific to /about
+   ───────────────────────────────────────────────────────── #}
+{% block head_extra %}
+  {# Canonical & hreflang for bilingual SEO #}
+  <link rel="canonical" href="https://fly-tlv.com/about{{ '' if lang != 'he' else '?lang=he' }}" />
+  <link rel="alternate" href="https://fly-tlv.com/about" hreflang="en" />
+  <link rel="alternate" href="https://fly-tlv.com/about?lang=he" hreflang="he" />
+  <link rel="alternate" href="https://fly-tlv.com/about" hreflang="x-default" />
+  <meta name="robots" content="index,follow" />
+
+  {# Description #}
+  <meta name="description" content="{{
+    'Learn about Fly TLV: how we compile direct routes from TLV to the Greek mainland, islands, and Cyprus; data sources, methodology, and contact.'
+    if lang != 'he' else
+    'אודות Fly TLV: כיצד אנו מרכזים נתיבי טיסה ישירים מנתב״ג ליוון היבשתית, לאיי יוון ולקפריסין; מקורות הנתונים, שיטת העבודה ודרכי קשר.'
+  }}" />
+
+  {# Open Graph #}
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fly-tlv.com/about{{ '' if lang != 'he' else '?lang=he' }}" />
+  <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
+  <meta property="og:title" content="{{
+    'About — Fly TLV: Greek Mainland, Islands & Cyprus Airlines Explorer'
+    if lang != 'he' else
+    'אודות — Fly TLV: טיסות ישירות מנתב״ג ליוון וקפריסין'
+  }}" />
+  <meta property="og:description" content="{{
+    'Learn about Fly TLV: routes, data sources, methodology, and contact.'
+    if lang != 'he' else
+    'קראו על Fly TLV: נתיבי טיסה, מקורות נתונים, שיטת עבודה ויצירת קשר.'
+  }}" />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  {# Twitter #}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{
+    'About — Fly TLV: Greek Mainland, Islands & Cyprus Airlines Explorer'
+    if lang != 'he' else
+    'אודות — Fly TLV: טיסות ישירות מנתב״ג ליוון וקפריסין'
+  }}" />
+  <meta name="twitter:description" content="{{
+    'Learn about Fly TLV: routes, data sources, methodology, and contact.'
+    if lang != 'he' else
+    'קראו על Fly TLV: נתיבי טיסה, מקורות נתונים, שיטת עבודה ויצירת קשר.'
+  }}" />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  {# JSON-LD: WebPage + Breadcrumbs #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": {{ '"About — Fly TLV"' if lang != 'he' else '"אודות — Fly TLV"' }},
+    "url": {{ '"https://fly-tlv.com/about"' if lang != 'he' else '"https://fly-tlv.com/about?lang=he"' }},
+    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
+    "description": {{
+      '"Learn about Fly TLV: routes, data sources, methodology, and contact."'
+      if lang != 'he' else
+      '"אודות Fly TLV: נתיבי טיסה, מקורות נתונים, שיטת עבודה ויצירת קשר."'
+    }}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {
+        "@type":"ListItem",
+        "position":1,
+        "name": {{ '"Home"' if lang != 'he' else '"בית"' }},
+        "item": "https://fly-tlv.com/{{ '' if lang != 'he' else '?lang=he' }}"
+      },
+      {
+        "@type":"ListItem",
+        "position":2,
+        "name": {{ '"About"' if lang != 'he' else '"אודות"' }},
+        "item": {{ '"https://fly-tlv.com/about"' if lang != 'he' else '"https://fly-tlv.com/about?lang=he"' }}
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{# ─────────────────────────────────────────────────────────
+   Page body
+   ───────────────────────────────────────────────────────── #}
 {% block content %}
-  <h1>{{ "About Flights Explorer" if lang == "en" else "על חוקר טיסות" }}</h1>
-  <p>
-    {{ "This platform provides real-time routes and flight data between TLV and destinations in Greece and Cyprus." 
-      if lang == "en"
-      else "האתר מציג נתוני טיסות בזמן אמת בין תל אביב ליעדים ביוון וקפריסין." }}
-  </p>
+<div class="container py-3 px-2 px-md-3">
+  {# Breadcrumbs #}
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'About' if lang != 'he' else 'אודות' }}
+      </li>
+    </ol>
+  </nav>
+
+  {# Hero / Header #}
+  <div class="card shadow-sm mb-4">
+    <div class="card-body d-flex align-items-center">
+      <div class="me-3"><i class="bi bi-airplane-engines fs-3 text-primary"></i></div>
+      <div>
+        <h1 class="h4 mb-1">
+          {{ 'About Flights Explorer' if lang != 'he' else 'אודות Flights Explorer' }}
+        </h1>
+        <p class="text-muted mb-0">
+          {{ 'Real routes, distances & estimated flight times from TLV to the Greek mainland, islands & Cyprus.'
+             if lang != 'he'
+             else 'נתיבי טיסה אמיתיים, מרחקים וזמני טיסה משוערים מנתב״ג ליוון היבשתית, איי יוון וקפריסין.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {# Core content cards #}
+  <div class="row g-3">
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Mission' if lang != 'he' else 'המשימה' }}
+        </div>
+        <div class="card-body">
+          <p class="mb-2">
+            {{ "Help travelers quickly discover direct options from TLV and jump to airline booking sites with one click."
+               if lang != 'he'
+               else "לעזור לנוסעים לגלות במהירות טיסות ישירות מנתב״ג ולעבור לאתרי חברות התעופה בלחיצה אחת." }}
+          </p>
+          <span class="chip me-1">{{ 'Fast' if lang != 'he' else 'מהיר' }}</span>
+          <span class="chip me-1">{{ 'Simple' if lang != 'he' else 'פשוט' }}</span>
+          <span class="chip me-1">{{ 'Free' if lang != 'he' else 'חינם' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'How it works' if lang != 'he' else 'איך זה עובד' }}
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li>
+              {{ "We compile known direct routes TLV → Greek mainland, islands & Cyprus and enrich with distances & time estimates."
+                 if lang != 'he' else
+                 "אנחנו מרכזים נתיבים ישירים ידועים מנתב״ג ליוון היבשתית, לאיים ולקפריסין, ומעשירים במרחקים וזמני טיסה משוערים." }}
+            </li>
+            <li>
+              {{ "Airline chips link you directly to official websites for each carrier."
+                 if lang != 'he' else
+                 "השבבים של חברות התעופה מקשרים לאתרי החברות הרשמיים." }}
+            </li>
+            <li>
+              {{ "Filters, search and export make exploring and saving routes easy."
+                 if lang != 'he' else
+                 "מסננים, חיפוש וייצוא מקלים על חקירת הנתיבים ושמירתם." }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Data & estimates' if lang != 'he' else 'נתונים והערכות' }}
+        </div>
+        <div class="card-body">
+          <p class="mb-2">
+            {{ "Distances are great-circle estimates (TLV to destination). Flight times are derived from distance bands & typical cruise speeds; actual schedules may vary."
+               if lang != 'he' else
+               "המרחקים מחושבים כמרחק מעגל גדול (מנתב״ג ליעד). זמני הטיסה נגזרים מטווחי מרחק ומהירויות שיוט טיפוסיות; ייתכנו הבדלים בלוחות הזמנים בפועל." }}
+          </p>
+          <p class="mb-0">
+            {{ "Always verify operational days, frequencies and seasonality with the airline."
+               if lang != 'he' else
+               "מומלץ לוודא ימי פעילות, תדירויות ועונתיות באתרי חברות התעופה." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">
+          {{ 'Contact & feedback' if lang != 'he' else 'יצירת קשר ומשוב' }}
+        </div>
+        <div class="card-body">
+          <p class="mb-2">
+            {{ "Found an error or missing route? We’d love to hear from you."
+               if lang != 'he' else
+               "מצאתם שגיאה או נתיב חסר? נשמח לשמוע מכם." }}
+          </p>
+          <a class="btn btn-outline-primary me-2" href="/contact{{ '' if lang != 'he' else '?lang=he' }}">
+            <i class="bi bi-envelope-open me-1"></i>
+            {{ 'Contact' if lang != 'he' else 'צור קשר' }}
+          </a>
+          <a class="btn btn-outline-secondary" href="/privacy{{ '' if lang != 'he' else '?lang=he' }}">
+            <i class="bi bi-shield-check me-1"></i>
+            {{ 'Privacy' if lang != 'he' else 'פרטיות' }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# FAQ accordion #}
+  <div class="card shadow-sm mt-4">
+    <div class="card-header fw-semibold">
+      {{ 'FAQ' if lang != 'he' else 'שאלות נפוצות' }}
+    </div>
+    <div class="card-body">
+      <div class="accordion" id="aboutFAQ">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q1h">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+              {{ 'Is this an airline or OTA?' if lang != 'he' else 'האם זה אתר של חברת תעופה או סוכנות?' }}
+            </button>
+          </h2>
+          <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#aboutFAQ">
+            <div class="accordion-body">
+              {{ "No. We’re an independent explorer that points you to official airline websites."
+                 if lang != 'he' else
+                 "לא. זהו אתר עצמאי לחקר נתיבי טיסה שמפנה לאתרי החברות הרשמיים." }}
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="q2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+              {{ 'Why do times differ from the ticket?' if lang != 'he' else 'למה זמני הטיסה שונים מכרטיס הטיסה?' }}
+            </button>
+          </h2>
+          <div id="q2" class="accordion-collapse collapse" data-bs-parent="#aboutFAQ">
+            <div class="accordion-body">
+              {{ "Displayed times are estimates based on distance; schedules depend on airline, season, winds, and ATC."
+                 if lang != 'he' else
+                 "הזמנים המוצגים הם הערכות לפי מרחק; לוחות זמנים בפועל תלויים בחברת התעופה, בעונה, ברוחות ובבקרת טיסה." }}
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mt-2">
+          <h2 class="accordion-header" id="q3h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+              {{ 'Can I export the routes?' if lang != 'he' else 'האם אפשר לייצא את הנתיבים?' }}
+            </button>
+          </h2>
+          <div id="q3" class="accordion-collapse collapse" data-bs-parent="#aboutFAQ">
+            <div class="accordion-body">
+              {{ "Yes. Use the Export controls above the table (Copy / CSV / Excel / PDF / Print)."
+                 if lang != 'he' else
+                 "כן. השתמשו בכפתורי הייצוא מעל הטבלה (העתקה / CSV / Excel / PDF / הדפסה)." }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}

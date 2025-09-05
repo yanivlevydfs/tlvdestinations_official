@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ lang | default('en') }}">
+<html lang="{{ lang | default('en') }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title | default("Flights Explorer") }}</title>
+  <title>{{ title | default("Flights Explorer — TLV Destinations") }}</title>
 
   <!-- ✅ SEO -->
   <meta name="description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide with schedules, maps, and travel data.') }}">
@@ -41,12 +42,20 @@
     .navbar a, .navbar-brand, .navbar-toggler-icon { color: white !important; }
     .footer { background-color: #2563eb; color: white; padding: 1rem 0; margin-top: 2rem; }
     .language-toggle { font-size: 0.9rem; }
+
+    /* Dark mode styles */
+    body.dark-mode { background-color: #121212; color: #f1f1f1; }
+    body.dark-mode .navbar { background-color: #1f1f1f; }
+    body.dark-mode .navbar a, 
+    body.dark-mode .navbar-brand { color: #f1f1f1 !important; }
+    body.dark-mode .footer { background-color: #1f1f1f; color: #aaa; }
+    body.dark-mode a { color: #9ecbff; }
   </style>
 </head>
 <body>
-  <!-- ✅ Header with nav for sitelinks -->
+  <!-- ✅ Header with nav -->
   <nav class="navbar navbar-expand-lg px-3" role="navigation">
-    <a class="navbar-brand fw-bold" href="/">✈️ Flights Explorer</a>
+    <a class="navbar-brand fw-bold" href="/">✈️ Flights Explorer — TLV Destinations</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -57,10 +66,18 @@
         <li class="nav-item"><a class="nav-link" href="/privacy">{{ "Privacy" if lang == "en" else "פרטיות" }}</a></li>
         <li class="nav-item"><a class="nav-link" href="/contact">{{ "Contact" if lang == "en" else "צור קשר" }}</a></li>
       </ul>
-      <div class="language-toggle d-flex align-items-center">
-        <a href="{{ request.url.path }}?lang=en" class="me-2 text-white {{ 'fw-bold' if lang == 'en' else '' }}">EN</a>
-        <span class="text-white">|</span>
-        <a href="{{ request.url.path }}?lang=he" class="ms-2 text-white {{ 'fw-bold' if lang == 'he' else '' }}">עברית</a>
+      <div class="d-flex align-items-center gap-3">
+        <!-- ✅ Dark/Light toggle -->
+        <button id="theme-toggle" class="btn btn-outline-light btn-sm" type="button">
+          <i id="theme-icon" class="bi bi-moon-stars"></i>
+        </button>
+
+        <!-- ✅ Language toggle -->
+        <div class="language-toggle d-flex align-items-center">
+          <a href="{{ request.url.path }}?lang=en" class="me-2 text-white {{ 'fw-bold' if lang == 'en' else '' }}">EN</a>
+          <span class="text-white">|</span>
+          <a href="{{ request.url.path }}?lang=he" class="ms-2 text-white {{ 'fw-bold' if lang == 'he' else '' }}">עברית</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -80,6 +97,28 @@
     </div>
   </footer>
 
+  <!-- ✅ Bootstrap + Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ✅ Dark/Light JS -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const saved = localStorage.getItem('theme') || 'light';
+
+    if (saved === 'dark') {
+      document.body.classList.add('dark-mode');
+      icon.className = 'bi bi-sun';
+    }
+
+    btn.addEventListener('click', () => {
+      const dark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      icon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
+    });
+  });
+  </script>
 </body>
 </html>

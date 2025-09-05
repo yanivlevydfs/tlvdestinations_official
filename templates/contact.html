@@ -1,12 +1,122 @@
 {% extends "base.html" %}
+
+{% block title -%}
+  {{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}
+{%- endblock %}
+
+{% block head_extra %}
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://fly-tlv.com/contact{{ '' if lang != 'he' else '?lang=he' }}" />
+  <link rel="alternate" href="https://fly-tlv.com/contact" hreflang="en" />
+  <link rel="alternate" href="https://fly-tlv.com/contact?lang=he" hreflang="he" />
+  <link rel="alternate" href="https://fly-tlv.com/contact" hreflang="x-default" />
+
+  <meta name="robots" content="index,follow" />
+  <meta name="description" content="{{
+    'Get in touch with the Fly TLV team for support, feedback, or inquiries.'
+    if lang != 'he' else
+    'צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות.'
+  }}" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fly-tlv.com/contact{{ '' if lang != 'he' else '?lang=he' }}" />
+  <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
+  <meta property="og:title" content="{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}" />
+  <meta property="og:description" content="{{
+    'Get in touch with the Fly TLV team for support, feedback, or inquiries.'
+    if lang != 'he' else
+    'צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות.'
+  }}" />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}" />
+  <meta name="twitter:description" content="{{
+    'Get in touch with the Fly TLV team for support, feedback, or inquiries.'
+    if lang != 'he' else
+    'צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות.'
+  }}" />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ContactPage",
+    "name": {{ '"Contact — Fly TLV"' if lang != 'he' else '"צור קשר — Fly TLV"' }},
+    "url": {{ '"https://fly-tlv.com/contact"' if lang != 'he' else '"https://fly-tlv.com/contact?lang=he"' }},
+    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
+    "description": {{
+      '"Get in touch with the Fly TLV team for support, feedback, or inquiries."'
+      if lang != 'he' else
+      '"צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות."'
+    }},
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "email": "support@flightsexplorer.com",
+      "contactType": "customer support",
+      "availableLanguage": ["en","he"]
+    }]
+  }
+  </script>
+{% endblock %}
+
 {% block content %}
-  <h1>{{ "Contact Us" if lang == "en" else "צור קשר" }}</h1>
-  <p>
-    {{ "For questions or feedback, please email us at:" 
-       if lang == "en"
-       else "לשאלות או הערות, ניתן לשלוח דוא\"ל לכתובת:" }}
-  </p>
-  <p>
-    <a href="mailto:support@flightsexplorer.com">support@flightsexplorer.com</a>
-  </p>
+<div class="container py-3 px-2 px-md-3">
+
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'Contact' if lang != 'he' else 'צור קשר' }}
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-envelope-at fs-3 text-primary me-3"></i>
+      <div>
+        <h1 class="h4 mb-1">{{ 'Contact Us' if lang != 'he' else 'צור קשר' }}</h1>
+        <p class="text-muted mb-0">
+          {{ 'We would love to hear from you — support, feedback, or ideas.' 
+             if lang != 'he'
+             else 'נשמח לשמוע מכם — תמיכה, משוב או רעיונות.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Card -->
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-header fw-semibold">
+          {{ 'Email' if lang != 'he' else 'דוא״ל' }}
+        </div>
+        <div class="card-body text-center">
+          <p class="mb-2">
+            {{ "For questions or feedback, please email us at:" 
+               if lang != 'he'
+               else "לשאלות או הערות, ניתן לשלוח דוא\"ל לכתובת:" }}
+          </p>
+          <p class="fs-5">
+            <a href="mailto:support@fly-tlv.com" class="text-decoration-none">
+              support@fly-tlv.com
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
