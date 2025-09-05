@@ -32,7 +32,8 @@ from typing import List
 from html import escape
 from logging_setup import setup_logging, get_app_logger
 from fastapi import Depends
-
+from fastapi.responses import FileResponse
+from pathlib import Path
 # === Local Modules ===
 from sitemap_tool import Url, build_sitemap
 
@@ -999,3 +1000,8 @@ async def contact(request: Request, lang: str = Depends(get_lang)):
         "lang": lang,
         "now": datetime.now()
     })
+
+@app.get("/ads.txt", include_in_schema=False)
+async def ads_txt():
+    file_path = Path(__file__).parent / "ads.txt"
+    return FileResponse(file_path, media_type="text/plain")
