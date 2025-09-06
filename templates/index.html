@@ -219,7 +219,7 @@
               </div>
               <div class="card-body">
                 <div class="mb-3">
-                  <label class="form-label" id="lbl-country">Country</label>
+                  <label for="country-filter" class="form-label" id="lbl-country">Country</label>
                   <select id="country-filter" class="form-select">
                     <option value="All">All</option>
                     <option value="Greece">Greece</option>
@@ -227,21 +227,29 @@
                   </select>
                 </div>
                 <div class="mb-3 mt-3">
-                  <label class="form-label" id="lbl-search">Search</label>
+                  <label for="query-filter"class="form-label" id="lbl-search">Search</label>
                   <input type="text" id="query-filter" class="form-control" placeholder="Search airport, city, country, region…">
                 </div>
 
-                <div class="mb-2">
-                  <label class="form-label" id="lbl-regions">Regions</label>
-                  <div class="d-flex flex-wrap gap-2">
-                    {% for r in all_regions %}
-                      <div class="form-check">
-                        <input class="form-check-input region-filter" type="checkbox" value="{{r}}" id="r-{{ loop.index }}">
-                        <label class="form-check-label chip" for="r-{{ loop.index }}">{{r}}</label>
-                      </div>
-                    {% endfor %}
-                  </div>
-                </div>
+				<div class="mb-2">
+				  <fieldset>
+					<!-- ✅ legend instead of plain label -->
+					<legend id="lbl-regions" class="form-label">Regions</legend>
+					<div class="d-flex flex-wrap gap-2">
+					  {% for r in all_regions %}
+						<div class="form-check">
+						  <input class="form-check-input region-filter"
+								 type="checkbox"
+								 value="{{r}}"
+								 id="r-{{ loop.index }}">
+						  <label class="form-check-label chip"
+								 for="r-{{ loop.index }}">{{r}}</label>
+						</div>
+					  {% endfor %}
+					</div>
+				  </fieldset>
+				</div>
+
                 <div class="border-top pt-3 mt-3 d-flex gap-2">
                   <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
                     <i class="bi bi-x-circle me-1"></i> Clear

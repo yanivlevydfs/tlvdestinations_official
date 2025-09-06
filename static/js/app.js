@@ -35,24 +35,32 @@ document.addEventListener('DOMContentLoaded', () => {
       { extend:'print',      className:'btn btn-primary', text:`<i class="bi bi-printer me-1"></i> ${b.print}` }
     ];
   }
-  function initDataTable(lang) {
-    return $('#airports-table').DataTable({
-      dom:
-        "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-        "<'row'<'col-12'tr>>" +
-        "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-      buttons: dtButtonsFor(lang),
-      responsive: { details: { type: 'inline' } },
-      fixedHeader: true,
-      pageLength: 10,
-      lengthMenu: [5,10,25,50],
-      columnDefs: [
-        { targets: [0,3,4,6,7], className: 'text-nowrap' },
-        { targets: 5, responsivePriority: 10001 },
-      ],
-      language: LANG[lang].dt
-    });
-  }
+	function initDataTable(lang) {
+	  return $('#airports-table').DataTable({
+		dom:
+		  "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+		  "<'row'<'col-12'tr>>" +
+		  "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+		buttons: dtButtonsFor(lang),
+		responsive: { details: { type: 'inline' } },
+		fixedHeader: true,
+		pageLength: 10,
+		lengthMenu: [5,10,25,50],
+		columnDefs: [
+		  { targets: [0,3,4,6,7], className: 'text-nowrap' },
+		  { targets: 5, responsivePriority: 10001 },
+		],
+		language: LANG[lang].dt,
+
+		// 👇 Fix: add id + name to the generated search box
+		initComplete: function () {
+		  $('#airports-table_filter input')
+			.attr('id', 'airports-search')
+			.attr('name', 'airports-search')
+			.attr('placeholder', LANG[lang].placeholderSearch || 'Search…');
+		}
+	  });
+	}
 
   // ---------- Helpers ----------
   const overlay       = document.getElementById('loadingOverlay');
