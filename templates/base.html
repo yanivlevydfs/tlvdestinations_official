@@ -51,6 +51,53 @@
     body.dark-mode .footer { background-color: #1f1f1f; color: #aaa; }
     body.dark-mode a { color: #9ecbff; }
   </style>
+  <!-- ✅ Structured Data (JSON-LD) -->
+	<script type="application/ld+json">
+	[
+	  {
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"name": {{ ("Flights Explorer — TLV Destinations" if lang != 'he' else "טיסות ישירות מתל אביב — כל היעדים") | tojson }},
+		"url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
+		"inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
+		"description": {{ (
+		  "Explore flights from Tel Aviv to destinations worldwide with schedules, maps, and travel data."
+		  if lang != 'he' else
+		  "גלה את כל הטיסות הישירות מתל אביב ליעדים בעולם: לוחות זמנים, מפות ונתוני טיסה."
+		) | tojson }}
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Map" if lang != 'he' else "מפה") | tojson }},
+		"url": "https://fly-tlv.com/map"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("About" if lang != 'he' else "על האתר") | tojson }},
+		"url": "https://fly-tlv.com/about"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Privacy" if lang != 'he' else "פרטיות") | tojson }},
+		"url": "https://fly-tlv.com/privacy"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Contact" if lang != 'he' else "צור קשר") | tojson }},
+		"url": "https://fly-tlv.com/contact"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Sitemap" if lang != 'he' else "מפת האתר") | tojson }},
+		"url": "https://fly-tlv.com/sitemap.xml"
+	  }
+	]
+</script>
 </head>
 <body>
   <!-- ✅ Header with nav -->
