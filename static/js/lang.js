@@ -1,7 +1,7 @@
 /* -------- Language dictionary -------- */
 window.LANG = {
   en: {
-    brand: "TLV → Greek Mainland, Islands & Cyprus Airlines Explorer",
+    brand: "TLV → Greece & Cyprus Destinations",
     viewMap: "View Map",
     refresh: "Refresh Routes",
     theme: "Theme",
@@ -60,7 +60,7 @@ window.LANG = {
   },
 
   he: {
-    brand: "תל אביב ← יוון היבשתית, האיים וקפריסין — אילו חברות תעופה טסות",
+    brand: "יעדים ישירים מנתב״ג ליוון וקפריסין",
     viewMap: "צפה במפה",
     refresh: "רענן מסלולים",
     theme: "מצב תצוגה",
