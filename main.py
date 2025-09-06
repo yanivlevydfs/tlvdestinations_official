@@ -957,25 +957,6 @@ async def get_israel_flights():
 async def shutdown_event():
     scheduler.shutdown()
     logger.info("Scheduler stopped")
-
-@app.get("/sitemap.xml", response_class=Response)
-def sitemap():
-    base = "https://fly-tlv.com"
-    today = date.today()
-    urls = [
-        Url(f"{base}/", today, "daily", 1.0),
-        Url(f"{base}/about", today, "monthly", 0.6),
-        Url(f"{base}/privacy", today, "monthly", 0.5),
-        Url(f"{base}/contact", today, "monthly", 0.5),
-        Url(f"{base}/map", today, "weekly", 0.6),
-    ]
-    xml = build_sitemap(urls)    
-    out_path = Path("static/sitemap.xml")
-    out_path.parent.mkdir(exist_ok=True)
-    out_path.write_text(xml, encoding="utf-8")
-
-    return Response(content=xml, media_type="application/xml")
-    
     
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request, lang: str = Depends(get_lang)):
@@ -1005,3 +986,59 @@ async def contact(request: Request, lang: str = Depends(get_lang)):
 async def ads_txt():
     file_path = Path(__file__).parent / "ads.txt"
     return FileResponse(file_path, media_type="text/plain")
+    
+    
+@app.get("/robots.txt", include_in_schema=False)
+async def robots_txt():
+    file_path = Path(__file__).parent / "robots.txt"
+    return FileResponse(file_path, media_type="text/plain")
+    
+    
+class Url:
+    def __init__(self, loc: str, lastmod: date, changefreq: str, priority: float):
+        self.loc = loc
+        self.lastmod = lastmod.isoformat()
+        self.changefreq = changefreq
+        self.priority = priority
+
+# Helper to generate XML
+def build_sitemap(urls: List[Url]) -> str:
+    sitemap = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    for url in urls:
+        sitemap.append("  <url>")
+        sitemap.append(f"    <loc>{url.loc}</loc>")
+        sitemap.append(f"    <lastmod>{url.lastmod}</lastmod>")
+        sitemap.append(f"    <changefreq>{url.changefreq}</changefreq>")
+        sitemap.append(f"    <priority>{url.priority:.1f}</priority>")
+        sitemap.append("  </url>")
+
+    sitemap.append("</urlset>")
+    return "\n".join(sitemap)
+
+# Route to serve and write sitemap.xml
+@app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
+def sitemap():
+    base = "https://fly-tlv.com"
+    today = date.today()
+
+    urls = [
+        Url(f"{base}/", today, "daily", 1.0),
+        Url(f"{base}/about", today, "monthly", 0.6),
+        Url(f"{base}/privacy", today, "monthly", 0.5),
+        Url(f"{base}/contact", today, "monthly", 0.5),
+        Url(f"{base}/map", today, "weekly", 0.6),
+        Url(f"{base}/flights", today, "weekly", 0.8),  # 👈 Optional: Flights page
+        Url(f"{base}/?lang=he", today, "daily", 0.9),   # 👈 Optional: Hebrew version
+    ]
+
+    xml = build_sitemap(urls)
+
+    out_path = Path("static/sitemap.xml")
+    out_path.parent.mkdir(exist_ok=True)
+    out_path.write_text(xml, encoding="utf-8")
+
+    return Response(content=xml, media_type="application/xml")
