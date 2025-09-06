@@ -93,27 +93,19 @@
   <link rel="stylesheet" href="/static/css/app.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"
      crossorigin="anonymous"></script>
-  <!-- Structured data (JSON-LD) -->
+	<!-- Structured data (JSON-LD) -->
 	<script type="application/ld+json">
 	{
 	  "@context": "https://schema.org",
 	  "@type": "WebSite",
-	  "name": {{
-		'"Fly TLV — Greek Mainland, Islands & Cyprus Airlines Explorer"'
+	  "name": {{ ("Fly TLV — Greek Mainland, Islands & Cyprus Airlines Explorer" if lang != 'he' else "Fly TLV — טיסות ישירות מנתב״ג ליוון וקפריסין") | tojson }},
+	  "url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
+	  "inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
+	  "description": {{ (
+		"Explore direct flights from Tel Aviv (TLV) to Greek mainland, islands, and Cyprus with airlines, distances, and estimated flight times."
 		if lang != 'he' else
-		'"Fly TLV — טיסות ישירות מנתב״ג ליוון וקפריסין"'
-	  }},
-	  "url": {{
-		'"https://fly-tlv.com/"'
-		if lang != 'he' else
-		'"https://fly-tlv.com/?lang=he"'
-	  }},
-	  "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
-	  "description": {{
-		'"Explore direct flights from Tel Aviv (TLV) to Greek mainland, islands, and Cyprus with airlines, distances, and estimated flight times."'
-		if lang != 'he' else
-		'"גלה את כל הטיסות הישירות מנתב״ג (TLV) ליוון היבשתית, איי יוון וקפריסין: חברות תעופה, מרחקים וזמני טיסה משוערים."'
-	  }}
+		"גלה את כל הטיסות הישירות מנתב״ג (TLV) ליוון היבשתית, איי יוון וקפריסין: חברות תעופה, מרחקים וזמני טיסה משוערים."
+	  ) | tojson }}
 	}
 	</script>
 
@@ -330,7 +322,7 @@
 							  target="_blank"
 							  rel="noopener"
 							  class="airline-chip text-decoration-none"
-							  title="Visit {{ airline_name }} website"
+							  title="Visit {{ airline_name | e }} website"
 							>
 							  {{ airline_name }}
 							  <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.85em;"></i>
@@ -359,9 +351,48 @@
             </div>
           </div>
         </div>
-      </div>
+			<!-- Sponsored Ad Box directly under navbar -->
+<div class="container mt-3">
+  <div class="card shadow-sm" aria-label="Advertisement">
+    <div class="card-header small text-muted fw-semibold">
+      <i class="bi bi-bullseye me-1 text-primary"></i> Sponsored
     </div>
-  </main>
+    <div class="card-body text-center">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-7964221655161384"
+           data-ad-slot="1701231323276552"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+		</div>
+	  </div>
+	</div>
+	<script>
+	  (adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+		  </div>
+		  
+		</div>
+		<!-- Sponsored Ad Box directly under navbar -->
+	<div class="container mt-3">
+	  <div class="card shadow-sm" aria-label="Advertisement">
+		<div class="card-header small text-muted fw-semibold">
+		  <i class="bi bi-bullseye me-1 text-primary"></i> Sponsored
+		</div>
+		<div class="card-body text-center">
+		  <ins class="adsbygoogle"
+			   style="display:block"
+			   data-ad-client="ca-pub-7964221655161384"
+			   data-ad-slot="1701231323299912"
+			   data-ad-format="auto"
+			   data-full-width-responsive="true"></ins>
+		</div>
+	  </div>
+	</div>
+	<script>
+	  (adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+	  </main>
 
   <!-- Map Modal -->
 <div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
