@@ -95,19 +95,58 @@
      crossorigin="anonymous"></script>
 	<!-- Structured data (JSON-LD) -->
 	<script type="application/ld+json">
-	{
-	  "@context": "https://schema.org",
-	  "@type": "WebSite",
-	  "name": {{ ("Fly TLV — Greek Mainland, Islands & Cyprus Airlines Explorer" if lang != 'he' else "Fly TLV — טיסות ישירות מנתב״ג ליוון וקפריסין") | tojson }},
-	  "url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
-	  "inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
-	  "description": {{ (
-		"Explore direct flights from Tel Aviv (TLV) to Greek mainland, islands, and Cyprus with airlines, distances, and estimated flight times."
-		if lang != 'he' else
-		"גלה את כל הטיסות הישירות מנתב״ג (TLV) ליוון היבשתית, איי יוון וקפריסין: חברות תעופה, מרחקים וזמני טיסה משוערים."
-	  ) | tojson }}
-	}
+	[
+	  {
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"name": {{ ("Fly TLV — Greek Mainland, Islands & Cyprus Airlines Explorer" if lang != 'he' else "Fly TLV — טיסות ישירות מנתב״ג ליוון וקפריסין") | tojson }},
+		"url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
+		"inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
+		"description": {{ (
+		  "Explore direct flights from Tel Aviv (TLV) to Greek mainland, islands, and Cyprus with airlines, distances, and estimated flight times."
+		  if lang != 'he' else
+		  "גלה את כל הטיסות הישירות מנתב״ג (TLV) ליוון היבשתית, איי יוון וקפריסין: חברות תעופה, מרחקים וזמני טיסה משוערים."
+		) | tojson }}
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Flights Board" if lang != 'he' else "לוח טיסות") | tojson }},
+		"url": "https://fly-tlv.com/flights"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Flight Map" if lang != 'he' else "מפת טיסות") | tojson }},
+		"url": "https://fly-tlv.com/map"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("About" if lang != 'he' else "עלינו") | tojson }},
+		"url": "https://fly-tlv.com/about"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Privacy Policy" if lang != 'he' else "מדיניות פרטיות") | tojson }},
+		"url": "https://fly-tlv.com/privacy"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Contact" if lang != 'he' else "צור קשר") | tojson }},
+		"url": "https://fly-tlv.com/contact"
+	  },
+	  {
+		"@context": "https://schema.org",
+		"@type": "SiteNavigationElement",
+		"name": {{ ("Sitemap" if lang != 'he' else "מפת אתר") | tojson }},
+		"url": "https://fly-tlv.com/sitemap.xml"
+	  }
+	]
 	</script>
+
 
 </head>
 <body>
