@@ -221,19 +221,21 @@ body.dark-mode .page-title { color: #63b3ed !important; }
     vertical-align: middle;
   }
 }
-
-/* Closed arrow (▶) */
-td.dt-control::before {
-  content: "▶";
-  color: #0d6efd !important;   /* Bootstrap blue */
-  font-size: 1rem;
-  font-weight: bold;
-  display: inline-block;
-  margin-right: .35rem;
+/* Closed state ► */
+td.dtr-control:before {
+  background-image: none !important;   /* remove DataTables default */
+  content: "\25B6" !important;         /* ► unicode */
+  color: #0d6efd !important;           /* Bootstrap blue */
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  display: inline-block !important;
+  margin-right: 6px !important;
+  vertical-align: middle !important;
 }
 
-/* Open arrow (▼) */
-tr.dt-hasChild td.dt-control::before {
-  content: "▼";
+/* Open state ▼ */
+tr.parent td.dtr-control:before {
+  background-image: none !important;
+  content: "\25BC" !important;         /* ▼ unicode */
   color: #0d6efd !important;
 }
