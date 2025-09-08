@@ -1,5 +1,5 @@
 {
-  "date": "2025-09-05",
+  "date": "2025-09-08",
   "airports": [
     {
       "IATA": "LCA",
@@ -10,18 +10,18 @@
       "lat": 34.8751,
       "lon": 33.6249,
       "Airlines": [
-        "North Pacific Airlines",
-        "Continental Express",
-        "Cal Cargo Air Lines",
-        "El Al Israel Airlines",
-        "Arkia Israel Airlines",
-        "Israir",
+        "Travel Service",
         "Cyprus Airways",
-        "Aegean Airlines",
+        "North Pacific Airlines",
+        "Elysian Airlines",
         "Armavia",
         "Blue Air",
-        "Travel Service",
-        "Elysian Airlines"
+        "Israir",
+        "Arkia Israel Airlines",
+        "Continental Express",
+        "Aegean Airlines",
+        "El Al Israel Airlines",
+        "Cal Cargo Air Lines"
       ],
       "Distance_km": 339.7,
       "FlightTime_hr": 0.42
@@ -49,13 +49,13 @@
       "lat": 37.9364,
       "lon": 23.9445,
       "Airlines": [
-        "North Pacific Airlines",
-        "Smartlynx Airlines",
-        "El Al Israel Airlines",
-        "Arkia Israel Airlines",
-        "Israir",
         "Alitalia",
-        "Aegean Airlines"
+        "North Pacific Airlines",
+        "Israir",
+        "Arkia Israel Airlines",
+        "Aegean Airlines",
+        "El Al Israel Airlines",
+        "Smartlynx Airlines"
       ],
       "Distance_km": 1193.9,
       "FlightTime_hr": 1.49
@@ -69,12 +69,12 @@
       "lat": 35.3397,
       "lon": 25.1803,
       "Airlines": [
+        "Black Stallion Airways",
         "North Pacific Airlines",
-        "Air Guinee Express",
-        "El Al Israel Airlines",
-        "Airblue",
         "Aegean Airlines",
-        "Black Stallion Airways"
+        "El Al Israel Airlines",
+        "Air Guinee Express",
+        "Airblue"
       ],
       "Distance_km": 971.0,
       "FlightTime_hr": 1.21
@@ -102,9 +102,9 @@
       "lat": 36.4054,
       "lon": 28.0862,
       "Airlines": [
-        "Airblue",
+        "El Al Israel Airlines",
         "Air Guinee Express",
-        "El Al Israel Airlines"
+        "Airblue"
       ],
       "Distance_km": 793.4,
       "FlightTime_hr": 0.99
@@ -118,8 +118,8 @@
       "lat": 40.5197,
       "lon": 22.9709,
       "Airlines": [
-        "Arkia Israel Airlines",
         "Israir",
+        "Arkia Israel Airlines",
         "Aegean Airlines"
       ],
       "Distance_km": 1424.8,

@@ -297,7 +297,7 @@ def extract_airline_names(route: dict) -> List[str]:
     
     
 def fetch_israel_flights() -> dict:
-    """Fetch gov.il flights, filter Greece & Cyprus, and cache to disk."""    
+    """Fetch gov.il flights (all countries) and cache to disk."""    
     params = {
         "resource_id": RESOURCE_ID,
         "limit": DEFAULT_LIMIT
@@ -309,19 +309,17 @@ def fetch_israel_flights() -> dict:
 
         flights = []
         for rec in data.get("result", {}).get("records", []):
-            country = str(rec.get("CHLOCCT", "")).upper()
-            if "GREECE" in country or "CYPRUS" in country:
-                flights.append({
-                    "airline": rec.get("CHOPERD"),
-                    "iata": rec.get("CHLOC1"),
-                    "airport": rec.get("CHLOC1D"),
-                    "city": rec.get("CHLOC1T"),
-                    "country": rec.get("CHLOCCT"),
-                    "scheduled": rec.get("CHSTOL"),
-                    "actual": rec.get("CHPTOL"),
-                    "direction": rec.get("CHAORD"),
-                    "status": rec.get("CHRMINE")
-                })
+            flights.append({
+                "airline": rec.get("CHOPERD"),
+                "iata": rec.get("CHLOC1"),
+                "airport": rec.get("CHLOC1D"),
+                "city": rec.get("CHLOC1T"),
+                "country": rec.get("CHLOCCT"),
+                "scheduled": rec.get("CHSTOL"),
+                "actual": rec.get("CHPTOL"),
+                "direction": rec.get("CHAORD"),
+                "status": rec.get("CHRMINE")
+            })
 
         result = {
             "updated": datetime.now().isoformat(),
@@ -332,13 +330,12 @@ def fetch_israel_flights() -> dict:
         with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
 
-        logger.info(f"gov.il flights refreshed: {len(flights)} Greece/Cyprus flights cached")
+        logger.info(f"gov.il flights refreshed: {len(flights)} total flights cached")
         return result   # ✅ return dict instead of None
 
     except Exception as e:
         logger.error(f"Failed to fetch gov.il flights: {e}")
         return None     # so your endpoint can check
-
 
 
 def fetch_airlines_from_ae(dest: str) -> set:
