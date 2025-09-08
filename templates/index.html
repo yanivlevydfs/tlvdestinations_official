@@ -16,12 +16,12 @@
     <!-- Robots -->
   <meta name="robots" content="index,follow" />
   <!-- Canonical per variant -->
-  <link rel="canonical" href="https://fly-tlv.com{{ '' if lang != 'he' else '/?lang=he' }}" />
+  <link rel="canonical" href="https://fly-tlv.com{{ '?lang=he' if lang == 'he' else '/' }}">
 
   <!-- Hreflang alternates -->
-  <link rel="alternate" href="https://fly-tlv.com/" hreflang="en" />
-  <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he" />
-  <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default" />
+  <link rel="alternate" href="https://fly-tlv.com/" hreflang="en">
+  <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he">
+  <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -146,8 +146,6 @@
 	  }
 	]
 	</script>
-
-
 </head>
 <body>
   <!-- Top Nav -->

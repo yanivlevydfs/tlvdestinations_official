@@ -12,6 +12,7 @@ from datetime import datetime, date, timedelta
 from typing import Any, Dict, List
 import threading
 from math import radians, sin, cos, sqrt, atan2
+import pycountry
 
 # === Third-Party Libraries ===
 import pandas as pd
@@ -93,8 +94,6 @@ app = FastAPI(title="Flights Explorer (FastAPI)")
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-
-
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
@@ -169,14 +168,35 @@ _region_keywords = {
     "SPORADES":["skiathos","skyros","skopelos"]
 }
 
-def match_region(name: str, city: str, country: str) -> str:
-    if country == "Cyprus":
-        return Regions["CYPRUS"]
-    n, c = (name or "").lower(), (city or "").lower()
-    for key, words in _region_keywords.items():
-        if any(w in n or w in c for w in words):
-            return Regions[key]
-    return "Mainland"
+def match_region(name: str, city: str, country_code: str) -> str:
+    """
+    Map airport country codes to human-readable regions.
+    - Special handling for Greece & Cyprus islands.
+    - Other countries → country name from pycountry.
+    """
+    if not country_code:
+        return "Unknown"
+
+    # Convert 2-letter ISO code → full country name
+    try:
+        country = pycountry.countries.get(alpha_2=country_code.upper()).name
+    except Exception:
+        return country_code  # fallback raw code
+
+    # Special handling: Cyprus
+    if country.lower() == "cyprus":
+        return "Cyprus"
+
+    # Greece: detect islands
+    if country.lower() == "greece":
+        n, c = (name or "").lower(), (city or "").lower()
+        for key, words in _region_keywords.items():
+            if any(w in n or w in c for w in words):
+                return Regions[key]
+        return "Greek Mainland"
+
+    # Default: just return the country
+    return country
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Load airports (GR & CY) once for dataset builds
@@ -618,12 +638,7 @@ def home(
             if isinstance(g, str):
                 govil_airlines.add(g.strip().lower())
 
-        # Merge, deduplicate, title-case
-        #merged = sorted({a.title() for a in ae_airlines.union(govil_airlines)})
         merged = sorted(normalize_airline_list(list(ae_airlines.union(govil_airlines))))
-
-
-
         ap["Airlines"] = merged if merged else ["—"]
 
     logger.info(f"GET /  country={country}  regions={region}  query='{query}'  rows={len(df)}")
