@@ -42,8 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		  "<'row'<'col-12'tr>>" +
 		  "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 		buttons: dtButtonsFor(lang),
-		responsive: { details: { type: 'inline' } },
+
+		// 👇 important for mobile
+		scrollX: true,
+		responsive: false,
 		fixedHeader: true,
+
 		pageLength: 10,
 		lengthMenu: [5,10,25,50],
 		columnDefs: [
@@ -52,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		],
 		language: LANG[lang].dt,
 
-		// 👇 Fix: add id + name to the generated search box
 		initComplete: function () {
 		  $('#airports-table_filter input')
 			.attr('id', 'airports-search')

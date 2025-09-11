@@ -28,13 +28,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from sse_starlette.sse import EventSourceResponse
-from fastapi.responses import HTMLResponse
 from typing import List
-from html import escape
 from logging_setup import setup_logging, get_app_logger
 from fastapi import Depends
 from fastapi.responses import FileResponse
-from pathlib import Path
 # === Local Modules ===
 from sitemap_tool import Url, build_sitemap
 
@@ -952,23 +949,45 @@ async def refresh_israel_flights():
     """Fetch new flights from gov.il and update cache."""
     try:
         result = fetch_israel_flights()
-        return {"status": "ok", "updated": result["updated"], "count": result["count"]}
+        if not result:
+            raise HTTPException(
+                status_code=502,
+                detail="gov.il API did not return data"
+            )
+        return {
+            "status": "ok",
+            "updated": result.get("updated"),
+            "count": result.get("count", 0)
+        }
+    except HTTPException:
+        raise  # re-raise cleanly
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-@app.get("/api/israel-flights")
+@app.get("/api/israel-flights", response_class=JSONResponse)
 async def get_israel_flights():
     """Return cached gov.il flights."""
     if not ISRAEL_FLIGHTS_FILE.exists():
         raise HTTPException(status_code=404, detail="No cached flights available")
-    with open(ISRAEL_FLIGHTS_FILE, encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(ISRAEL_FLIGHTS_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Cached flights file is corrupted")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
         
 @app.on_event("shutdown")
 async def shutdown_event():
-    scheduler.shutdown()
-    logger.info("Scheduler stopped")
+    global scheduler
+    if scheduler:
+        try:
+            scheduler.shutdown()
+            logger.info("Scheduler stopped")
+        except Exception as e:
+            logger.error(f"Error while shutting down scheduler: {e}")
+    else:
+        logger.info("Shutdown event: scheduler was not running")
     
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request, lang: str = Depends(get_lang)):
