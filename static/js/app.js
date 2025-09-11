@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		  "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 		buttons: dtButtonsFor(lang),
 		responsive: { details: { type: 'inline' } },
+		scrollX: false,
 		fixedHeader: true,
 		pageLength: 10,
 		lengthMenu: [5,10,25,50],
