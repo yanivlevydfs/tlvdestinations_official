@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		buttons: dtButtonsFor(lang),
 
 		// 👇 important for mobile
+		responsive: true,
 		scrollX: true,
-		responsive: false,
 		fixedHeader: true,
 
 		pageLength: 10,
