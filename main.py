@@ -1,7 +1,6 @@
 # === Standard Library ===
 import os
 import sys
-import math
 import time
 import json
 import asyncio
@@ -30,7 +29,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from sse_starlette.sse import EventSourceResponse
-from typing import List
 from logging_setup import setup_logging, get_app_logger
 from fastapi import Depends
 from fastapi.responses import FileResponse
@@ -224,37 +222,6 @@ async def fetch_airlines_batch(dest_list: List[str], api_key: str, max_concurren
 # ──────────────────────────────────────────────────────────────────────────────
 PROGRESS: Dict[str, Any] = {"running": False, "total": 0, "done": 0, "date": None}
 PROGRESS_LOCK = threading.Lock()
-
-def match_region(name: str, city: str, country_code: str) -> str:
-    """
-    Map airport country codes to human-readable regions.
-    Uses Regions + RegionKeywords from regions.dat.
-    Falls back gracefully if file missing.
-    """
-    if not country_code:
-        return "Unknown"
-
-    # Convert 2-letter ISO code → full country name
-    try:
-        country = pycountry.countries.get(alpha_2=country_code.upper()).name
-    except Exception:
-        return country_code  # fallback raw code
-
-    # Cyprus
-    if country.lower() == "cyprus":
-        return "Cyprus"
-
-    # Greece: match keywords
-    if country.lower() == "greece":
-        n, c = (name or "").lower(), (city or "").lower()
-        if RegionKeywords:
-            for key, words in RegionKeywords.items():
-                if any(w in n or w in c for w in words):
-                    return Regions.get(key, key)
-        return "Greek Mainland"
-
-    # Default: return country name
-    return country
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Load airports (GR & CY) once for dataset builds
@@ -760,7 +727,7 @@ def home(
                 "Country": normalize_case(meta["Country"]),
                 "lat": lat,
                 "lon": lon,
-                "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
+                "Airlines": normalize_airline_list(list(meta["Airlines"])),
                 "Distance_km": dist_km,
                 "FlightTime_hr": flight_time_hr,
             })
@@ -783,33 +750,91 @@ def home(
         },
     )
 
-
+def safe_js(text: str) -> str:
+    """Escape backticks, quotes and newlines for safe JS embedding"""
+    if text is None:
+        return ""
+    return (
+        str(text)
+        .replace("\\", "\\\\")
+        .replace("`", "\\`")   # ✅ escape backticks
+        .replace('"', '\\"')   # escape double quotes
+        .replace("'", "\\'")   # escape single quotes
+        .replace("\n", " ")
+        .replace("\r", "")
+    )
 
 @app.get("/map", response_class=HTMLResponse)
 def map_view(
     country: str = "All",
     query: str = "",
-    region: List[str] = Query(default=[])
 ):
     # DO NOT trigger refresh here; just use cached data
     df = get_dataset(trigger_refresh=False).copy()
+    airports = df.to_dict(orient="records")
+
+    # --- Merge gov.il-only destinations ---
+    if ISRAEL_FLIGHTS_FILE.exists():
+        try:
+            govil_json = json.load(open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8"))
+            govil_flights = govil_json.get("flights", [])
+        except Exception as e:
+            logger.error(f"Failed to read gov.il flights: {e}")
+            govil_flights = []
+
+        iata_db = airportsdata.load("IATA")
+        existing_iatas = {ap["IATA"] for ap in airports}
+        grouped: dict[str, dict] = {}
+
+        for rec in govil_flights:
+            iata = rec.get("iata")
+            if not iata or iata in existing_iatas:
+                continue
+
+            if iata not in grouped:
+                grouped[iata] = {
+                    "Name": rec.get("airport") or "—",
+                    "City": rec.get("city") or "—",
+                    "Country": rec.get("country") or "—",
+                    "Airlines": set(),
+                }
+            if rec.get("airline"):
+                grouped[iata]["Airlines"].add(rec["airline"])
+
+        for iata, meta in grouped.items():
+            lat = lon = None
+            dist_km = flight_time_hr = "—"
+            if iata in iata_db:
+                lat, lon = iata_db[iata]["lat"], iata_db[iata]["lon"]
+                if lat and lon:
+                    dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
+                    flight_time_hr = round(dist_km / 800, 2)
+
+            airports.append({
+                "IATA": iata,
+                "Name": meta["Name"].title(),
+                "City": meta["City"].title(),
+                "Country": meta["Country"].title(),
+                "lat": lat,
+                "lon": lon,
+                "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
+                "Distance_km": dist_km,
+                "FlightTime_hr": flight_time_hr,
+            })
 
     # ---- Apply filters ----
     if country and country != "All":
-        df = df[df["Country"].str.lower() == country.lower()]
-    if region:
-        df = df[df["Region"].isin(region)]
+        airports = [ap for ap in airports if ap["Country"].lower() == country.lower()]
     if query:
         q = query.strip().lower()
         if q:
-            df = df[df.apply(
-                lambda r: q in str(r["IATA"]).lower()
-                or q in str(r["Name"]).lower()
-                or q in str(r["City"]).lower()
-                or q in str(r["Country"]).lower()
-                or q in str(r["Region"]).lower(),
-                axis=1
-            )]
+            airports = [
+                ap for ap in airports
+                if q in str(ap["IATA"]).lower()
+                or q in str(ap["Name"]).lower()
+                or q in str(ap["City"]).lower()
+                or q in str(ap["Country"]).lower()
+            ]
 
     # ---- Base map ----
     m = folium.Map(
@@ -834,23 +859,25 @@ def map_view(
 
     bounds = [[TLV["lat"], TLV["lon"]]]
 
-    # ---- Add destinations ----
-    for _, row in df.iterrows():
-        if pd.isna(row["lat"]) or pd.isna(row["lon"]):
+    for ap in airports:
+        if not ap.get("lat") or not ap.get("lon"):
+            logger.warning(f"Missing coords for {ap['IATA']} ({ap['City']}, {ap['Country']})")
+            # fallback: skip marker but keep them in airports list
             continue
 
-        km = haversine_km(TLV["lat"], TLV["lon"], row["lat"], row["lon"])
+        # ✅ this must be OUTSIDE the "if missing" block
+        logger.info(f"Placing {len([ap for ap in airports if ap.get('lat') and ap.get('lon')])} markers on map")
+        km = haversine_km(TLV["lat"], TLV["lon"], ap["lat"], ap["lon"])
         flight_time_hr = round(km / 800, 1) if km else "—"  # avg ~800 km/h
 
-        flights_url    = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{row['IATA']}"
-        skyscanner_url = f"https://www.skyscanner.net/transport/flights/tlv/{str(row['IATA']).lower()}/"
-        gmaps_url      = f"https://maps.google.com/?q={row['City'].replace(' ','+')},{row['Country'].replace(' ','+')}"
-
-        # Copy-to-clipboard JS
-        copy_js = f"navigator.clipboard && navigator.clipboard.writeText('{escape(str(row['IATA']))}')"
+        flight_time_hr = round(km / 800, 1) if km else "—"
+        flights_url    = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{ap['IATA']}"
+        skyscanner_url = f"https://www.skyscanner.net/transport/flights/tlv/{ap['IATA'].lower()}/"
+        gmaps_url      = f"https://maps.google.com/?q={ap['City'].replace(' ','+')},{ap['Country'].replace(' ','+')}"
+        copy_js = f"navigator.clipboard && navigator.clipboard.writeText('{safe_js(ap['IATA'])}')"
 
         # ---- Airlines as clickable chips ----
-        airlines_val = row.get("Airlines", "—")
+        airlines_val = ap.get("Airlines", "—")
 
         if isinstance(airlines_val, (list, tuple)):
             airlines_val = ",".join(map(str, airlines_val))
@@ -909,8 +936,8 @@ def map_view(
         # ---- Popup HTML ----
         popup_html = f"""
             <div style='font-family:system-ui;min-width:250px;max-width:300px'>
-                <div style='font-weight:600;font-size:15px'>{escape(str(row['Name']))} ({escape(str(row['IATA']))})</div>
-                <div style='color:#6b7280;font-size:12px;margin-top:2px'>{escape(str(row['City']))} · {escape(str(row['Country']))}</div>
+                <div style='font-weight:600;font-size:15px'>{escape(str(ap['Name']))} ({escape(str(ap['IATA']))})</div>
+                <div style='color:#6b7280;font-size:12px;margin-top:2px'>{escape(str(ap['City']))} · {escape(str(ap['Country']))}</div>
                 <div style='margin-top:6px;font-size:13px'>Distance: <b>{km} km</b></div>
                 <div style='margin-top:2px;font-size:13px'>Flight time: <b>{flight_time_hr} hr</b></div>
                 {airline_html}
@@ -924,18 +951,18 @@ def map_view(
         """
 
         folium.Marker(
-            [row["lat"], row["lon"]],
-            tooltip=f"{row['Name']} ({row['IATA']})",
+            [ap["lat"], ap["lon"]],
+            tooltip=f"{safe_js(ap['Name'])} ({safe_js(ap['IATA'])})",            
             popup=folium.Popup(popup_html, max_width=360),
             icon=folium.Icon(color="red", icon="plane", prefix="fa"),
         ).add_to(cluster)
 
         folium.PolyLine(
-            [(TLV["lat"], TLV["lon"]), (row["lat"], row["lon"])],
+            [(TLV["lat"], TLV["lon"]), (ap["lat"], ap["lon"])],
             color="#9CA3AF", weight=0.8, opacity=0.9, dash_array="8,10"
         ).add_to(m)
 
-        bounds.append([row["lat"], row["lon"]])
+        bounds.append([ap["lat"], ap["lon"]])
 
     # ---- Fit map to bounds ----
     if len(bounds) > 1:
@@ -944,7 +971,7 @@ def map_view(
         except Exception:
             pass
 
-    logger.info(f"GET /map country={country} regions={region} query='{query}' rows={len(df)}")
+    logger.info(f"GET /map country={country} query='{query}' rows={len(airports)}")
 
     bounds_js = json.dumps(bounds)
     html = m.get_root().render()
