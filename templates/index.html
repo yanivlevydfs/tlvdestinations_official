@@ -216,37 +216,18 @@
                 Search & Filter
               </div>
               <div class="card-body">
-                <div class="mb-3">
-                  <label for="country-filter" class="form-label" id="lbl-country">Country</label>
-                  <select id="country-filter" class="form-select">
-                    <option value="All">All</option>
-                    <option value="Greece">Greece</option>
-                    <option value="Cyprus">Cyprus</option>
-                  </select>
-                </div>
+				 <div class="mb-3">
+				  <label for="country-filter" class="form-label" id="lbl-country">Country</label>
+				  <select id="country-filter" class="form-select">
+					{% for c in countries %}
+					  <option value="{{ c }}">{{ c }}</option>
+					{% endfor %}
+				  </select>
+				</div>
                 <div class="mb-3 mt-3">
                   <label for="query-filter"class="form-label" id="lbl-search">Search</label>
-                  <input type="text" id="query-filter" class="form-control" placeholder="Search airport, city, country, region…">
+                  <input type="text" id="query-filter" class="form-control" placeholder="Search airport, city, country">
                 </div>
-
-				<div class="mb-2">
-				  <fieldset>
-					<!-- ✅ legend instead of plain label -->
-					<legend id="lbl-regions" class="form-label">Regions</legend>
-					<div class="d-flex flex-wrap gap-2">
-					  {% for r in all_regions %}
-						<div class="form-check">
-						  <input class="form-check-input region-filter"
-								 type="checkbox"
-								 value="{{r}}"
-								 id="r-{{ loop.index }}">
-						  <label class="form-check-label chip"
-								 for="r-{{ loop.index }}">{{r}}</label>
-						</div>
-					  {% endfor %}
-					</div>
-				  </fieldset>
-				</div>
 
                 <div class="border-top pt-3 mt-3 d-flex gap-2">
                   <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
@@ -339,7 +320,6 @@
                   <th>Name</th>
                   <th>City</th>
                   <th>Country</th>
-                  <th>Region</th>
                   <th>Airlines</th>
                   <th>Distance</th>
                   <th>Flight Time</th>
@@ -352,7 +332,6 @@
                   <td>{{ ap.Name }}</td>
                   <td>{{ ap.City }}</td>
                   <td>{{ ap.Country }}</td>
-                  <td>{{ ap.Region }}</td>
 					 <td class="airline-cell">
 					  {% if ap.Airlines and ap.Airlines[0] != "—" %}
 						{% for airline in ap.Airlines %}

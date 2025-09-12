@@ -145,6 +145,14 @@ def _is_dataset_fresh_today() -> tuple[bool, str | None]:
 def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
 
+def get_all_countries() -> list[str]:
+    """Return all countries with All, Greece, Cyprus first, rest alphabetically."""
+    all_countries = sorted([c.name for c in pycountry.countries])
+    
+    # Ensure Greece and Cyprus appear only once
+    rest = [c for c in all_countries if c not in {"Greece", "Cyprus"}]
+    
+    return ["All", "Greece", "Cyprus"] + rest
 # ───────────────────────────────────────────────
 # Async Aviation Edge fetchers (parallel with throttle)
 # ───────────────────────────────────────────────
@@ -217,28 +225,11 @@ async def fetch_airlines_batch(dest_list: List[str], api_key: str, max_concurren
 PROGRESS: Dict[str, Any] = {"running": False, "total": 0, "done": 0, "date": None}
 PROGRESS_LOCK = threading.Lock()
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Reference data
-# ──────────────────────────────────────────────────────────────────────────────
-Regions = {
-    "CYPRUS":"Cyprus","CRETE":"Crete","DODECANESE":"Dodecanese","CYCLADES":"Cyclades",
-    "IONIAN":"Ionian","NORTH_AEGEAN":"North Aegean","SPORADES":"Sporades"
-}
-_region_keywords = {
-    "CYPRUS":["cyprus","larnaca","paphos"],
-    "CRETE":["crete","heraklion","chani","sitia"],
-    "DODECANESE":["rhodes","kos","karpathos","leros"],
-    "CYCLADES":["mykonos","santorini","naxos","paros"],
-    "IONIAN":["corfu","kefalonia","zakynthos","kythira"],
-    "NORTH_AEGEAN":["samos","chios","lesbos","ikaria"],
-    "SPORADES":["skiathos","skyros","skopelos"]
-}
-
 def match_region(name: str, city: str, country_code: str) -> str:
     """
     Map airport country codes to human-readable regions.
-    - Special handling for Greece & Cyprus islands.
-    - Other countries → country name from pycountry.
+    Uses Regions + RegionKeywords from regions.dat.
+    Falls back gracefully if file missing.
     """
     if not country_code:
         return "Unknown"
@@ -249,19 +240,20 @@ def match_region(name: str, city: str, country_code: str) -> str:
     except Exception:
         return country_code  # fallback raw code
 
-    # Special handling: Cyprus
+    # Cyprus
     if country.lower() == "cyprus":
         return "Cyprus"
 
-    # Greece: detect islands
+    # Greece: match keywords
     if country.lower() == "greece":
         n, c = (name or "").lower(), (city or "").lower()
-        for key, words in _region_keywords.items():
-            if any(w in n or w in c for w in words):
-                return Regions[key]
+        if RegionKeywords:
+            for key, words in RegionKeywords.items():
+                if any(w in n or w in c for w in words):
+                    return Regions.get(key, key)
         return "Greek Mainland"
 
-    # Default: just return the country
+    # Default: return country name
     return country
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -296,7 +288,6 @@ def load_airports_gr_cy() -> pd.DataFrame:
             "Country": country,
             "lat": lat,
             "lon": lon,
-            "Region": match_region(name, city, country),
             "Distance_km": dist_km,
             "FlightTime_hr": flight_time_hr,
         })
@@ -674,18 +665,15 @@ def load_airline_websites() -> dict:
 def home(
     request: Request,
     country: str = "All",
-    query: str = "",
-    region: List[str] = Query(default=[]),
+    query: str = "",    
     lang: str = Depends(get_lang), 
 ):
-    # DO NOT trigger refresh here; just use cached data
+    # --- Step 1: Load dataset (Greek & Cyprus airports) ---
     df = get_dataset(trigger_refresh=False).copy()
 
-    # Filters (local only)
+    # Apply filters (local only)
     if country and country != "All":
         df = df[df["Country"].str.lower() == country.lower()]
-    if region:
-        df = df[df["Region"].isin(region)]
     if query:
         q = query.strip().lower()
         if q:
@@ -695,7 +683,7 @@ def home(
                                   or q in str(r["Country"]).lower()
                                   or q in str(r["Region"]).lower(), axis=1)]
 
-    # --- Merge Aviation Edge airlines with gov.il flights ---
+    # --- Step 2: Merge AE airlines with gov.il flights ---
     govil_map = load_israel_flights_map()
     airports = df.to_dict(orient="records")
 
@@ -719,7 +707,68 @@ def home(
         merged = sorted(normalize_airline_list(list(ae_airlines.union(govil_airlines))))
         ap["Airlines"] = merged if merged else ["—"]
 
-    logger.info(f"GET /  country={country}  regions={region}  query='{query}'  rows={len(df)}")
+    # --- Step 3: Add missing gov.il-only destinations (group + merge) ---
+    if ISRAEL_FLIGHTS_FILE.exists():
+        try:
+            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
+                govil_json = json.load(f)
+                govil_flights = govil_json.get("flights", [])
+        except Exception as e:
+            logger.error(f"Failed to read gov.il flights: {e}")
+            govil_flights = []
+
+        iata_db = airportsdata.load("IATA")
+        existing_iatas = {ap["IATA"] for ap in airports}
+
+        grouped: dict[str, dict] = {}
+        for rec in govil_flights:
+            iata = rec.get("iata")
+            if not iata or iata in existing_iatas:
+                continue
+
+            if iata not in grouped:
+                grouped[iata] = {
+                    "Name": rec.get("airport") or "—",
+                    "City": rec.get("city") or "—",
+                    "Country": rec.get("country") or "—",
+                    "Airlines": set(),
+                }
+
+            airline = rec.get("airline")
+            if airline:
+                grouped[iata]["Airlines"].add(airline)
+
+        def normalize_case(value: str) -> str:
+            if not value or value == "—":
+                return value or "—"
+            return value.capitalize()            
+         
+        for iata, meta in grouped.items():
+            lat = lon = None
+            dist_km = flight_time_hr = "—"
+
+            if iata in iata_db:
+                lat, lon = iata_db[iata]["lat"], iata_db[iata]["lon"]
+                if lat is not None and lon is not None:
+                    dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
+                    flight_time_hr = round(dist_km / 800, 2)
+
+            airports.append({
+                "IATA": iata,
+                "Name": normalize_case(meta["Name"]),
+                "City": normalize_case(meta["City"]),
+                "Country": normalize_case(meta["Country"]),
+                "lat": lat,
+                "lon": lon,
+                "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
+                "Distance_km": dist_km,
+                "FlightTime_hr": flight_time_hr,
+            })
+
+    # --- Step 4: Render template ---
+    countries = get_all_countries()
+    logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
+
     return TEMPLATES.TemplateResponse(
         "index.html",
         {
@@ -727,13 +776,14 @@ def home(
             "lang": lang,
             "now": datetime.now(), 
             "airports": airports,
-            "all_regions": list(Regions.values()),
+            "countries": countries, 
             "country": country,
             "query": query,
-            "regions": region,
             "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
         },
     )
+
+
 
 @app.get("/map", response_class=HTMLResponse)
 def map_view(

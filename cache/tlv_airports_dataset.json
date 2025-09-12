@@ -10,18 +10,18 @@
       "lat": 34.8751,
       "lon": 33.6249,
       "Airlines": [
-        "North Pacific Airlines",
         "Blue Air",
-        "Israir",
-        "Arkia Israel Airlines",
-        "Cal Cargo Air Lines",
-        "Cyprus Airways",
-        "Elysian Airlines",
-        "El Al Israel Airlines",
-        "Aegean Airlines",
         "Armavia",
+        "Cyprus Airways",
+        "Aegean Airlines",
+        "El Al Israel Airlines",
+        "North Pacific Airlines",
         "Travel Service",
-        "Continental Express"
+        "Elysian Airlines",
+        "Arkia Israel Airlines",
+        "Israir",
+        "Continental Express",
+        "Cal Cargo Air Lines"
       ],
       "Distance_km": 339.7,
       "FlightTime_hr": 0.42
@@ -49,13 +49,13 @@
       "lat": 37.9364,
       "lon": 23.9445,
       "Airlines": [
-        "North Pacific Airlines",
-        "Israir",
-        "Alitalia",
-        "Arkia Israel Airlines",
         "El Al Israel Airlines",
         "Aegean Airlines",
-        "Smartlynx Airlines"
+        "North Pacific Airlines",
+        "Smartlynx Airlines",
+        "Alitalia",
+        "Arkia Israel Airlines",
+        "Israir"
       ],
       "Distance_km": 1193.9,
       "FlightTime_hr": 1.49
@@ -69,12 +69,12 @@
       "lat": 35.3397,
       "lon": 25.1803,
       "Airlines": [
-        "North Pacific Airlines",
         "Airblue",
         "Air Guinee Express",
-        "Black Stallion Airways",
         "El Al Israel Airlines",
-        "Aegean Airlines"
+        "Aegean Airlines",
+        "North Pacific Airlines",
+        "Black Stallion Airways"
       ],
       "Distance_km": 971.0,
       "FlightTime_hr": 1.21
@@ -102,9 +102,9 @@
       "lat": 36.4054,
       "lon": 28.0862,
       "Airlines": [
-        "Air Guinee Express",
         "Airblue",
-        "El Al Israel Airlines"
+        "El Al Israel Airlines",
+        "Air Guinee Express"
       ],
       "Distance_km": 793.4,
       "FlightTime_hr": 0.99
@@ -119,8 +119,8 @@
       "lon": 22.9709,
       "Airlines": [
         "Aegean Airlines",
-        "Israir",
-        "Arkia Israel Airlines"
+        "Arkia Israel Airlines",
+        "Israir"
       ],
       "Distance_km": 1424.8,
       "FlightTime_hr": 1.78

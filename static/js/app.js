@@ -46,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		scrollX: false,
 		fixedHeader: true,
 		pageLength: 10,
-		lengthMenu: [5,10,25,50],
+		lengthMenu: [5, 10, 25, 50],
 		columnDefs: [
-		  { targets: [0,3,4,6,7], className: 'text-nowrap' },
+		  { targets: [0,2,3,4,5,6], className: 'text-nowrap' },
 		  { targets: 5, responsivePriority: 10001 },
 		],
 		language: LANG[lang].dt,
@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	  });
 	}
+
 
   // ---------- Helpers ----------
   const overlay       = document.getElementById('loadingOverlay');
@@ -86,18 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function escapeRegex(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
-  function updateActiveFilters(dict) {
-    const lbl = document.getElementById('active-filters');
-    const country = document.getElementById('country-filter').value;
-    const q = document.getElementById('query-filter').value.trim();
-    const regions = Array.from(document.querySelectorAll('.region-filter:checked')).map(x=>x.value);
-    const parts = [];
-    if (country && country !== 'All') parts.push(`${dict.country}: ${country}`);
-    if (q) parts.push(`${dict.search}: "${q}"`);
-    if (regions.length) parts.push(`${dict.regions}: ${regions.join(', ')}`);
-    lbl.textContent = parts.length ? parts.join(' • ') : dict.noFilters;
-  }
+	function updateActiveFilters(dict) {
+	  const lbl = document.getElementById('active-filters');
+	  const country = document.getElementById('country-filter').value;
+	  const q = document.getElementById('query-filter').value.trim();
 
+	  const parts = [];
+	  if (country && country !== 'All') {
+		parts.push(`${dict.country}: ${country}`);
+	  }
+	  if (q) {
+		parts.push(`${dict.search}: "${q}"`);
+	  }
+
+	  lbl.textContent = parts.length ? parts.join(' • ') : dict.noFilters;
+	}
   // ---------- SSE Progress ----------
   function updateProgress(p, dict) {
     if (!p) return;
@@ -160,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('filters-header').textContent = d.filtersHeader;
     document.getElementById('lbl-country').textContent = d.country;
     document.getElementById('lbl-search').textContent  = d.search;
-    document.getElementById('lbl-regions').textContent = d.regions;
     document.getElementById('clear-filters').innerHTML = `<i class="bi bi-x-circle me-1"></i> ${d.clear}`;
     document.getElementById('active-filters').textContent = d.noFilters;
     document.getElementById('main-title').textContent = d.tableTitle;
@@ -172,14 +175,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Table headers
     const ths = document.querySelectorAll("#airports-table thead th");
-    const headVals = [d.table?.iata || "IATA", d.table?.name || "Name", d.table?.city || "City", d.table?.country || "Country", d.table?.region || "Region", d.table?.airlines || "Airlines", d.table?.distance || "Distance", d.table?.flightTime || "Flight Time"];
+	const headVals = [
+	  d.table?.iata      || "IATA",
+	  d.table?.name      || "Name",
+	  d.table?.city      || "City",
+	  d.table?.country   || "Country",
+	  d.table?.airlines  || "Airlines",
+	  d.table?.distance  || "Distance",
+	  d.table?.flightTime|| "Flight Time"
+	];
     headVals.forEach((t,i)=>ths[i] && (ths[i].textContent = t));
 
     // Re-Init DataTable with language (preserve filters/search)
     if (reinitDT) {
       const prevSearch = $('#query-filter').val();
       const prevCountry = $('#country-filter').val();
-      const regions = Array.from(document.querySelectorAll('.region-filter:checked')).map(x=>x.value);
 
       if (table) table.destroy();
       table = initDataTable(lang);
@@ -190,10 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (prevCountry && prevCountry !== 'All') {
         table.column(3).search(escapeRegex(prevCountry), true, false).draw();
-      }
-      if (regions.length) {
-        const regex = regions.map(escapeRegex).join('|');
-        table.column(4).search(regex, true, false).draw();
       }
     }
 
@@ -253,17 +259,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 250);
   });
 
-  $('.region-filter').on('change', function() {
-    const regions = $('.region-filter:checked').map(function(){ return escapeRegex(this.value); }).get();
-    const regex = regions.length ? regions.join('|') : '';
-    table.column(4).search(regex, true, false).draw();
-    updateActiveFilters(LANG[currentLang]);
-  });
-
-  document.getElementById('clear-filters').addEventListener('click', () => {
+ document.getElementById('clear-filters').addEventListener('click', () => {
     $('#country-filter').val('All').trigger('change');
     $('#query-filter').val('').trigger('input');
-    $('.region-filter').prop('checked', false).trigger('change');
   });
 
   updateActiveFilters(LANG[currentLang]);
