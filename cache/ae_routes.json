@@ -1,4 +1,5 @@
 {
+  "ECN": [],
   "LCA": [
     "Aegean Airlines",
     "Arkia Israel Airlines",
@@ -16,6 +17,11 @@
   "PFO": [
     "Armavia"
   ],
+  "AKT": [],
+  "PYR": [],
+  "AGQ": [],
+  "AXD": [],
+  "HEW": [],
   "ATH": [
     "Aegean Airlines",
     "Alitalia",
@@ -25,6 +31,11 @@
     "North Pacific Airlines",
     "Smartlynx Airlines"
   ],
+  "VOL": [],
+  "JKH": [],
+  "PKH": [],
+  "JIK": [],
+  "IOA": [],
   "HER": [
     "Aegean Airlines",
     "Air Guinee Express",
@@ -33,17 +44,48 @@
     "El Al Israel Airlines",
     "North Pacific Airlines"
   ],
+  "KSO": [],
+  "KIT": [],
+  "EFL": [],
+  "KZS": [],
+  "KLX": [],
   "KGS": [
     "Black Stallion Airways"
   ],
+  "AOK": [],
+  "CFU": [],
+  "KSJ": [],
+  "KVA": [],
+  "JKL": [],
+  "KZI": [],
+  "LRS": [],
+  "LXS": [],
+  "LRA": [],
+  "JMK": [],
+  "MLO": [],
+  "MJT": [],
+  "JNX": [],
+  "PAS": [],
+  "JTY": [],
+  "PVK": [],
   "RHO": [
     "Air Guinee Express",
     "Airblue",
     "El Al Israel Airlines"
   ],
+  "GPA": [],
+  "CHQ": [],
+  "JSI": [],
+  "SMI": [],
+  "JSY": [],
+  "SPJ": [],
+  "JTR": [],
+  "JSH": [],
+  "SKU": [],
   "SKG": [
     "Aegean Airlines",
     "Arkia Israel Airlines",
     "Israir"
-  ]
+  ],
+  "ZTH": []
 }

@@ -19,3 +19,5 @@ starlette
 # === Optional (לוגים צבעוניים) ===
 colorlog
 pycountry
+asyncio
+aiohttp

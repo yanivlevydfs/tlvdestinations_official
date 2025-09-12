@@ -13,6 +13,8 @@ from typing import Any, Dict, List
 import threading
 from math import radians, sin, cos, sqrt, atan2
 import pycountry
+import asyncio
+import aiohttp
 
 # === Third-Party Libraries ===
 import pandas as pd
@@ -142,6 +144,73 @@ def _is_dataset_fresh_today() -> tuple[bool, str | None]:
 
 def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
+
+# ───────────────────────────────────────────────
+# Async Aviation Edge fetchers (parallel with throttle)
+# ───────────────────────────────────────────────
+
+async def _fetch(session: aiohttp.ClientSession, params: dict, retries: int = 1) -> list:
+    """Async GET with retries. Returns JSON list or [] on failure."""
+    for attempt in range(retries + 1):
+        try:
+            async with session.get(AE_BASE, params=params, timeout=15) as r:
+                if r.status == 200:
+                    try:
+                        return await r.json()
+                    except Exception as e:
+                        logger.error(f"[ERROR] JSON decode failed: {e}")
+                        return []
+                else:
+                    text = await r.text()
+                    logger.warning(f"[WARN] AE status {r.status} for {params} | {text[:100]}")
+        except Exception as e:
+            logger.error(f"[ERROR] AE exception for {params}: {e}")
+        if attempt < retries:
+            logger.info(f"[INFO] Retrying AE call ({attempt+1}/{retries}) for {params}")
+            await asyncio.sleep(1.0)
+    return []
+
+
+async def fetch_airlines_one_dest(dest: str, api_key: str, session: aiohttp.ClientSession, sem: asyncio.Semaphore) -> set[str]:
+    """Fetch TLV↔dest airlines with semaphore concurrency control."""
+    airlines: set[str] = set()
+    params_list = [
+        {"departureIata": "TLV", "arrivalIata": dest, "key": api_key},
+        {"departureIata": dest, "arrivalIata": "TLV", "key": api_key},
+    ]
+
+    async def _task(params):
+        async with sem:
+            data = await _fetch(session, params)
+            if isinstance(data, list):
+                for it in data:
+                    if isinstance(it, dict) and (
+                        it.get("departureIata") == "TLV" or it.get("arrivalIata") == "TLV"
+                    ):
+                        airlines.update(extract_airline_names(it))
+            elif isinstance(data, dict) and data.get("error") == "No Record Found":
+                logger.info(f"[INFO] AE {params['departureIata']}->{params['arrivalIata']}: no routes found")
+
+    await asyncio.gather(*[_task(p) for p in params_list])
+    return airlines
+
+
+async def fetch_airlines_batch(dest_list: List[str], api_key: str, max_concurrent: int = 5) -> Dict[str, set[str]]:
+    """
+    Fetch airlines for multiple destinations in parallel.
+    - max_concurrent limits in-flight requests (avoid rate limit).
+    - Returns dict {IATA: set(airlines)}.
+    """
+    results: Dict[str, set[str]] = {}
+    sem = asyncio.Semaphore(max_concurrent)
+
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_airlines_one_dest(dest, api_key, session, sem) for dest in dest_list]
+        results_list = await asyncio.gather(*tasks)
+
+    for dest, airlines in zip(dest_list, results_list):
+        results[dest] = airlines
+    return results
 # ──────────────────────────────────────────────────────────────────────────────
 # Progress tracker for refresh
 # ──────────────────────────────────────────────────────────────────────────────
@@ -501,7 +570,7 @@ def load_israel_flights_map():
     return mapping
     
 def build_daily_dataset():
-    logger.info("Building daily dataset...")
+    logger.info("Building daily dataset (async batch)...")
     with PROGRESS_LOCK:
         if PROGRESS["running"]:
             logger.info("Build request ignored; already running.")
@@ -513,12 +582,23 @@ def build_daily_dataset():
             "date": datetime.now().strftime("%Y-%m-%d"),
         })
 
+    dest_list = AIRPORTS["IATA"].tolist()
+
+    # Run asyncio batch fetcher
+    try:
+        airlines_map = asyncio.run(fetch_airlines_batch(dest_list, AE_API_KEY, max_concurrent=5))
+    except Exception as e:
+        logger.error(f"Async batch fetch failed, falling back to sequential: {e}")
+        airlines_map = {iata: get_airlines_for(iata) for iata in dest_list}
+
     rows = []
     for _, r in AIRPORTS.iterrows():
         iata = r["IATA"]
-        airlines = get_airlines_for(iata)
+        airlines = airlines_map.get(iata, set())
         with PROGRESS_LOCK:
             PROGRESS["done"] += 1
+
+        save_airlines_for(iata, airlines)
         if not airlines:
             continue
         rows.append({
@@ -550,7 +630,8 @@ def build_daily_dataset():
 
     with PROGRESS_LOCK:
         PROGRESS["running"] = False
-    logger.info("Dataset build completed.")
+    logger.info("Dataset build completed (async batch).")
+
 
 def start_refresh_thread():
     t = threading.Thread(target=build_daily_dataset, daemon=True)
