@@ -14,6 +14,7 @@ from math import radians, sin, cos, sqrt, atan2
 import pycountry
 import asyncio
 import aiohttp
+import re
 
 # === Third-Party Libraries ===
 import pandas as pd
@@ -151,6 +152,21 @@ def get_all_countries() -> list[str]:
     rest = [c for c in all_countries if c not in {"Greece", "Cyprus"}]
     
     return ["All", "Greece", "Cyprus"] + rest
+    
+def safe_js(text: str) -> str:
+    """Escape backticks, quotes and newlines for safe JS embedding"""
+    if text is None:
+        return ""
+    return (
+        str(text)
+        .replace("\\", "\\\\")
+        .replace("`", "\\`")   # ✅ escape backticks
+        .replace('"', '\\"')   # escape double quotes
+        .replace("'", "\\'")   # escape single quotes
+        .replace("\n", " ")
+        .replace("\r", "")
+    )
+    
 # ───────────────────────────────────────────────
 # Async Aviation Edge fetchers (parallel with throttle)
 # ───────────────────────────────────────────────
@@ -749,21 +765,6 @@ def home(
             "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
         },
     )
-
-def safe_js(text: str) -> str:
-    """Escape backticks, quotes and newlines for safe JS embedding"""
-    if text is None:
-        return ""
-    return (
-        str(text)
-        .replace("\\", "\\\\")
-        .replace("`", "\\`")   # ✅ escape backticks
-        .replace('"', '\\"')   # escape double quotes
-        .replace("'", "\\'")   # escape single quotes
-        .replace("\n", " ")
-        .replace("\r", "")
-    )
-
 @app.get("/map", response_class=HTMLResponse)
 def map_view(
     country: str = "All",
