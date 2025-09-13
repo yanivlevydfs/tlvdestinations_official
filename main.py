@@ -867,7 +867,7 @@ def map_view(
             continue
 
         # ✅ this must be OUTSIDE the "if missing" block
-        logger.info(f"Placing {len([ap for ap in airports if ap.get('lat') and ap.get('lon')])} markers on map")
+        #logger.info(f"Placing {len([ap for ap in airports if ap.get('lat') and ap.get('lon')])} markers on map")
         km = haversine_km(TLV["lat"], TLV["lon"], ap["lat"], ap["lon"])
         flight_time_hr = round(km / 800, 1) if km else "—"  # avg ~800 km/h
 

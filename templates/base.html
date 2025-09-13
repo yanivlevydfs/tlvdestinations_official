@@ -4,30 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title | default("Flights Explorer — TLV Destinations") }}</title>
+
+  <!-- ✅ Title -->
+  <title>{{ title | default("Flights Explorer — All TLV Destinations Worldwide") }}</title>
 
   <!-- ✅ SEO -->
-  <meta name="description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide with schedules, maps, and travel data.') }}">
-  <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, schedules, travel">
+  <meta name="description" content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
+  <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel">
 
   <!-- ✅ Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ title | default('Flights Explorer — TLV Destinations') }}">
-  <meta property="og:description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide.') }}">
+  <meta property="og:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}">
+  <meta property="og:description" content="{{ description | default('Discover all direct destinations from Tel Aviv (TLV) across the globe with maps, airlines, and travel details.') }}">
   <meta property="og:url" content="https://fly-tlv.com/">
-  <meta property="og:image" content="https://fly-tlv.com/static/preview.png">
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}">
 
   <!-- ✅ Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ title | default('Flights Explorer — TLV Destinations') }}">
-  <meta name="twitter:description" content="{{ description | default('Explore flights from Tel Aviv to destinations worldwide.') }}">
-  <meta name="twitter:image" content="https://fly-tlv.com/static/preview.png">
+  <meta name="twitter:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}">
+  <meta name="twitter:description" content="{{ description | default('Direct worldwide destinations from Tel Aviv (TLV) with airlines, maps, and travel insights.') }}">
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg">
+  <meta name="twitter:image:alt" content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}">
 
-  <!-- ✅ Google verification & ads -->
+  <!-- ✅ Robots -->
+  <meta name="robots" content="index,follow">
+
+  <!-- ✅ Canonical -->
+  <link rel="canonical" href="https://fly-tlv.com{{ '?lang=he' if lang == 'he' else '/' }}">
+
+  <!-- ✅ Hreflang -->
+  <link rel="alternate" href="https://fly-tlv.com/" hreflang="en">
+  <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he">
+  <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default">
+
+  <!-- ✅ Google Verification & Ads -->
   <meta name="google-site-verification" content="YOUR_GOOGLE_TOKEN_HERE">
   <meta name="google-adsense-account" content="ca-pub-7964221655161384">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"
-    crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384" crossorigin="anonymous"></script>
 
   <!-- ✅ Favicon -->
   <link rel="icon" href="/static/favicon.ico">
@@ -52,51 +68,64 @@
     body.dark-mode a { color: #9ecbff; }
   </style>
   <!-- ✅ Structured Data (JSON-LD) -->
-	<script type="application/ld+json">
-	[
-	  {
-		"@context": "https://schema.org",
-		"@type": "WebSite",
-		"name": {{ ("Flights Explorer — TLV Destinations" if lang != 'he' else "טיסות ישירות מתל אביב — כל היעדים") | tojson }},
-		"url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
-		"inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
-		"description": {{ (
-		  "Explore flights from Tel Aviv to destinations worldwide with schedules, maps, and travel data."
-		  if lang != 'he' else
-		  "גלה את כל הטיסות הישירות מתל אביב ליעדים בעולם: לוחות זמנים, מפות ונתוני טיסה."
-		) | tojson }}
-	  },
-	  {
-		"@context": "https://schema.org",
-		"@type": "SiteNavigationElement",
-		"name": {{ ("Map" if lang != 'he' else "מפה") | tojson }},
-		"url": "https://fly-tlv.com/map"
-	  },
-	  {
-		"@context": "https://schema.org",
-		"@type": "SiteNavigationElement",
-		"name": {{ ("About" if lang != 'he' else "על האתר") | tojson }},
-		"url": "https://fly-tlv.com/about"
-	  },
-	  {
-		"@context": "https://schema.org",
-		"@type": "SiteNavigationElement",
-		"name": {{ ("Privacy" if lang != 'he' else "פרטיות") | tojson }},
-		"url": "https://fly-tlv.com/privacy"
-	  },
-	  {
-		"@context": "https://schema.org",
-		"@type": "SiteNavigationElement",
-		"name": {{ ("Contact" if lang != 'he' else "צור קשר") | tojson }},
-		"url": "https://fly-tlv.com/contact"
-	  },
-	  {
-		"@context": "https://schema.org",
-		"@type": "SiteNavigationElement",
-		"name": {{ ("Sitemap" if lang != 'he' else "מפת האתר") | tojson }},
-		"url": "https://fly-tlv.com/sitemap.xml"
-	  }
-	]
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": {{ ("Flights Explorer — TLV Worldwide Destinations" if lang != 'he' else "טיסות ישירות מתל אביב — כל היעדים בעולם") | tojson }},
+      "url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
+      "inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
+      "description": {{ (
+        "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, distances, maps, and flight time data."
+        if lang != 'he' else
+        "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מרחקים, מפות וזמן טיסה."
+      ) | tojson }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://fly-tlv.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Main Navigation",
+      "itemListElement": [
+        {
+          "@type": "SiteNavigationElement",
+          "position": 1,
+          "name": {{ ("Map" if lang != 'he' else "מפה") | tojson }},
+          "url": "https://fly-tlv.com/map"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 2,
+          "name": {{ ("About" if lang != 'he' else "על האתר") | tojson }},
+          "url": "https://fly-tlv.com/about"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 3,
+          "name": {{ ("Privacy" if lang != 'he' else "פרטיות") | tojson }},
+          "url": "https://fly-tlv.com/privacy"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 4,
+          "name": {{ ("Contact" if lang != 'he' else "צור קשר") | tojson }},
+          "url": "https://fly-tlv.com/contact"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "position": 5,
+          "name": {{ ("Sitemap" if lang != 'he' else "מפת האתר") | tojson }},
+          "url": "https://fly-tlv.com/sitemap.xml"
+        }
+      ]
+    }
+  ]
+}
 </script>
 </head>
 <body>
