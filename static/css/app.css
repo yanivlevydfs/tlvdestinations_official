@@ -279,15 +279,28 @@ body.dark-mode tr.parent td.dtr-control:before {
 @media (max-width: 768px) {
   .dataTables_wrapper .dt-buttons {
     display: flex;
-    flex-wrap: wrap !important;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: .5rem;
+    gap: .4rem;
   }
   .dataTables_wrapper .dt-buttons .btn {
-    flex: 1 1 auto;
-    min-width: 42%;
-    font-size: 0.85rem !important;
-    padding: .45rem .8rem !important;
+    flex: unset !important;          /* ✅ no forced growth */
+    min-width: auto !important;      /* ✅ shrink to content */
+    font-size: 0.8rem !important;    /* ✅ smaller text */
+    padding: .35rem .7rem !important;/* ✅ tighter pills */
+    border-radius: 999px !important; /* keep pill shape */
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .dataTables_wrapper .dt-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dataTables_wrapper .dt-buttons .btn {
+    width: 100% !important;          /* ✅ full width stack */
+    text-align: center;
   }
 }
 
