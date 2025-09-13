@@ -242,6 +242,7 @@ body.dark-mode tr.parent td.dtr-control:before {
   100% { background-position: left center; }
 }
 
+
 /* ===== Responsive Hero Section ===== */
 @media (max-width: 768px) {
   .hero-section h1 {
@@ -279,28 +280,15 @@ body.dark-mode tr.parent td.dtr-control:before {
 @media (max-width: 768px) {
   .dataTables_wrapper .dt-buttons {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
     justify-content: center;
-    gap: .4rem;
+    gap: .5rem;
   }
   .dataTables_wrapper .dt-buttons .btn {
-    flex: unset !important;          /* ✅ no forced growth */
-    min-width: auto !important;      /* ✅ shrink to content */
-    font-size: 0.8rem !important;    /* ✅ smaller text */
-    padding: .35rem .7rem !important;/* ✅ tighter pills */
-    border-radius: 999px !important; /* keep pill shape */
-  }
-}
-
-/* Extra small phones */
-@media (max-width: 480px) {
-  .dataTables_wrapper .dt-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .dataTables_wrapper .dt-buttons .btn {
-    width: 100% !important;          /* ✅ full width stack */
-    text-align: center;
+    flex: 1 1 auto;
+    min-width: 42%;
+    font-size: 0.85rem !important;
+    padding: .45rem .8rem !important;
   }
 }
 
@@ -418,4 +406,34 @@ body.dark-mode .last-update-badge {
 
 body.dark-mode .last-update-badge strong {
   color: #e5e5e5;
+}
+
+/* --- Filters offcanvas: mobile sizing & scroll --- */
+@media (max-width: 768px) {
+  #filtersCanvas { width: min(92vw, 420px); }            /* comfortable width */
+  #filtersCanvas .offcanvas-header{
+    position: sticky; top: 0; z-index: 3;
+    background: var(--bs-body-bg);
+    border-bottom: 1px solid rgba(0,0,0,.06);
+  }
+  #filtersCanvas .offcanvas-body{
+    padding: 12px 12px 20px;
+    max-height: calc(100dvh - 64px);                     /* full height minus header */
+    overflow-y: auto;
+  }
+}
+
+/* --- Ad cards: collapse until filled to avoid big blank boxes --- */
+.ad-card:not(.ad-filled) .card-body { padding: 0; }
+.ad-card:not(.ad-filled) .adsbygoogle {
+  display: block;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden;
+}
+.ad-card.ad-filled .card-body { padding: .5rem .25rem; }
+.ad-card .card-header { padding: .5rem .75rem; }
+
+@media (max-width: 576px) {
+  .ad-card .card-body { padding: .25rem 0; }
 }
