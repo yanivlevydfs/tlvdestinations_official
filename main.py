@@ -144,13 +144,20 @@ def _is_dataset_fresh_today() -> tuple[bool, str | None]:
 def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
 
-def get_all_countries() -> list[str]:
-    """Return all countries with All, Greece, Cyprus first, rest alphabetically."""
-    all_countries = sorted([c.name for c in pycountry.countries])
-    
-    # Ensure Greece and Cyprus appear only once
-    rest = [c for c in all_countries if c not in {"Greece", "Cyprus"}]
-    
+def get_all_countries(data) -> list[str]:
+    """Return unique countries from data with All, Greece, Cyprus first, rest alphabetically."""
+    # If we got a DataFrame
+    if hasattr(data, "columns"):
+        countries = {str(c).strip() for c in data["Country"].dropna()}
+    # If we got a list of dicts
+    elif isinstance(data, list):
+        countries = {str(item.get("Country", "")).strip() for item in data if item.get("Country")}
+    else:
+        return ["All", "Greece", "Cyprus"]
+
+    countries = sorted(countries)
+    rest = [c for c in countries if c not in {"Greece", "Cyprus"}]
+
     return ["All", "Greece", "Cyprus"] + rest
     
 def safe_js(text: str) -> str:
@@ -721,8 +728,7 @@ def home(
             df = df[df.apply(lambda r: q in str(r["IATA"]).lower()
                                   or q in str(r["Name"]).lower()
                                   or q in str(r["City"]).lower()
-                                  or q in str(r["Country"]).lower()
-                                  or q in str(r["Region"]).lower(), axis=1)]
+                                  or q in str(r["Country"]).lower(),axis=1)]
 
     # --- Step 2: Merge AE airlines with gov.il flights ---
     govil_map = load_israel_flights_map()
@@ -807,7 +813,7 @@ def home(
             })
 
     # --- Step 4: Render template ---
-    countries = get_all_countries()
+    countries = get_all_countries(airports)
     last_update = get_dataset_date() or get_dataset_file_time()
     logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
 
