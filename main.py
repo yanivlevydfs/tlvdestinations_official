@@ -513,12 +513,31 @@ DATASET_LOCK = threading.Lock()
 def _read_dataset_file() -> pd.DataFrame:
     if DATASET_FILE.exists():
         try:
-            meta = json.load(open(DATASET_FILE, "r", encoding="utf-8"))
-            return pd.DataFrame(meta.get("airports", [])), meta.get("date")
+            with open(DATASET_FILE, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+
+            df = pd.DataFrame(meta.get("airports", []))
+
+            # ✅ Convert ISO alpha-2 country codes -> full names
+            if "Country" in df.columns:
+                def iso_to_country(code: str) -> str:
+                    if not code or not isinstance(code, str):
+                        return code
+                    try:
+                        country = pycountry.countries.get(alpha_2=code.upper())
+                        return country.name if country else code
+                    except Exception:
+                        return code
+
+                df["Country"] = df["Country"].apply(iso_to_country)
+
+            return df, meta.get("date")
+
         except Exception as e:
             logger.error(f"Failed to read dataset file: {e}")
-    # empty fallback
-    return pd.DataFrame(columns=["IATA","Name","City","Country","Region","lat","lon","Airlines"]), None
+
+    # Empty fallback
+    return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
 
 def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
     """
@@ -1123,7 +1142,7 @@ def on_startup():
 
     # 2) Refresh AE dataset if stale (>24h)
     try:
-        if dataset_is_stale(max_age_hours=24):
+        if dataset_is_stale(max_age_hours=999999):
             logger.info("Startup: AE dataset stale -> refreshing now")
             get_dataset(trigger_refresh=True)
     except Exception as e:
@@ -1139,7 +1158,7 @@ def on_startup():
 
     # 4) Start scheduler (every 24h)
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scheduled_refresh, "interval", hours=24, id="ae_refresh", replace_existing=True)
+    scheduler.add_job(scheduled_refresh, "interval", hours=999999, id="ae_refresh", replace_existing=True)
     scheduler.add_job(fetch_israel_flights, "interval", hours=24, id="govil_refresh", replace_existing=True)
     scheduler.start()
     logger.info("Scheduler started: AE + gov.il refresh every 24h")
