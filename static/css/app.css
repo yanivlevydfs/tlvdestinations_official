@@ -522,10 +522,12 @@ body.dark-mode .last-update-badge strong {
     margin: 0.25rem 0;
   }
 }
-/* 🚫 Hide all AdSense ads on small screens */
+/* 🚫 Hide all AdSense ads + their cards on mobile */
 @media (max-width: 768px) {
   .adsbygoogle,
-  .ad-card {
+  [aria-label="Advertisement"],
+  .card[aria-label="Advertisement"] {
     display: none !important;
   }
+}
 }
