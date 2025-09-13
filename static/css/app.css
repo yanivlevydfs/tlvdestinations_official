@@ -242,17 +242,6 @@ body.dark-mode tr.parent td.dtr-control:before {
   100% { background-position: left center; }
 }
 
-/* ===== Responsive Navbar ===== */
-@media (max-width: 768px) {
-  .navbar-brand {
-    font-size: 1.1rem;
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
 /* ===== Responsive Hero Section ===== */
 @media (max-width: 768px) {
   .hero-section h1 {
