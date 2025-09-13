@@ -35,33 +35,40 @@ document.addEventListener('DOMContentLoaded', () => {
       { extend:'print',      className:'btn btn-primary', text:`<i class="bi bi-printer me-1"></i> ${b.print}` }
     ];
   }
-	function initDataTable(lang) {
-	  return $('#airports-table').DataTable({
-		dom:
-		  "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-		  "<'row'<'col-12'tr>>" +
-		  "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-		buttons: dtButtonsFor(lang),
-		responsive: { details: { type: 'inline' } },
-		scrollX: false,
-		fixedHeader: true,
-		pageLength: 10,
-		lengthMenu: [5, 10, 25, 50],
-		columnDefs: [
-		  { targets: [0,2,3,4,5,6], className: 'text-nowrap' },
-		  { targets: 5, responsivePriority: 10001 },
-		],
-		language: LANG[lang].dt,
+function initDataTable(lang) {
+  return $('#airports-table').DataTable({
+    dom:
+      "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+      "<'row'<'col-12'tr>>" +
+      "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+    buttons: dtButtonsFor(lang),
 
-		// 👇 Fix: add id + name to the generated search box
-		initComplete: function () {
-		  $('#airports-table_filter input')
-			.attr('id', 'airports-search')
-			.attr('name', 'airports-search')
-			.attr('placeholder', LANG[lang].placeholderSearch || 'Search…');
-		}
-	  });
-	}
+    responsive: {
+      details: false,
+      breakpoints: [
+        { name: 'desktop', width: Infinity },
+        { name: 'mobile',  width: 768 }
+      ]
+    },
+
+    fixedHeader: true,
+    pageLength: 10,
+    lengthMenu: [5, 10, 25, 50],
+    columnDefs: [
+      { targets: [0,1,2], responsivePriority: 1 },    // IATA, Name, City always visible
+      { targets: [3],     responsivePriority: 2 },    // Country
+      { targets: [4,5,6], responsivePriority: 10000 } // Airlines, Distance, FlightTime collapse first
+    ],
+    language: LANG[lang].dt,
+
+    initComplete: function () {
+      $('#airports-table_filter input')
+        .attr('id', 'airports-search')
+        .attr('name', 'airports-search')
+        .attr('placeholder', LANG[lang].placeholderSearch || 'Search…');
+    }
+  });
+}
 
 
   // ---------- Helpers ----------
@@ -290,4 +297,5 @@ document.addEventListener('DOMContentLoaded', () => {
     hideOverlay();
     mapFrame.contentWindow.postMessage("modal-shown", "*");
   });
+  
 });

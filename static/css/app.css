@@ -1,241 +1,352 @@
-:root {
-  --chip-bg: rgba(13,110,253,.12);
-  --chip-border: rgba(13,110,253,.35);
+/* ===== Fonts ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  background: #f9fafc;
+  color: #111827;
+  transition: background .4s ease, color .4s ease;
 }
 body.dark-mode {
-  --chip-bg: rgba(99,179,237,.18);
-  --chip-border: rgba(99,179,237,.5);
+  background: #0a0b0f;
+  color: #e5e5e5;
 }
 
-/* Base chip style */
-.chip, .airline-chip {
-  display: inline-block;
-  padding: .25rem .6rem;
-  border-radius: 999px;
-  background: var(--chip-bg, #f3f4f6);
-  border: 1px solid var(--chip-border, #d1d5db);
-  font-size: .8rem;
-  margin: 2px;
-  white-space: nowrap;
-  line-height: 1.2;
-  transition: all 0.25s ease-in-out;
-  color: #111827 !important;         /* ✅ override blue links */
-  text-decoration: none !important;  /* ✅ remove underline */
-  cursor: pointer;
+/* ===== Accent System ===== */
+:root {
+  --accent: linear-gradient(135deg, #7c3aed, #22d3ee);
+  --accent-glow: 0 0 18px rgba(124,58,237,.45);
+}
+body.dark-mode {
+  --accent: linear-gradient(135deg, #22d3ee, #818cf8);
+  --accent-glow: 0 0 22px rgba(34,211,238,.55);
 }
 
-/* Links behave like normal chips */
-a.chip, a.airline-chip {
-  color: inherit !important;       /* prevent default link blue/purple */
-  text-decoration: none !important;
-  cursor: pointer !important;
+/* ===== Navbar ===== */
+.navbar {
+  backdrop-filter: blur(16px);
+  background: rgba(255,255,255,.6) !important;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+body.dark-mode .navbar {
+  background: rgba(18,18,18,.7) !important;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.navbar-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  background: var(--accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--accent-glow);
 }
 
-/* Hover (light mode) */
-.chip:hover, .airline-chip:hover {
-  background-color: #0d6efd !important;
-  color: #fff !important;
-  border-color: #0d6efd !important;
-  transform: scale(1.08);
-  box-shadow: 0 3px 6px rgba(0,0,0,.2);
+/* ===== Hero Section ===== */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at top, rgba(124,58,237,.1), transparent 60%);
+}
+.hero-section h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  background: var(--accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--accent-glow);
+}
+.hero-section p {
+  font-size: 1.15rem;
+  color: #6b7280;
+}
+body.dark-mode .hero-section p {
+  color: #a1a1aa;
 }
 
-/* Hover (dark mode) */
-body.dark-mode .chip:hover,
-body.dark-mode .airline-chip:hover {
-  background-color: #63b3ed !important;
-  color: #121212 !important;
-  border-color: #63b3ed !important;
-  transform: scale(1.08);
-  box-shadow: 0 3px 6px rgba(0,0,0,.5);
-}
-
-/* Airline cell wrapper */
-.airline-cell {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .35rem;
-  max-width: 100%;
-  white-space: normal;
-  align-items: center;
-}
-#airports-table td.airline-cell {
-  vertical-align: top;
-}
-
-.navbar-brand { font-weight: 700; }
-.card { border-radius: .8rem; }
-.table thead th { vertical-align: middle; }
-
-/* Loading overlay */
-#loadingOverlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.55);
-  z-index: 2000;
-  display: none;
-  align-items: center;
-  justify-content: center;
+/* ===== CTA Buttons ===== */
+.btn-cta {
+  background: var(--accent);
   color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: .65rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: var(--accent-glow);
+  transition: transform .25s ease;
+}
+.btn-cta:hover {
+  transform: translateY(-3px) scale(1.05);
 }
 
-/* ✅ DataTables export buttons (light + dark) */
-.dataTables_wrapper .dt-buttons .btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 38px !important;
-  width: 120px !important;          /* fixed same width */
-  max-width: 120px !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+.btn-cta-outline {
+  background: transparent;
+  border: 2px solid rgba(124,58,237,.4);
+  border-radius: 50px;
+  padding: .65rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #7c3aed;
+  transition: all .25s ease;
+}
+.btn-cta-outline:hover {
+  background: rgba(124,58,237,.1);
+  transform: translateY(-3px);
+}
+body.dark-mode .btn-cta-outline {
+  color: #22d3ee;
+  border-color: rgba(34,211,238,.5);
+}
+body.dark-mode .btn-cta-outline:hover {
+  background: rgba(34,211,238,.12);
+}
 
-  font-size: 0.9rem !important;
-  line-height: 1.2 !important;
-  background-color: #0d6efd !important;
-  border-color: #0d6efd !important;
-  color: #fff !important;
-  border-radius: 50px !important;
-  padding: .45rem 0 !important;
+/* ===== Cards ===== */
+.card {
+  border-radius: 1.25rem;
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,.25);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.15);
+}
+body.dark-mode .card {
+  background: rgba(18,18,18,.7);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,.7);
+}
+
+/* ===== Chips ===== */
+.airline-chip {
+  display: inline-block;
+  padding: .4rem .9rem;
+  border-radius: 999px;
+  background: rgba(124,58,237,.12);
+  border: 1px solid rgba(124,58,237,.35);
+  font-size: .85rem;
   font-weight: 500;
-  margin: 0 .25rem .25rem 0 !important;
-  transition: all .2s ease-in-out;
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  margin: 3px;
+  transition: all .3s ease;
+  color: inherit;
 }
-.dataTables_wrapper .dt-buttons .btn:hover {
-  background-color: #0b5ed7 !important;
-  border-color: #0b5ed7 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,.2);
-}
-
-/* Buttons container */
-/* DataTables export buttons container (light + dark) */
-.dataTables_wrapper .dt-buttons {
-  display: flex !important;
-  flex-wrap: nowrap !important;   /* stay in one row */
-  gap: 0.25rem;
+.airline-chip:hover {
+  background: var(--accent) !important;
+  color: #fff !important;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: var(--accent-glow);
 }
 
-body[dir="rtl"] .dataTables_wrapper .dt-buttons {
-  display: flex !important;
-  flex-direction: row-reverse !important;
-  justify-content: flex-end !important;
-  gap: 0.5rem;
-}
-
-/* Table container */
+/* ===== Table ===== */
 #airports-table {
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 body.dark-mode #airports-table {
-  background: #1e1e1e;
-  box-shadow: 0 2px 8px rgba(0,0,0,.6);
+  background: #16171b;
+  box-shadow: 0 4px 14px rgba(0,0,0,.7);
 }
-
-/* Table header */
 #airports-table thead {
-  background: #0d6efd;
+  background: var(--accent);
   color: #fff;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: .6px;
 }
-body.dark-mode #airports-table thead { background: #0b5ed7; }
-#airports-table thead th {
-  border: none !important;
-  padding: 12px 14px;
-  font-size: 0.85rem;
+#airports-table tbody tr:hover {
+  background: rgba(124,58,237,.1);
+  transition: all .25s ease;
 }
-
-/* Rows */
-#airports-table tbody tr { transition: background .15s ease-in-out; }
-#airports-table tbody tr:hover { background: rgba(13,110,253,.08); }
-body.dark-mode #airports-table tbody tr:hover { background: rgba(99,179,237,.15); }
-
-#airports-table td {
-  padding: 10px 14px;
-  vertical-align: middle;
-  border-color: #e9ecef !important;
-}
-body.dark-mode #airports-table td { border-color: #2c2c2c !important; }
-
-/* Footer */
-footer .hover-opacity:hover { opacity: 0.7; }
-body.dark-mode footer { background: #1e1e1e; color: #ccc; }
-body.dark-mode footer a { color: #bbb !important; }
-.dark-bg-dark { background: #121212 !important; }
-
-/* RTL tweaks */
-body[dir="rtl"] .dataTables_filter { text-align: right !important; }
-body[dir="rtl"] .dataTables_filter label {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.5rem;
-}
-body[dir="rtl"] .dataTables_filter input {
-  margin-left: 0 !important;
-  margin-right: .5rem !important;
-  direction: rtl;
-  text-align: right;
-}
-body[dir="rtl"] .dataTables_wrapper .dt-buttons .btn { order: unset !important; }
-body[dir="rtl"] .navbar .d-flex { margin-left: 10rem; }
-
-/* Modal map fix */
-#mapModal .modal-body { overflow: hidden; padding: 0; }
-#mapModal #map-frame { display: block; width: 100%; height: 100%; border: none; }
-
-/* Headings dark mode */
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode .page-title,
-body.dark-mode .header-title,
-body.dark-mode .card-header,
-body.dark-mode .card-title,
-body.dark-mode .navbar-brand {
-  color: #e5e5e5 !important;
-}
-body.dark-mode h1,
-body.dark-mode .page-title { color: #63b3ed !important; }
-
-/* Responsive brand title */
-#brand-title {
-  font-weight: 700;
-  font-size: 1.25rem;  /* default desktop size */
-  white-space: nowrap;
+body.dark-mode #airports-table tbody tr:hover {
+  background: rgba(34,211,238,.12);
 }
 
-@media (max-width: 768px) {
-  #brand-title {
-    font-size: 1rem;       /* smaller font on mobile */
-    max-width: 200px;      /* limit width */
-    overflow: hidden;      /* cut if too long */
-    text-overflow: ellipsis;
-    display: inline-block;
-    vertical-align: middle;
-  }
-}
+/* ===== DataTables Row Details Arrows ===== */
+
 /* Closed state ► */
 td.dtr-control:before {
-  background-image: none !important;   /* remove DataTables default */
-  content: "\25B6" !important;         /* ► unicode */
-  color: #0d6efd !important;           /* Bootstrap blue */
+  background-image: none !important;
+  content: "\25B6" !important;   /* ► unicode */
   font-size: 1rem !important;
   font-weight: bold !important;
   display: inline-block !important;
   margin-right: 6px !important;
   vertical-align: middle !important;
+  color: #7c3aed !important; /* violet accent (light mode) */
+  transition: color .3s ease, transform .2s ease;
 }
 
 /* Open state ▼ */
 tr.parent td.dtr-control:before {
-  background-image: none !important;
-  content: "\25BC" !important;         /* ▼ unicode */
-  color: #0d6efd !important;
+  content: "\25BC" !important;   /* ▼ unicode */
+  color: #22d3ee !important;     /* cyan accent (light mode) */
+}
+
+/* 🌌 Dark mode overrides */
+body.dark-mode td.dtr-control:before {
+  color: #22d3ee !important;  /* cyan neon for collapsed ► */
+  text-shadow: 0 0 6px rgba(34,211,238,.6);
+}
+body.dark-mode tr.parent td.dtr-control:before {
+  color: #818cf8 !important;  /* violet neon for expanded ▼ */
+  text-shadow: 0 0 8px rgba(129,140,248,.6);
+}
+
+/* ✨ Optional: hover pulse effect */
+#airports-table tbody tr:hover td.dtr-control:before {
+  transform: scale(1.2);
+  text-shadow: 0 0 10px rgba(124,58,237,.6);
+}
+
+/* ===== DataTables Export Buttons ===== */
+.dataTables_wrapper .dt-buttons .btn {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 50px !important;
+  font-weight: 500 !important;
+  padding: .55rem 1.2rem !important;
+  margin: 0 .35rem .35rem 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .4rem;
+  
+  background-size: 300% 300%;
+  animation: gradient-flow 6s ease infinite;
+  transition: background-position .4s ease, transform .25s ease, box-shadow .25s ease;
+  box-shadow: var(--accent-glow);
+}
+
+/* Hover effect */
+.dataTables_wrapper .dt-buttons .btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px rgba(124,58,237,.5);
+}
+
+/* Icons inside buttons */
+.dataTables_wrapper .dt-buttons .btn:before {
+  font-size: 1rem;
+}
+
+/* Gradient animation */
+@keyframes gradient-flow {
+  0% { background-position: left center; }
+  50% { background-position: right center; }
+  100% { background-position: left center; }
+}
+
+/* ===== Responsive Navbar ===== */
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* ===== Responsive Hero Section ===== */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  .hero-section p {
+    font-size: 1rem;
+  }
+}
+
+/* ===== Responsive Cards ===== */
+@media (max-width: 768px) {
+  .card {
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* ===== Responsive DataTable ===== */
+@media (max-width: 768px) {
+  #airports-table {
+    font-size: 0.85rem;
+  }
+  #airports-table thead {
+    font-size: 0.8rem;
+  }
+  #airports-table td, 
+  #airports-table th {
+    padding: 8px 6px;
+  }
+}
+
+/* ===== Responsive Export Buttons ===== */
+@media (max-width: 768px) {
+  .dataTables_wrapper .dt-buttons {
+    display: flex;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    gap: .5rem;
+  }
+  .dataTables_wrapper .dt-buttons .btn {
+    flex: 1 1 auto;
+    min-width: 42%;
+    font-size: 0.85rem !important;
+    padding: .45rem .8rem !important;
+  }
+}
+
+/* ===== Extra Small Phones ===== */
+@media (max-width: 480px) {
+  .dataTables_wrapper .dt-buttons .btn {
+    min-width: 100%;
+  }
+}
+/* ===== DataTables Pagination ===== */
+.dataTables_wrapper .dataTables_paginate .page-item .page-link {
+  background: transparent !important;
+  color: inherit !important;
+  border: 1px solid rgba(255,255,255,.2) !important;
+  margin: 0 .2rem;
+  border-radius: .5rem;
+  transition: all .25s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--accent-glow);
+}
+
+.dataTables_wrapper .dataTables_paginate .page-item .page-link:hover {
+  background: rgba(124,58,237,.2) !important;
+  color: #fff !important;
+}
+
+/* ===== Footer ===== */
+footer.footer {
+  background-color: #2563eb !important; /* blue light mode */
+  color: #fff !important;
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+body.dark-mode footer.footer {
+  background-color: #1f1f1f !important; /* dark mode */
+  color: #aaa !important;
+}
+.footer-bottom {
+  background: #f3f4f6;  /* light mode */
+  color: #111827;
+}
+body.dark-mode .footer-bottom {
+  background: #0a0b0f;  /* dark mode */
+  color: #aaa;
 }
