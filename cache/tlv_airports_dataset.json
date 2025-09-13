@@ -1,27 +1,26 @@
 {
-  "date": "2025-09-12",
+  "date": "2025-09-13",
   "airports": [
     {
       "IATA": "LCA",
       "Name": "Larnaca International Airport",
       "City": "Larnarca",
       "Country": "Cyprus",
-      "Region": "Cyprus",
       "lat": 34.8751,
       "lon": 33.6249,
       "Airlines": [
-        "Blue Air",
-        "Armavia",
+        "Cal Cargo Air Lines",
+        "Travel Service",
         "Cyprus Airways",
         "Aegean Airlines",
-        "El Al Israel Airlines",
-        "North Pacific Airlines",
-        "Travel Service",
-        "Elysian Airlines",
-        "Arkia Israel Airlines",
-        "Israir",
         "Continental Express",
-        "Cal Cargo Air Lines"
+        "Armavia",
+        "Arkia Israel Airlines",
+        "El Al Israel Airlines",
+        "Elysian Airlines",
+        "Blue Air",
+        "Israir",
+        "North Pacific Airlines"
       ],
       "Distance_km": 339.7,
       "FlightTime_hr": 0.42
@@ -31,7 +30,6 @@
       "Name": "Paphos International Airport",
       "City": "Paphos",
       "Country": "Cyprus",
-      "Region": "Cyprus",
       "lat": 34.718,
       "lon": 32.4857,
       "Airlines": [
@@ -45,17 +43,16 @@
       "Name": "Eleftherios Venizelos International Airport",
       "City": "Athens",
       "Country": "Greece",
-      "Region": "Greece",
       "lat": 37.9364,
       "lon": 23.9445,
       "Airlines": [
-        "El Al Israel Airlines",
-        "Aegean Airlines",
-        "North Pacific Airlines",
-        "Smartlynx Airlines",
         "Alitalia",
+        "Smartlynx Airlines",
+        "Aegean Airlines",
+        "El Al Israel Airlines",
         "Arkia Israel Airlines",
-        "Israir"
+        "Israir",
+        "North Pacific Airlines"
       ],
       "Distance_km": 1193.9,
       "FlightTime_hr": 1.49
@@ -65,16 +62,15 @@
       "Name": "Heraklion International Nikos Kazantzakis Airport",
       "City": "Heraklion",
       "Country": "Greece",
-      "Region": "Greece",
       "lat": 35.3397,
       "lon": 25.1803,
       "Airlines": [
-        "Airblue",
-        "Air Guinee Express",
-        "El Al Israel Airlines",
         "Aegean Airlines",
-        "North Pacific Airlines",
-        "Black Stallion Airways"
+        "Airblue",
+        "El Al Israel Airlines",
+        "Black Stallion Airways",
+        "Air Guinee Express",
+        "North Pacific Airlines"
       ],
       "Distance_km": 971.0,
       "FlightTime_hr": 1.21
@@ -84,7 +80,6 @@
       "Name": "Kos Airport",
       "City": "Kos Island",
       "Country": "Greece",
-      "Region": "Greece",
       "lat": 36.7933,
       "lon": 27.0917,
       "Airlines": [
@@ -98,13 +93,12 @@
       "Name": "Diagoras Airport",
       "City": "Rodes Island",
       "Country": "Greece",
-      "Region": "Greece",
       "lat": 36.4054,
       "lon": 28.0862,
       "Airlines": [
         "Airblue",
-        "El Al Israel Airlines",
-        "Air Guinee Express"
+        "Air Guinee Express",
+        "El Al Israel Airlines"
       ],
       "Distance_km": 793.4,
       "FlightTime_hr": 0.99
@@ -114,13 +108,12 @@
       "Name": "Thessaloniki Macedonia International Airport",
       "City": "Thessaloniki",
       "Country": "Greece",
-      "Region": "Greece",
       "lat": 40.5197,
       "lon": 22.9709,
       "Airlines": [
-        "Aegean Airlines",
+        "Israir",
         "Arkia Israel Airlines",
-        "Israir"
+        "Aegean Airlines"
       ],
       "Distance_km": 1424.8,
       "FlightTime_hr": 1.78
