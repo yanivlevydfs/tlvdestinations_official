@@ -1,128 +1,7 @@
 {
-  "updated": "2025-09-13T14:23:39.543330",
-  "count": 2245,
+  "updated": "2025-09-13T14:45:37.411764",
+  "count": 2246,
   "flights": [
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "ATH",
-      "airport": "ATHENS",
-      "city": "ATHENS",
-      "country": "GREECE",
-      "scheduled": "2025-09-12T14:00:00",
-      "actual": "2025-09-12T14:17:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "AIR EUROPA",
-      "iata": "MAD",
-      "airport": "MADRID",
-      "city": "MADRID",
-      "country": "SPAIN",
-      "scheduled": "2025-09-12T14:10:00",
-      "actual": "2025-09-12T14:18:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "ETM",
-      "airport": "RAMON",
-      "city": "RAMON",
-      "country": "ISRAEL",
-      "scheduled": "2025-09-12T14:00:00",
-      "actual": "2025-09-12T14:21:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "TIV",
-      "airport": "TIVAT",
-      "city": "TIVAT",
-      "country": "MONTENEGRO",
-      "scheduled": "2025-09-12T14:00:00",
-      "actual": "2025-09-12T14:23:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "CYPRUS AIRWAYS",
-      "iata": "LCA",
-      "airport": "LARNACA",
-      "city": "LARNACA",
-      "country": "CYPRUS",
-      "scheduled": "2025-09-12T14:30:00",
-      "actual": "2025-09-12T14:25:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "RHO",
-      "airport": "RHODES-PARADISI",
-      "city": "RHODES",
-      "country": "GREECE",
-      "scheduled": "2025-09-12T15:00:00",
-      "actual": "2025-09-12T14:27:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "EL AL ISRAEL AIRLINES",
-      "iata": "OTP",
-      "airport": "BUCHAREST - OTOPENI",
-      "city": "BUCHAREST",
-      "country": "ROMANIA",
-      "scheduled": "2025-09-12T14:15:00",
-      "actual": "2025-09-12T14:27:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "TAROM - ROMANIAN AIR TRANSPORT",
-      "iata": "OTP",
-      "airport": "BUCHAREST - OTOPENI",
-      "city": "BUCHAREST",
-      "country": "ROMANIA",
-      "scheduled": "2025-09-12T14:15:00",
-      "actual": "2025-09-12T14:27:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
-    {
-      "airline": "BLUE BIRD AIRWAYS",
-      "iata": "KGS",
-      "airport": "KOS",
-      "city": "KOS",
-      "country": "GREECE",
-      "scheduled": "2025-09-12T13:45:00",
-      "actual": "2025-09-12T14:29:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "WIZZ UK",
-      "iata": "LTN",
-      "airport": "LUTON",
-      "city": "LONDON LUTON",
-      "country": "UNITED KINGDOM",
-      "scheduled": "2025-09-12T14:25:00",
-      "actual": "2025-09-12T14:29:00",
-      "direction": "A",
-      "status": "LANDED"
-    },
-    {
-      "airline": "ISRAIR AIRLINES",
-      "iata": "BUD",
-      "airport": "BUDAPEST",
-      "city": "BUDAPEST",
-      "country": "HUNGARY",
-      "scheduled": "2025-09-12T14:15:00",
-      "actual": "2025-09-12T14:29:00",
-      "direction": "D",
-      "status": "DEPARTED"
-    },
     {
       "airline": "ISRAIR AIRLINES",
       "iata": "ATH",
@@ -3529,9 +3408,31 @@
       "city": "LARNACA",
       "country": "CYPRUS",
       "scheduled": "2025-09-13T14:30:00",
-      "actual": "2025-09-13T14:09:00",
+      "actual": "2025-09-13T14:12:00",
       "direction": "A",
-      "status": "LANDING"
+      "status": "LANDED"
+    },
+    {
+      "airline": "EMIRATES",
+      "iata": "DXB",
+      "airport": "DUBAI",
+      "city": "DUBAI",
+      "country": "UNITED ARAB EMIRATES",
+      "scheduled": "2025-09-13T14:35:00",
+      "actual": "2025-09-13T14:16:00",
+      "direction": "A",
+      "status": "LANDED"
+    },
+    {
+      "airline": "FLYDUBAI",
+      "iata": "DXB",
+      "airport": "DUBAI",
+      "city": "DUBAI",
+      "country": "UNITED ARAB EMIRATES",
+      "scheduled": "2025-09-13T14:35:00",
+      "actual": "2025-09-13T14:16:00",
+      "direction": "A",
+      "status": "LANDED"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -3556,28 +3457,6 @@
       "status": "ON TIME"
     },
     {
-      "airline": "EMIRATES",
-      "iata": "DXB",
-      "airport": "DUBAI",
-      "city": "DUBAI",
-      "country": "UNITED ARAB EMIRATES",
-      "scheduled": "2025-09-13T14:35:00",
-      "actual": "2025-09-13T14:25:00",
-      "direction": "A",
-      "status": "LANDING"
-    },
-    {
-      "airline": "FLYDUBAI",
-      "iata": "DXB",
-      "airport": "DUBAI",
-      "city": "DUBAI",
-      "country": "UNITED ARAB EMIRATES",
-      "scheduled": "2025-09-13T14:35:00",
-      "actual": "2025-09-13T14:25:00",
-      "direction": "A",
-      "status": "LANDING"
-    },
-    {
       "airline": "AZIMUTH AIRLINES",
       "iata": "AER",
       "airport": "SOCHI",
@@ -3586,7 +3465,7 @@
       "scheduled": "2025-09-13T12:50:00",
       "actual": "2025-09-13T14:35:00",
       "direction": "A",
-      "status": "FINAL"
+      "status": "LANDING"
     },
     {
       "airline": "BLUE BIRD AIRWAYS",
@@ -3608,7 +3487,7 @@
       "scheduled": "2025-09-13T14:25:00",
       "actual": "2025-09-13T14:47:00",
       "direction": "A",
-      "status": "FINAL"
+      "status": "LANDING"
     },
     {
       "airline": "ETIHAD AIRWAYS",
@@ -4194,17 +4073,6 @@
       "status": "ON TIME"
     },
     {
-      "airline": "ARKIA  ISRAELI  AIRLINES",
-      "iata": "BCN",
-      "airport": "BARCELONA",
-      "city": "BARCELONA",
-      "country": "SPAIN",
-      "scheduled": "2025-09-13T15:35:00",
-      "actual": "2025-09-13T17:15:00",
-      "direction": "D",
-      "status": "ON TIME"
-    },
-    {
       "airline": "ISRAIR AIRLINES",
       "iata": "SZG",
       "airport": "SALZBURG",
@@ -4214,6 +4082,17 @@
       "actual": "2025-09-13T17:30:00",
       "direction": "A",
       "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "BCN",
+      "airport": "BARCELONA",
+      "city": "BARCELONA",
+      "country": "SPAIN",
+      "scheduled": "2025-09-13T15:35:00",
+      "actual": "2025-09-13T17:35:00",
+      "direction": "D",
+      "status": "ON TIME"
     },
     {
       "airline": "ISRAIR AIRLINES",
@@ -4378,7 +4257,7 @@
       "scheduled": "2025-09-13T18:25:00",
       "actual": "2025-09-13T18:50:00",
       "direction": "D",
-      "status": "DELAYED"
+      "status": "ON TIME"
     },
     {
       "airline": "ARKIA  ISRAELI  AIRLINES",
@@ -24694,6 +24573,138 @@
       "country": "HUNGARY",
       "scheduled": "2025-09-16T14:15:00",
       "actual": "2025-09-16T14:15:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AEROLINEAS ARGENTINAS S.A.",
+      "iata": "FCO",
+      "airport": "ROME - FIUMICINO",
+      "city": "ROME",
+      "country": "ITALY",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "JETBLUE AIRWAYS CORPORATION",
+      "iata": "EWR",
+      "airport": "NEW YORK - NEWARK",
+      "city": "NEWARK",
+      "country": "UNITED STATES",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "DELTA AIRLINES",
+      "iata": "EWR",
+      "airport": "NEW YORK - NEWARK",
+      "city": "NEWARK",
+      "country": "UNITED STATES",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "RHO",
+      "airport": "RHODES-PARADISI",
+      "city": "RHODES",
+      "country": "GREECE",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ARKIA  ISRAELI  AIRLINES",
+      "iata": "CFU",
+      "airport": "CORFU",
+      "city": "CORFU",
+      "country": "GREECE",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "D",
+      "status": "ON TIME"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "EWR",
+      "airport": "NEW YORK - NEWARK",
+      "city": "NEWARK",
+      "country": "UNITED STATES",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "EL AL ISRAEL AIRLINES",
+      "iata": "FCO",
+      "airport": "ROME - FIUMICINO",
+      "city": "ROME",
+      "country": "ITALY",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "SAS",
+      "iata": "FCO",
+      "airport": "ROME - FIUMICINO",
+      "city": "ROME",
+      "country": "ITALY",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "AIR PORTUGAL",
+      "iata": "FCO",
+      "airport": "ROME - FIUMICINO",
+      "city": "ROME",
+      "country": "ITALY",
+      "scheduled": "2025-09-16T14:25:00",
+      "actual": "2025-09-16T14:25:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "CYPRUS AIRWAYS",
+      "iata": "LCA",
+      "airport": "LARNACA",
+      "city": "LARNACA",
+      "country": "CYPRUS",
+      "scheduled": "2025-09-16T14:30:00",
+      "actual": "2025-09-16T14:30:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "WIZZ UK",
+      "iata": "LTN",
+      "airport": "LUTON",
+      "city": "LONDON LUTON",
+      "country": "UNITED KINGDOM",
+      "scheduled": "2025-09-16T14:30:00",
+      "actual": "2025-09-16T14:30:00",
+      "direction": "A",
+      "status": "NOT FINAL"
+    },
+    {
+      "airline": "ISRAIR AIRLINES",
+      "iata": "ETM",
+      "airport": "RAMON",
+      "city": "RAMON",
+      "country": "ISRAEL",
+      "scheduled": "2025-09-16T14:30:00",
+      "actual": "2025-09-16T14:30:00",
       "direction": "A",
       "status": "NOT FINAL"
     }

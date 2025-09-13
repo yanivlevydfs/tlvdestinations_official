@@ -242,12 +242,52 @@ PROGRESS_LOCK = threading.Lock()
 # ──────────────────────────────────────────────────────────────────────────────
 # Load airports (GR & CY) once for dataset builds
 # ──────────────────────────────────────────────────────────────────────────────
+
+def get_dataset_date():
+    if DATASET_FILE.exists():
+        with open(DATASET_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+        iso_date = data.get("date")  # e.g. "2025-09-13"
+        if iso_date:
+            try:
+                # convert YYYY-MM-DD → DD-MM-YYYY
+                return datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
+            except Exception:
+                return iso_date  # fallback if format unexpected
+    return None
+    
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     R = 6371.0
     dlat = radians(lat2 - lat1); dlon = radians(lon2 - lon1)
     a = sin(dlat/2)**2 + cos(radians(lat1))*cos(radians(lat2))*sin(dlon/2)**2
     return round(R * 2 * atan2(sqrt(a), sqrt(1 - a)), 1)
-    
+
+def load_airports_all() -> pd.DataFrame:
+    iata_db = airportsdata.load("IATA")
+    rows = []
+    for iata, rec in iata_db.items():
+        country = rec.get("country")
+        name, city = rec.get("name"), rec.get("city")
+        lat, lon = rec.get("lat"), rec.get("lon")
+
+        dist_km = None
+        flight_time_hr = None
+        if lat is not None and lon is not None:
+            dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
+            flight_time_hr = round(dist_km / 800, 2)  # assume 800 km/h
+
+        rows.append({
+            "IATA": iata,
+            "Name": name,
+            "City": city,
+            "Country": country,
+            "lat": lat,
+            "lon": lon,
+            "Distance_km": dist_km,
+            "FlightTime_hr": flight_time_hr,
+        })
+    return pd.DataFrame(rows)
+
 def load_airports_gr_cy() -> pd.DataFrame:
     iata_db = airportsdata.load("IATA")
     rows = []
@@ -286,7 +326,7 @@ def load_airline_names() -> Dict[str, str]:
         return {}
 
 AIRLINE_NAMES = load_airline_names()
-AIRPORTS = load_airports_gr_cy()
+AIRPORTS = load_airports_all()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -749,12 +789,14 @@ def home(
 
     # --- Step 4: Render template ---
     countries = get_all_countries()
+    last_update = get_dataset_date() or get_dataset_file_time()
     logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
 
     return TEMPLATES.TemplateResponse(
         "index.html",
         {
             "request": request,
+            "last_update": last_update,
             "lang": lang,
             "now": datetime.now(), 
             "airports": airports,
