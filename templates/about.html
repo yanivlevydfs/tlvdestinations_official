@@ -1,281 +1,264 @@
 {% extends "base.html" %}
 
-{# ─────────────────────────────────────────────────────────
-   Page <title> (used if base.html defines a `title` block)
-   ───────────────────────────────────────────────────────── #}
 {% block title -%}
-  {{ 'About — Fly TLV: Greek Mainland, Islands & Cyprus Airlines Explorer'
+  {{ 'About — TLV → Worldwide Destinations | Direct Flights from Tel Aviv Ben Gurion Airport'
      if lang != 'he' else
-     'אודות — Fly TLV: טיסות ישירות מנתב״ג ליוון וקפריסין' }}
+     'אודות — TLV → Worldwide Destinations | כל היעדים משדה התעופה בן גוריון תל אביב' }}
 {%- endblock %}
 
-{# ─────────────────────────────────────────────────────────
-   SEO / Social meta specific to /about
-   ───────────────────────────────────────────────────────── #}
 {% block head_extra %}
-  {# Canonical & hreflang for bilingual SEO #}
+  <!-- Canonical & hreflang -->
   <link rel="canonical" href="https://fly-tlv.com/about{{ '' if lang != 'he' else '?lang=he' }}" />
-  <link rel="alternate" href="https://fly-tlv.com/about" hreflang="en" />
-  <link rel="alternate" href="https://fly-tlv.com/about?lang=he" hreflang="he" />
+  <link rel="alternate" href="https://fly-tlv.com/about" hreflang="en-US" />
+  <link rel="alternate" href="https://fly-tlv.com/about?lang=he" hreflang="he-IL" />
   <link rel="alternate" href="https://fly-tlv.com/about" hreflang="x-default" />
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
-  {# Description #}
+  <!-- Essential SEO -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Fly TLV" />
+  <meta name="author" content="Fly TLV Team" />
+  <meta name="theme-color" content="#004aad" />
+
+  <!-- SEO Description -->
   <meta name="description" content="{{
-    'Learn about Fly TLV: how we compile direct routes from TLV to the Greek mainland, islands, and Cyprus; data sources, methodology, and contact.'
+    'This website was created for passengers who want to discover all the direct flight destinations available from Tel Aviv Ben Gurion Airport (TLV). Explore where you can fly worldwide and with which airlines, check real routes, distances, and flight times, and plan your journey with confidence. From Europe to Asia, Africa, the Americas, and beyond – this multilingual platform makes it easy to explore, compare, and learn about every direct connection from TLV. Whether you are a frequent flyer, planning your first trip, or simply curious about the world, our site brings together all the information you need about nonstop flights from Israel’s main international airport.'
     if lang != 'he' else
-    'אודות Fly TLV: כיצד אנו מרכזים נתיבי טיסה ישירים מנתב״ג ליוון היבשתית, לאיי יוון ולקפריסין; מקורות הנתונים, שיטת העבודה ודרכי קשר.'
+    'האתר הזה נולד עבור נוסעים המעוניינים לגלות את כל יעדי היעדים הישירות מנתב״ג – נמל התעופה בן גוריון תל אביב (TLV). כאן תוכלו לראות לאן ניתן לטוס ברחבי העולם ובאילו חברות תעופה, לבדוק נתיבים אמיתיים, מרחקי טיסה וזמני טיסה, ולתכנן את הנסיעה שלכם בראש שקט. מאירופה ועד אסיה, אפריקה, אמריקות ועוד – הפלטפורמה הרב־לשונית שלנו הופכת את חוויית החיפוש וההשוואה לפשוטה ונגישה. בין אם אתם טסים לעיתים קרובות, מתכננים את הטיול הראשון שלכם, או רק סקרנים לגבי היעדים, האתר מרכז עבורכם את כל המידע על יעדים ישירות מנתב״ג.'
   }}" />
 
-  {# Open Graph #}
+  <!-- Keywords -->
+  <meta name="keywords" content="TLV flights, Ben Gurion Airport destinations, direct flights Tel Aviv, worldwide routes, airlines from TLV, fly from Tel Aviv, Tel Aviv nonstop flights" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TLV → Worldwide Destinations" />
   <meta property="og:url" content="https://fly-tlv.com/about{{ '' if lang != 'he' else '?lang=he' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="he_IL" />
   <meta property="og:title" content="{{
-    'About — Fly TLV: Greek Mainland, Islands & Cyprus Airlines Explorer'
+    'About — TLV → Worldwide Destinations | Direct Flights from Tel Aviv Ben Gurion Airport'
     if lang != 'he' else
-    'אודות — Fly TLV: טיסות ישירות מנתב״ג ליוון וקפריסין'
+    'אודות — TLV → Worldwide Destinations | כל היעדים משדה התעופה בן גוריון תל אביב'
   }}" />
   <meta property="og:description" content="{{
-    'Learn about Fly TLV: routes, data sources, methodology, and contact.'
+    'This platform helps travelers discover all direct flight destinations from Tel Aviv Ben Gurion Airport (TLV). Find airlines, nonstop routes, flight distances, and travel times in one multilingual, easy-to-use resource.'
     if lang != 'he' else
-    'קראו על Fly TLV: נתיבי טיסה, מקורות נתונים, שיטת עבודה ויצירת קשר.'
+    'הפלטפורמה הזו עוזרת לנוסעים לגלות את כל היעדים הישירים מנתב״ג תל אביב (TLV). מצאו חברות תעופה, נתיבי טיסה ישירים, מרחקים וזמני טיסה – הכל במקום אחד נגיש ורב־לשוני.'
   }}" />
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+  <meta property="og:image:alt" content="{{ 'World destinations map from TLV Ben Gurion Airport' if lang != 'he' else 'מפת יעדים מנתב״ג תל אביב' }}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
-  {# Twitter #}
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@flyTLV" />
   <meta name="twitter:title" content="{{
-    'About — Fly TLV: Greek Mainland, Islands & Cyprus Airlines Explorer'
+    'About — TLV → Worldwide Destinations | Direct Flights from Tel Aviv Ben Gurion Airport'
     if lang != 'he' else
-    'אודות — Fly TLV: טיסות ישירות מנתב״ג ליוון וקפריסין'
+    'אודות — TLV → Worldwide Destinations | כל היעדים משדה התעופה בן גוריון תל אביב'
   }}" />
   <meta name="twitter:description" content="{{
-    'Learn about Fly TLV: routes, data sources, methodology, and contact.'
+    'Discover all direct flight destinations from Tel Aviv Ben Gurion Airport (TLV) worldwide. Check airlines, nonstop routes, distances, and times on this multilingual travel platform.'
     if lang != 'he' else
-    'קראו על Fly TLV: נתיבי טיסה, מקורות נתונים, שיטת עבודה ויצירת קשר.'
+    'גלו את כל יעדי היעדים הישירות מנתב״ג תל אביב (TLV) לכל העולם. בדקו חברות תעופה, נתיבי טיסה ישירים, מרחקים וזמני טיסה בפלטפורמה רב־לשונית לנוסעים.'
   }}" />
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
 
-  {# JSON-LD: WebPage + Breadcrumbs #}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": {{ '"About — Fly TLV"' if lang != 'he' else '"אודות — Fly TLV"' }},
-    "url": {{ '"https://fly-tlv.com/about"' if lang != 'he' else '"https://fly-tlv.com/about?lang=he"' }},
-    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
-    "description": {{
-      '"Learn about Fly TLV: routes, data sources, methodology, and contact."'
-      if lang != 'he' else
-      '"אודות Fly TLV: נתיבי טיסה, מקורות נתונים, שיטת עבודה ויצירת קשר."'
-    }}
-  }
-  </script>
+  <!-- Google Search Console verification -->
+  <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_TOKEN_HERE" />
 
+  <!-- JSON-LD Schema -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {
-        "@type":"ListItem",
-        "position":1,
-        "name": {{ '"Home"' if lang != 'he' else '"בית"' }},
-        "item": "https://fly-tlv.com/{{ '' if lang != 'he' else '?lang=he' }}"
-      },
-      {
-        "@type":"ListItem",
-        "position":2,
-        "name": {{ '"About"' if lang != 'he' else '"אודות"' }},
-        "item": {{ '"https://fly-tlv.com/about"' if lang != 'he' else '"https://fly-tlv.com/about?lang=he"' }}
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "{{ 'About — TLV → Worldwide Destinations' if lang != 'he' else 'אודות — TLV → Worldwide Destinations' }}",
+      "url": "{{ 'https://fly-tlv.com/about' if lang != 'he' else 'https://fly-tlv.com/about?lang=he' }}",
+      "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
+      "description": "{{ 'Explore all destinations worldwide from Tel Aviv Ben Gurion Airport (TLV).' if lang != 'he' else 'גלו את כל היעדים בעולם מנתב״ג תל אביב (TLV).' }}"
+    },
+    {
+      "@context":"https://schema.org",
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {
+          "@type":"ListItem",
+          "position":1,
+          "name": "{{ 'Home' if lang != 'he' else 'בית' }}",
+          "item": "{{ 'https://fly-tlv.com/' if lang != 'he' else 'https://fly-tlv.com/?lang=he' }}"
+        },
+        {
+          "@type":"ListItem",
+          "position":2,
+          "name": "{{ 'About' if lang != 'he' else 'אודות' }}",
+          "item": "{{ 'https://fly-tlv.com/about' if lang != 'he' else 'https://fly-tlv.com/about?lang=he' }}"
+        }
+      ]
+    },
+    {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "name":"TLV → Worldwide Destinations",
+      "url":"https://fly-tlv.com/",
+      "logo":"https://fly-tlv.com/static/og/flytlv_world.jpg",
+      "sameAs":[
+        "https://www.facebook.com/flyTLV",
+        "https://twitter.com/flyTLV",
+        "https://www.instagram.com/flyTLV"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "TLV → Worldwide Destinations",
+      "url": "https://fly-tlv.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://fly-tlv.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
-    ]
-  }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "{{ 'Which destinations can I fly to directly from Tel Aviv Ben Gurion Airport?' if lang != 'he' else 'לאילו יעדים ניתן לטוס ישירות מנתב״ג?' }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{{ 'You can fly to dozens of destinations across Europe, Asia, Africa, and the Americas directly from TLV, with nonstop routes operated by many international airlines.' if lang != 'he' else 'מנתב״ג ניתן לטוס ישירות לעשרות יעדים ברחבי אירופה, אסיה, אפריקה ואמריקות, עם יעדים ישירות של חברות תעופה בינלאומיות רבות.' }}"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "{{ 'Which airlines fly from Tel Aviv Ben Gurion Airport?' if lang != 'he' else 'אילו חברות תעופה פועלות מנמל התעופה בן גוריון?' }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{{ 'Many airlines operate from TLV, including El Al, Arkia, Israir, as well as global carriers such as Lufthansa, Turkish Airlines, Emirates, United, and more.' if lang != 'he' else 'מנתב״ג פועלות חברות רבות, כולל אל על, ארקיע, ישראייר, לצד חברות בינלאומיות כמו לופטהנזה, טורקיש איירליינס, אמירייטס, יונייטד ועוד.' }}"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "{{ 'How can I find flight times and distances from TLV?' if lang != 'he' else 'איך אפשר למצוא זמני טיסה ומרחקים מנתב״ג?' }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{{ 'Our site provides real flight information including distances, average flight times, and nonstop routes from TLV to destinations worldwide.' if lang != 'he' else 'באתר שלנו תוכלו למצוא מידע אמיתי על יעדים, כולל מרחקים, זמני טיסה ממוצעים ונתיבים ישירים מנתב״ג ליעדים ברחבי העולם.' }}"
+          }
+        }
+      ]
+    }
+  ]
   </script>
 {% endblock %}
 
-{# ─────────────────────────────────────────────────────────
-   Page body
-   ───────────────────────────────────────────────────────── #}
 {% block content %}
-<div class="container py-3 px-2 px-md-3">
-  {# Breadcrumbs #}
-  <nav aria-label="breadcrumb" class="mb-3">
-    <ol class="breadcrumb mb-0">
-      <li class="breadcrumb-item">
-        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
-          {{ 'Home' if lang != 'he' else 'בית' }}
-        </a>
-      </li>
-      <li class="breadcrumb-item active" aria-current="page">
-        {{ 'About' if lang != 'he' else 'אודות' }}
-      </li>
-    </ol>
-  </nav>
+<div class="container mt-4">
 
-  {# Hero / Header #}
+  <!-- ✅ Page Header -->
   <div class="card shadow-sm mb-4">
-    <div class="card-body d-flex align-items-center">
-      <div class="me-3"><i class="bi bi-airplane-engines fs-3 text-primary"></i></div>
-      <div>
-        <h1 class="h4 mb-1">
-          {{ 'About Flights Explorer' if lang != 'he' else 'אודות Flights Explorer' }}
-        </h1>
-        <p class="text-muted mb-0">
-          {{ 'Real routes, distances & estimated flight times from TLV to the Greek mainland, islands & Cyprus.'
-             if lang != 'he'
-             else 'נתיבי טיסה אמיתיים, מרחקים וזמני טיסה משוערים מנתב״ג ליוון היבשתית, איי יוון וקפריסין.' }}
-        </p>
-      </div>
+    <div class="card-body text-center">
+      <h1 class="h3 fw-bold mb-2">
+        {{ 'About TLV → Worldwide Destinations' if lang != 'he' else 'אודות TLV → כל היעדים בעולם' }}
+      </h1>
+      <p class="text-muted mb-0">
+        {{
+          "Discover who we are and how Fly TLV helps travelers explore nonstop destinations worldwide."
+          if lang != 'he' else
+          "גלו מי אנחנו וכיצד Fly TLV עוזר לנוסעים לגלות יעדים ישירים ברחבי העולם."
+        }}
+      </p>
     </div>
   </div>
 
-  {# Core content cards #}
-  <div class="row g-3">
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Mission' if lang != 'he' else 'המשימה' }}
-        </div>
-        <div class="card-body">
-          <p class="mb-2">
-            {{ "Help travelers quickly discover direct options from TLV and jump to airline booking sites with one click."
-               if lang != 'he'
-               else "לעזור לנוסעים לגלות במהירות טיסות ישירות מנתב״ג ולעבור לאתרי חברות התעופה בלחיצה אחת." }}
-          </p>
-          <span class="chip me-1">{{ 'Fast' if lang != 'he' else 'מהיר' }}</span>
-          <span class="chip me-1">{{ 'Simple' if lang != 'he' else 'פשוט' }}</span>
-          <span class="chip me-1">{{ 'Free' if lang != 'he' else 'חינם' }}</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'How it works' if lang != 'he' else 'איך זה עובד' }}
-        </div>
-        <div class="card-body">
-          <ul class="mb-0">
-            <li>
-              {{ "We compile known direct routes TLV → Greek mainland, islands & Cyprus and enrich with distances & time estimates."
-                 if lang != 'he' else
-                 "אנחנו מרכזים נתיבים ישירים ידועים מנתב״ג ליוון היבשתית, לאיים ולקפריסין, ומעשירים במרחקים וזמני טיסה משוערים." }}
-            </li>
-            <li>
-              {{ "Airline chips link you directly to official websites for each carrier."
-                 if lang != 'he' else
-                 "השבבים של חברות התעופה מקשרים לאתרי החברות הרשמיים." }}
-            </li>
-            <li>
-              {{ "Filters, search and export make exploring and saving routes easy."
-                 if lang != 'he' else
-                 "מסננים, חיפוש וייצוא מקלים על חקירת הנתיבים ושמירתם." }}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Data & estimates' if lang != 'he' else 'נתונים והערכות' }}
-        </div>
-        <div class="card-body">
-          <p class="mb-2">
-            {{ "Distances are great-circle estimates (TLV to destination). Flight times are derived from distance bands & typical cruise speeds; actual schedules may vary."
-               if lang != 'he' else
-               "המרחקים מחושבים כמרחק מעגל גדול (מנתב״ג ליעד). זמני הטיסה נגזרים מטווחי מרחק ומהירויות שיוט טיפוסיות; ייתכנו הבדלים בלוחות הזמנים בפועל." }}
-          </p>
-          <p class="mb-0">
-            {{ "Always verify operational days, frequencies and seasonality with the airline."
-               if lang != 'he' else
-               "מומלץ לוודא ימי פעילות, תדירויות ועונתיות באתרי חברות התעופה." }}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Contact & feedback' if lang != 'he' else 'יצירת קשר ומשוב' }}
-        </div>
-        <div class="card-body">
-          <p class="mb-2">
-            {{ "Found an error or missing route? We’d love to hear from you."
-               if lang != 'he' else
-               "מצאתם שגיאה או נתיב חסר? נשמח לשמוע מכם." }}
-          </p>
-          <a class="btn btn-outline-primary me-2" href="/contact{{ '' if lang != 'he' else '?lang=he' }}">
-            <i class="bi bi-envelope-open me-1"></i>
-            {{ 'Contact' if lang != 'he' else 'צור קשר' }}
-          </a>
-          <a class="btn btn-outline-secondary" href="/privacy{{ '' if lang != 'he' else '?lang=he' }}">
-            <i class="bi bi-shield-check me-1"></i>
-            {{ 'Privacy' if lang != 'he' else 'פרטיות' }}
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {# FAQ accordion #}
-  <div class="card shadow-sm mt-4">
-    <div class="card-header fw-semibold">
-      {{ 'FAQ' if lang != 'he' else 'שאלות נפוצות' }}
-    </div>
+  <!-- ✅ Intro -->
+  <div class="card mb-4">
     <div class="card-body">
-      <div class="accordion" id="aboutFAQ">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="q1h">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
-              {{ 'Is this an airline or OTA?' if lang != 'he' else 'האם זה אתר של חברת תעופה או סוכנות?' }}
-            </button>
-          </h2>
-          <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#aboutFAQ">
-            <div class="accordion-body">
-              {{ "No. We’re an independent explorer that points you to official airline websites."
-                 if lang != 'he' else
-                 "לא. זהו אתר עצמאי לחקר נתיבי טיסה שמפנה לאתרי החברות הרשמיים." }}
-            </div>
-          </div>
-        </div>
+      <p class="mb-0">
+        {{
+          "Fly TLV was created for passengers who want to explore all direct flight destinations from Tel Aviv Ben Gurion Airport (TLV). Our platform helps travelers discover where they can fly nonstop, which airlines operate each route, the distances involved, and average flight times – all in one clear and easy-to-use resource."
+          if lang != 'he' else
+          "Fly TLV נולד עבור נוסעים המעוניינים לגלות את כל יעדי היעדים הישירות מנמל התעופה בן גוריון תל אביב (TLV). הפלטפורמה שלנו מסייעת לנוסעים לגלות לאן ניתן לטוס ישירות, אילו חברות תעופה מפעילות כל נתיב, מה המרחקים וזמני הטיסה הממוצעים – הכל במקום אחד ברור ונוח."
+        }}
+      </p>
+    </div>
+  </div>
 
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="q2h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
-              {{ 'Why do times differ from the ticket?' if lang != 'he' else 'למה זמני הטיסה שונים מכרטיס הטיסה?' }}
-            </button>
-          </h2>
-          <div id="q2" class="accordion-collapse collapse" data-bs-parent="#aboutFAQ">
-            <div class="accordion-body">
-              {{ "Displayed times are estimates based on distance; schedules depend on airline, season, winds, and ATC."
-                 if lang != 'he' else
-                 "הזמנים המוצגים הם הערכות לפי מרחק; לוחות זמנים בפועל תלויים בחברת התעופה, בעונה, ברוחות ובבקרת טיסה." }}
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item mt-2">
-          <h2 class="accordion-header" id="q3h">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
-              {{ 'Can I export the routes?' if lang != 'he' else 'האם אפשר לייצא את הנתיבים?' }}
-            </button>
-          </h2>
-          <div id="q3" class="accordion-collapse collapse" data-bs-parent="#aboutFAQ">
-            <div class="accordion-body">
-              {{ "Yes. Use the Export controls above the table (Copy / CSV / Excel / PDF / Print)."
-                 if lang != 'he' else
-                 "כן. השתמשו בכפתורי הייצוא מעל הטבלה (העתקה / CSV / Excel / PDF / הדפסה)." }}
-            </div>
-          </div>
+  <!-- ✅ Grid of Highlights -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ 'Our Mission' if lang != 'he' else 'החזון שלנו' }}</h5>
+          <p class="card-text">
+            {{
+              "Our mission is to simplify travel planning and provide passengers with reliable and inspiring flight information."
+              if lang != 'he' else
+              "הוא לפשט את תכנון הנסיעות ולהעניק לנוסעים מידע אמין ומעורר השראה על יעדים."
+            }}
+          </p>
         </div>
       </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ 'Why Use Fly TLV?' if lang != 'he' else 'למה להשתמש ב־Fly TLV?' }}</h5>
+          <p class="card-text">
+            {{
+              "We only show verified nonstop destinations from TLV, with updated airline data and travel insights."
+              if lang != 'he' else
+              "אנו מציגים רק יעדים ישירים מאומתים מנתב״ג, עם נתוני חברות תעופה ותובנות שימושיות."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Features -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">{{ 'Key Features' if lang != 'he' else 'תכונות עיקריות' }}</h5>
+      <ul class="mb-0">
+        <li>{{ 'Interactive world map of all TLV nonstop destinations.' if lang != 'he' else 'מפת עולם אינטראקטיבית של כל היעדים הישירים מנתב״ג.' }}</li>
+        <li>{{ 'Search by city, country, or airline for quick results.' if lang != 'he' else 'חיפוש לפי עיר, מדינה או חברת תעופה לתוצאות מהירות.' }}</li>
+        <li>{{ 'Updated information about airlines flying from Israel.' if lang != 'he' else 'מידע מעודכן על חברות תעופה הפועלות מישראל.' }}</li>
+        <li>{{ 'Flight distance and average flight time for each destination.' if lang != 'he' else 'מרחק וזמן טיסה ממוצע לכל יעד.' }}</li>
+        <li>{{ 'Bilingual platform: available in English and Hebrew.' if lang != 'he' else 'פלטפורמה דו־לשונית: זמינה בעברית ובאנגלית.' }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ✅ FAQ -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">{{ 'FAQ' if lang != 'he' else 'שאלות נפוצות' }}</h5>
+      <p><strong>{{ 'Which destinations can I fly to directly from TLV?' if lang != 'he' else 'לאילו יעדים ניתן לטוס ישירות מנתב״ג?' }}</strong><br>
+      {{ 'You can fly to dozens of destinations across Europe, Asia, Africa, and the Americas.' if lang != 'he' else 'ניתן לטוס לעשרות יעדים ברחבי אירופה, אסיה, אפריקה ואמריקות.' }}</p>
+      <p><strong>{{ 'Which airlines fly from TLV?' if lang != 'he' else 'אילו חברות תעופה פועלות מנתב״ג?' }}</strong><br>
+      {{ 'Airlines include El Al, Arkia, Israir, Lufthansa, Turkish Airlines, Emirates, United Airlines, and more.' if lang != 'he' else 'חברות התעופה כוללות את אל על, ארקיע, ישראייר, לופטהנזה, טורקיש איירליינס, אמירייטס, יונייטד ועוד.' }}</p>
+      <p><strong>{{ 'How can I find flight times and distances?' if lang != 'he' else 'איך אפשר למצוא זמני טיסה ומרחקים?' }}</strong><br>
+      {{ 'Each destination page shows real distances and average flight times.' if lang != 'he' else 'בכל דף יעד מוצגים מרחקים אמיתיים וזמני טיסה ממוצעים.' }}</p>
+    </div>
+  </div>
+
+  <!-- ✅ Closing -->
+  <div class="card shadow-sm">
+    <div class="card-body text-center">
+      <p class="mb-0 fw-semibold">
+        {{
+          "Fly TLV is your trusted gateway to the world – helping you plan smarter with multilingual, accurate destinations information."
+          if lang != 'he' else
+          "Fly TLV הוא השער המהימן שלכם לעולם – מסייע לכם לתכנן בצורה חכמה יותר עם מידע מדויק ורב־לשוני."
+        }}
+      </p>
     </div>
   </div>
 

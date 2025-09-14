@@ -15,6 +15,7 @@ import pycountry
 import asyncio
 import aiohttp
 import re
+import string
 
 # === Third-Party Libraries ===
 import pandas as pd
@@ -73,13 +74,7 @@ TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 # Data files
 AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
-AIRLINE_CACHE_FILE    = CACHE_DIR / "ae_routes.json"       # per-airport airlines
-DATASET_FILE          = CACHE_DIR / "tlv_airports_dataset.json"  # full daily dataset
 ISRAEL_FLIGHTS_FILE   = CACHE_DIR / "israel_flights.json"
-
-# API
-AE_API_KEY: str = "da33f3-b78037"  # keep your key here
-AE_BASE = "https://aviation-edge.com/v2/public/routes"
 
 # Constants
 TLV = {"IATA": "TLV", "Name": "Ben Gurion Airport", "lat": 32.0068, "lon": 34.8853}
@@ -96,44 +91,38 @@ if STATIC_DIR.exists():
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
+def normalize_case(value: str) -> str:
+    """Capitalize each word properly, safe for missing/placeholder values."""
+    if not value or value == "—":
+        return value or "—"
+    return string.capwords(value.strip())
+
 def israel_flights_is_stale(max_age_hours: int = 24) -> bool:
     """Return True if the israel flights cache file is older than max_age_hours or missing."""
     if not ISRAEL_FLIGHTS_FILE.exists():
         return True
     age_hours = (datetime.now() - datetime.fromtimestamp(ISRAEL_FLIGHTS_FILE.stat().st_mtime)).total_seconds() / 3600
     return age_hours > max_age_hours
-    
-def dataset_is_stale(max_age_hours: int = 24) -> bool:
-    """
-    Returns True if dataset file is missing or older than `max_age_hours`.
-    """
-    if not DATASET_FILE.exists():
-        logger.info("dataset_is_stale: file does not exist -> STALE")
-        return True
 
-    try:
-        mtime = DATASET_FILE.stat().st_mtime
-        file_time = datetime.fromtimestamp(mtime)
-        age_hours = (datetime.now() - file_time).total_seconds() / 3600.0
-        logger.info(f"dataset_is_stale: dataset age={age_hours:.2f}h (limit={max_age_hours}h)")
-        return age_hours > max_age_hours
-    except Exception as e:
-        logger.error(f"Failed to check dataset file age: {e}")
-        return True
-        
 def _dataset_file_date() -> str | None:
-    """Return the date string inside DATASET_FILE, or None."""
-    if DATASET_FILE.exists():
+    """Return the DD-MM-YYYY date from 'updated' inside ISRAEL_FLIGHTS_FILE, or None."""
+    if ISRAEL_FLIGHTS_FILE.exists():
         try:
-            meta = json.load(open(DATASET_FILE, "r", encoding="utf-8"))
-            return meta.get("date")
-        except Exception:
-            return None
+            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            updated = meta.get("updated")
+            if updated:
+                # Example: "2025-09-14T17:23:16.379406" → "14-09-2025"
+                iso_date = updated.split("T")[0]  # "2025-09-14"
+                return datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
+        except Exception as e:
+            logger.error(f"Failed to read israel flights file: {e}")
     return None
+
 
 def _is_dataset_fresh_today() -> tuple[bool, str | None]:
     """Check if dataset is for today (checks in-memory first, then file)."""
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = datetime.now().strftime("%d-%m-%Y")
     # in-memory
     if DATASET_DATE == today and not DATASET_DF.empty:
         return True, today
@@ -145,20 +134,16 @@ def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
 
 def get_all_countries(data) -> list[str]:
-    """Return unique countries from data with All, Greece, Cyprus first, rest alphabetically."""
-    # If we got a DataFrame
-    if hasattr(data, "columns"):
+    """Return unique countries from data with 'All' first, rest alphabetically."""
+    if hasattr(data, "columns"):  # DataFrame
         countries = {str(c).strip() for c in data["Country"].dropna()}
-    # If we got a list of dicts
-    elif isinstance(data, list):
+    elif isinstance(data, list):  # list of dicts
         countries = {str(item.get("Country", "")).strip() for item in data if item.get("Country")}
     else:
-        return ["All", "Greece", "Cyprus"]
+        return ["All"]
 
     countries = sorted(countries)
-    rest = [c for c in countries if c not in {"Greece", "Cyprus"}]
-
-    return ["All", "Greece", "Cyprus"] + rest
+    return ["All"] + countries
     
 def safe_js(text: str) -> str:
     """Escape backticks, quotes and newlines for safe JS embedding"""
@@ -174,72 +159,6 @@ def safe_js(text: str) -> str:
         .replace("\r", "")
     )
     
-# ───────────────────────────────────────────────
-# Async Aviation Edge fetchers (parallel with throttle)
-# ───────────────────────────────────────────────
-
-async def _fetch(session: aiohttp.ClientSession, params: dict, retries: int = 1) -> list:
-    """Async GET with retries. Returns JSON list or [] on failure."""
-    for attempt in range(retries + 1):
-        try:
-            async with session.get(AE_BASE, params=params, timeout=15) as r:
-                if r.status == 200:
-                    try:
-                        return await r.json()
-                    except Exception as e:
-                        logger.error(f"[ERROR] JSON decode failed: {e}")
-                        return []
-                else:
-                    text = await r.text()
-                    logger.warning(f"[WARN] AE status {r.status} for {params} | {text[:100]}")
-        except Exception as e:
-            logger.error(f"[ERROR] AE exception for {params}: {e}")
-        if attempt < retries:
-            logger.info(f"[INFO] Retrying AE call ({attempt+1}/{retries}) for {params}")
-            await asyncio.sleep(1.0)
-    return []
-
-
-async def fetch_airlines_one_dest(dest: str, api_key: str, session: aiohttp.ClientSession, sem: asyncio.Semaphore) -> set[str]:
-    """Fetch TLV↔dest airlines with semaphore concurrency control."""
-    airlines: set[str] = set()
-    params_list = [
-        {"departureIata": "TLV", "arrivalIata": dest, "key": api_key},
-        {"departureIata": dest, "arrivalIata": "TLV", "key": api_key},
-    ]
-
-    async def _task(params):
-        async with sem:
-            data = await _fetch(session, params)
-            if isinstance(data, list):
-                for it in data:
-                    if isinstance(it, dict) and (
-                        it.get("departureIata") == "TLV" or it.get("arrivalIata") == "TLV"
-                    ):
-                        airlines.update(extract_airline_names(it))
-            elif isinstance(data, dict) and data.get("error") == "No Record Found":
-                logger.info(f"[INFO] AE {params['departureIata']}->{params['arrivalIata']}: no routes found")
-
-    await asyncio.gather(*[_task(p) for p in params_list])
-    return airlines
-
-
-async def fetch_airlines_batch(dest_list: List[str], api_key: str, max_concurrent: int = 5) -> Dict[str, set[str]]:
-    """
-    Fetch airlines for multiple destinations in parallel.
-    - max_concurrent limits in-flight requests (avoid rate limit).
-    - Returns dict {IATA: set(airlines)}.
-    """
-    results: Dict[str, set[str]] = {}
-    sem = asyncio.Semaphore(max_concurrent)
-
-    async with aiohttp.ClientSession() as session:
-        tasks = [fetch_airlines_one_dest(dest, api_key, session, sem) for dest in dest_list]
-        results_list = await asyncio.gather(*tasks)
-
-    for dest, airlines in zip(dest_list, results_list):
-        results[dest] = airlines
-    return results
 # ──────────────────────────────────────────────────────────────────────────────
 # Progress tracker for refresh
 # ──────────────────────────────────────────────────────────────────────────────
@@ -247,21 +166,22 @@ PROGRESS: Dict[str, Any] = {"running": False, "total": 0, "done": 0, "date": Non
 PROGRESS_LOCK = threading.Lock()
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Load airports (GR & CY) once for dataset builds
+# Load airports once for dataset builds
 # ──────────────────────────────────────────────────────────────────────────────
 
 def get_dataset_date():
-    if DATASET_FILE.exists():
-        with open(DATASET_FILE, encoding="utf-8") as f:
+    if ISRAEL_FLIGHTS_FILE.exists():
+        with open(ISRAEL_FLIGHTS_FILE, encoding="utf-8") as f:
             data = json.load(f)
-        iso_date = data.get("date")  # e.g. "2025-09-13"
-        if iso_date:
+        updated = data.get("updated")
+        if updated:
             try:
-                # convert YYYY-MM-DD → DD-MM-YYYY
+                iso_date = updated.split("T")[0]
                 return datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
             except Exception:
-                return iso_date  # fallback if format unexpected
+                return iso_date
     return None
+
     
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     R = 6371.0
@@ -272,19 +192,20 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 def load_airports_all() -> pd.DataFrame:
     iata_db = airportsdata.load("IATA")
     rows = []
+
     for iata, rec in iata_db.items():
-        country = rec.get("country")
-        name, city = rec.get("name"), rec.get("city")
+        country = normalize_case(rec.get("country"))
+        name = normalize_case(rec.get("name"))
+        city = normalize_case(rec.get("city"))
         lat, lon = rec.get("lat"), rec.get("lon")
 
-        dist_km = None
-        flight_time_hr = None
+        dist_km = flight_time_hr = None
         if lat is not None and lon is not None:
             dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
             flight_time_hr = round(dist_km / 800, 2)  # assume 800 km/h
 
         rows.append({
-            "IATA": iata,
+            "IATA": iata.upper(),
             "Name": name,
             "City": city,
             "Country": country,
@@ -293,34 +214,7 @@ def load_airports_all() -> pd.DataFrame:
             "Distance_km": dist_km,
             "FlightTime_hr": flight_time_hr,
         })
-    return pd.DataFrame(rows)
 
-def load_airports_gr_cy() -> pd.DataFrame:
-    iata_db = airportsdata.load("IATA")
-    rows = []
-    for iata, rec in iata_db.items():
-        if rec.get("country") not in {"GR", "CY"}:
-            continue
-        country = "Greece" if rec.get("country") == "GR" else "Cyprus"
-        name, city = rec.get("name"), rec.get("city")
-        lat, lon = rec.get("lat"), rec.get("lon")
-
-        dist_km = None
-        flight_time_hr = None
-        if lat is not None and lon is not None:
-            dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
-            flight_time_hr = round(dist_km / 800, 2)  # assume 800 km/h
-
-        rows.append({
-            "IATA": iata,
-            "Name": name,
-            "City": city,
-            "Country": country,
-            "lat": lat,
-            "lon": lon,
-            "Distance_km": dist_km,
-            "FlightTime_hr": flight_time_hr,
-        })
     return pd.DataFrame(rows)
 
 def load_airline_names() -> Dict[str, str]:
@@ -338,33 +232,7 @@ AIRPORTS = load_airports_all()
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-# ── Disk cache helpers (per-airport airlines)
-def read_airline_cache() -> dict:
-    if AIRLINE_CACHE_FILE.exists():
-        try:
-            with open(AIRLINE_CACHE_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception as e:
-            logger.error(f"Failed to read airline cache: {e}")
-            return {}
-    return {}
-
-def write_airline_cache(cache: dict) -> None:
-    try:
-        with open(AIRLINE_CACHE_FILE, "w", encoding="utf-8") as f:
-            json.dump(cache, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        logger.error(f"Failed to write airline cache: {e}")
-
-def save_airlines_for(dest: str, airlines: set) -> None:
-    cache = read_airline_cache()
-    cache[dest] = sorted(list(airlines))
-    write_airline_cache(cache)
-
-def load_airlines_for(dest: str) -> set:
-    cache = read_airline_cache()
-    return set(cache.get(dest, []))
-    
+ 
 def normalize_airline_list(items: List[str]) -> List[str]:
     seen = set()
     out = []
@@ -376,57 +244,33 @@ def normalize_airline_list(items: List[str]) -> List[str]:
             seen.add(key)
             out.append(key.title())
     return out
-def extract_airline_names(route: dict) -> List[str]:
-    """
-    Extract airline names from AE response and normalize.
-    Prefer IATA code → canonical name, fallback to raw names.
-    Deduplicated case-insensitively and returned in Title Case.
-    """
-
-    # 1) Prefer canonical name via IATA code
-    code = route.get("airlineIata") or route.get("airlineCode")
-    if code:
-        code = str(code).upper().strip()
-        canonical = AIRLINE_NAMES.get(code)
-        if canonical:
-            return normalize_airline_list([canonical])
-
-    # 2) Fallback: collect free-text names
-    names = []
-    for k in ("airlineName", "airline_name", "airline"):
-        v = route.get(k)
-        if v:
-            names.append(str(v).strip())
-
-    # Normalize & dedupe
-    return normalize_airline_list(names)
-
     
-    
-def fetch_israel_flights() -> dict:
-    """Fetch gov.il flights (all countries) and cache to disk."""    
+def fetch_israel_flights() -> dict | None:
+    """Fetch gov.il flights (all countries) and cache to disk."""
     params = {
         "resource_id": RESOURCE_ID,
         "limit": DEFAULT_LIMIT
     }
+
     try:
         r = requests.get(ISRAEL_API, params=params, timeout=30)
         r.raise_for_status()
         data = r.json()
 
-        flights = []
-        for rec in data.get("result", {}).get("records", []):
-            flights.append({
-                "airline": rec.get("CHOPERD"),
-                "iata": rec.get("CHLOC1"),
-                "airport": rec.get("CHLOC1D"),
-                "city": rec.get("CHLOC1T"),
-                "country": rec.get("CHLOCCT"),
-                "scheduled": rec.get("CHSTOL"),
-                "actual": rec.get("CHPTOL"),
-                "direction": rec.get("CHAORD"),
-                "status": rec.get("CHRMINE")
-            })
+        flights = [
+            {
+                "airline": normalize_case(rec.get("CHOPERD", "—")),
+                "iata": (rec.get("CHLOC1") or "—").upper(),  # IATA always uppercase
+                "airport": normalize_case(rec.get("CHLOC1D", "—")),
+                "city": normalize_case(rec.get("CHLOC1T", "—")),
+                "country": normalize_case(rec.get("CHLOCCT", "—")),
+                "scheduled": normalize_case(rec.get("CHSTOL", "—")),
+                "actual": normalize_case(rec.get("CHPTOL", "—")),
+                "direction": normalize_case(rec.get("CHAORD", "—")),
+                "status": normalize_case(rec.get("CHRMINE", "—")),
+            }
+            for rec in data.get("result", {}).get("records", [])
+        ]
 
         result = {
             "updated": datetime.now().isoformat(),
@@ -434,81 +278,18 @@ def fetch_israel_flights() -> dict:
             "flights": flights
         }
 
+        # Cache locally
         with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
 
         logger.info(f"gov.il flights refreshed: {len(flights)} total flights cached")
-        return result   # ✅ return dict instead of None
+        return result
 
     except Exception as e:
         logger.error(f"Failed to fetch gov.il flights: {e}")
-        return None     # so your endpoint can check
+        return None
 
 
-def fetch_airlines_from_ae(dest: str) -> set:
-    """Call AE for TLV↔dest both directions. Returns set of airline names/codes."""
-    if not AE_API_KEY:
-        logger.warning("[WARN] No Aviation Edge API key set, skipping fetch.")
-        return set()
-
-    airlines = set()
-
-    def fetch_with_retry(params: dict, retries: int = 1) -> list:
-        """Try AE API call with retries. Returns the response data or empty list."""
-        for attempt in range(retries + 1):
-            time.sleep(1.05)  # Throttle: 1 request per second
-            try:
-                logger.debug(f"[DEBUG] AE request → {params}")
-                r = requests.get(AE_BASE, params=params, timeout=15)
-                if r.status_code == 200:
-                    return r.json()
-                else:
-                    logger.warning(f"[WARN] AE status {r.status_code} for {params}")
-            except Exception as e:
-                logger.error(f"[ERROR] AE exception for {params}: {e}")
-            if attempt < retries:
-                logger.info(f"[INFO] Retrying AE call ({attempt+1}/{retries}) for {params}")
-        return []
-
-    for params in [
-        {"departureIata": "TLV", "arrivalIata": dest, "key": AE_API_KEY},
-        {"departureIata": dest, "arrivalIata": "TLV", "key": AE_API_KEY},
-    ]:
-        data = fetch_with_retry(params, retries=1)
-
-        if isinstance(data, list):
-            count_before = len(airlines)
-            for it in data:
-                if isinstance(it, dict) and (
-                    it.get("departureIata") == "TLV" or it.get("arrivalIata") == "TLV"
-                ):
-                    airlines.update(extract_airline_names(it))
-            added = len(airlines) - count_before
-            logger.info(
-                f"[INFO] AE {params['departureIata']}->{params['arrivalIata']} "
-                f"added {added} airlines (total={len(airlines)})"
-            )
-
-        elif isinstance(data, dict):
-            if data.get("error") == "No Record Found":
-                logger.info(
-                    f"[INFO] AE {params['departureIata']}->{params['arrivalIata']}: no routes found"
-                )
-            else:
-                logger.warning(f"[WARN] Unexpected AE dict response for {dest}: {data}")
-
-    logger.debug(f"[DEBUG] Final airlines for {dest}: {sorted(list(airlines))}")
-    return airlines
-
-def get_airlines_for(dest: str) -> set:
-    """Disk-first, then AE, then persist."""
-    cached = load_airlines_for(dest)
-    if cached:
-        return cached
-    airlines = fetch_airlines_from_ae(dest)
-    if airlines:
-        save_airlines_for(dest, airlines)
-    return airlines
 
 # ──────────────────────────────────────────────────────────────────────────────
 # In-memory dataset cache (so filters never touch AE)
@@ -517,34 +298,67 @@ DATASET_DF: pd.DataFrame = pd.DataFrame()
 DATASET_DATE: str = ""
 DATASET_LOCK = threading.Lock()
 
-def _read_dataset_file() -> pd.DataFrame:
-    if DATASET_FILE.exists():
+def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
+    """Read israel_flights.json and convert flights → unique airports DataFrame."""
+    if ISRAEL_FLIGHTS_FILE.exists():
         try:
-            with open(DATASET_FILE, "r", encoding="utf-8") as f:
+            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
                 meta = json.load(f)
 
-            df = pd.DataFrame(meta.get("airports", []))
+            flights = meta.get("flights", [])
+            iata_db = airportsdata.load("IATA")
 
-            # ✅ Convert ISO alpha-2 country codes -> full names
-            if "Country" in df.columns:
-                def iso_to_country(code: str) -> str:
-                    if not code or not isinstance(code, str):
-                        return code
-                    try:
-                        country = pycountry.countries.get(alpha_2=code.upper())
-                        return country.name if country else code
-                    except Exception:
-                        return code
+            grouped = {}
+            for f in flights:
+                iata = f.get("iata")
+                if not iata:
+                    continue
+                entry = grouped.setdefault(iata, {
+                    "IATA": iata,
+                    "Name": f.get("airport") or "—",
+                    "City": f.get("city") or "—",
+                    "Country": f.get("country") or "—",
+                    "Airlines": set(),
+                })
+                airline = f.get("airline")
+                if airline:
+                    entry["Airlines"].add(airline)
 
-                df["Country"] = df["Country"].apply(iso_to_country)
+            rows = []
+            for iata, info in grouped.items():
+                coords = iata_db.get(iata, {})
+                lat, lon = coords.get("lat"), coords.get("lon")
+                dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
+                flight_hr = round(dist_km / 800, 2) if dist_km else None
+                rows.append({
+                    **info,
+                    "lat": lat,
+                    "lon": lon,
+                    "Distance_km": dist_km,
+                    "FlightTime_hr": flight_hr,
+                    "Airlines": sorted(info["Airlines"]),
+                })
 
-            return df, meta.get("date")
+            df = pd.DataFrame(rows)
+
+            # Get date from "updated"
+            updated = meta.get("updated")
+            file_date = None
+            if updated:
+                try:
+                    iso_date = updated.split("T")[0]
+                    file_date = datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
+                except Exception:
+                    file_date = iso_date
+
+            return df, file_date
 
         except Exception as e:
             logger.error(f"Failed to read dataset file: {e}")
 
     # Empty fallback
     return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
+
 
 def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
     """
@@ -583,9 +397,7 @@ def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
             logger.info("Refresh already running — not starting another.")
 
     return DATASET_DF
-# ──────────────────────────────────────────────────────────────────────────────
-# Dataset builder (the ONLY place that calls AE)
-# ──────────────────────────────────────────────────────────────────────────────
+
 def load_israel_flights_map():
     """Return dict {IATA: set(airlines)} from gov.il cache"""
     flights = []
@@ -608,97 +420,11 @@ def load_israel_flights_map():
         if normalized:
             mapping.setdefault(iata, set()).add(normalized)
     return mapping
-    
-def build_daily_dataset():
-    logger.info("Building daily dataset (async batch)...")
-    with PROGRESS_LOCK:
-        if PROGRESS["running"]:
-            logger.info("Build request ignored; already running.")
-            return
-        PROGRESS.update({
-            "running": True,
-            "total": len(AIRPORTS),
-            "done": 0,
-            "date": datetime.now().strftime("%Y-%m-%d"),
-        })
-
-    dest_list = AIRPORTS["IATA"].tolist()
-
-    # Run asyncio batch fetcher
-    try:
-        airlines_map = asyncio.run(fetch_airlines_batch(dest_list, AE_API_KEY, max_concurrent=5))
-    except Exception as e:
-        logger.error(f"Async batch fetch failed, falling back to sequential: {e}")
-        airlines_map = {iata: get_airlines_for(iata) for iata in dest_list}
-
-    rows = []
-    for _, r in AIRPORTS.iterrows():
-        iata = r["IATA"]
-        airlines = airlines_map.get(iata, set())
-        with PROGRESS_LOCK:
-            PROGRESS["done"] += 1
-
-        save_airlines_for(iata, airlines)
-        if not airlines:
-            continue
-        rows.append({
-            "IATA": iata,
-            "Name": r["Name"],
-            "City": r["City"],
-            "Country": r["Country"],            
-            "lat": r["lat"],
-            "lon": r["lon"],
-            "Airlines": normalize_airline_list(list(airlines)),
-            "Distance_km": r.get("Distance_km"),
-            "FlightTime_hr": r.get("FlightTime_hr"),
-        })
-
-    dataset = {"date": PROGRESS["date"], "airports": rows}
-    try:
-        with open(DATASET_FILE, "w", encoding="utf-8") as f:
-            json.dump(dataset, f, ensure_ascii=False, indent=2)
-        logger.info(f"Dataset written: {DATASET_FILE}")
-    except Exception as e:
-        logger.error(f"Failed to write dataset: {e}")
-
-    # put into memory
-    with DATASET_LOCK:
-        global DATASET_DF, DATASET_DATE
-        DATASET_DF = pd.DataFrame(rows)
-        DATASET_DATE = PROGRESS["date"]
-
-    with PROGRESS_LOCK:
-        PROGRESS["running"] = False
-    logger.info("Dataset build completed (async batch).")
-
 
 def start_refresh_thread():
-    t = threading.Thread(target=build_daily_dataset, daemon=True)
+    t = threading.Thread(target=fetch_israel_flights, daemon=True)
     t.start()
     
-# ───────────────────────────────────────────────
-# Scheduler job
-# ───────────────────────────────────────────────
-def scheduled_refresh():
-    """Job run by scheduler. Refresh only if stale (>24h)."""
-    try:
-        if not dataset_is_stale(max_age_hours=24):
-            logger.info("Scheduled check: dataset fresh (<24h) -> skip refresh")
-            return
-
-        with PROGRESS_LOCK:
-            if PROGRESS.get("running"):
-                logger.info("Scheduled check: refresh already running -> skip")
-                return
-
-        url = "http://127.0.0.1:8000/admin/refresh?force=true"
-        r = requests.post(url, timeout=60)
-        safe_text = r.text.encode("ascii", "ignore").decode("ascii")  # avoid Unicode logging issues
-        logger.info(f"Scheduled refresh -> {r.status_code}: {safe_text[:200]}...")
-
-    except Exception as e:
-        logger.error(f"Scheduled refresh failed: {e}")
-
 def load_airline_websites() -> dict:
     try:
         with open(AIRLINE_WEBSITES_FILE, "r", encoding="utf-8") as f:
@@ -753,7 +479,7 @@ def home(
 
         merged = sorted(normalize_airline_list(list(ae_airlines.union(govil_airlines))))
         ap["Airlines"] = merged if merged else ["—"]
-
+        
     # --- Step 3: Add missing gov.il-only destinations (group + merge) ---
     if ISRAEL_FLIGHTS_FILE.exists():
         try:
@@ -783,12 +509,7 @@ def home(
 
             airline = rec.get("airline")
             if airline:
-                grouped[iata]["Airlines"].add(airline)
-
-        def normalize_case(value: str) -> str:
-            if not value or value == "—":
-                return value or "—"
-            return value.capitalize()            
+                grouped[iata]["Airlines"].add(airline)   
          
         for iata, meta in grouped.items():
             lat = lon = None
@@ -799,22 +520,21 @@ def home(
                 if lat is not None and lon is not None:
                     dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
                     flight_time_hr = round(dist_km / 800, 2)
-
             airports.append({
                 "IATA": iata,
-                "Name": normalize_case(meta["Name"]),
-                "City": normalize_case(meta["City"]),
-                "Country": normalize_case(meta["Country"]),
+                "Name": meta.get("Name") or "—",
+                "City": meta.get("City") or "—",
+                "Country": meta.get("Country") or "—",
                 "lat": lat,
                 "lon": lon,
-                "Airlines": normalize_airline_list(list(meta["Airlines"])),
+                "Airlines": normalize_airline_list(list(meta.get("Airlines", []))),
                 "Distance_km": dist_km,
                 "FlightTime_hr": flight_time_hr,
             })
 
     # --- Step 4: Render template ---
     countries = get_all_countries(airports)
-    last_update = get_dataset_date() or get_dataset_file_time()
+    last_update = get_dataset_date()
     logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
 
     return TEMPLATES.TemplateResponse(
@@ -1137,7 +857,7 @@ def on_startup():
     global scheduler
 
     # 1) Load dataset if present
-    if DATASET_FILE.exists():
+    if ISRAEL_FLIGHTS_FILE.exists():
         df, d = _read_dataset_file()
         with DATASET_LOCK:
             global DATASET_DF, DATASET_DATE
@@ -1145,16 +865,6 @@ def on_startup():
         logger.info(f"Startup: dataset loaded (date={DATASET_DATE}, rows={len(DATASET_DF)})")
     else:
         logger.info("Startup: no dataset file on disk")
-
-    # 2) Refresh AE dataset if stale (>24h)
-    try:
-        if dataset_is_stale(max_age_hours=999999):
-            logger.info("Startup: AE dataset stale -> refreshing now")
-            get_dataset(trigger_refresh=True)
-    except Exception as e:
-        logger.error(f"Startup AE refresh failed: {e}")
-
-    # 3) Refresh gov.il flights if stale (>24h)
     try:
         if israel_flights_is_stale(max_age_hours=24):
             logger.info("Startup: gov.il flights stale -> refreshing now")
@@ -1162,12 +872,10 @@ def on_startup():
     except Exception as e:
         logger.error(f"Startup gov.il refresh failed: {e}")
 
-    # 4) Start scheduler (every 24h)
     scheduler = BackgroundScheduler()
-    #scheduler.add_job(scheduled_refresh, "interval", hours=999999, id="ae_refresh", replace_existing=True)
     scheduler.add_job(fetch_israel_flights, "interval", hours=24, id="govil_refresh", replace_existing=True)
     scheduler.start()
-    logger.info("Scheduler started: AE + gov.il refresh every 24h")
+    logger.info("Scheduler started: gov.il refresh every 24h")
 
 @app.post("/api/israel-flights/refresh")
 async def refresh_israel_flights():

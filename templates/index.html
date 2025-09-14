@@ -324,7 +324,7 @@
         <div class="card shadow-sm">
           <div class="card-header d-flex align-items-center justify-content-between">
             <div>
-              <strong id="main-title">✈️ TLV → Worldwide Destinations"</strong>
+              <strong id="main-title">✈️ TLV → Worldwide Destinations</strong>
               <div class="small text-muted" id="subheader-text">Real routes, distances and estimated flight times</div>
             </div>
 			<div class="text-end d-flex flex-column align-items-end">
@@ -342,7 +342,7 @@
             <table id="airports-table" class="table table-striped table-hover w-100 align-middle">
               <thead class="table-primary">
                 <tr>
-                  <th>IATA</th>
+				  <th>IATA</th>
                   <th>Name</th>
                   <th>City</th>
                   <th>Country</th>
@@ -353,7 +353,7 @@
               </thead>
               <tbody>
               {% for ap in airports %}
-                <tr>
+                <tr>				  
                   <td>{{ ap.IATA }}</td>
                   <td>{{ ap.Name }}</td>
                   <td>{{ ap.City }}</td>
@@ -469,17 +469,6 @@
     </div>
   </div>
 </div>
-
-  <!-- Loading overlay -->
-  <div id="loadingOverlay">
-    <div class="text-center">
-      <h4 class="mb-3" id="overlay-title">Refreshing routes…</h4>
-      <div class="progress" style="height:24px; width:320px;">
-        <div id="loadingBar" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%;">0%</div>
-      </div>
-      <div id="loadingDetail" class="mt-2">Please wait…</div>
-    </div>
-  </div>
 
   <!-- Toasts -->
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index:2100">

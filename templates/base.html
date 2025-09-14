@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ✅ Title -->
-  <title>{{ title | default("Flights Explorer — All TLV Destinations Worldwide") }}</title>
+  <title>{{ title | default("TLV → Worldwide Destinations") }}</title>
 
   <!-- ✅ SEO -->
   <meta name="description" content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
@@ -33,7 +33,7 @@
   <meta name="robots" content="index,follow">
 
   <!-- ✅ Canonical -->
-  <link rel="canonical" href="https://fly-tlv.com{{ '?lang=he' if lang == 'he' else '/' }}">
+  <link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}">
 
   <!-- ✅ Hreflang -->
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="en">
@@ -41,7 +41,6 @@
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default">
 
   <!-- ✅ Google Verification & Ads -->
-  <meta name="google-site-verification" content="YOUR_GOOGLE_TOKEN_HERE">
   <meta name="google-adsense-account" content="ca-pub-7964221655161384">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384" crossorigin="anonymous"></script>
 
