@@ -36,11 +36,16 @@ body.dark-mode .navbar {
 .navbar-brand {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 3vw, 1.6rem); /* 🔄 Responsive text size */
   background: var(--accent);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--accent-glow);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
 }
 
 /* ===== Hero Section ===== */
@@ -423,4 +428,10 @@ body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li {
 }
 body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li span.dtr-title {
   color: #22d3ee;
+}
+
+@media (max-width: 768px) {
+  .export-buttons {
+    display: none !important;
+  }
 }
