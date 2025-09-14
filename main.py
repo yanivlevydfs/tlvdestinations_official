@@ -1164,7 +1164,7 @@ def on_startup():
 
     # 4) Start scheduler (every 24h)
     scheduler = BackgroundScheduler()
-    scheduler.add_job(scheduled_refresh, "interval", hours=999999, id="ae_refresh", replace_existing=True)
+    #scheduler.add_job(scheduled_refresh, "interval", hours=999999, id="ae_refresh", replace_existing=True)
     scheduler.add_job(fetch_israel_flights, "interval", hours=24, id="govil_refresh", replace_existing=True)
     scheduler.start()
     logger.info("Scheduler started: AE + gov.il refresh every 24h")
