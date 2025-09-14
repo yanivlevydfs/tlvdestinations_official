@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { extend:'print',      className:'btn btn-primary', text:`<i class="bi bi-printer me-1"></i> ${b.print}` }
     ];
   }
+  
 function initDataTable(lang) {
   return $('#airports-table').DataTable({
     dom:
@@ -44,9 +45,13 @@ function initDataTable(lang) {
     buttons: dtButtonsFor(lang),
 
     responsive: {
-      details: false,
+      details: {
+        type: 'column',     // adds the ► / ▼ control in its own column
+        target: 0           // use column 0 as the control
+      },
       breakpoints: [
         { name: 'desktop', width: Infinity },
+        { name: 'tablet',  width: 992 },
         { name: 'mobile',  width: 768 }
       ]
     },
@@ -55,10 +60,13 @@ function initDataTable(lang) {
     pageLength: 10,
     lengthMenu: [5, 10, 25, 50],
     columnDefs: [
-      { targets: [0,1,2], responsivePriority: 1 },    // IATA, Name, City always visible
-      { targets: [3],     responsivePriority: 2 },    // Country
-      { targets: [4,5,6], responsivePriority: 10000 } // Airlines, Distance, FlightTime collapse first
+      { className: 'dtr-control', orderable: false, targets: 0 }, // expand arrow column
+      { targets: [1,2,3], responsivePriority: 1 },    // IATA, Name, City always visible
+      { targets: [4],     responsivePriority: 2 },    // Country
+      { targets: [5,6,7], responsivePriority: 10000 } // Airlines, Distance, FlightTime collapse first
     ],
+    order: [1, 'asc'],
+
     language: LANG[lang].dt,
 
     initComplete: function () {
