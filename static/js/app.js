@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		{ extend:'print',      className:'btn btn-primary', text:`<i class="bi bi-printer me-1"></i> ${b.print}` }
 	  ];
 	}
-
   function initDataTable(lang) {
     return $('#airports-table').DataTable({
       dom:

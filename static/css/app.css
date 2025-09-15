@@ -149,11 +149,14 @@ body.dark-mode .card {
 
 /* ===== Table ===== */
 #airports-table {
+  width: 100% !important;
+  table-layout: auto; /* OR fixed if you want consistent column widths */
   border-radius: 1rem;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
+
 body.dark-mode #airports-table {
   background: #16171b;
   box-shadow: 0 4px 14px rgba(0,0,0,.7);
@@ -435,3 +438,17 @@ body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li span.dtr-tit
     display: none !important;
   }
 }
+
+@media (min-width: 992px) {
+  .filters-col {
+    width: 340px;
+    max-width: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  .filters-col {
+    width: 380px;
+    max-width: 100%;
+  }
+}
+
