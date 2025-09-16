@@ -222,15 +222,18 @@ function applyUnitsInCells(dict) {
 
 // ---------- Mobile filters ----------
 $('#country-filter-mobile').on('change', function() {
-  updateFilters(this.value, $('#query-filter-mobile').val().trim());
+  const val = this.value === "All" ? '' : this.value;
+  table.column(3).search(escapeRegex(val), true, false).draw();
+  updateActiveFilters(LANG[currentLang]); // reuse same updater
 });
 
 let debounceTimerMobile;
 $('#query-filter-mobile').on('input', function() {
   clearTimeout(debounceTimerMobile);
-  const q = this.value;
+  const val = this.value;
   debounceTimerMobile = setTimeout(() => {
-    updateFilters($('#country-filter-mobile').val(), q);
+    table.search(escapeRegex(val), true, false).draw();
+    updateActiveFilters(LANG[currentLang]); // reuse same updater
   }, 250);
 });
 
@@ -238,7 +241,6 @@ $('#clear-filters-mobile').on('click', () => {
   $('#country-filter-mobile').val('All').trigger('change');
   $('#query-filter-mobile').val('').trigger('input');
 });
-
 
 
 
