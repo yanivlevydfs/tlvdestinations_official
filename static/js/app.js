@@ -293,8 +293,7 @@ $('#clear-filters-mobile').on('click', () => {
   }
 
   if (viewMapBtn) {
-    viewMapBtn.addEventListener('click', () => {
-      pingToast(LANG[currentLang].overlayLoadingMap, 'info');
+    viewMapBtn.addEventListener('click', () => {      
       const modal = new bootstrap.Modal(mapModal);
       modal.show();
       iframe.contentWindow.postMessage("modal-shown", "*");
