@@ -22,7 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
     themeIcon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
     localStorage.setItem('fe-theme', dark ? 'dark' : 'light');
   });
-
+	document.addEventListener('click', (e) => {
+	  const btn = e.target.closest('#ai-chat-btn');
+	  if (btn) {
+		console.log('AI Chat button clicked — navigating to /chat');
+		window.location.href = '/chat';
+	  }
+	});
   // ---------- DataTable init/destroy helper ----------
   let table; // global ref
 	function dtButtonsFor(lang) {
@@ -213,6 +219,29 @@ function applyUnitsInCells(dict) {
     });
   }
 
+
+// ---------- Mobile filters ----------
+$('#country-filter-mobile').on('change', function() {
+  updateFilters(this.value, $('#query-filter-mobile').val().trim());
+});
+
+let debounceTimerMobile;
+$('#query-filter-mobile').on('input', function() {
+  clearTimeout(debounceTimerMobile);
+  const q = this.value;
+  debounceTimerMobile = setTimeout(() => {
+    updateFilters($('#country-filter-mobile').val(), q);
+  }, 250);
+});
+
+$('#clear-filters-mobile').on('click', () => {
+  $('#country-filter-mobile').val('All').trigger('change');
+  $('#query-filter-mobile').val('').trigger('input');
+});
+
+
+
+
   // ---------- DataTable (first init with saved lang) ----------
   const savedLang = localStorage.getItem('fe-lang') || 'en';
   table = initDataTable(savedLang);
@@ -270,3 +299,4 @@ function applyUnitsInCells(dict) {
     });
   }
 });
+

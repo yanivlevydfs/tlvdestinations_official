@@ -16,6 +16,10 @@ import asyncio
 import aiohttp
 import re
 import string
+from pydantic import BaseModel
+import google.generativeai as genai
+from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
+import random
 
 # === Third-Party Libraries ===
 import pandas as pd
@@ -56,6 +60,14 @@ setup_logging(log_level="INFO", log_dir="logs", log_file_name="app.log")
 logger = get_app_logger("flights_explorer")
 logger.info("Server starting…")
 
+# Set up Gemini API
+
+genai.configure(api_key="AIzaSyBxOJwavtKVB9gJvA2OoAsKw90GogBNdZs")
+chat_model = genai.GenerativeModel("gemini-2.5-flash")
+
+class ChatQuery(BaseModel):
+    question: str
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
@@ -71,6 +83,7 @@ for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
 
 # Templates
 TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
+TEMPLATES.env.globals["now"] = datetime.utcnow
 
 # Data files
 AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
@@ -86,6 +99,17 @@ DEFAULT_LIMIT = 32000
 app = FastAPI(title="Flights Explorer (FastAPI)")
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+CORS_ORIGINS="http://localhost:3000,https://fly-tlv.com"
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[o.strip() for o in CORS_ORIGINS],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -1006,3 +1030,124 @@ def sitemap():
     out_path.write_text(xml, encoding="utf-8")
 
     return Response(content=xml, media_type="application/xml")
+    
+from pydantic import BaseModel
+from fastapi import Query
+import logging
+
+class ChatQuery(BaseModel):
+    question: str
+
+
+def generate_field_based_questions(n: int = 10) -> list[str]:
+    fields = [
+        "airline",
+        "iata",
+        "airport",
+        "city",
+        "country",
+        "scheduled",
+        "actual",
+        "direction",
+        "status",
+    ]
+
+    questions = [
+        f"What values are available in `{f}`?" for f in fields
+    ] + [
+        f"List all flights grouped by `{f}`." for f in fields
+    ] + [
+        f"Show all flights where `{f}` is missing." for f in fields
+    ] + [
+        f"How many unique `{f}` values are there?" for f in fields
+    ]
+
+    return list(dict.fromkeys(questions))[:n]
+
+@app.post("/api/chat", response_class=JSONResponse)
+async def chat_flight_ai(
+    query: ChatQuery = Body(...),
+    max_rows: int = Query(default=150, le=300),
+    lang: str = Query(default="en")
+):
+    """
+    Use Gemini to answer natural language questions about DATASET_DF.
+    """
+    question = query.question.strip()
+    if not question:
+        raise HTTPException(status_code=400, detail="Question is empty.")
+
+    if DATASET_DF.empty:
+        raise HTTPException(status_code=503, detail="Flight dataset not loaded.")
+
+    # Step 1: Format in-memory dataset into context
+    context_rows = []
+    for row in DATASET_DF.to_dict(orient="records")[:max_rows]:
+        iata = row.get("IATA", "—")
+        city = row.get("City", "—")
+        country = row.get("Country", "—")
+        airlines = ", ".join(sorted(set(row.get("Airlines", [])))) or "—"
+        context_rows.append(f"{iata}, {city}, {country}, Airlines: {airlines}")
+    context = "\n".join(context_rows)
+
+    # Step 2: Build prompt
+    prompt = f"""
+You are an aviation expert helping users explore flights from Ben Gurion Airport (TLV).
+
+Here is structured flight destination data from Israel:
+
+{context}
+
+Now, based on the data above, answer this user question:
+
+"{question}"
+
+Only use the above data. 
+If something is not found, say "I couldn't find it in the data".
+Be concise and helpful.
+"""
+
+    logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
+
+    # Step 3: Ask Gemini
+    try:
+        result = await chat_model.generate_content_async(prompt)
+        answer = getattr(result, "text", None) or "I couldn't find it in the data."
+    except Exception as e:
+        logger.error("Gemini API error: %s", str(e))
+        raise HTTPException(status_code=500, detail="Gemini API error")
+
+    # Step 4: Suggested questions from JSON schema
+    field_names = [
+        "airline", "iata", "airport", "city", "country",
+        "scheduled", "actual", "direction", "status"
+    ]
+
+    if lang == "he":
+        base = "הצג טיסות לפי"
+        suggestions = [f"{base} {f}" for f in field_names]
+    else:
+        base = "Show me flights by"
+        suggestions = [f"{base} {f}" for f in field_names]
+
+    # Pick 3 random suggestions
+    suggestions = random.sample(suggestions, k=3)
+
+    # Step 5: Return answer + suggestions
+    return {"answer": answer, "suggestions": suggestions}
+
+        
+        
+@app.get("/chat", response_class=HTMLResponse)
+async def chat_page(request: Request):
+    # Optional: List models that support `generateContent` (for debugging)
+    #for m in genai.list_models():
+    #    if "generateContent" in m.supported_generation_methods:
+    #        print(m.name)
+
+    # Render the chat UI
+    return TEMPLATES.TemplateResponse("chat.html", {"request": request})
+    
+@app.get("/api/chat/suggestions", response_class=JSONResponse)
+async def chat_suggestions():
+    return {"questions": generate_field_based_questions()}

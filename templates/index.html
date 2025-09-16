@@ -182,7 +182,10 @@
 		<button id="refresh-btn" class="btn btn-primary d-none">
 		  <i class="bi bi-arrow-repeat me-1"></i> Refresh Routes
 		</button>
-
+		<!-- AI Chat Button -->
+		<button id="ai-chat-btn" class="btn btn-outline-success" type="button">
+		  <i class="bi bi-robot me-1"></i> Ask AI
+		</button>
         <!-- Theme toggle -->
         <button id="theme-toggle" class="btn btn-outline-secondary" type="button" aria-label="Toggle theme">
           <i id="theme-icon" class="bi bi-moon-stars me-1"></i> Theme
@@ -277,6 +280,31 @@
 		<!-- /offcanvas -->
       </div>	  
       <!-- Table -->
+	  <!-- Inline filters (mobile only) -->
+<div class="card shadow-sm mt-3 d-lg-none">
+  <div class="card-header fw-semibold">Search & Filter</div>
+  <div class="card-body">
+    <div class="mb-3">
+      <label for="country-filter-mobile" class="form-label">Country</label>
+      <select id="country-filter-mobile" class="form-select">
+        {% for c in countries %}
+          <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3 mt-3">
+      <label for="query-filter-mobile" class="form-label">Search</label>
+      <input type="text" id="query-filter-mobile" class="form-control"
+             placeholder="Search airport, city, country">
+    </div>
+    <div class="border-top pt-3 mt-3 d-flex gap-2">
+      <button class="btn btn-sm btn-outline-secondary" id="clear-filters-mobile">
+        <i class="bi bi-x-circle me-1"></i> Clear
+      </button>
+      <span class="ms-auto text-muted small" id="active-filters-mobile">No filters</span>
+    </div>
+  </div>
+</div>
       <div class="col">
         <div class="card shadow-sm">
           <div class="card-header d-flex align-items-center justify-content-between">
