@@ -439,16 +439,4 @@ body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li span.dtr-tit
   }
 }
 
-@media (min-width: 992px) {
-  .filters-col {
-    width: 340px;
-    max-width: 100%;
-  }
-}
-@media (min-width: 1200px) {
-  .filters-col {
-    width: 380px;
-    max-width: 100%;
-  }
-}
 
