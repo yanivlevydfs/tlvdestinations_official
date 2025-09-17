@@ -439,4 +439,65 @@ body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li span.dtr-tit
   }
 }
 
+/* 📱 Mobile-friendly DataTables Pagination */
+@media (max-width: 768px) {
+  .dataTables_wrapper .dataTables_paginate {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start;
+    overflow-x: auto !important;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Hide scrollbar on Webkit (Chrome/Safari) */
+  .dataTables_wrapper .dataTables_paginate::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    font-size: 12px !important;
+    padding: 4px 10px !important;
+    min-width: 28px !important;
+    height: 28px !important;
+    border-radius: 999px !important; /* pill style */
+    background: rgba(124, 58, 237, 0.08) !important;
+    color: #4f46e5 !important;
+    border: none !important;
+    flex: 0 0 auto; /* prevent shrinking */
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: rgba(124, 58, 237, 0.18) !important;
+    color: #3730a3 !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #7c3aed !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+  .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+    font-size: 12px !important;
+    padding: 4px 10px !important;
+    height: 28px !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    border: 1px solid rgba(124, 58, 237, 0.25) !important;
+    color: #7c3aed !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled,
+  .dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+  }
+}
 

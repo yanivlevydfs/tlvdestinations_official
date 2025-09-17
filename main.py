@@ -28,7 +28,6 @@ import folium
 import airportsdata
 from folium.plugins import MarkerCluster
 from apscheduler.schedulers.background import BackgroundScheduler
-from fastapi import FastAPI, Request, Response, Query, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -1033,7 +1032,7 @@ def sitemap():
     
 from pydantic import BaseModel
 from fastapi import Query
-import logging
+
 
 class ChatQuery(BaseModel):
     question: str
