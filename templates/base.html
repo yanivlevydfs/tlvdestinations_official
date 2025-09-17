@@ -2,202 +2,199 @@
 <html lang="{{ lang | default('en') }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- ✅ Title -->
   <title>{{ title | default("TLV → Worldwide Destinations") }}</title>
 
-  <!-- ✅ SEO -->
+  <!-- SEO -->
   <meta name="description" content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
   <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel">
 
-  <!-- ✅ Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}">
-  <meta property="og:description" content="{{ description | default('Discover all direct destinations from Tel Aviv (TLV) across the globe with maps, airlines, and travel details.') }}">
-  <meta property="og:url" content="https://fly-tlv.com/">
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}" />
+  <meta property="og:description" content="{{ description | default('Discover all direct destinations from Tel Aviv (TLV) across the globe with maps, airlines, and travel details.') }}" />
+  <meta property="og:url" content="https://fly-tlv.com/" />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+  <meta property="og:image:alt" content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}" />
 
-  <!-- ✅ Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}">
-  <meta name="twitter:description" content="{{ description | default('Direct worldwide destinations from Tel Aviv (TLV) with airlines, maps, and travel insights.') }}">
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg">
-  <meta name="twitter:image:alt" content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}" />
+  <meta name="twitter:description" content="{{ description | default('Direct worldwide destinations from Tel Aviv (TLV) with airlines, maps, and travel insights.') }}" />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+  <meta name="twitter:image:alt" content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}" />
 
-  <!-- ✅ Robots -->
-  <meta name="robots" content="index,follow">
+  <!-- Robots & Canonical -->
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
 
-  <!-- ✅ Canonical -->
-  <link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}">
-
-  <!-- ✅ Hreflang -->
+  <!-- Language support -->
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="en">
   <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he">
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default">
 
-  <!-- ✅ Google Verification & Ads -->
+  <!-- Ads -->
   <meta name="google-adsense-account" content="ca-pub-7964221655161384">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384" crossorigin="anonymous"></script>
 
-  <!-- ✅ Favicon -->
-  <link rel="icon" href="/static/favicon.ico">
+  <!-- Favicon -->
+  <link rel="icon" href="/static/favicon.ico" />
 
-  <!-- ✅ Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-  <!-- ✅ Custom Styles -->
+  <!-- Custom Styles -->
   <style>
-    body { background-color: #f8f9fa; }
-    .navbar { background-color: #2563eb; }
-    .navbar a, .navbar-brand, .navbar-toggler-icon { color: white !important; }
-    .footer { background-color: #2563eb; color: white; padding: 1rem 0; margin-top: 2rem; }
-    .language-toggle { font-size: 0.9rem; }
-
-    /* Dark mode styles */
-    body.dark-mode { background-color: #121212; color: #f1f1f1; }
-    body.dark-mode .navbar { background-color: #1f1f1f; }
-    body.dark-mode .navbar a, 
-    body.dark-mode .navbar-brand { color: #f1f1f1 !important; }
-    body.dark-mode .footer { background-color: #1f1f1f; color: #aaa; }
-    body.dark-mode a { color: #9ecbff; }
-  </style>
-  <!-- ✅ Structured Data (JSON-LD) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "name": {{ ("Flights Explorer — TLV Worldwide Destinations" if lang != 'he' else "טיסות ישירות מתל אביב — כל היעדים בעולם") | tojson }},
-      "url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
-      "inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
-      "description": {{ (
-        "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, distances, maps, and flight time data."
-        if lang != 'he' else
-        "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מרחקים, מפות וזמן טיסה."
-      ) | tojson }},
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://fly-tlv.com/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@type": "ItemList",
-      "name": "Main Navigation",
-      "itemListElement": [
-        {
-          "@type": "SiteNavigationElement",
-          "position": 1,
-          "name": {{ ("Map" if lang != 'he' else "מפה") | tojson }},
-          "url": "https://fly-tlv.com/map"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 2,
-          "name": {{ ("About" if lang != 'he' else "על האתר") | tojson }},
-          "url": "https://fly-tlv.com/about"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 3,
-          "name": {{ ("Privacy" if lang != 'he' else "פרטיות") | tojson }},
-          "url": "https://fly-tlv.com/privacy"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 4,
-          "name": {{ ("Contact" if lang != 'he' else "צור קשר") | tojson }},
-          "url": "https://fly-tlv.com/contact"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "position": 5,
-          "name": {{ ("Sitemap" if lang != 'he' else "מפת האתר") | tojson }},
-          "url": "https://fly-tlv.com/sitemap.xml"
-        }
-      ]
+    body {
+      background-color: #f8f9fa;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #212529;
+      transition: background-color 0.3s, color 0.3s;
     }
-  ]
-}
-</script>
-</head>
-<body>
-  <!-- ✅ Header with nav -->
-  <nav class="navbar navbar-expand-lg px-3" role="navigation">
-    <a class="navbar-brand fw-bold" href="/">✈️ Flights Explorer — TLV Destinations</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navLinks">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/map">{{ "Map" if lang == "en" else "מפה" }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about">{{ "About" if lang == "en" else "על האתר" }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/privacy">{{ "Privacy" if lang == "en" else "פרטיות" }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact">{{ "Contact" if lang == "en" else "צור קשר" }}</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-3">
-        <!-- ✅ Dark/Light toggle -->
-        <button id="theme-toggle" class="btn btn-outline-light btn-sm" type="button">
-          <i id="theme-icon" class="bi bi-moon-stars"></i>
-        </button>
 
-        <!-- ✅ Language toggle -->
-        <div class="language-toggle d-flex align-items-center">
-          <a href="{{ request.url.path }}?lang=en" class="me-2 text-white {{ 'fw-bold' if lang == 'en' else '' }}">EN</a>
-          <span class="text-white">|</span>
-          <a href="{{ request.url.path }}?lang=he" class="ms-2 text-white {{ 'fw-bold' if lang == 'he' else '' }}">עברית</a>
+    .navbar {
+      background-color: white;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      background: linear-gradient(to right, #7c3aed, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.25rem;
+    }
+
+    .btn-outline-primary {
+      border-radius: 999px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-outline-primary i {
+      font-size: 1rem;
+    }
+
+    .btn-outline-primary span {
+      line-height: 1;
+    }
+
+    .footer {
+      background-color: #2563eb;
+      color: white;
+      padding: 2rem 0;
+      margin-top: 4rem;
+      font-size: 0.95rem;
+    }
+
+    .footer a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .footer a:hover {
+      color: #e0e0e0;
+    }
+
+    /* Dark mode */
+    body.dark-mode {
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    body.dark-mode .navbar {
+      background-color: #1f1f1f;
+      border-color: #333;
+    }
+
+    body.dark-mode .footer {
+      background-color: #1f1f1f;
+      color: #ccc;
+    }
+
+    body.dark-mode .btn-outline-primary {
+      border-color: #9ecbff;
+      color: #9ecbff;
+    }
+
+    body.dark-mode .btn-outline-primary:hover {
+      background-color: #264a7f;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ NAVBAR -->
+  <nav class="navbar navbar-expand-lg px-3 py-2 shadow-sm">
+    <div class="container-fluid">
+      <!-- ✈️ Brand Title with Gradient -->
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <i class="bi bi-airplane-engines-fill me-2"></i>
+        TLV → <span class="ms-1">Worldwide Destinations</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navActions">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navActions">
+        <div class="d-flex flex-wrap gap-2">
+          <a href="/map" class="btn btn-outline-primary rounded-pill gap-2">
+            <i class="bi bi-globe2"></i> <span>{{ 'View Map' if lang != 'he' else 'מפה' }}</span>
+          </a>
+          <a href="/ask-ai" class="btn btn-outline-primary rounded-pill gap-2">
+            <i class="bi bi-robot"></i> <span>{{ 'Ask AI' if lang != 'he' else 'שאל את הבינה' }}</span>
+          </a>
+          <button id="theme-toggle" class="btn btn-outline-primary rounded-pill gap-2">
+            <i id="theme-icon" class="bi bi-moon-stars"></i> <span>{{ 'Theme' if lang != 'he' else 'ערכת צבעים' }}</span>
+          </button>
+          <a href="{{ request.url.path }}?lang={{ 'he' if lang == 'en' else 'en' }}" class="btn btn-outline-primary rounded-pill gap-2">
+            <i class="bi bi-translate"></i> <span>{{ 'עברית' if lang == 'en' else 'English' }}</span>
+          </a>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- ✅ Content -->
+  <!-- ✅ MAIN CONTENT -->
   <main class="container-fluid mt-4 px-3" role="main">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ✅ Footer -->
-	<footer class="footer text-center" role="contentinfo">
-	  <div class="container">
-		<p class="mb-0">&copy; {{ now.year }} Flights Explorer. 
-		  {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}
-		</p>
-		<p class="mb-0">
-		  <a href="/sitemap.xml" class="text-white text-decoration-underline">
-			{{ "Sitemap" if lang == "en" else "מפת האתר" }}
-		  </a>
-		</p>
-	  </div>
-	</footer>
+  <!-- ✅ FOOTER -->
+  <footer class="footer text-center" role="contentinfo">
+    <div class="container">
+      <p class="mb-0">&copy; {{ now.year }} Flights Explorer. {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}</p>
+      <p class="mb-0">
+        <a href="/sitemap.xml">{{ "Sitemap" if lang == "en" else "מפת האתר" }}</a>
+      </p>
+    </div>
+  </footer>
 
-  <!-- ✅ Bootstrap + Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- ✅ JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- ✅ Dark/Light JS -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const saved = localStorage.getItem('theme') || 'light';
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('theme-toggle');
+      const icon = document.getElementById('theme-icon');
+      const saved = localStorage.getItem('theme') || 'light';
 
-    if (saved === 'dark') {
-      document.body.classList.add('dark-mode');
-      icon.className = 'bi bi-sun';
-    }
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+        icon.className = 'bi bi-sun';
+      }
 
-    btn.addEventListener('click', () => {
-      const dark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
-      icon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      btn.addEventListener('click', () => {
+        const dark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        icon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      });
     });
-  });
   </script>
 </body>
 </html>
