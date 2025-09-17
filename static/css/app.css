@@ -280,17 +280,23 @@ body.dark-mode tr.parent td.dtr-control:before {
   border-color: transparent;
 }
 body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
-  background: rgba(34,211,238,.08);
+  background: rgba(34,211,238,.08) !important;   /* light cyan bg */
+  color: #22d3ee !important;                     /* cyan text */
+  border: 1px solid rgba(34,211,238,.3) !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: rgba(34,211,238,.18) !important;   /* brighter cyan hover */
   color: #22d3ee !important;
 }
-body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  background: var(--accent);
-  color: #fff !important;
-}
+
 body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-  background: var(--accent);
-  color: #fff !important;
+  background: #22d3ee !important;   /* solid cyan for active page */
+  color: #0a0b0f !important;        /* dark text for contrast */
+  font-weight: 600 !important;
+  border: 1px solid #22d3ee !important;
 }
+
 
 /* ===== Footer ===== */
 footer.footer {
@@ -501,3 +507,24 @@ body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li span.dtr-tit
   }
 }
 
+/* 🔵 Force DataTables pagination buttons in dark mode */
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+  background: transparent !important;
+  color: #22d3ee !important;             /* cyan text */
+  border: 1px solid rgba(34,211,238,.4) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.disabled),
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:focus:not(.disabled) {
+  background: rgba(34,211,238,.15) !important; /* soft cyan hover */
+  color: #fff !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: #22d3ee !important;   /* solid cyan active */
+  color: #0a0b0f !important;        /* dark text */
+  border-color: #22d3ee !important;
+  font-weight: 600 !important;
+}

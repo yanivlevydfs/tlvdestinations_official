@@ -67,10 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
           .attr('id', 'airports-search')
           .attr('name', 'airports-search')
           .attr('placeholder', LANG[lang].placeholderSearch || 'Search…');
+      const info = document.querySelector('#airports-table_info');
+      if (info) {
+        info.classList.add('last-update-badge');
       }
-    });
-  }
-
+    }
+  });
+}
   // ---------- Toast Helper ----------
   const toastEl   = document.getElementById('app-toast');
   const toastText = document.getElementById('toast-text');
@@ -280,8 +283,7 @@ $('#clear-filters-mobile').on('click', () => {
   const viewMapBtn = document.getElementById('view-map-btn');
 
   if (refreshBtn) {
-    refreshBtn.addEventListener('click', async () => {
-      pingToast(LANG[currentLang].overlayStart, 'info');
+    refreshBtn.addEventListener('click', async () => {      
       try {
         const res = await fetch('/admin/refresh?force=true', { method: 'POST' });
         if (!res.ok) throw new Error('Refresh failed');
