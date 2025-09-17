@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       order: [[0, 'asc']],
       language: LANG[lang].dt,
+	  pagingType: "simple",
       initComplete: function () {
         $('#airports-table_filter input')
           .attr('id', 'airports-search')
