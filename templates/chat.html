@@ -34,15 +34,15 @@ async function loadSuggestions() {
     const data = await res.json();
     const box = document.getElementById("suggested-questions");
     box.innerHTML = data.questions.map(q => `
-      <button class="btn btn-outline-secondary btn-sm me-1 mb-1"
-              onclick="setQuestion('${q.replace(/'/g, "\\'")}')">
+      <span class="chip" onclick="setQuestion('${q.replace(/'/g, "\\'")}')">
         ${q}
-      </button>
-    `).join(" ");
+      </span>
+    `).join("");
   } catch (err) {
     console.error("Failed to load suggestions", err);
   }
 }
+
 
 function appendMessage(text, sender) {
   const msgBox = document.getElementById("chat-messages");
@@ -92,56 +92,134 @@ loadSuggestions();
 
 <style>
 .chat-container {
-  max-width: 800px;
-  margin: 30px auto;
-  background: #fff;
-  border-radius: 12px;
+  max-width: 860px;
+  margin: 40px auto;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 85vh;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
+
 .chat-header {
-  background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
   color: #fff;
-  padding: 15px;
-  font-size: 1.25rem;
-  font-weight: 600;
+  padding: 16px 20px;
+  font-size: 1.3rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
 }
+
 .chat-messages {
   flex: 1;
-  padding: 20px;
+  padding: 22px;
   overflow-y: auto;
-  background: #fdfdfd;
+  background: linear-gradient(to bottom, #fafafa, #f3f4f6);
 }
+
 .message {
-  margin-bottom: 15px;
-  padding: 12px 16px;
-  border-radius: 12px;
+  margin-bottom: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
   max-width: 75%;
-  line-height: 1.4;
+  line-height: 1.45;
+  font-size: 0.95rem;
   word-wrap: break-word;
+  animation: fadeInUp 0.25s ease;
 }
 .message.user {
-  background: #0d6efd;
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
   color: #fff;
   margin-left: auto;
-  border-bottom-right-radius: 0;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 10px rgba(124,58,237,0.35);
 }
 .message.ai {
-  background: #e9ecef;
-  color: #212529;
+  background: #f1f5f9;
+  color: #111827;
   margin-right: auto;
-  border-bottom-left-radius: 0;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
+
 .chat-footer {
-  padding: 15px;
-  border-top: 1px solid #dee2e6;
+  padding: 14px 18px;
+  border-top: 1px solid #e5e7eb;
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  align-items: center;
+  background: #fff;
 }
+
+.chat-footer textarea {
+  flex: 1;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  padding: 10px 12px;
+  resize: none;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.chat-footer button {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 10px 16px;
+  transition: all .25s ease;
+}
+.chat-footer button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(124,58,237,.45);
+}
+
+/* Suggested Questions Chips */
+#suggested-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #f9fafb;
+}
+#suggested-questions .chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+#suggested-questions .chip:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--accent-glow);
+}
+
+/* Dark mode */
+body.dark-mode .chat-container { background: rgba(18,18,18,.85); }
+body.dark-mode .chat-messages { background: #0f1116; }
+body.dark-mode .message.ai { background: #1e293b; color: #e5e5e5; }
+body.dark-mode #suggested-questions { background: #111827; }
+body.dark-mode #suggested-questions .chip {
+  background: rgba(34,211,238,0.08);
+  border-color: rgba(34,211,238,0.35);
+  color: #22d3ee;
+}
+body.dark-mode #suggested-questions .chip:hover {
+  background: #22d3ee;
+  color: #0a0b0f;
+}
+
 </style>
 {% endblock %}

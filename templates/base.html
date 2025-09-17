@@ -144,18 +144,24 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navActions">
         <div class="d-flex flex-wrap gap-2">
-          <a href="/map" class="btn btn-outline-primary rounded-pill gap-2">
-            <i class="bi bi-globe2"></i> <span>{{ 'View Map' if lang != 'he' else 'מפה' }}</span>
-          </a>
-          <a href="/ask-ai" class="btn btn-outline-primary rounded-pill gap-2">
+		<a href="javascript:void(0)" 
+		   class="btn btn-outline-primary rounded-pill gap-2" 
+		   data-bs-toggle="modal" 
+		   data-bs-target="#mapModal">
+		  <i class="bi bi-globe2"></i> 
+		  <span>{{ 'View Map' if lang != 'he' else 'מפה' }}</span>
+		</a>
+          <a href="/chat" class="btn btn-outline-primary rounded-pill gap-2">
             <i class="bi bi-robot"></i> <span>{{ 'Ask AI' if lang != 'he' else 'שאל את הבינה' }}</span>
           </a>
           <button id="theme-toggle" class="btn btn-outline-primary rounded-pill gap-2">
             <i id="theme-icon" class="bi bi-moon-stars"></i> <span>{{ 'Theme' if lang != 'he' else 'ערכת צבעים' }}</span>
           </button>
-          <a href="{{ request.url.path }}?lang={{ 'he' if lang == 'en' else 'en' }}" class="btn btn-outline-primary rounded-pill gap-2">
-            <i class="bi bi-translate"></i> <span>{{ 'עברית' if lang == 'en' else 'English' }}</span>
-          </a>
+			<a href="{% if lang == 'en' %}{{ request.url.path }}?lang=he{% else %}{{ request.url.path }}{% endif %}"
+			   class="btn btn-outline-primary rounded-pill gap-2">
+			  <i class="bi bi-translate"></i>
+			  <span>{{ 'עברית' if lang == 'en' else 'English' }}</span>
+			</a>
         </div>
       </div>
     </div>
@@ -196,5 +202,23 @@
       });
     });
   </script>
+  <!-- ✅ Map Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl" style="max-width:95%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-map me-2"></i>
+          <span id="map-title">Flight Map</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="height:80vh;overflow:hidden;padding:0">
+        <iframe id="map-frame" src="/map" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

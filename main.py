@@ -1038,30 +1038,27 @@ class ChatQuery(BaseModel):
     question: str
 
 
-def generate_field_based_questions(n: int = 10) -> list[str]:
-    fields = [
-        "airline",
-        "iata",
-        "airport",
-        "city",
-        "country",
-        "scheduled",
-        "actual",
-        "direction",
-        "status",
+def generate_destination_questions(n: int = 10) -> list[str]:
+    questions_en = [
+        "Which airlines fly to New York?",
+        "Show me all airports in Germany.",
+        "What destinations are available in Italy?",
+        "Which airline flies to Paris?",
+        "Show all destinations in Cyprus."
     ]
 
-    questions = [
-        f"What values are available in `{f}`?" for f in fields
-    ] + [
-        f"List all flights grouped by `{f}`." for f in fields
-    ] + [
-        f"Show all flights where `{f}` is missing." for f in fields
-    ] + [
-        f"How many unique `{f}` values are there?" for f in fields
+    questions_he = [
+        "איזה חברות תעופה טסות לניו יורק?",
+        "הצג את כל שדות התעופה בגרמניה.",
+        "אילו יעדים זמינים באיטליה?",
+        "לאילו ערים ביוון אפשר לטוס?",
+        "איזו חברת תעופה טסה לפריז?",
     ]
 
-    return list(dict.fromkeys(questions))[:n]
+    # Mix both English + Hebrew, limit to n
+    combined = questions_en + questions_he
+    return combined[:n]
+
 
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
@@ -1091,9 +1088,9 @@ async def chat_flight_ai(
 
     # Step 2: Build prompt
     prompt = f"""
-You are an aviation expert helping users explore flights from Ben Gurion Airport (TLV).
+You are an aviation expert helping users explore destinations from Ben Gurion Airport (TLV).
 
-Here is structured flight destination data from Israel:
+Here is structured destination data:
 
 {context}
 
@@ -1101,17 +1098,46 @@ Now, based on the data above, answer this user question:
 
 "{question}"
 
-Only use the above data. 
-If something is not found, say "I couldn't find it in the data".
-Be concise and helpful.
+🚨 OUTPUT RULES — FOLLOW EXACTLY 🚨
+1. Start with a bold section heading: **✈️ Flights to [Country/Region/City]**
+2. Use a bullet list for airports.
+   - Each airport must be formatted as: **City (IATA, Country)**
+3. Under each airport, indent the airlines as sub-bullets.
+   - One airline = one bullet.
+   - No inline commas. No single-line lists.
+4. Use only Markdown bullet lists ("- "). Never use paragraphs, tables, or bold for airlines.
+5. Do not add extra commentary, explanations, or filler.
+6. If no results exist: return exactly → `I couldn't find it in the data.`
+
+✅ Correct example:
+---
+**✈️ Flights to United States**
+- Newark (EWR, United States)  
+  - Delta Airlines  
+  - El Al Israel Airlines  
+  - Jetblue Airways Corporation  
+  - United Airlines  
+
+- New York (JFK, United States)  
+  - Aero Mexico  
+  - Aerolineas Argentinas S.a.  
+  - Arkia Israeli Airlines  
+  - Delta Airlines  
+  - Eastern Air Lines Inc.  
+  - El Al Israel Airlines  
+  - Jetblue Airways Corporation  
+  - Virgin Atlantic Airways  
+---
 """
+
+
 
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
 
     # Step 3: Ask Gemini
     try:
         result = await chat_model.generate_content_async(prompt)
-        answer = getattr(result, "text", None) or "I couldn't find it in the data."
+        answer = getattr(result, "text", None) or "Currently i have no answer"
     except Exception as e:
         logger.error("Gemini API error: %s", str(e))
         raise HTTPException(status_code=500, detail="Gemini API error")
@@ -1149,4 +1175,4 @@ async def chat_page(request: Request):
     
 @app.get("/api/chat/suggestions", response_class=JSONResponse)
 async def chat_suggestions():
-    return {"questions": generate_field_based_questions()}
+    return {"questions": generate_destination_questions()}
