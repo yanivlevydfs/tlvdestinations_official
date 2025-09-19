@@ -20,6 +20,7 @@ from pydantic import BaseModel
 import google.generativeai as genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 # === Third-Party Libraries ===
 import pandas as pd
@@ -99,17 +100,22 @@ app = FastAPI(title="Flights Explorer (FastAPI)")
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-CORS_ORIGINS="http://localhost:3000,https://fly-tlv.com"
+CORS_ORIGINS = ["http://localhost:8000", "https://fly-tlv.com"]
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in CORS_ORIGINS],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+# ───────────────────────────────────────────────
+# Global in-memory dataset
+# ───────────────────────────────────────────────
+DATASET_DF: pd.DataFrame = pd.DataFrame()
+DATASET_DATE: str = ""
+AIRLINE_WEBSITES: dict = {}
+scheduler: AsyncIOScheduler | None = None
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
@@ -312,15 +318,6 @@ def fetch_israel_flights() -> dict | None:
         logger.error(f"Failed to fetch gov.il flights: {e}")
         return None
 
-
-
-# ──────────────────────────────────────────────────────────────────────────────
-# In-memory dataset cache (so filters never touch AE)
-# ──────────────────────────────────────────────────────────────────────────────
-DATASET_DF: pd.DataFrame = pd.DataFrame()
-DATASET_DATE: str = ""
-DATASET_LOCK = threading.Lock()
-
 def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     """Read israel_flights.json and convert flights → unique airports DataFrame."""
     if ISRAEL_FLIGHTS_FILE.exists():
@@ -385,40 +382,32 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
 def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
     """
-    Return the current airport dataset, preferring in-memory or disk.
-    Only trigger background AE API refresh if:
-    - `trigger_refresh=True`
-    - AND the dataset is not fresh
-    - AND no refresh is already running
+    Return the current dataset from memory or disk.
+    If trigger_refresh=True and the dataset is stale, fetch fresh data immediately.
     """
     global DATASET_DF, DATASET_DATE
 
-    today = datetime.now().strftime("%Y-%m-%d")
     fresh, file_date = _is_dataset_fresh_today()
 
-    # ✅ In-memory fresh copy
+    # ✅ Return in-memory if fresh
     if fresh and not DATASET_DF.empty:
-        logger.debug("Returning in-memory fresh dataset.")
         return DATASET_DF
 
     # ✅ Try loading from disk
     df, disk_date = _read_dataset_file()
-    with DATASET_LOCK:
-        DATASET_DF, DATASET_DATE = df, disk_date or ""
+    DATASET_DF, DATASET_DATE = df, disk_date or ""
 
-    # ✅ If fresh on disk or no refresh allowed
+    # ✅ If fresh on disk or refresh not requested
     if fresh or not trigger_refresh:
-        logger.debug("Returning dataset from disk (no refresh needed).")
         return DATASET_DF
 
-    # ✅ Stale data AND refresh is allowed AND not already running
-    with PROGRESS_LOCK:
-        if not PROGRESS["running"]:
-            logger.info("Dataset is stale. Starting background refresh thread.")
-            start_refresh_thread()
-        else:
-            logger.info("Refresh already running — not starting another.")
+    # ✅ Refresh now (blocking, no background thread)
+    logger.info("Dataset stale → refreshing now")
+    fetch_israel_flights()
 
+    # ✅ Reload dataset after refresh
+    df, disk_date = _read_dataset_file()
+    DATASET_DF, DATASET_DATE = df, disk_date or ""
     return DATASET_DF
 
 def load_israel_flights_map():
@@ -865,38 +854,35 @@ def admin_refresh(force: bool = Query(default=False)) -> JSONResponse:
     }, status_code=202)
 
 
-@app.on_event("startup")
-def warm_up_airlines():
-    global AIRLINE_WEBSITES
-    AIRLINE_WEBSITES = load_airline_websites()
-    logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
-
-
 # ───────────────────────────────────────────────
 # Startup handler
 # ───────────────────────────────────────────────
-@app.on_event("startup")
-def on_startup():
-    global scheduler
 
-    # 1) Load dataset if present
+@app.on_event("startup")
+async def on_startup():
+    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE
+
+    # 1) Load airline websites
+    AIRLINE_WEBSITES = load_airline_websites()
+    logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
+
+    # 2) Load dataset from disk if exists
     if ISRAEL_FLIGHTS_FILE.exists():
         df, d = _read_dataset_file()
-        with DATASET_LOCK:
-            global DATASET_DF, DATASET_DATE
-            DATASET_DF, DATASET_DATE = df, d or ""
+        DATASET_DF, DATASET_DATE = df, d or ""
         logger.info(f"Startup: dataset loaded (date={DATASET_DATE}, rows={len(DATASET_DF)})")
     else:
         logger.info("Startup: no dataset file on disk")
-    try:
-        if israel_flights_is_stale(max_age_hours=24):
-            logger.info("Startup: gov.il flights stale -> refreshing now")
-            fetch_israel_flights()
-    except Exception as e:
-        logger.error(f"Startup gov.il refresh failed: {e}")
 
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(fetch_israel_flights, "interval", hours=24, id="govil_refresh", replace_existing=True)
+    # 3) If stale, refresh immediately
+    if israel_flights_is_stale(max_age_hours=24):
+        logger.info("Startup: gov.il flights stale → refreshing now")
+        fetch_israel_flights()
+
+    # 4) Start scheduler
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(fetch_israel_flights, "interval", hours=24,
+                      id="govil_refresh", replace_existing=True)
     scheduler.start()
     logger.info("Scheduler started: gov.il refresh every 24h")
 
@@ -941,9 +927,7 @@ async def shutdown_event():
             scheduler.shutdown()
             logger.info("Scheduler stopped")
         except Exception as e:
-            logger.error(f"Error while shutting down scheduler: {e}")
-    else:
-        logger.info("Shutdown event: scheduler was not running")
+            logger.error(f"Error shutting down scheduler: {e}")
     
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request, lang: str = Depends(get_lang)):
