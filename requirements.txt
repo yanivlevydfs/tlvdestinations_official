@@ -21,3 +21,4 @@ colorlog
 pycountry
 asyncio
 aiohttp
+beautifulsoup4
