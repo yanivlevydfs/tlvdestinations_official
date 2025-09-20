@@ -21,7 +21,7 @@ import google.generativeai as genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-
+from bs4 import BeautifulSoup
 # === Third-Party Libraries ===
 import pandas as pd
 import requests
@@ -88,12 +88,17 @@ TEMPLATES.env.globals["now"] = datetime.utcnow
 # Data files
 AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
 ISRAEL_FLIGHTS_FILE   = CACHE_DIR / "israel_flights.json"
+TRAVEL_WARNINGS_FILE = CACHE_DIR / "travel_warnings.json"
 
 # Constants
 TLV = {"IATA": "TLV", "Name": "Ben Gurion Airport", "lat": 32.0068, "lon": 34.8853}
 ISRAEL_API = "https://data.gov.il/api/3/action/datastore_search"
 RESOURCE_ID = "e83f763b-b7d7-479e-b172-ae981ddc6de5"
 DEFAULT_LIMIT = 32000
+
+TRAVEL_WARNINGS_API = "https://data.gov.il/api/3/action/datastore_search"
+TRAVEL_WARNINGS_RESOURCE = "2a01d234-b2b0-4d46-baa0-cec05c401e7d"
+
 
 # App
 app = FastAPI(title="Flights Explorer (FastAPI)")
@@ -119,6 +124,14 @@ scheduler: AsyncIOScheduler | None = None
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def datetimeformat(value: str, fmt: str = "%d/%m/%Y %H:%M"):
+    try:
+        dt = datetime.fromisoformat(value)
+        return dt.strftime(fmt)
+    except Exception:
+        return value
+TEMPLATES.env.filters["datetimeformat"] = datetimeformat
+
 
 def normalize_case(value: str) -> str:
     """Capitalize each word properly, safe for missing/placeholder values."""
@@ -132,6 +145,14 @@ def israel_flights_is_stale(max_age_hours: int = 24) -> bool:
         return True
     age_hours = (datetime.now() - datetime.fromtimestamp(ISRAEL_FLIGHTS_FILE.stat().st_mtime)).total_seconds() / 3600
     return age_hours > max_age_hours
+
+def travel_warnings_is_stale(max_age_hours: int = 24) -> bool:
+    """Return True if the travel warnings cache file is older than max_age_hours or missing."""
+    if not TRAVEL_WARNINGS_FILE.exists():
+        return True
+    age_hours = (datetime.now() - datetime.fromtimestamp(TRAVEL_WARNINGS_FILE.stat().st_mtime)).total_seconds() / 3600
+    return age_hours > max_age_hours
+
 
 def _dataset_file_date() -> str | None:
     """Return the DD-MM-YYYY date from 'updated' inside ISRAEL_FLIGHTS_FILE, or None."""
@@ -189,14 +210,121 @@ def safe_js(text: str) -> str:
     )
     
 # ──────────────────────────────────────────────────────────────────────────────
-# Progress tracker for refresh
-# ──────────────────────────────────────────────────────────────────────────────
-PROGRESS: Dict[str, Any] = {"running": False, "total": 0, "done": 0, "date": None}
-PROGRESS_LOCK = threading.Lock()
-
-# ──────────────────────────────────────────────────────────────────────────────
 # Load airports once for dataset builds
 # ──────────────────────────────────────────────────────────────────────────────
+
+def _clean_html(raw: str) -> str:
+    if not raw:
+        return ""
+    return BeautifulSoup(raw, "html.parser").get_text(" ", strip=True)
+
+
+def _extract_first_href(raw: str) -> str:
+    if not raw:
+        return ""
+    match = re.search(r'href="([^"]+)"', raw)
+    return match.group(1) if match else ""
+
+
+def _extract_first_img(raw: str) -> dict:
+    if not raw:
+        return {}
+    match = re.search(r'<img src="([^"]+)" alt="([^"]+)"', raw)
+    if match:
+        return {"src": match.group(1), "alt": match.group(2)}
+    return {}
+
+
+def _extract_threat_level(text: str) -> str:
+    """
+    מזהה רמת איום מתוך ההמלצות
+    מחזיר High / Medium / Low / Unknown
+    """
+    if not text:
+        return "Unknown"
+    t = text.strip()
+    if "רמה 4" in t or "גבוה" in t:
+        return "High"
+    if "רמה 3" in t or "בינוני" in t:
+        return "Medium"
+    if "רמה 2" in t or "נמוך" in t:
+        return "Low"
+    return "Unknown"
+
+
+def travel_warnings_is_stale(max_age_hours: int = 24) -> bool:
+    """בדיקה אם הקובץ ישן"""
+    if not TRAVEL_WARNINGS_FILE.exists():
+        return True
+    age_hours = (datetime.now() - datetime.fromtimestamp(TRAVEL_WARNINGS_FILE.stat().st_mtime)).total_seconds() / 3600
+    return age_hours > max_age_hours
+
+
+def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
+    """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
+    offset = 0
+    all_records = []
+
+    try:
+        while True:
+            params = {
+                "resource_id": TRAVEL_WARNINGS_RESOURCE,
+                "limit": batch_size,
+                "offset": offset,
+            }
+            r = requests.get(TRAVEL_WARNINGS_API, params=params, timeout=30)
+            r.raise_for_status()
+            data = r.json()
+
+            records = data.get("result", {}).get("records", [])
+            if not records:
+                break
+
+            for rec in records:
+                raw_reco = rec.get("recommendations", "")
+                raw_details = rec.get("details", "")
+
+                all_records.append({
+                    "id": rec.get("_id"),
+                    "continent": rec.get("continent", "").strip(),
+                    "country": rec.get("country", "").strip(),
+                    # טקסט נקי בלבד
+                    "recommendations": _clean_html(raw_reco),
+                    # שליפת רמת איום מתוך הטקסט
+                    "level": _extract_threat_level(raw_reco),
+                    # שמירת לינק – קודם מ־recommendations, ואם אין אז מ־details
+                    "details_url": (
+                        _extract_first_href(raw_reco)
+                        or _extract_first_href(raw_details)
+                    ),
+                    # לוגו
+                    "logo": _extract_first_img(rec.get("logo", "")),
+                    "date": rec.get("date"),
+                    "office": rec.get("משרד", ""),
+                })
+
+            offset += batch_size
+            total = data.get("result", {}).get("total")
+            if total and offset >= total:
+                break
+
+        result = {
+            "updated": datetime.now().isoformat(),
+            "count": len(all_records),
+            "warnings": all_records,
+        }
+
+        with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+
+        logger.info(f"Travel warnings refreshed: {len(all_records)} total")
+        return result
+
+    except Exception as e:
+        logger.error(f"Failed to fetch travel warnings: {e}")
+        return None
+
+
 
 def get_dataset_date():
     if ISRAEL_FLIGHTS_FILE.exists():
@@ -797,62 +925,7 @@ def map_view(
 
     html = html.replace("</body>", fix_script + "</body>")
     return HTMLResponse(content=html, media_type="text/html; charset=utf-8")
-
-@app.get("/api/progress/stream")
-async def api_progress_stream():
-    async def eventgen():
-        last = None
-        try:
-            while True:
-                with PROGRESS_LOCK:
-                    snapshot = {
-                        "running": bool(PROGRESS.get("running")),
-                        "total": int(PROGRESS.get("total", 0)),
-                        "done": int(PROGRESS.get("done", 0)),
-                        "date": PROGRESS.get("date"),
-                    }
-                payload = json.dumps(snapshot, ensure_ascii=False)
-
-                # only send when changed, but send a heartbeat every ~30s
-                if payload != last:
-                    yield {"event": "progress", "data": payload}
-                    last = payload
-                else:
-                    # heartbeat (some proxies need periodic bytes)
-                    yield {"event": "ping", "data": "keep-alive"}
-
-                await asyncio.sleep(1.0)
-        except asyncio.CancelledError:
-            # client disconnected; just exit quietly
-            return
-    return EventSourceResponse(eventgen())
-    
-@app.post("/admin/refresh", response_class=JSONResponse)
-def admin_refresh(force: bool = Query(default=False)) -> JSONResponse:
-    """
-    Manually trigger dataset refresh. Will only run if:
-    - force=true is passed explicitly
-    - OR no dataset exists on disk
-    """
-    today = datetime.now().strftime("%Y-%m-%d")
-    fresh, file_date = _is_dataset_fresh_today()
-
-    if fresh and not force:
-        logger.info("Refresh skipped: already fresh and no force=True.")
-        return JSONResponse({"status": "fresh", "date": file_date}, status_code=200)
-
-    with PROGRESS_LOCK:
-        if PROGRESS["running"]:
-            return JSONResponse({"status": "already-running"}, status_code=202)
-
-    logger.info("Manual refresh triggered.")
-    start_refresh_thread()
-    return JSONResponse({
-        "status": "started",
-        "previous_date": file_date,
-        "target_date": today
-    }, status_code=202)
-
+   
 
 # ───────────────────────────────────────────────
 # Startup handler
@@ -874,17 +947,25 @@ async def on_startup():
     else:
         logger.info("Startup: no dataset file on disk")
 
-    # 3) If stale, refresh immediately
+    # 3) If stale, refresh flights immediately
     if israel_flights_is_stale(max_age_hours=24):
         logger.info("Startup: gov.il flights stale → refreshing now")
         fetch_israel_flights()
 
-    # 4) Start scheduler
+    # 4) If stale, refresh travel warnings immediately
+    if travel_warnings_is_stale(max_age_hours=24):
+        logger.info("Startup: travel warnings stale → refreshing now")
+        fetch_travel_warnings()
+
+    # 5) Start scheduler
     scheduler = AsyncIOScheduler()
     scheduler.add_job(fetch_israel_flights, "interval", hours=24,
                       id="govil_refresh", replace_existing=True)
+    scheduler.add_job(fetch_travel_warnings, "interval", hours=24,
+                      id="warnings_refresh", replace_existing=True)
     scheduler.start()
-    logger.info("Scheduler started: gov.il refresh every 24h")
+    logger.info("Scheduler started: gov.il refresh every 24h (flights + warnings)")
+
 
 @app.post("/api/israel-flights/refresh")
 async def refresh_israel_flights():
@@ -1014,14 +1095,6 @@ def sitemap():
 
     return Response(content=xml, media_type="application/xml")
     
-from pydantic import BaseModel
-from fastapi import Query
-
-
-class ChatQuery(BaseModel):
-    question: str
-
-
 def generate_destination_questions(n: int = 10) -> list[str]:
     questions_en = [
         "Which airlines fly to New York?",
@@ -1160,3 +1233,57 @@ async def chat_page(request: Request):
 @app.get("/api/chat/suggestions", response_class=JSONResponse)
 async def chat_suggestions():
     return {"questions": generate_destination_questions()}
+
+# === API Routes ===
+@app.get("/api/travel-warnings", response_class=JSONResponse)
+async def api_travel_warnings():
+    """Return cached travel warnings."""
+    if not TRAVEL_WARNINGS_FILE.exists():
+        raise HTTPException(status_code=404, detail="No cached travel warnings available")
+    try:
+        with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Cached warnings file is corrupted")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    
+@app.get("/travel-warnings", response_class=HTMLResponse)
+async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
+    """Render travel warnings page with DataTable"""
+    if not TRAVEL_WARNINGS_FILE.exists():
+        return TEMPLATES.TemplateResponse("travel_warnings.html", {
+            "request": request,
+            "lang": lang,
+            "warnings": [],
+            "last_update": None,
+            "continents": [],
+            "countries": [],
+            "levels": []
+        })
+
+    try:
+        with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+        warnings = data.get("warnings", [])
+        last_update = data.get("updated")
+
+        # הפקת רשימות ייחודיות
+        continents = sorted({w.get("continent", "") for w in warnings if w.get("continent")})
+        countries = sorted({w.get("country", "") for w in warnings if w.get("country")})
+        levels = ["גבוה", "בינוני", "נמוך", "לא ידוע"]
+
+    except Exception as e:
+        logger.error(f"Failed to load travel warnings file: {e}")
+        warnings, last_update, continents, countries, levels = [], None, [], [], []
+
+    return TEMPLATES.TemplateResponse("travel_warnings.html", {
+        "request": request,
+        "lang": lang,
+        "warnings": warnings,
+        "last_update": last_update,
+        "continents": continents,
+        "countries": countries,
+        "levels": levels
+    })

@@ -280,20 +280,7 @@ $('#clear-filters-mobile').on('click', () => {
   updateActiveFilters(LANG[currentLang]);
 
   // ---------- Buttons ----------
-  const refreshBtn = document.getElementById('refresh-btn');
   const viewMapBtn = document.getElementById('view-map-btn');
-
-  if (refreshBtn) {
-    refreshBtn.addEventListener('click', async () => {      
-      try {
-        const res = await fetch('/admin/refresh?force=true', { method: 'POST' });
-        if (!res.ok) throw new Error('Refresh failed');
-        pingToast(LANG[currentLang].toastRefOk, 'success');
-      } catch (err) {
-        pingToast(LANG[currentLang].toastRefErr, 'danger');
-      }
-    });
-  }
 
   if (viewMapBtn) {
     viewMapBtn.addEventListener('click', () => {      

@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}אזהרות מסע — Fly TLV{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2 class="mb-3">🌍 אזהרות מסע</h2>
+
+  {% if last_update %}
+    <div class="mb-3">
+      <span class="badge rounded-pill bg-info text-dark px-3 py-2">
+        עודכן לאחרונה: {{ last_update | datetimeformat }}
+      </span>
+    </div>
+  {% endif %}
+
+  <!-- Search & Filter Card -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold">Search & Filter</div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label for="continent-filter" class="form-label">יבשת</label>
+          <select id="continent-filter" class="form-select">
+            <option value="">הצג הכל</option>
+            {% for c in continents %}
+              <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="country-filter" class="form-label">מדינה</label>
+          <select id="country-filter" class="form-select">
+            <option value="">הצג הכל</option>
+            {% for c in countries %}
+              <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="level-filter" class="form-label">רמת איום</label>
+          <select id="level-filter" class="form-select">
+            <option value="">הצג הכל</option>
+            <option value="גבוה">גבוה</option>
+            <option value="בינוני">בינוני</option>
+            <option value="נמוך">נמוך</option>
+            <option value="לא ידוע">לא ידוע</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="query-filter" class="form-label">חיפוש חופשי</label>
+          <input type="text" id="query-filter" class="form-control" placeholder="חיפוש בהמלצות, משרד...">
+        </div>
+      </div>
+
+      <div class="border-top pt-3 mt-3 d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
+          <i class="bi bi-x-circle me-1"></i> איפוס
+        </button>
+        <span class="ms-auto text-muted small" id="active-filters">ללא סינון</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table id="warnings-table" class="table table-striped table-hover w-100 align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>יבשת</th>
+            <th>מדינה</th>
+            <th>רמת איום</th>
+            <th>המלצות</th>
+            <th>משרד</th>
+            <th>לינק</th>
+            <th>לוגו</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for w in warnings %}
+          <tr>
+            <td data-value="{{ w.continent }}">{{ w.continent }}</td>
+            <td data-value="{{ w.country }}">{{ w.country }}</td>
+            <td data-value="{% if w.level == 'High' %}גבוה{% elif w.level == 'Medium' %}בינוני{% elif w.level == 'Low' %}נמוך{% else %}לא ידוע{% endif %}">
+              {% if w.level == "High" %}
+                <span class="badge bg-danger">גבוה</span>
+              {% elif w.level == "Medium" %}
+                <span class="badge bg-warning text-dark">בינוני</span>
+              {% elif w.level == "Low" %}
+                <span class="badge bg-success">נמוך</span>
+              {% else %}
+                <span class="badge bg-secondary">לא ידוע</span>
+              {% endif %}
+            </td>
+            <td data-value="{{ w.recommendations }}">
+              {{ w.recommendations }}
+              {% if w.details_url %}
+                <a href="{{ w.details_url }}" target="_blank" class="btn btn-link btn-sm">🔗</a>
+              {% endif %}
+            </td>
+            <td data-value="{{ w.office }}">{{ w.office or "—" }}</td>
+            <td>
+              {% if w.details_url %}
+                <a href="{{ w.details_url }}" target="_blank" class="btn btn-sm btn-primary">פרטים</a>
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>
+              {% if w.logo.src %}
+                <img src="{{ w.logo.src }}" alt="{{ w.logo.alt }}" style="height:24px;">
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function () {
+  var table = $('#warnings-table').DataTable({
+    pageLength: 25,
+    responsive: true,
+    language: {
+      url: "{{ '/static/datatables/he.json' if lang == 'he' else '/static/datatables/en.json' }}"
+    }
+  });
+
+  // פילטרים
+  $('#continent-filter').on('change', function () {
+    table.column(0).search(this.value).draw();
+  });
+  $('#country-filter').on('change', function () {
+    table.column(1).search(this.value).draw();
+  });
+  $('#level-filter').on('change', function () {
+    table.column(2).search(this.value).draw();
+  });
+
+  // חיפוש חופשי
+  $('#query-filter').on('keyup change', function () {
+    table.search(this.value).draw();
+  });
+
+  // איפוס
+  $('#clear-filters').on('click', function () {
+    $('#continent-filter').val('');
+    $('#country-filter').val('');
+    $('#level-filter').val('');
+    $('#query-filter').val('');
+    table.search('').columns().search('').draw();
+  });
+
+  // עדכון כיתוב הסינון תמיד אחרי draw
+  table.on('draw', function () {
+    var filters = [];
+    if ($('#continent-filter').val()) filters.push("יבשת: " + $('#continent-filter').val());
+    if ($('#country-filter').val()) filters.push("מדינה: " + $('#country-filter').val());
+    if ($('#level-filter').val()) filters.push("רמת איום: " + $('#level-filter').val());
+    if ($('#query-filter').val()) filters.push("חיפוש: " + $('#query-filter').val());
+    $('#active-filters').text(filters.length ? filters.join(" | ") : "ללא סינון");
+  });
+});
+
+</script>
+{% endblock %}
