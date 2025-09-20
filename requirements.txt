@@ -15,10 +15,9 @@ uvicorn[standard]
 jinja2
 sse-starlette
 starlette
-
+beautifulsoup4
 # === Optional (לוגים צבעוניים) ===
 colorlog
 pycountry
 asyncio
 aiohttp
-beautifulsoup4
