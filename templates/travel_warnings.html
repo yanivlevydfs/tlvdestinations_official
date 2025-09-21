@@ -4,18 +4,17 @@
 
 {% block content %}
 <div class="container my-4 text-center">
-  <!-- כותרת מעוצבת -->
   <h2 class="section-title">🌍 אזהרות מסע</h2>
 
   {% if last_update %}
     <div class="mb-3">
-      <span class="badge rounded-pill bg-info text-dark px-3 py-2">
+      <span class="badge rounded-pill bg-info px-3 py-2 text-dark dark-mode:text-light">
         עודכן לאחרונה: {{ last_update | datetimeformat }}
       </span>
     </div>
   {% endif %}
 
-  <!-- Search & Filter Card -->
+  <!-- Search & Filter -->
   <div class="card shadow-sm mb-4 text-start">
     <div class="card-header fw-semibold">Search & Filter</div>
     <div class="card-body">
@@ -80,15 +79,22 @@
         </thead>
         <tbody>
           {% for w in warnings %}
+          {% set level_value = (
+            "High" if w.level == "High" else
+            "Medium" if w.level == "Medium" else
+            "Low" if w.level == "Low" else
+            "Unknown"
+          ) %}
           <tr>
             <td>{{ w.continent }}</td>
             <td>{{ w.country }}</td>
             <td>
-              {% if w.level == "High" %}
+              <span class="search-text d-none">{{ level_value }}</span>
+              {% if level_value == "High" %}
                 <span class="badge bg-danger">גבוה</span>
-              {% elif w.level == "Medium" %}
+              {% elif level_value == "Medium" %}
                 <span class="badge bg-warning text-dark">בינוני</span>
-              {% elif w.level == "Low" %}
+              {% elif level_value == "Low" %}
                 <span class="badge bg-success">נמוך</span>
               {% else %}
                 <span class="badge bg-secondary">לא ידוע</span>
@@ -102,8 +108,8 @@
               {% else %}—{% endif %}
             </td>
             <td>
-              {% if w.logo.src %}
-                <img src="{{ w.logo.src }}" alt="{{ w.logo.alt }}" style="height:24px;">
+              {% if w.logo and w.logo.src %}
+                <img src="{{ w.logo.src }}" alt="{{ w.logo.alt or '' }}" style="height:24px;">
               {% else %}—{% endif %}
             </td>
           </tr>
@@ -117,6 +123,7 @@
 
 {% block scripts %}
 <style>
+/* Page title */
 .section-title {
   text-align: center;
   font-weight: 700;
@@ -126,6 +133,7 @@
   display: inline-block;
   padding-bottom: 0.5rem;
 }
+
 .section-title::after {
   content: "";
   position: absolute;
@@ -137,59 +145,109 @@
   border-radius: 2px;
   background: linear-gradient(90deg, #7c3aed, #0ea5e9);
 }
+
+/* CSV & Column Visibility Buttons */
+.dt-buttons .btn {
+  margin-inline-end: 0.5rem;
+}
+
+/* Dark Mode Styling */
+body.dark-mode .buttons-csv {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: white;
+}
+
+body.dark-mode .buttons-csv:hover {
+  background-color: #059669;
+  border-color: #059669;
+}
+.buttons-colvis {
+  color: white !important; /* ✅ Force white text */
+  border-color: #3b82f6;
+  background-color: #3b82f6; /* Optional: match border */
+}
+
+.buttons-colvis:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+body.dark-mode .buttons-colvis {
+  border-color: #3b82f6;
+  color: #93c5fd;
+  background-color: transparent;
+}
+
+body.dark-mode .buttons-colvis:hover {
+  background-color: #1e3a8a;
+  color: white;
+}
+
 </style>
 
 <script>
-$(document).ready(function () {
-  var table = $('#warnings-table').DataTable({
+document.addEventListener('DOMContentLoaded', function() {
+  const table = $('#warnings-table').DataTable({
     pageLength: 25,
     responsive: true,
+    dom: 'Bfrtip',
+buttons: [
+  {
+    extend: 'csvHtml5',
+    text: '<i class="bi bi-file-earmark-spreadsheet me-1"></i> ייצוא CSV',
+    className: 'btn btn-success btn-sm buttons-csv' // ✅ manual class
+  },
+  {
+    extend: 'colvis',
+    text: '<i class="bi bi-eye me-1"></i> הצג/הסתר עמודות',
+    className: 'btn btn-outline-primary btn-sm buttons-colvis' // ✅ manual class
+  }
+],
     language: {
       url: "{{ 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/he.json' if lang == 'he' else 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/en-GB.json' }}"
-    }
+    },
+    columnDefs: [{
+      targets: 2,
+      render: function (data, type, row, meta) {
+        if (type === 'display') return data;
+        const div = document.createElement('div');
+        div.innerHTML = data;
+        const hidden = div.querySelector('.search-text');
+        return hidden ? hidden.textContent.trim() : '';
+      }
+    }]
   });
 
   // Filters
   $('#continent-filter').on('change', function () {
-    console.log("continent:", this.value);
     table.column(0).search(this.value || '').draw();
-    updateFilters();
-  });
-  $('#country-filter').on('change', function () {
-    console.log("country:", this.value);
-    table.column(1).search(this.value || '').draw();
-    updateFilters();
-  });
-  $('#level-filter').on('change', function () {
-    console.log("level:", this.value);
-    table.column(2).search(this.value || '').draw();
-    updateFilters();
-  });
-  $('#query-filter').on('keyup change', function () {
-    console.log("query:", this.value);
-    table.search(this.value).draw();
-    updateFilters();
   });
 
-  // Reset
+  $('#country-filter').on('change', function () {
+    table.column(1).search(this.value || '').draw();
+  });
+
+  $('#level-filter').on('change', function () {
+    const map = {
+      "גבוה": "High",
+      "בינוני": "Medium",
+      "נמוך": "Low",
+      "לא ידוע": "Unknown"
+    };
+    const searchTerm = map[this.value] || '';
+    table.column(2).search(searchTerm).draw();
+  });
+
+  $('#query-filter').on('keyup change', function () {
+    table.search(this.value).draw();
+  });
+
   $('#clear-filters').on('click', function () {
     $('#continent-filter, #country-filter, #level-filter').val('');
     $('#query-filter').val('');
     table.search('').columns().search('').draw();
-    updateFilters();
   });
-
-  // Summary
-  function updateFilters() {
-    var filters = [];
-    if ($('#continent-filter').val()) filters.push("יבשת: " + $('#continent-filter').val());
-    if ($('#country-filter').val()) filters.push("מדינה: " + $('#country-filter').val());
-    if ($('#level-filter').val()) filters.push("רמת איום: " + $('#level-filter').val());
-    if ($('#query-filter').val()) filters.push("חיפוש: " + $('#query-filter').val());
-    $('#active-filters').text(filters.length ? filters.join(" | ") : "ללא סינון");
-  }
-
-  updateFilters();
 });
 </script>
 {% endblock %}
