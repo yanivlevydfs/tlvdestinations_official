@@ -1,3 +1,5 @@
 User-agent: *
+Disallow: /docs
 Allow: /
+
 Sitemap: https://fly-tlv.com/sitemap.xml
