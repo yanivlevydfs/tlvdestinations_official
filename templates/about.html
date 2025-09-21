@@ -72,90 +72,130 @@
   <!-- Google Search Console verification -->
   <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_TOKEN_HERE" />
 
-  <!-- JSON-LD Schema -->
-  <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "{{ 'About — TLV → Worldwide Destinations' if lang != 'he' else 'אודות — TLV → Worldwide Destinations' }}",
-      "url": "{{ 'https://fly-tlv.com/about' if lang != 'he' else 'https://fly-tlv.com/about?lang=he' }}",
-      "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
-      "description": "{{ 'Explore all destinations worldwide from Tel Aviv Ben Gurion Airport (TLV).' if lang != 'he' else 'גלו את כל היעדים בעולם מנתב״ג תל אביב (TLV).' }}"
-    },
-    {
-      "@context":"https://schema.org",
-      "@type":"BreadcrumbList",
-      "itemListElement":[
-        {
-          "@type":"ListItem",
-          "position":1,
-          "name": "{{ 'Home' if lang != 'he' else 'בית' }}",
-          "item": "{{ 'https://fly-tlv.com/' if lang != 'he' else 'https://fly-tlv.com/?lang=he' }}"
-        },
-        {
-          "@type":"ListItem",
-          "position":2,
-          "name": "{{ 'About' if lang != 'he' else 'אודות' }}",
-          "item": "{{ 'https://fly-tlv.com/about' if lang != 'he' else 'https://fly-tlv.com/about?lang=he' }}"
-        }
-      ]
-    },
-    {
-      "@context":"https://schema.org",
-      "@type":"Organization",
-      "name":"TLV → Worldwide Destinations",
-      "url":"https://fly-tlv.com/",
-      "logo":"https://fly-tlv.com/static/og/flytlv_world.jpg",
-      "sameAs":[
-        "https://www.facebook.com/flyTLV",
-        "https://twitter.com/flyTLV",
-        "https://www.instagram.com/flyTLV"
-      ]
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "TLV → Worldwide Destinations",
-      "url": "https://fly-tlv.com/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://fly-tlv.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "{{ 'Which destinations can I fly to directly from Tel Aviv Ben Gurion Airport?' if lang != 'he' else 'לאילו יעדים ניתן לטוס ישירות מנתב״ג?' }}",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "{{ 'You can fly to dozens of destinations across Europe, Asia, Africa, and the Americas directly from TLV, with nonstop routes operated by many international airlines.' if lang != 'he' else 'מנתב״ג ניתן לטוס ישירות לעשרות יעדים ברחבי אירופה, אסיה, אפריקה ואמריקות, עם יעדים ישירות של חברות תעופה בינלאומיות רבות.' }}"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "{{ 'Which airlines fly from Tel Aviv Ben Gurion Airport?' if lang != 'he' else 'אילו חברות תעופה פועלות מנמל התעופה בן גוריון?' }}",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "{{ 'Many airlines operate from TLV, including El Al, Arkia, Israir, as well as global carriers such as Lufthansa, Turkish Airlines, Emirates, United, and more.' if lang != 'he' else 'מנתב״ג פועלות חברות רבות, כולל אל על, ארקיע, ישראייר, לצד חברות בינלאומיות כמו לופטהנזה, טורקיש איירליינס, אמירייטס, יונייטד ועוד.' }}"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "{{ 'How can I find flight times and distances from TLV?' if lang != 'he' else 'איך אפשר למצוא זמני טיסה ומרחקים מנתב״ג?' }}",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "{{ 'Our site provides real flight information including distances, average flight times, and nonstop routes from TLV to destinations worldwide.' if lang != 'he' else 'באתר שלנו תוכלו למצוא מידע אמיתי על יעדים, כולל מרחקים, זמני טיסה ממוצעים ונתיבים ישירים מנתב״ג ליעדים ברחבי העולם.' }}"
-          }
-        }
-      ]
-    }
-  ]
-  </script>
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — Worldwide Destinations Explorer",
+    "url": "https://fly-tlv.com/",
+    "inLanguage": "en-US",
+    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — כל היעדים מתל אביב",
+    "url": "https://fly-tlv.com/?lang=he",
+    "inLanguage": "he-IL",
+    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Destinations Board",
+    "url": "https://fly-tlv.com/destinations"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "לוח יעדים",
+    "url": "https://fly-tlv.com/destinations?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "World Map",
+    "url": "https://fly-tlv.com/map"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת יעדים",
+    "url": "https://fly-tlv.com/map?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Travel Warnings",
+    "url": "https://fly-tlv.com/travel-warnings"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "אזהרות מסע",
+    "url": "https://fly-tlv.com/travel-warnings?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Chat",
+    "url": "https://fly-tlv.com/chat"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צ׳אט",
+    "url": "https://fly-tlv.com/chat?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "About",
+    "url": "https://fly-tlv.com/about"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "עלינו",
+    "url": "https://fly-tlv.com/about?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Privacy Policy",
+    "url": "https://fly-tlv.com/privacy"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מדיניות פרטיות",
+    "url": "https://fly-tlv.com/privacy?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Contact",
+    "url": "https://fly-tlv.com/contact"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צור קשר",
+    "url": "https://fly-tlv.com/contact?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Sitemap",
+    "url": "https://fly-tlv.com/sitemap.xml"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת אתר",
+    "url": "https://fly-tlv.com/sitemap.xml?lang=he"
+  }
+]
+</script>
 {% endblock %}
 
 {% block content %}

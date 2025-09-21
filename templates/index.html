@@ -117,53 +117,126 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": {{ ("Fly TLV — Worldwide Destinations Explorer" if lang != 'he' else "Fly TLV — כל היעדים מתל אביב") | tojson }},
-    "url": {{ ("https://fly-tlv.com/" if lang != 'he' else "https://fly-tlv.com/?lang=he") | tojson }},
-    "inLanguage": {{ ("en-US" if lang != 'he' else "he-IL") | tojson }},
-    "description": {{ (
-      "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
-      if lang != 'he' else
-      "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
-    ) | tojson }}
+    "name": "Fly TLV — Worldwide Destinations Explorer",
+    "url": "https://fly-tlv.com/",
+    "inLanguage": "en-US",
+    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
   },
   {
     "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — כל היעדים מתל אביב",
+    "url": "https://fly-tlv.com/?lang=he",
+    "inLanguage": "he-IL",
+    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
+  },
+
+  {
+    "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": {{ ("Destinations Board" if lang != 'he' else "לוח יעדים") | tojson }},
+    "name": "Destinations Board",
     "url": "https://fly-tlv.com/destinations"
   },
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": {{ ("World Map" if lang != 'he' else "מפת יעדים") | tojson }},
+    "name": "לוח יעדים",
+    "url": "https://fly-tlv.com/destinations?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "World Map",
     "url": "https://fly-tlv.com/map"
   },
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": {{ ("About" if lang != 'he' else "עלינו") | tojson }},
+    "name": "מפת יעדים",
+    "url": "https://fly-tlv.com/map?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Travel Warnings",
+    "url": "https://fly-tlv.com/travel-warnings"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "אזהרות מסע",
+    "url": "https://fly-tlv.com/travel-warnings?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Chat",
+    "url": "https://fly-tlv.com/chat"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צ׳אט",
+    "url": "https://fly-tlv.com/chat?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "About",
     "url": "https://fly-tlv.com/about"
   },
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": {{ ("Privacy Policy" if lang != 'he' else "מדיניות פרטיות") | tojson }},
+    "name": "עלינו",
+    "url": "https://fly-tlv.com/about?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Privacy Policy",
     "url": "https://fly-tlv.com/privacy"
   },
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": {{ ("Contact" if lang != 'he' else "צור קשר") | tojson }},
+    "name": "מדיניות פרטיות",
+    "url": "https://fly-tlv.com/privacy?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Contact",
     "url": "https://fly-tlv.com/contact"
   },
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": {{ ("Sitemap" if lang != 'he' else "מפת אתר") | tojson }},
+    "name": "צור קשר",
+    "url": "https://fly-tlv.com/contact?lang=he"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Sitemap",
     "url": "https://fly-tlv.com/sitemap.xml"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת אתר",
+    "url": "https://fly-tlv.com/sitemap.xml?lang=he"
   }
 ]
 </script>
+
 </head>
 <body>
   <!-- Top Nav -->
