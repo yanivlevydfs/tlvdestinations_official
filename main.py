@@ -1083,7 +1083,8 @@ def sitemap():
         Url(f"{base}/privacy", today, "monthly", 0.5),
         Url(f"{base}/contact", today, "monthly", 0.5),
         Url(f"{base}/map", today, "weekly", 0.6),
-        Url(f"{base}/flights", today, "weekly", 0.8),  # 👈 Optional: Flights page
+        Url(f"{base}/travel-warnings", today, "weekly", 0.6),
+        Url(f"{base}/chat", today, "weekly", 0.8),
         Url(f"{base}/?lang=he", today, "daily", 0.9),   # 👈 Optional: Hebrew version
     ]
 
