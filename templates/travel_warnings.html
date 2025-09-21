@@ -8,7 +8,7 @@
 
   {% if last_update %}
     <div class="mb-3">
-      <span class="badge rounded-pill bg-info px-3 py-2 text-dark dark-mode:text-light">
+      <span class="badge rounded-pill bg-info px-3 py-2 text-dark">
         עודכן לאחרונה: {{ last_update | datetimeformat }}
       </span>
     </div>
@@ -133,7 +133,6 @@
   display: inline-block;
   padding-bottom: 0.5rem;
 }
-
 .section-title::after {
   content: "";
   position: absolute;
@@ -151,38 +150,56 @@
   margin-inline-end: 0.5rem;
 }
 
-/* Dark Mode Styling */
+/* Dark Mode Badge Fix */
+body.dark-mode .badge.bg-info {
+  color: #f8f9fa !important;
+}
+
+/* CSV Button (light & dark mode unified) */
+.buttons-csv {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: white !important;
+}
+.buttons-csv:hover {
+  background-color: #059669;
+  border-color: #059669;
+  color: white !important; /* ✅ force white text on hover */
+}
 body.dark-mode .buttons-csv {
   background-color: #10b981;
   border-color: #10b981;
-  color: white;
+  color: white !important;
 }
-
 body.dark-mode .buttons-csv:hover {
   background-color: #059669;
   border-color: #059669;
-}
-.buttons-colvis {
-  color: white !important; /* ✅ Force white text */
-  border-color: #3b82f6;
-  background-color: #3b82f6; /* Optional: match border */
+  color: white !important;
 }
 
+/* ColVis Button (light mode) */
+.buttons-colvis {
+  color: white !important;
+  border-color: #3b82f6;
+  background-color: #3b82f6;
+}
 .buttons-colvis:hover {
   background-color: #2563eb;
   border-color: #2563eb;
-  color: white;
-}
-body.dark-mode .buttons-colvis {
-  border-color: #3b82f6;
-  color: #93c5fd;
-  background-color: transparent;
+  color: white !important;
 }
 
+/* ColVis Button (dark mode) */
+body.dark-mode .buttons-colvis {
+  border-color: #3b82f6;
+  color: white !important;   /* ✅ always white text */
+  background-color: #3b82f6;
+}
 body.dark-mode .buttons-colvis:hover {
   background-color: #1e3a8a;
-  color: white;
+  color: white !important;   /* ✅ keep white text on hover */
 }
+
 
 </style>
 
@@ -192,18 +209,18 @@ document.addEventListener('DOMContentLoaded', function() {
     pageLength: 25,
     responsive: true,
     dom: 'Bfrtip',
-buttons: [
-  {
-    extend: 'csvHtml5',
-    text: '<i class="bi bi-file-earmark-spreadsheet me-1"></i> ייצוא CSV',
-    className: 'btn btn-success btn-sm buttons-csv' // ✅ manual class
-  },
-  {
-    extend: 'colvis',
-    text: '<i class="bi bi-eye me-1"></i> הצג/הסתר עמודות',
-    className: 'btn btn-outline-primary btn-sm buttons-colvis' // ✅ manual class
-  }
-],
+    buttons: [
+      {
+        extend: 'csvHtml5',
+        text: '<i class="bi bi-file-earmark-spreadsheet me-1"></i> ייצוא CSV',
+        className: 'btn btn-success btn-sm buttons-csv'
+      },
+      {
+        extend: 'colvis',
+        text: '<i class="bi bi-eye me-1"></i> הצג/הסתר עמודות',
+        className: 'btn btn-outline-primary btn-sm buttons-colvis'
+      }
+    ],
     language: {
       url: "{{ 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/he.json' if lang == 'he' else 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/en-GB.json' }}"
     },
@@ -219,13 +236,31 @@ buttons: [
     }]
   });
 
+  // Update "Active Filters" label
+  function updateActiveFilters() {
+    const continent = $('#continent-filter').val();
+    const country = $('#country-filter').val();
+    const level = $('#level-filter').val();
+    const query = $('#query-filter').val();
+
+    let filters = [];
+    if (continent) filters.push(`יבשת: ${continent}`);
+    if (country) filters.push(`מדינה: ${country}`);
+    if (level) filters.push(`רמת איום: ${level}`);
+    if (query) filters.push(`חיפוש: ${query}`);
+
+    $('#active-filters').text(filters.length ? filters.join(" | ") : "ללא סינון");
+  }
+
   // Filters
   $('#continent-filter').on('change', function () {
     table.column(0).search(this.value || '').draw();
+    updateActiveFilters();
   });
 
   $('#country-filter').on('change', function () {
     table.column(1).search(this.value || '').draw();
+    updateActiveFilters();
   });
 
   $('#level-filter').on('change', function () {
@@ -237,17 +272,23 @@ buttons: [
     };
     const searchTerm = map[this.value] || '';
     table.column(2).search(searchTerm).draw();
+    updateActiveFilters();
   });
 
   $('#query-filter').on('keyup change', function () {
     table.search(this.value).draw();
+    updateActiveFilters();
   });
 
   $('#clear-filters').on('click', function () {
     $('#continent-filter, #country-filter, #level-filter').val('');
     $('#query-filter').val('');
     table.search('').columns().search('').draw();
+    updateActiveFilters();
   });
+
+  // Initial run
+  updateActiveFilters();
 });
 </script>
 {% endblock %}
