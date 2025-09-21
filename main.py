@@ -1079,15 +1079,21 @@ def sitemap():
 
     urls = [
         Url(f"{base}/", today, "daily", 1.0),
-        Url(f"{base}/about", today, "monthly", 0.6),
-        Url(f"{base}/privacy", today, "monthly", 0.5),
-        Url(f"{base}/contact", today, "monthly", 0.5),
-        Url(f"{base}/map", today, "weekly", 0.6),
-        Url(f"{base}/travel-warnings", today, "weekly", 0.6),
+        Url(f"{base}/about", today, "yearly", 0.6),
+        Url(f"{base}/privacy", today, "yearly", 0.5),
+        Url(f"{base}/contact", today, "yearly", 0.5),
+        Url(f"{base}/map", today, "weekly", 0.7),
+        Url(f"{base}/travel-warnings", today, "weekly", 0.7),
         Url(f"{base}/chat", today, "weekly", 0.8),
-        Url(f"{base}/?lang=he", today, "daily", 0.9),   # 👈 Optional: Hebrew version
-    ]
 
+        Url(f"{base}/?lang=he", today, "daily", 1.0),
+        Url(f"{base}/about?lang=he", today, "yearly", 0.6),
+        Url(f"{base}/privacy?lang=he", today, "yearly", 0.5),
+        Url(f"{base}/contact?lang=he", today, "yearly", 0.5),
+        Url(f"{base}/map?lang=he", today, "weekly", 0.7),
+        Url(f"{base}/travel-warnings?lang=he", today, "weekly", 0.7),
+        Url(f"{base}/chat?lang=he", today, "weekly", 0.8),     
+    ]
     xml = build_sitemap(urls)
 
     out_path = Path("static/sitemap.xml")
