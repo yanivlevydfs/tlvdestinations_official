@@ -18,6 +18,5 @@ starlette
 beautifulsoup4
 # === Optional (לוגים צבעוניים) ===
 colorlog
-pycountry
 asyncio
 aiohttp

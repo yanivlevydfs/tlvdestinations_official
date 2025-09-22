@@ -1,19 +1,12 @@
 # === Standard Library ===
 import os
 import sys
-import time
 import json
-import asyncio
-import logging
 from html import escape
 from pathlib import Path
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from typing import Any, Dict, List
-import threading
 from math import radians, sin, cos, sqrt, atan2
-import pycountry
-import asyncio
-import aiohttp
 import re
 import string
 from pydantic import BaseModel
@@ -28,18 +21,12 @@ import requests
 import folium
 import airportsdata
 from folium.plugins import MarkerCluster
-from apscheduler.schedulers.background import BackgroundScheduler
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from sse_starlette.sse import EventSourceResponse
 from logging_setup import setup_logging, get_app_logger
-from fastapi import Depends
-from fastapi.responses import FileResponse
-# === Local Modules ===
-from sitemap_tool import Url, build_sitemap
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -55,7 +42,6 @@ if enc != "utf-8":
             pass
 
 # --- Logging ---
-scheduler = None
 setup_logging(log_level="INFO", log_dir="logs", log_file_name="app.log")
 logger = get_app_logger("flights_explorer")
 logger.info("Server starting…")
@@ -139,47 +125,6 @@ def normalize_case(value: str) -> str:
         return value or "—"
     return string.capwords(value.strip())
 
-def israel_flights_is_stale(max_age_hours: int = 24) -> bool:
-    """Return True if the israel flights cache file is older than max_age_hours or missing."""
-    if not ISRAEL_FLIGHTS_FILE.exists():
-        return True
-    age_hours = (datetime.now() - datetime.fromtimestamp(ISRAEL_FLIGHTS_FILE.stat().st_mtime)).total_seconds() / 3600
-    return age_hours > max_age_hours
-
-def travel_warnings_is_stale(max_age_hours: int = 24) -> bool:
-    """Return True if the travel warnings cache file is older than max_age_hours or missing."""
-    if not TRAVEL_WARNINGS_FILE.exists():
-        return True
-    age_hours = (datetime.now() - datetime.fromtimestamp(TRAVEL_WARNINGS_FILE.stat().st_mtime)).total_seconds() / 3600
-    return age_hours > max_age_hours
-
-
-def _dataset_file_date() -> str | None:
-    """Return the DD-MM-YYYY date from 'updated' inside ISRAEL_FLIGHTS_FILE, or None."""
-    if ISRAEL_FLIGHTS_FILE.exists():
-        try:
-            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
-                meta = json.load(f)
-            updated = meta.get("updated")
-            if updated:
-                # Example: "2025-09-14T17:23:16.379406" → "14-09-2025"
-                iso_date = updated.split("T")[0]  # "2025-09-14"
-                return datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
-        except Exception as e:
-            logger.error(f"Failed to read israel flights file: {e}")
-    return None
-
-
-def _is_dataset_fresh_today() -> tuple[bool, str | None]:
-    """Check if dataset is for today (checks in-memory first, then file)."""
-    today = datetime.now().strftime("%d-%m-%Y")
-    # in-memory
-    if DATASET_DATE == today and not DATASET_DF.empty:
-        return True, today
-    # on disk
-    file_date = _dataset_file_date()
-    return (file_date == today), file_date
-
 def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
 
@@ -252,14 +197,6 @@ def _extract_threat_level(text: str) -> str:
     return "Unknown"
 
 
-def travel_warnings_is_stale(max_age_hours: int = 24) -> bool:
-    """בדיקה אם הקובץ ישן"""
-    if not TRAVEL_WARNINGS_FILE.exists():
-        return True
-    age_hours = (datetime.now() - datetime.fromtimestamp(TRAVEL_WARNINGS_FILE.stat().st_mtime)).total_seconds() / 3600
-    return age_hours > max_age_hours
-
-
 def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
     offset = 0
@@ -326,17 +263,22 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
 
 
 
-def get_dataset_date():
-    if ISRAEL_FLIGHTS_FILE.exists():
+def get_dataset_date() -> str | None:
+    if not ISRAEL_FLIGHTS_FILE.exists():
+        return None
+    try:
         with open(ISRAEL_FLIGHTS_FILE, encoding="utf-8") as f:
             data = json.load(f)
         updated = data.get("updated")
         if updated:
+            iso_date = updated.split("T")[0]
             try:
-                iso_date = updated.split("T")[0]
                 return datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
             except Exception:
+                logger.warning(f"Could not parse iso_date='{iso_date}'")
                 return iso_date
+    except Exception as e:
+        logger.error(f"Failed to read dataset date: {e}")
     return None
 
     
@@ -507,36 +449,33 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     # Empty fallback
     return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
 
-
 def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
     """
     Return the current dataset from memory or disk.
-    If trigger_refresh=True and the dataset is stale, fetch fresh data immediately.
+    If trigger_refresh=True, fetch fresh data immediately.
     """
     global DATASET_DF, DATASET_DATE
 
-    fresh, file_date = _is_dataset_fresh_today()
-
-    # ✅ Return in-memory if fresh
-    if fresh and not DATASET_DF.empty:
+    # ✅ Use in-memory if available
+    if not DATASET_DF.empty:
         return DATASET_DF
 
     # ✅ Try loading from disk
     df, disk_date = _read_dataset_file()
     DATASET_DF, DATASET_DATE = df, disk_date or ""
 
-    # ✅ If fresh on disk or refresh not requested
-    if fresh or not trigger_refresh:
+    if not trigger_refresh:
         return DATASET_DF
 
-    # ✅ Refresh now (blocking, no background thread)
-    logger.info("Dataset stale → refreshing now")
+    # ✅ Refresh now if explicitly requested
+    logger.info("Dataset refresh requested → fetching gov.il flights")
     fetch_israel_flights()
 
     # ✅ Reload dataset after refresh
     df, disk_date = _read_dataset_file()
     DATASET_DF, DATASET_DATE = df, disk_date or ""
     return DATASET_DF
+
 
 def load_israel_flights_map():
     """Return dict {IATA: set(airlines)} from gov.il cache"""
@@ -561,10 +500,6 @@ def load_israel_flights_map():
             mapping.setdefault(iata, set()).add(normalized)
     return mapping
 
-def start_refresh_thread():
-    t = threading.Thread(target=fetch_israel_flights, daemon=True)
-    t.start()
-    
 def load_airline_websites() -> dict:
     try:
         with open(AIRLINE_WEBSITES_FILE, "r", encoding="utf-8") as f:
@@ -582,10 +517,8 @@ def home(
     query: str = "",    
     lang: str = Depends(get_lang), 
 ):
-    # --- Step 1: Load dataset (Greek & Cyprus airports) ---
     df = get_dataset(trigger_refresh=False).copy()
 
-    # Apply filters (local only)
     if country and country != "All":
         df = df[df["Country"].str.lower() == country.lower()]
     if query:
@@ -596,14 +529,11 @@ def home(
                                   or q in str(r["City"]).lower()
                                   or q in str(r["Country"]).lower(),axis=1)]
 
-    # --- Step 2: Merge AE airlines with gov.il flights ---
     govil_map = load_israel_flights_map()
     airports = df.to_dict(orient="records")
 
     for ap in airports:
         raw = ap.get("Airlines", [])
-
-        # Normalize AE airlines
         if isinstance(raw, list):
             ae_airlines = set(a.strip().lower() for a in raw if a)
         elif isinstance(raw, str) and raw != "—":
@@ -611,7 +541,6 @@ def home(
         else:
             ae_airlines = set()
 
-        # Normalize gov.il airlines
         govil_airlines = set()
         for g in govil_map.get(ap["IATA"], set()):
             if isinstance(g, str):
@@ -620,7 +549,6 @@ def home(
         merged = sorted(normalize_airline_list(list(ae_airlines.union(govil_airlines))))
         ap["Airlines"] = merged if merged else ["—"]
         
-    # --- Step 3: Add missing gov.il-only destinations (group + merge) ---
     if ISRAEL_FLIGHTS_FILE.exists():
         try:
             with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
@@ -672,7 +600,6 @@ def home(
                 "FlightTime_hr": flight_time_hr,
             })
 
-    # --- Step 4: Render template ---
     countries = get_all_countries(airports)
     last_update = get_dataset_date()
     logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
@@ -696,11 +623,8 @@ def map_view(
     country: str = "All",
     query: str = "",
 ):
-    # DO NOT trigger refresh here; just use cached data
     df = get_dataset(trigger_refresh=False).copy()
     airports = df.to_dict(orient="records")
-
-    # --- Merge gov.il-only destinations ---
     if ISRAEL_FLIGHTS_FILE.exists():
         try:
             govil_json = json.load(open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8"))
@@ -748,8 +672,6 @@ def map_view(
                 "Distance_km": dist_km,
                 "FlightTime_hr": flight_time_hr,
             })
-
-    # ---- Apply filters ----
     if country and country != "All":
         airports = [ap for ap in airports if ap["Country"].lower() == country.lower()]
     if query:
@@ -763,7 +685,6 @@ def map_view(
                 or q in str(ap["Country"]).lower()
             ]
 
-    # ---- Base map ----
     m = folium.Map(
         location=[35, 28.5],
         zoom_start=5,
@@ -773,11 +694,6 @@ def map_view(
         zoom_control=True
     )
     cluster = MarkerCluster().add_to(m)
-
-    # Disable scroll wheel zoom (prevents messy zoom inside modal)
-    #m.options["scrollWheelZoom"] = False
-
-    # Add TLV marker
     folium.Marker(
         [TLV["lat"], TLV["lon"]],
         tooltip="Tel Aviv (TLV)",
@@ -789,21 +705,15 @@ def map_view(
     for ap in airports:
         if not ap.get("lat") or not ap.get("lon"):
             logger.warning(f"Missing coords for {ap['IATA']} ({ap['City']}, {ap['Country']})")
-            # fallback: skip marker but keep them in airports list
             continue
 
-        # ✅ this must be OUTSIDE the "if missing" block
-        #logger.info(f"Placing {len([ap for ap in airports if ap.get('lat') and ap.get('lon')])} markers on map")
         km = haversine_km(TLV["lat"], TLV["lon"], ap["lat"], ap["lon"])
-        flight_time_hr = round(km / 800, 1) if km else "—"  # avg ~800 km/h
-
+        flight_time_hr = round(km / 800, 1) if km else "—"
         flight_time_hr = round(km / 800, 1) if km else "—"
         flights_url    = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{ap['IATA']}"
         skyscanner_url = f"https://www.skyscanner.net/transport/flights/tlv/{ap['IATA'].lower()}/"
         gmaps_url      = f"https://maps.google.com/?q={ap['City'].replace(' ','+')},{ap['Country'].replace(' ','+')}"
         copy_js = f"navigator.clipboard && navigator.clipboard.writeText('{safe_js(ap['IATA'])}')"
-
-        # ---- Airlines as clickable chips ----
         airlines_val = ap.get("Airlines", "—")
 
         if isinstance(airlines_val, (list, tuple)):
@@ -891,7 +801,6 @@ def map_view(
 
         bounds.append([ap["lat"], ap["lon"]])
 
-    # ---- Fit map to bounds ----
     if len(bounds) > 1:
         try:
             m.fit_bounds(bounds, padding=(30, 30))
@@ -935,11 +844,14 @@ def map_view(
 async def on_startup():
     global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE
 
-    # 1) Load airline websites
+    # 1) Init scheduler
+    scheduler = AsyncIOScheduler()
+
+    # 2) Load airline websites
     AIRLINE_WEBSITES = load_airline_websites()
     logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
 
-    # 2) Load dataset from disk if exists
+    # 3) Load dataset from disk if exists
     if ISRAEL_FLIGHTS_FILE.exists():
         df, d = _read_dataset_file()
         DATASET_DF, DATASET_DATE = df, d or ""
@@ -947,59 +859,28 @@ async def on_startup():
     else:
         logger.info("Startup: no dataset file on disk")
 
-    # 3) If stale, refresh flights immediately
-    if israel_flights_is_stale(max_age_hours=24):
-        logger.info("Startup: gov.il flights stale → refreshing now")
-        fetch_israel_flights()
+    # 4) Schedule jobs (every 8h, run immediately at startup)
+    scheduler.add_job(
+        fetch_israel_flights,
+        "interval",
+        hours=8,
+        id="govil_refresh",
+        replace_existing=True,
+        next_run_time=datetime.now()
+    )
 
-    # 4) If stale, refresh travel warnings immediately
-    if travel_warnings_is_stale(max_age_hours=24):
-        logger.info("Startup: travel warnings stale → refreshing now")
-        fetch_travel_warnings()
+    scheduler.add_job(
+        fetch_travel_warnings,
+        "interval",
+        hours=8,
+        id="warnings_refresh",
+        replace_existing=True,
+        next_run_time=datetime.now()
+    )
 
-    # 5) Start scheduler
-    scheduler = AsyncIOScheduler()
-    scheduler.add_job(fetch_israel_flights, "interval", hours=24,
-                      id="govil_refresh", replace_existing=True)
-    scheduler.add_job(fetch_travel_warnings, "interval", hours=24,
-                      id="warnings_refresh", replace_existing=True)
     scheduler.start()
-    logger.info("Scheduler started: gov.il refresh every 24h (flights + warnings)")
+    logger.info("Scheduler started: gov.il refresh every 8h (flights + warnings)")
 
-
-@app.post("/api/israel-flights/refresh")
-async def refresh_israel_flights():
-    """Fetch new flights from gov.il and update cache."""
-    try:
-        result = fetch_israel_flights()
-        if not result:
-            raise HTTPException(
-                status_code=502,
-                detail="gov.il API did not return data"
-            )
-        return {
-            "status": "ok",
-            "updated": result.get("updated"),
-            "count": result.get("count", 0)
-        }
-    except HTTPException:
-        raise  # re-raise cleanly
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/api/israel-flights", response_class=JSONResponse)
-async def get_israel_flights():
-    """Return cached gov.il flights."""
-    if not ISRAEL_FLIGHTS_FILE.exists():
-        raise HTTPException(status_code=404, detail="No cached flights available")
-    try:
-        with open(ISRAEL_FLIGHTS_FILE, encoding="utf-8") as f:
-            return json.load(f)
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=500, detail="Cached flights file is corrupted")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-        
 @app.on_event("shutdown")
 async def shutdown_event():
     global scheduler
@@ -1085,7 +966,6 @@ def sitemap():
         Url(f"{base}/map", today, "weekly", 0.7),
         Url(f"{base}/travel-warnings", today, "weekly", 0.7),
         Url(f"{base}/chat", today, "weekly", 0.8),
-
         Url(f"{base}/?lang=he", today, "daily", 1.0),
         Url(f"{base}/about?lang=he", today, "yearly", 0.6),
         Url(f"{base}/privacy?lang=he", today, "yearly", 0.5),
@@ -1095,11 +975,9 @@ def sitemap():
         Url(f"{base}/chat?lang=he", today, "weekly", 0.8),     
     ]
     xml = build_sitemap(urls)
-
-    out_path = Path("static/sitemap.xml")
+    out_path = STATIC_DIR / "sitemap.xml"
     out_path.parent.mkdir(exist_ok=True)
     out_path.write_text(xml, encoding="utf-8")
-
     return Response(content=xml, media_type="application/xml")
     
 def generate_destination_questions(n: int = 10) -> list[str]:
@@ -1130,9 +1008,6 @@ async def chat_flight_ai(
     max_rows: int = Query(default=150, le=300),
     lang: str = Query(default="en")
 ):
-    """
-    Use Gemini to answer natural language questions about DATASET_DF.
-    """
     question = query.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="Question is empty.")
@@ -1140,7 +1015,6 @@ async def chat_flight_ai(
     if DATASET_DF.empty:
         raise HTTPException(status_code=503, detail="Flight dataset not loaded.")
 
-    # Step 1: Format in-memory dataset into context
     context_rows = []
     for row in DATASET_DF.to_dict(orient="records")[:max_rows]:
         iata = row.get("IATA", "—")
@@ -1150,7 +1024,6 @@ async def chat_flight_ai(
         context_rows.append(f"{iata}, {city}, {country}, Airlines: {airlines}")
     context = "\n".join(context_rows)
 
-    # Step 2: Build prompt
     prompt = f"""
 You are an aviation expert helping users explore destinations from Ben Gurion Airport (TLV).
 
@@ -1197,8 +1070,6 @@ Now, based on the data above, answer this user question:
 
 
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
-
-    # Step 3: Ask Gemini
     try:
         result = await chat_model.generate_content_async(prompt)
         answer = getattr(result, "text", None) or "Currently i have no answer"
@@ -1206,7 +1077,6 @@ Now, based on the data above, answer this user question:
         logger.error("Gemini API error: %s", str(e))
         raise HTTPException(status_code=500, detail="Gemini API error")
 
-    # Step 4: Suggested questions from JSON schema
     field_names = [
         "airline", "iata", "airport", "city", "country",
         "scheduled", "actual", "direction", "status"
@@ -1219,10 +1089,8 @@ Now, based on the data above, answer this user question:
         base = "Show me flights by"
         suggestions = [f"{base} {f}" for f in field_names]
 
-    # Pick 3 random suggestions
     suggestions = random.sample(suggestions, k=3)
 
-    # Step 5: Return answer + suggestions
     return {"answer": answer, "suggestions": suggestions}
 
         
