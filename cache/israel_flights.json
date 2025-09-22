@@ -1,51 +1,7 @@
 {
-  "updated": "2025-09-22T23:47:03.839142",
-  "count": 2095,
+  "updated": "2025-09-23T00:04:35.308471",
+  "count": 2100,
   "flights": [
-    {
-      "airline": "Flyone Romania",
-      "iata": "OTP",
-      "airport": "Bucharest - Otopeni",
-      "city": "Bucharest",
-      "country": "Romania",
-      "scheduled": "2025-09-21t22:20:00",
-      "actual": "2025-09-21t23:47:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "RHO",
-      "airport": "Rhodes-paradisi",
-      "city": "Rhodes",
-      "country": "Greece",
-      "scheduled": "2025-09-21t19:55:00",
-      "actual": "2025-09-21t23:52:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Blue Bird Airways",
-      "iata": "BUD",
-      "airport": "Budapest",
-      "city": "Budapest",
-      "country": "Hungary",
-      "scheduled": "2025-09-21t22:25:00",
-      "actual": "2025-09-21t23:57:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "PFO",
-      "airport": "Paphos",
-      "city": "Paphos",
-      "country": "Cyprus",
-      "scheduled": "2025-09-21t21:15:00",
-      "actual": "2025-09-22t00:00:00",
-      "direction": "D",
-      "status": "Departed"
-    },
     {
       "airline": "Emirates",
       "iata": "DXB",
@@ -6944,17 +6900,6 @@
       "status": "Landed"
     },
     {
-      "airline": "Hisky",
-      "iata": "RMO",
-      "airport": "Chisinau",
-      "city": "Chisinau",
-      "country": "Moldova",
-      "scheduled": "2025-09-22t23:15:00",
-      "actual": "2025-09-22t23:15:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
       "airline": "Emirates",
       "iata": "DXB",
       "airport": "Dubai",
@@ -7062,7 +7007,18 @@
       "scheduled": "2025-09-22t23:30:00",
       "actual": "2025-09-22t23:54:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
+    },
+    {
+      "airline": "Hisky",
+      "iata": "RMO",
+      "airport": "Chisinau",
+      "city": "Chisinau",
+      "country": "Moldova",
+      "scheduled": "2025-09-22t23:15:00",
+      "actual": "2025-09-23t00:05:00",
+      "direction": "D",
+      "status": "On Time"
     },
     {
       "airline": "El Al Israel Airlines",
@@ -23046,6 +23002,105 @@
       "actual": "2025-09-25t23:45:00",
       "direction": "A",
       "status": "Not Final"
+    },
+    {
+      "airline": "Emirates",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-25t23:50:00",
+      "actual": "2025-09-25t23:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-25t23:50:00",
+      "actual": "2025-09-25t23:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Air Seychelles",
+      "iata": "SEZ",
+      "airport": "Mahe Seychelles Intl",
+      "city": "Mahe Seychelles",
+      "country": "Seychelles",
+      "scheduled": "2025-09-25t23:50:00",
+      "actual": "2025-09-25t23:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Hisky",
+      "iata": "RMO",
+      "airport": "Chisinau",
+      "city": "Chisinau",
+      "country": "Moldova",
+      "scheduled": "2025-09-25t23:50:00",
+      "actual": "2025-09-25t23:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "PVK",
+      "airport": "Preveza",
+      "city": "Preveza",
+      "country": "Greece",
+      "scheduled": "2025-09-25t23:50:00",
+      "actual": "2025-09-25t23:50:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-09-25t23:55:00",
+      "actual": "2025-09-25t23:55:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Skyup Malta",
+      "iata": "IAS",
+      "airport": "Iasi",
+      "city": "Iasi",
+      "country": "Romania",
+      "scheduled": "2025-09-25t23:55:00",
+      "actual": "2025-09-25t23:55:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Blue Bird Airways",
+      "iata": "HER",
+      "airport": "Heraklion",
+      "city": "Heraklion",
+      "country": "Greece",
+      "scheduled": "2025-09-26t00:00:00",
+      "actual": "2025-09-26t00:00:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Tarom - Romanian Air Transport",
+      "iata": "OTP",
+      "airport": "Bucharest - Otopeni",
+      "city": "Bucharest",
+      "country": "Romania",
+      "scheduled": "2025-09-26t00:00:00",
+      "actual": "2025-09-26t00:00:00",
+      "direction": "D",
+      "status": "On Time"
     }
   ]
 }

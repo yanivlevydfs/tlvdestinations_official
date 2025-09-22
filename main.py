@@ -19,7 +19,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import requests
 import folium
-import airportsdata
+from airportsdata import load
 from folium.plugins import MarkerCluster
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.templating import Jinja2Templates
@@ -118,6 +118,8 @@ DATASET_DF: pd.DataFrame = pd.DataFrame()
 DATASET_DATE: str = ""
 AIRLINE_WEBSITES: dict = {}
 scheduler: AsyncIOScheduler | None = None
+AIRPORTS_DB: dict = {}
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
@@ -314,10 +316,19 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return round(R * 2 * atan2(sqrt(a), sqrt(1 - a)), 1)
 
 def load_airports_all() -> pd.DataFrame:
-    iata_db = airportsdata.load("IATA")
-    rows = []
+    global AIRPORTS_DB
+    if not AIRPORTS_DB:
+        # fallback: load once if not already initialized
+        try:
+            from airportsdata import load
+            AIRPORTS_DB = load("IATA")
+            logger.info(f"AIRPORTS_DB lazy-loaded with {len(AIRPORTS_DB)} records")
+        except Exception as e:
+            logger.error(f"Failed to load airportsdata: {e}")
+            return pd.DataFrame()
 
-    for iata, rec in iata_db.items():
+    rows = []
+    for iata, rec in AIRPORTS_DB.items():
         country = normalize_case(rec.get("country"))
         name = normalize_case(rec.get("name"))
         city = normalize_case(rec.get("city"))
@@ -340,6 +351,7 @@ def load_airports_all() -> pd.DataFrame:
         })
 
     return pd.DataFrame(rows)
+
 
 def load_airline_names() -> Dict[str, str]:
     cols = ["AirlineID","Name","Alias","IATA","ICAO","Callsign","Country","Active"]
@@ -451,64 +463,70 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
 
 
 def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
-    """Read israel_flights.json and convert flights → unique airports DataFrame."""
-    if ISRAEL_FLIGHTS_FILE.exists():
-        try:
-            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
-                meta = json.load(f)
+    """
+    Read israel_flights.json and convert flights → unique airports DataFrame.
+    Uses global AIRPORTS_DB (loaded once on startup).
+    """
+    global AIRPORTS_DB
 
-            flights = meta.get("flights", [])
-            iata_db = airportsdata.load("IATA")
+    if not ISRAEL_FLIGHTS_FILE.exists():
+        return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
 
-            grouped = {}
-            for f in flights:
-                iata = f.get("iata")
-                if not iata:
-                    continue
-                entry = grouped.setdefault(iata, {
-                    "IATA": iata,
-                    "Name": f.get("airport") or "—",
-                    "City": f.get("city") or "—",
-                    "Country": f.get("country") or "—",
-                    "Airlines": set(),
-                })
-                airline = f.get("airline")
-                if airline:
-                    entry["Airlines"].add(airline)
+    try:
+        with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
+            meta = json.load(f)
 
-            rows = []
-            for iata, info in grouped.items():
-                coords = iata_db.get(iata, {})
-                lat, lon = coords.get("lat"), coords.get("lon")
-                dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
-                flight_hr = round(dist_km / 800, 2) if dist_km else None
-                rows.append({
-                    **info,
-                    "lat": lat,
-                    "lon": lon,
-                    "Distance_km": dist_km,
-                    "FlightTime_hr": flight_hr,
-                    "Airlines": sorted(info["Airlines"]),
-                })
+        flights = meta.get("flights", [])
 
-            df = pd.DataFrame(rows)
+        grouped: dict[str, dict] = {}
+        for rec in flights:
+            iata = rec.get("iata")
+            if not iata:
+                continue
+            entry = grouped.setdefault(iata, {
+                "IATA": iata,
+                "Name": rec.get("airport") or "—",
+                "City": rec.get("city") or "—",
+                "Country": rec.get("country") or "—",
+                "Airlines": set(),
+            })
+            airline = rec.get("airline")
+            if airline:
+                entry["Airlines"].add(airline)
 
-            # Get date from "updated"
-            updated = meta.get("updated")
-            file_date = None
-            if updated:
-                try:
-                    iso_date = updated.split("T")[0]
-                    file_date = datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
-                except Exception:
-                    file_date = iso_date
+        rows = []
+        for iata, info in grouped.items():
+            coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
+            lat, lon = coords.get("lat"), coords.get("lon")
+            dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
+            flight_hr = round(dist_km / 800, 2) if dist_km else None
+            rows.append({
+                **info,
+                "lat": lat,
+                "lon": lon,
+                "Distance_km": dist_km,
+                "FlightTime_hr": flight_hr,
+                "Airlines": sorted(info["Airlines"]),
+            })
 
-            return df, file_date
+        df = pd.DataFrame(rows)
 
-        except Exception as e:
-            logger.error(f"Failed to read dataset file: {e}")
+        # Extract updated date
+        updated = meta.get("updated")
+        file_date = None
+        if updated:
+            try:
+                iso_date = updated.split("T")[0]
+                file_date = datetime.strptime(iso_date, "%Y-%m-%d").strftime("%d-%m-%Y")
+            except Exception:
+                file_date = iso_date
 
-    # Empty fallback
+        return df, file_date
+
+    except Exception as e:
+        logger.error(f"Failed to read dataset file: {e}", exc_info=True)
+
+    # Fallback
     return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
 
 def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
@@ -579,6 +597,8 @@ def home(
     query: str = "",    
     lang: str = Depends(get_lang), 
 ):
+    global AIRPORTS_DB
+
     df = get_dataset(trigger_refresh=False).copy()
 
     if country and country != "All":
@@ -620,7 +640,6 @@ def home(
             logger.error(f"Failed to read gov.il flights: {e}")
             govil_flights = []
 
-        iata_db = airportsdata.load("IATA")
         existing_iatas = {ap["IATA"] for ap in airports}
 
         grouped: dict[str, dict] = {}
@@ -645,8 +664,8 @@ def home(
             lat = lon = None
             dist_km = flight_time_hr = "—"
 
-            if iata in iata_db:
-                lat, lon = iata_db[iata]["lat"], iata_db[iata]["lon"]
+            if iata in AIRPORTS_DB:
+                lat, lon = AIRPORTS_DB[iata]["lat"], AIRPORTS_DB[iata]["lon"]
                 if lat is not None and lon is not None:
                     dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
                     flight_time_hr = round(dist_km / 800, 2)
@@ -680,6 +699,7 @@ def home(
             "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
         },
     )
+
 @app.get("/map", response_class=HTMLResponse)
 def map_view(
     country: str = "All",
@@ -695,7 +715,7 @@ def map_view(
             logger.error(f"Failed to read gov.il flights: {e}")
             govil_flights = []
 
-        iata_db = airportsdata.load("IATA")
+        global AIRPORTS_DB
         existing_iatas = {ap["IATA"] for ap in airports}
         grouped: dict[str, dict] = {}
 
@@ -717,8 +737,8 @@ def map_view(
         for iata, meta in grouped.items():
             lat = lon = None
             dist_km = flight_time_hr = "—"
-            if iata in iata_db:
-                lat, lon = iata_db[iata]["lat"], iata_db[iata]["lon"]
+            if iata in AIRPORTS_DB:
+                lat, lon = AIRPORTS_DB[iata]["lat"], AIRPORTS_DB[iata]["lon"]
                 if lat and lon:
                     dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
                     flight_time_hr = round(dist_km / 800, 2)
@@ -904,10 +924,17 @@ def map_view(
 
 @app.on_event("startup")
 async def on_startup():
-    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
+    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS, AIRPORTS_DB
 
     logger.info("🚀 Application startup initiated")
-
+    # 0) Load IATA DB once
+    try:
+        AIRPORTS_DB = load("IATA")
+        logger.info(f"Loaded airportsdata IATA DB with {len(AIRPORTS_DB)} records")
+    except Exception as e:
+        logger.error(f"Failed to load airportsdata: {e}")
+        AIRPORTS_DB = {}
+        
     # 1) Init scheduler
     scheduler = AsyncIOScheduler()
     logger.debug("AsyncIOScheduler instance created")
