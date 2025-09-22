@@ -844,55 +844,84 @@ def map_view(
 async def on_startup():
     global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE
 
+    logger.info("🚀 Application startup initiated")
+
     # 1) Init scheduler
     scheduler = AsyncIOScheduler()
+    logger.debug("AsyncIOScheduler instance created")
 
     # 2) Load airline websites
-    AIRLINE_WEBSITES = load_airline_websites()
-    logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
+    try:
+        AIRLINE_WEBSITES = load_airline_websites()
+        logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
+    except Exception as e:
+        logger.error(f"Failed to load airline websites: {e}", exc_info=True)
+        AIRLINE_WEBSITES = {}
 
     # 3) Load dataset from disk if exists
     if ISRAEL_FLIGHTS_FILE.exists():
-        df, d = _read_dataset_file()
-        DATASET_DF, DATASET_DATE = df, d or ""
-        logger.info(f"Startup: dataset loaded (date={DATASET_DATE}, rows={len(DATASET_DF)})")
+        try:
+            df, d = _read_dataset_file()
+            DATASET_DF, DATASET_DATE = df, d or ""
+            logger.info(
+                f"Startup: dataset loaded from disk "
+                f"(date={DATASET_DATE}, rows={len(DATASET_DF)})"
+            )
+        except Exception as e:
+            logger.error(f"Error reading dataset file: {e}", exc_info=True)
     else:
-        logger.info("Startup: no dataset file on disk")
+        logger.warning("Startup: no dataset file on disk")
 
     # 4) Schedule jobs (every 8h, run immediately at startup)
-    scheduler.add_job(
-        fetch_israel_flights,
-        "interval",
-        hours=8,
-        id="govil_refresh",
-        replace_existing=True,
-        next_run_time=datetime.now()
-    )
+    try:
+        scheduler.add_job(
+            fetch_israel_flights,
+            "interval",
+            hours=8,
+            id="govil_refresh",
+            replace_existing=True,
+            next_run_time=datetime.now()
+        )
+        logger.info("Scheduled job: gov.il flights refresh every 8h")
 
-    scheduler.add_job(
-        fetch_travel_warnings,
-        "interval",
-        hours=8,
-        id="warnings_refresh",
-        replace_existing=True,
-        next_run_time=datetime.now()
-    )
+        scheduler.add_job(
+            fetch_travel_warnings,
+            "interval",
+            hours=8,
+            id="warnings_refresh",
+            replace_existing=True,
+            next_run_time=datetime.now()
+        )
+        logger.info("Scheduled job: travel warnings refresh every 8h")
 
-    scheduler.start()
-    logger.info("Scheduler started: gov.il refresh every 8h (flights + warnings)")
+        scheduler.start()
+        logger.info("✅ Scheduler started successfully")
+    except Exception as e:
+        logger.critical(f"Failed to start scheduler: {e}", exc_info=True)
+
+    logger.info("🎯 Application startup completed")
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
     global scheduler
+    logger.info("🛑 Application shutdown initiated")
+
     if scheduler:
         try:
-            scheduler.shutdown()
-            logger.info("Scheduler stopped")
+            scheduler.shutdown(wait=False)
+            logger.info("✅ Scheduler stopped successfully")
         except Exception as e:
-            logger.error(f"Error shutting down scheduler: {e}")
+            logger.error("Error shutting down scheduler", exc_info=True)
+    else:
+        logger.warning("No scheduler instance to shut down")
+
+    logger.info("👋 Application shutdown completed")
+
     
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request, lang: str = Depends(get_lang)):
+    logger.info(f"GET /about | lang={lang} | client={request.client.host}")
     return TEMPLATES.TemplateResponse("about.html", {
         "request": request,
         "lang": lang,
@@ -901,30 +930,41 @@ async def about(request: Request, lang: str = Depends(get_lang)):
 
 @app.get("/privacy", response_class=HTMLResponse)
 async def privacy(request: Request, lang: str = Depends(get_lang)):
+    logger.info(f"GET /privacy | lang={lang} | client={request.client.host}")
     return TEMPLATES.TemplateResponse("privacy.html", {
         "request": request,
         "lang": lang,
         "now": datetime.now()
     })
 
+
 @app.get("/contact", response_class=HTMLResponse)
 async def contact(request: Request, lang: str = Depends(get_lang)):
+    logger.info(f"GET /contact | lang={lang} | client={request.client.host}")
     return TEMPLATES.TemplateResponse("contact.html", {
         "request": request,
         "lang": lang,
         "now": datetime.now()
     })
 
+
 @app.get("/ads.txt", include_in_schema=False)
-async def ads_txt():
+async def ads_txt(request: Request):
+    logger.info(f"GET /ads.txt | client={request.client.host}")
     file_path = Path(__file__).parent / "ads.txt"
     return FileResponse(file_path, media_type="text/plain")
-    
+   
     
 @app.get("/robots.txt", include_in_schema=False)
-async def robots_txt():
+async def robots_txt(request: Request):
     file_path = Path(__file__).parent / "robots.txt"
-    return FileResponse(file_path, media_type="text/plain")
+    if file_path.exists():
+        logger.info(f"GET /robots.txt | client={request.client.host}")
+        return FileResponse(file_path, media_type="text/plain")
+    else:
+        logger.error(f"robots.txt not found! | client={request.client.host}")
+        raise HTTPException(status_code=404, detail="robots.txt not found")
+
     
     
 class Url:
@@ -952,7 +992,6 @@ def build_sitemap(urls: List[Url]) -> str:
     sitemap.append("</urlset>")
     return "\n".join(sitemap)
 
-# Route to serve and write sitemap.xml
 @app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
 def sitemap():
     base = "https://fly-tlv.com"
@@ -966,27 +1005,36 @@ def sitemap():
         Url(f"{base}/map", today, "weekly", 0.7),
         Url(f"{base}/travel-warnings", today, "weekly", 0.7),
         Url(f"{base}/chat", today, "weekly", 0.8),
+
         Url(f"{base}/?lang=he", today, "daily", 1.0),
         Url(f"{base}/about?lang=he", today, "yearly", 0.6),
         Url(f"{base}/privacy?lang=he", today, "yearly", 0.5),
         Url(f"{base}/contact?lang=he", today, "yearly", 0.5),
         Url(f"{base}/map?lang=he", today, "weekly", 0.7),
         Url(f"{base}/travel-warnings?lang=he", today, "weekly", 0.7),
-        Url(f"{base}/chat?lang=he", today, "weekly", 0.8),     
+        Url(f"{base}/chat?lang=he", today, "weekly", 0.8),
     ]
+
     xml = build_sitemap(urls)
     out_path = STATIC_DIR / "sitemap.xml"
-    out_path.parent.mkdir(exist_ok=True)
-    out_path.write_text(xml, encoding="utf-8")
+
+    try:
+        out_path.parent.mkdir(exist_ok=True)
+        out_path.write_text(xml, encoding="utf-8")
+        logger.info(f"Sitemap written to {out_path} with {len(urls)} URLs")
+    except Exception as e:
+        logger.error(f"Failed to write sitemap.xml: {e}")
+
+    logger.info("Serving sitemap.xml")
     return Response(content=xml, media_type="application/xml")
-    
+
 def generate_destination_questions(n: int = 10) -> list[str]:
     questions_en = [
         "Which airlines fly to New York?",
         "Show me all airports in Germany.",
         "What destinations are available in Italy?",
         "Which airline flies to Paris?",
-        "Show all destinations in Cyprus."
+        "Show all destinations in Cyprus.",
     ]
 
     questions_he = [
@@ -997,9 +1045,12 @@ def generate_destination_questions(n: int = 10) -> list[str]:
         "איזו חברת תעופה טסה לפריז?",
     ]
 
-    # Mix both English + Hebrew, limit to n
     combined = questions_en + questions_he
-    return combined[:n]
+    random.shuffle(combined)
+    selected = combined[:n]
+    logger.info(f"Generated {len(selected)} sample destination questions")
+    return selected
+
 
 
 @app.post("/api/chat", response_class=JSONResponse)
@@ -1096,38 +1147,55 @@ Now, based on the data above, answer this user question:
         
         
 @app.get("/chat", response_class=HTMLResponse)
-async def chat_page(request: Request):
-    # Optional: List models that support `generateContent` (for debugging)
-    #for m in genai.list_models():
-    #    if "generateContent" in m.supported_generation_methods:
-    #        print(m.name)
+async def chat_page(request: Request, lang: str = Depends(get_lang)):
+    client_host = request.client.host if request.client else "unknown"
+    logger.info(f"GET /chat from {client_host} (lang={lang})")
 
-    # Render the chat UI
-    return TEMPLATES.TemplateResponse("chat.html", {"request": request})
+    return TEMPLATES.TemplateResponse("chat.html", {
+        "request": request,
+        "lang": lang,
+        "now": datetime.now()
+    })
+
     
 @app.get("/api/chat/suggestions", response_class=JSONResponse)
-async def chat_suggestions():
-    return {"questions": generate_destination_questions()}
+async def chat_suggestions(n: int = Query(default=10, le=20)):
+    """Return up to n suggested chat questions (English + Hebrew)."""
+    suggestions = generate_destination_questions(n)
+    logger.info(f"GET /api/chat/suggestions → {len(suggestions)} suggestions")
+    return {"questions": suggestions}
 
 # === API Routes ===
 @app.get("/api/travel-warnings", response_class=JSONResponse)
 async def api_travel_warnings():
     """Return cached travel warnings."""
     if not TRAVEL_WARNINGS_FILE.exists():
+        logger.warning("GET /api/travel-warnings → no cached file found")
         raise HTTPException(status_code=404, detail="No cached travel warnings available")
+
     try:
         with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+
+        count = len(data.get("warnings", []))
+        logger.info(f"GET /api/travel-warnings → {count} warnings returned")
+        return data
+
     except json.JSONDecodeError:
+        logger.error("GET /api/travel-warnings → cached file is corrupted (JSON error)")
         raise HTTPException(status_code=500, detail="Cached warnings file is corrupted")
     except Exception as e:
+        logger.error(f"GET /api/travel-warnings → unexpected error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
     
 @app.get("/travel-warnings", response_class=HTMLResponse)
 async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
     """Render travel warnings page with DataTable"""
+    client_host = request.client.host if request.client else "unknown"
+
     if not TRAVEL_WARNINGS_FILE.exists():
+        logger.warning(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached file")
         return TEMPLATES.TemplateResponse("travel_warnings.html", {
             "request": request,
             "lang": lang,
@@ -1149,8 +1217,10 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
         countries = sorted({w.get("country", "") for w in warnings if w.get("country")})
         levels = ["גבוה", "בינוני", "נמוך", "לא ידוע"]
 
+        logger.info(f"GET /travel-warnings from {client_host} (lang={lang}) → {len(warnings)} warnings")
+
     except Exception as e:
-        logger.error(f"Failed to load travel warnings file: {e}")
+        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → error: {e}")
         warnings, last_update, continents, countries, levels = [], None, [], [], []
 
     return TEMPLATES.TemplateResponse("travel_warnings.html", {
@@ -1162,3 +1232,4 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
         "countries": countries,
         "levels": levels
     })
+
