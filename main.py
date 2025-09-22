@@ -412,6 +412,43 @@ def fetch_israel_flights() -> dict | None:
         logger.error(f"Failed to fetch gov.il flights: {e}")
         return None
 
+def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
+    """
+    Extract raw 'flights' records from israel_flights.json without aggregation.
+    Returns a flat flight events DataFrame and optional ISO date string.
+    """
+    try:
+        import json
+        with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+
+        flights = meta.get("flights", [])
+        if not flights:
+            logger.warning("No 'flights' found in israel_flights.json")
+            return pd.DataFrame(), None
+
+        df = pd.DataFrame(flights)
+
+        # Extract update date if present
+        updated = meta.get("updated")
+        file_date = None
+        if updated:
+            try:
+                file_date = updated.split("T")[0]
+            except Exception:
+                pass
+
+        return df, file_date
+
+    except Exception as e:
+        logger.error(f"Failed to read flights dataset: {e}", exc_info=True)
+
+    return pd.DataFrame(columns=[
+        "airline", "iata", "airport", "city", "country",
+        "scheduled", "actual", "direction", "status"
+    ]), None
+
+
 def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     """Read israel_flights.json and convert flights → unique airports DataFrame."""
     if ISRAEL_FLIGHTS_FILE.exists():
@@ -866,7 +903,7 @@ def map_view(
 
 @app.on_event("startup")
 async def on_startup():
-    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE
+    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
 
     logger.info("🚀 Application startup initiated")
 
@@ -882,19 +919,25 @@ async def on_startup():
         logger.error(f"Failed to load airline websites: {e}", exc_info=True)
         AIRLINE_WEBSITES = {}
 
-    # 3) Load dataset from disk if exists
+    # 3) Load datasets from disk if exists
     if ISRAEL_FLIGHTS_FILE.exists():
         try:
+            # Load grouped (aggregated) dataset
             df, d = _read_dataset_file()
             DATASET_DF, DATASET_DATE = df, d or ""
             logger.info(
                 f"Startup: dataset loaded from disk "
                 f"(date={DATASET_DATE}, rows={len(DATASET_DF)})"
             )
+            DATASET_DF_FLIGHTS, FLIGHTS_DATA_DATE = _read_flights_file()
+            logger.info(f"Startup: loaded {len(DATASET_DF_FLIGHTS)} flight event records")
+
         except Exception as e:
             logger.error(f"Error reading dataset file: {e}", exc_info=True)
+            DATASET_DF_FLIGHTS = pd.DataFrame()
     else:
         logger.warning("Startup: no dataset file on disk")
+        DATASET_DF_FLIGHTS = pd.DataFrame()
 
     # 4) Schedule jobs (every 8h, run immediately at startup)
     try:
@@ -924,6 +967,7 @@ async def on_startup():
         logger.critical(f"Failed to start scheduler: {e}", exc_info=True)
 
     logger.info("🎯 Application startup completed")
+
 
 
 @app.on_event("shutdown")
@@ -1273,3 +1317,21 @@ async def custom_swagger_ui(username: str = Depends(verify_docs_credentials)):
 async def custom_redoc(username: str = Depends(verify_docs_credentials)):
     logger.info(f"GET /redoc → ReDoc UI served for user={username}")
     return get_redoc_html(openapi_url="/openapi.json",title="API ReDoc")
+
+@app.get("/flights", response_class=HTMLResponse)
+async def flights_view(request: Request):
+    global DATASET_DF_FLIGHTS
+
+    if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": "No live flight data available.",
+            "lang": request.query_params.get("lang", "en")
+        })
+
+    flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
+    return TEMPLATES.TemplateResponse("flights.html", {
+        "request": request,
+        "flights": flights,
+        "lang": request.query_params.get("lang", "en")
+    })

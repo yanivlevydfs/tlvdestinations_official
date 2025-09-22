@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">
+    <i class="bi bi-airplane-engines me-2"></i>{{ 'Flight Schedule' if lang != 'he' else 'לוח טיסות' }}
+  </h2>
+
+  <div class="table-responsive">
+    <table id="flightsTable" class="display table table-bordered table-hover nowrap" style="width:100%">
+      <thead class="table-primary">
+        <tr>
+          <th>{{ 'Airline' if lang != 'he' else 'חברת תעופה' }}</th>
+          <th>IATA</th>
+          <th>{{ 'Airport' if lang != 'he' else 'שדה תעופה' }}</th>
+          <th>{{ 'City' if lang != 'he' else 'עיר' }}</th>
+          <th>{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
+          <th>{{ 'Scheduled' if lang != 'he' else 'מתוכננת' }}</th>
+          <th>{{ 'Actual' if lang != 'he' else 'שעת נחיתה/המראה' }}</th>
+          <th>{{ 'Direction' if lang != 'he' else 'כיוון' }}</th>
+          <th>{{ 'Status' if lang != 'he' else 'סטטוס' }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for flight in flights %}
+        <tr>
+          <td>{{ flight.airline }}</td>
+          <td>{{ flight.iata }}</td>
+          <td>{{ flight.airport }}</td>
+          <td>{{ flight.city }}</td>
+          <td>{{ flight.country }}</td>
+          <td>{{ flight.scheduled | replace("t", " ") }}</td>
+          <td>{{ flight.actual | replace("t", " ") }}</td>
+          <td>{{ flight.direction }}</td>
+          <td>{{ flight.status }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+  $(document).ready(function () {
+    $('#flightsTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'colvis'],
+      pageLength: 25,
+      responsive: true,
+      order: [[5, 'desc']],
+      language: {
+        url: "{{ '/static/datatables/he.json' if lang == 'he' else '' }}"
+      }
+    });
+  });
+</script>
+{% endblock %}
