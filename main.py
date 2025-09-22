@@ -27,7 +27,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from logging_setup import setup_logging, get_app_logger
-
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
+from fastapi.openapi.utils import get_openapi
+from fastapi import status
+import secrets
 os.environ["PYTHONUTF8"] = "1"
 try:
     enc = (sys.stdout.encoding or "").lower()
@@ -50,6 +54,7 @@ logger.info("Server starting…")
 
 genai.configure(api_key="AIzaSyBxOJwavtKVB9gJvA2OoAsKw90GogBNdZs")
 chat_model = genai.GenerativeModel("gemini-2.5-flash")
+security = HTTPBasic()
 
 class ChatQuery(BaseModel):
     question: str
@@ -87,7 +92,12 @@ TRAVEL_WARNINGS_RESOURCE = "2a01d234-b2b0-4d46-baa0-cec05c401e7d"
 
 
 # App
-app = FastAPI(title="Flights Explorer (FastAPI)")
+app = FastAPI(
+    title="Flights Explorer (FastAPI)",
+    docs_url=None,        # disable default /docs
+    redoc_url=None,       # disable default /redoc
+    openapi_url=None      # disable default /openapi.json
+)
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -110,6 +120,20 @@ scheduler: AsyncIOScheduler | None = None
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def verify_docs_credentials(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_username = os.getenv("DOCS_USER", "admin")
+    correct_password = os.getenv("DOCS_PASS", "secret123")
+    is_user = secrets.compare_digest(credentials.username, correct_username)
+    is_pass = secrets.compare_digest(credentials.password, correct_password)
+    if not (is_user and is_pass):
+        logger.warning(f"Unauthorized docs access attempt from {credentials.username}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authorized",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
+    
 def datetimeformat(value: str, fmt: str = "%d/%m/%Y %H:%M"):
     try:
         dt = datetime.fromisoformat(value)
@@ -1233,3 +1257,19 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
         "levels": levels
     })
 
+@app.get("/openapi.json", include_in_schema=False)
+async def custom_openapi(username: str = Depends(verify_docs_credentials)):
+    logger.info(f"GET /openapi.json → served for user={username}")
+    return get_openapi(title=app.title,version="1.0.0",routes=app.routes,)
+
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui(username: str = Depends(verify_docs_credentials)):
+    logger.info(f"GET /docs → Swagger UI served for user={username}")
+    return get_swagger_ui_html(openapi_url="/openapi.json",title="API Docs")
+
+
+@app.get("/redoc", include_in_schema=False)
+async def custom_redoc(username: str = Depends(verify_docs_credentials)):
+    logger.info(f"GET /redoc → ReDoc UI served for user={username}")
+    return get_redoc_html(openapi_url="/openapi.json",title="API ReDoc")
