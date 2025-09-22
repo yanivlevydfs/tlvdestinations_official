@@ -398,8 +398,8 @@
             <tbody>
               {% for ap in airports %}
               <tr>
-              <td><a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold">{{ ap.IATA }}</a></td>
-                <td>{{ ap.Name }}</td>
+                <td>{{ ap.IATA }}</td>
+				<td><a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold">{{ ap.Name }}</a></td>
                 <td>{{ ap.City }}</td>
                 <td>{{ ap.Country }}</td>
                 <td class="airline-cell">
