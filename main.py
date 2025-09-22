@@ -32,6 +32,7 @@ from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.openapi.utils import get_openapi
 from fastapi import status
 import secrets
+from starlette.exceptions import HTTPException as StarletteHTTPException
 os.environ["PYTHONUTF8"] = "1"
 try:
     enc = (sys.stdout.encoding or "").lower()
@@ -1364,3 +1365,39 @@ async def destination_detail(request: Request, iata: str):
         "destination": dest,
         "lang": request.query_params.get("lang", "en")
     })
+
+# Handle all HTTP errors (404, 403, etc.)
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    return TEMPLATES.TemplateResponse("error.html", {
+        "request": request,
+        "status_code": exc.status_code,
+        "message": exc.detail,
+        "lang": request.query_params.get("lang", "en")
+    }, status_code=exc.status_code)
+
+
+# Handle validation errors (422 Unprocessable Entity, bad query/body params)
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return TEMPLATES.TemplateResponse("error.html", {
+        "request": request,
+        "status_code": 422,
+        "message": "Invalid request. Please check your input." if request.query_params.get("lang", "en") == "en" else "בקשה לא חוקית. בדוק את הנתונים שלך.",
+        "lang": request.query_params.get("lang", "en")
+    }, status_code=422)
+
+
+# Handle all unexpected exceptions (500)
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    import traceback
+    # Optional: log full stacktrace
+    logger.error(f"Unhandled error: {exc}", exc_info=True)
+
+    return TEMPLATES.TemplateResponse("error.html", {
+        "request": request,
+        "status_code": 500,
+        "message": "Internal Server Error" if request.query_params.get("lang", "en") == "en" else "שגיאת שרת פנימית",
+        "lang": request.query_params.get("lang", "en")
+    }, status_code=500)

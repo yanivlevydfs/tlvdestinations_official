@@ -2,18 +2,59 @@
 
 {% block content %}
 <div class="container mt-5">
-  <div class="alert alert-danger text-center shadow-lg" role="alert">
-    <h4 class="alert-heading">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      {{ "Oops! Something went wrong." if lang != "he" else "אופס! משהו השתבש." }}
-    </h4>
-    <p class="mt-3 fs-5">
-      {{ message if message else ("An unexpected error occurred. Please try again later." if lang != "he" else "אירעה שגיאה לא צפויה. נסה שוב מאוחר יותר.") }}
-    </p>
-    <hr>
-    <a href="/" class="btn btn-outline-primary mt-3">
-      <i class="bi bi-house-door"></i> {{ "Back to Home" if lang != "he" else "חזרה לדף הבית" }}
-    </a>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-danger">
+        <div class="card-body text-center p-5">
+          
+          <!-- Dynamic icon based on status_code -->
+          {% if status_code == 404 %}
+            <i class="bi bi-search display-1 text-primary mb-3"></i>
+          {% elif status_code == 500 %}
+            <i class="bi bi-bug-fill display-1 text-danger mb-3"></i>
+          {% else %}
+            <i class="bi bi-exclamation-triangle-fill display-1 text-warning mb-3"></i>
+          {% endif %}
+
+          <!-- Title -->
+          <h2 class="mb-3">
+            {% if status_code == 404 %}
+              {{ "Page Not Found" if lang != "he" else "הדף לא נמצא" }}
+            {% elif status_code == 500 %}
+              {{ "Internal Server Error" if lang != "he" else "שגיאת שרת פנימית" }}
+            {% else %}
+              {{ "Oops! Something went wrong" if lang != "he" else "אופס! משהו השתבש" }}
+            {% endif %}
+          </h2>
+
+          <!-- Error message -->
+          <p class="fs-5 text-muted">
+            {{ message if message else (
+                "The page you requested could not be found." if status_code == 404 else
+                "The server encountered an error. Please try again later." if status_code == 500 else
+                "An unexpected error occurred. Please try again later."
+            ) if lang != "he" else (
+                "הדף שחיפשת לא נמצא." if status_code == 404 else
+                "אירעה שגיאת שרת פנימית. נסה שוב מאוחר יותר." if status_code == 500 else
+                "אירעה שגיאה לא צפויה. נסה שוב מאוחר יותר."
+            ) }}
+          </p>
+
+          <!-- Divider -->
+          <hr class="my-4">
+
+          <!-- Navigation buttons -->
+          <div class="d-flex justify-content-center gap-3">
+            <a href="/" class="btn btn-outline-primary btn-lg">
+              <i class="bi bi-house-door"></i> {{ "Back to Home" if lang != "he" else "חזרה לדף הבית" }}
+            </a>
+            <button class="btn btn-outline-secondary btn-lg" onclick="history.back()">
+              <i class="bi bi-arrow-left-circle"></i> {{ "Go Back" if lang != "he" else "חזור אחורה" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -1,84 +1,7 @@
 {
-  "updated": "2025-09-22T23:37:31.304904",
+  "updated": "2025-09-22T23:47:03.839142",
   "count": 2095,
   "flights": [
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "OTP",
-      "airport": "Bucharest - Otopeni",
-      "city": "Bucharest",
-      "country": "Romania",
-      "scheduled": "2025-09-21t23:20:00",
-      "actual": "2025-09-21t23:31:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Tarom - Romanian Air Transport",
-      "iata": "OTP",
-      "airport": "Bucharest - Otopeni",
-      "city": "Bucharest",
-      "country": "Romania",
-      "scheduled": "2025-09-21t23:20:00",
-      "actual": "2025-09-21t23:31:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "TIA",
-      "airport": "Tirana",
-      "city": "Tirana",
-      "country": "Albania",
-      "scheduled": "2025-09-21t23:45:00",
-      "actual": "2025-09-21t23:35:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Flydubai",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-09-21t22:55:00",
-      "actual": "2025-09-21t23:36:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "LCA",
-      "airport": "Larnaca",
-      "city": "Larnaca",
-      "country": "Cyprus",
-      "scheduled": "2025-09-21t23:10:00",
-      "actual": "2025-09-21t23:39:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "United Airlines",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-09-21t23:25:00",
-      "actual": "2025-09-21t23:40:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "BOJ",
-      "airport": "Burgas",
-      "city": "Bourgas",
-      "country": "Bulgaria",
-      "scheduled": "2025-09-21t23:45:00",
-      "actual": "2025-09-21t23:41:00",
-      "direction": "A",
-      "status": "Landed"
-    },
     {
       "airline": "Flyone Romania",
       "iata": "OTP",
@@ -7062,18 +6985,7 @@
       "scheduled": "2025-09-22t22:00:00",
       "actual": "2025-09-22t23:22:00",
       "direction": "A",
-      "status": "Landing"
-    },
-    {
-      "airline": "United Airlines",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-09-22t23:25:00",
-      "actual": "2025-09-22t23:25:00",
-      "direction": "D",
-      "status": "On Time"
+      "status": "Landed"
     },
     {
       "airline": "Red Wings Airlines",
@@ -7084,7 +6996,7 @@
       "scheduled": "2025-09-22t23:15:00",
       "actual": "2025-09-22t23:28:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
     },
     {
       "airline": "Blue Bird Airways",
@@ -7093,9 +7005,9 @@
       "city": "Bergamo",
       "country": "Italy",
       "scheduled": "2025-09-22t23:40:00",
-      "actual": "2025-09-22t23:33:00",
+      "actual": "2025-09-22t23:31:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
     },
     {
       "airline": "Blue Bird Airways",
@@ -7104,9 +7016,20 @@
       "city": "Barcelona",
       "country": "Spain",
       "scheduled": "2025-09-22t23:25:00",
-      "actual": "2025-09-22t23:34:00",
+      "actual": "2025-09-22t23:33:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
+    },
+    {
+      "airline": "United Airlines",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-09-22t23:25:00",
+      "actual": "2025-09-22t23:38:00",
+      "direction": "D",
+      "status": "Departed"
     },
     {
       "airline": "Emirates",
@@ -7139,7 +7062,7 @@
       "scheduled": "2025-09-22t23:30:00",
       "actual": "2025-09-22t23:54:00",
       "direction": "A",
-      "status": "Final"
+      "status": "Landing"
     },
     {
       "airline": "El Al Israel Airlines",
@@ -23046,6 +22969,83 @@
       "actual": "2025-09-25t23:30:00",
       "direction": "D",
       "status": "On Time"
+    },
+    {
+      "airline": "Emirates",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-25t23:35:00",
+      "actual": "2025-09-25t23:35:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-25t23:35:00",
+      "actual": "2025-09-25t23:35:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Sam Air",
+      "iata": "SKD",
+      "airport": "Samarkand",
+      "city": "Samarkand",
+      "country": "Uzbekistan",
+      "scheduled": "2025-09-25t23:35:00",
+      "actual": "2025-09-25t23:35:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "BUD",
+      "airport": "Budapest",
+      "city": "Budapest",
+      "country": "Hungary",
+      "scheduled": "2025-09-25t23:40:00",
+      "actual": "2025-09-25t23:40:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Blue Bird Airways",
+      "iata": "ATH",
+      "airport": "Athens",
+      "city": "Athens",
+      "country": "Greece",
+      "scheduled": "2025-09-25t23:45:00",
+      "actual": "2025-09-25t23:45:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Hisky Europe Srl",
+      "iata": "OTP",
+      "airport": "Bucharest - Otopeni",
+      "city": "Bucharest",
+      "country": "Romania",
+      "scheduled": "2025-09-25t23:45:00",
+      "actual": "2025-09-25t23:45:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "TIA",
+      "airport": "Tirana",
+      "city": "Tirana",
+      "country": "Albania",
+      "scheduled": "2025-09-25t23:45:00",
+      "actual": "2025-09-25t23:45:00",
+      "direction": "A",
+      "status": "Not Final"
     }
   ]
 }
