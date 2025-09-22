@@ -1335,3 +1335,32 @@ async def flights_view(request: Request):
         "flights": flights,
         "lang": request.query_params.get("lang", "en")
     })
+
+@app.get("/destinations/{iata}", response_class=HTMLResponse)
+async def destination_detail(request: Request, iata: str):
+    global DATASET_DF
+
+    if DATASET_DF is None or DATASET_DF.empty:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": "No destination data available.",
+            "lang": request.query_params.get("lang", "en")
+        })
+
+    iata = iata.upper()
+    destination = DATASET_DF.loc[DATASET_DF["IATA"] == iata]
+
+    if destination.empty:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": f"Destination {iata} not found.",
+            "lang": request.query_params.get("lang", "en")
+        })
+
+    dest = destination.iloc[0].to_dict()
+
+    return TEMPLATES.TemplateResponse("destination.html", {
+        "request": request,
+        "destination": dest,
+        "lang": request.query_params.get("lang", "en")
+    })

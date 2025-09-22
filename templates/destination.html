@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <!-- Header -->
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">
+        ✈️ {{ destination.IATA }} — {{ destination.Name }}
+      </h3>
+      <span class="badge bg-light text-dark">
+        {{ destination.Country }}
+        {% if destination.Country %}
+          <img src="https://flagcdn.com/24x18/{{ destination.Country[:2] | lower }}.png"
+               alt="{{ destination.Country }}" class="ms-1" />
+        {% endif %}
+      </span>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body">
+      <!-- Quick info grid -->
+      <div class="row text-center mb-4">
+        <div class="col-md-3">
+          <i class="bi bi-geo-alt-fill text-danger fs-3"></i>
+          <p class="mb-0"><strong>{{ destination.City }}</strong></p>
+          <small>{{ 'City' if lang != 'he' else 'עיר' }}</small>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-signpost-split-fill text-success fs-3"></i>
+          <p class="mb-0">{{ destination.IATA }}</p>
+          <small>IATA Code</small>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-rulers text-primary fs-3"></i>
+          <p class="mb-0">{{ "%.1f"|format(destination.Distance_km or 0) }} km</p>
+          <small>{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-clock-history text-warning fs-3"></i>
+          <p class="mb-0">{{ "%.2f"|format(destination.FlightTime_hr or 0) }} h</p>
+          <small>{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
+        </div>
+      </div>
+
+      <!-- Coordinates -->
+      <p>
+        <strong>{{ 'Coordinates' if lang != 'he' else 'קואורדינטות' }}:</strong>
+        {{ destination.lat }}, {{ destination.lon }}
+      </p>
+
+      <!-- Airlines -->
+      <h5 class="mt-4">{{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}:</h5>
+      {% if destination.Airlines %}
+        {% for airline in destination.Airlines %}
+          <a href="https://www.google.com/search?q={{ airline }}" target="_blank"
+             class="badge rounded-pill bg-light text-dark border border-primary me-1">
+            {{ airline }} <i class="bi bi-box-arrow-up-right small"></i>
+          </a>
+        {% endfor %}
+      {% else %}
+        <p>—</p>
+      {% endif %}
+
+      <!-- Map -->
+      {% if destination.lat and destination.lon %}
+      <div class="mt-4">
+        <h5><i class="bi bi-map"></i> {{ 'Location Map' if lang != 'he' else 'מפת יעד' }}</h5>
+        <iframe
+          width="100%" height="350" style="border:0; border-radius: 0.5rem;"
+          src="https://www.openstreetmap.org/export/embed.html?bbox={{ destination.lon|float - 0.5 }}%2C{{ destination.lat|float - 0.5 }}%2C{{ destination.lon|float + 0.5 }}%2C{{ destination.lat|float + 0.5 }}&layer=mapnik&marker={{ destination.lat }}%2C{{ destination.lon }}">
+        </iframe>
+      </div>
+      {% endif %}
+    </div>
+    <div class="card-footer text-end">
+      <a href="/" class="btn btn-outline-primary">
+        ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
