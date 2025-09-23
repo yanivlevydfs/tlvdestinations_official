@@ -59,16 +59,32 @@ function appendMessage(text, sender) {
     feedbackBox.innerHTML = `
       <div class="feedback-prompt">
         {{ 'Was this helpful?' if lang == 'en' else 'האם זה עזר?' }}
-        <span onclick="submitFeedback(1)">👍</span>
-        <span onclick="submitFeedback(0)">👎</span>
+        <span class="feedback-btn" data-value="1">👍</span>
+        <span class="feedback-btn" data-value="0">👎</span>
       </div>
     `;
+
+    feedbackBox.querySelectorAll(".feedback-btn").forEach(btn => {
+      btn.addEventListener("click", function handleClick() {
+        const value = this.getAttribute("data-value");
+        submitFeedback(value);
+
+        // Replace whole box with thank you message
+        feedbackBox.innerHTML = `
+          <div class="feedback-thanks text-muted small">
+            ✅ {{ 'Thanks for your feedback!' if lang == 'en' else 'תודה על המשוב!' }}
+          </div>
+        `;
+      }, { once: true });
+    });
+
     div.appendChild(feedbackBox);
   }
 
   msgBox.appendChild(div);
   msgBox.scrollTop = msgBox.scrollHeight;
 }
+
 
 let lastAskedQuestion = "";
 

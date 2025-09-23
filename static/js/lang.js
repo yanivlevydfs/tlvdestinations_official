@@ -29,6 +29,8 @@ window.LANG = {
       search: "🔎 Search:",
       lengthMenu: "Show _MENU_ entries",
       info: "Showing _START_ to _END_ of _TOTAL_ destinations",
+	  infoFiltered: "",
+	  infoPostFix: "",
       paginate: { first: "First", last: "Last", next: "Next", previous: "Prev" }
     },
     dtButtons: {
@@ -88,6 +90,8 @@ window.LANG = {
       search: "🔎 חפש:",
       lengthMenu: "הצג _MENU_ רשומות",
       info: "מציג _START_ עד _END_ מתוך _TOTAL_ יעדים",
+	  infoFiltered: "",
+	  infoPostFix: "",
       paginate: { first: "ראשון", last: "אחרון", next: "הבא", previous: "הקודם" }
     },
     dtButtons: {
