@@ -510,4 +510,39 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
   box-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
+/* ⛔ Remove background on all inner elements */
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous *,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next *,
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous::before,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next::before,
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous::after,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next::after {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
 
+/* 🔥 Kill the white box completely */
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next {
+  background: var(--accent) !important;
+  background-clip: padding-box !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--accent-glow);
+  padding: 0 1.5rem !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;   /* 💥 Force clip overflow (kills square) */
+  position: relative;
+  z-index: 1;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next {
+  color: #fff !important;
+}
+
+/* Optional: force nested elements too (if any) */
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous *,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next * {
+  color: #fff !important;
+}
