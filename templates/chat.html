@@ -14,8 +14,12 @@
     </div>
   </div>
 
-  <!-- Suggested Questions -->
-  <div class="p-3 border-top" id="suggested-questions"></div>
+  <!-- Suggested Questions with Arrows -->
+  <div class="suggestion-scroll-wrapper">
+    <button class="scroll-btn left" onclick="scrollSuggestions('left')">‹</button>
+    <div id="suggested-questions" class="p-3 border-top"></div>
+    <button class="scroll-btn right" onclick="scrollSuggestions('right')">›</button>
+  </div>
 
   <!-- Footer Input -->
   <div class="chat-footer">
@@ -42,7 +46,6 @@ async function loadSuggestions() {
     console.error("Failed to load suggestions", err);
   }
 }
-
 
 function appendMessage(text, sender) {
   const msgBox = document.getElementById("chat-messages");
@@ -78,6 +81,18 @@ async function ask() {
   }
 }
 
+function scrollSuggestions(direction) {
+  const container = document.getElementById("suggested-questions");
+  const scrollAmount = 220;
+  const isRtl = getComputedStyle(container).direction === "rtl";
+
+  const delta = direction === "left" ? -scrollAmount : scrollAmount;
+  container.scrollBy({
+    left: isRtl ? -delta : delta,
+    behavior: "smooth"
+  });
+}
+
 document.getElementById("ask-btn").addEventListener("click", ask);
 document.getElementById("question").addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) {
@@ -86,7 +101,6 @@ document.getElementById("question").addEventListener("keydown", e => {
   }
 });
 
-// Load question suggestions on page load
 loadSuggestions();
 </script>
 
@@ -94,14 +108,14 @@ loadSuggestions();
 .chat-container {
   max-width: 860px;
   margin: 40px auto;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(14px);
   border-radius: 18px;
   display: flex;
   flex-direction: column;
   height: 85vh;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .chat-header {
@@ -113,24 +127,25 @@ loadSuggestions();
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,.15);
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .chat-messages {
   flex: 1;
-  padding: 22px;
+  padding: 24px 20px;
   overflow-y: auto;
   background: linear-gradient(to bottom, #fafafa, #f3f4f6);
+  scroll-behavior: smooth;
 }
 
 .message {
-  margin-bottom: 14px;
-  padding: 12px 18px;
-  border-radius: 16px;
-  max-width: 75%;
-  line-height: 1.45;
-  font-size: 0.95rem;
+  margin-bottom: 18px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  max-width: 90%;
+  line-height: 1.55;
+  font-size: 1rem;
   word-wrap: break-word;
   animation: fadeInUp 0.25s ease;
 }
@@ -139,14 +154,78 @@ loadSuggestions();
   color: #fff;
   margin-left: auto;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 10px rgba(124,58,237,0.35);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
 }
 .message.ai {
-  background: #f1f5f9;
-  color: #111827;
+  background: #eef4ff;
+  color: #1e293b;
   margin-right: auto;
   border-bottom-left-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.97rem;
+}
+
+/* Suggestion bar wrapper */
+.suggestion-scroll-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 6px 0;
+  overflow: hidden;
+}
+
+/* Scroll buttons */
+.scroll-btn {
+  border: none;
+  background: transparent;
+  color: #7c3aed;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 4px 10px;
+  z-index: 2;
+  transition: transform 0.2s ease;
+  user-select: none;
+}
+.scroll-btn:hover {
+  transform: scale(1.2);
+}
+
+#suggested-questions {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 10px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+#suggested-questions::-webkit-scrollbar {
+  display: none;
+}
+
+#suggested-questions .chip {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+#suggested-questions .chip:hover {
+  background: #7c3aed;
+  color: #fff;
+  box-shadow: 0 0 6px rgba(124, 58, 237, 0.35);
 }
 
 .chat-footer {
@@ -165,7 +244,8 @@ loadSuggestions();
   padding: 10px 12px;
   resize: none;
   font-size: 0.95rem;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-height: 46px;
 }
 
 .chat-footer button {
@@ -175,51 +255,35 @@ loadSuggestions();
   border: none;
   font-weight: 600;
   padding: 10px 16px;
-  transition: all .25s ease;
+  transition: all 0.25s ease;
 }
 .chat-footer button:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 14px rgba(124,58,237,.45);
-}
-
-/* Suggested Questions Chips */
-#suggested-questions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px 16px;
-  background: #f9fafb;
-}
-#suggested-questions .chip {
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  background: rgba(124,58,237,0.08);
-  border: 1px solid rgba(124,58,237,0.25);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-#suggested-questions .chip:hover {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: var(--accent-glow);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
 }
 
 /* Dark mode */
-body.dark-mode .chat-container { background: rgba(18,18,18,.85); }
-body.dark-mode .chat-messages { background: #0f1116; }
-body.dark-mode .message.ai { background: #1e293b; color: #e5e5e5; }
-body.dark-mode #suggested-questions { background: #111827; }
+body.dark-mode .chat-container {
+  background: rgba(18, 18, 18, 0.85);
+}
+body.dark-mode .chat-messages {
+  background: #0f1116;
+}
+body.dark-mode .message.ai {
+  background: #1e293b;
+  color: #e5e5e5;
+}
+body.dark-mode #suggested-questions {
+  background: #111827;
+}
 body.dark-mode #suggested-questions .chip {
-  background: rgba(34,211,238,0.08);
-  border-color: rgba(34,211,238,0.35);
+  background: rgba(34, 211, 238, 0.08);
+  border-color: rgba(34, 211, 238, 0.35);
   color: #22d3ee;
 }
 body.dark-mode #suggested-questions .chip:hover {
   background: #22d3ee;
   color: #0a0b0f;
 }
-
 </style>
 {% endblock %}

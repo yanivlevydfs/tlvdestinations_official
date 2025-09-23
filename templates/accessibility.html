@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title -%}
+  {{ 'Accessibility Statement — Fly TLV' if lang != 'he' else 'הצהרת נגישות — Fly TLV' }}
+{%- endblock %}
+
+{% block head_extra %}
+  <link rel="canonical" href="https://fly-tlv.com/accessibility{{ '' if lang != 'he' else '?lang=he' }}" />
+  <link rel="alternate" href="https://fly-tlv.com/accessibility" hreflang="en" />
+  <link rel="alternate" href="https://fly-tlv.com/accessibility?lang=he" hreflang="he" />
+  <link rel="alternate" href="https://fly-tlv.com/accessibility" hreflang="x-default" />
+
+  <meta name="robots" content="index,follow" />
+  <meta name="description" content="{{
+    'Fly TLV Accessibility Statement: compliance with Israeli Standard 5568 and WCAG 2.1 AA.'
+    if lang != 'he' else
+    'הצהרת נגישות של Fly TLV: עמידה בתקן הישראלי 5568 וב-WCAG 2.1 AA.'
+  }}" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fly-tlv.com/accessibility{{ '' if lang != 'he' else '?lang=he' }}" />
+  <meta property="og:title" content="{{ 'Accessibility Statement — Fly TLV' if lang != 'he' else 'הצהרת נגישות — Fly TLV' }}" />
+  <meta property="og:description" content="{{
+    'Accessibility features, standards, and contact details for Fly TLV.'
+    if lang != 'he' else
+    'תכונות נגישות, תקנים ופרטי יצירת קשר עבור Fly TLV.'
+  }}" />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ 'Accessibility Statement — Fly TLV' if lang != 'he' else 'הצהרת נגישות — Fly TLV' }}" />
+  <meta name="twitter:description" content="{{
+    'Accessibility features, standards, and contact details for Fly TLV.'
+    if lang != 'he' else
+    'תכונות נגישות, תקנים ופרטי יצירת קשר עבור Fly TLV.'
+  }}" />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+
+  <!-- JSON-LD AccessibilityStatement -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AccessibilityStatement",
+    "name": {{ '"Accessibility Statement — Fly TLV"' if lang != 'he' else '"הצהרת נגישות — Fly TLV"' }},
+    "url": "https://fly-tlv.com/accessibility",
+    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fly TLV",
+      "url": "https://fly-tlv.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fly-tlv.com/static/og/flytlv_og.jpg"
+      }
+    },
+    "accessMode": ["textual", "visual", "auditory"],
+    "accessibilitySummary": {{
+      '"This website complies with Israeli Standard 5568 and WCAG 2.1 Level AA. Accessibility features include screen reader support, ARIA labels, keyboard navigation, and bilingual RTL/LTR support."'
+      if lang != 'he' else
+      '"האתר עומד בתקן הישראלי 5568 וב-WCAG 2.1 רמה AA. תכונות נגישות כוללות תמיכה בקוראי מסך, תגיות ARIA, ניווט מקלדת ותמיכה דו-לשונית RTL/LTR."'
+    }},
+    "accessibilityControl": ["fullKeyboardControl", "fullMouseControl"],
+    "accessibilityAPI": ["ARIA"],
+    "conformance": "WCAG 2.1 AA",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Accessibility",
+      "url": "https://fly-tlv.com/contact",
+      "email": "support@fly-tlv.com"
+    }
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<div class="container py-3 px-2 px-md-3">
+
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'Accessibility Statement' if lang != 'he' else 'הצהרת נגישות' }}
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body d-flex align-items-center">
+      <i class="bi bi-universal-access-circle fs-3 text-success me-3"></i>
+      <div>
+        <h1 class="h4 mb-1">
+          {{ 'Accessibility Statement' if lang != 'he' else 'הצהרת נגישות' }}
+        </h1>
+        <p class="text-muted mb-0">
+          {{ 'How Fly TLV ensures accessibility in compliance with Israeli Standard 5568 and WCAG 2.1 AA.' 
+             if lang != 'he'
+             else 'כיצד Fly TLV מבטיח נגישות בהתאם לתקן הישראלי 5568 ול-WCAG 2.1 AA.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sections -->
+  <div class="row g-3">
+
+    <!-- Commitment -->
+    <div class="col-12">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Our Commitment' if lang != 'he' else 'המחויבות שלנו' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "Fly TLV is committed to digital accessibility for all users, including people with disabilities, according to Israeli accessibility law and WCAG 2.1 Level AA."
+               if lang != 'he' else
+               "אתר Fly TLV מחויב להבטיח נגישות דיגיטלית לכלל המשתמשים, לרבות אנשים עם מוגבלויות, בהתאם לחוק הנגישות בישראל ול-WCAG 2.1 ברמה AA." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Accessibility Features' if lang != 'he' else 'תכונות נגישות' }}</div>
+        <div class="card-body">
+          <ul>
+            <li>{{ "Screen reader support with ARIA labels and alt text." if lang != 'he' else "תמיכה בקוראי מסך עם תגיות ARIA ו-alt לתמונות." }}</li>
+            <li>{{ "Logical heading structure for content." if lang != 'he' else "מבנה כותרות לוגי וברור לתוכן." }}</li>
+            <li>{{ "Full keyboard navigation." if lang != 'he' else "ניווט מלא באמצעות מקלדת." }}</li>
+            <li>{{ "High contrast and readable fonts." if lang != 'he' else "ניגודיות גבוהה ופונטים קריאים." }}</li>
+            <li>{{ "Support for Hebrew (RTL) and English (LTR)." if lang != 'he' else "תמיכה בעברית (RTL) ובאנגלית (LTR)." }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Limitations -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Possible Limitations' if lang != 'he' else 'מגבלות אפשריות' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "Despite our efforts, some parts of the site may not be fully accessible. We continuously work to improve."
+               if lang != 'he' else
+               "על אף המאמצים שלנו, ייתכן שחלקים מסוימים באתר לא יהיו נגישים במלואם. אנו פועלים כל העת לשיפור." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="col-12">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Contact for Accessibility Issues' if lang != 'he' else 'פנייה בנושא נגישות' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "If you encounter an accessibility issue, please contact us via the Contact Page."
+               if lang != 'he' else
+               "אם נתקלתם בבעיה נגישות, אנא פנו אלינו דרך עמוד צור קשר." }}
+          </p>
+          <a href="/contact{{ '' if lang != 'he' else '?lang=he' }}" class="btn btn-outline-success mt-2">
+            <i class="bi bi-envelope"></i>
+            {{ 'Contact Page' if lang != 'he' else 'עמוד צור קשר' }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

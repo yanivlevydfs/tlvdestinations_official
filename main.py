@@ -1124,28 +1124,57 @@ def sitemap():
     logger.info("Serving sitemap.xml")
     return Response(content=xml, media_type="application/xml")
 
-def generate_destination_questions(n: int = 10) -> list[str]:
-    questions_en = [
-        "Which airlines fly to New York?",
-        "Show me all airports in Germany.",
-        "What destinations are available in Italy?",
-        "Which airline flies to Paris?",
-        "Show all destinations in Cyprus.",
-    ]
 
-    questions_he = [
-        "איזה חברות תעופה טסות לניו יורק?",
-        "הצג את כל שדות התעופה בגרמניה.",
-        "אילו יעדים זמינים באיטליה?",
-        "לאילו ערים ביוון אפשר לטוס?",
-        "איזו חברת תעופה טסה לפריז?",
-    ]
+def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
+    cities = set()
+    countries = set()
+    airlines = set()
 
-    combined = questions_en + questions_he
-    random.shuffle(combined)
-    selected = combined[:n]
-    logger.info(f"Generated {len(selected)} sample destination questions")
-    return selected
+    for dest in destinations:
+        city = dest.get("City") or dest.get("city")
+        country = dest.get("Country") or dest.get("country")
+        airline_list = dest.get("Airlines") or dest.get("airlines", [])
+
+        if city and country:
+            cities.add((city.strip(), country.strip()))
+        if country:
+            countries.add(country.strip())
+        for airline in airline_list:
+            if airline:
+                airlines.add(airline.strip())
+
+    cities = list(cities)
+    countries = list(countries)
+    airlines = list(airlines)
+
+    questions = []
+
+    # Build ENGLISH questions
+    for country in random.sample(countries, min(5, len(countries))):
+        questions.append(f"What cities in {country} can I fly to?")
+        questions.append(f"Which airlines fly to {country}?")
+    for city, country in random.sample(cities, min(5, len(cities))):
+        questions.append(f"Which airlines fly to {city}?")
+        questions.append(f"What country is {city} located in?")
+    for airline in random.sample(airlines, min(5, len(airlines))):
+        questions.append(f"Where does {airline} fly?")
+        questions.append(f"What destinations are served by {airline}?")
+
+    # Build HEBREW questions
+    for country in random.sample(countries, min(4, len(countries))):
+        questions.append(f"אילו ערים יש טיסות ל-{country}?")
+        questions.append(f"אילו חברות טסות ל-{country}?")
+    for city, country in random.sample(cities, min(4, len(cities))):
+        questions.append(f"אילו חברות טסות ל-{city}?")
+        questions.append(f"באיזו מדינה נמצאת {city}?")
+    for airline in random.sample(airlines, min(4, len(airlines))):
+        questions.append(f"לאן טסה חברת {airline}?")
+        questions.append(f"אילו ערים משרתת חברת {airline}?")
+
+    random.shuffle(questions)
+    return questions[:n]
+
+
 
 
 
@@ -1257,9 +1286,14 @@ async def chat_page(request: Request, lang: str = Depends(get_lang)):
 @app.get("/api/chat/suggestions", response_class=JSONResponse)
 async def chat_suggestions(n: int = Query(default=10, le=20)):
     """Return up to n suggested chat questions (English + Hebrew)."""
-    suggestions = generate_destination_questions(n)
+    if DATASET_DF.empty:
+        raise HTTPException(status_code=503, detail="Destination data not loaded.")       
+
+    destinations = DATASET_DF.to_dict(orient="records")
+    suggestions = generate_questions_from_data(destinations, n)
     logger.info(f"GET /api/chat/suggestions → {len(suggestions)} suggestions")
     return {"questions": suggestions}
+
 
 # === API Routes ===
 @app.get("/api/travel-warnings", response_class=JSONResponse)
@@ -1428,3 +1462,13 @@ async def generic_exception_handler(request: Request, exc: Exception):
         "message": "Internal Server Error" if request.query_params.get("lang", "en") == "en" else "שגיאת שרת פנימית",
         "lang": request.query_params.get("lang", "en")
     }, status_code=500)
+
+@app.get("/accessibility", response_class=HTMLResponse)
+async def accessibility(request: Request, lang: str = "en"):
+    return TEMPLATES.TemplateResponse(
+        "accessibility.html",
+        {
+            "request": request,
+            "lang": lang
+        }
+    )

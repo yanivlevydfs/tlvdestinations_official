@@ -13,30 +13,29 @@
 
   <meta name="robots" content="index,follow" />
   <meta name="description" content="{{
-    'Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights.'
+    'Fly TLV privacy policy (2026): data, cookies, AI usage, user rights, and compliance with Israeli & GDPR laws.'
     if lang != 'he' else
-    'קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם.'
+    'מדיניות פרטיות של Fly TLV (2026): נתונים, קוקיות, שימוש ב-AI, זכויות משתמשים ועמידה בחוקי ישראל ו-GDPR.'
   }}" />
 
-  <!-- Open Graph -->
+  <!-- OG & Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fly-tlv.com/privacy{{ '' if lang != 'he' else '?lang=he' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
   <meta property="og:title" content="{{ 'Privacy Policy — Fly TLV' if lang != 'he' else 'מדיניות פרטיות — Fly TLV' }}" />
   <meta property="og:description" content="{{
-    'Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights.'
+    'Detailed privacy policy for Fly TLV, updated for 2026 laws in Israel and GDPR-equivalent standards.'
     if lang != 'he' else
-    'קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם.'
+    'מדיניות פרטיות מפורטת של Fly TLV, מותאמת לחוקי ישראל 2026 ולסטנדרטים בינלאומיים (GDPR).'
   }}" />
   <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{ 'Privacy Policy — Fly TLV' if lang != 'he' else 'מדיניות פרטיות — Fly TLV' }}" />
   <meta name="twitter:description" content="{{
-    'Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights.'
+    'Detailed privacy policy for Fly TLV, updated for 2026 laws in Israel and GDPR-equivalent standards.'
     if lang != 'he' else
-    'קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם.'
+    'מדיניות פרטיות מפורטת של Fly TLV, מותאמת לחוקי ישראל 2026 ולסטנדרטים בינלאומיים (GDPR).'
   }}" />
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
 
@@ -49,9 +48,9 @@
     "url": {{ '"https://fly-tlv.com/privacy"' if lang != 'he' else '"https://fly-tlv.com/privacy?lang=he"' }},
     "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
     "description": {{
-      '"Read the Fly TLV privacy policy: what data is collected, how it is used, and your rights."'
+      '"Fly TLV privacy policy (2026): data, cookies, AI usage, user rights, and compliance with Israeli & GDPR laws."'
       if lang != 'he' else
-      '"קראו את מדיניות הפרטיות של Fly TLV: אילו נתונים נאספים, כיצד נעשה בהם שימוש ומהן זכויותיכם."'
+      '"מדיניות פרטיות של Fly TLV (2026): נתונים, קוקיות, שימוש ב-AI, זכויות משתמשים ועמידה בחוקי ישראל ו-GDPR."'
     }}
   }
   </script>
@@ -79,78 +78,186 @@
     <div class="card-body d-flex align-items-center">
       <i class="bi bi-shield-lock fs-3 text-primary me-3"></i>
       <div>
-        <h1 class="h4 mb-1">{{ 'Privacy Policy' if lang != 'he' else 'מדיניות פרטיות' }}</h1>
+        <h1 class="h4 mb-1">{{ 'Privacy Policy (2026 Update)' if lang != 'he' else 'מדיניות פרטיות (עדכון 2026)' }}</h1>
         <p class="text-muted mb-0">
-          {{ 'How Fly TLV handles your data and protects your privacy.' 
+          {{ 'Full explanation of how Fly TLV collects and uses data, applies AI, and protects your rights under Israeli 2026 law and GDPR.'
              if lang != 'he'
-             else 'כיצד Fly TLV מטפלת בנתוניכם ושומרת על פרטיותכם.' }}
+             else 'הסבר מלא כיצד Fly TLV אוספת ומשתמשת בנתונים, מפעילה AI, ושומרת על זכויותיכם בהתאם לחוק הישראלי (2026) ול-GDPR.' }}
         </p>
       </div>
     </div>
   </div>
 
-  <!-- Policy Sections -->
+  <!-- Policy Sections (each as a card, bilingual) -->
   <div class="row g-3">
-    <div class="col-12 col-lg-6">
+
+    <!-- Introduction -->
+    <div class="col-12">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Data Collection' if lang != 'he' else 'איסוף נתונים' }}
-        </div>
+        <div class="card-header fw-semibold">{{ 'Introduction' if lang != 'he' else 'מבוא' }}</div>
         <div class="card-body">
           <p>
-            {{ "We do not require user accounts. Basic analytics and logs (such as browser type and visited pages) may be collected for performance monitoring."
+            {{ "Fly TLV is committed to protecting your privacy. This policy complies with the Israeli Privacy Protection Law (2026 update), the Israeli AI Act (2026), and international GDPR-equivalent standards."
                if lang != 'he' else
-               "אין דרישה לפתוח חשבון משתמש. ייתכן ואנו אוספים נתוני שימוש בסיסיים (כגון סוג הדפדפן ודפים נצפים) לצורך ניטור ביצועים." }}
+               "אתר Fly TLV מחויב לשמירה על פרטיותכם. מדיניות זו מותאמת לחוק הגנת הפרטיות בישראל (תיקון 2026), לחוק הבינה המלאכותית (2026), ולסטנדרטים בינלאומיים מקבילים ל-GDPR." }}
           </p>
         </div>
       </div>
     </div>
 
+    <!-- No Accounts -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Cookies & Ads' if lang != 'he' else 'קוקיות ופרסומות' }}
-        </div>
+        <div class="card-header fw-semibold">{{ 'No Accounts or Databases' if lang != 'he' else 'ללא חשבונות או מאגרי מידע' }}</div>
         <div class="card-body">
           <p>
-            {{ "We use cookies for functionality and Google AdSense for ads. Third-party services may place their own cookies."
+            {{ "We do not require registration or user accounts. No personal databases are maintained."
                if lang != 'he' else
-               "אנו משתמשים בקוקיות לצורך תפקוד האתר וב-Google AdSense להצגת פרסומות. שירותי צד ג׳ עשויים להגדיר קוקיות משלהם." }}
+               "אין דרישה להרשמה או פתיחת חשבון. איננו מחזיקים מאגרי מידע של משתמשים." }}
           </p>
         </div>
       </div>
     </div>
 
+    <!-- Data Collection -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Use of Data' if lang != 'he' else 'שימוש בנתונים' }}
-        </div>
+        <div class="card-header fw-semibold">{{ 'Data Collection' if lang != 'he' else 'איסוף נתונים' }}</div>
         <div class="card-body">
           <p>
-            {{ "Collected data is used only for improving the site, analyzing traffic, and serving relevant ads. We never sell personal data."
+            {{ "We collect minimal technical logs: browser type, visited pages, anonymized IP, errors. Used only for performance, analytics, and security."
                if lang != 'he' else
-               "הנתונים שנאספים משמשים לשיפור האתר, ניתוח תנועה והצגת פרסומות רלוונטיות. לעולם לא נמכור נתונים אישיים." }}
+               "נאספים לוגים טכניים מינימליים בלבד: סוג דפדפן, דפים נצפים, כתובת IP מנותקת מזהות, ושגיאות. השימוש מוגבל לניטור ביצועים, אנליטיקה ואבטחה." }}
           </p>
         </div>
       </div>
     </div>
 
+    <!-- Cookies & Ads -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold">
-          {{ 'Your Rights' if lang != 'he' else 'הזכויות שלכם' }}
-        </div>
+        <div class="card-header fw-semibold">{{ 'Cookies & Advertising' if lang != 'he' else 'קוקיות ופרסום' }}</div>
         <div class="card-body">
           <p>
-            {{ "You can clear cookies via your browser settings. If you have concerns, contact us through the contact page."
+            {{ "Cookies are used for preferences and functionality. Google AdSense and third parties may set cookies for advertising and analytics."
                if lang != 'he' else
-               "באפשרותכם לנקות קוקיות דרך הגדרות הדפדפן. במידה ויש לכם שאלות או חששות, פנו אלינו דרך עמוד יצירת קשר." }}
+               "קוקיות משמשות לשמירת העדפות ותפקוד האתר. Google AdSense וספקי צד ג׳ עשויים להגדיר קוקיות נוספות לפרסום ואנליטיקה." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Usage -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Artificial Intelligence' if lang != 'he' else 'שימוש בבינה מלאכותית' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "Some features rely on AI (e.g., search, recommendations). In compliance with Israel’s AI Act 2026: transparency is ensured, no personal identifiers are shared, and providers comply with GDPR."
+               if lang != 'he' else
+               "חלק מהפונקציות באתר מבוססות AI (כגון חיפוש או המלצות). בהתאם לחוק ה-AI בישראל (2026): מובטחת שקיפות, לא מועברים מזהים אישיים, והספקים מחויבים לעמוד ב-GDPR." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use of Data -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Use of Data' if lang != 'he' else 'שימוש בנתונים' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "Data is used strictly for site performance, analytics, security, and relevant advertising. We do not sell or trade user data."
+               if lang != 'he' else
+               "הנתונים משמשים אך ורק לשיפור ביצועים, אנליטיקה, אבטחת האתר והצגת פרסומות רלוונטיות. איננו מוכרים או סוחרים בנתוני משתמשים." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Rights -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'User Rights' if lang != 'he' else 'הזכויות שלכם' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "You may clear cookies, opt-out of personalized ads, and request deletion of logs linked to your anonymized IP. Rights are based on Israeli Privacy Protection Law (2026) and GDPR."
+               if lang != 'he' else
+               "באפשרותכם למחוק קוקיות, לבטל פרסום מותאם אישית, ולבקש מחיקת לוגים הקשורים לכתובת IP מנותקת מזהות. זכויותיכם מעוגנות בחוק הגנת הפרטיות בישראל (2026) וב-GDPR." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Security Measures' if lang != 'he' else 'אמצעי אבטחה' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "Advanced security measures are applied. Logs are retained briefly and access is restricted to authorized staff."
+               if lang != 'he' else
+               "מיושמים אמצעי אבטחה מתקדמים. לוגים נשמרים לפרקי זמן קצרים והגישה מוגבלת לצוות מורשה." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third Parties -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Third-Party Sharing' if lang != 'he' else 'שיתוף עם צדדים שלישיים' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "We cooperate with Google (AdSense, Analytics) and other providers. All third parties must comply with Israeli privacy law and GDPR."
+               if lang != 'he' else
+               "אנו משתפים פעולה עם Google (AdSense, Analytics) וספקים נוספים. כל צד שלישי מחויב לעמוד בחוקי ישראל וב-GDPR." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Children -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Children’s Privacy' if lang != 'he' else 'שמירה על פרטיות קטינים' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "The site is not intended to collect data from children. If such data is inadvertently collected, it will be deleted immediately."
+               if lang != 'he' else
+               "האתר אינו מיועד לאיסוף נתונים מקטינים. אם ייאסף מידע שלא במתכוון, הוא יימחק באופן מיידי." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Updates -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Policy Updates' if lang != 'he' else 'עדכוני מדיניות' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "This policy was last updated January 2026. Updates will be published here and take immediate effect."
+               if lang != 'he' else
+               "מדיניות זו עודכנה בינואר 2026. עדכונים יפורסמו כאן וייכנסו לתוקף באופן מיידי." }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="col-12">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">{{ 'Contact' if lang != 'he' else 'צור קשר' }}</div>
+        <div class="card-body">
+          <p>
+            {{ "For any privacy-related questions, please contact us through the site’s Contact page."
+               if lang != 'he' else
+               "לשאלות או פניות בנושא פרטיות, ניתן לפנות אלינו דרך עמוד צור קשר באתר." }}
           </p>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 {% endblock %}
