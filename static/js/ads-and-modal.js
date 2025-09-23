@@ -1,8 +1,10 @@
-document.addEventListener("DOMContentLoaded", function() {
+// ads-and-modal.js
+
+document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("mapModal");
   const iframe = document.getElementById("map-frame");
 
-  // render ads
+  // AdSense slot IDs
   const adSlots = [
     "3014594736",
     "6530920497",
@@ -18,21 +20,18 @@ document.addEventListener("DOMContentLoaded", function() {
     renderAd("ad-slot-" + slotId, slotId);
   });
 
-  // attach modal event
+  // Bootstrap modal postMessage
   if (modal && iframe) {
     modal.addEventListener("shown.bs.modal", function () {
       iframe.contentWindow.postMessage("modal-shown", "*");
     });
   }
 });
-</script>
 
-<script>
 function renderAd(containerId, slotId, format = "auto") {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  // If container is hidden or width=0, retry later
   if (container.offsetWidth === 0) {
     setTimeout(() => renderAd(containerId, slotId, format), 500);
     return;
