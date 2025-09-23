@@ -314,10 +314,13 @@
 <!-- ✅ FOOTER -->
 <footer class="footer text-center" role="contentinfo">
   <div class="container">
-    <p class="mb-0">
-      &copy; {{ now.year }} ✈️ TLV → Worldwide Destinations.
-      {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}
-    </p>
+	<p class="mb-0">
+	  &copy; {{ now.year }}
+	  <a href="https://fly-tlv.com/" target="_blank" rel="noopener" class="text-decoration-none">
+		✈️ TLV → Worldwide Destinations
+	  </a>.
+	  {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}
+	</p>
     <p class="mb-0">
       <a href="/about"
          title="{{ 'Learn more about this project' if lang == 'en' else 'מידע נוסף על האתר' }}">
@@ -347,6 +350,10 @@
          title="{{ 'Travel warnings & advisories' if lang == 'en' else 'אזהרות מסע ועדכונים' }}">
         {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
       </a> ·
+      <a href="/map"
+         title="{{ 'Explore the destinations map' if lang == 'en' else 'צפה במפת היעדים' }}">
+        {{ "Map" if lang == "en" else "מפה" }}
+      </a> ·
       <a href="/sitemap.xml"
          title="{{ 'View website sitemap' if lang == 'en' else 'צפה במפת האתר' }}">
         {{ "Sitemap" if lang == "en" else "מפת האתר" }}
@@ -354,6 +361,7 @@
     </p>
   </div>
 </footer>
+
 
 
 

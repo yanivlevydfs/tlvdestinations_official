@@ -504,6 +504,8 @@
       </div>
     </div>
   </div>
+
+
 <footer class="mt-5 border-top">
   <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
     <div class="mb-3 mb-md-0">
@@ -516,13 +518,63 @@
       </div>
     </div>
 
-    <nav class="small mb-3 mb-md-0">
-      <a id="footer-link-about"   class="text-decoration-none me-3 text-muted" href="/about">About</a>
-	  <a id="footer-link-accessibility"   class="text-decoration-none me-3 text-muted" href="/accessibility">Accessability</a>
-      <a id="footer-link-privacy" class="text-decoration-none me-3 text-muted" href="/privacy">Privacy</a>
-      <a id="footer-link-contact" class="text-decoration-none me-3 text-muted" href="/contact">Contact</a>
-      <a id="footer-link-sitemap" class="text-decoration-none text-muted"    href="/sitemap.xml" rel="sitemap">Sitemap</a>
-    </nav>
+<nav class="small mb-3 mb-md-0" aria-label="Footer navigation">
+  <a id="footer-link-about"
+     class="text-decoration-none me-3 text-muted"
+     href="/about"
+     title="{{ 'Learn more about this project' if lang == 'en' else 'מידע נוסף על האתר' }}">
+    {{ "About" if lang == "en" else "עלינו" }}
+  </a>
+  <a id="footer-link-accessibility"
+     class="text-decoration-none me-3 text-muted"
+     href="/accessibility"
+     title="{{ 'Accessibility statement' if lang == 'en' else 'הצהרת נגישות' }}">
+    {{ "Accessibility" if lang == "en" else "נגישות" }}
+  </a>
+  <a id="footer-link-privacy"
+     class="text-decoration-none me-3 text-muted"
+     href="/privacy"
+     title="{{ 'Read our privacy policy' if lang == 'en' else 'מדיניות פרטיות' }}">
+    {{ "Privacy" if lang == "en" else "פרטיות" }}
+  </a>
+  <a id="footer-link-contact"
+     class="text-decoration-none me-3 text-muted"
+     href="/contact"
+     title="{{ 'Get in touch with us' if lang == 'en' else 'צור קשר עם התמיכה' }}">
+    {{ "Contact" if lang == "en" else "צור קשר" }}
+  </a>
+  <a id="footer-link-chat"
+     class="text-decoration-none me-3 text-muted"
+     href="/chat"
+     title="{{ 'Chat with our AI Bot' if lang == 'en' else 'שוחח עם הבוט שלנו' }}">
+    {{ "AI Bot" if lang == "en" else "בוט AI" }}
+  </a>
+  <a id="footer-link-flights"
+     class="text-decoration-none me-3 text-muted"
+     href="/flights"
+     title="{{ 'Live flight status from Ben Gurion Airport' if lang == 'en' else 'סטטוס טיסות מנתב\"ג' }}">
+    {{ "Flights" if lang == "en" else "טיסות" }}
+  </a>
+  <a id="footer-link-travel-warnings"
+     class="text-decoration-none me-3 text-muted"
+     href="/travel-warnings"
+     title="{{ 'Travel warnings & advisories' if lang == 'en' else 'אזהרות מסע ועדכונים' }}">
+    {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
+  </a>
+  <a id="footer-link-map"
+     class="text-decoration-none me-3 text-muted"
+     href="/map"
+     title="{{ 'Explore the destinations map' if lang == 'en' else 'צפה במפת היעדים' }}">
+    {{ "Map" if lang == "en" else "מפה" }}
+  </a>
+  <a id="footer-link-sitemap"
+     class="text-decoration-none text-muted"
+     href="/sitemap.xml"
+     title="{{ 'View website sitemap' if lang == 'en' else 'צפה במפת האתר' }}"
+     rel="sitemap">
+    {{ "Sitemap" if lang == "en" else "מפת האתר" }}
+  </a>
+</nav>
   </div>
 
 <div class="footer-bottom py-2">
@@ -543,67 +595,6 @@
 </footer>
 <script src="/static/js/lang.js"></script>
 <script src="/static/js/app.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const modal = document.getElementById("mapModal");
-  const iframe = document.getElementById("map-frame");
-
-  // render ads
-  const adSlots = [
-    "3014594736",
-    "6530920497",
-    "1374247994",
-    "9061166326",
-    "9683944869",
-    "9767705348",
-    "5792553893",
-    "9109229790"
-  ];
-
-  adSlots.forEach(slotId => {
-    renderAd("ad-slot-" + slotId, slotId);
-  });
-
-  // attach modal event
-  if (modal && iframe) {
-    modal.addEventListener("shown.bs.modal", function () {
-      iframe.contentWindow.postMessage("modal-shown", "*");
-    });
-  }
-});
-</script>
-
-<script>
-function renderAd(containerId, slotId, format = "auto") {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  // If container is hidden or width=0, retry later
-  if (container.offsetWidth === 0) {
-    setTimeout(() => renderAd(containerId, slotId, format), 500);
-    return;
-  }
-
-  container.innerHTML = ""; // clear if re-rendering
-
-  const ins = document.createElement("ins");
-  ins.className = "adsbygoogle";
-  ins.style.display = "block";
-  ins.setAttribute("data-ad-client", "ca-pub-7964221655161384");
-  ins.setAttribute("data-ad-slot", slotId);
-  ins.setAttribute("data-ad-format", format);
-  ins.setAttribute("data-full-width-responsive", "true");
-
-  container.appendChild(ins);
-
-  try {
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  } catch (e) {
-    console.warn("AdSense render failed", e);
-  }
-}
-
-</script>
+<script>src="/static/js/ads-and-modal.js"</script>
 </body>
 </html>
