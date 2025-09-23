@@ -62,6 +62,16 @@
         <p>—</p>
       {% endif %}
 
+      <!-- Wikipedia City Overview -->
+      <div class="mt-5">
+        <h5><i class="bi bi-info-circle"></i>
+          {{ 'About ' ~ destination.City if lang != 'he' else 'על ' ~ destination.City }}
+        </h5>
+        <div id="city-overview" class="border rounded p-3 bg-light">
+          {{ 'Loading city info...' if lang != 'he' else 'טוען מידע על העיר...' }}
+        </div>
+      </div>
+
       <!-- Map -->
       {% if destination.lat and destination.lon %}
       <div class="mt-4">
@@ -73,6 +83,7 @@
       </div>
       {% endif %}
     </div>
+
     <div class="card-footer text-end">
       <a href="/" class="btn btn-outline-primary">
         ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
@@ -80,4 +91,40 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const city = "{{ destination.City|urlencode }}";
+  const lang = "{{ 'he' if lang == 'he' else 'en' }}";
+  const url  = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${city}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Wiki not found");
+    const data = await res.json();
+
+    const box = document.getElementById("city-overview");
+    let html = "";
+
+    if (data.thumbnail) {
+      html += `<img src="${data.thumbnail.source}" 
+                  alt="${data.title}" 
+                  class="float-start me-3 mb-2 rounded shadow-sm" 
+                  style="max-width:180px;">`;
+    }
+
+    html += `<strong>${data.title}</strong><br>`;
+    if (data.description) {
+      html += `<em>${data.description}</em><br>`;
+    }
+    html += `<p>${data.extract}</p>`;
+
+    box.innerHTML = html;
+  } catch (err) {
+    document.getElementById("city-overview").innerHTML =
+      "{{ 'No Wikipedia data found.' if lang != 'he' else 'לא נמצא מידע בוויקיפדיה.' }}";
+    console.error(err);
+  }
+});
+</script>
 {% endblock %}

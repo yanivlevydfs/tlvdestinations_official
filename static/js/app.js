@@ -68,11 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 }
-  // ---------- Toast Helper ----------
-  const toastEl   = document.getElementById('app-toast');
-  const toastText = document.getElementById('toast-text');
-  const bsToast   = new bootstrap.Toast(toastEl, { delay: 2500 });
-
   function escapeRegex(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
@@ -156,9 +151,6 @@ function applyUnitsInCells(dict) {
     safeSet('lbl-search', d.search);
     safeSet('clear-filters', `<i class="bi bi-x-circle me-1"></i> ${d.clear}`, true);
     safeSet('active-filters', d.noFilters);
-    safeSet('main-title', d.tableTitle);
-    safeSet('subheader-text', d.subtitle);
-    safeSet('export-label', `<i class="bi bi-database me-1"></i>${d.export}`, true);
     safeSet('map-title', d.mapTitle);
     const qf = document.getElementById('query-filter');
     if (qf) qf.placeholder = d.placeholderSearch;
