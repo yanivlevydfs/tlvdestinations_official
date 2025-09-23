@@ -73,12 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastText = document.getElementById('toast-text');
   const bsToast   = new bootstrap.Toast(toastEl, { delay: 2500 });
 
-  function pingToast(msg, variant='dark') {
-    toastEl.className = `toast align-items-center text-bg-${variant} border-0`;
-    toastText.textContent = msg;
-    bsToast.show();
-  }
-
   function escapeRegex(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
@@ -155,12 +149,9 @@ function applyUnitsInCells(dict) {
 
     safeSet('brand-title', `<i class="bi bi-airplane-engines me-2"></i> ${d.brand}`, true);
     safeSet('view-map-btn', `<i class="bi bi-globe-americas me-1"></i> ${d.viewMap}`, true);
-    safeSet('refresh-btn', `<i class="bi bi-arrow-repeat me-1"></i> ${d.refresh}`, true);
     safeSet('theme-toggle', `<i id="theme-icon" class="bi bi-moon-stars me-1"></i> ${d.theme}`, true);
-    safeSet('filters-toggle-mobile', `<i class="bi bi-sliders me-1"></i> ${d.filters}`, true);
     safeSet('lang-label', d.langToggleLabelOther);
     safeSet('filters-title', `<i class="bi bi-sliders me-2"></i>${d.filters}`, true);
-    safeSet('filters-header', d.filtersHeader);
     safeSet('lbl-country', d.country);
     safeSet('lbl-search', d.search);
     safeSet('clear-filters', `<i class="bi bi-x-circle me-1"></i> ${d.clear}`, true);
@@ -239,7 +230,12 @@ $('#clear-filters-mobile').on('click', () => {
   $('#query-filter-mobile').val('').trigger('input');
 });
 
-
+	document.addEventListener('click', (e) => {
+	  const btn = e.target.closest('#ai-chat-btn');
+	  if (btn) {
+		window.location.href = '/chat';
+	  }
+	});
 
   // ---------- DataTable (first init with saved lang) ----------
   const savedLang = localStorage.getItem('fe-lang') || 'en';
