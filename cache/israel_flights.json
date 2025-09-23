@@ -1,205 +1,7 @@
 {
-  "updated": "2025-09-23T11:24:18.418813",
-  "count": 2117,
+  "updated": "2025-09-23T12:09:57.636793",
+  "count": 2121,
   "flights": [
-    {
-      "airline": "Wizzair",
-      "iata": "BUD",
-      "airport": "Budapest",
-      "city": "Budapest",
-      "country": "Hungary",
-      "scheduled": "2025-09-22t10:40:00",
-      "actual": "2025-09-22t11:16:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Cyprus Airways",
-      "iata": "LCA",
-      "airport": "Larnaca",
-      "city": "Larnaca",
-      "country": "Cyprus",
-      "scheduled": "2025-09-22t11:25:00",
-      "actual": "2025-09-22t11:19:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Arkia Israeli Airlines",
-      "iata": "ETM",
-      "airport": "Ramon",
-      "city": "Ramon",
-      "country": "Israel",
-      "scheduled": "2025-09-22t10:55:00",
-      "actual": "2025-09-22t11:21:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Emirates",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-09-22t11:30:00",
-      "actual": "2025-09-22t11:31:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Flydubai",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-09-22t11:30:00",
-      "actual": "2025-09-22t11:31:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "United Airlines",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-09-22t11:00:00",
-      "actual": "2025-09-22t11:32:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Uzbekistan Air",
-      "iata": "TAS",
-      "airport": "Tashkent",
-      "city": "Tashkent",
-      "country": "Uzbekistan",
-      "scheduled": "2025-09-22t11:35:00",
-      "actual": "2025-09-22t11:37:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Flyyo",
-      "iata": "MJT",
-      "airport": "Mitilini",
-      "city": "Lesbos",
-      "country": "Greece",
-      "scheduled": "2025-09-22t11:30:00",
-      "actual": "2025-09-22t11:41:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Arkia Israeli Airlines",
-      "iata": "RHO",
-      "airport": "Rhodes-paradisi",
-      "city": "Rhodes",
-      "country": "Greece",
-      "scheduled": "2025-09-22t11:50:00",
-      "actual": "2025-09-22t11:45:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "TIA",
-      "airport": "Tirana",
-      "city": "Tirana",
-      "country": "Albania",
-      "scheduled": "2025-09-22t09:00:00",
-      "actual": "2025-09-22t11:45:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Georgian Airways",
-      "iata": "TBS",
-      "airport": "Tbilisi",
-      "city": "Tbilisi",
-      "country": "Georgia",
-      "scheduled": "2025-09-22t11:40:00",
-      "actual": "2025-09-22t11:51:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "TIA",
-      "airport": "Tirana",
-      "city": "Tirana",
-      "country": "Albania",
-      "scheduled": "2025-09-22t11:50:00",
-      "actual": "2025-09-22t11:51:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "ETM",
-      "airport": "Ramon",
-      "city": "Ramon",
-      "country": "Israel",
-      "scheduled": "2025-09-22t11:40:00",
-      "actual": "2025-09-22t11:51:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Wizz Air Malta",
-      "iata": "FCO",
-      "airport": "Rome - Fiumicino",
-      "city": "Rome",
-      "country": "Italy",
-      "scheduled": "2025-09-22t11:20:00",
-      "actual": "2025-09-22t11:54:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "SKG",
-      "airport": "Thessaloniki",
-      "city": "Thessaloniki",
-      "country": "Greece",
-      "scheduled": "2025-09-22t11:55:00",
-      "actual": "2025-09-22t11:55:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Neos",
-      "iata": "RHO",
-      "airport": "Rhodes-paradisi",
-      "city": "Rhodes",
-      "country": "Greece",
-      "scheduled": "2025-09-22t10:55:00",
-      "actual": "2025-09-22t11:59:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Tus Airways",
-      "iata": "LCA",
-      "airport": "Larnaca",
-      "city": "Larnaca",
-      "country": "Cyprus",
-      "scheduled": "2025-09-22t11:25:00",
-      "actual": "2025-09-22t12:00:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Wizz Air Malta",
-      "iata": "VIE",
-      "airport": "Vienna",
-      "city": "Vienna",
-      "country": "Austria",
-      "scheduled": "2025-09-22t11:30:00",
-      "actual": "2025-09-22t12:00:00",
-      "direction": "D",
-      "status": "Departed"
-    },
     {
       "airline": "Israir Airlines",
       "iata": "LCA",
@@ -4645,17 +4447,6 @@
       "status": "Landed"
     },
     {
-      "airline": "Arkia Israeli Airlines",
-      "iata": "STN",
-      "airport": "London -stansted",
-      "city": "Stansted",
-      "country": "United Kingdom",
-      "scheduled": "2025-09-23t10:50:00",
-      "actual": "2025-09-23t10:50:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
       "airline": "Wizzair",
       "iata": "BUD",
       "airport": "Budapest",
@@ -4733,28 +4524,6 @@
       "status": "Landed"
     },
     {
-      "airline": "United Airlines",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-09-23t11:00:00",
-      "actual": "2025-09-23t11:00:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "FCO",
-      "airport": "Rome - Fiumicino",
-      "city": "Rome",
-      "country": "Italy",
-      "scheduled": "2025-09-23t10:00:00",
-      "actual": "2025-09-23t11:00:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
       "airline": "Arkia Israeli Airlines",
       "iata": "HER",
       "airport": "Heraklion",
@@ -4788,28 +4557,6 @@
       "status": "Departed"
     },
     {
-      "airline": "Arkia Israeli Airlines",
-      "iata": "ETM",
-      "airport": "Ramon",
-      "city": "Ramon",
-      "country": "Israel",
-      "scheduled": "2025-09-23t11:10:00",
-      "actual": "2025-09-23t11:10:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Wizzair",
-      "iata": "VNO",
-      "airport": "Vilnius Intl",
-      "city": "Vilnius",
-      "country": "Lithuania",
-      "scheduled": "2025-09-23t11:10:00",
-      "actual": "2025-09-23t11:10:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
       "airline": "Lot Polish Airlines",
       "iata": "WAW",
       "airport": "Warsaw",
@@ -4832,37 +4579,26 @@
       "status": "Departed"
     },
     {
+      "airline": "United Airlines",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-09-23t11:00:00",
+      "actual": "2025-09-23t11:17:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
       "airline": "Hainan Airlines",
       "iata": "SZX",
       "airport": "Shenzhen Baoan Int.",
       "city": "Shenzhen",
       "country": "China",
       "scheduled": "2025-09-23t12:00:00",
-      "actual": "2025-09-23t11:12:00",
+      "actual": "2025-09-23t11:20:00",
       "direction": "A",
-      "status": "Landing"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "LCA",
-      "airport": "Larnaca",
-      "city": "Larnaca",
-      "country": "Cyprus",
-      "scheduled": "2025-09-23t11:00:00",
-      "actual": "2025-09-23t11:15:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "BUD",
-      "airport": "Budapest",
-      "city": "Budapest",
-      "country": "Hungary",
-      "scheduled": "2025-09-23t11:15:00",
-      "actual": "2025-09-23t11:15:00",
-      "direction": "D",
-      "status": "On Time"
+      "status": "Landed"
     },
     {
       "airline": "Wizz Air Malta",
@@ -4876,37 +4612,26 @@
       "status": "On Time"
     },
     {
+      "airline": "Israir Airlines",
+      "iata": "FCO",
+      "airport": "Rome - Fiumicino",
+      "city": "Rome",
+      "country": "Italy",
+      "scheduled": "2025-09-23t10:00:00",
+      "actual": "2025-09-23t11:22:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
       "airline": "Wizz Air Malta",
       "iata": "MXP",
       "airport": "Milan-malpensa",
       "city": "Milan",
       "country": "Italy",
       "scheduled": "2025-09-23t11:15:00",
-      "actual": "2025-09-23t11:20:00",
+      "actual": "2025-09-23t11:23:00",
       "direction": "A",
-      "status": "Landing"
-    },
-    {
-      "airline": "Wizzair",
-      "iata": "KRK",
-      "airport": "Krakow",
-      "city": "Krakow",
-      "country": "Poland",
-      "scheduled": "2025-09-23t11:20:00",
-      "actual": "2025-09-23t11:20:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Flydubai",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-09-23t11:30:00",
-      "actual": "2025-09-23t11:22:00",
-      "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
     },
     {
       "airline": "Emirates",
@@ -4915,9 +4640,53 @@
       "city": "Dubai",
       "country": "United Arab Emirates",
       "scheduled": "2025-09-23t11:30:00",
-      "actual": "2025-09-23t11:22:00",
+      "actual": "2025-09-23t11:25:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
+    },
+    {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-23t11:30:00",
+      "actual": "2025-09-23t11:25:00",
+      "direction": "A",
+      "status": "Landed"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "STN",
+      "airport": "London -stansted",
+      "city": "Stansted",
+      "country": "United Kingdom",
+      "scheduled": "2025-09-23t10:50:00",
+      "actual": "2025-09-23t11:26:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "BUD",
+      "airport": "Budapest",
+      "city": "Budapest",
+      "country": "Hungary",
+      "scheduled": "2025-09-23t11:15:00",
+      "actual": "2025-09-23t11:30:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "ETM",
+      "airport": "Ramon",
+      "city": "Ramon",
+      "country": "Israel",
+      "scheduled": "2025-09-23t11:10:00",
+      "actual": "2025-09-23t11:34:00",
+      "direction": "D",
+      "status": "Departed"
     },
     {
       "airline": "Wizzair",
@@ -4926,9 +4695,9 @@
       "city": "Larnaca",
       "country": "Cyprus",
       "scheduled": "2025-09-23t11:45:00",
-      "actual": "2025-09-23t11:30:00",
+      "actual": "2025-09-23t11:36:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
     },
     {
       "airline": "Georgian Airways",
@@ -4942,17 +4711,6 @@
       "status": "On Time"
     },
     {
-      "airline": "Arkia Israeli Airlines",
-      "iata": "RHO",
-      "airport": "Rhodes-paradisi",
-      "city": "Rhodes",
-      "country": "Greece",
-      "scheduled": "2025-09-23t11:50:00",
-      "actual": "2025-09-23t11:42:00",
-      "direction": "A",
-      "status": "Final"
-    },
-    {
       "airline": "Flyone Armenia Llc",
       "iata": "EVN",
       "airport": "Yerevan",
@@ -4961,7 +4719,18 @@
       "scheduled": "2025-09-23t11:45:00",
       "actual": "2025-09-23t11:45:00",
       "direction": "D",
-      "status": "On Time"
+      "status": "Departed"
+    },
+    {
+      "airline": "Wizzair",
+      "iata": "VNO",
+      "airport": "Vilnius Intl",
+      "city": "Vilnius",
+      "country": "Lithuania",
+      "scheduled": "2025-09-23t11:10:00",
+      "actual": "2025-09-23t11:49:00",
+      "direction": "D",
+      "status": "Departed"
     },
     {
       "airline": "Delta Airlines",
@@ -4973,6 +4742,17 @@
       "actual": "2025-09-23t11:50:00",
       "direction": "D",
       "status": "On Time"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "RHO",
+      "airport": "Rhodes-paradisi",
+      "city": "Rhodes",
+      "country": "Greece",
+      "scheduled": "2025-09-23t11:50:00",
+      "actual": "2025-09-23t11:50:00",
+      "direction": "A",
+      "status": "Landed"
     },
     {
       "airline": "El Al Israel Airlines",
@@ -5008,15 +4788,15 @@
       "status": "On Time"
     },
     {
-      "airline": "Tus Airways",
-      "iata": "PFO",
-      "airport": "Paphos",
-      "city": "Paphos",
+      "airline": "Israir Airlines",
+      "iata": "LCA",
+      "airport": "Larnaca",
+      "city": "Larnaca",
       "country": "Cyprus",
-      "scheduled": "2025-09-23t12:10:00",
-      "actual": "2025-09-23t11:52:00",
-      "direction": "A",
-      "status": "Final"
+      "scheduled": "2025-09-23t11:00:00",
+      "actual": "2025-09-23t11:57:00",
+      "direction": "D",
+      "status": "On Time"
     },
     {
       "airline": "Tus Airways",
@@ -5030,6 +4810,28 @@
       "status": "Early"
     },
     {
+      "airline": "Tus Airways",
+      "iata": "PFO",
+      "airport": "Paphos",
+      "city": "Paphos",
+      "country": "Cyprus",
+      "scheduled": "2025-09-23t12:10:00",
+      "actual": "2025-09-23t12:00:00",
+      "direction": "A",
+      "status": "Landing"
+    },
+    {
+      "airline": "Wizzair",
+      "iata": "KRK",
+      "airport": "Krakow",
+      "city": "Krakow",
+      "country": "Poland",
+      "scheduled": "2025-09-23t11:20:00",
+      "actual": "2025-09-23t12:00:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
       "airline": "Arkia Israeli Airlines",
       "iata": "ATH",
       "airport": "Athens",
@@ -5038,7 +4840,7 @@
       "scheduled": "2025-09-23t12:20:00",
       "actual": "2025-09-23t12:05:00",
       "direction": "A",
-      "status": "Final"
+      "status": "Landing"
     },
     {
       "airline": "Wizz Air Malta",
@@ -5058,9 +4860,9 @@
       "city": "Rhodes",
       "country": "Greece",
       "scheduled": "2025-09-23t12:15:00",
-      "actual": "2025-09-23t12:14:00",
+      "actual": "2025-09-23t12:15:00",
       "direction": "A",
-      "status": "Final"
+      "status": "Landing"
     },
     {
       "airline": "Emirates",
@@ -5083,17 +4885,6 @@
       "actual": "2025-09-23t12:26:00",
       "direction": "A",
       "status": "Final"
-    },
-    {
-      "airline": "Hisky Europe Srl",
-      "iata": "OTP",
-      "airport": "Bucharest - Otopeni",
-      "city": "Bucharest",
-      "country": "Romania",
-      "scheduled": "2025-09-23t12:30:00",
-      "actual": "2025-09-23t12:30:00",
-      "direction": "A",
-      "status": "Not Final"
     },
     {
       "airline": "Azerbaijan Airlines",
@@ -5168,7 +4959,7 @@
       "city": "Athens",
       "country": "Greece",
       "scheduled": "2025-09-23t12:50:00",
-      "actual": "2025-09-23t12:49:00",
+      "actual": "2025-09-23t12:50:00",
       "direction": "A",
       "status": "Final"
     },
@@ -5195,17 +4986,6 @@
       "status": "Final"
     },
     {
-      "airline": "Blue Bird Airways",
-      "iata": "ATH",
-      "airport": "Athens",
-      "city": "Athens",
-      "country": "Greece",
-      "scheduled": "2025-09-23t12:55:00",
-      "actual": "2025-09-23t12:55:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
       "airline": "Azimuth Airlines",
       "iata": "AER",
       "airport": "Sochi",
@@ -5223,9 +5003,9 @@
       "city": "Heraklion",
       "country": "Greece",
       "scheduled": "2025-09-23t13:00:00",
-      "actual": "2025-09-23t13:00:00",
+      "actual": "2025-09-23t12:56:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "Arkia Israeli Airlines",
@@ -5234,20 +5014,20 @@
       "city": "Mykonos",
       "country": "Greece",
       "scheduled": "2025-09-23t13:00:00",
-      "actual": "2025-09-23t13:00:00",
+      "actual": "2025-09-23t13:02:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
-      "airline": "Israir Airlines",
-      "iata": "ATH",
-      "airport": "Athens",
-      "city": "Athens",
-      "country": "Greece",
-      "scheduled": "2025-09-23t13:00:00",
-      "actual": "2025-09-23t13:00:00",
+      "airline": "Hisky Europe Srl",
+      "iata": "OTP",
+      "airport": "Bucharest - Otopeni",
+      "city": "Bucharest",
+      "country": "Romania",
+      "scheduled": "2025-09-23t12:30:00",
+      "actual": "2025-09-23t13:05:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "Tus Airways",
@@ -5261,17 +5041,6 @@
       "status": "On Time"
     },
     {
-      "airline": "Tus Airways",
-      "iata": "SKG",
-      "airport": "Thessaloniki",
-      "city": "Thessaloniki",
-      "country": "Greece",
-      "scheduled": "2025-09-23t13:15:00",
-      "actual": "2025-09-23t13:15:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
       "airline": "Israir Airlines",
       "iata": "NAP",
       "airport": "Naples-capodichino",
@@ -5281,6 +5050,39 @@
       "actual": "2025-09-23t13:20:00",
       "direction": "D",
       "status": "On Time"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "ATH",
+      "airport": "Athens",
+      "city": "Athens",
+      "country": "Greece",
+      "scheduled": "2025-09-23t13:00:00",
+      "actual": "2025-09-23t13:20:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "Tus Airways",
+      "iata": "SKG",
+      "airport": "Thessaloniki",
+      "city": "Thessaloniki",
+      "country": "Greece",
+      "scheduled": "2025-09-23t13:15:00",
+      "actual": "2025-09-23t13:20:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "Blue Bird Airways",
+      "iata": "ATH",
+      "airport": "Athens",
+      "city": "Athens",
+      "country": "Greece",
+      "scheduled": "2025-09-23t12:55:00",
+      "actual": "2025-09-23t13:28:00",
+      "direction": "A",
+      "status": "Final"
     },
     {
       "airline": "Blue Bird Airways",
@@ -5481,6 +5283,28 @@
       "status": "Not Final"
     },
     {
+      "airline": "All Nippon Airways",
+      "iata": "VIE",
+      "airport": "Vienna",
+      "city": "Vienna",
+      "country": "Austria",
+      "scheduled": "2025-09-23t14:35:00",
+      "actual": "2025-09-23t14:20:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "Austrian Airlines",
+      "iata": "VIE",
+      "airport": "Vienna",
+      "city": "Vienna",
+      "country": "Austria",
+      "scheduled": "2025-09-23t14:35:00",
+      "actual": "2025-09-23t14:20:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
       "airline": "Arkia Israeli Airlines",
       "iata": "CFU",
       "airport": "Corfu",
@@ -5536,6 +5360,17 @@
       "status": "Not Final"
     },
     {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-23t14:35:00",
+      "actual": "2025-09-23t14:30:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
       "airline": "Wizz Uk",
       "iata": "LTN",
       "airport": "Luton",
@@ -5553,42 +5388,9 @@
       "city": "Dubai",
       "country": "United Arab Emirates",
       "scheduled": "2025-09-23t14:35:00",
-      "actual": "2025-09-23t14:35:00",
+      "actual": "2025-09-23t14:30:00",
       "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Flydubai",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-09-23t14:35:00",
-      "actual": "2025-09-23t14:35:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "All Nippon Airways",
-      "iata": "VIE",
-      "airport": "Vienna",
-      "city": "Vienna",
-      "country": "Austria",
-      "scheduled": "2025-09-23t14:35:00",
-      "actual": "2025-09-23t14:35:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Austrian Airlines",
-      "iata": "VIE",
-      "airport": "Vienna",
-      "city": "Vienna",
-      "country": "Austria",
-      "scheduled": "2025-09-23t14:35:00",
-      "actual": "2025-09-23t14:35:00",
-      "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "Blue Bird Airways",
@@ -5603,39 +5405,6 @@
     },
     {
       "airline": "Arkia Israeli Airlines",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-09-23t14:40:00",
-      "actual": "2025-09-23t14:40:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Air France",
-      "iata": "CDG",
-      "airport": "Paris-charles De Gaulle",
-      "city": "Paris",
-      "country": "France",
-      "scheduled": "2025-09-23t14:45:00",
-      "actual": "2025-09-23t14:45:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Delta Airlines",
-      "iata": "CDG",
-      "airport": "Paris-charles De Gaulle",
-      "city": "Paris",
-      "country": "France",
-      "scheduled": "2025-09-23t14:45:00",
-      "actual": "2025-09-23t14:45:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Arkia Israeli Airlines",
       "iata": "RHO",
       "airport": "Rhodes-paradisi",
       "city": "Rhodes",
@@ -5644,17 +5413,6 @@
       "actual": "2025-09-23t14:45:00",
       "direction": "D",
       "status": "On Time"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "CDG",
-      "airport": "Paris-charles De Gaulle",
-      "city": "Paris",
-      "country": "France",
-      "scheduled": "2025-09-23t14:45:00",
-      "actual": "2025-09-23t14:45:00",
-      "direction": "A",
-      "status": "Not Final"
     },
     {
       "airline": "Israir Airlines",
@@ -5679,6 +5437,17 @@
       "status": "Not Final"
     },
     {
+      "airline": "Air France",
+      "iata": "CDG",
+      "airport": "Paris-charles De Gaulle",
+      "city": "Paris",
+      "country": "France",
+      "scheduled": "2025-09-23t14:45:00",
+      "actual": "2025-09-23t14:50:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
       "airline": "Blue Bird Airways",
       "iata": "BUD",
       "airport": "Budapest",
@@ -5699,6 +5468,17 @@
       "actual": "2025-09-23t14:50:00",
       "direction": "A",
       "status": "Not Final"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "CDG",
+      "airport": "Paris-charles De Gaulle",
+      "city": "Paris",
+      "country": "France",
+      "scheduled": "2025-09-23t14:45:00",
+      "actual": "2025-09-23t14:50:00",
+      "direction": "A",
+      "status": "Final"
     },
     {
       "airline": "Etihad Airways",
@@ -5732,6 +5512,28 @@
       "actual": "2025-09-23t14:50:00",
       "direction": "D",
       "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "CDG",
+      "airport": "Paris-charles De Gaulle",
+      "city": "Paris",
+      "country": "France",
+      "scheduled": "2025-09-23t14:45:00",
+      "actual": "2025-09-23t14:50:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-23t14:40:00",
+      "actual": "2025-09-23t14:54:00",
+      "direction": "A",
+      "status": "Final"
     },
     {
       "airline": "Ethiopian Airlines",
@@ -5811,6 +5613,17 @@
       "status": "Not Final"
     },
     {
+      "airline": "Air Canada",
+      "iata": "FRA",
+      "airport": "Frankfurt",
+      "city": "Frankfurt",
+      "country": "Germany",
+      "scheduled": "2025-09-23t15:25:00",
+      "actual": "2025-09-23t15:20:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
       "airline": "Cyprus Airways",
       "iata": "LCA",
       "airport": "Larnaca",
@@ -5822,26 +5635,15 @@
       "status": "On Time"
     },
     {
-      "airline": "Air Canada",
-      "iata": "FRA",
-      "airport": "Frankfurt",
-      "city": "Frankfurt",
-      "country": "Germany",
-      "scheduled": "2025-09-23t15:25:00",
-      "actual": "2025-09-23t15:25:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
       "airline": "Lufthansa",
       "iata": "FRA",
       "airport": "Frankfurt",
       "city": "Frankfurt",
       "country": "Germany",
       "scheduled": "2025-09-23t15:25:00",
-      "actual": "2025-09-23t15:25:00",
+      "actual": "2025-09-23t15:20:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "All Nippon Airways",
@@ -5850,9 +5652,9 @@
       "city": "Frankfurt",
       "country": "Germany",
       "scheduled": "2025-09-23t15:25:00",
-      "actual": "2025-09-23t15:25:00",
+      "actual": "2025-09-23t15:20:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "Brussels Airlines",
@@ -5861,9 +5663,9 @@
       "city": "Frankfurt",
       "country": "Germany",
       "scheduled": "2025-09-23t15:25:00",
-      "actual": "2025-09-23t15:25:00",
+      "actual": "2025-09-23t15:20:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "United Airlines",
@@ -5872,9 +5674,9 @@
       "city": "Frankfurt",
       "country": "Germany",
       "scheduled": "2025-09-23t15:25:00",
-      "actual": "2025-09-23t15:25:00",
+      "actual": "2025-09-23t15:20:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "Wizz Uk",
@@ -23288,6 +23090,248 @@
       "actual": "2025-09-26t11:15:00",
       "direction": "A",
       "status": "Not Final"
+    },
+    {
+      "airline": "Blue Bird Airways",
+      "iata": "HER",
+      "airport": "Heraklion",
+      "city": "Heraklion",
+      "country": "Greece",
+      "scheduled": "2025-09-26t11:25:00",
+      "actual": "2025-09-26t11:25:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Cyprus Airways",
+      "iata": "LCA",
+      "airport": "Larnaca",
+      "city": "Larnaca",
+      "country": "Cyprus",
+      "scheduled": "2025-09-26t11:25:00",
+      "actual": "2025-09-26t11:25:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "AOK",
+      "airport": "Karpathos",
+      "city": "Karpathos",
+      "country": "Greece",
+      "scheduled": "2025-09-26t11:25:00",
+      "actual": "2025-09-26t11:25:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Tus Airways",
+      "iata": "SKG",
+      "airport": "Thessaloniki",
+      "city": "Thessaloniki",
+      "country": "Greece",
+      "scheduled": "2025-09-26t11:25:00",
+      "actual": "2025-09-26t11:25:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Emirates",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-26t11:30:00",
+      "actual": "2025-09-26t11:30:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-09-26t11:30:00",
+      "actual": "2025-09-26t11:30:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "CFU",
+      "airport": "Corfu",
+      "city": "Corfu",
+      "country": "Greece",
+      "scheduled": "2025-09-26t11:30:00",
+      "actual": "2025-09-26t11:30:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "PFO",
+      "airport": "Paphos",
+      "city": "Paphos",
+      "country": "Cyprus",
+      "scheduled": "2025-09-26t11:30:00",
+      "actual": "2025-09-26t11:30:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "ETM",
+      "airport": "Ramon",
+      "city": "Ramon",
+      "country": "Israel",
+      "scheduled": "2025-09-26t11:30:00",
+      "actual": "2025-09-26t11:30:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "BUS",
+      "airport": "Batumi",
+      "city": "Batumi",
+      "country": "Georgia",
+      "scheduled": "2025-09-26t11:35:00",
+      "actual": "2025-09-26t11:35:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "CHQ",
+      "airport": "Khania-soudabay",
+      "city": "Khania",
+      "country": "Greece",
+      "scheduled": "2025-09-26t11:35:00",
+      "actual": "2025-09-26t11:35:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Wizz Air Malta",
+      "iata": "FCO",
+      "airport": "Rome - Fiumicino",
+      "city": "Rome",
+      "country": "Italy",
+      "scheduled": "2025-09-26t11:40:00",
+      "actual": "2025-09-26t11:40:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "RHO",
+      "airport": "Rhodes-paradisi",
+      "city": "Rhodes",
+      "country": "Greece",
+      "scheduled": "2025-09-26t11:45:00",
+      "actual": "2025-09-26t11:45:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "MUC",
+      "airport": "Munich",
+      "city": "Munich",
+      "country": "Germany",
+      "scheduled": "2025-09-26t11:45:00",
+      "actual": "2025-09-26t11:45:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-09-26t11:50:00",
+      "actual": "2025-09-26t11:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-09-26t11:50:00",
+      "actual": "2025-09-26t11:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "BCM",
+      "airport": "Bacau",
+      "city": "Bacau",
+      "country": "Romania",
+      "scheduled": "2025-09-26t11:50:00",
+      "actual": "2025-09-26t11:50:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Virgin Atlantic Airways",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-09-26t11:50:00",
+      "actual": "2025-09-26t11:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Wizzair",
+      "iata": "WAW",
+      "airport": "Warsaw",
+      "city": "Warsaw",
+      "country": "Poland",
+      "scheduled": "2025-09-26t11:50:00",
+      "actual": "2025-09-26t11:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Wizzair",
+      "iata": "LCA",
+      "airport": "Larnaca",
+      "city": "Larnaca",
+      "country": "Cyprus",
+      "scheduled": "2025-09-26t11:55:00",
+      "actual": "2025-09-26t11:55:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Hainan Airlines",
+      "iata": "SZX",
+      "airport": "Shenzhen Baoan Int.",
+      "city": "Shenzhen",
+      "country": "China",
+      "scheduled": "2025-09-26t12:00:00",
+      "actual": "2025-09-26t12:00:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Tus Airways",
+      "iata": "LCA",
+      "airport": "Larnaca",
+      "city": "Larnaca",
+      "country": "Cyprus",
+      "scheduled": "2025-09-26t12:00:00",
+      "actual": "2025-09-26t12:00:00",
+      "direction": "D",
+      "status": "On Time"
     }
   ]
 }

@@ -146,3 +146,30 @@ def setup_logging(
 def get_app_logger(name: str = "app") -> logging.Logger:
     """מחזיר לוגר לשימוש באפליקציה."""
     return logging.getLogger(name)
+    
+    
+# --- Setup feedback logger (no conflict with setup_logging) ---
+def setup_feedback_logger(log_dir="logs", log_file="feedback.log") -> logging.Logger:
+    log_path = Path(log_dir)
+    log_path.mkdir(parents=True, exist_ok=True)
+    log_file_path = log_path / log_file
+
+    handler = RotatingFileHandler(
+        filename=log_file_path,
+        maxBytes=5 * 1024 * 1024,
+        backupCount=3,
+        encoding="utf-8"
+    )
+
+    formatter = logging.Formatter(
+        fmt="%(levelname)s | %(asctime)s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+    handler.setFormatter(formatter)
+
+    feedback_logger = logging.getLogger("feedback")
+    feedback_logger.setLevel(logging.INFO)
+    feedback_logger.addHandler(handler)
+    feedback_logger.propagate = False  # 🔇 Prevents echo in console or app.log
+
+    return feedback_logger

@@ -26,7 +26,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from logging_setup import setup_logging, get_app_logger
+from logging_setup import setup_logging, get_app_logger,setup_feedback_logger
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.openapi.utils import get_openapi
@@ -48,7 +48,9 @@ if enc != "utf-8":
 
 # --- Logging ---
 setup_logging(log_level="INFO", log_dir="logs", log_file_name="app.log")
+feedback_logger = setup_feedback_logger()
 logger = get_app_logger("flights_explorer")
+
 logger.info("Server starting…")
 
 # Set up Gemini API
@@ -1472,3 +1474,9 @@ async def accessibility(request: Request, lang: str = "en"):
             "lang": lang
         }
     )
+@app.post("/api/chat/feedback")
+async def receive_feedback(payload: dict):
+    question = payload.get("question")
+    score = payload.get("score")
+    feedback_logger.info(f"{score} | {question}")
+    return {"status": "ok"}
