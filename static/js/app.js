@@ -22,13 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     themeIcon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
     localStorage.setItem('fe-theme', dark ? 'dark' : 'light');
   });
-	document.addEventListener('click', (e) => {
-	  const btn = e.target.closest('#ai-chat-btn');
-	  if (btn) {
-		console.log('AI Chat button clicked — navigating to /chat');
-		window.location.href = '/chat';
-	  }
-	});
   // ---------- DataTable init/destroy helper ----------
   let table; // global ref
 	function dtButtonsFor(lang) {
