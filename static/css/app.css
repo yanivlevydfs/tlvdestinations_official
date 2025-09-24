@@ -563,4 +563,9 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
   }
 }
 
-
+/* ✅ Remove thick black line below mobile expanded row */
+table.dataTable > tbody > tr.child td.child {
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
