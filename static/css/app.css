@@ -546,3 +546,21 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
 .dataTables_wrapper .dataTables_paginate .paginate_button.next * {
   color: #fff !important;
 }
+@media (min-width: 992px) {
+  .row.stretch-content {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .row.stretch-content > .col-lg-3 {
+    width: auto;
+    flex: 0 0 auto;
+  }
+
+  .row.stretch-content > .col-lg-9 {
+    flex: 1 1 auto;
+    max-width: none;
+  }
+}
+
+

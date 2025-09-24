@@ -18,7 +18,7 @@
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
 
   <!-- Canonical per variant -->
-  <link rel="canonical" href="https://fly-tlv.com{{ '?lang=he' if lang == 'he' else '/' }}">
+  <link rel="canonical" href="https://fly-tlv.com{{ '/?lang=he' if lang == 'he' else '/' }}">
 
   <!-- Hreflang alternates -->
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="en">
@@ -276,7 +276,7 @@
 </div>
   <!-- Body -->
 <main class="container-fluid px-2 px-md-3 mt-2 mb-3">
-  <div class="row g-3 align-items-start">
+  <div class="row g-3 align-items-start stretch-content">
 
 <!-- Filters Column -->
 <div class="col-lg-3 filters-col">
@@ -292,7 +292,7 @@
       <div class="d-flex flex-column gap-3">
 
         <!-- Search & Filter Card -->
-        <div class="card shadow-sm">
+        <div class="card shadow-sm" style="margin-top: 0;">
           <div class="card-header fw-semibold">Search & Filter</div>
           <div class="card-body">
             <div class="mb-3">
@@ -486,7 +486,7 @@
           <i class="bi bi-map me-2"></i>
           <span id="map-title">Flight Map</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href='/'"></button>
       </div>
       <div class="modal-body" style="height:80vh;overflow:hidden;padding:0">
         <iframe id="map-frame" src="/map" width="100%" height="100%" frameborder="0"></iframe>
