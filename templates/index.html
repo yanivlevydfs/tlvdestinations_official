@@ -2,626 +2,765 @@
 <html lang="{{ 'he' if lang == 'he' else 'en' }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
 <head>
   <meta charset="utf-8" />
-  <meta name="description" content="{{
-  'Explore all direct destinations from Tel Aviv (TLV) worldwide — countries, cities, and airports you can reach directly.'
-  if lang != 'he' else
-  'גלה את כל היעדים הישירים מנתב״ג (TLV) ברחבי העולם — מדינות, ערים ושדות תעופה.'}}"/>
-  <meta name="google-adsense-account" content="ca-pub-7964221655161384">
-  <title>{{
-  'TLV → All Direct Destinations Worldwide'
-  if lang != 'he' else
-  'כל היעדים הישירים מנתב״ג (TLV) — Fly TLV'}}</title>
+  <meta
+    name="description"
+    content="{{
+      'Explore all direct destinations from Tel Aviv (TLV) worldwide — countries, cities, and airports you can reach directly.'
+      if lang != 'he' else
+      'גלה את כל היעדים הישירים מנתב״ג (TLV) ברחבי העולם — מדינות, ערים ושדות תעופה.'
+    }}"
+  />
+  <meta name="google-adsense-account" content="ca-pub-7964221655161384" />
+  <title>
+    {{
+      'TLV → All Direct Destinations Worldwide'
+      if lang != 'he' else
+      'כל היעדים הישירים מנתב״ג (TLV) — Fly TLV'
+    }}
+  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="/static/favicon.ico">
+  <link rel="icon" href="/static/favicon.ico" />
+
   <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">
-  (function () {
+    (function () {
       var script = document.createElement("script");
       script.async = 1;
       script.src = 'https://emrldco.com/NDYxNTYz.js?t=461563';
       document.head.appendChild(script);
-  })();
-</script>
+    })();
+  </script>
+
   <!-- Robots -->
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
   <!-- Canonical per variant -->
-  <link rel="canonical" href="https://fly-tlv.com{{ '/?lang=he' if lang == 'he' else '/' }}">
+  <link
+    rel="canonical"
+    href="https://fly-tlv.com{{ '/?lang=he' if lang == 'he' else '/' }}"
+  />
 
   <!-- Hreflang alternates -->
-  <link rel="alternate" href="https://fly-tlv.com/" hreflang="en">
-  <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he">
-  <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default">
+  <link rel="alternate" href="https://fly-tlv.com/" hreflang="en" />
+  <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he" />
+  <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fly-tlv.com/{{ '' if lang != 'he' else '?lang=he' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
-  <meta property="og:title" content="{{
-  'Tel Aviv (TLV) — Explore All Direct Destinations Worldwide'
-  if lang != 'he' else
-  'תל אביב (TLV) — כל היעדים הישירים ברחבי העולם'}}" />
-  
-  <meta property="og:description" content="{{
-  'Discover every city and country reachable directly from Tel Aviv (TLV). Browse the full world destinations map.'
-  if lang != 'he' else
-  'כל הערים והמדינות אליהן ניתן להגיע בטיסות ישירות מתל אביב (TLV). גלו את כל היעדים במפה אינטראקטיבית.'}}" />
-
+  <meta
+    property="og:title"
+    content="{{
+      'Tel Aviv (TLV) — Explore All Direct Destinations Worldwide'
+      if lang != 'he' else
+      'תל אביב (TLV) — כל היעדים הישירים ברחבי העולם'
+    }}"
+  />
+  <meta
+    property="og:description"
+    content="{{
+      'Discover every city and country reachable directly from Tel Aviv (TLV). Browse the full world destinations map.'
+      if lang != 'he' else
+      'כל הערים והמדינות אליהן ניתן להגיע בטיסות ישירות מתל אביב (TLV). גלו את כל היעדים במפה אינטראקטיבית.'
+    }}"
+  />
   <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="{{ 'World destinations map from Tel Aviv' if lang != 'he' else 'מפת יעדים מנתב״ג לכל העולם' }}" />
+  <meta
+    property="og:image:alt"
+    content="{{ 'World destinations map from Tel Aviv' if lang != 'he' else 'מפת יעדים מנתב״ג לכל העולם' }}"
+  />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{
-  'All Direct Destinations from Tel Aviv (TLV)'
-  if lang != 'he' else
-  'כל היעדים הישירים מנתב״ג (TLV)'}}" />
-  
-  <meta name="twitter:description" content="{{
-  'Explore every destination worldwide you can reach directly from Tel Aviv (TLV).'
-  if lang != 'he' else
-  'גלו את כל היעדים בעולם אליהם ניתן להגיע ישירות מתל אביב (TLV).'}}" />
-  
+  <meta
+    name="twitter:title"
+    content="{{
+      'All Direct Destinations from Tel Aviv (TLV)'
+      if lang != 'he' else
+      'כל היעדים הישירים מנתב״ג (TLV)'
+    }}"
+  />
+  <meta
+    name="twitter:description"
+    content="{{
+      'Explore every destination worldwide you can reach directly from Tel Aviv (TLV).'
+      if lang != 'he' else
+      'גלו את כל היעדים בעולם אליהם ניתן להגיע ישירות מתל אביב (TLV).'
+    }}"
+  />
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
-  <meta name="twitter:image:alt" content="{{ 'Destinations map from Tel Aviv' if lang != 'he' else 'מפת יעדים מנתב״ג' }}" />
+  <meta
+    name="twitter:image:alt"
+    content="{{ 'Destinations map from Tel Aviv' if lang != 'he' else 'מפת יעדים מנתב״ג' }}"
+  />
 
-  <!-- Link sitemap for crawlers -->
+  <!-- Sitemap -->
   <link rel="sitemap" type="application/xml" href="https://fly-tlv.com/sitemap.xml" />
-  
-<!-- Bootswatch (default light) -->
-<link id="bs-theme-link" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Stylesheets & CSS dependencies -->
+  <link
+    id="bs-theme-link"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css"
+  />
+  <link rel="stylesheet" href="/static/css/app.css" />
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DDRQRYCYFF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- JavaScript Dependencies -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DDRQRYCYFF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-DDRQRYCYFF');
+  </script>
 
-  gtag('config', 'G-DDRQRYCYFF');
-</script>
+  <!-- DataTables JS + extensions -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<!-- DataTables + Bootstrap5 integration (CSS) -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css">
+  <!-- Export & Buttons dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
-<!-- Core DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <!-- DataTables Buttons, Responsive, FixedHeader -->
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/fixedHeader.bootstrap5.min.js"></script>
 
-<!-- ✅ Export deps must load BEFORE buttons.html5 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <!-- Bootstrap bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- DataTables Extensions -->
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/fixedHeader.bootstrap5.min.js"></script>
+  <!-- Ads script -->
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"
+    crossorigin="anonymous"
+  ></script>
 
-<!-- Bootstrap bundle (for modal/offcanvas/toasts) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Your custom CSS -->
-<link rel="stylesheet" href="/static/css/app.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"crossorigin="anonymous"></script>
-<script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fly TLV — Worldwide Destinations Explorer",
-    "url": "https://fly-tlv.com/",
-    "inLanguage": "en-US",
-    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fly TLV — כל היעדים מתל אביב",
-    "url": "https://fly-tlv.com/?lang=he",
-    "inLanguage": "he-IL",
-    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Destinations Board",
-    "url": "https://fly-tlv.com/destinations"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "לוח יעדים",
-    "url": "https://fly-tlv.com/destinations?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "World Map",
-    "url": "https://fly-tlv.com/map"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "מפת יעדים",
-    "url": "https://fly-tlv.com/map?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Travel Warnings",
-    "url": "https://fly-tlv.com/travel-warnings"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "אזהרות מסע",
-    "url": "https://fly-tlv.com/travel-warnings?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Chat",
-    "url": "https://fly-tlv.com/chat"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "צ׳אט",
-    "url": "https://fly-tlv.com/chat?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "About",
-    "url": "https://fly-tlv.com/about"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "עלינו",
-    "url": "https://fly-tlv.com/about?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Privacy Policy",
-    "url": "https://fly-tlv.com/privacy"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "מדיניות פרטיות",
-    "url": "https://fly-tlv.com/privacy?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Contact",
-    "url": "https://fly-tlv.com/contact"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "צור קשר",
-    "url": "https://fly-tlv.com/contact?lang=he"
-  },
-
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Sitemap",
-    "url": "https://fly-tlv.com/sitemap.xml"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "מפת אתר",
-    "url": "https://fly-tlv.com/sitemap.xml?lang=he"
-  }
-]
-</script>
-
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Fly TLV — Worldwide Destinations Explorer",
+      "url": "https://fly-tlv.com/",
+      "inLanguage": "en-US",
+      "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Fly TLV — כל היעדים מתל אביב",
+      "url": "https://fly-tlv.com/?lang=he",
+      "inLanguage": "he-IL",
+      "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Destinations Board",
+      "url": "https://fly-tlv.com/destinations"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "לוח יעדים",
+      "url": "https://fly-tlv.com/destinations?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "World Map",
+      "url": "https://fly-tlv.com/map"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "מפת יעדים",
+      "url": "https://fly-tlv.com/map?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Travel Warnings",
+      "url": "https://fly-tlv.com/travel-warnings"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "אזהרות מסע",
+      "url": "https://fly-tlv.com/travel-warnings?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Chat",
+      "url": "https://fly-tlv.com/chat"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "צ׳אט",
+      "url": "https://fly-tlv.com/chat?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "About",
+      "url": "https://fly-tlv.com/about"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "עלינו",
+      "url": "https://fly-tlv.com/about?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Privacy Policy",
+      "url": "https://fly-tlv.com/privacy"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "מדיניות פרטיות",
+      "url": "https://fly-tlv.com/privacy?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Contact",
+      "url": "https://fly-tlv.com/contact"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "צור קשר",
+      "url": "https://fly-tlv.com/contact?lang=he"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Sitemap",
+      "url": "https://fly-tlv.com/sitemap.xml"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "מפת אתר",
+      "url": "https://fly-tlv.com/sitemap.xml?lang=he"
+    }
+  ]
+  </script>
 </head>
+
 <body>
   <!-- Top Nav -->
   <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
     <div class="container-fluid">
       <a id="brand-title" class="navbar-brand d-flex align-items-center" href="/">
-        <i class="bi bi-airplane-engines me-2"></i>TLV → Worldwide Destinations</a>
+        <i class="bi bi-airplane-engines me-2"></i>TLV → Worldwide Destinations
+      </a>
 
       <div class="d-flex align-items-center gap-2 ms-auto">
-        <!-- View Map -->
         <button id="view-map-btn" class="btn btn-outline-primary">
           <i class="bi bi-globe-americas me-1"></i> View Map
         </button>
-
-		<!-- AI Chat Button -->
-		<button id="ai-chat-btn" class="btn btn-outline-primary" type="button">
-		  <i class="bi bi-robot me-1"></i> Ask AI
-		</button>
-        <!-- Theme toggle -->
+        <button id="ai-chat-btn" class="btn btn-outline-primary" type="button">
+          <i class="bi bi-robot me-1"></i> Ask AI
+        </button>
         <button id="theme-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle theme">
           <i id="theme-icon" class="bi bi-moon-stars me-1"></i> Theme
         </button>
-
-        <!-- Language toggle -->
         <button id="lang-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle language">
           <i class="bi bi-translate me-1"></i> <span id="lang-label">עברית</span>
         </button>
       </div>
     </div>
   </nav>
-<!-- Travelpayouts Kiwi Banner -->
-<div class="card mt-3 shadow-sm" aria-label="Advertisement">
-  <div class="card-header small text-muted fw-semibold">
-    <i class="bi bi-airplane-engines me-1 text-primary"></i>Holiday Time
-  </div>
-  <div class="card-body text-center">
-    <script async src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_banner&locale=en&stops=any&show_hotels=true&powered_by=true&border_radius=30&plain=true&color_button=%232563eb&color_button_text=%23ffffff&promo_id=3414&campaign_id=111" charset="utf-8"></script>
-  </div>
-</div>
 
-  <!-- Body -->
-<main class="container-fluid px-2 px-md-3 mt-2 mb-3">
-  <div class="row g-3 align-items-start stretch-content">
-
-<!-- Filters Column -->
-<div class="col-lg-3 filters-col">
-  <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="filtersCanvas">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="filters-title">
-        <i class="bi bi-sliders me-2"></i> Filters
-      </h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#filtersCanvas"></button>
+  <!-- Kiwi / Travelpayouts Banner -->
+  <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+    <div class="card-header small text-muted fw-semibold">
+      <i class="bi bi-airplane-engines me-1 text-primary"></i>Holiday Time
     </div>
+    <div class="card-body text-center">
+      <script
+        async
+        src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_banner&locale=en&stops=any&show_hotels=true&powered_by=true&border_radius=30&plain=true&color_button=%232563eb&color_button_text=%23ffffff&promo_id=3414&campaign_id=111"
+        charset="utf-8"
+      ></script>
+    </div>
+  </div>
 
-    <div class="offcanvas-body p-0">
-      <div class="d-flex flex-column gap-3">
+  <main class="container-fluid px-2 px-md-3 mt-2 mb-3">
+    <div class="row g-3 align-items-start stretch-content">
+      <!-- Filters Column -->
+      <div class="col-lg-3 filters-col">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="filtersCanvas">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="filters-title">
+              <i class="bi bi-sliders me-2"></i> Filters
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              data-bs-target="#filtersCanvas"
+            ></button>
+          </div>
+          <div class="offcanvas-body p-0">
+            <div class="d-flex flex-column gap-3">
+              <div class="card shadow-sm" style="margin-top: 0;">
+                <div class="card-header fw-semibold">Search & Filter</div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label for="country-filter" class="form-label">Country</label>
+                    <select id="country-filter" class="form-select">
+                      {% for c in countries %}
+                        <option value="{{ c }}">{{ c }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="mb-3 mt-3">
+                    <label for="query-filter" class="form-label">Search</label>
+                    <input
+                      type="text"
+                      id="query-filter"
+                      class="form-control"
+                      placeholder="Search airport, city, country"
+                    />
+                  </div>
+                  <div class="border-top pt-3 mt-3 d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
+                      <i class="bi bi-x-circle me-1"></i> Clear
+                    </button>
+                    <span class="ms-auto text-muted small" id="active-filters">
+                      No filters
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-        <!-- Search & Filter Card -->
-        <div class="card shadow-sm" style="margin-top: 0;">
-          <div class="card-header fw-semibold">Search & Filter</div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label for="country-filter" class="form-label">Country</label>
-              <select id="country-filter" class="form-select">
-                {% for c in countries %}
-                  <option value="{{ c }}">{{ c }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="query-filter" class="form-label">Search</label>
-              <input type="text" id="query-filter" class="form-control" placeholder="Search airport, city, country">
-            </div>
-            <div class="border-top pt-3 mt-3 d-flex gap-2">
-              <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
-                <i class="bi bi-x-circle me-1"></i> Clear
-              </button>
-              <span class="ms-auto text-muted small" id="active-filters">No filters</span>
+              <!-- Ad / Sponsored Cards -->
+              <div class="card mt-3 shadow-sm" aria-label="Advertisement" style="max-width: 100%;">
+                <div class="card-header small text-muted fw-semibold">
+                  <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Cancelled or Delayed?
+                </div>
+                <div
+                  class="card-body text-center p-0"
+                  style="overflow: hidden; max-height: 950px;"
+                >
+                  <div style="overflow: hidden; max-height: 950px;">
+                    <script
+                      async
+                      src="https://tpembd.com/content?trs=461563&shmarker=674907.airhelp_left_2&locale=en&width=100&powered_by=true&campaign_id=86&promo_id=2110"
+                      charset="utf-8"
+                    ></script>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card shadow-sm d-none d-lg-block" aria-label="Advertisement">
+                <div class="card-header small text-muted fw-semibold">
+                  <i class="bi bi-bullseye me-1 text-primary"></i> Sponsored
+                </div>
+                <div class="card-body text-center" id="ad-slot-1374247994"></div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <!-- Sponsored Ad 1 -->
-        <div class="card shadow-sm d-none d-lg-block" aria-label="Advertisement">
-          <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-bullseye me-1 text-primary"></i> Sponsored
-          </div>
-          <div class="card-body text-center" id="ad-slot-6530920497"></div>
-        </div>
-        <!-- Sponsored Ad 2 -->
-        <div class="card shadow-sm d-none d-lg-block" aria-label="Advertisement">
-          <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-bullseye me-1 text-primary"></i> Sponsored
-          </div>
-          <div class="card-body text-center" id="ad-slot-1374247994"></div>
-        </div>
-      </div> <!-- /d-flex -->
-    </div> <!-- /offcanvas-body -->
-  </div> <!-- /offcanvas -->
-</div>
-
-
-    <!-- Table & Main Content -->
-    <div class="col-lg-9">
-      <!-- Table Card -->
-      <div class="card shadow-sm">
-        <div class="card-header">
-          <div class="row g-2 align-items-center">
-            <div class="col-12 col-md text-md-start text-center">
-              <strong>✈️ TLV → Worldwide Destinations</strong>
-              <div class="small text-muted">Real routes, distances and estimated flight times</div>
-            </div>
-            <div class="col-12 col-md-auto text-md-end text-center">
-              <span class="last-update-badge d-block d-md-inline-block mt-1 mt-md-0">
-                <i class="bi bi-clock-history"></i>
-                Last update: <strong>{{ last_update }}</strong>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile Inline Filters -->
-        <div class="card shadow-sm mb-3 d-lg-none">
-          <div class="card-header fw-semibold">Search & Filter</div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label for="country-filter-mobile" class="form-label">Country</label>
-              <select id="country-filter-mobile" class="form-select">
-                {% for c in countries %}
-                  <option value="{{ c }}">{{ c }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="query-filter-mobile" class="form-label">Search</label>
-              <input type="text" id="query-filter-mobile" class="form-control" placeholder="Search airport, city, country">
-            </div>
-            <div class="border-top pt-3 mt-3 d-flex gap-2">
-              <button class="btn btn-sm btn-outline-secondary" id="clear-filters-mobile">
-                <i class="bi bi-x-circle me-1"></i> Clear
-              </button>
-              <span class="ms-auto text-muted small" id="active-filters-mobile">No filters</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Table -->
-        <div class="card-body">
-          <table id="airports-table" class="table table-striped table-hover w-100 align-middle">
-            <thead class="table-primary">
-              <tr>
-                <th>IATA</th>
-                <th>Name</th>
-                <th>City</th>
-                <th>Country</th>
-                <th>Airlines</th>
-                <th>Distance</th>
-                <th>Flight Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for ap in airports %}
-              <tr>
-                <td>{{ ap.IATA }}</td>
-				<td><a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold">{{ ap.Name }}</a></td>
-                <td>{{ ap.City }}</td>
-                <td>{{ ap.Country }}</td>
-                <td class="airline-cell">
-                  {% if ap.Airlines and ap.Airlines[0] != "—" %}
-                    {% for airline in ap.Airlines %}
-                      {% set airline_name = airline.strip().title() %}
-                      {% set website = AIRLINE_WEBSITES.get(airline_name) %}
-                      {% if website %}
-                        <a href="{{ website }}" target="_blank" rel="noopener"
-                           class="airline-chip text-decoration-none"
-                           title="Visit {{ airline_name | e }} website">
-                          {{ airline_name }}
-                          <i class="bi bi-box-arrow-up-right ms-1" style="font-size:0.85em;"></i>
-                        </a>
-                      {% else %}
-                        <a href="https://www.google.com/search?q={{ airline_name | urlencode }}"
-                           target="_blank" rel="noopener"
-                           class="airline-chip text-decoration-none"
-                           title="Search for {{ airline_name | e }} on Google">
-                          {{ airline_name }}
-                          <i class="bi bi-search ms-1" style="font-size:0.85em;"></i>
-                        </a>
-                      {% endif %}
-                    {% endfor %}
-                  {% else %} — {% endif %}
-                </td>
-                <td>{{ ap.Distance_km if ap.Distance_km else "—" }} Kilometer</td>
-                <td>{{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }} Hours</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
         </div>
       </div>
-	<!-- Ad below Table -->
-	<div class="card mt-3 shadow-sm" aria-label="Advertisement">
-	  <div class="card-header small text-muted fw-semibold">
-		<i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Deals
-	  </div>
-	  <div class="card-body text-center p-0">
-		<script async src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111" charset="utf-8"></script>
-	  </div>
-	</div>
-	<!-- Additional Flight Ad -->
-	<div class="card mt-3 shadow-sm" aria-label="Advertisement">
-	  <div class="card-header small text-muted fw-semibold">
-		<i class="bi bi-airplane me-1 text-primary"></i>Need an ESIM?
-	  </div>
-	  <div class="card-body text-center p-0">
-		<script async src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541" charset="utf-8"></script>
-	  </div>
-	</div>
-		<!-- AirHelp Sponsored Ad -->
-	<div class="card mt-3 shadow-sm" aria-label="Flight Cancelled or Delayed?">
-	  <div class="card-header small text-muted fw-semibold">
-		<i class="bi bi-airplane-engines me-1 text-primary"></i>Flight Cancelled or Delayed?
-	  </div>
-	  <div class="card-body text-center">
-		<script async src="https://tpembd.com/content?trs=461563&shmarker=674907.airhelp_left_1&lang=en&powered_by=true&campaign_id=120&promo_id=8679" charset="utf-8"></script>
-	  </div>
-	</div>
 
-<!-- 🔗 Share Section -->
-<div class="container text-center my-4">
-  <h5 class="fw-bold mb-3">
-    Share With Everyone
-  </h5>
-  <div class="d-flex justify-content-center gap-3 flex-wrap">
-    <!-- WhatsApp -->
-    <a href="https://wa.me/?text=Check%20out%20this%20destination%20from%20Tel%20Aviv!%20https://fly-tlv.com"
-       target="_blank"
-       class="btn btn-success d-flex align-items-center gap-2">
-      <i class="bi bi-whatsapp"></i> SEND
-    </a>
+      <!-- Main Content / Table -->
+      <div class="col-lg-9">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <div class="row g-2 align-items-center">
+              <div class="col-12 col-md text-md-start text-center">
+                <strong>✈️ TLV → Worldwide Destinations</strong>
+                <div class="small text-muted">Real routes, distances and estimated flight times</div>
+              </div>
+              <div class="col-12 col-md-auto text-md-end text-center">
+                <span class="last-update-badge d-block d-md-inline-block mt-1 mt-md-0">
+                  <i class="bi bi-clock-history"></i>
+                  Last update: <strong>{{ last_update }}</strong>
+                </span>
+              </div>
+            </div>
+          </div>
 
-    <!-- Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://fly-tlv.com"
-       target="_blank"
-       class="btn btn-primary d-flex align-items-center gap-2"
-       style="background-color:#3b5998; border:none;">
-      <i class="bi bi-facebook"></i> SHARE
-    </a>
+          <!-- Mobile Inline Filters -->
+          <div class="card shadow-sm mb-3 d-lg-none">
+            <div class="card-header fw-semibold">Search & Filter</div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="country-filter-mobile" class="form-label">Country</label>
+                <select id="country-filter-mobile" class="form-select">
+                  {% for c in countries %}
+                    <option value="{{ c }}">{{ c }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="query-filter-mobile" class="form-label">Search</label>
+                <input
+                  type="text"
+                  id="query-filter-mobile"
+                  class="form-control"
+                  placeholder="Search airport, city, country"
+                />
+              </div>
+              <div class="border-top pt-3 mt-3 d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary" id="clear-filters-mobile">
+                  <i class="bi bi-x-circle me-1"></i> Clear
+                </button>
+                <span class="ms-auto text-muted small" id="active-filters-mobile">
+                  No filters
+                </span>
+              </div>
+            </div>
+          </div>
 
-    <!-- Twitter/X -->
-    <a href="https://twitter.com/intent/tweet?url=https://fly-tlv.com&text=Check%20out%20this%20destination%20from%20Tel%20Aviv!"
-       target="_blank"
-       class="btn btn-info d-flex align-items-center gap-2"
-       style="background-color:#1DA1F2; border:none;">
-      <i class="bi bi-twitter"></i> TWEET
-    </a>
-  </div>
-</div>
-</div> <!-- /col -->
-</div> <!-- /row -->
-</main>
+          <!-- Table -->
+          <div class="card-body">
+            <table
+              id="airports-table"
+              class="table table-striped table-hover w-100 align-middle"
+            >
+              <thead class="table-primary">
+                <tr>
+                  <th>IATA</th>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Country</th>
+                  <th>Airlines</th>
+                  <th>Distance</th>
+                  <th>Flight Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ap in airports %}
+                <tr>
+                  <td>{{ ap.IATA }}</td>
+                  <td>
+                    <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold">
+                      {{ ap.Name }}
+                    </a>
+                  </td>
+                  <td>{{ ap.City }}</td>
+                  <td>{{ ap.Country }}</td>
+                  <td class="airline-cell">
+                    {% if ap.Airlines and ap.Airlines[0] != "—" %}
+                      {% for airline in ap.Airlines %}
+                        {% set airline_name = airline.strip().title() %}
+                        {% set website = AIRLINE_WEBSITES.get(airline_name) %}
+                        {% if website %}
+                          <a
+                            href="{{ website }}"
+                            target="_blank"
+                            rel="noopener"
+                            class="airline-chip text-decoration-none"
+                            title="Visit {{ airline_name | e }} website"
+                          >
+                            {{ airline_name }}
+                            <i class="bi bi-box-arrow-up-right ms-1" style="font-size:0.85em;"></i>
+                          </a>
+                        {% else %}
+                          <a
+                            href="https://www.google.com/search?q={{ airline_name | urlencode }}"
+                            target="_blank"
+                            rel="noopener"
+                            class="airline-chip text-decoration-none"
+                            title="Search for {{ airline_name | e }} on Google"
+                          >
+                            {{ airline_name }}
+                            <i class="bi bi-search ms-1" style="font-size:0.85em;"></i>
+                          </a>
+                        {% endif %}
+                      {% endfor %}
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+                  <td>{{ ap.Distance_km if ap.Distance_km else "—" }} Kilometer</td>
+                  <td>{{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }} Hours</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ads Under Table -->
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Deals
+          </div>
+          <div class="card-body text-center p-0">
+            <script
+              async
+              src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane me-1 text-primary"></i>Need an ESIM?
+          </div>
+          <div class="card-body text-center p=0">
+            <script
+              async
+              src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <div class="card mt-3 shadow-sm" aria-label="Flight Cancelled or Delayed?">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane-engines me-1 text-primary"></i>Flight Cancelled or Delayed?
+          </div>
+          <div class="card-body text-center">
+            <script
+              async
+              src="https://tpembd.com/content?trs=461563&shmarker=674907.airhelp_left_1&lang=en&powered_by=true&campaign_id=120&promo_id=8679"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <!-- Share / Social Buttons -->
+        <div class="container text-center my-4">
+          <h5 class="fw-bold mb-3">Share With Everyone</h5>
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a
+              href="https://wa.me/?text=Check%20out%20this%20destination%20from%20Tel%20Aviv!%20https://fly-tlv.com"
+              target="_blank"
+              class="btn btn-success d-flex align-items-center gap-2"
+            >
+              <i class="bi bi-whatsapp"></i> SEND
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=https://fly-tlv.com"
+              target="_blank"
+              class="btn btn-primary d-flex align-items-center gap-2"
+              style="background-color:#3b5998; border:none;"
+            >
+              <i class="bi bi-facebook"></i> SHARE
+            </a>
+            <a
+              href="https://twitter.com/intent/tweet?url=https://fly-tlv.com&text=Check%20out%20this%20destination%20from%20Tel%20Aviv!"
+              target="_blank"
+              class="btn btn-info d-flex align-items-center gap-2"
+              style="background-color:#1DA1F2; border:none;"
+            >
+              <i class="bi bi-twitter"></i> TWEET
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <!-- Map Modal -->
-<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl" style="max-width:95%">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="bi bi-map me-2"></i>
-          <span id="map-title">Flight Map</span>
-        </h5>
-        <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href='/'"></button>
-      </div>
-      <div class="modal-body" style="height:80vh;overflow:hidden;padding:0">
-        <iframe id="map-frame" src="/map" width="100%" height="100%" frameborder="0"></iframe>
+  <div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width:95%">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-map me-2"></i>
+            <span id="map-title">Flight Map</span>
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            onclick="window.location.href='/'"
+          ></button>
+        </div>
+        <div
+          class="modal-body"
+          style="height:80vh; overflow:hidden; padding:0"
+        >
+          <iframe
+            id="map-frame"
+            src="/map"
+            width="100%"
+            height="100%"
+            frameborder="0"
+          ></iframe>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <!-- Toasts -->
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index:2100">
-    <div id="app-toast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div
+      id="app-toast"
+      class="toast align-items-center text-bg-dark border-0"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
       <div class="d-flex">
         <div class="toast-body" id="toast-text">Done.</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        <button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          data-bs-dismiss="toast"
+        ></button>
       </div>
     </div>
   </div>
 
-
-<footer class="mt-5 border-top">
-  <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
-    <div class="mb-3 mb-md-0">
-      <div class="d-flex align-items-center">
-        <i class="bi bi-airplane-engines text-primary me-2 fs-5"></i>
-        <span id="footer-brand" class="fw-semibold">TLV → Worldwide Destinations Explorer</span>
+  <footer class="mt-5 border-top">
+    <div
+      class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between"
+    >
+      <div class="mb-3 mb-md-0">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-airplane-engines text-primary me-2 fs-5"></i>
+          <span id="footer-brand" class="fw-semibold">
+            TLV → Worldwide Destinations Explorer
+          </span>
+        </div>
+        <div id="footer-tagline" class="small text-muted mt-1">
+          Real routes, distances & estimated flight times.
+        </div>
       </div>
-      <div id="footer-tagline" class="small text-muted mt-1">
-        Real routes, distances & estimated flight times.
+
+      <nav class="small mb-3 mb-md-0" aria-label="Footer navigation">
+        <a
+          id="footer-link-about"
+          class="text-decoration-none me-3 text-muted"
+          href="/about"
+          title="{{ 'Learn more about this project' if lang == 'en' else 'מידע נוסף על האתר' }}"
+        >
+          {{ "About" if lang == "en" else "עלינו" }}
+        </a>
+        <a
+          id="footer-link-accessibility"
+          class="text-decoration-none me-3 text-muted"
+          href="/accessibility"
+          title="{{ 'Accessibility statement' if lang == 'en' else 'הצהרת נגישות' }}"
+        >
+          {{ "Accessibility" if lang == "en" else "נגישות" }}
+        </a>
+        <a
+          id="footer-link-privacy"
+          class="text-decoration-none me-3 text-muted"
+          href="/privacy"
+          title="{{ 'Read our privacy policy' if lang == 'en' else 'מדיניות פרטיות' }}"
+        >
+          {{ "Privacy" if lang == "en" else "פרטיות" }}
+        </a>
+        <a
+          id="footer-link-contact"
+          class="text-decoration-none me-3 text-muted"
+          href="/contact"
+          title="{{ 'Get in touch with us' if lang == 'en' else 'צור קשר עם התמיכה' }}"
+        >
+          {{ "Contact" if lang == "en" else "צור קשר" }}
+        </a>
+        <a
+          id="footer-link-chat"
+          class="text-decoration-none me-3 text-muted"
+          href="/chat"
+          title="{{ 'Chat with our AI Bot' if lang == 'en' else 'שוחח עם הבוט שלנו' }}"
+        >
+          {{ "AI Bot" if lang == "en" else "בוט AI" }}
+        </a>
+        <a
+          id="footer-link-flights"
+          class="text-decoration-none me-3 text-muted"
+          href="/flights"
+          title="{{ 'Live flight status from Ben Gurion Airport' if lang == 'en' else 'סטטוס טיסות מנתב\"ג' }}"
+        >
+          {{ "Flights" if lang == "en" else "טיסות" }}
+        </a>
+        <a
+          id="footer-link-travel-warnings"
+          class="text-decoration-none me-3 text-muted"
+          href="/travel-warnings"
+          title="{{ 'Travel warnings & advisories' if lang == 'en' else 'אזהרות מסע ועדכונים' }}"
+        >
+          {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
+        </a>
+        <a
+          id="footer-link-map"
+          class="text-decoration-none me-3 text-muted"
+          href="/map"
+          title="{{ 'Explore the destinations map' if lang == 'en' else 'צפה במפת היעדים' }}"
+        >
+          {{ "Map" if lang == "en" else "מפה" }}
+        </a>
+        <a
+          id="footer-link-sitemap"
+          class="text-decoration-none text-muted"
+          href="/sitemap.xml"
+          title="{{ 'View website sitemap' if lang == 'en' else 'צפה במפת האתר' }}"
+          rel="sitemap"
+        >
+          {{ "Sitemap" if lang == "en" else "מפת האתר" }}
+        </a>
+      </nav>
+    </div>
+    <div class="footer-bottom py-2">
+      <div class="container small text-center text-muted">
+        <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
+          ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
+          Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
+        </p>
+        <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
+          ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
+          יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
+        </p>
+        © <span id="footer-year"></span> 
+        <span id="footer-brand-inline">TLV → Worldwide Destinations Explorer</span>.
+        <span id="footer-rights">All rights reserved.</span>
       </div>
     </div>
+  </footer>
 
-<nav class="small mb-3 mb-md-0" aria-label="Footer navigation">
-  <a id="footer-link-about"
-     class="text-decoration-none me-3 text-muted"
-     href="/about"
-     title="{{ 'Learn more about this project' if lang == 'en' else 'מידע נוסף על האתר' }}">
-    {{ "About" if lang == "en" else "עלינו" }}
-  </a>
-  <a id="footer-link-accessibility"
-     class="text-decoration-none me-3 text-muted"
-     href="/accessibility"
-     title="{{ 'Accessibility statement' if lang == 'en' else 'הצהרת נגישות' }}">
-    {{ "Accessibility" if lang == "en" else "נגישות" }}
-  </a>
-  <a id="footer-link-privacy"
-     class="text-decoration-none me-3 text-muted"
-     href="/privacy"
-     title="{{ 'Read our privacy policy' if lang == 'en' else 'מדיניות פרטיות' }}">
-    {{ "Privacy" if lang == "en" else "פרטיות" }}
-  </a>
-  <a id="footer-link-contact"
-     class="text-decoration-none me-3 text-muted"
-     href="/contact"
-     title="{{ 'Get in touch with us' if lang == 'en' else 'צור קשר עם התמיכה' }}">
-    {{ "Contact" if lang == "en" else "צור קשר" }}
-  </a>
-  <a id="footer-link-chat"
-     class="text-decoration-none me-3 text-muted"
-     href="/chat"
-     title="{{ 'Chat with our AI Bot' if lang == 'en' else 'שוחח עם הבוט שלנו' }}">
-    {{ "AI Bot" if lang == "en" else "בוט AI" }}
-  </a>
-  <a id="footer-link-flights"
-     class="text-decoration-none me-3 text-muted"
-     href="/flights"
-     title="{{ 'Live flight status from Ben Gurion Airport' if lang == 'en' else 'סטטוס טיסות מנתב\"ג' }}">
-    {{ "Flights" if lang == "en" else "טיסות" }}
-  </a>
-  <a id="footer-link-travel-warnings"
-     class="text-decoration-none me-3 text-muted"
-     href="/travel-warnings"
-     title="{{ 'Travel warnings & advisories' if lang == 'en' else 'אזהרות מסע ועדכונים' }}">
-    {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
-  </a>
-  <a id="footer-link-map"
-     class="text-decoration-none me-3 text-muted"
-     href="/map"
-     title="{{ 'Explore the destinations map' if lang == 'en' else 'צפה במפת היעדים' }}">
-    {{ "Map" if lang == "en" else "מפה" }}
-  </a>
-  <a id="footer-link-sitemap"
-     class="text-decoration-none text-muted"
-     href="/sitemap.xml"
-     title="{{ 'View website sitemap' if lang == 'en' else 'צפה במפת האתר' }}"
-     rel="sitemap">
-    {{ "Sitemap" if lang == "en" else "מפת האתר" }}
-  </a>
-</nav>
-  </div>
-
-<div class="footer-bottom py-2">
-  <div class="container small text-center text-muted">
-    <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
-      ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.  
-      Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
-    </p>
-    <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
-      ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.  
-      יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
-    </p>
-    © <span id="footer-year"></span> 
-    <span id="footer-brand-inline">TLV → Worldwide Destinations Explorer</span>. 
-    <span id="footer-rights">All rights reserved.</span>
-  </div>
-</div>
-</footer>
-<script src="/static/js/lang.js"></script>
-<script src="/static/js/app.js"></script>
-<script src="/static/js/ads-and-modal.js"></script>
+  <script src="/static/js/lang.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/ads-and-modal.js"></script>
 </body>
 </html>
