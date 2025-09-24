@@ -334,6 +334,7 @@ table.dataTable > tbody > tr.child ul.dtr-details {
   list-style: none;
   background: rgba(124,58,237,.05); /* violet hint */
   border-left: 3px solid #7c3aed;
+  border-right: 3px solid #7c3aed;
   border-radius: .5rem;
 }
 
