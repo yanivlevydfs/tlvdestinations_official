@@ -742,21 +742,28 @@
         </a>
       </nav>
     </div>
-    <div class="footer-bottom py-2">
-      <div class="container small text-center text-muted">
-        <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
-          ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
-          Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
-        </p>
-        <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
-          ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
-          יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
-        </p>
-        © <span id="footer-year"></span> 
-        <span id="footer-brand-inline">TLV → Worldwide Destinations Explorer</span>.
-        <span id="footer-rights">All rights reserved.</span>
-      </div>
-    </div>
+<div class="footer-bottom py-2">
+  <div class="container small text-center text-muted">
+    <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
+      {% if lang == "he" %}
+        ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
+        יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
+      {% else %}
+        ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
+        Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
+      {% endif %}
+    </p>
+
+    © <span id="footer-year"></span> 
+    <span id="footer-brand-inline">
+      {{ "TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
+    </span>.
+    <span id="footer-rights">
+      {{ "All rights reserved." if lang != "he" else "כל הזכויות שמורות." }}
+    </span>
+  </div>
+</div>
+
   </footer>
 
   <script src="/static/js/lang.js"></script>
