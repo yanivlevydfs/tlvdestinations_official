@@ -1483,3 +1483,17 @@ async def receive_feedback(payload: dict):
     score = payload.get("score")
     feedback_logger.info(f"{score} | {question}")
     return {"status": "ok"}
+    
+@app.get("/sw.js")
+async def remove_sw():
+    # Tell the browser "there’s no service worker here"
+    js = """
+    self.addEventListener("install", () => self.skipWaiting());
+    self.addEventListener("activate", (event) => {
+        event.waitUntil(
+            caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
+        );
+        self.registration.unregister();
+    });
+    """
+    return Response(content=js, media_type="application/javascript")
