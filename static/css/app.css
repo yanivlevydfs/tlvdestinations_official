@@ -570,3 +570,59 @@ table.dataTable > tbody > tr.child td.child {
   border-bottom: none !important;
   box-shadow: none !important;
 }
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center; /* center for small screens */
+}
+
+.footer-link {
+  color: #6c757d; /* muted gray */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s, text-decoration 0.2s;
+  padding: 0.2rem 0.4rem;
+}
+
+.footer-link:hover,
+.footer-link:focus {
+  color: #2563eb; /* brand blue */
+  text-decoration: underline;
+}
+
+.separator {
+  color: #adb5bd;
+  margin: 0 0.3rem;
+}
+
+/* ✅ Mobile: stack vertically, hide separators */
+@media (max-width: 768px) {
+  .footer-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .footer-link {
+    display: block;
+    font-size: 0.95rem;
+    padding: 0.3rem 0;
+  }
+}
+
+/* ✅ Dark Mode */
+body.dark-mode .footer-link {
+  color: #bbb;
+}
+body.dark-mode .footer-link:hover {
+  color: #90c2ff;
+}
+body.dark-mode .separator {
+  color: #666;
+}

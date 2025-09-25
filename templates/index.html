@@ -666,81 +666,44 @@
         </div>
       </div>
 
-      <nav class="small mb-3 mb-md-0" aria-label="Footer navigation">
-        <a
-          id="footer-link-about"
-          class="text-decoration-none me-3 text-muted"
-          href="/about"
-          title="{{ 'Learn more about this project' if lang == 'en' else 'מידע נוסף על האתר' }}"
-        >
-          {{ "About" if lang == "en" else "עלינו" }}
-        </a>
-        <a
-          id="footer-link-accessibility"
-          class="text-decoration-none me-3 text-muted"
-          href="/accessibility"
-          title="{{ 'Accessibility statement' if lang == 'en' else 'הצהרת נגישות' }}"
-        >
-          {{ "Accessibility" if lang == "en" else "נגישות" }}
-        </a>
-        <a
-          id="footer-link-privacy"
-          class="text-decoration-none me-3 text-muted"
-          href="/privacy"
-          title="{{ 'Read our privacy policy' if lang == 'en' else 'מדיניות פרטיות' }}"
-        >
-          {{ "Privacy" if lang == "en" else "פרטיות" }}
-        </a>
-        <a
-          id="footer-link-contact"
-          class="text-decoration-none me-3 text-muted"
-          href="/contact"
-          title="{{ 'Get in touch with us' if lang == 'en' else 'צור קשר עם התמיכה' }}"
-        >
-          {{ "Contact" if lang == "en" else "צור קשר" }}
-        </a>
-        <a
-          id="footer-link-chat"
-          class="text-decoration-none me-3 text-muted"
-          href="/chat"
-          title="{{ 'Chat with our AI Bot' if lang == 'en' else 'שוחח עם הבוט שלנו' }}"
-        >
-          {{ "AI Bot" if lang == "en" else "בוט AI" }}
-        </a>
-        <a
-          id="footer-link-flights"
-          class="text-decoration-none me-3 text-muted"
-          href="/flights"
-          title="{{ 'Live flight status from Ben Gurion Airport' if lang == 'en' else 'סטטוס טיסות מנתב\"ג' }}"
-        >
-          {{ "Flights" if lang == "en" else "טיסות" }}
-        </a>
-        <a
-          id="footer-link-travel-warnings"
-          class="text-decoration-none me-3 text-muted"
-          href="/travel-warnings"
-          title="{{ 'Travel warnings & advisories' if lang == 'en' else 'אזהרות מסע ועדכונים' }}"
-        >
-          {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
-        </a>
-        <a
-          id="footer-link-map"
-          class="text-decoration-none me-3 text-muted"
-          href="/map"
-          title="{{ 'Explore the destinations map' if lang == 'en' else 'צפה במפת היעדים' }}"
-        >
-          {{ "Map" if lang == "en" else "מפה" }}
-        </a>
-        <a
-          id="footer-link-sitemap"
-          class="text-decoration-none text-muted"
-          href="/sitemap.xml"
-          title="{{ 'View website sitemap' if lang == 'en' else 'צפה במפת האתר' }}"
-          rel="sitemap"
-        >
-          {{ "Sitemap" if lang == "en" else "מפת האתר" }}
-        </a>
-      </nav>
+<nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
+  <a href="/about" class="footer-link">
+    {{ "About" if lang == "en" else "עלינו" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/accessibility" class="footer-link">
+    {{ "Accessibility" if lang == "en" else "נגישות" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/privacy" class="footer-link">
+    {{ "Privacy" if lang == "en" else "פרטיות" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/contact" class="footer-link">
+    {{ "Contact" if lang == "en" else "צור קשר" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/chat" class="footer-link">
+    {{ "AI Bot" if lang == "en" else "בוט AI" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/flights" class="footer-link">
+    {{ "Flights" if lang == "en" else "טיסות" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/travel-warnings" class="footer-link">
+    {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/map" class="footer-link">
+    {{ "Map" if lang == "en" else "מפה" }}
+  </a>
+  <span class="separator">·</span>
+  <a href="/sitemap.xml" class="footer-link" rel="sitemap">
+    {{ "Sitemap" if lang == "en" else "מפת האתר" }}
+  </a>
+</nav>
+
     </div>
 <div class="footer-bottom py-2">
   <div class="container small text-center text-muted">
@@ -763,9 +726,7 @@
     </span>
   </div>
 </div>
-
   </footer>
-
   <script src="/static/js/lang.js"></script>
   <script src="/static/js/app.js"></script>
   <script src="/static/js/ads-and-modal.js"></script>
