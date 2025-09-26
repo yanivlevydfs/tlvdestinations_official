@@ -589,6 +589,33 @@ def load_airline_websites() -> dict:
     except Exception as e:
         logger.error(f"Failed to load airline websites: {e}")
         return {}
+        
+def format_time(dt_string):
+    """Return (short, full, raw_iso) for datetime strings."""
+    if not dt_string or dt_string.strip() in {"—", ""}:
+        return "—", "—", ""
+
+    dt_string = dt_string.strip()
+
+    formats = [
+        "%Y-%m-%dT%H:%M:%S",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%d %H:%M",
+    ]
+
+    for fmt in formats:
+        try:
+            dt = datetime.strptime(dt_string, fmt)
+            formatted_short = dt.strftime("%b %d, %H:%M")
+            formatted_full  = dt.strftime("%b %d, %H:%M")
+            raw_iso         = dt.strftime("%Y-%m-%dT%H:%M:%S")
+            return formatted_short, formatted_full, raw_iso
+        except ValueError:
+            continue
+
+    return dt_string, dt_string, dt_string
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Routes
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1385,6 +1412,10 @@ async def custom_redoc(username: str = Depends(verify_docs_credentials)):
     logger.info(f"GET /redoc → ReDoc UI served for user={username}")
     return get_redoc_html(openapi_url="/openapi.json",title="API ReDoc")
 
+from datetime import datetime
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+
 @app.get("/flights", response_class=HTMLResponse)
 async def flights_view(request: Request):
     global DATASET_DF_FLIGHTS
@@ -1397,11 +1428,58 @@ async def flights_view(request: Request):
         })
 
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
+
+    for f in flights:
+        s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
+        a_short, a_full, a_iso = format_time(f.get("actual", ""))
+
+        f["scheduled"] = s_short
+        f["scheduled_full"] = s_full
+        f["scheduled_iso"] = s_iso
+
+        f["actual"] = a_short
+        f["actual_full"] = a_full
+        f["actual_iso"] = a_iso
+
+    # ✅ Extract filters
+    countries = sorted({
+        f.get("country", "").strip()
+        for f in flights if f.get("country")
+    })
+
+    actual_times = sorted({
+        f["actual_iso"].split("T")[1][:5]
+        for f in flights
+        if f.get("actual_iso") and "T" in f["actual_iso"]
+    })
+
+    # ✅ Safely build actual_dates as list of (value, label)
+    actual_dates_set = set()
+    for f in flights:
+        iso = f.get("actual_iso")
+        if iso and "T" in iso:
+            try:
+                date_part = iso.split("T")[0]  # e.g. "2025-09-29"
+                label = datetime.strptime(date_part, "%Y-%m-%d").strftime("%b %d")  # "Sep 29"
+                actual_dates_set.add((date_part, label))
+            except ValueError:
+                continue
+
+    actual_dates = sorted(actual_dates_set)
+
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
         "flights": flights,
-        "lang": request.query_params.get("lang", "en")
+        "countries": countries,
+        "actual_dates": actual_dates,
+        "actual_times": actual_times,
+        "last_update": get_dataset_date(),
+        "lang": request.query_params.get("lang", "en"),
+        "now": datetime.now(),
+        "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
+
+
 
 @app.get("/destinations/{iata}", response_class=HTMLResponse)
 async def destination_detail(request: Request, iata: str):

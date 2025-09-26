@@ -174,7 +174,13 @@ body.dark-mode #airports-table {
 body.dark-mode #airports-table tbody tr:hover {
   background: rgba(34,211,238,.12);
 }
-
+#airports-table thead th {
+  text-align: center;
+  vertical-align: middle;
+}
+#airports-table td {
+  vertical-align: middle;
+}
 /* ===== DataTables Row Details Arrows ===== */
 td.dtr-control:before {
   content: "\25B6" !important;
@@ -626,3 +632,4 @@ body.dark-mode .footer-link:hover {
 body.dark-mode .separator {
   color: #666;
 }
+
