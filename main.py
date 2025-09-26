@@ -1122,6 +1122,7 @@ def sitemap():
     base = "https://fly-tlv.com"
     today = date.today()
 
+    # Static base URLs
     urls = [
         Url(f"{base}/", today, "daily", 1.0),
         Url(f"{base}/about", today, "yearly", 0.6),
@@ -1132,6 +1133,8 @@ def sitemap():
         Url(f"{base}/flights", today, "weekly", 0.7),
         Url(f"{base}/travel-warnings", today, "weekly", 0.7),
         Url(f"{base}/chat", today, "weekly", 0.8),
+
+        # Hebrew versions
         Url(f"{base}/?lang=he", today, "daily", 1.0),
         Url(f"{base}/about?lang=he", today, "yearly", 0.6),
         Url(f"{base}/accessibility?lang=he", today, "yearly", 0.5),
@@ -1142,7 +1145,16 @@ def sitemap():
         Url(f"{base}/travel-warnings?lang=he", today, "weekly", 0.7),
         Url(f"{base}/chat?lang=he", today, "weekly", 0.8),
     ]
+    try:
+        for iata in DATASET_DF["IATA"].dropna().unique():
+            iata = str(iata).strip()
+            if iata:
+                urls.append(Url(f"{base}/destinations/{iata}", today, "weekly", 0.7))
+                urls.append(Url(f"{base}/destinations/{iata}?lang=he", today, "weekly", 0.7))
+    except Exception as e:
+        logger.warning(f"Failed to load dynamic IATA links: {e}")
 
+    # ✅ Build and save sitemap XML
     xml = build_sitemap(urls)
     out_path = STATIC_DIR / "sitemap.xml"
 
@@ -1153,8 +1165,8 @@ def sitemap():
     except Exception as e:
         logger.error(f"Failed to write sitemap.xml: {e}")
 
-    logger.info("Serving sitemap.xml")
     return Response(content=xml, media_type="application/xml")
+
 
 
 def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
