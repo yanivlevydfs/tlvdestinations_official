@@ -109,25 +109,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fly-tlv.com/destinations/MXP</loc>
+    <loc>https://fly-tlv.com/destinations/FCO</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://fly-tlv.com/destinations/MXP?lang=he</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/BCM</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/BCM?lang=he</loc>
+    <loc>https://fly-tlv.com/destinations/FCO?lang=he</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -145,25 +133,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://fly-tlv.com/destinations/CDG</loc>
+    <loc>https://fly-tlv.com/destinations/TIA</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://fly-tlv.com/destinations/CDG?lang=he</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/RMO</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/RMO?lang=he</loc>
+    <loc>https://fly-tlv.com/destinations/TIA?lang=he</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -176,54 +152,6 @@
   </url>
   <url>
     <loc>https://fly-tlv.com/destinations/ATH?lang=he</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/VIE</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/VIE?lang=he</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/DXB</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/DXB?lang=he</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/FCO</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/FCO?lang=he</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/TIA</loc>
-    <lastmod>2025-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fly-tlv.com/destinations/TIA?lang=he</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -325,6 +253,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://fly-tlv.com/destinations/RMO</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/RMO?lang=he</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://fly-tlv.com/destinations/RHO</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -332,6 +272,18 @@
   </url>
   <url>
     <loc>https://fly-tlv.com/destinations/RHO?lang=he</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/VIE</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/VIE?lang=he</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -368,6 +320,18 @@
   </url>
   <url>
     <loc>https://fly-tlv.com/destinations/PFO?lang=he</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/MXP</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/MXP?lang=he</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -493,6 +457,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://fly-tlv.com/destinations/BCM</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/BCM?lang=he</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://fly-tlv.com/destinations/SKG</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -541,6 +517,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://fly-tlv.com/destinations/DXB</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/DXB?lang=he</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://fly-tlv.com/destinations/HKT</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -548,6 +536,18 @@
   </url>
   <url>
     <loc>https://fly-tlv.com/destinations/HKT?lang=he</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/CDG</loc>
+    <lastmod>2025-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fly-tlv.com/destinations/CDG?lang=he</loc>
     <lastmod>2025-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

@@ -365,7 +365,7 @@ def load_airline_names() -> Dict[str, str]:
         return {}
 
 AIRLINE_NAMES = load_airline_names()
-AIRPORTS = load_airports_all()
+#AIRPORTS = load_airports_all()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -734,68 +734,71 @@ def map_view(
     country: str = "All",
     query: str = "",
 ):
+    global DATASET_DF_FLIGHTS, AIRPORTS_DB
+
+    # Main dataset
     df = get_dataset(trigger_refresh=False).copy()
     airports = df.to_dict(orient="records")
-    if ISRAEL_FLIGHTS_FILE.exists():
-        try:
-            govil_json = json.load(open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8"))
-            govil_flights = govil_json.get("flights", [])
-        except Exception as e:
-            logger.error(f"Failed to read gov.il flights: {e}")
-            govil_flights = []
+    existing_iatas = {ap["IATA"] for ap in airports}
 
-        global AIRPORTS_DB
-        existing_iatas = {ap["IATA"] for ap in airports}
-        grouped: dict[str, dict] = {}
+    # Find additional flights in DATASET_DF_FLIGHTS not in main dataset
+    grouped: dict[str, dict] = {}
 
-        for rec in govil_flights:
-            iata = rec.get("iata")
-            if not iata or iata in existing_iatas:
-                continue
+    for rec in DATASET_DF_FLIGHTS.to_dict(orient="records"):
+        iata = rec.get("iata")
+        if not iata or iata in existing_iatas:
+            continue
 
-            if iata not in grouped:
-                grouped[iata] = {
-                    "Name": rec.get("airport") or "—",
-                    "City": rec.get("city") or "—",
-                    "Country": rec.get("country") or "—",
-                    "Airlines": set(),
-                }
-            if rec.get("airline"):
-                grouped[iata]["Airlines"].add(rec["airline"])
+        if iata not in grouped:
+            grouped[iata] = {
+                "Name": rec.get("airport") or "—",
+                "City": rec.get("city") or "—",
+                "Country": rec.get("country") or "—",
+                "Airlines": set(),
+            }
+        if rec.get("airline"):
+            grouped[iata]["Airlines"].add(rec["airline"])
 
-        for iata, meta in grouped.items():
-            lat = lon = None
-            dist_km = flight_time_hr = "—"
-            if iata in AIRPORTS_DB:
-                lat, lon = AIRPORTS_DB[iata]["lat"], AIRPORTS_DB[iata]["lon"]
-                if lat and lon:
-                    dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
-                    flight_time_hr = round(dist_km / 800, 2)
+    # Enrich and append new airports
+    for iata, meta in grouped.items():
+        lat = lon = None
+        dist_km = flight_time_hr = "—"
+        if iata in AIRPORTS_DB:
+            lat = AIRPORTS_DB[iata].get("lat")
+            lon = AIRPORTS_DB[iata].get("lon")
+            if lat and lon:
+                dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
+                flight_time_hr = round(dist_km / 800, 2)
 
-            airports.append({
-                "IATA": iata,
-                "Name": meta["Name"].title(),
-                "City": meta["City"].title(),
-                "Country": meta["Country"].title(),
-                "lat": lat,
-                "lon": lon,
-                "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
-                "Distance_km": dist_km,
-                "FlightTime_hr": flight_time_hr,
-            })
+        airports.append({
+            "IATA": iata,
+            "Name": meta["Name"].title(),
+            "City": meta["City"].title(),
+            "Country": meta["Country"].title(),
+            "lat": lat,
+            "lon": lon,
+            "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
+            "Distance_km": dist_km,
+            "FlightTime_hr": flight_time_hr,
+        })
+
+    # Filter by country
     if country and country != "All":
-        airports = [ap for ap in airports if ap["Country"].lower() == country.lower()]
+        airports = [
+            ap for ap in airports
+            if ap.get("Country", "").lower() == country.lower()
+        ]
+
+    # Filter by query
     if query:
         q = query.strip().lower()
-        if q:
-            airports = [
-                ap for ap in airports
-                if q in str(ap["IATA"]).lower()
-                or q in str(ap["Name"]).lower()
-                or q in str(ap["City"]).lower()
-                or q in str(ap["Country"]).lower()
-            ]
-
+        airports = [
+            ap for ap in airports
+            if q in str(ap.get("IATA", "")).lower()
+            or q in str(ap.get("Name", "")).lower()
+            or q in str(ap.get("City", "")).lower()
+            or q in str(ap.get("Country", "")).lower()
+        ]
     m = folium.Map(
         location=[35, 28.5],
         zoom_start=5,
