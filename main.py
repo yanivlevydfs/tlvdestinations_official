@@ -125,6 +125,25 @@ AIRPORTS_DB: dict = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def load_travel_warnings_df() -> pd.DataFrame:
+    """Load travel warnings JSON from CACHE_DIR into a DataFrame."""
+    if not TRAVEL_WARNINGS_FILE.exists():
+        logger.warning(f"⚠️ Travel warnings file not found: {TRAVEL_WARNINGS_FILE}")
+        return pd.DataFrame()
+    try:
+        with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+        warnings = data.get("warnings", [])
+        df = pd.DataFrame(warnings)
+        # Keep last_update in metadata
+        df.attrs["last_update"] = data.get("updated")
+        logger.info(f"✅ Loaded {len(df)} travel warnings from cache (updated {df.attrs['last_update']})")
+        return df
+
+    except Exception as e:
+        logger.error(f"❌ Failed to load travel warnings: {e}")
+        return pd.DataFrame()
+
 def verify_docs_credentials(credentials: HTTPBasicCredentials = Depends(security)):
     correct_username = os.getenv("DOCS_USER", "admin")
     correct_password = os.getenv("DOCS_PASS", "secret123")
@@ -156,18 +175,6 @@ def normalize_case(value: str) -> str:
 
 def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
-
-def get_all_countries(data) -> list[str]:
-    """Return unique countries from data with 'All' first, rest alphabetically."""
-    if hasattr(data, "columns"):  # DataFrame
-        countries = {str(c).strip() for c in data["Country"].dropna()}
-    elif isinstance(data, list):  # list of dicts
-        countries = {str(item.get("Country", "")).strip() for item in data if item.get("Country")}
-    else:
-        return ["All"]
-
-    countries = sorted(countries)
-    return ["All"] + countries
     
 def safe_js(text: str) -> str:
     """Escape backticks, quotes and newlines for safe JS embedding"""
@@ -317,43 +324,6 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     a = sin(dlat/2)**2 + cos(radians(lat1))*cos(radians(lat2))*sin(dlon/2)**2
     return round(R * 2 * atan2(sqrt(a), sqrt(1 - a)), 1)
 
-def load_airports_all() -> pd.DataFrame:
-    global AIRPORTS_DB
-    if not AIRPORTS_DB:
-        # fallback: load once if not already initialized
-        try:
-            from airportsdata import load
-            AIRPORTS_DB = load("IATA")
-            logger.info(f"AIRPORTS_DB lazy-loaded with {len(AIRPORTS_DB)} records")
-        except Exception as e:
-            logger.error(f"Failed to load airportsdata: {e}")
-            return pd.DataFrame()
-
-    rows = []
-    for iata, rec in AIRPORTS_DB.items():
-        country = normalize_case(rec.get("country"))
-        name = normalize_case(rec.get("name"))
-        city = normalize_case(rec.get("city"))
-        lat, lon = rec.get("lat"), rec.get("lon")
-
-        dist_km = flight_time_hr = None
-        if lat is not None and lon is not None:
-            dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
-            flight_time_hr = round(dist_km / 800, 2)  # assume 800 km/h
-
-        rows.append({
-            "IATA": iata.upper(),
-            "Name": name,
-            "City": city,
-            "Country": country,
-            "lat": lat,
-            "lon": lon,
-            "Distance_km": dist_km,
-            "FlightTime_hr": flight_time_hr,
-        })
-
-    return pd.DataFrame(rows)
-
 
 def load_airline_names() -> Dict[str, str]:
     cols = ["AirlineID","Name","Alias","IATA","ICAO","Callsign","Country","Active"]
@@ -365,7 +335,6 @@ def load_airline_names() -> Dict[str, str]:
         return {}
 
 AIRLINE_NAMES = load_airline_names()
-#AIRPORTS = load_airports_all()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -624,110 +593,57 @@ def home(
     request: Request,
     country: str = "All",
     query: str = "",    
-    lang: str = Depends(get_lang), 
+    lang: str = Depends(get_lang),
 ):
-    global AIRPORTS_DB
+    global AIRPORTS_DB, DATASET_DF, AIRLINE_WEBSITES
 
-    df = get_dataset(trigger_refresh=False).copy()
+    # Defensive check
+    if DATASET_DF is None or DATASET_DF.empty:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": "No data available.",
+            "lang": lang
+        })
 
-    if country and country != "All":
+    df = DATASET_DF.copy()
+
+    # Filter by country
+    if country != "All":
         df = df[df["Country"].str.lower() == country.lower()]
-    if query:
-        q = query.strip().lower()
-        if q:
-            df = df[df.apply(lambda r: q in str(r["IATA"]).lower()
-                                  or q in str(r["Name"]).lower()
-                                  or q in str(r["City"]).lower()
-                                  or q in str(r["Country"]).lower(),axis=1)]
 
-    govil_map = load_israel_flights_map()
+    # Text query (case-insensitive search on several fields)
+    if query:
+        q = query.lower()
+        df = df[
+            df["Name"].str.lower().str.contains(q) |
+            df["City"].str.lower().str.contains(q) |
+            df["Country"].str.lower().str.contains(q) |
+            df["Airlines"].str.lower().str.contains(q)
+        ]
+
+    # Final airports list
     airports = df.to_dict(orient="records")
 
-    for ap in airports:
-        raw = ap.get("Airlines", [])
-        if isinstance(raw, list):
-            ae_airlines = set(a.strip().lower() for a in raw if a)
-        elif isinstance(raw, str) and raw != "—":
-            ae_airlines = set(a.strip().lower() for a in raw.split(",") if a.strip())
-        else:
-            ae_airlines = set()
-
-        govil_airlines = set()
-        for g in govil_map.get(ap["IATA"], set()):
-            if isinstance(g, str):
-                govil_airlines.add(g.strip().lower())
-
-        merged = sorted(normalize_airline_list(list(ae_airlines.union(govil_airlines))))
-        ap["Airlines"] = merged if merged else ["—"]
-        
-    if ISRAEL_FLIGHTS_FILE.exists():
-        try:
-            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
-                govil_json = json.load(f)
-                govil_flights = govil_json.get("flights", [])
-        except Exception as e:
-            logger.error(f"Failed to read gov.il flights: {e}")
-            govil_flights = []
-
-        existing_iatas = {ap["IATA"] for ap in airports}
-
-        grouped: dict[str, dict] = {}
-        for rec in govil_flights:
-            iata = rec.get("iata")
-            if not iata or iata in existing_iatas:
-                continue
-
-            if iata not in grouped:
-                grouped[iata] = {
-                    "Name": rec.get("airport") or "—",
-                    "City": rec.get("city") or "—",
-                    "Country": rec.get("country") or "—",
-                    "Airlines": set(),
-                }
-
-            airline = rec.get("airline")
-            if airline:
-                grouped[iata]["Airlines"].add(airline)   
-         
-        for iata, meta in grouped.items():
-            lat = lon = None
-            dist_km = flight_time_hr = "—"
-
-            if iata in AIRPORTS_DB:
-                lat, lon = AIRPORTS_DB[iata]["lat"], AIRPORTS_DB[iata]["lon"]
-                if lat is not None and lon is not None:
-                    dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
-                    flight_time_hr = round(dist_km / 800, 2)
-            airports.append({
-                "IATA": iata,
-                "Name": meta.get("Name") or "—",
-                "City": meta.get("City") or "—",
-                "Country": meta.get("Country") or "—",
-                "lat": lat,
-                "lon": lon,
-                "Airlines": normalize_airline_list(list(meta.get("Airlines", []))),
-                "Distance_km": dist_km,
-                "FlightTime_hr": flight_time_hr,
-            })
-
-    countries = get_all_countries(airports)
+    # All unique countries for dropdown
+    countries = ["All"] + sorted(DATASET_DF["Country"].dropna().unique().tolist())
     last_update = get_dataset_date()
     logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
-
     return TEMPLATES.TemplateResponse(
         "index.html",
         {
             "request": request,
             "last_update": last_update,
             "lang": lang,
-            "now": datetime.now(), 
+            "now": datetime.now(),
             "airports": airports,
-            "countries": countries, 
+            "countries": countries,
             "country": country,
             "query": query,
             "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
         },
     )
+
+
 
 @app.get("/map", response_class=HTMLResponse)
 def map_view(
@@ -956,7 +872,7 @@ def map_view(
 
 @app.on_event("startup")
 async def on_startup():
-    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS, AIRPORTS_DB
+    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS, AIRPORTS_DB, TRAVEL_WARNINGS_DF
 
     logger.info("🚀 Application startup initiated")
     # 0) Load IATA DB once
@@ -970,6 +886,7 @@ async def on_startup():
     # 1) Init scheduler
     scheduler = AsyncIOScheduler()
     logger.debug("AsyncIOScheduler instance created")
+    TRAVEL_WARNINGS_DF = load_travel_warnings_df()
 
     # 2) Load airline websites
     try:
@@ -998,7 +915,7 @@ async def on_startup():
     else:
         logger.warning("Startup: no dataset file on disk")
         DATASET_DF_FLIGHTS = pd.DataFrame()
-
+    
     # 4) Schedule jobs (every 8h, run immediately at startup)
     try:
         scheduler.add_job(
@@ -1130,6 +1047,7 @@ def sitemap():
         Url(f"{base}/", today, "daily", 1.0),
         Url(f"{base}/about", today, "yearly", 0.6),
         Url(f"{base}/privacy", today, "yearly", 0.5),
+        Url(f"{base}/glossary", today, "yearly", 0.5),        
         Url(f"{base}/contact", today, "yearly", 0.5),
         Url(f"{base}/accessibility", today, "yearly", 0.5),
         Url(f"{base}/map", today, "weekly", 0.7),
@@ -1147,6 +1065,7 @@ def sitemap():
         Url(f"{base}/flights?lang=he", today, "weekly", 0.7),
         Url(f"{base}/travel-warnings?lang=he", today, "weekly", 0.7),
         Url(f"{base}/chat?lang=he", today, "weekly", 0.8),
+        Url(f"{base}/glossary?lang=he", today, "yearly", 0.5),
     ]
     try:
         for iata in DATASET_DF["IATA"].dropna().unique():
@@ -1340,39 +1259,15 @@ async def chat_suggestions(n: int = Query(default=10, le=20)):
     suggestions = generate_questions_from_data(destinations, n)
     logger.info(f"GET /api/chat/suggestions → {len(suggestions)} suggestions")
     return {"questions": suggestions}
-
-
-# === API Routes ===
-@app.get("/api/travel-warnings", response_class=JSONResponse)
-async def api_travel_warnings():
-    """Return cached travel warnings."""
-    if not TRAVEL_WARNINGS_FILE.exists():
-        logger.warning("GET /api/travel-warnings → no cached file found")
-        raise HTTPException(status_code=404, detail="No cached travel warnings available")
-
-    try:
-        with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-
-        count = len(data.get("warnings", []))
-        logger.info(f"GET /api/travel-warnings → {count} warnings returned")
-        return data
-
-    except json.JSONDecodeError:
-        logger.error("GET /api/travel-warnings → cached file is corrupted (JSON error)")
-        raise HTTPException(status_code=500, detail="Cached warnings file is corrupted")
-    except Exception as e:
-        logger.error(f"GET /api/travel-warnings → unexpected error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
     
 @app.get("/travel-warnings", response_class=HTMLResponse)
 async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
-    """Render travel warnings page with DataTable"""
+    global TRAVEL_WARNINGS_DF
+
     client_host = request.client.host if request.client else "unknown"
 
-    if not TRAVEL_WARNINGS_FILE.exists():
-        logger.warning(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached file")
+    if TRAVEL_WARNINGS_DF.empty:
+        logger.warning(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
         return TEMPLATES.TemplateResponse("travel_warnings.html", {
             "request": request,
             "lang": lang,
@@ -1383,22 +1278,14 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
             "levels": []
         })
 
-    try:
-        with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-        warnings = data.get("warnings", [])
-        last_update = data.get("updated")
+    warnings = TRAVEL_WARNINGS_DF.to_dict(orient="records")
+    last_update = TRAVEL_WARNINGS_DF.attrs.get("last_update")
 
-        # הפקת רשימות ייחודיות
-        continents = sorted({w.get("continent", "") for w in warnings if w.get("continent")})
-        countries = sorted({w.get("country", "") for w in warnings if w.get("country")})
-        levels = ["גבוה", "בינוני", "נמוך", "לא ידוע"]
+    continents = sorted(TRAVEL_WARNINGS_DF["continent"].dropna().unique())
+    countries  = sorted(TRAVEL_WARNINGS_DF["country"].dropna().unique())
+    levels     = ["גבוה", "בינוני", "נמוך", "לא ידוע"]
 
-        logger.info(f"GET /travel-warnings from {client_host} (lang={lang}) → {len(warnings)} warnings")
-
-    except Exception as e:
-        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → error: {e}")
-        warnings, last_update, continents, countries, levels = [], None, [], [], []
+    logger.info(f"GET /travel-warnings from {client_host} (lang={lang}) → {len(warnings)} warnings")
 
     return TEMPLATES.TemplateResponse("travel_warnings.html", {
         "request": request,
@@ -1409,6 +1296,7 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
         "countries": countries,
         "levels": levels
     })
+
 
 @app.get("/openapi.json", include_in_schema=False)
 async def custom_openapi(username: str = Depends(verify_docs_credentials)):
@@ -1426,10 +1314,6 @@ async def custom_swagger_ui(username: str = Depends(verify_docs_credentials)):
 async def custom_redoc(username: str = Depends(verify_docs_credentials)):
     logger.info(f"GET /redoc → ReDoc UI served for user={username}")
     return get_redoc_html(openapi_url="/openapi.json",title="API ReDoc")
-
-from datetime import datetime
-from fastapi import Request
-from fastapi.responses import HTMLResponse
 
 @app.get("/flights", response_class=HTMLResponse)
 async def flights_view(request: Request):
@@ -1494,7 +1378,25 @@ async def flights_view(request: Request):
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
 
+@app.get("/glossary", response_class=HTMLResponse)
+async def glossary_view(request: Request):
+    lang = request.query_params.get("lang", "en")
 
+    try:
+        return TEMPLATES.TemplateResponse("aviation_glossary.html", {
+            "request": request,
+            "lang": lang
+        })
+    except Exception as e:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": (
+                "Glossary page could not be loaded."
+                if lang != "he"
+                else "לא ניתן לטעון את עמוד המונחים."
+            ),
+            "lang": lang
+        })
 
 @app.get("/destinations/{iata}", response_class=HTMLResponse)
 async def destination_detail(request: Request, iata: str):

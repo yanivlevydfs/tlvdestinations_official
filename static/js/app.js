@@ -263,12 +263,18 @@ $('#clear-filters-mobile').on('click', () => {
   // ---------- Buttons ----------
   const viewMapBtn = document.getElementById('view-map-btn');
 
-  if (viewMapBtn) {
-    viewMapBtn.addEventListener('click', () => {      
-      const modal = new bootstrap.Modal(mapModal);
-      modal.show();
-      iframe.contentWindow.postMessage("modal-shown", "*");
-    });
-  }
+	if (viewMapBtn) {
+	  viewMapBtn.addEventListener('click', () => {
+		// only load the map if not already loaded
+		if (!iframe.src) {
+		  iframe.src = iframe.dataset.src;
+		}
+
+		const modal = new bootstrap.Modal(mapModal);
+		modal.show();
+
+		iframe.contentWindow?.postMessage("modal-shown", "*");
+	  });
+	}
 });
 
