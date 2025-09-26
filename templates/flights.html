@@ -274,34 +274,96 @@
      MOBILE RESPONSIVE STYLES
   ─────────────────────────────────────────────── */
   @media (max-width: 768px) {
-    #flightsTable_wrapper .row.mb-2 {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    #flightsTable_wrapper .dt-buttons {
-      width: 100%;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    #flightsTable_wrapper .dataTables_filter {
-      margin-top: 1rem;
-      text-align: center;
-    }
-
-    #flightsTable_wrapper .dataTables_filter input {
-      width: 100%;
-      max-width: 280px;
-      margin: 0 auto;
-    }
-
-    .dt-filters {
-      margin-top: 1rem;
-      text-align: center;
-    }
+  /* Layout container rows */
+  #flightsTable_wrapper .row.mb-2 {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
   }
+
+  /* Buttons layout */
+  #flightsTable_wrapper .dt-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  /* Search box styling */
+  #flightsTable_wrapper .dataTables_filter {
+    margin-top: 1rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  #flightsTable_wrapper .dataTables_filter input {
+    width: 90%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Filters layout: 2 columns */
+  .dt-filters {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .dt-filters .d-flex {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .dt-filters .d-flex > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .dt-filters label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    text-align: left;
+  }
+
+  .dt-filters select {
+    width: 100%;
+  }
+
+  /* Table horizontal scroll */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #flightsTable {
+    width: 100% !important;
+    min-width: 800px; /* Allows horizontal scroll if needed */
+  }
+
+  /* Pagination: show only Prev / Next */
+  #flightsTable_wrapper .dataTables_paginate .paginate_button {
+    display: none !important;
+  }
+
+  #flightsTable_wrapper .dataTables_paginate .previous,
+  #flightsTable_wrapper .dataTables_paginate .next {
+    display: inline-block !important;
+  }
+
+  /* Last update info badge */
+  #flightsTable_info {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+}
+
+  
 </style>
 
 <script>
@@ -326,6 +388,7 @@
       pageLength: 25,
       responsive: true,
       order: [[5, 'asc']],
+	  pagingType: "simple",
       language: {
         url: lang === "he" ? "/static/js/lang.json" : "",
         infoFiltered: ""
