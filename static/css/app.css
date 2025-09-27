@@ -634,3 +634,33 @@ body.dark-mode .separator {
   color: #666;
 }
 
+#footer-marketing {
+  max-width: 520px;
+  line-height: 1.55;
+  font-size: 0.9rem;
+  color: #4b5563; /* neutral gray-700 */
+}
+
+#footer-marketing strong {
+  color: #111827; /* darker emphasis */
+}
+
+body.dark-mode #footer-marketing {
+  color: #d1d5db; /* gray-300 */
+}
+
+body.dark-mode #footer-marketing strong {
+  color: #fff; /* keep strong really bold */
+}
+
+/* Accent separator above marketing block */
+#footer-marketing::before {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin: 0.75rem 0;
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
+  border-radius: 6px;
+  opacity: 0.85;
+}

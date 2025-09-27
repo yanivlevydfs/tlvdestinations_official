@@ -646,9 +646,7 @@
   </div>
 
   <footer class="mt-5 border-top">
-    <div
-      class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between"
-    >
+    <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
       <div class="mb-3 mb-md-0">
         <div class="d-flex align-items-center">
           <i class="bi bi-airplane-engines text-primary me-2 fs-5"></i>
@@ -660,7 +658,22 @@
           Real routes, distances & estimated flight times.
         </div>
       </div>
-
+  <div class="col-md-7">
+    <div id="footer-marketing">
+      {% if lang == "he" %}
+        ✈️ <strong>הדרך החכמה לגלות טיסות ישירות מתל אביב (TLV)</strong><br>
+        חיפוש טיסות יכול להיות מבלבל – איזה חברות באמת מפעילות את הקו, באילו ימים, ואם זו טיסה ישירה או רק קוד־שייר.  
+        ב־<strong>Fly-TLV.com</strong> אנחנו עושים את זה פשוט: מבט ברור על כל היעדים הישירים מנתב״ג – כולל חברות תעופה, לוחות זמנים, מרחקים וזמני טיסה משוערים.  
+        כל המידע במקום אחד, כדי שתוכלו לתכנן את הטיול הבא בביטחון.
+      {% else %}
+        ✈️ <strong>The smart way to explore direct flights from Tel Aviv (TLV)</strong><br>
+        Finding the right flight can be confusing — which airlines really fly the route, on what days, and whether it’s truly non-stop or just a codeshare.  
+        At <strong>Fly-TLV.com</strong>, we make it simple: a clear view of all direct destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.  
+        Everything in one place, so you can plan your next trip with confidence.
+      {% endif %}
+    </div>
+  </div>
+</div>
 <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
   <a href="/about" class="footer-link">
     {{ "About" if lang == "en" else "עלינו" }}
@@ -697,12 +710,16 @@
   <a href="/sitemap.xml" class="footer-link" rel="sitemap">
     {{ "Sitemap" if lang == "en" else "מפת האתר" }}
   </a>
+   <span class="separator">·</span>
+  <a href="/glossary" class="footer-link" rel="glossery">
+    {{ "Glossery" if lang == "en" else "מושגים" }}
+  </a>
 </nav>
 
     </div>
 <div class="footer-bottom py-2">
   <div class="container small text-center text-muted">
-    <p class="mb-2 fst-italic text-muted" style="font-size: 0.8rem;">
+    <p class="mb-2 fst-italic text-muted" style="font-size: 0.9rem;">
       {% if lang == "he" %}
         ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
         יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
