@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Ben Gurion Airport — Current Flight Statistics{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Title -->
+  <h2 class="section-title text-center">
+    📊 Ben Gurion Airport — Current Flight Statistics
+  </h2>
+
+  <!-- Last Update -->
+  <div class="text-center mb-4">
+    <span class="badge rounded-pill bg-info px-3 py-2 text-dark last-update-badge">
+      Last Update: {{ last_update | datetimeformat }}
+    </span>
+  </div>
+
+  <!-- Airline Filter -->
+  <div class="row mb-4">
+    <div class="col-12 col-md-6 offset-md-3">
+      <label for="airline-filter" class="form-label fw-semibold">✈️ Filter by Airline</label>
+      <select id="airline-filter" class="form-select">
+        <option value="All">All Airlines</option>
+        {% for airline in airlines %}
+          <option value="{{ airline }}">{{ airline }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Top Countries -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-bold">🌍 Top Countries</div>
+        <div class="card-body">
+          <div class="table-responsive mb-3">
+            <table id="countries-table" class="table table-striped table-hover table-sm align-middle text-center">
+              <thead class="table-primary">
+                <tr><th>Country</th><th>Departures</th><th>Arrivals</th></tr>
+              </thead>
+              <tbody>
+                {% for row in top_countries %}
+                <tr>
+                  <td>{{ row.Country }}</td>
+                  <td>{{ row.Departures }}</td>
+                  <td>{{ row.Arrivals }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div id="countries-chart" style="height:320px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Cities -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-bold">🏙️ Top Cities</div>
+        <div class="card-body">
+          <div class="table-responsive mb-3">
+            <table id="cities-table" class="table table-striped table-hover table-sm align-middle text-center">
+              <thead class="table-primary">
+                <tr><th>City</th><th>Departures</th><th>Arrivals</th></tr>
+              </thead>
+              <tbody>
+                {% for row in top_cities %}
+                <tr>
+                  <td>{{ row.City }}</td>
+                  <td>{{ row.Departures }}</td>
+                  <td>{{ row.Arrivals }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div id="cities-chart" style="height:320px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const airlinesData = {{ airlines_data | tojson }};
+  const initialCountries = {{ top_countries | tojson }};
+  const initialCities = {{ top_cities | tojson }};
+
+  function renderCharts(countries, cities) {
+    // Countries Chart
+    Plotly.newPlot("countries-chart", [
+      {
+        x: countries.map(r => r.Country),
+        y: countries.map(r => r.Departures),
+        name: "Departures",
+        type: "bar",
+        marker: { color: "rgba(124,58,237,0.8)" }
+      },
+      {
+        x: countries.map(r => r.Country),
+        y: countries.map(r => r.Arrivals),
+        name: "Arrivals",
+        type: "bar",
+        marker: { color: "rgba(34,211,238,0.8)" }
+      }
+    ], {
+      barmode: "group",
+      margin: { t: 30, r: 20, l: 40, b: 80 },
+      legend: { orientation: "h", y: -0.3 },
+    }, { responsive: true });
+
+    // Cities Chart
+    Plotly.newPlot("cities-chart", [
+      {
+        x: cities.map(r => r.City),
+        y: cities.map(r => r.Departures),
+        name: "Departures",
+        type: "bar",
+        marker: { color: "rgba(124,58,237,0.8)" }
+      },
+      {
+        x: cities.map(r => r.City),
+        y: cities.map(r => r.Arrivals),
+        name: "Arrivals",
+        type: "bar",
+        marker: { color: "rgba(34,211,238,0.8)" }
+      }
+    ], {
+      barmode: "group",
+      margin: { t: 30, r: 20, l: 40, b: 80 },
+      legend: { orientation: "h", y: -0.3 },
+    }, { responsive: true });
+  }
+
+  // Initial render
+  renderCharts(initialCountries, initialCities);
+
+  // Airline filter
+  document.getElementById("airline-filter").addEventListener("change", function () {
+    const selected = this.value;
+    const data = selected === "All" ? airlinesData["All"] : airlinesData[selected];
+    renderCharts(data.countries, data.cities);
+
+    // Update tables
+    document.querySelector("#countries-table tbody").innerHTML =
+      data.countries.map(r => `<tr><td>${r.Country}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+
+    document.querySelector("#cities-table tbody").innerHTML =
+      data.cities.map(r => `<tr><td>${r.City}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+  });
+});
+</script>
+{% endblock %}

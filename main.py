@@ -33,6 +33,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi import status
 import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from collections import defaultdict
 os.environ["PYTHONUTF8"] = "1"
 try:
     enc = (sys.stdout.encoding or "").lower()
@@ -1492,3 +1493,65 @@ async def remove_sw():
     });
     """
     return Response(content=js, media_type="application/javascript")
+    
+
+
+@app.get("/stats", response_class=HTMLResponse)
+async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
+    global DATASET_DF_FLIGHTS
+
+    if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": "No live flight statistics available.",
+            "lang": lang
+        })
+
+    # Copy & normalize dataframe
+    df = DATASET_DF_FLIGHTS.copy()
+    df["Direction"] = df["direction"].map({"D": "Departure", "A": "Arrival"})
+    df = df.rename(columns={
+        "airline": "Airline",
+        "city": "City",
+        "country": "Country"
+    })
+
+    # --- Helper: aggregate safely ---
+    def build_stats(sub_df, group_field):
+        stats = (
+            sub_df.groupby([group_field, "Direction"])
+                  .size()
+                  .unstack(fill_value=0)
+                  .reset_index()
+        )
+        stats = stats.rename(columns={"Departure": "Departures", "Arrival": "Arrivals"})
+        for col in ["Departures", "Arrivals"]:  # ensure both always exist
+            if col not in stats:
+                stats[col] = 0
+        stats["Total"] = stats["Departures"] + stats["Arrivals"]
+        return stats.sort_values("Total", ascending=False).head(10).to_dict("records")
+
+    # --- Global Stats ---
+    top_countries = build_stats(df, "Country")
+    top_cities = build_stats(df, "City")
+
+    # --- Airlines Stats ---
+    airlines = sorted(df["Airline"].dropna().unique())
+    airlines_data = {"All": {"countries": top_countries, "cities": top_cities}}
+    for airline in airlines:
+        sub = df[df["Airline"] == airline]
+        airlines_data[airline] = {
+            "countries": build_stats(sub, "Country"),
+            "cities": build_stats(sub, "City"),
+        }
+
+    # --- Render ---
+    return TEMPLATES.TemplateResponse("stats.html", {
+        "request": request,
+        "lang": lang,
+        "last_update": get_dataset_date(),
+        "top_countries": top_countries,
+        "top_cities": top_cities,
+        "airlines": airlines,
+        "airlines_data": airlines_data,
+    })
