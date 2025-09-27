@@ -346,7 +346,8 @@ table.dataTable > tbody > tr.child ul.dtr-details {
 
 body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details {
   background: rgba(34,211,238,.05);
-  border-left-color: #22d3ee;
+  border-left-color: #7c3aed;
+  border-right-color: #7c3aed;
 }
 
 table.dataTable > tbody > tr.child ul.dtr-details li {
