@@ -1046,6 +1046,7 @@ def sitemap():
     # Static base URLs
     urls = [
         Url(f"{base}/", today, "daily", 1.0),
+        Url(f"{base}/stats", today, "daily", 1.0),
         Url(f"{base}/about", today, "yearly", 0.6),
         Url(f"{base}/privacy", today, "yearly", 0.5),
         Url(f"{base}/glossary", today, "yearly", 0.5),        
@@ -1058,6 +1059,7 @@ def sitemap():
 
         # Hebrew versions
         Url(f"{base}/?lang=he", today, "daily", 1.0),
+        Url(f"{base}/stats?lang=he", today, "daily", 1.0),
         Url(f"{base}/about?lang=he", today, "yearly", 0.6),
         Url(f"{base}/accessibility?lang=he", today, "yearly", 0.5),
         Url(f"{base}/privacy?lang=he", today, "yearly", 0.5),
