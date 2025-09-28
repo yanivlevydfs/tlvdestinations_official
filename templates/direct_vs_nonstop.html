@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <!-- ✅ Article Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fly-tlv.com/articles/direct-vs-nonstop"
+    },
+    "headline": "{% if lang == 'he' %}טיסה ישירה מול טיסה ללא עצירות – מה ההבדל?{% else %}Direct flight vs Non-stop flight – what’s the difference?{% endif %}",
+    "description": "{% if lang == 'he' %}הבינו את ההבדל בין טיסה ישירה לבין טיסה ללא עצירות – מונחים שנשמעים אותו הדבר אך למעשה שונים.{% else %}Understand the difference between a direct flight and a non-stop flight – terms that sound the same but mean different things.{% endif %}",
+    "image": "https://fly-tlv.com/static/og/flytlv_og.jpg",
+    "author": {
+      "@type": "Organization",
+      "name": "Fly-TLV.com",
+      "url": "https://fly-tlv.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fly-TLV.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fly-tlv.com/static/favicon.ico"
+      }
+    },
+    "datePublished": "{{ now.strftime('%Y-%m-%d') }}",
+    "dateModified": "{{ now.strftime('%Y-%m-%d') }}",
+    "inLanguage": "{% if lang == 'he' %}he-IL{% else %}en-US{% endif %}"
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<article class="container my-5" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <!-- Article Header -->
+  <header class="mb-4">
+    <h1 class="fw-bold">
+      {% if lang == "he" %}
+        טיסה ישירה מול טיסה ללא עצירות – מה ההבדל?
+      {% else %}
+        Direct flight vs Non-stop flight – what’s the difference?
+      {% endif %}
+    </h1>
+    <p class="text-muted">{{ now.strftime('%B %d, %Y') }}</p>
+  </header>
+
+  <!-- Intro -->
+  <p>
+    {% if lang == "he" %}
+      ידעת שטיסה ישירה וטיסה ללא עצירות הן לא אותו הדבר? כאן נעזור לך להבין את ההבדלים החשובים ביניהן.
+    {% else %}
+      Did you know that a direct flight and a non-stop flight isn’t actually the same thing? 
+      Here we help you figure out some important differences between the two.
+    {% endif %}
+  </p>
+
+  <!-- Ad Placeholder -->
+  <!-- Kiwi / Travelpayouts Banner -->
+  <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+    <div class="card-header small text-muted fw-semibold">
+      <i class="bi bi-airplane-engines me-1 text-primary"></i>Cheap Flights
+    </div>
+    <div class="card-body text-center">
+      <script
+        async
+        src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_banner&locale=en&stops=any&show_hotels=true&powered_by=true&border_radius=30&plain=true&color_button=%232563eb&color_button_text=%23ffffff&promo_id=3414&campaign_id=111"
+        charset="utf-8"
+      ></script>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <h2 class="mt-4">
+    {% if lang == "he" %} טיסות ישירות מול טיסות ללא עצירות {% else %} Direct vs non-stop flights {% endif %}
+  </h2>
+  <p>
+    {% if lang == "he" %}
+      עולם התעופה עלול להיות מבלבל – גם אם אתה טס ותיק וגם אם זו הטיסה הראשונה שלך. 
+      אחת ההבנות השגויות הנפוצות היא ההבדל בין טיסה ישירה לבין טיסה ללא עצירות. 
+      המונחים נשמעים אותו הדבר, אך בפועל אינם זהים.
+    {% else %}
+      The aviation industry can be a bit confusing sometimes – no matter if you are a frequent flier 
+      or if it’s your first time stepping on a plane. One common misconception is the definition of a direct 
+      versus a non-stop flight. The terms do sound like the same thing, which unfortunately isn’t the case.
+    {% endif %}
+  </p>
+
+  <!-- Section 2 -->
+  <h2 class="mt-4">
+    {% if lang == "he" %} מהי טיסה ללא עצירות? {% else %} What is a non-stop flight? {% endif %}
+  </h2>
+  <p>
+    {% if lang == "he" %}
+      טיסה ללא עצירות היא בדיוק כפי שהיא נשמעת – המטוס ממריא משדה התעופה ומגיע ליעד בלי לעצור בדרך. 
+      זו האפשרות המהירה והנוחה ביותר, ורוב הטיסות שאתה מוצא בחיפוש כרטיסים הן למעשה טיסות ללא עצירות.
+    {% else %}
+      A non-stop flight is exactly what it sounds like – you fly from one airport to another without touching 
+      the ground once during the route. The majority of the flights you find when you look for tickets 
+      are actually non-stop flights.
+    {% endif %}
+  </p>
+
+  <!-- Section 3 -->
+  <h2 class="mt-4">
+    {% if lang == "he" %} מהי טיסה ישירה? {% else %} What is a direct flight? {% endif %}
+  </h2>
+  <p>
+    {% if lang == "he" %}
+      המונח "טיסה ישירה" הוגדר במקור כטיסה בין שני יעדים עיקריים, אך לא בהכרח ללא עצירות בדרך. 
+      גם היום טיסה ישירה עשויה לכלול עצירת ביניים אחת או שתיים – למשל לתדלוק או להורדת נוסעים.
+    {% else %}
+      The term “direct flight” was initially defined as a flight between two major destinations. 
+      This did not mean the airline didn’t touch the ground during the route – it was very common that it did.
+    {% endif %}
+  </p>
+  <p>
+    {% if lang == "he" %}
+      בדרך כלל הנוסעים לא יורדים מהמטוס בעצירה, אך יש מקרים נדירים שבהם יש להחליף מטוס. 
+      לטיסה ישירה יש מספר טיסה אחד בלבד וכרטיס עלייה למטוס אחד, אך משך הטיסה עשוי להתארך לעומת טיסה ללא עצירות.
+    {% else %}
+      Normally the stops on a direct flight don’t involve you having to get off the plane – you stay in your seat. 
+      A direct flight still has just one flight number and one boarding pass, 
+      but it usually takes longer than a non-stop option.
+    {% endif %}
+  </p>
+
+  <!-- Section 4 -->
+  <h2 class="mt-4">
+    {% if lang == "he" %} מהי הטיסה הארוכה ביותר ללא עצירות בעולם? {% else %} Which is the longest non-stop flight in the world? {% endif %}
+  </h2>
+  <p>
+    {% if lang == "he" %}
+      כיום יותר ויותר טיסות ארוכות מוצעות ללא עצירות. 
+      נכון לעכשיו, הטיסה הארוכה ביותר ללא עצירות היא בין סינגפור (SIN) לניו יורק (JFK) ונמשכת כמעט 19 שעות.
+    {% else %}
+      These days more and more long haul, or ultra-long haul, routes are offered as non-stop flights. 
+      The longest non-stop flight in the world right now is between Singapore (SIN) and New York (JFK) 
+      and takes almost 19 hours.
+    {% endif %}
+  </p>
+  <!-- Section 5 -->
+  <h2 class="mt-4">
+    {% if lang == "he" %} אפשרות נוספת – טיסות קונקשן {% else %} Option number three – connecting flights {% endif %}
+  </h2>
+  <p>
+    {% if lang == "he" %}
+      אם לא אכפת לך מזמן טיסה ארוך יותר או עצירה בדרך, תמיד ניתן לבחור בטיסות קונקשן. 
+      כאן מחליפים מטוס, מספר הטיסה משתנה ויש כרטיס עלייה למטוס נפרד לכל טיסה.
+    {% else %}
+      If you don’t mind extra travel time or a stopover, you can choose connecting flights. 
+      You leave the aircraft, board another one, and your flight number changes. 
+      You’ll have separate boarding passes for each segment.
+    {% endif %}
+  </p>
+  <p>
+    {% if lang == "he" %}
+      באתר Fly-TLV אנו מתמקדים בטיסות ישירות וללא עצירות מנתב"ג. 
+      לחיפוש טיסות קונקשן אפשר לנסות את 
+      <a href="https://skyscanner.com" target="_blank" rel="noopener">Skyscanner</a>,
+      אתר נוסף שבנינו במיוחד למטרה זו.
+    {% else %}
+      On Fly-TLV.com we focus on direct and non-stop flights from Tel Aviv. 
+      If you want to search for connecting flights, try 
+      <a href="https://skyscanner.com" target="_blank" rel="noopener">Skyscanner</a>, 
+      another site we built for this purpose.
+    {% endif %}
+  </p>
+          <!-- Ads Under Table -->
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Deals
+          </div>
+          <div class="card-body text-center p-0">
+            <script
+              async
+              src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane me-1 text-primary"></i>Need an ESIM?
+          </div>
+          <div class="card-body text-center p=0">
+            <script
+              async
+              src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane me-1 text-primary"></i>Flight Cancelled or Delayed?
+          </div>
+          <div class="card-body text-center p=0">
+            <script
+              async
+              src="https://tpembd.com/content?trs=461563&shmarker=674907.airhelp_left_1&lang=en&powered_by=true&campaign_id=120&promo_id=8679"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+</article>
+{% endblock %}

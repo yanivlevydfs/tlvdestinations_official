@@ -2,6 +2,46 @@
 
 {% block title %}Ben Gurion Airport — Current Flight Statistics{% endblock %}
 
+{% block head %}
+  <!-- ✅ Page-specific SEO -->
+  <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
+  <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+  <meta property="og:description" content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
+  <meta property="og:url" content="https://fly-tlv.com/stats">
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_stats.jpg">
+  <meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+  <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+  <meta name="twitter:image:alt" content="TLV airport stats overview">
+
+  <!-- Structured Data: Dataset -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Ben Gurion Airport — Current Flight Statistics",
+    "description": "Live statistics of flights, departures, and arrivals from Ben Gurion Airport (TLV). Updated frequently with top destinations, airlines, and cities.",
+    "url": "https://fly-tlv.com/stats",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "creator": {
+      "@type": "Organization",
+      "name": "Fly-TLV.com",
+      "url": "https://fly-tlv.com"
+    },
+    "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
+    "dateModified": "{{ last_update.isoformat() }}"
+  }
+  </script>
+{% endblock %}
+
 {% block content %}
 <div class="container my-4">
 
@@ -9,6 +49,19 @@
   <h2 class="section-title text-center">
     📊 Ben Gurion Airport — Current Flight Statistics
   </h2>
+  <!-- Kiwi / Travelpayouts Banner -->
+  <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+    <div class="card-header small text-muted fw-semibold">
+      <i class="bi bi-airplane-engines me-1 text-primary"></i>Cheap Flights
+    </div>
+    <div class="card-body text-center">
+      <script
+        async
+        src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_banner&locale=en&stops=any&show_hotels=true&powered_by=true&border_radius=30&plain=true&color_button=%232563eb&color_button_text=%23ffffff&promo_id=3414&campaign_id=111"
+        charset="utf-8"
+      ></script>
+    </div>
+  </div>
 
   <!-- Last Update -->
   <div class="text-center mb-4">
@@ -84,6 +137,46 @@
     </div>
   </div>
 </div>
+        <!-- Ads Under Table -->
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Deals
+          </div>
+          <div class="card-body text-center p-0">
+            <script
+              async
+              src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane me-1 text-primary"></i>Cheap ESIM
+          </div>
+          <div class="card-body text-center p=0">
+            <script
+              async
+              src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
+        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+          <div class="card-header small text-muted fw-semibold">
+            <i class="bi bi-airplane me-1 text-primary"></i>Flight Cancelled or Delayed?
+          </div>
+          <div class="card-body text-center p=0">
+            <script
+              async
+              src="https://tpembd.com/content?trs=461563&shmarker=674907.airhelp_left_1&lang=en&powered_by=true&campaign_id=120&promo_id=8679"
+              charset="utf-8"
+            ></script>
+          </div>
+        </div>
+
 {% endblock %}
 
 {% block scripts %}

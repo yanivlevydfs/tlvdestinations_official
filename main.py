@@ -1048,6 +1048,7 @@ def sitemap():
         Url(f"{base}/", today, "daily", 1.0),
         Url(f"{base}/stats", today, "daily", 1.0),
         Url(f"{base}/about", today, "yearly", 0.6),
+        Url(f"{base}/direct-vs-nonstop", today, "yearly", 0.6),
         Url(f"{base}/privacy", today, "yearly", 0.5),
         Url(f"{base}/glossary", today, "yearly", 0.5),        
         Url(f"{base}/contact", today, "yearly", 0.5),
@@ -1061,6 +1062,7 @@ def sitemap():
         Url(f"{base}/?lang=he", today, "daily", 1.0),
         Url(f"{base}/stats?lang=he", today, "daily", 1.0),
         Url(f"{base}/about?lang=he", today, "yearly", 0.6),
+        Url(f"{base}/direct-vs-nonstop?lang=he", today, "yearly", 0.6),
         Url(f"{base}/accessibility?lang=he", today, "yearly", 0.5),
         Url(f"{base}/privacy?lang=he", today, "yearly", 0.5),
         Url(f"{base}/contact?lang=he", today, "yearly", 0.5),
@@ -1556,4 +1558,13 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         "top_cities": top_cities,
         "airlines": airlines,
         "airlines_data": airlines_data,
+    })
+
+@app.get("/direct-vs-nonstop", response_class=HTMLResponse)
+async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
+    logger.info(f"GET /direct-vs-nonstop | lang={lang} | client={request.client.host}")
+    return TEMPLATES.TemplateResponse("direct_vs_nonstop.html", {
+        "request": request,
+        "lang": lang,
+        "now": datetime.now()
     })
