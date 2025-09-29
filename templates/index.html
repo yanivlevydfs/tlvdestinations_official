@@ -704,18 +704,18 @@
   </div>
 
   <footer class="mt-5 border-top">
-    <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
-      <div class="mb-3 mb-md-0">
-        <div class="d-flex align-items-center">
-          <i class="bi bi-airplane-engines text-primary me-2 fs-5"></i>
-          <span id="footer-brand" class="fw-semibold">
-            TLV → Worldwide Destinations Explorer
-          </span>
-        </div>
-        <div id="footer-tagline" class="small text-muted mt-1">
-          Real routes, distances & estimated flight times.
-        </div>
+  <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-3 mb-md-0">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-airplane-engines text-primary me-2 fs-5"></i>
+        <span id="footer-brand" class="fw-semibold">
+          {{ "TLV → Worldwide Destinations Explorer" if lang != 'he' else "TLV → מגלה יעדים בעולם" }}
+        </span>
       </div>
+      <div id="footer-tagline" class="small text-muted mt-1">
+        {{ "Real routes, distances & estimated flight times." if lang != 'he' else "נתיבי טיסה אמיתיים, מרחקים וזמני טיסה משוערים." }}
+      </div>
+    </div>
   <div class="col-md-7">
     <div id="footer-marketing">
       {% if lang == "he" %}
@@ -777,9 +777,7 @@
     {{ "Statistics" if lang == "en" else "סטטיסטיקה" }}
   </a>
 </nav>
-
-
-    </div>
+</div>
 <div class="footer-bottom py-2">
   <div class="container small text-center text-muted">
     <p class="mb-2 fst-italic text-muted" style="font-size: 0.9rem;">

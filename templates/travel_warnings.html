@@ -227,7 +227,21 @@ body.dark-mode .buttons-colvis:hover {
   white-space: nowrap;
 }
 
+div.dt-buttons {
+  margin-top: 1rem;  
+  margin-inline-start: 0.5rem; /* 👈 Works in both RTL and LTR */
+  margin-inline-end: 0;        /* Optional reset */
+}
 
+div.dataTables_filter {
+  margin-top: 1rem;      /* space above search input */
+  float: left;           /* RTL search alignment */
+  text-align: left;
+}
+html[dir="rtl"] .dt-buttons .btn {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
 </style>
 
 <script>
