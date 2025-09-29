@@ -57,7 +57,7 @@ logger.info("Server starting…")
 # Set up Gemini API
 
 genai.configure(api_key="AIzaSyBxOJwavtKVB9gJvA2OoAsKw90GogBNdZs")
-chat_model = genai.GenerativeModel("gemini-2.5-flash")
+chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
 security = HTTPBasic()
 
 class ChatQuery(BaseModel):
@@ -818,7 +818,7 @@ def map_view(
                 <div style='font-weight:600;font-size:15px'>{escape(str(ap['Name']))} ({escape(str(ap['IATA']))})</div>
                 <div style='color:#6b7280;font-size:12px;margin-top:2px'>{escape(str(ap['City']))} · {escape(str(ap['Country']))}</div>
                 <div style='margin-top:6px;font-size:13px'>Distance: <b>{km} km</b></div>
-                <div style='margin-top:2px;font-size:13px'>Flight time: <b>{flight_time_hr} hr</b></div>
+                <div style='margin-top:2px;font-size:13px'>Flight time: <b>{flight_time_hr}</b></div>
                 {airline_html}
                 <div style='margin-top:8px;display:flex;gap:6px;flex-wrap:wrap'>
                     <a href='{escape(flights_url)}' target='_blank' style='text-decoration:none;background:#2563eb;color:white;padding:4px 8px;border-radius:20px;font-size:13px'>Google Flights</a>
