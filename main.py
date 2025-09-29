@@ -126,6 +126,18 @@ AIRPORTS_DB: dict = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def get_flight_time(dist_km):
+    total_hours = dist_km / 800
+    hours = int(total_hours)
+    minutes = round((total_hours - hours) * 60)
+
+    if minutes == 60:
+        hours += 1
+        minutes = 0
+
+    return f"{hours}h {minutes}m"
+
+
 def load_travel_warnings_df() -> pd.DataFrame:
     """Load travel warnings JSON from CACHE_DIR into a DataFrame."""
     if not TRAVEL_WARNINGS_FILE.exists():
@@ -471,7 +483,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
             lat, lon = coords.get("lat"), coords.get("lon")
             dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
-            flight_hr = round(dist_km / 800, 2) if dist_km else None
+            flight_hr = get_flight_time(dist_km) if dist_km else "—"
             rows.append({
                 **info,
                 "lat": lat,
@@ -685,7 +697,7 @@ def map_view(
             lon = AIRPORTS_DB[iata].get("lon")
             if lat and lon:
                 dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
-                flight_time_hr = round(dist_km / 800, 2)
+                flight_time_hr = get_flight_time(dist_km)
 
         airports.append({
             "IATA": iata,
@@ -739,8 +751,7 @@ def map_view(
             continue
 
         km = haversine_km(TLV["lat"], TLV["lon"], ap["lat"], ap["lon"])
-        flight_time_hr = round(km / 800, 1) if km else "—"
-        flight_time_hr = round(km / 800, 1) if km else "—"
+        flight_time_hr = get_flight_time(km) if km else "—"
         flights_url    = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{ap['IATA']}"
         skyscanner_url = f"https://www.skyscanner.net/transport/flights/tlv/{ap['IATA'].lower()}/"
         gmaps_url      = f"https://maps.google.com/?q={ap['City'].replace(' ','+')},{ap['Country'].replace(' ','+')}"

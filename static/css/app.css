@@ -631,6 +631,54 @@ table.dataTable > tbody > tr.child td.child {
     padding: 0 !important;
   }
 }
+.footer-bg {
+  position: relative;
+  z-index: 1;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  min-height: 250px; /* adjust as needed for your footer height */
+}
+
+.footer-bg::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('/static/og/directflights_1980.webp');
+  background-repeat: no-repeat;
+  background-size: cover;     /* ensures full coverage */
+  background-position: center bottom;
+  opacity: 0.38;              /* balance between visibility & readability */
+  z-index: 0;
+  pointer-events: none;
+  filter: grayscale(100%) contrast(120%);
+}
+
+.footer-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top,
+              rgba(255, 255, 255, 0.85) 0%,
+              rgba(255, 255, 255, 0.3) 60%,
+              transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ensure footer content stays above the overlays */
+.footer-bg > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* Hide on mobile */
+@media (max-width: 576px) {
+  .footer-bg::after {
+    display: none;
+  }
+}
+
 
 /* ✅ Dark Mode */
 body.dark-mode .footer-link {

@@ -703,7 +703,7 @@
     </div>
   </div>
 
-  <footer class="mt-5 border-top">
+  <footer class="mt-5 border-top footer-bg">
   <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
     <div class="mb-3 mb-md-0">
       <div class="d-flex align-items-center">
@@ -716,21 +716,25 @@
         {{ "Real routes, distances & estimated flight times." if lang != 'he' else "נתיבי טיסה אמיתיים, מרחקים וזמני טיסה משוערים." }}
       </div>
     </div>
-  <div class="col-md-7">
-    <div id="footer-marketing">
-      {% if lang == "he" %}
-      ✈️ <strong>הדרך החכמה לגלות יעדים ישירים מתל אביב (TLV)</strong><br>
-      חיפוש טיסות יכול להיות מבלבל — אילו חברות באמת מפעילות את הקו, באילו ימים ניתן לטוס, והאם זו טיסה ישירה או רק קוד־שייר.  
-      ב־<strong>Fly-TLV.com</strong> אנחנו עושים את זה פשוט: מבט ברור על כל היעדים הישירים מנתב״ג — כולל חברות תעופה, לוחות זמנים, מרחקים וזמני טיסה משוערים.  
-      כל המידע במקום אחד, כדי שתוכלו לתכנן את הטיול הבא שלכם בביטחון.
-      {% else %}
-      ✈️ <strong>The smart way to explore direct destinations from Tel Aviv (TLV)</strong><br>
-      Finding the right destination can be confusing — which airlines actually serve the route, on what days, and whether it’s truly non-stop or just a codeshare.  
-      At <strong>Fly-TLV.com</strong>, we make it simple: a clear overview of all nonstop destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.  
-      Everything in one place, so you can plan your next trip with confidence.
-      {% endif %}
-    </div>
+<div class="col-md-7">
+  <div id="footer-marketing">
+    {% if lang == "he" %}
+    ✈️ <strong>הדרך החכמה לגלות יעדים ישירים מתל אביב (TLV)</strong><br>
+    חיפוש טיסות יכול להיות מבלבל — אילו חברות באמת מפעילות את הקו, באילו ימים ניתן לטוס, והאם זו טיסה ישירה או רק קוד־שייר.  
+    ב־<a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">
+      Fly-TLV.com
+    </a> אנחנו עושים את זה פשוט: מבט ברור על כל היעדים הישירים מנתב״ג — כולל חברות תעופה, לוחות זמנים, מרחקים וזמני טיסה משוערים.  
+    כל המידע במקום אחד, כדי שתוכלו לתכנן את הטיול הבא שלכם בביטחון.
+    {% else %}
+    ✈️ <strong>The smart way to explore direct destinations from Tel Aviv (TLV)</strong><br>
+    Finding the right destination can be confusing — which airlines actually serve the route, on what days, and whether it’s truly non-stop or just a codeshare.  
+    At <a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">
+      Fly-TLV.com
+    </a>, we make it simple: a clear overview of all nonstop destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.  
+    Everything in one place, so you can plan your next trip with confidence.
+    {% endif %}
   </div>
+</div>
 </div>
 <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
   <a href="/about{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
