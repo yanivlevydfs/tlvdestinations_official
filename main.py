@@ -1403,6 +1403,25 @@ async def glossary_view(request: Request):
             "lang": lang
         })
 
+@app.get("/destinations", include_in_schema=False)
+async def redirect_or_error(request: Request):
+    global DATASET_DF
+
+    # If dataset is not loaded, show error page
+    if DATASET_DF is None or DATASET_DF.empty:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": "No destination data available.",
+            "lang": request.query_params.get("lang", "en")
+        })
+
+    # Otherwise, redirect to homepage
+    lang = request.query_params.get("lang")
+    if lang:
+        return RedirectResponse(url=f"/?lang={lang}", status_code=302)
+    return RedirectResponse(url="/", status_code=302)
+
+    
 @app.get("/destinations/{iata}", response_class=HTMLResponse)
 async def destination_detail(request: Request, iata: str):
     global DATASET_DF
