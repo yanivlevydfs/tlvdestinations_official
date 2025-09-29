@@ -21,7 +21,7 @@ import requests
 import folium
 from airportsdata import load
 from folium.plugins import MarkerCluster
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse,RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
@@ -1404,22 +1404,15 @@ async def glossary_view(request: Request):
         })
 
 @app.get("/destinations", include_in_schema=False)
-async def redirect_or_error(request: Request):
+async def redirect_to_home(request: Request):
     global DATASET_DF
 
-    # If dataset is not loaded, show error page
     if DATASET_DF is None or DATASET_DF.empty:
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "message": "No destination data available.",
-            "lang": request.query_params.get("lang", "en")
-        })
+        logger.warning("DATASET_DF is not loaded. Redirecting anyway to avoid SEO issues.")
 
-    # Otherwise, redirect to homepage
     lang = request.query_params.get("lang")
-    if lang:
-        return RedirectResponse(url=f"/?lang={lang}", status_code=302)
-    return RedirectResponse(url="/", status_code=302)
+    url = f"/?lang={lang}" if lang else "/"
+    return RedirectResponse(url=url, status_code=301)
 
     
 @app.get("/destinations/{iata}", response_class=HTMLResponse)

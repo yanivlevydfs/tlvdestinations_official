@@ -5,11 +5,12 @@
 {%- endblock %}
 
 {% block head_extra %}
-  <!-- Canonical & hreflang -->
-  <link rel="canonical" href="https://fly-tlv.com/privacy{{ '' if lang != 'he' else '?lang=he' }}" />
-  <link rel="alternate" href="https://fly-tlv.com/privacy" hreflang="en" />
-  <link rel="alternate" href="https://fly-tlv.com/privacy?lang=he" hreflang="he" />
-  <link rel="alternate" href="https://fly-tlv.com/privacy" hreflang="x-default" />
+<!-- Canonical & hreflang -->
+<link rel="canonical" href="https://fly-tlv.com/privacy" />
+<link rel="alternate" hreflang="en" href="https://fly-tlv.com/privacy" />
+<link rel="alternate" hreflang="he" href="https://fly-tlv.com/privacy?lang=he" />
+<link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/privacy" />
+
 
   <meta name="robots" content="index,follow" />
   <meta name="description" content="{{
