@@ -704,7 +704,9 @@
     </div>
   </div>
 
-  <footer class="mt-5 border-top footer-bg">
+<footer class="mt-5 border-top footer-bg">
+
+  <!-- First container -->
   <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
     <div class="mb-3 mb-md-0">
       <div class="d-flex align-items-center">
@@ -717,94 +719,77 @@
         {{ "Real routes, distances & estimated flight times." if lang != 'he' else "נתיבי טיסה אמיתיים, מרחקים וזמני טיסה משוערים." }}
       </div>
     </div>
-<div class="col-md-7">
-  <div id="footer-marketing">
-    {% if lang == "he" %}
-    ✈️ <strong>הדרך החכמה לגלות יעדים ישירים מתל אביב (TLV)</strong><br>
-    חיפוש טיסות יכול להיות מבלבל — אילו חברות באמת מפעילות את הקו, באילו ימים ניתן לטוס, והאם זו טיסה ישירה או רק קוד־שייר.  
-    ב־<a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">
-      Fly-TLV.com
-    </a> אנחנו עושים את זה פשוט: מבט ברור על כל היעדים הישירים מנתב״ג — כולל חברות תעופה, לוחות זמנים, מרחקים וזמני טיסה משוערים.  
-    כל המידע במקום אחד, כדי שתוכלו לתכנן את הטיול הבא שלכם בביטחון.
-    {% else %}
-    ✈️ <strong>The smart way to explore direct destinations from Tel Aviv (TLV)</strong><br>
-    Finding the right destination can be confusing — which airlines actually serve the route, on what days, and whether it’s truly non-stop or just a codeshare.  
-    At <a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">
-      Fly-TLV.com
-    </a>, we make it simple: a clear overview of all nonstop destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.  
-    Everything in one place, so you can plan your next trip with confidence.
-    {% endif %}
-  </div>
-</div>
-</div>
-<nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
-  <a href="/about{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "About" if lang == "en" else "עלינו" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "Accessibility" if lang == "en" else "נגישות" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/privacy{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "Privacy" if lang == "en" else "פרטיות" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/contact{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "Contact" if lang == "en" else "צור קשר" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/chat{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "AI Bot" if lang == "en" else "בוט AI" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/flights{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "Flights" if lang == "en" else "טיסות" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">
-    {{ "Map" if lang == "en" else "מפה" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/sitemap.xml" class="footer-link" rel="sitemap">
-    {{ "Sitemap" if lang == "en" else "מפת האתר" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/glossary{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="glossary">
-    {{ "Glossary" if lang == "en" else "מושגים" }}
-  </a>
-  <span class="separator">·</span>
-  <a href="/stats{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="statistics">
-    {{ "Statistics" if lang == "en" else "סטטיסטיקה" }}
-  </a>
-</nav>
-</div>
-<div class="footer-bottom py-2">
-  <div class="container small text-center text-muted">
-    <p class="mb-2 fst-italic text-muted" style="font-size: 0.9rem;">
-      {% if lang == "he" %}
-        ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
-        יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
-      {% else %}
-        ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
-        Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
-      {% endif %}
-    </p>
 
-    © <span id="footer-year"></span> 
-    <span id="footer-brand-inline">
-      {{ "TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
-    </span>.
-    <span id="footer-rights">
-      {{ "All rights reserved." if lang != "he" else "כל הזכויות שמורות." }}
-    </span>
+    <div class="col-md-7">
+      <div id="footer-marketing">
+        {% if lang == "he" %}
+        ✈️ <strong>הדרך החכמה לגלות יעדים ישירים מתל אביב (TLV)</strong><br>
+        חיפוש טיסות יכול להיות מבלבל — אילו חברות באמת מפעילות את הקו, באילו ימים ניתן לטוס, והאם זו טיסה ישירה או רק קוד־שייר.  
+        ב־<a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">Fly-TLV.com</a>
+        אנחנו עושים את זה פשוט: מבט ברור על כל היעדים הישירים מנתב״ג — כולל חברות תעופה, לוחות זמנים, מרחקים וזמני טיסה משוערים.  
+        כל המידע במקום אחד, כדי שתוכלו לתכנן את הטיול הבא שלכם בביטחון.
+        {% else %}
+        ✈️ <strong>The smart way to explore direct destinations from Tel Aviv (TLV)</strong><br>
+        Finding the right destination can be confusing — which airlines actually serve the route, on what days, and whether it’s truly non-stop or just a codeshare.  
+        At <a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">Fly-TLV.com</a>,
+        we make it simple: a clear overview of all nonstop destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.  
+        Everything in one place, so you can plan your next trip with confidence.
+        {% endif %}
+      </div>
+    </div>
+  </div> <!-- ✅ closes first .container -->
+
+  <!-- Second container for nav -->
+  <div class="container">
+    <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
+      <a href="/about{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "About" if lang == "en" else "עלינו" }}</a>
+      <span class="separator">·</span>
+      <a href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Accessibility" if lang == "en" else "נגישות" }}</a>
+      <span class="separator">·</span>
+      <a href="/privacy{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Privacy" if lang == "en" else "פרטיות" }}</a>
+      <span class="separator">·</span>
+      <a href="/contact{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Contact" if lang == "en" else "צור קשר" }}</a>
+      <span class="separator">·</span>
+      <a href="/chat{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "AI Bot" if lang == "en" else "בוט AI" }}</a>
+      <span class="separator">·</span>
+      <a href="/flights{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Flights" if lang == "en" else "טיסות" }}</a>
+      <span class="separator">·</span>
+      <a href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}</a>
+      <span class="separator">·</span>
+      <a href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Map" if lang == "en" else "מפה" }}</a>
+      <span class="separator">·</span>
+      <a href="/sitemap.xml" class="footer-link" rel="sitemap">{{ "Sitemap" if lang == "en" else "מפת האתר" }}</a>
+      <span class="separator">·</span>
+      <a href="/glossary{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="glossary">{{ "Glossary" if lang == "en" else "מושגים" }}</a>
+      <span class="separator">·</span>
+      <a href="/stats{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="statistics">{{ "Statistics" if lang == "en" else "סטטיסטיקה" }}</a>
+    </nav>
   </div>
-</div>
-  </footer>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom py-2">
+    <div class="container small text-center text-muted">
+      <p class="mb-2 fst-italic text-muted" style="font-size: 0.9rem;">
+        {% if lang == "he" %}
+          ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
+          יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
+        {% else %}
+          ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
+          Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
+        {% endif %}
+      </p>
+
+      © <span id="footer-year"></span>
+      <span id="footer-brand-inline">
+        {{ "TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
+      </span>.
+      <span id="footer-rights">
+        {{ "All rights reserved." if lang != "he" else "כל הזכויות שמורות." }}
+      </span>
+    </div>
+  </div>
+</footer>
+
   <script src="/static/js/lang.js"></script>
   <script src="/static/js/app.js"></script>
   <script src="/static/js/ads-and-modal.js"></script>
