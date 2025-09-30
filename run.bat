@@ -1,2 +1,0 @@
-set GEMINI_API_KEY=AIzaSyBxOJwavtKVB9gJvA2OoAsKw90GogBNdZs
-uvicorn main:app --reload
