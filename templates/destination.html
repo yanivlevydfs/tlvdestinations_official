@@ -38,7 +38,7 @@
         </div>
         <div class="col-md-3">
           <i class="bi bi-clock-history text-warning fs-3"></i>
-          <p class="mb-0">{{ "%.2f"|format(destination.FlightTime_hr or 0) }} h</p>
+          <p class="mb-0">{{ destination.FlightTime_hr or "—" }}</p>
           <small>{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
         </div>
       </div>
