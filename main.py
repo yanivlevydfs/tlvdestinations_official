@@ -53,10 +53,10 @@ feedback_logger = setup_feedback_logger()
 logger = get_app_logger("flights_explorer")
 
 logger.info("Server starting…")
-
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 # Set up Gemini API
 
-genai.configure(api_key="AIzaSyBxOJwavtKVB9gJvA2OoAsKw90GogBNdZs")
+genai.configure(api_key=GEMINI_API_KEY)
 chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
 security = HTTPBasic()
 

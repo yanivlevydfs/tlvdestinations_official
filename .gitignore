@@ -109,3 +109,5 @@ venv.bak/
 cache/israel_flights.json
 cache/israel_flights.json
 /cache
+/cache
+run.bat
