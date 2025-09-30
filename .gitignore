@@ -108,3 +108,4 @@ venv.bak/
 .DS_Store
 cache/israel_flights.json
 cache/israel_flights.json
+/cache

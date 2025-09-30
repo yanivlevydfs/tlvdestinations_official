@@ -601,6 +601,11 @@ def format_time(dt_string):
 # ──────────────────────────────────────────────────────────────────────────────
 # Routes
 # ──────────────────────────────────────────────────────────────────────────────
+
+@app.head("/")
+async def read_root_head():
+    return Response(status_code=200)
+
 @app.get("/", response_class=HTMLResponse)
 def home(
     request: Request,
