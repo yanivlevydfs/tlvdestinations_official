@@ -680,15 +680,6 @@ table.dataTable > tbody > tr.child td.child {
   background: transparent; /* allow ::after to show through */
 }
 
-
-/* Hide on mobile */
-@media (max-width: 576px) {
-  .footer-bg::after {
-    display: none;
-  }
-}
-
-
 /* ✅ Dark Mode */
 body.dark-mode .footer-link {
   color: #bbb;
