@@ -1596,3 +1596,8 @@ async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
         "lang": lang,
         "now": datetime.now()
     })
+@app.get("/manifest.json", include_in_schema=False)
+async def manifest(request: Request):
+    logger.info(f"GET /manifest.json | client={request.client.host}")
+    file_path = Path(__file__).parent / "manifest.json"
+    return FileResponse(file_path, media_type="application/manifest+json")
