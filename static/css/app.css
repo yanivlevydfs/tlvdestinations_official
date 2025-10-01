@@ -770,3 +770,27 @@ body.dark-mode .footer-bottom {
 body.dark-mode .footer-bottom {
   background: transparent;
 }
+
+/* ✅ Stronger override with increased specificity */
+body.dark-mode button.btn-outline-primary {
+  color: #60a5fa !important;
+  border-color: #60a5fa !important;
+  background-color: transparent !important;
+}
+
+body.dark-mode button.btn-outline-primary:hover {
+  color: #fff !important;
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+/* Optional: Smooth transition */
+.btn-outline-primary {
+  transition: all 0.5s ease-in-out;
+}
+/* 🔁 Match rounded shape in both light and dark modes */
+.btn-outline-primary {
+  border-radius: 999px !important;
+  padding: 0.5rem 1.25rem;
+  font-weight: 400;
+}
