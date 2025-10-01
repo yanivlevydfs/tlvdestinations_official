@@ -628,7 +628,7 @@
         </div>
 
 		<!-- Share / Social Buttons -->
-		<div class="container text-center my-4">
+		<div class="container text-center mt-4 mb-0">
 		  <h5 class="fw-bold mb-3">Share With Everyone</h5>
 		  <div class="d-flex justify-content-center gap-3 flex-wrap">
 			<a
@@ -820,5 +820,24 @@
 		});
 	  }
 	</script>
+	<script>
+  let deferredPrompt;
+  const installBtn = document.getElementById('install-app-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.classList.remove('d-none'); // show button
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response: ${outcome}`);
+    deferredPrompt = null;
+    installBtn.classList.add('d-none');
+  });
+</script>
 </body>
 </html>

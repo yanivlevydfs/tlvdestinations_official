@@ -721,3 +721,52 @@ body.dark-mode #footer-marketing strong {
   border-radius: 6px;
   opacity: 0.85;
 }
+/* 🌙 Dark mode footer base */
+body.dark-mode .footer-bg {
+  position: relative;
+  z-index: 1;
+  background-color: #0a0a0a;
+  overflow: hidden;
+}
+
+/* 🌙 Skyline background across full footer */
+body.dark-mode .footer-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('/static/og/footer_airport.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.38;
+  z-index: 0;
+  pointer-events: none;
+  filter: grayscale(100%) contrast(120%);
+}
+
+/* 🌙 Gradient overlay for readability */
+body.dark-mode .footer-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 🌙 Ensure content stays above overlays */
+body.dark-mode .footer-bg > *,
+body.dark-mode .footer-bottom {
+  position: relative;
+  z-index: 2;
+}
+
+/* 🌙 Footer-bottom background stays transparent */
+body.dark-mode .footer-bottom {
+  background: transparent;
+}
