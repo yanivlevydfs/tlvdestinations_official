@@ -113,3 +113,5 @@ cache/israel_flights.json
 run.bat
 /cache
 /cache
+cache/israel_flights.json
+cache/travel_warnings.json
