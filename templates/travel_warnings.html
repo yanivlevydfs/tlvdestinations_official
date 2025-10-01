@@ -4,6 +4,20 @@
 
 {% block content %}
 <div class="container my-4 text-center">
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb" class="mb-3 text-start">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+        {{ 'Home' if lang != 'he' else 'בית' }}
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ 'Travel Warnings' if lang != 'he' else 'אזהרות מסע' }}
+    </li>
+  </ol>
+</nav>
+
   <h2 class="section-title">🌍 אזהרות מסע</h2>
 
   {% if last_update %}
@@ -242,20 +256,114 @@ html[dir="rtl"] .dt-buttons .btn {
   margin-left: 0.5rem !important;
   margin-right: 0 !important;
 }
-</style>
+/* 🌙 Dark Mode: Cards & Tables */
+body.dark-mode .card {
+  background-color: #111 !important;
+  color: #e5e5e5 !important;
+}
 
+body.dark-mode .card-header {
+  background-color: #1a1a1a !important;
+  color: #f0f0f0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ✅ White border for all cards in dark mode */
+body.dark-mode .card.shadow-sm {
+  border: 1px solid #fff !important;
+}
+
+/* 🌙 Table header */
+body.dark-mode table thead.table-primary {
+  background-color: #2563eb !important; /* nice blue header */
+  color: #fff !important;
+}
+
+/* 🌙 Badges */
+body.dark-mode .badge.bg-info {
+  color: #f8f9fa !important;
+}
+
+/* 🌙 Breadcrumbs */
+body.dark-mode .breadcrumb {
+  background-color: transparent !important;
+}
+
+body.dark-mode .breadcrumb-item + .breadcrumb-item::before{
+  color: #ccc !important;
+}
+
+body.dark-mode .breadcrumb-item a {
+  color: #93c5fd !important;
+  text-decoration: none;
+}
+
+body.dark-mode .breadcrumb-item a:hover {
+  color: #fff !important;
+  text-decoration: underline;
+}
+
+body.dark-mode .breadcrumb-item.active {
+  color: #999 !important;
+}
+
+/* 🌙 Muted text */
+body.dark-mode .text-muted {
+  color: #aaa !important;
+}
+div.dataTables_filter {
+  display: none !important;
+}
+@media (max-width: 768px) {
+  /* Hide columns 6 (משרד), 7 (לינק), and 8 (לוגו) */
+  th:nth-child(5),
+  td:nth-child(5),
+  th:nth-child(6),
+  td:nth-child(6),
+  th:nth-child(7),
+  td:nth-child(7),
+  th:nth-child(8),
+  td:nth-child(8) {
+    display: none;
+  }
+}
+
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  const isMobile = window.innerWidth <= 768;
+
   const table = $('#warnings-table').DataTable({
     pageLength: 25,
     responsive: true,
+	searching: true,
     dom: 'Bfrtip',
 	pagingType: "simple",
-    buttons: [
+    buttons: isMobile ? [] : [
+      {
+        extend: 'copyHtml5',
+        text: '<i class="bi bi-clipboard me-1"></i> העתק',
+        className: 'btn btn-primary btn-sm'
+      },
       {
         extend: 'csvHtml5',
         text: '<i class="bi bi-file-earmark-spreadsheet me-1"></i> ייצוא CSV',
         className: 'btn btn-success btn-sm buttons-csv'
+      },
+      {
+        extend: 'excelHtml5',
+        text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel',
+        className: 'btn btn-success btn-sm'
+      },
+      {
+        extend: 'pdfHtml5',
+        text: '<i class="bi bi-file-earmark-pdf me-1"></i> PDF',
+        className: 'btn btn-danger btn-sm'
+      },
+      {
+        extend: 'print',
+        text: '<i class="bi bi-printer me-1"></i> הדפסה',
+        className: 'btn btn-secondary btn-sm'
       },
       {
         extend: 'colvis',

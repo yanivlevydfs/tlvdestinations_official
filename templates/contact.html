@@ -117,6 +117,53 @@
       </div>
     </div>
   </div>
-
 </div>
+<style>
+/* 🌙 Dark Mode — Card Base Styling */
+body.dark-mode .card,
+body.dark-mode .card-body,
+body.dark-mode .card-header {
+  background-color: #111 !important;  /* Dark background */
+  color: #e5e7eb !important;          /* Light text */
+}
+
+/* 🌙 Ensure anchor tags in dark cards are readable */
+body.dark-mode .card a {
+  color: #60a5fa !important; /* Light blue links */
+}
+
+body.dark-mode .card a:hover {
+  color: #93c5fd !important;
+  text-decoration: underline;
+}
+
+/* 🌙 Specific muted fix */
+body.dark-mode .text-muted {
+  color: #9ca3af !important; /* Soft gray */
+}
+
+/* Optional: Icon consistency */
+body.dark-mode .text-primary {
+  color: #60a5fa !important;
+}
+/* 🌙 Breadcrumbs: dark mode text */
+body.dark-mode .breadcrumb {
+  background-color: transparent;
+}
+
+body.dark-mode .breadcrumb-item a {
+  color: #93c5fd; /* light blue link */
+  text-decoration: none;
+}
+
+body.dark-mode .breadcrumb-item a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+body.dark-mode .breadcrumb-item.active {
+  color: #aaa; /* muted active item */
+}
+
+</style>
 {% endblock %}

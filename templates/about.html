@@ -200,7 +200,19 @@
 
 {% block content %}
 <div class="container mt-4">
-
+  <!-- ✅ Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'About' if lang != 'he' else 'אודות' }}
+      </li>
+    </ol>
+  </nav>
   <!-- ✅ Page Header -->
   <div class="card shadow-sm mb-4">
     <div class="card-body text-center">
@@ -303,4 +315,46 @@
   </div>
 
 </div>
+<style>
+  body.dark-mode .card-body {
+    color: #e5e5e5 !important;
+  }
+  body.dark-mode .text-muted {
+    color: #aaa !important;
+  }
+  <!-- ✅ Dark Mode Fixes -->
+<style>
+  body.dark-mode .card-body,
+  body.dark-mode .card-title,
+  body.dark-mode .card-text {
+    color: #e4e4e4 !important;
+  }
+
+  body.dark-mode .text-muted {
+    color: #aaa !important;
+  }
+
+  body.dark-mode .breadcrumb {
+    background-color: transparent;
+  }
+
+  body.dark-mode .breadcrumb-item {
+    color: #ccc;
+  }
+
+  body.dark-mode .breadcrumb-item a {
+    color: #93c5fd;
+    text-decoration: none;
+  }
+
+  body.dark-mode .breadcrumb-item a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  body.dark-mode .breadcrumb-item.active {
+    color: #999;
+  }
+</style>
+
 {% endblock %}

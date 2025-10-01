@@ -261,4 +261,46 @@
     </div>
   </div>
 </div>
+<style>
+  body.dark-mode .card-body {
+    color: #e5e5e5 !important;
+  }
+  body.dark-mode .text-muted {
+    color: #aaa !important;
+  }
+  /* 🌙 Make card content readable in dark mode */
+body.dark-mode .card,
+body.dark-mode .card-body,
+body.dark-mode .card-header {
+  background-color: #111 !important;  /* Deep neutral background */
+  color: #ddd !important;             /* Light text for readability */
+}
+
+body.dark-mode .card-header {
+  border-bottom-color: #333 !important;
+}
+/* 🌙 Dark Mode: Breadcrumb Styling */
+body.dark-mode .breadcrumb {
+  background-color: transparent;
+}
+
+body.dark-mode .breadcrumb-item {
+  color: #ccc;
+}
+
+body.dark-mode .breadcrumb-item a {
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+body.dark-mode .breadcrumb-item a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+body.dark-mode .breadcrumb-item.active {
+  color: #999;
+}
+
+</style>
 {% endblock %}

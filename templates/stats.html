@@ -50,7 +50,19 @@
 
 {% block content %}
 <div class="container my-4">
-
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'Statistics' if lang != 'he' else 'סטטיסטיקות' }}
+      </li>
+    </ol>
+  </nav>
   <!-- Title -->
   <h2 class="section-title text-center">
     📊 Ben Gurion Airport — Current Flight Statistics
@@ -257,4 +269,60 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+<style>
+  /* 🎨 Dark Mode fixes for this page */
+
+  body.dark-mode .section-title {
+    color: #e5e5e5 !important;
+  }
+
+  body.dark-mode .card,
+  body.dark-mode .card-header,
+  body.dark-mode .card-body {
+    background-color: #111 !important;
+    color: #ddd !important;
+  }
+
+  body.dark-mode .card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
+  body.dark-mode .table {
+    color: #ddd !important;
+  }
+
+  body.dark-mode .table thead {
+    background-color: rgba(18,18,18,0.9) !important;
+  }
+
+  body.dark-mode .breadcrumb {
+    background-color: transparent !important;
+  }
+
+  body.dark-mode .breadcrumb-item {
+    color: #ccc !important;
+  }
+
+  body.dark-mode .breadcrumb-item a {
+    color: #93c5fd !important;
+    text-decoration: none;
+  }
+
+  body.dark-mode .breadcrumb-item a:hover {
+    color: #fff !important;
+    text-decoration: underline;
+  }
+
+  body.dark-mode .breadcrumb-item.active {
+    color: #999 !important;
+  }
+
+  body.dark-mode .text-muted {
+    color: #aaa !important;
+  }
+  body.dark-mode .card.shadow-sm {
+  border: 1px solid #fff !important;
+}
+
+</style>
 {% endblock %}

@@ -92,7 +92,7 @@
   <!-- Header -->
   <div class="card shadow-sm mb-4">
     <div class="card-body d-flex align-items-center">
-      <i class="bi bi-universal-access-circle fs-3 text-success me-3"></i>
+      <i class="bi bi-universal-access-circle fs-3 text-primary me-3"></i>
       <div>
         <h1 class="h4 mb-1">
           {{ 'Accessibility Statement' if lang != 'he' else 'הצהרת נגישות' }}
@@ -163,7 +163,7 @@
                if lang != 'he' else
                "אם נתקלתם בבעיה נגישות, אנא פנו אלינו דרך עמוד צור קשר." }}
           </p>
-          <a href="/contact{{ '' if lang != 'he' else '?lang=he' }}" class="btn btn-outline-success mt-2">
+          <a href="/contact{{ '' if lang != 'he' else '?lang=he' }}" class="btn btn-outline-primary mt-2">
             <i class="bi bi-envelope"></i>
             {{ 'Contact Page' if lang != 'he' else 'עמוד צור קשר' }}
           </a>
@@ -173,4 +173,38 @@
 
   </div>
 </div>
+<style>
+  /* 🌙 Dark mode overrides for Accessibility page */
+
+  body.dark-mode .card,
+  body.dark-mode .card .card-body,
+  body.dark-mode .card .card-header,
+  body.dark-mode .card .card-body p,
+  body.dark-mode .card .card-body ul,
+  body.dark-mode .card .card-body li,
+  body.dark-mode .card .card-body a,
+  body.dark-mode .breadcrumb,
+  body.dark-mode .breadcrumb a,
+  body.dark-mode .breadcrumb .breadcrumb-item {
+    color: #e5e5e5 !important;
+  }
+
+  body.dark-mode .card .card-header,
+  body.dark-mode h1,
+  body.dark-mode h2,
+  body.dark-mode h3,
+  body.dark-mode h4 {
+    color: #f4f4f4 !important;
+  }
+
+  body.dark-mode .text-muted {
+    color: #aaaaaa !important;
+  }
+
+  body.dark-mode .card {
+    background-color: rgba(18, 18, 18, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+</style>
+
 {% endblock %}

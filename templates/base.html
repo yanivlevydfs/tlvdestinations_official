@@ -61,6 +61,10 @@
   <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -122,13 +126,20 @@
       border-bottom: 1px solid #dee2e6;
     }
 
-    .navbar-brand {
-      font-weight: bold;
-      background: linear-gradient(to right, #7c3aed, #0ea5e9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 1.25rem;
-    }
+	.navbar-brand {
+	  font-family: 'Space Grotesk', sans-serif;
+	  font-weight: 700;
+	  font-size: clamp(1.1rem, 3vw, 1.6rem); /* 🔄 Responsive text size */
+	  background: var(--accent);
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: transparent;
+	  text-shadow: var(--accent-glow);
+	  white-space: nowrap;
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  max-width: 100%;
+	  display: inline-block;
+	}
 
 	.btn-outline-primary {
 	  border-radius: 999px !important;
@@ -186,6 +197,9 @@
       background-color: #264a7f;
       color: white;
     }
+	.btn-outline-primary {
+	transition: all 0.5s ease-in-out;
+	}
   </style>
   
 </head>
