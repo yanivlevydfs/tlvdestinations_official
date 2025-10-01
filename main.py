@@ -1512,20 +1512,25 @@ async def receive_feedback(payload: dict):
     feedback_logger.info(f"{score} | {question}")
     return {"status": "ok"}
     
-@app.get("/sw.js")
-async def remove_sw():
-    # Tell the browser "there’s no service worker here"
+@app.get("/sw.js", include_in_schema=False)
+async def service_worker():
     js = """
-    self.addEventListener("install", () => self.skipWaiting());
+    self.addEventListener("install", (event) => {
+        console.log("Service Worker installed");
+        self.skipWaiting();
+    });
+
     self.addEventListener("activate", (event) => {
-        event.waitUntil(
-            caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
-        );
-        self.registration.unregister();
+        console.log("Service Worker activated");
+        event.waitUntil(clients.claim());
+    });
+
+    // Minimal fetch handler (passthrough to network)
+    self.addEventListener("fetch", (event) => {
+        event.respondWith(fetch(event.request));
     });
     """
-    return Response(content=js, media_type="application/javascript")
-    
+    return Response(content=js, media_type="application/javascript")    
 
 
 @app.get("/stats", response_class=HTMLResponse)

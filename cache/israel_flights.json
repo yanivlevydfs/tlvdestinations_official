@@ -1,150 +1,7 @@
 {
-  "updated": "2025-10-01T17:27:51.215703",
-  "count": 1511,
+  "updated": "2025-10-01T17:37:09.075720",
+  "count": 1502,
   "flights": [
-    {
-      "airline": "Israir Airlines",
-      "iata": "ATH",
-      "airport": "Athens",
-      "city": "Athens",
-      "country": "Greece",
-      "scheduled": "2025-09-30t15:45:00",
-      "actual": "2025-09-30t17:16:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "SKG",
-      "airport": "Thessaloniki",
-      "city": "Thessaloniki",
-      "country": "Greece",
-      "scheduled": "2025-09-30t16:35:00",
-      "actual": "2025-09-30t17:19:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "BEG",
-      "airport": "Belgrade",
-      "city": "Belgrade",
-      "country": "Serbia",
-      "scheduled": "2025-09-30t16:55:00",
-      "actual": "2025-09-30t17:21:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Aero Mexico",
-      "iata": "LHR",
-      "airport": "London - Heathrow",
-      "city": "London",
-      "country": "United Kingdom",
-      "scheduled": "2025-09-30t17:00:00",
-      "actual": "2025-09-30t17:22:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "LHR",
-      "airport": "London - Heathrow",
-      "city": "London",
-      "country": "United Kingdom",
-      "scheduled": "2025-09-30t17:00:00",
-      "actual": "2025-09-30t17:22:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Virgin Atlantic Airways",
-      "iata": "LHR",
-      "airport": "London - Heathrow",
-      "city": "London",
-      "country": "United Kingdom",
-      "scheduled": "2025-09-30t17:00:00",
-      "actual": "2025-09-30t17:22:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "SZG",
-      "airport": "Salzburg",
-      "city": "Salzburg",
-      "country": "Austria",
-      "scheduled": "2025-09-30t16:45:00",
-      "actual": "2025-09-30t17:24:00",
-      "direction": "A",
-      "status": "Landed"
-    },
-    {
-      "airline": "Israir Airlines",
-      "iata": "BUD",
-      "airport": "Budapest",
-      "city": "Budapest",
-      "country": "Hungary",
-      "scheduled": "2025-09-30t16:45:00",
-      "actual": "2025-09-30t17:26:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Blue Bird Airways",
-      "iata": "PRG",
-      "airport": "Prague-ruzyne",
-      "city": "Prague",
-      "country": "Czech Republic",
-      "scheduled": "2025-09-30t15:00:00",
-      "actual": "2025-09-30t17:28:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Aero Mexico",
-      "iata": "MAD",
-      "airport": "Madrid",
-      "city": "Madrid",
-      "country": "Spain",
-      "scheduled": "2025-09-30t17:15:00",
-      "actual": "2025-09-30t17:30:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Aerolineas Argentinas S.a.",
-      "iata": "MAD",
-      "airport": "Madrid",
-      "city": "Madrid",
-      "country": "Spain",
-      "scheduled": "2025-09-30t17:15:00",
-      "actual": "2025-09-30t17:30:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Iberia",
-      "iata": "MAD",
-      "airport": "Madrid",
-      "city": "Madrid",
-      "country": "Spain",
-      "scheduled": "2025-09-30t17:15:00",
-      "actual": "2025-09-30t17:30:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "MAD",
-      "airport": "Madrid",
-      "city": "Madrid",
-      "country": "Spain",
-      "scheduled": "2025-09-30t17:15:00",
-      "actual": "2025-09-30t17:30:00",
-      "direction": "D",
-      "status": "Departed"
-    },
     {
       "airline": "El Al Israel Airlines",
       "iata": "MXP",
@@ -16620,6 +16477,50 @@
       "country": "Cyprus",
       "scheduled": "2025-10-04t17:15:00",
       "actual": "2025-10-04t17:15:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "SZG",
+      "airport": "Salzburg",
+      "city": "Salzburg",
+      "country": "Austria",
+      "scheduled": "2025-10-04t17:20:00",
+      "actual": "2025-10-04t17:20:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Transavia France",
+      "iata": "ORY",
+      "airport": "Paris-orly",
+      "city": "Paris",
+      "country": "France",
+      "scheduled": "2025-10-04t17:25:00",
+      "actual": "2025-10-04t17:25:00",
+      "direction": "A",
+      "status": "Not Final"
+    },
+    {
+      "airline": "Arkia Israeli Airlines",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-04t17:30:00",
+      "actual": "2025-10-04t17:30:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "BUS",
+      "airport": "Batumi",
+      "city": "Batumi",
+      "country": "Georgia",
+      "scheduled": "2025-10-04t17:30:00",
+      "actual": "2025-10-04t17:30:00",
       "direction": "A",
       "status": "Not Final"
     }
