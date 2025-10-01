@@ -2,4 +2,13 @@ User-agent: *
 Disallow: /docs
 Allow: /
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://fly-tlv.com/sitemap.xml
