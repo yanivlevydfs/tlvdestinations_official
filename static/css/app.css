@@ -139,12 +139,17 @@ body.dark-mode .card {
   margin: 3px;
   transition: all .3s ease;
   color: inherit;
+  animation: floatIn 0.5s ease forwards;
+  animation-delay: calc(var(--chip-index, 0) * 0.05s); /* optional stagger */
+  opacity: 0; /* so animation kicks in */
 }
 .airline-chip:hover {
   background: var(--accent) !important;
   color: #fff !important;
   transform: scale(1.1) translateY(-2px);
   box-shadow: var(--accent-glow);
+  transition: all 0.3s ease, box-shadow 0.4s ease;
+
 }
 
 /* ===== Table ===== */
@@ -827,4 +832,14 @@ body.dark-mode #airports-table td a:not(.airline-chip) {
 body.dark-mode #airports-table td a:not(.airline-chip):hover {
   color: #ffffff !important;
   text-decoration: underline !important;
+}
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
