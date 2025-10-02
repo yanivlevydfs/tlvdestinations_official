@@ -794,3 +794,37 @@ body.dark-mode button.btn-outline-primary:hover {
   padding: 0.5rem 1.25rem;
   font-weight: 400;
 }
+body.dark-mode a {
+  color: #60a5fa; /* Light blue */
+}
+
+body.dark-mode a:hover {
+  color: #3b82f6; /* Stronger blue on hover */
+}
+body.dark-mode #airports-table a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+body.dark-mode #airports-table a:hover {
+  color: #ffffff !important;
+}
+@media (min-width: 768px) {
+  #install-app-btn {
+    display: none !important;
+  }
+}
+#install-app-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ Apply blue to table links, EXCLUDING airline-chip */
+body.dark-mode #airports-table td a:not(.airline-chip) {
+  color: #60a5fa !important;
+  text-decoration: none !important;
+}
+
+body.dark-mode #airports-table td a:not(.airline-chip):hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}

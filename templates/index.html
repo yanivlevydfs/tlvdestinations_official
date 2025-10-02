@@ -539,7 +539,7 @@
                 <tr>
                   <td>{{ ap.IATA }}</td>
                   <td>
-                    <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold">
+                    <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold ">
                       {{ ap.Name }}
                     </a>
                   </td>
@@ -638,6 +638,7 @@
 			  class="btn btn-success d-flex align-items-center gap-2"
 			  aria-label="Share this page on WhatsApp"
 			  title="Share on WhatsApp"
+			  style="border-radius: 50px !important; padding: 0.5rem 1.25rem; border: 2px;"
 			>
 			  <i class="bi bi-whatsapp"></i> SEND
 			</a>
@@ -649,11 +650,10 @@
 			  class="btn btn-primary d-flex align-items-center gap-2"
 			  aria-label="Share this page on Facebook"
 			  title="Share on Facebook"
-			  style="background-color:#3b5998; border:none;"
+			  style="border-radius: 50px !important; padding: 0.5rem 1.25rem; border: 2px;"
 			>
 			  <i class="bi bi-facebook"></i> SHARE
 			</a>
-
 			<a
 			  href="https://twitter.com/intent/tweet?url=https://fly-tlv.com&text=Check%20out%20this%20destination%20from%20Tel%20Aviv!"
 			  target="_blank"
@@ -661,7 +661,7 @@
 			  class="btn btn-info d-flex align-items-center gap-2"
 			  aria-label="Share this page on Twitter"
 			  title="Share on Twitter"
-			  style="background-color:#1DA1F2; border:none;"
+			  style="border-radius: 50px !important; padding: 0.5rem 1.25rem; border: 2px;"
 			>
 			  <i class="bi bi-twitter"></i> TWEET
 			</a>
@@ -820,24 +820,42 @@
 		});
 	  }
 	</script>
-	<script>
-  let deferredPrompt;
-  const installBtn = document.getElementById('install-app-btn');
+	<button id="install-app-btn" class="d-none" style="
+	  position: fixed;
+	  bottom: 16px;
+	  right: 16px;
+	  z-index: 1000;
+	  background: linear-gradient(135deg, #22d3ee, #818cf8);
+	  color: #fff;
+	  border: none;
+	  border-radius: 50px;
+	  padding: 0.6rem 1.4rem;
+	  font-weight: 600;
+	  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+	  cursor: pointer;
+	  transition: transform 0.2s ease;
+	">
+	  📲 Install App
+	</button>
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.classList.remove('d-none'); // show button
-  });
+  <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-app-btn');
 
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User response: ${outcome}`);
-    deferredPrompt = null;
-    installBtn.classList.add('d-none');
-  });
-</script>
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.remove('d-none');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response: ${outcome}`);
+      deferredPrompt = null;
+      installBtn.classList.add('d-none');
+    });
+  </script>
 </body>
 </html>
