@@ -591,7 +591,7 @@ table.dataTable > tbody > tr.child td.child {
 }
 
 .footer-link {
-  color: #6c757d; /* muted gray */
+  color: #2563eb !important; /* Brand blue */
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s, text-decoration 0.2s;
@@ -600,7 +600,7 @@ table.dataTable > tbody > tr.child td.child {
 
 .footer-link:hover,
 .footer-link:focus {
-  color: #2563eb; /* brand blue */
+  color: #1e40af; /* brand blue */
   text-decoration: underline;
 }
 
@@ -627,7 +627,7 @@ table.dataTable > tbody > tr.child td.child {
   }
 
   /* Hide separators on mobile completely */
-  .footer-nav .separator {
+  .footer-nav .separator {	 
     display: none !important;
     width: 0 !important;
     height: 0 !important;
@@ -687,10 +687,10 @@ table.dataTable > tbody > tr.child td.child {
 
 /* ✅ Dark Mode */
 body.dark-mode .footer-link {
-  color: #bbb;
+   color: #60a5fa !important; /* Bright blue for dark backgrounds */
 }
 body.dark-mode .footer-link:hover {
-  color: #90c2ff;
+  color: #93c5fd !important; /* Even brighter on hover */
 }
 body.dark-mode .separator {
   color: #666;
@@ -838,19 +838,5 @@ body.dark-mode #airports-table td a:not(.airline-chip):hover {
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-@media (max-width: 768px) {
-  body.dark-mode .btn-outline-primary {
-    font-size: 0.85rem !important;
-    padding: 0.4rem 1rem !important;
-    line-height: 1.2 !important;
-    min-width: auto !important;
-    height: auto !important;
-  }
-
-  body.dark-mode .btn-outline-primary i {
-    font-size: 1rem !important;
-    margin-right: 0.35rem !important;
   }
 }
