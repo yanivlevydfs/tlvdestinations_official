@@ -840,3 +840,17 @@ body.dark-mode #airports-table td a:not(.airline-chip):hover {
     transform: translateY(0) scale(1);
   }
 }
+@media (max-width: 768px) {
+  body.dark-mode .btn-outline-primary {
+    font-size: 0.85rem !important;
+    padding: 0.4rem 1rem !important;
+    line-height: 1.2 !important;
+    min-width: auto !important;
+    height: auto !important;
+  }
+
+  body.dark-mode .btn-outline-primary i {
+    font-size: 1rem !important;
+    margin-right: 0.35rem !important;
+  }
+}
