@@ -336,6 +336,21 @@
 					{% endfor %}
 				  </select>
 				</div>
+				<!-- ✅ NEW AIRLINE DROPDOWN -->
+				<div class="mb-3">
+				  <label for="airline-filter" class="form-label">
+					{% if lang == "he" %}
+					  חברת תעופה
+					{% else %}
+					  Airline
+					{% endif %}
+				  </label>
+				  <select id="airline-filter" class="form-select">
+					{% for airline in airlines %}
+					  <option value="{{ airline }}">{{ airline }}</option>
+					{% endfor %}
+				  </select>
+				</div>
                 <div class="mb-3 mt-3">
                   <label for="query-filter" class="form-label">
                     {% if lang == "he" %}
@@ -481,7 +496,20 @@
     {% endfor %}
   </select>
 </div>
-
+<div class="mb-3">
+  <label for="airline-filter-mobile" class="form-label">
+    {% if lang == "he" %}
+      חברת תעופה
+    {% else %}
+      Airline
+    {% endif %}
+  </label>
+  <select id="airline-filter-mobile" class="form-select">
+    {% for airline in airlines %}
+      <option value="{{ airline }}">{{ airline }}</option>
+    {% endfor %}
+  </select>
+</div>
     <div class="mb-3 mt-3">
       <label for="query-filter-mobile" class="form-label">
         {% if lang == "he" %}
@@ -777,6 +805,9 @@
       <a href="/glossary{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="glossary">{{ "Glossary" if lang == "en" else "מושגים" }}</a>
       <span class="separator">·</span>
       <a href="/stats{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="statistics">{{ "Statistics" if lang == "en" else "סטטיסטיקה" }}</a>
+	  <span class="separator">·</span>
+	  <a href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="direct-vs-nonstop">
+	  {{ "Direct vs Nonstop" if lang == "en" else "ישיר מול ללא-עצירות" }}</a>
     </nav>
   </div>
 

@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lbl = document.getElementById('active-filters');
     const country = document.getElementById('country-filter').value;
     const city = document.getElementById('city-filter')?.value || '';
+	const airline = document.getElementById('airline-filter')?.value || '';
     const q = document.getElementById('query-filter').value.trim();
     const parts = [];
     if (country && country !== 'All') {
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (city && city !== 'All') {
       parts.push(`City: ${city}`);
     }
+	if (airline && airline !== 'All') parts.push(`Airline: ${airline}`);
     if (q) {
       parts.push(`${dict.search}: "${q}"`);
     }
@@ -231,24 +233,49 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedLang2 = localStorage.getItem('fe-lang') || 'en';
   table = initDataTable(savedLang2);
 
-  // 🆕 populate city dropdowns after table loaded
-  function populateDropdownFromTable(columnIndex, selectId) {
-    const uniqueVals = new Set();
-    table.column(columnIndex).data().each(function (val) {
-      uniqueVals.add(val.trim());
-    });
-    const select = document.getElementById(selectId);
-    if (!select) return;
-    select.innerHTML = '<option value="All">All</option>';
-    [...uniqueVals].sort().forEach(val => {
-      const opt = document.createElement('option');
-      opt.value = val;
-      opt.textContent = val;
-      select.appendChild(opt);
-    });
-  }
+// 🆕 improved version: handles <a> tags inside Airlines column
+function populateDropdownFromTable(columnIndex, selectId) {
+  const uniqueVals = new Set();
+
+  table.column(columnIndex).data().each(function (val) {
+    if (!val) return;
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = val;
+
+    // If cell contains <a> tags → extract each airline separately
+    const links = tempDiv.querySelectorAll("a");
+    if (links.length) {
+      links.forEach(link => {
+        const name = link.textContent.trim();
+        if (name) uniqueVals.add(name);
+      });
+    } else {
+      // Fallback for plain text columns (like City)
+      const cleanText = tempDiv.textContent.trim();
+      if (cleanText) uniqueVals.add(cleanText);
+    }
+  });
+
+  const select = document.getElementById(selectId);
+  if (!select) return;
+
+  // Reset dropdown
+  select.innerHTML = '<option value="All">All</option>';
+
+  // Add sorted values
+  [...uniqueVals].sort().forEach(val => {
+    const opt = document.createElement("option");
+    opt.value = val;
+    opt.textContent = val;
+    select.appendChild(opt);
+  });
+}
+
   populateDropdownFromTable(2, 'city-filter');
   populateDropdownFromTable(2, 'city-filter-mobile');
+  populateDropdownFromTable(4, 'airline-filter');
+  populateDropdownFromTable(4, 'airline-filter-mobile');
 
   applyLanguage(savedLang2, false);
 
@@ -266,6 +293,19 @@ document.addEventListener('DOMContentLoaded', () => {
     updateActiveFilters(LANG[currentLang]);
   });
 
+	$('#airline-filter').on('change', function() {
+	  const val = this.value === "All" ? '' : this.value;
+	  table.column(4).search(escapeRegex(val), true, false).draw();
+	  updateActiveFilters(LANG[currentLang]);
+	});
+
+	// 🆕 Airline filter mobile
+	$('#airline-filter-mobile').on('change', function() {
+	  const val = this.value === "All" ? '' : this.value;
+	  table.column(4).search(escapeRegex(val), true, false).draw();
+	  updateActiveFilters(LANG[currentLang]);
+	});
+
   let debounceTimer;
   $('#query-filter').on('input', function() {
     clearTimeout(debounceTimer);
@@ -281,6 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearFiltersBtn.addEventListener('click', () => {
       $('#country-filter').val('All').trigger('change');
       $('#city-filter').val('All').trigger('change');
+      $('#airline-filter').val('All').trigger('change');
       $('#query-filter').val('').trigger('input');
     });
   }
