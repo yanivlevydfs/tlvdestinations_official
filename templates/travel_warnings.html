@@ -1,9 +1,53 @@
 {% extends "base.html" %}
 
 {% block title %}אזהרות מסע — Fly TLV{% endblock %}
+{% block head %}
+<!-- Canonical & hreflang for /stats -->
+<link rel="canonical" href="https://fly-tlv.com/stats" />
+<link rel="alternate" hreflang="en" href="https://fly-tlv.com/stats" />
+<link rel="alternate" hreflang="he" href="https://fly-tlv.com/stats?lang=he" />
+<link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/stats" />
 
+  <!-- ✅ Page-specific SEO -->
+  <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
+  <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+  <meta property="og:description" content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
+  <meta property="og:url" content="https://fly-tlv.com/stats">
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_stats.jpg">
+  <meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+  <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+  <meta name="twitter:image:alt" content="TLV airport stats overview">
+
+  <!-- Structured Data: Dataset -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Ben Gurion Airport — Current Flight Statistics",
+    "description": "Live statistics of flights, departures, and arrivals from Ben Gurion Airport (TLV). Updated frequently with top destinations, airlines, and cities.",
+    "url": "https://fly-tlv.com/stats",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "creator": {
+      "@type": "Organization",
+      "name": "Fly-TLV.com",
+      "url": "https://fly-tlv.com"
+    },
+    "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
+    "dateModified": "{{ last_update.isoformat() }}"
+  }
+  </script>
+{% endblock %}
 {% block content %}
-<div class="container my-4 text-center">
+<div class="container my-4 text-center lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
 <!-- Breadcrumbs -->
 <nav aria-label="breadcrumb" class="mb-3 text-start">
   <ol class="breadcrumb mb-0">
@@ -18,63 +62,89 @@
   </ol>
 </nav>
 
-  <h2 class="section-title">🌍 אזהרות מסע</h2>
+<h2 class="section-title">
+  {% if lang == 'he' %}🌍 אזהרות מסע{% else %}🌍 Travel Warnings{% endif %}
+</h2>
 
-  {% if last_update %}
-    <div class="mb-3">
-      <span class="badge rounded-pill bg-info px-3 py-2 text-dark">
-        עודכן לאחרונה: {{ last_update | datetimeformat }}
+
+{% if last_update %}
+  <div class="text-center mb-4">
+    <span class="last-update-badge">
+      <i class="bi bi-clock-history"></i>
+      <span class="label-text">
+        {% if lang == 'he' %}עודכן לאחרונה:{% else %}Last update:{% endif %}
       </span>
-    </div>
-  {% endif %}
+      <strong>{{ last_update }}</strong>
+    </span>
+  </div>
+{% endif %}
+
 
   <!-- Search & Filter -->
-  <div class="card shadow-sm mb-4 text-start">
-    <div class="card-header fw-semibold">Search & Filter</div>
-    <div class="card-body">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label for="continent-filter" class="form-label">יבשת</label>
-          <select id="continent-filter" class="form-select">
-            <option value="">הצג הכל</option>
-            {% for c in continents %}
-              <option value="{{ c }}">{{ c }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="country-filter" class="form-label">מדינה</label>
-          <select id="country-filter" class="form-select">
-            <option value="">הצג הכל</option>
-            {% for c in countries %}
-              <option value="{{ c }}">{{ c }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="level-filter" class="form-label">רמת איום</label>
-          <select id="level-filter" class="form-select">
-            <option value="">הצג הכל</option>
-            <option value="גבוה">גבוה</option>
-            <option value="בינוני">בינוני</option>
-            <option value="נמוך">נמוך</option>
-            <option value="לא ידוע">לא ידוע</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="query-filter" class="form-label">חיפוש חופשי</label>
-          <input type="text" id="query-filter" class="form-control" placeholder="חיפוש בהמלצות, משרד...">
-        </div>
+<div class="card shadow-sm mb-4 text-start">
+  <div class="card-header fw-semibold">
+    {% if lang == 'he' %} חיפוש וסינון {% else %} Search & Filter {% endif %}
+  </div>
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label for="continent-filter" class="form-label">
+          {% if lang == 'he' %} יבשת {% else %} Continent {% endif %}
+        </label>
+        <select id="continent-filter" class="form-select">
+          <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+          {% for c in continents %}
+            <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
       </div>
 
-      <div class="border-top pt-3 mt-3 d-flex gap-2">
-        <button class="btn btn-sm btn-outline-secondary" id="clear-filters" aria-label="איפוס סינון">
-          <i class="bi bi-x-circle me-1"></i> איפוס
-        </button>
-        <span class="ms-auto text-muted small" id="active-filters">ללא סינון</span>
-      </div>
-    </div>
-  </div>
+		<div class="col-md-3">
+		  <label for="country-filter" class="form-label">
+			{% if lang == 'he' %} מדינה {% else %} Country {% endif %}
+		  </label>
+		  <select id="country-filter" class="form-select">
+			<option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+			{% for c in countries %}
+			  <option value="{{ c }}">{{ c }}</option>
+			{% endfor %}
+		  </select>
+		</div>
+
+<div class="col-md-3">
+  <label for="level-filter" class="form-label">
+    {% if lang == 'he' %} רמת איום {% else %} Threat Level {% endif %}
+  </label>
+  <select id="level-filter" class="form-select">
+    <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+    <option value="High">{% if lang == 'he' %}גבוה{% else %}High{% endif %}</option>
+    <option value="Medium">{% if lang == 'he' %}בינוני{% else %}Medium{% endif %}</option>
+    <option value="Low">{% if lang == 'he' %}נמוך{% else %}Low{% endif %}</option>
+    <option value="Unknown">{% if lang == 'he' %}לא ידוע{% else %}Unknown{% endif %}</option>
+  </select>
+</div>
+
+
+<div class="col-md-3">
+  <label for="query-filter" class="form-label">
+    {% if lang == 'he' %} חיפוש חופשי {% else %} Free Search {% endif %}
+  </label>
+  <input type="text" id="query-filter" class="form-control"
+         placeholder="{% if lang == 'he' %}חיפוש בהמלצות, משרד...{% else %}Search recommendations, office...{% endif %}">
+</div>
+
+
+<div class="border-top pt-3 mt-3 d-flex gap-2">
+  <button class="btn btn-sm btn-outline-secondary" id="clear-filters"
+          aria-label="{{ 'Clear Filters' if lang != 'he' else 'איפוס סינון' }}">
+    <i class="bi bi-x-circle me-1"></i>
+    {{ 'Clear' if lang != 'he' else 'איפוס' }}
+  </button>
+  <span class="ms-auto text-muted small" id="active-filters">
+    {{ 'No filters applied' if lang != 'he' else 'ללא סינון' }}
+  </span>
+</div>
+
 
   <!-- Table -->
   <div class="card shadow-sm text-start">
@@ -399,8 +469,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (country) filters.push(`מדינה: ${country}`);
     if (level) filters.push(`רמת איום: ${level}`);
     if (query) filters.push(`חיפוש: ${query}`);
-
-    $('#active-filters').text(filters.length ? filters.join(" | ") : "ללא סינון");
+    const noFiltersText = currentLang === 'he' ? 'ללא סינון' : 'No filters applied';
+    $('#active-filters').text(filters.length ? filters.join(" | ") : noFiltersText);
   }
 
   // Filters
@@ -414,17 +484,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateActiveFilters();
   });
 
-  $('#level-filter').on('change', function () {
-    const map = {
-      "גבוה": "High",
-      "בינוני": "Medium",
-      "נמוך": "Low",
-      "לא ידוע": "Unknown"
-    };
-    const searchTerm = map[this.value] || '';
-    table.column(2).search(searchTerm).draw();
-    updateActiveFilters();
-  });
+$('#level-filter').on('change', function () {
+  const searchTerm = this.value || '';
+  table.column(2).search(searchTerm).draw();
+  updateActiveFilters();
+});
 
   $('#query-filter').on('keyup change', function () {
     table.search(this.value).draw();

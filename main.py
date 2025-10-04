@@ -1300,8 +1300,9 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
         })
 
     warnings = TRAVEL_WARNINGS_DF.to_dict(orient="records")
-    last_update = TRAVEL_WARNINGS_DF.attrs.get("last_update")
-
+    last_update_str = TRAVEL_WARNINGS_DF.attrs.get("last_update")
+    dtlu = datetime.fromisoformat(last_update_str)
+    last_update = dtlu.strftime("%d-%m-%Y")
     continents = sorted(TRAVEL_WARNINGS_DF["continent"].dropna().unique())
     countries  = sorted(TRAVEL_WARNINGS_DF["country"].dropna().unique())
     levels     = ["גבוה", "בינוני", "נמוך", "לא ידוע"]

@@ -23,7 +23,7 @@ window.LANG = {
     toastRefErr: "Failed to trigger refresh.",
     toastMapErr: "Failed to open the map.",
     placeholderSearch: "Search airport, city, country…",
-    tableTitle: "✈️ Fly TLV → Worldwide Destinations",
+    tableTitle: "✈️ Fly TLV → Worldwide Destinations Explorer",
     units: { km: "Kilometer", hr: "Hours" },
     dt: {
       search: "🔎 Search:",
