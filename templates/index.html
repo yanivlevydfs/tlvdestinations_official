@@ -815,9 +815,9 @@
   </div>
 
   <!-- Bottom bar -->
-  <div class="footer-bottom py-2">
-    <div class="container small text-center text-muted">
-     <p class="mb-2 fw-bold text-muted" style="font-size: 1.0rem;">
+<div class="footer-bottom py-2">
+  <div class="container small text-center text-muted">
+    <p class="mb-2 fw-bold text-muted" style="font-size: 1.0rem;">
       {% if lang == "he" %}
         ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
         .יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד
@@ -826,17 +826,22 @@
         Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
       {% endif %}
     </p>
-	© <span id="footer-year"></span>
-	<span id="footer-brand-inline">
-	  <a href="https://fly-tlv.com" class="footer-link" target="_blank" rel="noopener">
-		{{ "Fly TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
-	  </a>
-	</span>
-	<span id="footer-rights">
-	  {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
-	</span>
+
+    <!-- New line for copyright info -->
+    <div class="text-muted" style="font-size: 0.9rem;">
+      © <span id="footer-year"></span>
+      <span id="footer-brand-inline">
+        <a href="https://fly-tlv.com" class="footer-link" target="_blank" rel="noopener">
+          {{ "Fly TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
+        </a>
+      </span>
+      <br />
+      <span id="footer-rights">
+        {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
+      </span>
     </div>
   </div>
+</div>
 </footer>
 
   <script src="/static/js/lang.js"></script>
