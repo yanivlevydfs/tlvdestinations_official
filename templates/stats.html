@@ -49,7 +49,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container my-4">
+<div class="container my-4" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <!-- Breadcrumbs -->
   <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb mb-0">
@@ -64,13 +64,18 @@
     </ol>
   </nav>
   <!-- Title -->
-  <h2 class="section-title text-center">
-    📊 Ben Gurion Airport — Current Flight Statistics
-  </h2>
+	<h2 class="section-title text-center">
+		{% if lang == 'he' %}
+		  📊 נתוני טיסות עדכניים – נמל תעופה בן גוריון
+		{% else %}
+		  📊 Ben Gurion Airport — Current Flight Statistics
+		{% endif %}
+	  </h2>
   <!-- Kiwi / Travelpayouts Banner -->
   <div class="card mt-3 shadow-sm" aria-label="Advertisement">
     <div class="card-header small text-muted fw-semibold">
-      <i class="bi bi-airplane-engines me-1 text-primary"></i>Cheap Flights
+      <i class="bi bi-airplane-engines me-1 text-primary"></i>
+      {% if lang == 'he' %} טיסות זולות {% else %} Cheap Flights {% endif %}
     </div>
     <div class="card-body text-center">
       <script
@@ -81,21 +86,26 @@
     </div>
   </div>
 
-  <!-- Last Update -->
-  <div class="text-center mb-4">
-    <span class="badge rounded-pill bg-info px-3 py-2 text-dark last-update-badge">
-      Last Update: {{ last_update | datetimeformat }}
-    </span>
-  </div>
+	<!-- Last Update -->
+	<div class="text-center mb-4">
+	  <span class="last-update-badge">
+		<i class="bi bi-clock-history"></i>
+		<span class="label-text">
+        {% if lang == 'he' %}עודכן לאחרונה:{% else %}Last update:{% endif %}</span>
+		<strong>{{ last_update | datetimeformat }}</strong>
+	  </span>
+	</div>
+
 
   <!-- Airline Filter -->
   <div class="row mb-4">
     <div class="col-12 col-md-6 offset-md-3">
-      <label for="airline-filter" class="form-label fw-semibold">✈️ Filter by Airline</label>
+    <label for="airline-filter" class="form-label fw-semibold">✈️ {% if lang == 'he' %}סינון לפי חברת תעופה{% else %}Filter by Airline{% endif %}</label>
       <select id="airline-filter" class="form-select">
-        <option value="All">All Airlines</option>
-        {% for airline in airlines %}
-          <option value="{{ airline }}">{{ airline }}</option>
+        <option value="All">
+          {% if lang == 'he' %}כל החברות{% else %}All Airlines{% endif %}
+        </option>
+        {% for airline in airlines %}<option value="{{ airline }}">{{ airline }}</option>
         {% endfor %}
       </select>
     </div>
@@ -105,12 +115,16 @@
     <!-- Top Countries -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold">🌍 Top Countries</div>
+        <div class="card-header fw-bold">
+          🌍 {% if lang == 'he' %}המדינות המובילות{% else %}Top Countries{% endif %}
+        </div>
         <div class="card-body">
           <div class="table-responsive mb-3">
             <table id="countries-table" class="table table-striped table-hover table-sm align-middle text-center">
               <thead class="table-primary">
-                <tr><th>Country</th><th>Departures</th><th>Arrivals</th></tr>
+               <th>{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
+			   <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
+			   <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
               </thead>
               <tbody>
                 {% for row in top_countries %}
@@ -131,12 +145,16 @@
     <!-- Top Cities -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold">🏙️ Top Cities</div>
+		<div class="card-header fw-bold">
+		  🏙️ {% if lang == 'he' %}הערים המובילות{% else %}Top Cities{% endif %}
+		</div>
         <div class="card-body">
           <div class="table-responsive mb-3">
             <table id="cities-table" class="table table-striped table-hover table-sm align-middle text-center">
               <thead class="table-primary">
-                <tr><th>City</th><th>Departures</th><th>Arrivals</th></tr>
+              <th>{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
+              <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
+              <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
               </thead>
               <tbody>
                 {% for row in top_cities %}
@@ -158,7 +176,8 @@
         <!-- Ads Under Table -->
         <div class="card mt-3 shadow-sm" aria-label="Advertisement">
           <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Deals
+            <i class="bi bi-airplane-engines me-1 text-primary"></i>
+			{% if lang == 'he' %} מבצעים על טיסות {% else %} Flight Deals {% endif %}
           </div>
           <div class="card-body text-center p-0">
             <script
@@ -171,7 +190,8 @@
 
         <div class="card mt-3 shadow-sm" aria-label="Advertisement">
           <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-airplane me-1 text-primary"></i>Cheap ESIM
+            <i class="bi bi-airplane me-1 text-primary"></i>
+			{% if lang == 'he' %} סים זול {% else %} Cheap ESIM {% endif %}
           </div>
           <div class="card-body text-center p=0">
             <script
@@ -184,7 +204,8 @@
 
         <div class="card mt-3 shadow-sm" aria-label="Advertisement">
           <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-airplane me-1 text-primary"></i>Flight Cancelled or Delayed?
+            <i class="bi bi-airplane me-1 text-primary"></i>
+			  {% if lang == 'he' %} טיסה בוטלה או התעכבה? {% else %} Flight Cancelled or Delayed? {% endif %}
           </div>
           <div class="card-body text-center p=0">
             <script
@@ -322,6 +343,43 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   body.dark-mode .card.shadow-sm {
   border: 1px solid #fff !important;
+}
+.last-update-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background-color: rgba(165, 141, 252, 0.08); /* soft lavender */
+  border: 1px solid #c084fc; /* light purple border */
+  color: #4b5563; /* neutral-600 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+}
+
+.last-update-badge i {
+  font-size: 1rem;
+  color: #9ca3af; /* gray-400 */
+}
+
+.last-update-badge strong {
+  font-weight: 700;
+  color: #111827; /* gray-900 */
+}
+body.dark-mode .last-update-badge {
+  background-color: rgba(165, 141, 252, 0.12);
+  border-color: #a78bfa;
+  color: #d1d5db;
+}
+
+body.dark-mode .last-update-badge strong {
+  color: #fff;
+}
+
+body.dark-mode .last-update-badge i {
+  color: #c4b5fd;
 }
 
 </style>

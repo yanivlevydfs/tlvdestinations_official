@@ -35,6 +35,19 @@
 
 {% block content %}
 <article class="container my-5" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+<nav aria-label="breadcrumb" class="container mb-3">
+  <ol class="breadcrumb bg-transparent p-0 m-0">
+    <li class="breadcrumb-item">
+      <a href="/{{ '' if lang != 'he' else '?lang=he' }}" class="text-primary fw-semibold">
+        {{ 'Home' if lang != 'he' else 'בית' }}
+      </a>
+    </li>
+    <li class="breadcrumb-item active text-muted" aria-current="page">
+      {{ 'Direct VS Nonstop' if lang != 'he' else 'ישיר מול קונקשן' }}
+    </li>
+  </ol>
+</nav>
+
   <!-- Article Header -->
   <header class="mb-4">
     <h1 class="fw-bold">

@@ -259,6 +259,9 @@
 	  {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}
 	</p>
     <p class="mb-0">
+	<a href="/{{ '' if lang != 'he' else '?lang=he' }}"
+	   title="{{ 'Return to the homepage' if lang == 'en' else 'חזרה לדף הבית' }}">
+	   {{ "Home" if lang == "en" else "דף הבית" }}</a> ·
       <a href="/about"
          title="{{ 'Learn more about this project' if lang == 'en' else 'מידע נוסף על האתר' }}">
         {{ "About" if lang == "en" else "עלינו" }}

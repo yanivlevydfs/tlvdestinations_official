@@ -784,6 +784,9 @@
   <!-- Second container for nav -->
   <div class="container">
     <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
+	  <a href="/{{ '' if lang != 'he' else '?lang=he' }}" class="footer-link" rel="home">
+	  {% if lang == 'he' %}דף הבית{% else %}Home{% endif %}</a>
+	  <span class="separator">·</span>
       <a href="/about{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "About" if lang == "en" else "עלינו" }}</a>
       <span class="separator">·</span>
       <a href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Accessibility" if lang == "en" else "נגישות" }}</a>
@@ -814,23 +817,24 @@
   <!-- Bottom bar -->
   <div class="footer-bottom py-2">
     <div class="container small text-center text-muted">
-      <p class="mb-2 fst-italic text-muted" style="font-size: 0.9rem;">
-        {% if lang == "he" %}
-          ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
-          יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד.
-        {% else %}
-          ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
-          Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
-        {% endif %}
-      </p>
-
-      © <span id="footer-year"></span>
-      <span id="footer-brand-inline">
-        {{ "Fly TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
-      </span>.
-      <span id="footer-rights">
-        {{ "All rights reserved." if lang != "he" else "כל הזכויות שמורות." }}
-      </span>
+     <p class="mb-2 fw-bold text-muted" style="font-size: 1.0rem;">
+      {% if lang == "he" %}
+        ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
+        .יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד
+      {% else %}
+        ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
+        Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
+      {% endif %}
+    </p>
+	© <span id="footer-year"></span>
+	<span id="footer-brand-inline">
+	  <a href="https://fly-tlv.com" class="footer-link" target="_blank" rel="noopener">
+		{{ "Fly TLV → Worldwide Destinations Explorer" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
+	  </a>
+	</span>
+	<span id="footer-rights">
+	  {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
+	</span>
     </div>
   </div>
 </footer>
@@ -851,7 +855,7 @@
 		});
 	  }
 	</script>
-	<button id="install-app-btn" class="d-none" style="
+	<button id="install-app-btn" class="d-none" aria-label="Install Fly-Tlv App" style="
 	  position: fixed;
 	  bottom: 16px;
 	  right: 16px;
@@ -864,9 +868,8 @@
 	  font-weight: 600;
 	  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 	  cursor: pointer;
-	  transition: transform 0.2s ease;
-	">
-	  📲 Install App
+	  transition: transform 0.2s ease;">
+	  📲 Install Fly-Tlv App 📲
 	</button>
 
   <script>
