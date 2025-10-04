@@ -840,3 +840,21 @@ body.dark-mode #airports-table td a:not(.airline-chip):hover {
     transform: translateY(0) scale(1);
   }
 }
+#footer-marketing a {
+  color: #2563eb; /* blue-600 */
+  text-decoration: none;
+}
+
+#footer-marketing a:hover {
+  color: #1d4ed8; /* blue-700 */
+  text-decoration: underline;
+}
+
+/* 🌙 Dark Mode Override */
+body.dark-mode #footer-marketing a {
+  color: #60a5fa; /* blue-400 */
+}
+
+body.dark-mode #footer-marketing a:hover {
+  color: #93c5fd; /* blue-300 */
+}
