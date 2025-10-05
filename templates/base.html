@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <title>{{ title | default("Fly TLV → Worldwide Destinations") }}</title>
+  <title>{{ title | default("Fly TLV → Worldwide Destinations Explorer") }}</title>
   <meta name="description" content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
   <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel" />
   <meta name="robots" content="index,follow" />
@@ -225,7 +225,7 @@
       <!-- ✈️ Brand Title with Gradient -->
       <a class="navbar-brand d-flex align-items-center" href="/">
         <i class="bi bi-airplane-engines me-2"></i>
-        TLV → <span class="ms-1">Worldwide Destinations</span>
+        TLV → <span class="ms-1">Worldwide Destinations Explorer</span>
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navActions">
@@ -268,7 +268,7 @@
 	<p class="mb-0">
 	  &copy; {{ now.year }}
 	  <a href="https://fly-tlv.com/" target="_blank" rel="noopener" class="text-decoration-none">
-		✈️ Fly TLV → Worldwide Destinations
+		✈️ Fly TLV → Worldwide Destinations Explorer
 	  </a>.
 	  {{ "All rights reserved." if lang == "en" else "כל הזכויות שמורות." }}
 	</p>

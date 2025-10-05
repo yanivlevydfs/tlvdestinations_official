@@ -1,4 +1,4 @@
-/* -------- Language dictionary -------- */
+/* ------ Language dictionary ------ */ 
 window.LANG = {
   en: {
     brand: "Fly TLV → Worldwide Destinations Explorer",
