@@ -1,36 +1,90 @@
 {% extends "base.html" %}
 
 {% block head %}
-  <!-- ✅ Article Structured Data -->
-  <script type="application/ld+json">
+<!-- Canonical & hreflang for /stats -->
+<link rel="canonical" href="https://fly-tlv.com/direct-vs-nonstop" />
+<link rel="alternate" hreflang="en" href="https://fly-tlv.com/direct-vs-nonstop" />
+<link rel="alternate" hreflang="he" href="https://fly-tlv.com/direct-vs-nonstop?lang=he" />
+
+  <!-- ✅ Page-specific SEO -->
+  <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
+  <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+  <meta property="og:description" content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
+  <meta property="og:url" content="https://fly-tlv.com/direct-vs-nonstop">
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+  <meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+  <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+  <meta name="twitter:image:alt" content="TLV airport stats overview">
+
+  <!-- Structured Data: Dataset -->
+<script type="application/ld+json">
+[
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://fly-tlv.com/articles/direct-vs-nonstop"
-    },
-    "headline": "{% if lang == 'he' %}טיסה ישירה מול טיסה ללא עצירות – מה ההבדל?{% else %}Direct flight vs Non-stop flight – what’s the difference?{% endif %}",
-    "description": "{% if lang == 'he' %}הבינו את ההבדל בין טיסה ישירה לבין טיסה ללא עצירות – מונחים שנשמעים אותו הדבר אך למעשה שונים.{% else %}Understand the difference between a direct flight and a non-stop flight – terms that sound the same but mean different things.{% endif %}",
-    "image": "https://fly-tlv.com/static/og/flytlv_og.jpg",
-    "author": {
-      "@type": "Organization",
-      "name": "Fly-TLV.com",
-      "url": "https://fly-tlv.com"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Fly-TLV.com",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://fly-tlv.com/static/favicon.ico"
-      }
-    },
-    "datePublished": "{{ now.strftime('%Y-%m-%d') }}",
-    "dateModified": "{{ now.strftime('%Y-%m-%d') }}",
-    "inLanguage": "{% if lang == 'he' %}he-IL{% else %}en-US{% endif %}"
-  }
-  </script>
+    "@type": "WebSite",
+    "name": "Fly TLV — Worldwide Destinations Explorer",
+    "url": "https://fly-tlv.com/",
+    "inLanguage": "en-US",
+    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — כל היעדים מתל אביב",
+    "url": "https://fly-tlv.com/?lang=he",
+    "inLanguage": "he-IL",
+    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
+  },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Home", "url": "https://fly-tlv.com/" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "בית", "url": "https://fly-tlv.com/?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Stats", "url": "https://fly-tlv.com/stats" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "נתוני שדה", "url": "https://fly-tlv.com/stats?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Flights", "url": "https://fly-tlv.com/flights" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "טיסות", "url": "https://fly-tlv.com/flights?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "World Map", "url": "https://fly-tlv.com/map" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מפת יעדים", "url": "https://fly-tlv.com/map?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Travel Warnings", "url": "https://fly-tlv.com/travel-warnings" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "אזהרות מסע", "url": "https://fly-tlv.com/travel-warnings?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Chat", "url": "https://fly-tlv.com/chat" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "צ׳אט", "url": "https://fly-tlv.com/chat?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "About", "url": "https://fly-tlv.com/about" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Direct vs Nonstop", "url": "https://fly-tlv.com/direct-vs-nonstop" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "ישיר מול ללא-עצירות", "url": "https://fly-tlv.com/direct-vs-nonstop?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Glossary", "url": "https://fly-tlv.com/glossary" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מילון מונחים", "url": "https://fly-tlv.com/glossary?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Privacy Policy", "url": "https://fly-tlv.com/privacy" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מדיניות פרטיות", "url": "https://fly-tlv.com/privacy?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Accessibility", "url": "https://fly-tlv.com/accessibility" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "נגישות", "url": "https://fly-tlv.com/accessibility?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Contact", "url": "https://fly-tlv.com/contact" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "צור קשר", "url": "https://fly-tlv.com/contact?lang=he" },
+
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Sitemap", "url": "https://fly-tlv.com/sitemap.xml" },
+  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" }
+]
+</script>
 {% endblock %}
 
 {% block content %}

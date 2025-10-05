@@ -1,7 +1,7 @@
 /* -------- Language dictionary -------- */
 window.LANG = {
   en: {
-    brand: "Fly TLV → Worldwide Destinations",
+    brand: "Fly TLV → Worldwide Destinations Explorer",
     viewMap: "View Map",
     refresh: "Refresh Destinations",
     theme: "Theme",
