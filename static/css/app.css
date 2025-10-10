@@ -859,4 +859,7 @@ body.dark-mode #footer-marketing a {
 body.dark-mode #footer-marketing a:hover {
   color: #93c5fd; /* blue-300 */
 }
- 
+
+.footer-bottom p {
+  font-family: 'Inter', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'EmojiOne Color', sans-serif;
+}
