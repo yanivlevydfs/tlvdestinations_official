@@ -1,7 +1,7 @@
 /* ------ Language dictionary ------ */ 
 window.LANG = {
   en: {
-    brand: "Fly TLV → Worldwide Destinations Explorer",
+    brand: "Fly TLV → Worldwide Destinations",
     viewMap: "View Map",
     refresh: "Refresh Destinations",
     theme: "Theme",
@@ -23,7 +23,7 @@ window.LANG = {
     toastRefErr: "Failed to trigger refresh.",
     toastMapErr: "Failed to open the map.",
     placeholderSearch: "Search airport, city, country…",
-    tableTitle: "✈️ Fly TLV → Worldwide Destinations Explorer",
+    tableTitle: "✈️ Fly TLV → Worldwide Destinations",
     units: { km: "Kilometer", hr: "Hours" },
     dt: {
       search: "🔎 Search:",
