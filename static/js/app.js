@@ -78,17 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateActiveFilters(dict) {
     const lbl = document.getElementById('active-filters');
     const country = document.getElementById('country-filter').value;
-    const city = document.getElementById('city-filter')?.value || '';
-	const airline = document.getElementById('airline-filter')?.value || '';
     const q = document.getElementById('query-filter').value.trim();
     const parts = [];
     if (country && country !== 'All') {
       parts.push(`${dict.country}: ${country}`);
     }
-    if (city && city !== 'All') {
-      parts.push(`City: ${city}`);
-    }
-	if (airline && airline !== 'All') parts.push(`Airline: ${airline}`);
     if (q) {
       parts.push(`${dict.search}: "${q}"`);
     }
@@ -192,35 +186,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- Mobile filters ----------
-  $('#country-filter-mobile').on('change', function() {
-    const val = this.value === "All" ? '' : this.value;
-    table.column(3).search(escapeRegex(val), true, false).draw();
+// ---------- Mobile filters ----------
+// Country filter (MOBILE)
+$('#country-filter-mobile').on('change', function () {
+  const val = this.value === "All" ? '' : this.value;
+  // 🆕 Reset global search + mobile query input
+  $('#query-filter-mobile').val('');
+  table.search('', true, false); // Clear global search
+  // Apply Country filter
+  table.column(3).search(escapeRegex(val), true, false).draw();
+  updateActiveFilters(LANG[currentLang]);
+});
+
+
+// Query text search (MOBILE)
+let debounceTimerMobile;
+$('#query-filter-mobile').on('input', function () {
+  clearTimeout(debounceTimerMobile);
+  const val = this.value;
+
+  // 🆕 Reset country dropdown before search
+  $('#country-filter-mobile').val('All');
+  table.column(3).search('', true, false); // Clear the Country filter (column 3)
+
+  debounceTimerMobile = setTimeout(() => {
+    table.search(escapeRegex(val), true, false).draw();
     updateActiveFilters(LANG[currentLang]);
-  });
+  }, 250);
+});
 
-  // 🆕 Mobile city filter
-  $('#city-filter-mobile').on('change', function() {
-    const val = this.value === "All" ? '' : this.value;
-    table.column(2).search(escapeRegex(val), true, false).draw();
-    updateActiveFilters(LANG[currentLang]);
-  });
 
-  let debounceTimerMobile;
-  $('#query-filter-mobile').on('input', function() {
-    clearTimeout(debounceTimerMobile);
-    const val = this.value;
-    debounceTimerMobile = setTimeout(() => {
-      table.search(escapeRegex(val), true, false).draw();
-      updateActiveFilters(LANG[currentLang]);
-    }, 250);
-  });
-
-  $('#clear-filters-mobile').on('click', () => {
-    $('#country-filter-mobile').val('All').trigger('change');
-    $('#city-filter-mobile').val('All').trigger('change');
-    $('#query-filter-mobile').val('').trigger('input');
-  });
+// Clear button (MOBILE)
+$('#clear-filters-mobile').on('click', () => {
+  $('#country-filter-mobile').val('All').trigger('change');
+  $('#query-filter-mobile').val('').trigger('input');
+});
 
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('#ai-chat-btn');
@@ -232,96 +232,40 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---------- DataTable (first init with saved lang) ----------
   const savedLang2 = localStorage.getItem('fe-lang') || 'en';
   table = initDataTable(savedLang2);
-
-// 🆕 improved version: handles <a> tags inside Airlines column
-function populateDropdownFromTable(columnIndex, selectId) {
-  const uniqueVals = new Set();
-
-  table.column(columnIndex).data().each(function (val) {
-    if (!val) return;
-
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = val;
-
-    // If cell contains <a> tags → extract each airline separately
-    const links = tempDiv.querySelectorAll("a");
-    if (links.length) {
-      links.forEach(link => {
-        const name = link.textContent.trim();
-        if (name) uniqueVals.add(name);
-      });
-    } else {
-      // Fallback for plain text columns (like City)
-      const cleanText = tempDiv.textContent.trim();
-      if (cleanText) uniqueVals.add(cleanText);
-    }
-  });
-
-  const select = document.getElementById(selectId);
-  if (!select) return;
-
-  // Reset dropdown
-  select.innerHTML = '<option value="All">All</option>';
-
-  // Add sorted values
-  [...uniqueVals].sort().forEach(val => {
-    const opt = document.createElement("option");
-    opt.value = val;
-    opt.textContent = val;
-    select.appendChild(opt);
-  });
-}
-
-  populateDropdownFromTable(2, 'city-filter');
-  populateDropdownFromTable(2, 'city-filter-mobile');
-  populateDropdownFromTable(4, 'airline-filter');
-  populateDropdownFromTable(4, 'airline-filter-mobile');
-
   applyLanguage(savedLang2, false);
 
   // ---------- Filters ----------
-  $('#country-filter').on('change', function() {
-    const val = this.value === "All" ? '' : this.value;
-    table.column(3).search(escapeRegex(val), true, false).draw();
+$('#country-filter').on('change', function () {
+  const val = this.value === "All" ? '' : this.value;
+  // 🆕 Reset global search + query input
+  $('#query-filter').val('');
+  table.search('', true, false); // Clear global search
+  // Apply Country filter
+  table.column(3).search(escapeRegex(val), true, false).draw();
+  updateActiveFilters(LANG[currentLang]);
+});
+
+
+let debounceTimer;
+$('#query-filter').on('input', function () {
+  clearTimeout(debounceTimer);
+  const val = this.value;
+
+  // 🆕 Reset country dropdown before applying text search
+  $('#country-filter').val('All');
+  table.column(3).search('', true, false); // Clear Country filter (column 3)
+
+  debounceTimer = setTimeout(() => {
+    table.search(escapeRegex(val), true, false).draw();
     updateActiveFilters(LANG[currentLang]);
-  });
+  }, 250);
+});
 
-  // 🆕 City filter desktop
-  $('#city-filter').on('change', function() {
-    const val = this.value === "All" ? '' : this.value;
-    table.column(2).search(escapeRegex(val), true, false).draw();
-    updateActiveFilters(LANG[currentLang]);
-  });
-
-	$('#airline-filter').on('change', function() {
-	  const val = this.value === "All" ? '' : this.value;
-	  table.column(4).search(escapeRegex(val), true, false).draw();
-	  updateActiveFilters(LANG[currentLang]);
-	});
-
-	// 🆕 Airline filter mobile
-	$('#airline-filter-mobile').on('change', function() {
-	  const val = this.value === "All" ? '' : this.value;
-	  table.column(4).search(escapeRegex(val), true, false).draw();
-	  updateActiveFilters(LANG[currentLang]);
-	});
-
-  let debounceTimer;
-  $('#query-filter').on('input', function() {
-    clearTimeout(debounceTimer);
-    const val = this.value;
-    debounceTimer = setTimeout(() => {
-      table.search(escapeRegex(val), true, false).draw();
-      updateActiveFilters(LANG[currentLang]);
-    }, 250);
-  });
 
   const clearFiltersBtn = document.getElementById('clear-filters');
   if (clearFiltersBtn) {
     clearFiltersBtn.addEventListener('click', () => {
       $('#country-filter').val('All').trigger('change');
-      $('#city-filter').val('All').trigger('change');
-      $('#airline-filter').val('All').trigger('change');
       $('#query-filter').val('').trigger('input');
     });
   }

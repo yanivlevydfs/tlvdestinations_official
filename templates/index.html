@@ -325,37 +325,7 @@
                     {% endfor %}
                   </select>
                 </div>
-				<!-- ✅ NEW CITY DROPDOWN -->
-				<div class="mb-3">
-				  <label for="city-filter" class="form-label">
-					{% if lang == "he" %}
-					  עיר
-					{% else %}
-					  City
-					{% endif %}
-				  </label>
-				  <select id="city-filter" class="form-select">
-					{% for city in cities %}
-					  <option value="{{ city }}">{{ city }}</option>
-					{% endfor %}
-				  </select>
-				</div>
-				<!-- ✅ NEW AIRLINE DROPDOWN -->
-				<div class="mb-3">
-				  <label for="airline-filter" class="form-label">
-					{% if lang == "he" %}
-					  חברת תעופה
-					{% else %}
-					  Airline
-					{% endif %}
-				  </label>
-				  <select id="airline-filter" class="form-select">
-					{% for airline in airlines %}
-					  <option value="{{ airline }}">{{ airline }}</option>
-					{% endfor %}
-				  </select>
-				</div>
-                <div class="mb-3 mt-3">
+	            <div class="mb-3 mt-3">
                   <label for="query-filter" class="form-label">
                     {% if lang == "he" %}
                       חיפוש
@@ -389,7 +359,6 @@
                 </div>
               </div>
             </div>
-
 
               <!-- Ad / Sponsored Cards -->
               <div class="card mt-3 shadow-sm" aria-label="Advertisement" style="max-width: 100%;">
@@ -460,8 +429,6 @@
       </div>
     </div>
 
-
-
 <!-- Mobile Inline Filters -->
 <div class="card shadow-sm mb-3 d-lg-none">
   <div class="card-header fw-semibold">
@@ -486,34 +453,6 @@
         {% endfor %}
       </select>
     </div>
-<div class="mb-3">
-  <label for="city-filter-mobile" class="form-label">
-    {% if lang == "he" %}
-      עיר
-    {% else %}
-      City
-    {% endif %}
-  </label>
-  <select id="city-filter-mobile" class="form-select">
-    {% for city in cities %}
-      <option value="{{ city }}">{{ city }}</option>
-    {% endfor %}
-  </select>
-</div>
-<div class="mb-3">
-  <label for="airline-filter-mobile" class="form-label">
-    {% if lang == "he" %}
-      חברת תעופה
-    {% else %}
-      Airline
-    {% endif %}
-  </label>
-  <select id="airline-filter-mobile" class="form-select">
-    {% for airline in airlines %}
-      <option value="{{ airline }}">{{ airline }}</option>
-    {% endfor %}
-  </select>
-</div>
     <div class="mb-3 mt-3">
       <label for="query-filter-mobile" class="form-label">
         {% if lang == "he" %}
