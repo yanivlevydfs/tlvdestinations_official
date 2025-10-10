@@ -80,7 +80,6 @@ for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
 # Templates
 TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
 TEMPLATES.env.globals["now"] = datetime.utcnow
-TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 TEMPLATES.env.globals['time'] = time
 
 # Data files
@@ -181,6 +180,7 @@ def datetimeformat(value: str, fmt: str = "%d/%m/%Y %H:%M"):
     except Exception:
         return value
 
+TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 
 def normalize_case(value: str) -> str:
     """Capitalize each word properly, safe for missing/placeholder values."""
