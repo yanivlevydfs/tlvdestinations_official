@@ -5,6 +5,7 @@ import json
 from html import escape
 from pathlib import Path
 from datetime import datetime, date
+import time
 from typing import Any, Dict, List
 from math import radians, sin, cos, sqrt, atan2
 import re
@@ -79,6 +80,8 @@ for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
 # Templates
 TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
 TEMPLATES.env.globals["now"] = datetime.utcnow
+TEMPLATES.env.filters["datetimeformat"] = datetimeformat
+TEMPLATES.env.globals['time'] = time
 
 # Data files
 AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
@@ -177,7 +180,6 @@ def datetimeformat(value: str, fmt: str = "%d/%m/%Y %H:%M"):
         return dt.strftime(fmt)
     except Exception:
         return value
-TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 
 
 def normalize_case(value: str) -> str:

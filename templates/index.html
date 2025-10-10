@@ -135,7 +135,8 @@
     rel="stylesheet"
     href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css"
   />
-  <link rel="stylesheet" href="/static/css/app.css" />
+ <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
+
   <!-- JavaScript Dependencies -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DDRQRYCYFF"></script>
