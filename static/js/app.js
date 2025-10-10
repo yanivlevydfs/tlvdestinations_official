@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const headVals = [
       d.table?.iata      || "IATA",
       d.table?.name      || "Name",
-      d.table?.city      || "City",
-      d.table?.country   || "Country",
+	  d.table?.country   || "Country",
+      d.table?.city      || "City",      
       d.table?.airlines  || "Airlines",
       d.table?.distance  || "Distance",
       d.table?.flightTime|| "Flight Time"

@@ -41,8 +41,8 @@ window.LANG = {
     table: {
       iata: "IATA",
       name: "Airport",
+	  country: "Country",
       city: "City",
-      country: "Country",
       region: "Region",
       airlines: "Airlines",
       distance: "Distance",
@@ -101,9 +101,9 @@ window.LANG = {
     all: "הכול",
     table: {
       iata: "IATA",
-      name: "שם",
+      name: "שדה תעופה",
+	  country: "מדינה",
       city: "עיר",
-      country: "מדינה",
       region: "אזור",
       airlines: "חברות תעופה",
       distance: "מרחק",

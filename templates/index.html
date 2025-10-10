@@ -514,9 +514,9 @@
                       {{ ap.Name }}
                     </a>
                   </td>
-                  <td>{{ ap.Country }}</td>
-				  <td>{{ ap.City }}</td>
-                  <td class="airline-cell">
+					<td>{{ ap.Country }}</td>  <!-- ✅ Country first -->
+					<td>{{ ap.City }}</td>     <!-- ✅ City second -->
+					<td class="airline-cell">
                     {% if ap.Airlines and ap.Airlines[0] != "—" %}
                       {% for airline in ap.Airlines %}
                         {% set airline_name = airline.strip().title() %}
@@ -549,8 +549,12 @@
                       —
                     {% endif %}
                   </td>
-                  <td>{{ ap.Distance_km if ap.Distance_km else "—" }} Kilometer</td>
-                  <td>{{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }} Hours</td>
+				<td title="{{ ap.Distance_km }} kilometers">
+				  {{ ap.Distance_km if ap.Distance_km else "—" }} km
+				</td>
+				<td title="Estimated flight time">
+				  {{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }}
+				</td>
                 </tr>
                 {% endfor %}
               </tbody>
