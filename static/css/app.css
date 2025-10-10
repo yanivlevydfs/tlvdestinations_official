@@ -801,6 +801,28 @@ body.dark-mode button.btn-outline-primary:hover {
   font-weight: 400;
 }
 
+@media (max-width: 576px) {
+  .navbar .btn-outline-primary {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.65rem;
+    gap: 0.25rem;
+  }
+
+  .navbar .btn-outline-primary i {
+    font-size: 0.9rem;
+  }
+
+  #lang-label {
+    font-size: 0.65rem;
+  }
+}
+
+
+
+
+
+
+
 body.dark-mode a:hover {
   color: #3b82f6; /* Stronger blue on hover */
 }
@@ -877,6 +899,7 @@ body.dark-mode #footer-marketing a:hover {
     border-radius: 40px !important;      /* still rounded */
     line-height: 1 !important;           /* no vertical extra space */
   }
+}
 @media (max-width: 576px) {
   #footer-marketing {
     font-size: 0.75rem; /* smaller font for mobile */
@@ -904,26 +927,22 @@ body.dark-mode #footer-marketing a:hover {
 }
 @media (max-width: 576px) {
   .pagination {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     gap: 0.25rem;
   }
 
   .pagination .page-link {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    line-height: 1 !important;
+    border-radius: 999px !important;
+  }
+
+  .pagination .page-item {
+    margin: 0 2px;
   }
 }
-@media (max-width: 576px) {
-  .paginate_button.page-item.previous.disabled .page-link {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-  }
-}
-@media (max-width: 576px) {
-  .paginate_button.page-item.next .page-link {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-  }
-}
+
 @media (max-width: 576px) {
   .dataTables_info.last-update-badge {
     font-size: 0.75rem;
@@ -933,3 +952,80 @@ body.dark-mode #footer-marketing a:hover {
     margin-top: 0.5rem;
   }
 }
+
+#install-app-btn {
+  position: fixed;
+  bottom: 5px;
+  right: 16px;
+  z-index: 1000;
+  background: linear-gradient(135deg, #22d3ee, #818cf8);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* 🔥 Hidden by default */
+#install-app-container {
+  position: fixed;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* ✅ Visible + animated */
+#install-app-container.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Inner box */
+.install-app-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem 0.25rem 0.6rem; /* Tweak left padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+
+/* Install button */
+#install-app-btn {
+  background: linear-gradient(135deg, #22d3ee, #818cf8);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  white-space: nowrap;
+}
+/* 🌙 Dark mode */
+body.dark-mode .install-app-inner {
+  background: rgba(18, 18, 18, 0.9);
+}
+
+/* 📱 Show only on mobile */
+@media (min-width: 768px) {
+  #install-app-container {
+    display: none !important;
+  }
+}
+

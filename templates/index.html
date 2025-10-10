@@ -783,12 +783,20 @@
     </div>
   </div>
 </div>
+<div id="install-app-container">
+  <div class="install-app-inner">
+    <button id="install-app-btn" aria-label="Install Fly-Tlv App">
+      📲 Install Fly-Tlv App 📲
+    </button>    
+  </div>
+</div>
+
 </footer>
 
   <script src="/static/js/lang.js"></script>
   <script src="/static/js/app.js"></script>
   <script src="/static/js/ads-and-modal.js"></script>
-	<script>
+  <script>
 	  if ("serviceWorker" in navigator) {
 		window.addEventListener("load", () => {
 		  navigator.serviceWorker.register("/sw.js")
@@ -801,41 +809,5 @@
 		});
 	  }
 	</script>
-	<button id="install-app-btn" class="d-none" aria-label="Install Fly-Tlv App" style="
-	  position: fixed;
-	  bottom: 16px;
-	  right: 16px;
-	  z-index: 1000;
-	  background: linear-gradient(135deg, #22d3ee, #818cf8);
-	  color: #fff;
-	  border: none;
-	  border-radius: 50px;
-	  padding: 0.6rem 1.4rem;
-	  font-weight: 600;
-	  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-	  cursor: pointer;
-	  transition: transform 0.2s ease;">
-	  📲 Install Fly-Tlv App 📲
-	</button>
-
-  <script>
-    let deferredPrompt;
-    const installBtn = document.getElementById('install-app-btn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.classList.remove('d-none');
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User response: ${outcome}`);
-      deferredPrompt = null;
-      installBtn.classList.add('d-none');
-    });
-  </script>
 </body>
 </html>

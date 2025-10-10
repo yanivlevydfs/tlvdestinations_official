@@ -283,4 +283,51 @@ $('#query-filter').on('input', function () {
       iframe.contentWindow?.postMessage("modal-shown", "*");
     });
   }
+  // ---------- Install App Banner (Mobile Only) ----------
+  const installContainer = document.getElementById('install-app-container');
+  const installBtn = document.getElementById('install-app-btn');
+  let deferredPrompt = null;
+  let dismissed = false;
+  let scrollShown = false;
+
+  if (window.innerWidth <= 768) {
+    // Show banner with animation
+    function showInstallBanner() {
+      if (dismissed) return;
+      installContainer?.classList.remove('d-none');
+      setTimeout(() => installContainer?.classList.add('show'), 50);
+
+      setTimeout(() => {
+        hideInstallBanner();
+      }, 10000);
+    }
+
+    function hideInstallBanner() {
+      installContainer?.classList.remove('show');
+      setTimeout(() => installContainer?.classList.add('d-none'), 400);
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallBanner();
+    });
+
+    installBtn?.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response: ${outcome}`);
+      deferredPrompt = null;
+      hideInstallBanner();
+    });
+
+    window.addEventListener('scroll', () => {
+      if (scrollShown || dismissed || deferredPrompt) return;
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+        scrollShown = true;
+        showInstallBanner();
+      }
+    });
+  }
 });
