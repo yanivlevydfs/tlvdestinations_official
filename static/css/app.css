@@ -697,7 +697,8 @@ body.dark-mode .separator {
 }
 
 #footer-marketing {
-  max-width: 520px;
+  max-width: none !important;
+  width: 100% !important;
   line-height: 1.55;
   font-size: 0.9rem;
   color: #4b5563; /* neutral gray-700 */
