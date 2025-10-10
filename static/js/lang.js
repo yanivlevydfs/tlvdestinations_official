@@ -40,7 +40,7 @@ window.LANG = {
     all: "All",
     table: {
       iata: "IATA",
-      name: "Name",
+      name: "Airport",
       city: "City",
       country: "Country",
       region: "Region",

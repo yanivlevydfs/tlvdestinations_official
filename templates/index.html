@@ -497,9 +497,9 @@
               <thead class="table-primary">
                 <tr>
                   <th>IATA</th>
-                  <th>Name</th>
-                  <th>City</th>
-                  <th>Country</th>
+                  <th>Airport</th>
+				  <th>Country</th>
+                  <th>City</th>                  
                   <th>Airlines</th>
                   <th>Distance</th>
                   <th>Flight Time</th>
@@ -514,8 +514,8 @@
                       {{ ap.Name }}
                     </a>
                   </td>
-                  <td>{{ ap.City }}</td>
                   <td>{{ ap.Country }}</td>
+				  <td>{{ ap.City }}</td>
                   <td class="airline-cell">
                     {% if ap.Airlines and ap.Airlines[0] != "—" %}
                       {% for airline in ap.Airlines %}

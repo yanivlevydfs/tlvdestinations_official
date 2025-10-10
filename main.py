@@ -1352,6 +1352,9 @@ async def flights_view(request: Request):
 
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
 
+    now = datetime.now()
+    filtered_flights = []
+
     for f in flights:
         s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
         a_short, a_full, a_iso = format_time(f.get("actual", ""))
@@ -1363,6 +1366,15 @@ async def flights_view(request: Request):
         f["actual"] = a_short
         f["actual_full"] = a_full
         f["actual_iso"] = a_iso
+
+        try:
+            # ✅ Filter out past flights based on scheduled time
+            if s_iso and datetime.fromisoformat(s_iso) >= now:
+                filtered_flights.append(f)
+        except ValueError:
+            continue  # Skip malformed datetime
+
+    flights = filtered_flights  # ✅ Replace original flights list
 
     # ✅ Extract filters
     countries = sorted({
@@ -1398,9 +1410,10 @@ async def flights_view(request: Request):
         "actual_times": actual_times,
         "last_update": get_dataset_date(),
         "lang": request.query_params.get("lang", "en"),
-        "now": datetime.now(),
+        "now": now,
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
+
 
 @app.get("/glossary", response_class=HTMLResponse)
 async def glossary_view(request: Request):
