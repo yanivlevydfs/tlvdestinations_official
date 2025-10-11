@@ -35,7 +35,6 @@ from fastapi import status
 import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
-from zoneinfo import ZoneInfo
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -1363,7 +1362,7 @@ async def flights_view(request: Request):
     try:
         dataset_date = datetime.strptime(dataset_date_str, "%d-%m-%Y").date()
     except Exception as e:
-        print(f"⚠️ Invalid dataset date format: {dataset_date_str} ({e})")
+        logger.warning(f"⚠️ Invalid dataset date format: {dataset_date_str} ({e}) — using UTC date instead.")
         dataset_date = datetime.utcnow().date()
 
     filtered_flights = []
@@ -1385,12 +1384,18 @@ async def flights_view(request: Request):
             continue
 
         try:
-            s_dt = datetime.fromisoformat(s_iso)
-            # ✅ Include if flight date is *same or after dataset date*
-            if s_dt.date() >= dataset_date:
+            # Parse ISO, handle cases like "Z" or no timezone
+            try:
+                s_dt = datetime.fromisoformat(s_iso)
+            except ValueError:
+                s_dt = datetime.strptime(s_iso[:19], "%Y-%m-%dT%H:%M:%S")
+
+            # ✅ Tolerate up to 1-day offset (Render UTC vs Israel local)
+            day_diff = (s_dt.date() - dataset_date).days
+            if day_diff >= -1:  # includes same day or 1-day ahead
                 filtered_flights.append(f)
         except Exception as e:
-            print(f"⚠️ Skipping malformed datetime '{s_iso}': {e}")
+            logger.warning(f"⚠️ Skipping malformed datetime '{s_iso}': {e}")
             filtered_flights.append(f)
 
     flights = filtered_flights
@@ -1420,7 +1425,12 @@ async def flights_view(request: Request):
                 continue
     actual_dates = sorted(actual_dates_set)
 
-    print(f"✅ Loaded {len(flights)} flights from {dataset_date_str} onwards.")
+    # ✅ Logging summary
+    logger.info(f"✅ get_dataset_date() -> {dataset_date_str}")
+    logger.info(f"✅ Parsed dataset_date: {dataset_date}")
+    if flights:
+        logger.info(f"🕓 First scheduled_iso in dataset: {flights[0].get('scheduled_iso')}")
+    logger.info(f"✅ Total filtered flights: {len(flights)}")
 
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
@@ -1432,7 +1442,6 @@ async def flights_view(request: Request):
         "lang": request.query_params.get("lang", "en"),
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
-
 @app.get("/glossary", response_class=HTMLResponse)
 async def glossary_view(request: Request):
     lang = request.query_params.get("lang", "en")
