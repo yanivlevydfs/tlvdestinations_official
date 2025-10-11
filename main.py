@@ -670,25 +670,23 @@ def home(
 
 
 @app.get("/map", response_class=HTMLResponse)
-def map_view(
-    country: str = "All",
-    query: str = "",
-):
+def map_view(country: str = "All", query: str = ""):
     global DATASET_DF_FLIGHTS, AIRPORTS_DB
 
-    # Main dataset
+    # ✅ Main dataset
     df = get_dataset(trigger_refresh=False).copy()
     airports = df.to_dict(orient="records")
     existing_iatas = {ap["IATA"] for ap in airports}
 
-    # Find additional flights in DATASET_DF_FLIGHTS not in main dataset
+    # ✅ Group flights by IATA, ignore direction (D/A)
     grouped: dict[str, dict] = {}
 
     for rec in DATASET_DF_FLIGHTS.to_dict(orient="records"):
         iata = rec.get("iata")
-        if not iata or iata in existing_iatas:
+        if not iata:
             continue
 
+        # Initialize entry if not exists
         if iata not in grouped:
             grouped[iata] = {
                 "Name": rec.get("airport") or "—",
@@ -696,21 +694,31 @@ def map_view(
                 "Country": rec.get("country") or "—",
                 "Airlines": set(),
             }
-        if rec.get("airline"):
-            grouped[iata]["Airlines"].add(rec["airline"])
 
-    # Enrich and append new airports
+        # Merge airlines across both directions
+        if rec.get("airline"):
+            for a in rec["airline"].split(","):
+                grouped[iata]["Airlines"].add(a.strip())
+
+    # ✅ Enrich data from AIRPORTS_DB and append
+    merged_airports = {}
+
     for iata, meta in grouped.items():
+        if iata in merged_airports:
+            continue  # skip duplicates
+
         lat = lon = None
         dist_km = flight_time_hr = "—"
+
         if iata in AIRPORTS_DB:
             lat = AIRPORTS_DB[iata].get("lat")
             lon = AIRPORTS_DB[iata].get("lon")
-            if lat and lon:
-                dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
-                flight_time_hr = get_flight_time(dist_km)
 
-        airports.append({
+        if lat and lon:
+            dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
+            flight_time_hr = get_flight_time(dist_km)
+
+        merged_airports[iata] = {
             "IATA": iata,
             "Name": meta["Name"].title(),
             "City": meta["City"].title(),
@@ -720,16 +728,18 @@ def map_view(
             "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
             "Distance_km": dist_km,
             "FlightTime_hr": flight_time_hr,
-        })
+        }
 
-    # Filter by country
+    airports = list(merged_airports.values())
+
+    # ✅ Filter by country
     if country and country != "All":
         airports = [
             ap for ap in airports
             if ap.get("Country", "").lower() == country.lower()
         ]
 
-    # Filter by query
+    # ✅ Filter by query (city, name, code, country)
     if query:
         q = query.strip().lower()
         airports = [
@@ -739,6 +749,8 @@ def map_view(
             or q in str(ap.get("City", "")).lower()
             or q in str(ap.get("Country", "")).lower()
         ]
+
+    # ✅ Create Folium map
     m = folium.Map(
         location=[35, 28.5],
         zoom_start=5,
@@ -748,6 +760,8 @@ def map_view(
         zoom_control=True
     )
     cluster = MarkerCluster().add_to(m)
+
+    # Add TLV marker
     folium.Marker(
         [TLV["lat"], TLV["lon"]],
         tooltip="Tel Aviv (TLV)",
@@ -756,78 +770,56 @@ def map_view(
 
     bounds = [[TLV["lat"], TLV["lon"]]]
 
+    # ✅ Add destination markers
     for ap in airports:
         if not ap.get("lat") or not ap.get("lon"):
-            logger.warning(f"Missing coords for {ap['IATA']} ({ap['City']}, {ap['Country']})")
             continue
 
-        km = haversine_km(TLV["lat"], TLV["lon"], ap["lat"], ap["lon"])
-        flight_time_hr = get_flight_time(km) if km else "—"
-        flights_url    = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{ap['IATA']}"
+        km = ap["Distance_km"]
+        flight_time_hr = ap["FlightTime_hr"]
+        flights_url = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{ap['IATA']}"
         skyscanner_url = f"https://www.skyscanner.net/transport/flights/tlv/{ap['IATA'].lower()}/"
-        gmaps_url      = f"https://maps.google.com/?q={ap['City'].replace(' ','+')},{ap['Country'].replace(' ','+')}"
+        gmaps_url = f"https://maps.google.com/?q={ap['City'].replace(' ','+')},{ap['Country'].replace(' ','+')}"
         copy_js = f"navigator.clipboard && navigator.clipboard.writeText('{safe_js(ap['IATA'])}')"
-        airlines_val = ap.get("Airlines", "—")
 
-        if isinstance(airlines_val, (list, tuple)):
-            airlines_val = ",".join(map(str, airlines_val))
-        elif not isinstance(airlines_val, str):
-            airlines_val = str(airlines_val)
+        airlines_val = ap.get("Airlines", [])
+        if isinstance(airlines_val, str):
+            airlines_val = [airlines_val]
+        chips = []
 
-        if airlines_val.strip() and airlines_val != "—" and airlines_val.lower() != "nan":
-            chips = []
-            for a in airlines_val.split(","):
-                name = a.strip()
-                if not name:
-                    continue
-                url = AIRLINE_WEBSITES.get(name)  # your dict
-                style = (
-                    "display:inline-block;"
-                    "margin:2px 4px 2px 0;"
-                    "padding:3px 8px;"
-                    "font-size:12px;"
-                    "border-radius:9999px;"
-                    "background:#f3f4f6;"
-                    "color:#111827;"
-                    "text-decoration:none;"
-                    "border:1px solid #d1d5db;"
-                    "transition:all 0.25s ease-in-out;"
-                )
-                if url:
-                    chips.append(f"<a href='{escape(url)}' target='_blank' class='chip' style='{style}'>{escape(name)}</a>")
-                else:
-                    chips.append(f"<span class='chip' style='{style}'>{escape(name)}</span>")
-
-            # ✅ add CSS once
-            chip_css = """
-            <style>
-            a.chip, span.chip {
-              transition: all 0.25s ease-in-out;
-            }
-            a.chip:hover, span.chip:hover {
-              background-color:#0d6efd !important;
-              color:#fff !important;
-              border-color:#0d6efd !important;
-              transform:scale(1.08);
-              box-shadow:0 3px 6px rgba(0,0,0,.2);
-            }
-            </style>
-            """
-
-            airline_html = (
-                chip_css +
-                "<div style='margin-top:6px;font-size:13px'>Airlines:<br>"
-                + "".join(chips) +
-                "</div>"
+        for a in airlines_val:
+            name = a.strip()
+            if not name:
+                continue
+            url = AIRLINE_WEBSITES.get(name)
+            style = (
+                "display:inline-block;"
+                "margin:2px 4px 2px 0;"
+                "padding:3px 8px;"
+                "font-size:12px;"
+                "border-radius:9999px;"
+                "background:#f3f4f6;"
+                "color:#111827;"
+                "text-decoration:none;"
+                "border:1px solid #d1d5db;"
+                "transition:all 0.25s ease-in-out;"
             )
-        else:
-            airline_html = "<div style='margin-top:6px;font-size:13px'>Airlines: <b>—</b></div>"
+            if url:
+                chips.append(f"<a href='{escape(url)}' target='_blank' class='chip' style='{style}'>{escape(name)}</a>")
+            else:
+                chips.append(f"<span class='chip' style='{style}'>{escape(name)}</span>")
+
+        airline_html = (
+            "<div style='margin-top:6px;font-size:13px'>Airlines:<br>"
+            + "".join(chips) +
+            "</div>"
+        ) if chips else "<div style='margin-top:6px;font-size:13px'>Airlines: <b>—</b></div>"
 
         # ---- Popup HTML ----
         popup_html = f"""
             <div style='font-family:system-ui;min-width:250px;max-width:300px'>
-                <div style='font-weight:600;font-size:15px'>{escape(str(ap['Name']))} ({escape(str(ap['IATA']))})</div>
-                <div style='color:#6b7280;font-size:12px;margin-top:2px'>{escape(str(ap['City']))} · {escape(str(ap['Country']))}</div>
+                <div style='font-weight:600;font-size:15px'>{escape(ap['Name'])} ({escape(ap['IATA'])})</div>
+                <div style='color:#6b7280;font-size:12px;margin-top:2px'>{escape(ap['City'])} · {escape(ap['Country'])}</div>
                 <div style='margin-top:6px;font-size:13px'>Distance: <b>{km} km</b></div>
                 <div style='margin-top:2px;font-size:13px'>Flight time: <b>{flight_time_hr}</b></div>
                 {airline_html}
@@ -842,7 +834,7 @@ def map_view(
 
         folium.Marker(
             [ap["lat"], ap["lon"]],
-            tooltip=f"{safe_js(ap['Name'])} ({safe_js(ap['IATA'])})",            
+            tooltip=f"{safe_js(ap['Name'])} ({safe_js(ap['IATA'])})",
             popup=folium.Popup(popup_html, max_width=360),
             icon=folium.Icon(color="red", icon="plane", prefix="fa"),
         ).add_to(cluster)
@@ -860,11 +852,10 @@ def map_view(
         except Exception:
             pass
 
-    logger.info(f"GET /map country={country} query='{query}' rows={len(airports)}")
+    logger.info(f"✅ /map rendered: {len(airports)} unique airports (merged by IATA)")
 
+    # ✅ Ensure map reflows inside modal if needed
     bounds_js = json.dumps(bounds)
-    html = m.get_root().render()
-
     fix_script = f"""
     <script>
     window.addEventListener("message", function(e) {{
@@ -885,9 +876,9 @@ def map_view(
     </script>
     """
 
-    html = html.replace("</body>", fix_script + "</body>")
+    html = m.get_root().render().replace("</body>", fix_script + "</body>")
     return HTMLResponse(content=html, media_type="text/html; charset=utf-8")
-   
+
 
 # ───────────────────────────────────────────────
 # Startup handler

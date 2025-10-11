@@ -1,62 +1,7 @@
 {
-  "updated": "2025-10-12T00:55:52.687985",
-  "count": 2136,
+  "updated": "2025-10-12T01:21:27.742876",
+  "count": 2153,
   "flights": [
-    {
-      "airline": "Emirates",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-10-11t00:50:00",
-      "actual": "2025-10-11t00:50:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Flydubai",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-10-11t00:50:00",
-      "actual": "2025-10-11t00:50:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Etihad Airways",
-      "iata": "AUH",
-      "airport": "Abu Dhabi",
-      "city": "Abu Dhabi",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-10-11t00:55:00",
-      "actual": "2025-10-11t00:54:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "Ethiopian Airlines",
-      "iata": "ADD",
-      "airport": "Addis Ababa",
-      "city": "Addis Ababa",
-      "country": "Ethiopia",
-      "scheduled": "2025-10-11t01:00:00",
-      "actual": "2025-10-11t01:11:00",
-      "direction": "D",
-      "status": "Departed"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "ADD",
-      "airport": "Addis Ababa",
-      "city": "Addis Ababa",
-      "country": "Ethiopia",
-      "scheduled": "2025-10-11t01:00:00",
-      "actual": "2025-10-11t01:11:00",
-      "direction": "D",
-      "status": "Departed"
-    },
     {
       "airline": "Red Wings Airlines",
       "iata": "DME",
@@ -3765,83 +3710,6 @@
       "status": "Landed"
     },
     {
-      "airline": "Aerolineas Argentinas S.a.",
-      "iata": "MIA",
-      "airport": "Miami International",
-      "city": "Miami",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:15:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Jetblue Airways Corporation",
-      "iata": "MIA",
-      "airport": "Miami International",
-      "city": "Miami",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:15:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Jetblue Airways Corporation",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:30:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Delta Airlines",
-      "iata": "MIA",
-      "airport": "Miami International",
-      "city": "Miami",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:15:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Delta Airlines",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:30:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "MIA",
-      "airport": "Miami International",
-      "city": "Miami",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:15:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "EWR",
-      "airport": "New York - Newark",
-      "city": "Newark",
-      "country": "United States",
-      "scheduled": "2025-10-12t00:30:00",
-      "actual": "2025-10-12t00:30:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
       "airline": "El Al Israel Airlines",
       "iata": "PFO",
       "airport": "Paphos",
@@ -3905,18 +3773,7 @@
       "scheduled": "2025-10-12t00:30:00",
       "actual": "2025-10-12t00:37:00",
       "direction": "A",
-      "status": "Landing"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "LCA",
-      "airport": "Larnaca",
-      "city": "Larnaca",
-      "country": "Cyprus",
-      "scheduled": "2025-10-12t00:45:00",
-      "actual": "2025-10-12t00:38:00",
-      "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
     },
     {
       "airline": "Israir Airlines",
@@ -3927,106 +3784,18 @@
       "scheduled": "2025-10-12t00:45:00",
       "actual": "2025-10-12t00:40:00",
       "direction": "A",
-      "status": "Landing"
+      "status": "Landed"
     },
     {
-      "airline": "Lufthansa",
+      "airline": "El Al Israel Airlines",
       "iata": "LCA",
       "airport": "Larnaca",
       "city": "Larnaca",
       "country": "Cyprus",
       "scheduled": "2025-10-12t00:45:00",
-      "actual": "2025-10-12t00:45:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Emirates",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-10-12t00:50:00",
-      "actual": "2025-10-12t00:50:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Flydubai",
-      "iata": "DXB",
-      "airport": "Dubai",
-      "city": "Dubai",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-10-12t00:50:00",
-      "actual": "2025-10-12t00:50:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "BKK",
-      "airport": "Bangkok Intl.-suvarnabhumi",
-      "city": "Bangkok",
-      "country": "Thailand",
-      "scheduled": "2025-10-12t00:55:00",
-      "actual": "2025-10-12t00:55:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Qantas Airways",
-      "iata": "BKK",
-      "airport": "Bangkok Intl.-suvarnabhumi",
-      "city": "Bangkok",
-      "country": "Thailand",
-      "scheduled": "2025-10-12t00:55:00",
-      "actual": "2025-10-12t00:55:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Thai Airways",
-      "iata": "BKK",
-      "airport": "Bangkok Intl.-suvarnabhumi",
-      "city": "Bangkok",
-      "country": "Thailand",
-      "scheduled": "2025-10-12t00:55:00",
-      "actual": "2025-10-12t00:55:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Aero Mexico",
-      "iata": "JFK",
-      "airport": "New York - J.f.kennedy",
-      "city": "New York",
-      "country": "United States",
-      "scheduled": "2025-10-12t01:00:00",
-      "actual": "2025-10-12t01:00:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Aerolineas Argentinas S.a.",
-      "iata": "JFK",
-      "airport": "New York - J.f.kennedy",
-      "city": "New York",
-      "country": "United States",
-      "scheduled": "2025-10-12t01:00:00",
-      "actual": "2025-10-12t01:00:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "Jetblue Airways Corporation",
-      "iata": "JFK",
-      "airport": "New York - J.f.kennedy",
-      "city": "New York",
-      "country": "United States",
-      "scheduled": "2025-10-12t01:00:00",
-      "actual": "2025-10-12t01:00:00",
-      "direction": "D",
-      "status": "On Time"
+      "actual": "2025-10-12t00:46:00",
+      "direction": "A",
+      "status": "Landed"
     },
     {
       "airline": "Jetblue Airways Corporation",
@@ -4034,16 +3803,93 @@
       "airport": "New York - Newark",
       "city": "Newark",
       "country": "United States",
-      "scheduled": "2025-10-12t01:00:00",
-      "actual": "2025-10-12t01:00:00",
+      "scheduled": "2025-10-12t00:30:00",
+      "actual": "2025-10-12t00:49:00",
       "direction": "D",
-      "status": "On Time"
+      "status": "Departed"
     },
     {
       "airline": "Delta Airlines",
-      "iata": "JFK",
-      "airport": "New York - J.f.kennedy",
-      "city": "New York",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-10-12t00:30:00",
+      "actual": "2025-10-12t00:49:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-10-12t00:30:00",
+      "actual": "2025-10-12t00:49:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Etihad Airways",
+      "iata": "AUH",
+      "airport": "Abu Dhabi",
+      "city": "Abu Dhabi",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-12t01:00:00",
+      "actual": "2025-10-12t00:53:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Aerolineas Argentinas S.a.",
+      "iata": "MIA",
+      "airport": "Miami International",
+      "city": "Miami",
+      "country": "United States",
+      "scheduled": "2025-10-12t00:15:00",
+      "actual": "2025-10-12t00:54:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Jetblue Airways Corporation",
+      "iata": "MIA",
+      "airport": "Miami International",
+      "city": "Miami",
+      "country": "United States",
+      "scheduled": "2025-10-12t00:15:00",
+      "actual": "2025-10-12t00:54:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "MIA",
+      "airport": "Miami International",
+      "city": "Miami",
+      "country": "United States",
+      "scheduled": "2025-10-12t00:15:00",
+      "actual": "2025-10-12t00:54:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "MIA",
+      "airport": "Miami International",
+      "city": "Miami",
+      "country": "United States",
+      "scheduled": "2025-10-12t00:15:00",
+      "actual": "2025-10-12t00:54:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Jetblue Airways Corporation",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
       "country": "United States",
       "scheduled": "2025-10-12t01:00:00",
       "actual": "2025-10-12t01:00:00",
@@ -4073,28 +3919,6 @@
       "status": "On Time"
     },
     {
-      "airline": "Etihad Airways",
-      "iata": "AUH",
-      "airport": "Abu Dhabi",
-      "city": "Abu Dhabi",
-      "country": "United Arab Emirates",
-      "scheduled": "2025-10-12t01:00:00",
-      "actual": "2025-10-12t01:00:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "JFK",
-      "airport": "New York - J.f.kennedy",
-      "city": "New York",
-      "country": "United States",
-      "scheduled": "2025-10-12t01:00:00",
-      "actual": "2025-10-12t01:00:00",
-      "direction": "D",
-      "status": "On Time"
-    },
-    {
       "airline": "El Al Israel Airlines",
       "iata": "EWR",
       "airport": "New York - Newark",
@@ -4115,6 +3939,61 @@
       "actual": "2025-10-12t01:00:00",
       "direction": "D",
       "status": "On Time"
+    },
+    {
+      "airline": "Emirates",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-12t00:50:00",
+      "actual": "2025-10-12t01:02:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-12t00:50:00",
+      "actual": "2025-10-12t01:02:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "BKK",
+      "airport": "Bangkok Intl.-suvarnabhumi",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "scheduled": "2025-10-12t00:55:00",
+      "actual": "2025-10-12t01:04:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Qantas Airways",
+      "iata": "BKK",
+      "airport": "Bangkok Intl.-suvarnabhumi",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "scheduled": "2025-10-12t00:55:00",
+      "actual": "2025-10-12t01:04:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Thai Airways",
+      "iata": "BKK",
+      "airport": "Bangkok Intl.-suvarnabhumi",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "scheduled": "2025-10-12t00:55:00",
+      "actual": "2025-10-12t01:04:00",
+      "direction": "D",
+      "status": "Departed"
     },
     {
       "airline": "Aero Mexico",
@@ -4167,9 +4046,9 @@
       "city": "Ramon",
       "country": "Israel",
       "scheduled": "2025-10-11t23:00:00",
-      "actual": "2025-10-12t01:08:00",
+      "actual": "2025-10-12t01:10:00",
       "direction": "A",
-      "status": "Final"
+      "status": "Landing"
     },
     {
       "airline": "Arkia Israeli Airlines",
@@ -4178,9 +4057,75 @@
       "city": "Dubai",
       "country": "United Arab Emirates",
       "scheduled": "2025-10-12t00:55:00",
-      "actual": "2025-10-12t01:19:00",
+      "actual": "2025-10-12t01:12:00",
       "direction": "A",
-      "status": "Final"
+      "status": "Landing"
+    },
+    {
+      "airline": "Lufthansa",
+      "iata": "LCA",
+      "airport": "Larnaca",
+      "city": "Larnaca",
+      "country": "Cyprus",
+      "scheduled": "2025-10-12t00:45:00",
+      "actual": "2025-10-12t01:12:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Aero Mexico",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-12t01:00:00",
+      "actual": "2025-10-12t01:14:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Aerolineas Argentinas S.a.",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-12t01:00:00",
+      "actual": "2025-10-12t01:14:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Jetblue Airways Corporation",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-12t01:00:00",
+      "actual": "2025-10-12t01:14:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-12t01:00:00",
+      "actual": "2025-10-12t01:14:00",
+      "direction": "D",
+      "status": "Departed"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-12t01:00:00",
+      "actual": "2025-10-12t01:14:00",
+      "direction": "D",
+      "status": "Departed"
     },
     {
       "airline": "Red Wings Airlines",
@@ -4192,17 +4137,6 @@
       "actual": "2025-10-12t01:30:00",
       "direction": "D",
       "status": "On Time"
-    },
-    {
-      "airline": "Aegean Airlines",
-      "iata": "HER",
-      "airport": "Heraklion",
-      "city": "Heraklion",
-      "country": "Greece",
-      "scheduled": "2025-10-12t01:50:00",
-      "actual": "2025-10-12t01:50:00",
-      "direction": "A",
-      "status": "Not Final"
     },
     {
       "airline": "Aegean Airlines",
@@ -4316,6 +4250,17 @@
     },
     {
       "airline": "Aegean Airlines",
+      "iata": "HER",
+      "airport": "Heraklion",
+      "city": "Heraklion",
+      "country": "Greece",
+      "scheduled": "2025-10-12t01:50:00",
+      "actual": "2025-10-12t02:30:00",
+      "direction": "A",
+      "status": "Delayed"
+    },
+    {
+      "airline": "Aegean Airlines",
       "iata": "LCA",
       "airport": "Larnaca",
       "city": "Larnaca",
@@ -4324,6 +4269,17 @@
       "actual": "2025-10-12t02:30:00",
       "direction": "A",
       "status": "Not Final"
+    },
+    {
+      "airline": "Aegean Airlines",
+      "iata": "ATH",
+      "airport": "Athens",
+      "city": "Athens",
+      "country": "Greece",
+      "scheduled": "2025-10-12t02:55:00",
+      "actual": "2025-10-12t02:43:00",
+      "direction": "A",
+      "status": "Final"
     },
     {
       "airline": "Arkia Israeli Airlines",
@@ -4338,56 +4294,12 @@
     },
     {
       "airline": "El Al Israel Airlines",
-      "iata": "OTP",
-      "airport": "Bucharest - Otopeni",
-      "city": "Bucharest",
-      "country": "Romania",
-      "scheduled": "2025-10-12t02:50:00",
-      "actual": "2025-10-12t02:50:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Tarom - Romanian Air Transport",
-      "iata": "OTP",
-      "airport": "Bucharest - Otopeni",
-      "city": "Bucharest",
-      "country": "Romania",
-      "scheduled": "2025-10-12t02:50:00",
-      "actual": "2025-10-12t02:50:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "Aegean Airlines",
-      "iata": "ATH",
-      "airport": "Athens",
-      "city": "Athens",
-      "country": "Greece",
-      "scheduled": "2025-10-12t02:55:00",
-      "actual": "2025-10-12t02:55:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "El Al Israel Airlines",
       "iata": "SKG",
       "airport": "Thessaloniki",
       "city": "Thessaloniki",
       "country": "Greece",
       "scheduled": "2025-10-12t02:55:00",
-      "actual": "2025-10-12t02:55:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "TIA",
-      "airport": "Tirana",
-      "city": "Tirana",
-      "country": "Albania",
-      "scheduled": "2025-10-12t03:05:00",
-      "actual": "2025-10-12t02:57:00",
+      "actual": "2025-10-12t02:56:00",
       "direction": "A",
       "status": "Final"
     },
@@ -4403,6 +4315,28 @@
       "status": "Not Final"
     },
     {
+      "airline": "El Al Israel Airlines",
+      "iata": "OTP",
+      "airport": "Bucharest - Otopeni",
+      "city": "Bucharest",
+      "country": "Romania",
+      "scheduled": "2025-10-12t02:50:00",
+      "actual": "2025-10-12t03:06:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "Tarom - Romanian Air Transport",
+      "iata": "OTP",
+      "airport": "Bucharest - Otopeni",
+      "city": "Bucharest",
+      "country": "Romania",
+      "scheduled": "2025-10-12t02:50:00",
+      "actual": "2025-10-12t03:06:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
       "airline": "Israir Airlines",
       "iata": "FCO",
       "airport": "Rome - Fiumicino",
@@ -4412,17 +4346,6 @@
       "actual": "2025-10-12t03:10:00",
       "direction": "A",
       "status": "Final"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "TBS",
-      "airport": "Tbilisi",
-      "city": "Tbilisi",
-      "country": "Georgia",
-      "scheduled": "2025-10-12t03:15:00",
-      "actual": "2025-10-12t03:15:00",
-      "direction": "A",
-      "status": "Not Final"
     },
     {
       "airline": "Blue Bird Airways",
@@ -4458,6 +4381,39 @@
       "status": "Not Final"
     },
     {
+      "airline": "El Al Israel Airlines",
+      "iata": "TIA",
+      "airport": "Tirana",
+      "city": "Tirana",
+      "country": "Albania",
+      "scheduled": "2025-10-12t03:05:00",
+      "actual": "2025-10-12t03:36:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "Israir Airlines",
+      "iata": "FCO",
+      "airport": "Rome - Fiumicino",
+      "city": "Rome",
+      "country": "Italy",
+      "scheduled": "2025-10-12t03:50:00",
+      "actual": "2025-10-12t03:37:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "TBS",
+      "airport": "Tbilisi",
+      "city": "Tbilisi",
+      "country": "Georgia",
+      "scheduled": "2025-10-12t03:15:00",
+      "actual": "2025-10-12t03:39:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
       "airline": "Arkia Israeli Airlines",
       "iata": "BCN",
       "airport": "Barcelona",
@@ -4491,17 +4447,6 @@
       "status": "Final"
     },
     {
-      "airline": "Israir Airlines",
-      "iata": "FCO",
-      "airport": "Rome - Fiumicino",
-      "city": "Rome",
-      "country": "Italy",
-      "scheduled": "2025-10-12t03:50:00",
-      "actual": "2025-10-12t03:50:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
       "airline": "Air Baltic",
       "iata": "RIX",
       "airport": "Riga",
@@ -4511,28 +4456,6 @@
       "actual": "2025-10-12t04:00:00",
       "direction": "A",
       "status": "Final"
-    },
-    {
-      "airline": "Ethiopian Airlines",
-      "iata": "ADD",
-      "airport": "Addis Ababa",
-      "city": "Addis Ababa",
-      "country": "Ethiopia",
-      "scheduled": "2025-10-12t04:00:00",
-      "actual": "2025-10-12t04:00:00",
-      "direction": "A",
-      "status": "Not Final"
-    },
-    {
-      "airline": "El Al Israel Airlines",
-      "iata": "ADD",
-      "airport": "Addis Ababa",
-      "city": "Addis Ababa",
-      "country": "Ethiopia",
-      "scheduled": "2025-10-12t04:00:00",
-      "actual": "2025-10-12t04:00:00",
-      "direction": "A",
-      "status": "Not Final"
     },
     {
       "airline": "Aerolineas Argentinas S.a.",
@@ -4764,6 +4687,28 @@
       "actual": "2025-10-12t04:55:00",
       "direction": "D",
       "status": "On Time"
+    },
+    {
+      "airline": "Ethiopian Airlines",
+      "iata": "ADD",
+      "airport": "Addis Ababa",
+      "city": "Addis Ababa",
+      "country": "Ethiopia",
+      "scheduled": "2025-10-12t04:00:00",
+      "actual": "2025-10-12t04:59:00",
+      "direction": "A",
+      "status": "Final"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "ADD",
+      "airport": "Addis Ababa",
+      "city": "Addis Ababa",
+      "country": "Ethiopia",
+      "scheduled": "2025-10-12t04:00:00",
+      "actual": "2025-10-12t04:59:00",
+      "direction": "A",
+      "status": "Final"
     },
     {
       "airline": "Aegean Airlines",
@@ -7170,9 +7115,9 @@
       "city": "Shenzhen",
       "country": "China",
       "scheduled": "2025-10-12t12:00:00",
-      "actual": "2025-10-12t12:00:00",
+      "actual": "2025-10-12t11:58:00",
       "direction": "A",
-      "status": "Not Final"
+      "status": "Final"
     },
     {
       "airline": "Electra Airways",
@@ -23495,6 +23440,248 @@
       "country": "Cyprus",
       "scheduled": "2025-10-15t00:45:00",
       "actual": "2025-10-15t00:45:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Emirates",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-15t00:50:00",
+      "actual": "2025-10-15t00:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Flydubai",
+      "iata": "DXB",
+      "airport": "Dubai",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-15t00:50:00",
+      "actual": "2025-10-15t00:50:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Etihad Airways",
+      "iata": "AUH",
+      "airport": "Abu Dhabi",
+      "city": "Abu Dhabi",
+      "country": "United Arab Emirates",
+      "scheduled": "2025-10-15t00:55:00",
+      "actual": "2025-10-15t00:55:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "BKK",
+      "airport": "Bangkok Intl.-suvarnabhumi",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "scheduled": "2025-10-15t00:55:00",
+      "actual": "2025-10-15t00:55:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "MUC",
+      "airport": "Munich",
+      "city": "Munich",
+      "country": "Germany",
+      "scheduled": "2025-10-15t00:55:00",
+      "actual": "2025-10-15t00:55:00",
+      "direction": "A",
+      "status": "Canceled"
+    },
+    {
+      "airline": "Qantas Airways",
+      "iata": "BKK",
+      "airport": "Bangkok Intl.-suvarnabhumi",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "scheduled": "2025-10-15t00:55:00",
+      "actual": "2025-10-15t00:55:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Sas",
+      "iata": "MUC",
+      "airport": "Munich",
+      "city": "Munich",
+      "country": "Germany",
+      "scheduled": "2025-10-15t00:55:00",
+      "actual": "2025-10-15t00:55:00",
+      "direction": "A",
+      "status": "Canceled"
+    },
+    {
+      "airline": "Thai Airways",
+      "iata": "BKK",
+      "airport": "Bangkok Intl.-suvarnabhumi",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "scheduled": "2025-10-15t00:55:00",
+      "actual": "2025-10-15t00:55:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Aero Mexico",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Aerolineas Argentinas S.a.",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Jetblue Airways Corporation",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Jetblue Airways Corporation",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Ethiopian Airlines",
+      "iata": "ADD",
+      "airport": "Addis Ababa",
+      "city": "Addis Ababa",
+      "country": "Ethiopia",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "JFK",
+      "airport": "New York - J.f.kennedy",
+      "city": "New York",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "EWR",
+      "airport": "New York - Newark",
+      "city": "Newark",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "ADD",
+      "airport": "Addis Ababa",
+      "city": "Addis Ababa",
+      "country": "Ethiopia",
+      "scheduled": "2025-10-15t01:00:00",
+      "actual": "2025-10-15t01:00:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Aero Mexico",
+      "iata": "LAX",
+      "airport": "Los Angeles",
+      "city": "Los Angeles",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:05:00",
+      "actual": "2025-10-15t01:05:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Jetblue Airways Corporation",
+      "iata": "LAX",
+      "airport": "Los Angeles",
+      "city": "Los Angeles",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:05:00",
+      "actual": "2025-10-15t01:05:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "Delta Airlines",
+      "iata": "LAX",
+      "airport": "Los Angeles",
+      "city": "Los Angeles",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:05:00",
+      "actual": "2025-10-15t01:05:00",
+      "direction": "D",
+      "status": "On Time"
+    },
+    {
+      "airline": "El Al Israel Airlines",
+      "iata": "LAX",
+      "airport": "Los Angeles",
+      "city": "Los Angeles",
+      "country": "United States",
+      "scheduled": "2025-10-15t01:05:00",
+      "actual": "2025-10-15t01:05:00",
       "direction": "D",
       "status": "On Time"
     }
