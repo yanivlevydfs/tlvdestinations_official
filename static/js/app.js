@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ths = document.querySelectorAll("#airports-table thead th");
     const headVals = [
       d.table?.iata      || "IATA",
-      d.table?.name      || "Name",
+      d.table?.name      || "Airport",
 	  d.table?.country   || "Country",
       d.table?.city      || "City",      
       d.table?.airlines  || "Airlines",
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
       table = initDataTable(lang);
       if (prevSearch) table.search(prevSearch).draw();
       if (prevCountry && prevCountry !== 'All') {
-        table.column(3).search(escapeRegex(prevCountry), true, false).draw();
+        table.column(2).search(escapeRegex(prevCountry), true, false).draw();
       }
     }
     applyUnitsInCells(d);
@@ -194,7 +194,7 @@ $('#country-filter-mobile').on('change', function () {
   $('#query-filter-mobile').val('');
   table.search('', true, false); // Clear global search
   // Apply Country filter
-  table.column(3).search(escapeRegex(val), true, false).draw();
+  table.column(2).search(escapeRegex(val), true, false).draw();
   updateActiveFilters(LANG[currentLang]);
 });
 
@@ -207,7 +207,7 @@ $('#query-filter-mobile').on('input', function () {
 
   // 🆕 Reset country dropdown before search
   $('#country-filter-mobile').val('All');
-  table.column(3).search('', true, false); // Clear the Country filter (column 3)
+  table.column(2).search('', true, false); // Clear the Country filter (column 3)
 
   debounceTimerMobile = setTimeout(() => {
     table.search(escapeRegex(val), true, false).draw();
@@ -241,7 +241,7 @@ $('#country-filter').on('change', function () {
   $('#query-filter').val('');
   table.search('', true, false); // Clear global search
   // Apply Country filter
-  table.column(3).search(escapeRegex(val), true, false).draw();
+  table.column(2).search(escapeRegex(val), true, false).draw();
   updateActiveFilters(LANG[currentLang]);
 });
 
@@ -253,7 +253,7 @@ $('#query-filter').on('input', function () {
 
   // 🆕 Reset country dropdown before applying text search
   $('#country-filter').val('All');
-  table.column(3).search('', true, false); // Clear Country filter (column 3)
+  table.column(2).search('', true, false); // Clear Country filter (column 3)
 
   debounceTimer = setTimeout(() => {
     table.search(escapeRegex(val), true, false).draw();
