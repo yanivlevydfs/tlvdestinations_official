@@ -1348,6 +1348,7 @@ async def custom_redoc(username: str = Depends(verify_docs_credentials)):
 async def flights_view(request: Request):
     global DATASET_DF_FLIGHTS
 
+    # ✅ No data safeguard
     if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
@@ -1357,8 +1358,14 @@ async def flights_view(request: Request):
 
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
 
-    israel_tz = ZoneInfo("Asia/Jerusalem")
-    now = datetime.now(israel_tz)
+    # ✅ Parse dataset date (e.g. "11-10-2025")
+    dataset_date_str = get_dataset_date()
+    try:
+        dataset_date = datetime.strptime(dataset_date_str, "%d-%m-%Y").date()
+    except Exception as e:
+        print(f"⚠️ Invalid dataset date format: {dataset_date_str} ({e})")
+        dataset_date = datetime.utcnow().date()
+
     filtered_flights = []
 
     for f in flights:
@@ -1368,38 +1375,27 @@ async def flights_view(request: Request):
         f["scheduled"] = s_short
         f["scheduled_full"] = s_full
         f["scheduled_iso"] = s_iso
-
         f["actual"] = a_short
         f["actual_full"] = a_full
         f["actual_iso"] = a_iso
 
-        # ✅ Skip malformed times
+        # ✅ Include if no scheduled time at all
         if not s_iso:
+            filtered_flights.append(f)
             continue
 
         try:
-            # Convert scheduled time to datetime
             s_dt = datetime.fromisoformat(s_iso)
-
-            # ✅ Make it timezone-aware
-            if s_dt.tzinfo is None:
-                # interpret this as local Israel time
-                s_dt = s_dt.replace(tzinfo=israel_tz)
-            else:
-                # if already aware (UTC or other tz), convert to Israel local
-                s_dt = s_dt.astimezone(israel_tz)
-
-            # ✅ Safe comparison (both aware)
-            if s_dt >= now:
+            # ✅ Include if flight date is *same or after dataset date*
+            if s_dt.date() >= dataset_date:
                 filtered_flights.append(f)
-
         except Exception as e:
-            print(f"Skipping malformed datetime '{s_iso}': {e}")
-            continue
+            print(f"⚠️ Skipping malformed datetime '{s_iso}': {e}")
+            filtered_flights.append(f)
 
-    flights = filtered_flights  # ✅ Replace original flights list
+    flights = filtered_flights
 
-    # ✅ Extract filters
+    # ✅ Extract dropdown filters
     countries = sorted({
         f.get("country", "").strip()
         for f in flights if f.get("country")
@@ -1411,19 +1407,20 @@ async def flights_view(request: Request):
         if f.get("actual_iso") and "T" in f["actual_iso"]
     })
 
-    # ✅ Safely build actual_dates as list of (value, label)
+    # ✅ Build actual_dates dropdown list
     actual_dates_set = set()
     for f in flights:
         iso = f.get("actual_iso")
         if iso and "T" in iso:
             try:
-                date_part = iso.split("T")[0]  # e.g. "2025-09-29"
-                label = datetime.strptime(date_part, "%Y-%m-%d").strftime("%b %d")  # "Sep 29"
+                date_part = iso.split("T")[0]
+                label = datetime.strptime(date_part, "%Y-%m-%d").strftime("%b %d")
                 actual_dates_set.add((date_part, label))
             except ValueError:
                 continue
-
     actual_dates = sorted(actual_dates_set)
+
+    print(f"✅ Loaded {len(flights)} flights from {dataset_date_str} onwards.")
 
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
@@ -1431,12 +1428,10 @@ async def flights_view(request: Request):
         "countries": countries,
         "actual_dates": actual_dates,
         "actual_times": actual_times,
-        "last_update": get_dataset_date(),
+        "last_update": dataset_date_str,
         "lang": request.query_params.get("lang", "en"),
-        "now": now,
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
-
 
 @app.get("/glossary", response_class=HTMLResponse)
 async def glossary_view(request: Request):
