@@ -1045,6 +1045,8 @@ body.dark-mode .install-app-inner {
   align-items: center;
   justify-content: center; /* ensures proper centering inside */
   margin-bottom: 0 !important; /* prevent offset */
+  overflow: visible;              /* ✅ allow handle to move outside */
+  touch-action: manipulation;     /* ✅ ensures smooth touch toggle */
 }
 
 .toggle-border input[type="checkbox"] {
@@ -1070,6 +1072,7 @@ body.dark-mode .install-app-inner {
 }
 
 .handle {
+  pointer-events: none;
   position: absolute;
   top: -8px;
   left: -10px;
@@ -1116,11 +1119,28 @@ body.dark-mode #direction-switch-label {
 }
 @media (max-width: 576px) {
   .direction-toggle {
-    justify-content: space-between;       /* center everything on mobile */
-    flex-direction: column;         /* stack label above switch */
-    gap: 0.4rem;
+    flex-direction: row;          /* ✅ keep label beside switch (not stacked) */
+    justify-content: center;      /* ✅ center horizontally */
+    align-items: center;
+    gap: 0.5rem;
   }
    #direction-switch-label {
+	font-size: 0.9rem;    
     text-align: center;
+  }
+}
+@media (max-width: 576px) {
+  .toggle-border label {
+    width: 55px;
+    height: 18px;
+  }
+  .handle {
+    width: 30px;
+    height: 30px;
+    top: -6px;
+    left: -8px;
+  }
+  .toggle-border input[type="checkbox"]:checked + label > .handle {
+    left: calc(100% - 30px + 8px);
   }
 }
