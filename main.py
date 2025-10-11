@@ -35,6 +35,8 @@ from fastapi import status
 import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
+from zoneinfo import ZoneInfo
+
 os.environ["PYTHONUTF8"] = "1"
 try:
     enc = (sys.stdout.encoding or "").lower()
@@ -1355,7 +1357,8 @@ async def flights_view(request: Request):
 
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
 
-    now = datetime.now()
+    israel_tz = ZoneInfo("Asia/Jerusalem")
+    now = datetime.now(israel_tz)
     filtered_flights = []
 
     for f in flights:
@@ -1370,12 +1373,29 @@ async def flights_view(request: Request):
         f["actual_full"] = a_full
         f["actual_iso"] = a_iso
 
+        # ✅ Skip malformed times
+        if not s_iso:
+            continue
+
         try:
-            # ✅ Filter out past flights based on scheduled time
-            if s_iso and datetime.fromisoformat(s_iso) >= now:
+            # Convert scheduled time to datetime
+            s_dt = datetime.fromisoformat(s_iso)
+
+            # ✅ Make it timezone-aware
+            if s_dt.tzinfo is None:
+                # interpret this as local Israel time
+                s_dt = s_dt.replace(tzinfo=israel_tz)
+            else:
+                # if already aware (UTC or other tz), convert to Israel local
+                s_dt = s_dt.astimezone(israel_tz)
+
+            # ✅ Safe comparison (both aware)
+            if s_dt >= now:
                 filtered_flights.append(f)
-        except ValueError:
-            continue  # Skip malformed datetime
+
+        except Exception as e:
+            print(f"Skipping malformed datetime '{s_iso}': {e}")
+            continue
 
     flights = filtered_flights  # ✅ Replace original flights list
 
