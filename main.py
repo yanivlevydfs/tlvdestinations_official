@@ -144,8 +144,6 @@ def get_flight_time(dist_km: float | None) -> str:
         return f"{hours}h"
     return f"{hours}h {minutes}m"
 
-
-
 def load_travel_warnings_df() -> pd.DataFrame:
     """Load travel warnings JSON from CACHE_DIR into a DataFrame."""
     if not TRAVEL_WARNINGS_FILE.exists():
@@ -455,14 +453,10 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
 
 
 def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
-    """
-    Read israel_flights.json and convert flights → unique airports DataFrame.
-    Uses global AIRPORTS_DB (loaded once on startup).
-    """
     global AIRPORTS_DB
 
     if not ISRAEL_FLIGHTS_FILE.exists():
-        return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
+        return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"]), None
 
     try:
         with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
@@ -470,13 +464,16 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
         flights = meta.get("flights", [])
 
-        grouped: dict[str, dict] = {}
+        grouped: dict[tuple[str, str], dict] = {}
         for rec in flights:
             iata = rec.get("iata")
-            if not iata:
+            direction = rec.get("direction")  # A or D
+            if not iata or not direction:
                 continue
-            entry = grouped.setdefault(iata, {
+            key = (iata, direction)
+            entry = grouped.setdefault(key, {
                 "IATA": iata,
+                "Direction": direction,
                 "Name": rec.get("airport") or "—",
                 "City": rec.get("city") or "—",
                 "Country": rec.get("country") or "—",
@@ -487,11 +484,12 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 entry["Airlines"].add(airline)
 
         rows = []
-        for iata, info in grouped.items():
+        for (iata, direction), info in grouped.items():
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
             lat, lon = coords.get("lat"), coords.get("lon")
             dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
             flight_hr = get_flight_time(dist_km) if dist_km else "—"
+
             rows.append({
                 **info,
                 "lat": lat,
@@ -503,9 +501,9 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
         df = pd.DataFrame(rows)
 
-        # Extract updated date
-        updated = meta.get("updated")
+        # Optional: extract date
         file_date = None
+        updated = meta.get("updated")
         if updated:
             try:
                 iso_date = updated.split("T")[0]
@@ -517,9 +515,8 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
     except Exception as e:
         logger.error(f"Failed to read dataset file: {e}", exc_info=True)
+        return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"]), None
 
-    # Fallback
-    return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines"]), None
 
 def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
     """

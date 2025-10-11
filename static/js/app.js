@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
       columnDefs: [
         { targets: [0,1,2], responsivePriority: 1 },   // IATA, Name, City always visible
         { targets: [3],     responsivePriority: 2 },   // Country
-        { targets: [4,5,6], responsivePriority: 10000 } // Airlines, Distance, Flight Time collapse first
+        { targets: [4,5,6], responsivePriority: 10000 },
+		{ targets: [7], visible: false, searchable: true }		// Airlines, Distance, Flight Time collapse first
       ],
       order: [[0, 'asc']],
       language: LANG[lang].dt,
@@ -152,7 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
       d.table?.city      || "City",      
       d.table?.airlines  || "Airlines",
       d.table?.distance  || "Distance",
-      d.table?.flightTime|| "Flight Time"
+      d.table?.flightTime|| "Flight Time",
+	  d.table?.direction || "Direction"
     ];
     headVals.forEach((t,i)=>ths[i] && (ths[i].textContent = t));
     if (reinitDT) {
@@ -320,6 +322,29 @@ $('#query-filter').on('input', function () {
         scrollShown = true;
         showInstallBanner();
       }
+    });
+  }  // end mobile js
+  const directionSwitch = document.getElementById("direction-switch");
+  const directionLabel = document.getElementById("direction-switch-label");
+  const toggleHandleLabel = document.querySelector(".toggle-label");
+
+  if (directionSwitch && $.fn.dataTable.isDataTable('#airports-table')) {
+    const table = $('#airports-table').DataTable();
+    const isHebrew = document.documentElement.lang === "he";
+
+    function applyDirectionFilter(checked) {
+      const regex = checked ? "^D$" : "^A$";
+      table.column(7).search(regex, true, false).draw();
+
+      directionLabel.textContent = checked
+        ? (isHebrew ? "המראות (מתל אביב)" : "TLV Departures")
+        : (isHebrew ? "נחיתות (לתל אביב)" : "TLV Arrivals");
+    }
+    directionSwitch.checked = true;  // Force switch ON
+    applyDirectionFilter(directionSwitch.checked);
+
+    directionSwitch.addEventListener("change", () => {
+      applyDirectionFilter(directionSwitch.checked);
     });
   }
 });
