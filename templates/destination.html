@@ -4,7 +4,14 @@
 <link rel="canonical" href="https://fly-tlv.com/destinations" />
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/destinations" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/destinations?lang=he" />
-
+<link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
+<style>
+.hover-opacity:hover {
+background-color: #f8f9fa;
+box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.04);
+opacity: 0.9;
+}
+</style>
   <!-- ✅ Page-specific SEO -->
   <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
   <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
@@ -103,30 +110,31 @@
     </div>
 
     <!-- Body -->
-    <div class="card-body">
-      <!-- Quick info grid -->
-      <div class="row text-center mb-4">
-        <div class="col-md-3">
-          <i class="bi bi-geo-alt-fill text-danger fs-3"></i>
-          <p class="mb-0"><strong>{{ destination.City }}</strong></p>
-          <small>{{ 'City' if lang != 'he' else 'עיר' }}</small>
-        </div>
-        <div class="col-md-3">
-          <i class="bi bi-signpost-split-fill text-success fs-3"></i>
-          <p class="mb-0">{{ destination.IATA }}</p>
-          <small>IATA Code</small>
-        </div>
-        <div class="col-md-3">
-          <i class="bi bi-rulers text-primary fs-3"></i>
-          <p class="mb-0">{{ "%.1f"|format(destination.Distance_km or 0) }} km</p>
-          <small>{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
-        </div>
-        <div class="col-md-3">
-          <i class="bi bi-clock-history text-warning fs-3"></i>
-          <p class="mb-0">{{ destination.FlightTime_hr or "—" }}</p>
-          <small>{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
-        </div>
-      </div>
+<div class="card-body">
+  <!-- Compact Quick info grid -->
+  <div class="row text-center mb-3">
+    <div class="col-md-3">
+      <i class="bi bi-geo-alt-fill text-danger" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small"><strong>{{ destination.City }}</strong></p>
+      <small class="text-muted">{{ 'City' if lang != 'he' else 'עיר' }}</small>
+    </div>
+    <div class="col-md-3">
+      <i class="bi bi-signpost-split-fill text-success" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small">{{ destination.IATA }}</p>
+      <small class="text-muted">IATA</small>
+    </div>
+    <div class="col-md-3">
+      <i class="bi bi-rulers text-primary" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small">{{ "%.1f"|format(destination.Distance_km or 0) }} km</p>
+      <small class="text-muted">{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
+    </div>
+    <div class="col-md-3">
+      <i class="bi bi-clock-history text-warning" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small">{{ destination.FlightTime_hr or "—" }}</p>
+      <small class="text-muted">{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
+    </div>
+  </div>
+
 
       <!-- Coordinates -->
       <p>
@@ -135,17 +143,25 @@
       </p>
 
       <!-- Airlines -->
-      <h5 class="mt-4">{{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}:</h5>
-      {% if destination.Airlines %}
-        {% for airline in destination.Airlines %}
-          <a href="https://www.google.com/search?q={{ airline }}" target="_blank"
-             class="badge rounded-pill bg-light text-dark border border-primary me-1">
-            {{ airline }} <i class="bi bi-box-arrow-up-right small"></i>
-          </a>
-        {% endfor %}
-      {% else %}
-        <p>—</p>
-      {% endif %}
+<h6 class="mt-4 mb-2 fw-semibold">
+  <i class="bi bi-airplane-engines me-1 text-primary"></i>
+  {{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}:
+</h6>
+
+{% if destination.Airlines %}
+  <div class="d-flex flex-wrap gap-2">
+    {% for airline in destination.Airlines %}
+      <a href="https://www.google.com/search?q={{ airline }}" target="_blank"
+         class="airline-chip text-decoration-none"
+         style="transition: all 0.2s ease-in-out;">
+        <span>{{ airline }}</span>
+        <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">—</p>
+{% endif %}
 
       <!-- Wikipedia City Overview -->
       <div class="mt-5">
@@ -221,4 +237,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 </script>
+
 {% endblock %}
