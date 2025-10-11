@@ -128,16 +128,22 @@ AIRPORTS_DB: dict = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
-def get_flight_time(dist_km):
-    total_hours = dist_km / 800
+def get_flight_time(dist_km: float | None) -> str:
+    if not dist_km or dist_km <= 0:
+        return "—"
+
+    total_hours = dist_km / 800  # average cruising speed
     hours = int(total_hours)
-    minutes = round((total_hours - hours) * 60)
+    minutes = int((total_hours - hours) * 60)
 
     if minutes == 60:
         hours += 1
         minutes = 0
 
+    if minutes == 0:
+        return f"{hours}h"
     return f"{hours}h {minutes}m"
+
 
 
 def load_travel_warnings_df() -> pd.DataFrame:

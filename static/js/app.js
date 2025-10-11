@@ -190,10 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // Country filter (MOBILE)
 $('#country-filter-mobile').on('change', function () {
   const val = this.value === "All" ? '' : this.value;
-  // 🆕 Reset global search + mobile query input
   $('#query-filter-mobile').val('');
-  table.search('', true, false); // Clear global search
-  // Apply Country filter
+  table.search('', true, false);
   table.column(2).search(escapeRegex(val), true, false).draw();
   updateActiveFilters(LANG[currentLang]);
 });
@@ -204,10 +202,8 @@ let debounceTimerMobile;
 $('#query-filter-mobile').on('input', function () {
   clearTimeout(debounceTimerMobile);
   const val = this.value;
-
-  // 🆕 Reset country dropdown before search
   $('#country-filter-mobile').val('All');
-  table.column(2).search('', true, false); // Clear the Country filter (column 3)
+  table.column(2).search('', true, false);
 
   debounceTimerMobile = setTimeout(() => {
     table.search(escapeRegex(val), true, false).draw();
@@ -237,10 +233,8 @@ $('#clear-filters-mobile').on('click', () => {
   // ---------- Filters ----------
 $('#country-filter').on('change', function () {
   const val = this.value === "All" ? '' : this.value;
-  // 🆕 Reset global search + query input
   $('#query-filter').val('');
   table.search('', true, false); // Clear global search
-  // Apply Country filter
   table.column(2).search(escapeRegex(val), true, false).draw();
   updateActiveFilters(LANG[currentLang]);
 });
@@ -250,10 +244,8 @@ let debounceTimer;
 $('#query-filter').on('input', function () {
   clearTimeout(debounceTimer);
   const val = this.value;
-
-  // 🆕 Reset country dropdown before applying text search
   $('#country-filter').val('All');
-  table.column(2).search('', true, false); // Clear Country filter (column 3)
+  table.column(2).search('', true, false);
 
   debounceTimer = setTimeout(() => {
     table.search(escapeRegex(val), true, false).draw();
