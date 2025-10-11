@@ -1347,7 +1347,7 @@ async def custom_redoc(username: str = Depends(verify_docs_credentials)):
 async def flights_view(request: Request):
     global DATASET_DF_FLIGHTS
 
-    # ✅ No data safeguard
+    # ✅ Handle missing data
     if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
@@ -1356,17 +1356,9 @@ async def flights_view(request: Request):
         })
 
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
+    processed_flights = []
 
-    # ✅ Parse dataset date (e.g. "11-10-2025")
-    dataset_date_str = get_dataset_date()
-    try:
-        dataset_date = datetime.strptime(dataset_date_str, "%d-%m-%Y").date()
-    except Exception as e:
-        logger.warning(f"⚠️ Invalid dataset date format: {dataset_date_str} ({e}) — using UTC date instead.")
-        dataset_date = datetime.utcnow().date()
-
-    filtered_flights = []
-
+    # ✅ Process times only for display, no filtering
     for f in flights:
         s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
         a_short, a_full, a_iso = format_time(f.get("actual", ""))
@@ -1378,43 +1370,23 @@ async def flights_view(request: Request):
         f["actual_full"] = a_full
         f["actual_iso"] = a_iso
 
-        # ✅ Include if no scheduled time at all
-        if not s_iso:
-            filtered_flights.append(f)
-            continue
+        processed_flights.append(f)
 
-        try:
-            # Parse ISO, handle cases like "Z" or no timezone
-            try:
-                s_dt = datetime.fromisoformat(s_iso)
-            except ValueError:
-                s_dt = datetime.strptime(s_iso[:19], "%Y-%m-%dT%H:%M:%S")
-
-            # ✅ Tolerate up to 1-day offset (Render UTC vs Israel local)
-            day_diff = (s_dt.date() - dataset_date).days
-            if day_diff >= -1:  # includes same day or 1-day ahead
-                filtered_flights.append(f)
-        except Exception as e:
-            logger.warning(f"⚠️ Skipping malformed datetime '{s_iso}': {e}")
-            filtered_flights.append(f)
-
-    flights = filtered_flights
-
-    # ✅ Extract dropdown filters
+    # ✅ Extract dropdown filters (all flights included)
     countries = sorted({
         f.get("country", "").strip()
-        for f in flights if f.get("country")
+        for f in processed_flights if f.get("country")
     })
 
     actual_times = sorted({
         f["actual_iso"].split("T")[1][:5]
-        for f in flights
+        for f in processed_flights
         if f.get("actual_iso") and "T" in f["actual_iso"]
     })
 
-    # ✅ Build actual_dates dropdown list
+    # ✅ Build actual_dates dropdown list (optional)
     actual_dates_set = set()
-    for f in flights:
+    for f in processed_flights:
         iso = f.get("actual_iso")
         if iso and "T" in iso:
             try:
@@ -1425,20 +1397,16 @@ async def flights_view(request: Request):
                 continue
     actual_dates = sorted(actual_dates_set)
 
-    # ✅ Logging summary
-    logger.info(f"✅ get_dataset_date() -> {dataset_date_str}")
-    logger.info(f"✅ Parsed dataset_date: {dataset_date}")
-    if flights:
-        logger.info(f"🕓 First scheduled_iso in dataset: {flights[0].get('scheduled_iso')}")
-    logger.info(f"✅ Total filtered flights: {len(flights)}")
+    # ✅ Simple logs
+    logger.info(f"✅ Loaded total flights: {len(processed_flights)} (no filtering applied)")
 
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
-        "flights": flights,
+        "flights": processed_flights,
         "countries": countries,
         "actual_dates": actual_dates,
         "actual_times": actual_times,
-        "last_update": dataset_date_str,
+        "last_update": get_dataset_date(),  # just show dataset date
         "lang": request.query_params.get("lang", "en"),
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
