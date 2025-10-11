@@ -6,12 +6,14 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Iterable, List, Optional
 
-# נתיבים שנסנן מהלוג של uvicorn.access (אפשר להרחיב/לשנות ב-setup_logging)
 DEFAULT_IGNORED_ACCESS_PATHS: List[str] = [
-    ".well-known/appspecific/com.chrome.devtools.json",  # DevTools
-    "/api/progress/stream",                              # SSE / health
+    ".well-known/appspecific/com.chrome.devtools.json",
+    "/api/progress/stream",
     "/favicon.ico",
-    "/static/",                                          # סטטיקה מרובה
+    "/static/",
+    "/wp-admin/",
+    "/wordpress/",
+    "/wp-login.php",
 ]
 
 class IgnorePathsFilter(logging.Filter):
@@ -119,7 +121,7 @@ def setup_logging(
             },
             # לוג פנימי של uvicorn/שרת
             "uvicorn.error": {
-                "level": log_level,
+                "level": "ERROR",
                 "handlers": ["console", "file"],
                 "propagate": False,
             },
