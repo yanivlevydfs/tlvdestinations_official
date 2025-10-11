@@ -1107,8 +1107,20 @@ body.dark-mode .install-app-inner {
   text-align: left;
   user-select: none;
   min-width: 80px;
+  white-space: nowrap; /* keeps “TLV Departures” on one line */
+
 }
 
 body.dark-mode #direction-switch-label {
   color: #f1f1f1 !important;
+}
+@media (max-width: 576px) {
+  .direction-toggle {
+    justify-content: space-between;       /* center everything on mobile */
+    flex-direction: column;         /* stack label above switch */
+    gap: 0.4rem;
+  }
+   #direction-switch-label {
+    text-align: center;
+  }
 }

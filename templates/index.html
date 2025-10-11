@@ -311,7 +311,7 @@
               </div>
 				<div class="direction-toggle-container">
 				  <div class="direction-toggle">
-					<span id="direction-switch-label">TLV Departures</span>
+					<span id="direction-switch-label"></span>
 					<div class="toggle-border">
 					  <input type="checkbox" id="direction-switch" checked>
 					  <label for="direction-switch">
@@ -448,7 +448,18 @@
       Search & Filter
     {% endif %}
   </div>
-  <div class="card-body">
+<div class="direction-toggle-container">
+  <div class="direction-toggle">
+	<span id="direction-switch-label"></span>
+	<div class="toggle-border">
+	  <input type="checkbox" id="direction-switch" checked>
+	  <label for="direction-switch">
+		<div class="handle"></div>
+	  </label>
+	</div>
+  </div>
+</div>
+<div class="card-body">
     <div class="mb-3">
       <label for="country-filter-mobile" class="form-label">
         {% if lang == "he" %}
