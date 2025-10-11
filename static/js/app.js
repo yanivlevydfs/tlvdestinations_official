@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isMobile) return []; // skip buttons on mobile
     const b = LANG[lang].dtButtons;
     return [
-      { extend:'copyHtml5',  className:'btn btn-primary', text:`<i class="bi bi-clipboard me-1"></i> ${b.copy}` },
-      { extend:'csvHtml5',   className:'btn btn-primary', text:`<i class="bi bi-filetype-csv me-1"></i> ${b.csv}` },
-      { extend:'excelHtml5', className:'btn btn-primary', text:`<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}` },
-      { extend:'pdfHtml5',   className:'btn btn-primary', text:`<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}` },
-      { extend:'print',      className:'btn btn-primary', text:`<i class="bi bi-printer me-1"></i> ${b.print}` }
+		{ extend:'copyHtml5',  className:'btn btn-primary mobile-small-btn', text:`<i class="bi bi-clipboard me-1"></i> ${b.copy}` },
+		 //{ extend:'csvHtml5',   className:'btn btn-primary mobile-small-btn', text:`<i class="bi bi-filetype-csv me-1"></i> ${b.csv}` },
+		{ extend:'excelHtml5', className:'btn btn-primary mobile-small-btn', text:`<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}` },
+		{ extend:'pdfHtml5',   className:'btn btn-primary mobile-small-btn', text:`<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}` },
+		{ extend:'print',      className:'btn btn-primary mobile-small-btn', text:`<i class="bi bi-printer me-1"></i> ${b.print}` }
     ];
   }
 
