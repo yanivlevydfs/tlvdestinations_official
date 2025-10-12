@@ -324,27 +324,20 @@ $('#query-filter').on('input', function () {
       }
     });
   }  // end mobile js
-  const directionSwitch = document.getElementById("direction-switch");
-  const directionLabel = document.getElementById("direction-switch-label");
-  const toggleHandleLabel = document.querySelector(".toggle-label");
+const directionSelect = document.getElementById("direction-select");
 
-  if (directionSwitch && $.fn.dataTable.isDataTable('#airports-table')) {
-    const table = $('#airports-table').DataTable();
-    const isHebrew = document.documentElement.lang === "he";
+if (directionSelect && $.fn.dataTable.isDataTable('#airports-table')) {
+  const table = $('#airports-table').DataTable();
 
-    function applyDirectionFilter(checked) {
-      const regex = checked ? "^D$" : "^A$";
-      table.column(7).search(regex, true, false).draw();
-
-      directionLabel.textContent = checked
-        ? (isHebrew ? "המראות (מתל אביב)" : "TLV Departures")
-        : (isHebrew ? "נחיתות (לתל אביב)" : "TLV Arrivals");
-    }
-    directionSwitch.checked = true;  // Force switch ON
-    applyDirectionFilter(directionSwitch.checked);
-
-    directionSwitch.addEventListener("change", () => {
-      applyDirectionFilter(directionSwitch.checked);
-    });
+  function applyDirectionFilter(value) {
+    const regex = value === "outbound" ? "^D$" : "^A$";
+    table.column(7).search(regex, true, false).draw();
   }
+  // Apply initial filter
+  applyDirectionFilter(directionSelect.value);
+  // Listen for changes
+  directionSelect.addEventListener("change", () => {
+    applyDirectionFilter(directionSelect.value);
+  });
+}
 });

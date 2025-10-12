@@ -309,18 +309,24 @@
                   Search & Filter
                 {% endif %}
               </div>
-				<div class="direction-toggle-container">
-				  <div class="direction-toggle">
-					<span id="direction-switch-label"></span>
-					<div class="toggle-border">
-					  <input type="checkbox" id="direction-switch" checked>
-					  <label for="direction-switch">
-						<div class="handle"></div>
-					  </label>
-					</div>
-				  </div>
-				</div>
               <div class="card-body">
+				<div class="mb-3">
+				  <label for="direction-select" class="form-label">
+					{% if lang == "he" %}
+					  כיוון
+					{% else %}
+					  Direction
+					{% endif %}
+				  </label>
+				  <select id="direction-select" class="form-select">
+					<option value="outbound">
+					  {% if lang == "he" %}המראות (מתל אביב){% else %}Departures{% endif %}
+					</option>
+					<option value="inbound">
+					  {% if lang == "he" %}נחיתות (לתל אביב){% else %}Arrivals{% endif %}
+					</option>
+				  </select>
+				</div>
                 <div class="mb-3">
                   <label for="country-filter" class="form-label">
                     {% if lang == "he" %}
@@ -448,18 +454,24 @@
       Search & Filter
     {% endif %}
   </div>
-<div class="direction-toggle-container">
-  <div class="direction-toggle">
-	<span id="direction-switch-label"></span>
-	<div class="toggle-border">
-	  <input type="checkbox" id="direction-switch" checked>
-	  <label for="direction-switch">
-		<div class="handle"></div>
-	  </label>
-	</div>
-  </div>
-</div>
 <div class="card-body">
+	<div class="mb-3">
+	  <label for="direction-select" class="form-label">
+		{% if lang == "he" %}
+		  כיוון
+		{% else %}
+		  Direction
+		{% endif %}
+	  </label>
+	  <select id="direction-select" class="form-select">
+		<option value="outbound">
+		  {% if lang == "he" %}המראות (מתל אביב){% else %}Departures{% endif %}
+		</option>
+		<option value="inbound">
+		  {% if lang == "he" %}נחיתות (לתל אביב){% else %}Arrivals{% endif %}
+		</option>
+	  </select>
+	</div>
     <div class="mb-3">
       <label for="country-filter-mobile" class="form-label">
         {% if lang == "he" %}
