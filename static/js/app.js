@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { targets: [0, 1, 2], responsivePriority: 1 },
         { targets: [3], responsivePriority: 2 },
         { targets: [4, 5, 6], responsivePriority: 10000 },
-        { targets: [7], visible: true, searchable: true }
+        { targets: [7], visible: false, searchable: true }
       ],
       order: [[0, 'asc']],
       language: LANG[lang].dt,
