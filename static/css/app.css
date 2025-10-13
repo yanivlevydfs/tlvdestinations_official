@@ -386,6 +386,13 @@ body.dark-mode table.dataTable > tbody > tr.child ul.dtr-details li span.dtr-tit
     display: none !important;
   }
 }
+@media (min-width: 769px) {
+  .dataTables_paginate {
+    text-align: right !important;
+    justify-content: flex-end !important;
+    display: flex !important;
+  }
+}
 
 /* 📱 Mobile-friendly DataTables Pagination */
 @media (max-width: 768px) {
@@ -1166,5 +1173,15 @@ body.dark-mode #direction-switch-label {
   /* Nuke spacing between buttons */
   .mobile-small-btn {
     margin: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .container-fluid {
+    text-align: center;
+  }
+
+  .container-fluid > * {
+    margin-left: auto;
+    margin-right: auto;
   }
 }

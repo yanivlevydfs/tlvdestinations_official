@@ -447,8 +447,14 @@
     font-size: 0.85rem;
   }
 }
+html[lang="he"] .row.mt-2 {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+body.dark-mode .card-header {
+  color: #ffffff !important;
+}
 
-  
 </style>
 
 <script>
@@ -464,7 +470,35 @@
       { extend: 'csvHtml5',  text: '<i class="bi bi-filetype-csv me-1"></i> CSV' },
       { extend: 'excelHtml5', text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel' },      
     ];
+$.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+  // Read last update from the page
+  const lastUpdateText = document.querySelector('.last-update-badge strong')?.textContent?.trim();
+  if (!lastUpdateText) return true;
 
+  // Convert DD-MM-YYYY → JS Date
+  const [day, month, year] = lastUpdateText.split("-");
+  const monthNum = parseInt(month, 10) - 1; // month is 0-indexed in JS
+  if (isNaN(day) || isNaN(monthNum) || isNaN(year)) return true;
+  const lastUpdate = new Date(year, monthNum, day);
+
+  // Extract "Scheduled" column (e.g. "Oct 11, 00:40")
+  const scheduledStr = data[5];
+  if (!scheduledStr || scheduledStr === "—") return false;
+
+  // Parse "Oct 11" part safely
+  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const parts = scheduledStr.split(" ");
+  const monthAbbr = parts[0];
+  const dayNum = parseInt(parts[1]);
+  const schedMonthIdx = monthNames.indexOf(monthAbbr);
+  if (schedMonthIdx === -1 || isNaN(dayNum)) return true;
+
+  // Build scheduled date (using same year)
+  const scheduledDate = new Date(year, schedMonthIdx, dayNum);
+
+  // ✅ Compare only dates (ignore hours)
+  return scheduledDate >= lastUpdate;
+});
     const table = $('#flightsTable').DataTable({
 	dom: "<'row mb-3 align-items-center'<'col-auto dt-buttons'B><'col-auto dt-filters'><'col-auto'f>>" +
 		 "<'row'<'col-12'tr>>" +
@@ -575,10 +609,6 @@
 	  }
 	  table.column(6).search(regex, true, false).draw();
 	});
-    // ✅ Trigger redraw
-    $('#actual-date-filter, #actual-time-filter').on('change', function () {
-      table.draw();
-    });
   });
 </script>
 
