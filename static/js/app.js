@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { targets: [4, 5, 6], responsivePriority: 10000 },
         { targets: [7], visible: false, searchable: true }
       ],
-      order: [[0, 'asc']],
+      order: [[1, 'asc']],
       language: LANG[lang].dt,
       pagingType: "simple",
       initComplete: function () {
