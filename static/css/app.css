@@ -1185,26 +1185,62 @@ body.dark-mode #direction-switch-label {
     margin-right: auto;
   }
 }
-@media (min-width: 768px) {
+.card {
+  transition: all 0.35s ease-in-out;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.card:hover {
+  border-color: #008bf8;
+  box-shadow: 0 0 0 2px rgba(0, 139, 248, 0.4),
+              0 0 12px rgba(0, 139, 248, 0.25),
+              0 4px 18px rgba(0, 0, 0, 0.25);
+  transition: all 0.35s ease;
+}
+
+.card:hover .card-body {
+  background-color: rgba(0, 139, 248, 0.035);
+  transition: background-color 0.3s ease;
+}
+
+.card:hover .card-button {
+  transform: translate(-50%, 50%);
+  opacity: 1;
+}
+
+/* 🌙 Dark Mode via body.dark-mode toggle */
+body.dark-mode .card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .card:hover {
+  border-color: #3ea6ff;
+  box-shadow: 0 0 0 2px rgba(62, 166, 255, 0.4),
+              0 0 12px rgba(62, 166, 255, 0.3),
+              0 4px 18px rgba(0, 0, 0, 0.55);
+}
+
+body.dark-mode .card:hover .card-body {
+  background-color: rgba(62, 166, 255, 0.06);
+}
+/* 📱 Mobile: Display footer links in 3 columns */
+@media (max-width: 576px) {
   .footer-nav {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    justify-content: space-between !important;
-    align-items: center;
-    gap: 0.5rem 1rem;
-    flex-direction: row !important;
-    overflow-x: auto;
-    max-width: 100%;
-    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem 0.75rem;
+    justify-items: center;
+    text-align: center;
+    padding: 1rem 0;
   }
 
   .footer-link {
-    flex: 0 0 auto !important;
-    white-space: nowrap;
-  }
-
-  .footer-nav .separator {
-    display: inline-block !important;
-    margin: 0 0.3rem;
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    display: inline-block;
   }
 }
