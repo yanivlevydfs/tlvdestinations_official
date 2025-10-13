@@ -1185,3 +1185,26 @@ body.dark-mode #direction-switch-label {
     margin-right: auto;
   }
 }
+@media (min-width: 768px) {
+  .footer-nav {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    flex-direction: row !important;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 0 2rem;
+  }
+
+  .footer-link {
+    flex: 0 0 auto !important;
+    white-space: nowrap;
+  }
+
+  .footer-nav .separator {
+    display: inline-block !important;
+    margin: 0 0.3rem;
+  }
+}
