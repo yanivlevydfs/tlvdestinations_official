@@ -1459,7 +1459,8 @@ async def destination_detail(request: Request, iata: str):
     return TEMPLATES.TemplateResponse("destination.html", {
         "request": request,
         "destination": dest,
-        "lang": request.query_params.get("lang", "en")
+        "lang": request.query_params.get("lang", "en"),
+        "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
 
 # Handle all HTTP errors (404, 403, etc.)

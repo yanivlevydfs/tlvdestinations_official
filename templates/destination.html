@@ -202,17 +202,35 @@ body.dark-mode textarea {
 {% if destination.Airlines %}
   <div class="d-flex flex-wrap gap-2">
     {% for airline in destination.Airlines %}
-      <a href="https://www.google.com/search?q={{ airline }}" target="_blank"
-         class="airline-chip text-decoration-none"
-         style="transition: all 0.2s ease-in-out;">
-        <span>{{ airline }}</span>
-        <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
-      </a>
+      {% set airline_name = airline.strip().title() %}
+      {% set website = AIRLINE_WEBSITES.get(airline_name) %}
+      {% if website %}
+        <a href="{{ website }}"
+           target="_blank"
+           rel="noopener"
+           class="airline-chip text-decoration-none"
+           style="transition: all 0.2s ease-in-out;"
+           title="Visit {{ airline_name | e }} website">
+          <span>{{ airline_name }}</span>
+          <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+        </a>
+      {% else %}
+        <a href="https://www.google.com/search?q={{ airline_name | urlencode }}"
+           target="_blank"
+           rel="noopener"
+           class="airline-chip text-decoration-none"
+           style="transition: all 0.2s ease-in-out;"
+           title="Search for {{ airline_name | e }} on Google">
+          <span>{{ airline_name }}</span>
+          <i class="bi bi-search ms-2 opacity-50"></i>
+        </a>
+      {% endif %}
     {% endfor %}
   </div>
 {% else %}
   <p class="text-muted">—</p>
 {% endif %}
+
 
       <!-- Wikipedia City Overview -->
       <div class="mt-5">
