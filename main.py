@@ -935,7 +935,7 @@ async def on_startup():
         scheduler.add_job(
             fetch_israel_flights,
             "interval",
-            hours=8,
+            hours=3,
             id="govil_refresh",
             replace_existing=True,
             next_run_time=datetime.now()
