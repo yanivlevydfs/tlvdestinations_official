@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /docs
+Disallow: /docs /api/refresh-data
 Allow: /
 
 User-agent: GPTBot
