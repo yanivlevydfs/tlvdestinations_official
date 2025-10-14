@@ -1,17 +1,9 @@
 {% extends "base.html" %}
 {% block head %}
-<!-- Canonical & hreflang for /stats -->
 <link rel="canonical" href="https://fly-tlv.com/destinations" />
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/destinations" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/destinations?lang=he" />
 <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
-<style>
-.hover-opacity:hover {
-background-color: #f8f9fa;
-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.04);
-opacity: 0.9;
-}
-</style>
   <!-- ✅ Page-specific SEO -->
   <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
   <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
@@ -91,7 +83,66 @@ opacity: 0.9;
   { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" }
 ]
 </script>
+<style>
+/* Light hover effect (unchanged) */
+.hover-opacity:hover {
+  background-color: #f8f9fa;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.04);
+  opacity: 0.9;
+}
+/* ✅ GLOBAL dark mode base */
+body.dark-mode {
+  color: #ffffff;
+  background-color: #121212;
+}
+
+/* ✅ Fix card background and text */
+body.dark-mode .card,
+body.dark-mode .card-header,
+body.dark-mode .card-footer,
+body.dark-mode .card-body {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border-color: #2c2c2c !important;
+}
+
+/* ✅ Force ALL inner text to white, including <p>, <strong>, <small>, etc. */
+body.dark-mode .card *,
+body.dark-mode .card-body *,
+body.dark-mode .card-body p,
+body.dark-mode .card-body small,
+body.dark-mode .card-body .small,
+body.dark-mode .card-body strong,
+body.dark-mode .card-body span {
+  color: #ffffff !important;
+}
+
+/* ✅ Muted text should still be dimmed, but not black */
+body.dark-mode .card-body .text-muted {
+  color: #b0b0b0 !important;
+}
+
+/* ✅ Fix background and text inside Wikipedia box */
+body.dark-mode #city-overview,
+body.dark-mode .bg-light {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+/* ✅ Form elements */
+body.dark-mode select.form-select,
+body.dark-mode input,
+body.dark-mode textarea {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border-color: #444 !important;
+}
+
+
+</style>
+
 {% endblock %}
+
 {% block content %}
 <div class="container mt-5">
   <div class="card shadow-lg">

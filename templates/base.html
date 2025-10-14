@@ -152,6 +152,31 @@
     font-size: 1rem;
   }
 }
+/* Global override for all dark mode text */
+body.dark-mode, 
+body.dark-mode * {
+  color: #ffffff !important;
+}
+
+/* Fix Bootstrap badges and nav background */
+body.dark-mode .bg-light,
+body.dark-mode .bg-body,
+body.dark-mode .navbar,
+body.dark-mode .card-header,
+body.dark-mode .badge,
+body.dark-mode .footer-bg {
+  background-color: #1f1f1f !important;
+  color: #ffffff !important;
+}
+
+/* Fix Bootstrap class overrides */
+body.dark-mode .text-dark {
+  color: #ffffff !important;
+}
+body.dark-mode .text-muted {
+  color: #b0b0b0 !important;
+}
+
 </style>
 
 </head>
