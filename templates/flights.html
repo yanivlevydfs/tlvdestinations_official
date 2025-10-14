@@ -496,6 +496,49 @@ body.dark-mode .card-header {
   body.dark-mode .breadcrumb-item.active {
     color: #999;
   }
+  /* Fix table text visibility in dark mode */
+body.dark-mode table,
+body.dark-mode #flightsTable,
+body.dark-mode #flightsTable td,
+body.dark-mode #flightsTable th {
+  color: #e5e5e5 !important;
+  background-color: #1a1a1a !important;
+  border-color: #333 !important;
+}
+
+/* Header row background */
+body.dark-mode #flightsTable thead th {
+  background-color: #222 !important;
+  color: #fff !important;
+}
+
+/* Zebra striping (optional) */
+body.dark-mode #flightsTable tbody tr:nth-child(even) {
+  background-color: #1f1f1f !important;
+}
+/* Dark mode input field fix */
+body.dark-mode input[type="search"],
+body.dark-mode input[type="text"] {
+  background-color: #111 !important;
+  color: #e5e5e5 !important;
+  border: 1px solid #555 !important;
+}
+
+body.dark-mode input[type="search"]::placeholder {
+  color: #888 !important;
+}
+body.dark-mode select.form-select,
+body.dark-mode select {
+  background-color: #111 !important;
+  color: #e5e5e5 !important;
+  border: 1px solid #555 !important;
+}
+
+/* Option text inside dropdown */
+body.dark-mode select option {
+  background-color: #111 !important;
+  color: #e5e5e5 !important;
+}
 </style>
 
 
