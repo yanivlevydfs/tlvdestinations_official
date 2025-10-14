@@ -422,6 +422,30 @@ body.dark-mode .last-update-badge strong {
 body.dark-mode .last-update-badge i {
   color: #c4b5fd;
 }
+/* ✅ Bootstrap's table-primary header fix */
+body.dark-mode .table-primary > * > tr > th {
+  background-color: #2e2e2e !important;
+  color: #ffffff !important;
+}
+
+/* ✅ Fix striped rows (table-striped) */
+body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ✅ Ensure table cells also go light */
+body.dark-mode table th,
+body.dark-mode table td {
+  color: #e0e0e0 !important;
+  background-color: transparent !important;
+}
+
+/* ✅ Optional: fix select box (airline filter) */
+body.dark-mode select.form-select {
+  background-color: #222 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
 
 </style>
 {% endblock %}

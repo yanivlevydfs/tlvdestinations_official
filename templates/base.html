@@ -177,6 +177,29 @@ body.dark-mode .text-muted {
   color: #b0b0b0 !important;
 }
 
+/* 🔵 Improve outline button colors in dark mode */
+body.dark-mode .btn-outline-primary {
+  color: #93c5fd !important;           /* soft blue text */
+  border-color: #60a5fa !important;    /* light blue border */
+}
+
+body.dark-mode .btn-outline-primary:hover {
+  background-color: #1e40af !important; /* blue-800 */
+  color: #ffffff !important;
+  border-color: #3b82f6 !important;
+}
+
+/* 🌒 Fix icon color inside buttons */
+body.dark-mode .btn-outline-primary i {
+  color: #60a5fa !important;  /* soft yellow for moon/globe/etc */
+}
+/* 🧠 Ensure .btn-outline-primary colors the text even in RTL layout */
+body.dark-mode .btn-outline-primary,
+body.dark-mode .btn-outline-primary span,
+body.dark-mode .btn-outline-primary strong {
+  color: #93c5fd !important;
+}
+
 </style>
 
 </head>
