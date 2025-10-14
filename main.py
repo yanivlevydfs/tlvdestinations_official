@@ -1615,3 +1615,40 @@ async def catch_unknown_routes(request: Request, call_next):
     if response.status_code == 404:
         print(f"404 from: {request.client.host} for path: {request.url.path}")
     return response
+
+@app.get("/api/refresh-data",response_class=JSONResponse)
+async def refresh_data_webhook():
+    logger.info("🔁 Incoming request: /api/refresh-data")
+
+    response = {
+        "fetch_israel_flights": None,
+        "fetch_travel_warnings": None
+    }
+
+    # Run each fetch with logging
+    try:
+        res1 = fetch_israel_flights()
+        if res1:
+            logger.info("✅ fetch_israel_flights completed successfully")
+            response["fetch_israel_flights"] = "Success"
+        else:
+            logger.error("❌ fetch_israel_flights returned None")
+            response["fetch_israel_flights"] = "Failed: returned None"
+    except Exception as e:
+        logger.exception("❌ Exception in fetch_israel_flights")
+        response["fetch_israel_flights"] = f"Exception: {str(e)}"
+
+    try:
+        res2 = fetch_travel_warnings()
+        if res2:
+            logger.info("✅ fetch_travel_warnings completed successfully")
+            response["fetch_travel_warnings"] = "Success"
+        else:
+            logger.error("❌ fetch_travel_warnings returned None")
+            response["fetch_travel_warnings"] = "Failed: returned None"
+    except Exception as e:
+        logger.exception("❌ Exception in fetch_travel_warnings")
+        response["fetch_travel_warnings"] = f"Exception: {str(e)}"
+
+    logger.info("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
+    return response
