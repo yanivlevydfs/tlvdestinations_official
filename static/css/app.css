@@ -1176,15 +1176,16 @@ body.dark-mode #direction-switch-label {
   }
 }
 @media (max-width: 768px) {
-  .container-fluid {
+  div.container-fluid {
     text-align: center;
   }
 
-  .container-fluid > * {
+  div.container-fluid > * {
     margin-left: auto;
     margin-right: auto;
   }
 }
+
 .card {
   transition: all 0.35s ease-in-out;
   border: 1px solid transparent;
