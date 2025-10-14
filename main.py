@@ -35,6 +35,8 @@ from fastapi import status
 import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
+import pycountry
+
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -125,6 +127,7 @@ DATASET_DATE: str = ""
 AIRLINE_WEBSITES: dict = {}
 scheduler: AsyncIOScheduler | None = None
 AIRPORTS_DB: dict = {}
+COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -359,7 +362,63 @@ AIRLINE_NAMES = load_airline_names()
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
- 
+def build_country_name_to_iso_map() -> dict[str, str]:
+    """
+    Build a robust mapping from country name variants to ISO alpha-2 codes.
+    Includes official, common, short, and overridden names.
+    """
+    mapping = {}
+
+    for country in pycountry.countries:
+        names = {
+            country.name.strip().lower(): country.alpha_2,
+            country.alpha_2.strip().upper(): country.alpha_2
+        }
+
+        if hasattr(country, "official_name"):
+            names[country.official_name.strip().lower()] = country.alpha_2
+
+        # Add all name variants to mapping
+        for k, v in names.items():
+            mapping[k] = v
+
+    # Add overrides and aliases (manually curated)
+    overrides = {
+        "usa": "US",
+        "united states": "US",
+        "united states of america": "US",
+        "south korea": "KR",
+        "north korea": "KP",
+        "russia": "RU",
+        "vietnam": "VN",
+        "syria": "SY",
+        "palestine": "PS",
+        "iran": "IR",
+        "uk": "GB",
+        "united kingdom": "GB",
+        "bolivia": "BO",
+        "venezuela": "VE",
+        "tanzania": "TZ",
+        "moldova": "MD",
+        "czech republic": "CZ",
+        "ivory coast": "CI",
+        "côte d’ivoire": "CI",
+        "cote d'ivoire": "CI",
+        "brunei": "BN",
+        "laos": "LA",
+        "myanmar": "MM",
+        "macedonia": "MK",
+        "north macedonia": "MK",
+        "são tomé and príncipe": "ST",
+        "sao tome and principe": "ST"
+    }
+
+    mapping.update(overrides)
+
+    return mapping
+
+
+
 def normalize_airline_list(items: List[str]) -> List[str]:
     seen = set()
     out = []
@@ -373,48 +432,75 @@ def normalize_airline_list(items: List[str]) -> List[str]:
     return out
     
 def fetch_israel_flights() -> dict | None:
-    """Fetch gov.il flights (all countries) and cache to disk."""
+    """
+    Fetch gov.il flights (all countries) and cache to disk.
+    Returns the data dict if successful, or None if failed or empty.
+    """
     params = {
         "resource_id": RESOURCE_ID,
         "limit": DEFAULT_LIMIT
     }
 
     try:
+        logger.info("🌐 Requesting flight data from gov.il API...")
         r = requests.get(ISRAEL_API, params=params, timeout=30)
         r.raise_for_status()
-        data = r.json()
 
-        flights = [
-            {
+        data = r.json()
+        records = data.get("result", {}).get("records", [])
+        logger.debug(f"🔍 API returned {len(records)} raw records")
+
+        # Parse and normalize flight records
+        flights = []
+        for rec in records:
+            iata = (rec.get("CHLOC1") or "—").strip().upper()
+            direction = normalize_case(rec.get("CHAORD", "—"))
+
+            if not iata or iata == "—" or not direction or direction == "—":
+                continue  # Skip incomplete records
+
+            flights.append({
                 "airline": normalize_case(rec.get("CHOPERD", "—")),
-                "iata": (rec.get("CHLOC1") or "—").upper(),  # IATA always uppercase
+                "iata": iata,
                 "airport": normalize_case(rec.get("CHLOC1D", "—")),
                 "city": normalize_case(rec.get("CHLOC1T", "—")),
                 "country": normalize_case(rec.get("CHLOCCT", "—")),
                 "scheduled": normalize_case(rec.get("CHSTOL", "—")),
                 "actual": normalize_case(rec.get("CHPTOL", "—")),
-                "direction": normalize_case(rec.get("CHAORD", "—")),
+                "direction": direction,
                 "status": normalize_case(rec.get("CHRMINE", "—")),
-            }
-            for rec in data.get("result", {}).get("records", [])
-        ]
+            })
+
+        if not flights:
+            logger.warning("❌ No usable flight records received — skipping cache write.")
+            return None
 
         result = {
             "updated": datetime.now().isoformat(),
             "count": len(flights),
             "flights": flights
         }
+        # Cache to disk
+        try:
+            with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            logger.info(f"✅ Cached {len(flights)} flight records to disk")
+        except Exception as e:
+            logger.error(f"❌ Failed to write flight data to disk: {e}", exc_info=True)
+            return None
 
-        # Cache locally
-        with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
-            json.dump(result, f, ensure_ascii=False, indent=2)
-
-        logger.info(f"gov.il flights refreshed: {len(flights)} total flights cached")
         return result
 
-    except Exception as e:
-        logger.error(f"Failed to fetch gov.il flights: {e}")
+    except requests.exceptions.RequestException as e:
+        logger.error(f"🚨 Request error fetching gov.il flights: {e}", exc_info=True)
         return None
+    except json.JSONDecodeError as e:
+        logger.error(f"🚨 Failed to decode gov.il API response: {e}", exc_info=True)
+        return None
+    except Exception as e:
+        logger.error(f"❌ Unexpected error fetching gov.il flights: {e}", exc_info=True)
+        return None
+
 
 def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     """
@@ -886,51 +972,74 @@ def map_view(country: str = "All", query: str = ""):
 
 @app.on_event("startup")
 async def on_startup():
-    global scheduler, AIRLINE_WEBSITES, DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS, AIRPORTS_DB, TRAVEL_WARNINGS_DF
+    global scheduler, AIRLINE_WEBSITES, AIRPORTS_DB
+    global TRAVEL_WARNINGS_DF, COUNTRY_NAME_TO_ISO
+    global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
 
     logger.info("🚀 Application startup initiated")
+
     # 0) Load IATA DB once
     try:
         AIRPORTS_DB = load("IATA")
         logger.info(f"Loaded airportsdata IATA DB with {len(AIRPORTS_DB)} records")
     except Exception as e:
-        logger.error(f"Failed to load airportsdata: {e}")
+        logger.error("Failed to load airportsdata", exc_info=True)
         AIRPORTS_DB = {}
-        
+
     # 1) Init scheduler
     scheduler = AsyncIOScheduler()
     logger.debug("AsyncIOScheduler instance created")
-    TRAVEL_WARNINGS_DF = load_travel_warnings_df()
 
-    # 2) Load airline websites
+    # 2) Load travel warnings
+    try:
+        TRAVEL_WARNINGS_DF = load_travel_warnings_df()
+        logger.info(f"Loaded travel warnings (rows={len(TRAVEL_WARNINGS_DF)})")
+    except Exception as e:
+        logger.error("Failed to load travel warnings", exc_info=True)
+        TRAVEL_WARNINGS_DF = pd.DataFrame()
+
+    # 3) Load airline websites
     try:
         AIRLINE_WEBSITES = load_airline_websites()
         logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
     except Exception as e:
-        logger.error(f"Failed to load airline websites: {e}", exc_info=True)
+        logger.error("Failed to load airline websites", exc_info=True)
         AIRLINE_WEBSITES = {}
 
-    # 3) Load datasets from disk if exists
-    if ISRAEL_FLIGHTS_FILE.exists():
-        try:
-            # Load grouped (aggregated) dataset
-            df, d = _read_dataset_file()
-            DATASET_DF, DATASET_DATE = df, d or ""
-            logger.info(
-                f"Startup: dataset loaded from disk "
-                f"(date={DATASET_DATE}, rows={len(DATASET_DF)})"
-            )
-            DATASET_DF_FLIGHTS, FLIGHTS_DATA_DATE = _read_flights_file()
-            logger.info(f"Startup: loaded {len(DATASET_DF_FLIGHTS)} flight event records")
+    # 4) Load datasets or fetch from API
+    try:
+        if not ISRAEL_FLIGHTS_FILE.exists():
+            logger.warning("No dataset file found. Fetching from API...")
+            fetch_israel_flights()
+            logger.info("Fetched and saved dataset to disk.")
 
-        except Exception as e:
-            logger.error(f"Error reading dataset file: {e}", exc_info=True)
-            DATASET_DF_FLIGHTS = pd.DataFrame()
-    else:
-        logger.warning("Startup: no dataset file on disk")
+        # ✅ Always attempt to load after fetch or if file existed
+        df, d = _read_dataset_file()
+        DATASET_DF, DATASET_DATE = df, d or ""
+
+        df_flights, _ = _read_flights_file()
+        DATASET_DF_FLIGHTS = df_flights
+
+        logger.info(f"Loaded DATASET_DF with {len(DATASET_DF)} rows (date={DATASET_DATE})")
+        logger.info(f"Loaded DATASET_DF_FLIGHTS with {len(DATASET_DF_FLIGHTS)} rows")
+
+        if DATASET_DF.empty:
+            logger.warning("DATASET_DF is empty even after loading/fetching!")
+
+    except Exception as e:
+        logger.error("Error loading or fetching datasets", exc_info=True)
+        DATASET_DF = pd.DataFrame()
         DATASET_DF_FLIGHTS = pd.DataFrame()
-    
-    # 4) Schedule jobs (every 8h, run immediately at startup)
+
+    # 5) Load country → ISO code mapping
+    try:
+        COUNTRY_NAME_TO_ISO = build_country_name_to_iso_map()
+        logger.info(f"Loaded {len(COUNTRY_NAME_TO_ISO)} country → ISO mappings")
+    except Exception as e:
+        logger.error("Failed to build ISO mapping", exc_info=True)
+        COUNTRY_NAME_TO_ISO = {}
+
+    # 6) Schedule background jobs
     try:
         scheduler.add_job(
             fetch_israel_flights,
@@ -940,8 +1049,6 @@ async def on_startup():
             replace_existing=True,
             next_run_time=datetime.now()
         )
-        logger.info("Scheduled job: gov.il flights refresh every 8h")
-
         scheduler.add_job(
             fetch_travel_warnings,
             "interval",
@@ -950,15 +1057,12 @@ async def on_startup():
             replace_existing=True,
             next_run_time=datetime.now()
         )
-        logger.info("Scheduled job: travel warnings refresh every 8h")
-
         scheduler.start()
-        logger.info("✅ Scheduler started successfully")
+        logger.info("✅ Scheduler started")
     except Exception as e:
-        logger.critical(f"Failed to start scheduler: {e}", exc_info=True)
+        logger.critical("Failed to start scheduler", exc_info=True)
 
     logger.info("🎯 Application startup completed")
-
 
 
 @app.on_event("shutdown")
@@ -1435,7 +1539,7 @@ async def redirect_to_home(request: Request):
     
 @app.get("/destinations/{iata}", response_class=HTMLResponse)
 async def destination_detail(request: Request, iata: str):
-    global DATASET_DF
+    global DATASET_DF, COUNTRY_NAME_TO_ISO
 
     if DATASET_DF is None or DATASET_DF.empty:
         return TEMPLATES.TemplateResponse("error.html", {
@@ -1455,6 +1559,21 @@ async def destination_detail(request: Request, iata: str):
         })
 
     dest = destination.iloc[0].to_dict()
+
+    # ✅ Normalize and lookup ISO (match key case with mapping)
+    country_name = str(dest.get("Country", "")).strip()
+
+    # First try direct match
+    iso_code = COUNTRY_NAME_TO_ISO.get(country_name)
+
+    # Then try lowercase-insensitive fallback (for safety)
+    if not iso_code:
+        iso_code = next(
+            (v for k, v in COUNTRY_NAME_TO_ISO.items() if k.lower() == country_name.lower()),
+            ""
+        )
+
+    dest["CountryISO"] = iso_code or ""
 
     return TEMPLATES.TemplateResponse("destination.html", {
         "request": request,

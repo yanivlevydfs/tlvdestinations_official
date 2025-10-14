@@ -151,13 +151,13 @@ body.dark-mode textarea {
       <h3 class="mb-0">
         ✈️ {{ destination.IATA }} — {{ destination.Name }}
       </h3>
-      <span class="badge bg-light text-dark">
-        {{ destination.Country }}
-        {% if destination.Country %}
-          <img src="https://flagcdn.com/24x18/{{ destination.Country[:2] | lower }}.png"
-               alt="{{ destination.Country }}" class="ms-1" />
-        {% endif %}
-      </span>
+		<span class="badge bg-light text-dark">
+		  {{ destination.Country }}
+		  {% if destination.CountryISO %}
+			<img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
+				 alt="{{ destination.Country }}" class="ms-1" />
+		  {% endif %}
+		</span>
     </div>
 
     <!-- Body -->
