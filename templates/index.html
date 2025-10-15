@@ -445,81 +445,65 @@
       </div>
     </div>
 
-<!-- Mobile Inline Filters -->
-<div class="card shadow-sm mb-3 d-lg-none small p-2">
-  <div class="card-header fw-semibold">
+<!-- Mobile Inline Filters - Compact Version -->
+<div class="card shadow-sm mb-2 d-lg-none small p-2">
+  <div class="card-header fw-semibold py-2 px-3 small">
     {% if lang == "he" %}
       🔎 חיפוש וסינון
     {% else %}
       Search & Filter
     {% endif %}
   </div>
-<div class="card-body">
-	<div class="mb-3">
-	  <label for="direction-select" class="form-label">
-		{% if lang == "he" %}
-		  כיוון
-		{% else %}
-		  Direction
-		{% endif %}
-	  </label>
-	  <select id="direction-select-mobile" class="form-select">
-		<option value="outbound">
-		  {% if lang == "he" %}המראות (מתל אביב){% else %}Departures{% endif %}
-		</option>
-		<option value="inbound">
-		  {% if lang == "he" %}נחיתות (לתל אביב){% else %}Arrivals{% endif %}
-		</option>
-	  </select>
-	</div>
-    <div class="mb-3">
-      <label for="country-filter-mobile" class="form-label">
-        {% if lang == "he" %}
-          מדינה
-        {% else %}
-          Country
-        {% endif %}
+  <div class="card-body p-2">
+    <div class="mb-2">
+      <label for="direction-select-mobile" class="form-label mb-1 small">
+        {% if lang == "he" %}כיוון{% else %}Direction{% endif %}
       </label>
-      <select id="country-filter-mobile" class="form-select">
+      <select id="direction-select-mobile" class="form-select form-select-sm">
+        <option value="outbound">
+          {% if lang == "he" %}המראות (מתל אביב){% else %}Departures{% endif %}
+        </option>
+        <option value="inbound">
+          {% if lang == "he" %}נחיתות (לתל אביב){% else %}Arrivals{% endif %}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <label for="country-filter-mobile" class="form-label mb-1 small">
+        {% if lang == "he" %}מדינה{% else %}Country{% endif %}
+      </label>
+      <select id="country-filter-mobile" class="form-select form-select-sm">
         {% for c in countries %}
           <option value="{{ c }}">{{ c }}</option>
         {% endfor %}
       </select>
     </div>
-    <div class="mb-3 mt-3">
-      <label for="query-filter-mobile" class="form-label">
-        {% if lang == "he" %}
-          חיפוש
-        {% else %}
-          Search
-        {% endif %}
+
+    <div class="mb-2">
+      <label for="query-filter-mobile" class="form-label mb-1 small">
+        {% if lang == "he" %}חיפוש{% else %}Search{% endif %}
       </label>
       <input
         type="text"
         id="query-filter-mobile"
-        class="form-control"
+        class="form-control form-control-sm"
         placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
       />
     </div>
-    <div class="border-top pt-3 mt-3 d-flex gap-2">
-      <button class="btn btn-sm btn-outline-secondary" id="clear-filters-mobile">
+
+    <div class="border-top pt-2 mt-2 d-flex gap-2">
+      <button class="btn btn-sm btn-outline-secondary py-1 px-2" id="clear-filters-mobile">
         <i class="bi bi-x-circle me-1"></i>
-        {% if lang == "he" %}
-          נקה
-        {% else %}
-          Clear
-        {% endif %}
+        {% if lang == "he" %}נקה{% else %}Clear{% endif %}
       </button>
       <span class="ms-auto text-muted small" id="active-filters-mobile">
-        {% if lang == "he" %}
-          ללא מסננים
-        {% else %}
-          No filters
-        {% endif %}
+        {% if lang == "he" %}ללא מסננים{% else %}No filters{% endif %}
       </span>
     </div>
   </div>
 </div>
+
 
           <!-- Table -->
           <div class="card-body">
