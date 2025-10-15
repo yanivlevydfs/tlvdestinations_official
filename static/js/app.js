@@ -370,4 +370,132 @@ function dtButtonsFor(lang) {
     });
   }
 
+const COOKIE_KEY = 'cookie_consent_choice';
+const PREFS_KEY = 'cookie_prefs';
+const lang = document.documentElement.lang || 'en';
+const DEV_SHOW_COOKIE_BANNER = false; // Set to false to disable dev mode
+if (DEV_SHOW_COOKIE_BANNER) {
+  localStorage.removeItem('cookie_consent_choice');
+}
+
+const TEXT = {
+  en: {
+    banner: {
+      message: "We use cookies to enhance your experience. Choose what you allow.",
+      accept: "Accept All",
+      reject: "Reject All",
+      customize: "Customize"
+    },
+    modal: {
+      title: "Customize Your Preferences",
+      desc: "Choose which types of cookies you allow. You can always change this later.",
+      essential: "Essential – Required for site to function.",
+      analytics: "Analytics – Help us understand usage.",
+      marketing: "Marketing – Personalized ads and campaigns.",
+      cancel: "Cancel",
+      save: "Save Preferences"
+    }
+  },
+  he: {
+    banner: {
+      message: "אנו משתמשים בעוגיות כדי לשפר את חוויית השימוש שלך. באפשרותך לבחור מה לאפשר.",
+      accept: "אשר הכול",
+      reject: "דחה הכול",
+      customize: "התאם אישית"
+    },
+    modal: {
+      title: "התאם את ההעדפות שלך",
+      desc: "בחר אילו קוקיות לאפשר. תוכל לשנות זאת בכל עת.",
+      essential: "חיוני – נדרש לפעולת האתר.",
+      analytics: "ניתוח – עוזר לנו להבין את השימוש באתר.",
+      marketing: "שיווק – פרסומות מותאמות אישית.",
+      cancel: "ביטול",
+      save: "שמור העדפות"
+    }
+  }
+};
+
+const t = TEXT[lang] || TEXT.en;
+
+// Elements
+const cookieBanner = document.getElementById('cookie-banner');
+const acceptBtn = document.getElementById('cookie-accept-btn');
+const rejectBtn = document.getElementById('cookie-reject-btn');
+const customizeBtn = document.getElementById('cookie-customize-btn');
+const cookieMsg = document.getElementById('cookie-msg');
+
+const customizeModalEl = document.getElementById('cookieCustomizeModal');
+const savePrefsBtn = document.getElementById('save-cookie-prefs');
+const analyticsToggle = document.getElementById('pref-analytics');
+const marketingToggle = document.getElementById('pref-marketing');
+
+const labelTitle = document.getElementById('cookieCustomizeLabel');
+const labelDesc = document.getElementById('cookie-pref-desc');
+const labelEssential = document.getElementById('label-essential');
+const labelAnalytics = document.getElementById('label-analytics');
+const labelMarketing = document.getElementById('label-marketing');
+const cancelBtn = document.getElementById('modal-cancel-btn');
+
+// Set Texts
+cookieMsg.textContent = t.banner.message;
+acceptBtn.textContent = t.banner.accept;
+rejectBtn.textContent = t.banner.reject;
+customizeBtn.textContent = t.banner.customize;
+
+labelTitle.textContent = t.modal.title;
+labelDesc.textContent = t.modal.desc;
+labelEssential.textContent = t.modal.essential;
+labelAnalytics.textContent = t.modal.analytics;
+labelMarketing.textContent = t.modal.marketing;
+cancelBtn.textContent = t.modal.cancel;
+savePrefsBtn.textContent = t.modal.save;
+
+// Show banner only if not accepted
+if (!localStorage.getItem(COOKIE_KEY)) {
+  cookieBanner.classList.remove('d-none');
+}
+
+acceptBtn.addEventListener('click', () => {
+  localStorage.setItem(COOKIE_KEY, 'all');
+  localStorage.setItem(PREFS_KEY, JSON.stringify({ essential: true, analytics: true, marketing: true }));
+  cookieBanner.classList.add('d-none');
+});
+
+rejectBtn.addEventListener('click', () => {
+  localStorage.setItem(COOKIE_KEY, 'essential');
+  localStorage.setItem(PREFS_KEY, JSON.stringify({ essential: true, analytics: false, marketing: false }));
+  cookieBanner.classList.add('d-none');
+});
+
+customizeBtn.addEventListener('click', () => {
+  const stored = localStorage.getItem(PREFS_KEY);
+  if (stored) {
+    try {
+      const prefs = JSON.parse(stored);
+      analyticsToggle.checked = !!prefs.analytics;
+      marketingToggle.checked = !!prefs.marketing;
+    } catch {}
+  } else {
+    analyticsToggle.checked = false;
+    marketingToggle.checked = false;
+  }
+
+  const modal = new bootstrap.Modal(customizeModalEl);
+  modal.show();
+});
+
+savePrefsBtn.addEventListener('click', () => {
+  const prefs = {
+    essential: true,
+    analytics: analyticsToggle.checked,
+    marketing: marketingToggle.checked
+  };
+  localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+  localStorage.setItem(COOKIE_KEY, 'custom');
+  cookieBanner.classList.add('d-none');
+  bootstrap.Modal.getInstance(customizeModalEl)?.hide();
+});
+
+
+
 });

@@ -818,5 +818,49 @@
 		});
 	  }
 	</script>
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner" class="d-none" aria-live="polite">
+  <div class="cookie-container">
+    <div class="cookie-text" id="cookie-msg"></div>
+    <div class="cookie-buttons">
+      <button id="cookie-customize-btn"></button>
+      <button id="cookie-reject-btn"></button>
+      <button id="cookie-accept-btn"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Customize Modal -->
+<div class="modal fade" id="cookieCustomizeModal" tabindex="-1" aria-labelledby="cookieCustomizeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="cookieCustomizeLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="cookie-pref-desc"></p>
+        <form id="cookie-prefs-form">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="pref-essential" disabled checked />
+            <label class="form-check-label" for="pref-essential" id="label-essential"></label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="pref-analytics" />
+            <label class="form-check-label" for="pref-analytics" id="label-analytics"></label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="pref-marketing" />
+            <label class="form-check-label" for="pref-marketing" id="label-marketing"></label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="modal-cancel-btn"></button>
+        <button id="save-cookie-prefs" type="button" class="btn btn-primary"></button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
