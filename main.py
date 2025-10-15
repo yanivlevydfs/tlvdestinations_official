@@ -260,6 +260,8 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
     offset = 0
     all_records = []
+    global TRAVEL_WARNINGS_DF
+
 
     try:
         while True:
@@ -312,6 +314,13 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
 
         with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
+
+        if all_records:
+            TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
+            TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
+            logger.info(f"🧠 TRAVEL_WARNINGS_DF updated with {len(TRAVEL_WARNINGS_DF)} rows")
+        else:
+            logger.warning("⚠️ No records fetched. Global TRAVEL_WARNINGS_DF was not updated.")
 
         logger.info(f"Travel warnings refreshed: {len(all_records)} total")
         return result
@@ -605,34 +614,6 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"]), None
 
 
-def get_dataset(trigger_refresh: bool = False) -> pd.DataFrame:
-    """
-    Return the current dataset from memory or disk.
-    If trigger_refresh=True, fetch fresh data immediately.
-    """
-    global DATASET_DF, DATASET_DATE
-
-    # ✅ Use in-memory if available
-    if not DATASET_DF.empty:
-        return DATASET_DF
-
-    # ✅ Try loading from disk
-    df, disk_date = _read_dataset_file()
-    DATASET_DF, DATASET_DATE = df, disk_date or ""
-
-    if not trigger_refresh:
-        return DATASET_DF
-
-    # ✅ Refresh now if explicitly requested
-    logger.info("Dataset refresh requested → fetching gov.il flights")
-    fetch_israel_flights()
-
-    # ✅ Reload dataset after refresh
-    df, disk_date = _read_dataset_file()
-    DATASET_DF, DATASET_DATE = df, disk_date or ""
-    return DATASET_DF
-
-
 def load_israel_flights_map():
     """Return dict {IATA: set(airlines)} from gov.il cache"""
     flights = []
@@ -759,10 +740,17 @@ def home(
 def map_view(country: str = "All", query: str = ""):
     global DATASET_DF_FLIGHTS, AIRPORTS_DB
 
-    # ✅ Main dataset
-    df = get_dataset(trigger_refresh=False).copy()
+    if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
+        logger.warning("⚠️ No flight data available for map")
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": "No flight data available to show on the map.",
+        })
+
+    df = DATASET_DF_FLIGHTS.copy()
     airports = df.to_dict(orient="records")
-    existing_iatas = {ap["IATA"] for ap in airports}
+    existing_iatas = {ap["iata"].upper() for ap in airports if "iata" in ap}
+
 
     # ✅ Group flights by IATA, ignore direction (D/A)
     grouped: dict[str, dict] = {}
@@ -881,14 +869,16 @@ def map_view(country: str = "All", query: str = ""):
             style = (
                 "display:inline-block;"
                 "margin:2px 4px 2px 0;"
-                "padding:3px 8px;"
+                "padding:4px 10px;"
                 "font-size:12px;"
                 "border-radius:9999px;"
-                "background:#f3f4f6;"
-                "color:#111827;"
+                "background:#6f42c1;"
+                "color:white;"
                 "text-decoration:none;"
-                "border:1px solid #d1d5db;"
-                "transition:all 0.25s ease-in-out;"
+                "border:none;"
+                "font-weight:500;"
+                "box-shadow:0 0 0 2px rgba(111,66,193,0.2);"
+                "transition:all 0.2s ease-in-out;"
             )
             if url:
                 chips.append(f"<a href='{escape(url)}' target='_blank' class='chip' style='{style}'>{escape(name)}</a>")

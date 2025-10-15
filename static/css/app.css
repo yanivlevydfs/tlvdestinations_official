@@ -1245,3 +1245,14 @@ body.dark-mode .card:hover .card-body {
     display: inline-block;
   }
 }
+.toggle-details {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.toggle-details[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}
