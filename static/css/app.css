@@ -186,6 +186,9 @@ body.dark-mode #airports-table tbody tr:hover {
 #airports-table td {
   vertical-align: middle;
 }
+td.dtr-control {
+  cursor: pointer;
+}
 /* ===== DataTables Row Details Arrows ===== */
 td.dtr-control:before {
   content: "\25B6" !important;
