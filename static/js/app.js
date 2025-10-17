@@ -373,7 +373,7 @@ function dtButtonsFor(lang) {
 const COOKIE_KEY = 'cookie_consent_choice';
 const PREFS_KEY = 'cookie_prefs';
 const lang = document.documentElement.lang || 'en';
-const DEV_SHOW_COOKIE_BANNER = false; // Set to false to disable dev mode
+const DEV_SHOW_COOKIE_BANNER = true; // Set to false to disable dev mode
 if (DEV_SHOW_COOKIE_BANNER) {
   localStorage.removeItem('cookie_consent_choice');
 }
