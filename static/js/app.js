@@ -485,6 +485,26 @@ function dtButtonsFor(lang) {
   });
 }
 
+// ---------- 🔺 Triangle blink until user opens one ----------
+if (window.innerWidth <= 768) {
+  if (!localStorage.getItem('triangle_learned')) {
+    // show animation
+    document.body.classList.remove('user-learned');
+
+    // detect first open on any row
+    document.addEventListener('click', e => {
+      const td = e.target.closest('td.dtr-control');
+      if (td) {
+        localStorage.setItem('triangle_learned', '1');
+        document.body.classList.add('user-learned');
+      }
+    });
+  } else {
+    // already interacted before
+    document.body.classList.add('user-learned');
+  }
+}
+
 
 
 });
