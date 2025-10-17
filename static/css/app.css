@@ -948,7 +948,7 @@ body.dark-mode #footer-marketing a:hover {
 }
 
 @media (max-width: 576px) {
-  .dataTables_info.last-update-badge {
+  .dataTables_info {
     font-size: 0.75rem;
 	text-align: center;
     display: block;
@@ -1426,5 +1426,16 @@ body.dark-mode .card:hover .card-body {
       opacity: 0.75;
       filter: drop-shadow(0 0 6px rgba(124,58,237,0.8));
     }
+  }
+}
+@media (max-width: 768px) {
+  .last-update-badge {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.75rem !important;
+    margin: 0.25rem auto !important; /* ✅ centers horizontally */
+    display: block !important;
+    width: 50% !important; /* ✅ slightly smaller width */
+    text-align: center;
+    border-radius: 999px !important; /* keep pill shape */
   }
 }
