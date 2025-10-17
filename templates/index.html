@@ -243,14 +243,14 @@
   <!-- Top Nav -->
   <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
     <div class="container-fluid">
-      <a id="brand-title" class="navbar-brand d-flex align-items-center" href="/">
+      <a id="brand-title" class="navbar-brand d-flex align-items-center" href="/" aria-label="Fly TLV homepage">
         <i class="bi bi-airplane-engines me-2"></i>Fly TLV → Worldwide Destinations
       </a>
 <div class="d-flex align-items-center justify-content-center gap-2">
-  <button id="view-map-btn" class="btn btn-outline-primary">
+  <button id="view-map-btn" class="btn btn-outline-primary" aria-label="Open destinations map">
     <i class="bi bi-globe-americas me-1"></i> View Map
   </button>
-  <button id="ai-chat-btn" class="btn btn-outline-primary" type="button">
+  <button id="ai-chat-btn" class="btn btn-outline-primary" type="button" aria-label="Open Fly TLV AI assistant">
     <i class="bi bi-robot me-1"></i> Ask AI
   </button>
   <button id="theme-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle theme">
@@ -278,7 +278,7 @@
     </div>
   </div>
 </div>
-<main class="container-fluid px-2 px-md-3 mt-2 mb-3">
+<main class="container-fluid px-2 px-md-3 mt-2 mb-3" role="main">
   <div class="row g-3 align-items-start stretch-content">
     <!-- Filters Column -->
     <div class="col-lg-3 filters-col">
@@ -319,7 +319,7 @@
 					  Direction
 					{% endif %}
 				  </label>
-				  <select id="direction-select" class="form-select">
+				  <select id="direction-select" class="form-select" aria-label="Select flight direction">
 					<option value="outbound">
 					  {% if lang == "he" %}המראות (מתל אביב){% else %}Departures{% endif %}
 					</option>
@@ -336,7 +336,7 @@
                       Country
                     {% endif %}
                   </label>
-                  <select id="country-filter" class="form-select">
+                  <select id="country-filter" class="form-select" aria-label="Select country">
                     {% for c in countries %}
                       <option value="{{ c }}">{{ c }}</option>
                     {% endfor %}
@@ -350,15 +350,16 @@
                       Search
                     {% endif %}
                   </label>
-                  <input
-                    type="text"
-                    id="query-filter"
-                    class="form-control"
-                    placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
-                  />
+					<input
+					  type="text"
+					  id="query-filter"
+					  class="form-control"
+					  placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
+					  aria-label="Search airport, city, or country"
+					/>              
                 </div>
                 <div class="border-top pt-3 mt-3 d-flex gap-2">
-                  <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
+                  <button class="btn btn-sm btn-outline-secondary" id="clear-filters" aria-label="Clear all filters">
                     <i class="bi bi-x-circle me-1"></i>
                     {% if lang == "he" %}
                       נקה
@@ -457,7 +458,7 @@
       <label for="direction-select-mobile" class="form-label mb-1 small">
         {% if lang == "he" %}כיוון{% else %}Direction{% endif %}
       </label>
-      <select id="direction-select-mobile" class="form-select form-select-sm">
+      <select id="direction-select-mobile" class="form-select form-select-sm" aria-label="Select flight direction">
         <option value="outbound">
           {% if lang == "he" %}המראות (מתל אביב){% else %}Departures{% endif %}
         </option>
@@ -471,7 +472,7 @@
       <label for="country-filter-mobile" class="form-label mb-1 small">
         {% if lang == "he" %}מדינה{% else %}Country{% endif %}
       </label>
-      <select id="country-filter-mobile" class="form-select form-select-sm">
+      <select id="country-filter-mobile" class="form-select form-select-sm" aria-label="Select country">
         {% for c in countries %}
           <option value="{{ c }}">{{ c }}</option>
         {% endfor %}
@@ -482,16 +483,17 @@
       <label for="query-filter-mobile" class="form-label mb-1 small">
         {% if lang == "he" %}חיפוש{% else %}Search{% endif %}
       </label>
-      <input
-        type="text"
-        id="query-filter-mobile"
-        class="form-control form-control-sm"
-        placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
-      />
+		<input
+		  type="text"
+		  id="query-filter-mobile"
+		  class="form-control form-control-sm"
+		  placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
+		  aria-label="Search airport, city, or country"
+		/>
     </div>
 
     <div class="border-top pt-2 mt-2 d-flex gap-2">
-      <button class="btn btn-sm btn-outline-secondary py-1 px-2" id="clear-filters-mobile">
+      <button class="btn btn-sm btn-outline-secondary py-1 px-2" id="clear-filters-mobile" aria-label="Clear all mobile filters">
         <i class="bi bi-x-circle me-1"></i>
         {% if lang == "he" %}נקה{% else %}Clear{% endif %}
       </button>
@@ -507,7 +509,7 @@
           <div class="card-body">
             <table
               id="airports-table"
-              class="table table-striped table-hover w-100 align-middle">
+              class="table table-striped table-hover w-100 align-middle" aria-label="Table of all direct destinations from Tel Aviv">
               <thead class="table-primary">
                 <tr>
                   <th>IATA</th>
@@ -525,7 +527,7 @@
                 <tr>
                   <td>{{ ap.IATA }}</td>
                   <td>
-                    <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold ">
+                    <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold" aria-label="View destination {{ ap.Name }}">
                       {{ ap.Name }}
                     </a>
                   </td>
@@ -660,7 +662,7 @@
   </main>
 
 <!-- Map Modal -->
-<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true" aria-label="Flight destinations map modal">
   <div class="modal-dialog modal-xl" style="max-width: 95%">
     <div class="modal-content">
       <div class="modal-header">
@@ -679,6 +681,7 @@
           style="border: 0; width: 100%; height: 100%"
           loading="lazy"
           allowfullscreen
+		  aria-label="Interactive flight map"
           referrerpolicy="no-referrer"
         ></iframe>
       </div>
@@ -743,29 +746,112 @@
   </div> <!-- ✅ closes first .container -->
 
   <!-- Second container for nav -->
-  <div class="container">
-    <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
-	  <a href="/{{ '' if lang != 'he' else '?lang=he' }}" class="footer-link" rel="home">
-	  {% if lang == 'he' %}דף הבית{% else %}Home{% endif %}</a>
-	  <a href="/about{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "About" if lang == "en" else "עלינו" }}</a>
-      <a href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Accessibility" if lang == "en" else "נגישות" }}</a>
-      <a href="/privacy{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Privacy" if lang == "en" else "פרטיות" }}</a>
-      <a href="/contact{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Contact" if lang == "en" else "צור קשר" }}</a>
-      <a href="/chat{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "AI Bot" if lang == "en" else "בוט AI" }}</a>
-      <a href="/flights{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Flights" if lang == "en" else "טיסות" }}</a>      
-      <a href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}</a>
-      <a href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link">{{ "Map" if lang == "en" else "מפה" }}</a>      
-      <a href="/sitemap.xml" class="footer-link" rel="sitemap">{{ "Sitemap" if lang == "en" else "מפת האתר" }}</a>      
-      <a href="/glossary{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="glossary">{{ "Glossary" if lang == "en" else "מושגים" }}</a>      
-      <a href="/stats{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="statistics">{{ "Statistics" if lang == "en" else "סטטיסטיקה" }}</a>	  
-	  <a href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="direct-vs-nonstop">{{ "Direct vs Nonstop" if lang == "en" else "ישיר מול ללא-עצירות" }}</a>
-    </nav>
-  </div>
+<div class="container">
+  <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
+    <a href="/{{ '' if lang != 'he' else '?lang=he' }}"
+       class="footer-link"
+       rel="home"
+       aria-label="Home page"
+       aria-current="{{ 'page' if request.url.path == '/' else 'false' }}">
+      {% if lang == 'he' %}דף הבית{% else %}Home{% endif %}
+    </a>
+
+    <a href="/about{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="About Fly TLV page"
+       aria-current="{{ 'page' if request.url.path.startswith('/about') else 'false' }}">
+      {{ "About" if lang == "en" else "עלינו" }}
+    </a>
+
+    <a href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="Accessibility statement"
+       aria-current="{{ 'page' if request.url.path.startswith('/accessibility') else 'false' }}">
+      {{ "Accessibility" if lang == "en" else "נגישות" }}
+    </a>
+
+    <a href="/privacy{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="Privacy policy page"
+       aria-current="{{ 'page' if request.url.path.startswith('/privacy') else 'false' }}">
+      {{ "Privacy" if lang == "en" else "פרטיות" }}
+    </a>
+
+    <a href="/contact{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="Contact page"
+       aria-current="{{ 'page' if request.url.path.startswith('/contact') else 'false' }}">
+      {{ "Contact" if lang == "en" else "צור קשר" }}
+    </a>
+
+    <a href="/chat{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="AI chat page"
+       aria-current="{{ 'page' if request.url.path.startswith('/chat') else 'false' }}">
+      {{ "AI Bot" if lang == "en" else "בוט AI" }}
+    </a>
+
+    <a href="/flights{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="Flights overview page"
+       aria-current="{{ 'page' if request.url.path.startswith('/flights') else 'false' }}">
+      {{ "Flights" if lang == "en" else "טיסות" }}
+    </a>
+
+    <a href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="Travel warnings page"
+       aria-current="{{ 'page' if request.url.path.startswith('/travel-warnings') else 'false' }}">
+      {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
+    </a>
+
+    <a href="/map{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       aria-label="World destinations map page"
+       aria-current="{{ 'page' if request.url.path.startswith('/map') else 'false' }}">
+      {{ "Map" if lang == "en" else "מפה" }}
+    </a>
+
+    <a href="/sitemap.xml"
+       class="footer-link"
+       rel="sitemap"
+       aria-label="Website sitemap"
+       aria-current="{{ 'page' if request.url.path == '/sitemap.xml' else 'false' }}">
+      {{ "Sitemap" if lang == "en" else "מפת האתר" }}
+    </a>
+
+    <a href="/glossary{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       rel="glossary"
+       aria-label="Glossary of flight terms"
+       aria-current="{{ 'page' if request.url.path.startswith('/glossary') else 'false' }}">
+      {{ "Glossary" if lang == "en" else "מושגים" }}
+    </a>
+
+    <a href="/stats{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       rel="statistics"
+       aria-label="Flight statistics page"
+       aria-current="{{ 'page' if request.url.path.startswith('/stats') else 'false' }}">
+      {{ "Statistics" if lang == "en" else "סטטיסטיקה" }}
+    </a>
+
+    <a href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}"
+       class="footer-link"
+       rel="direct-vs-nonstop"
+       aria-label="Direct versus nonstop flights explanation"
+       aria-current="{{ 'page' if request.url.path.startswith('/direct-vs-nonstop') else 'false' }}">
+      {{ "Direct vs Nonstop" if lang == "en" else "ישיר מול ללא-עצירות" }}
+    </a>
+  </nav>
+</div>
+
+
 
   <!-- Bottom bar -->
-<div class="footer-bottom py-2">
+<div class="footer-bottom py-2" aria-label="Site legal notice and copyright">
   <div class="container small text-center text-muted">
-    <p class="mb-2 fw-bold text-muted" style="font-size: 1.0rem;">
+    <p class="mb-2 fw-bold text-muted" style="font-size: 1.0rem;" aria-label="Disclaimer notice">
       {% if lang == "he" %}
         ⚠️ שימו לב: הנתונים המוצגים באתר זה הינם הערכה בלבד ובפועל תלויים בגורמים שונים שאינם בידיעתנו.
         .יש לפעול לפי הוראות חברות התעופה והרשויות הרלוונטיות ואין להסתמך על המידע המופיע באתר שהינו בגדר המלצה בלבד
@@ -775,29 +861,32 @@
       {% endif %}
     </p>
 
-    <!-- New line for copyright info -->
-    <div class="text-muted" style="font-size: 0.9rem;">
+    <div class="text-muted" style="font-size: 0.9rem;" aria-label="Copyright information">
       © <span id="footer-year"></span>
       <span id="footer-brand-inline">
-        <a href="https://fly-tlv.com" class="footer-link" target="_blank" rel="noopener">
+        <a href="https://fly-tlv.com"
+           class="footer-link"
+           target="_blank"
+           rel="noopener"
+           aria-label="Fly TLV official website">
           {{ "Fly TLV → Worldwide Destinations" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
         </a>
       </span>
       <br />
-      <span id="footer-rights">
+      <span id="footer-rights" aria-label="Rights notice">
         {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
       </span>
     </div>
   </div>
 </div>
-<div id="install-app-container">
+
+<div id="install-app-container" aria-label="Install Fly TLV progressive web app">
   <div class="install-app-inner">
-    <button id="install-app-btn" aria-label="Install Fly-Tlv App">
-      📲 Install Fly-Tlv App 📲
-    </button>    
+    <button id="install-app-btn" aria-label="Install Fly TLV App">
+      📲 Install Fly TLV App 📲
+    </button>
   </div>
 </div>
-
 </footer>
 
   <script src="/static/js/lang.js"></script>
@@ -817,7 +906,7 @@
 	  }
 	</script>
 <!-- Cookie Consent Banner -->
-<div id="cookie-banner" class="d-none" aria-live="polite">
+<div id="cookie-banner" class="d-none" aria-live="polite" aria-label="Cookie consent banner">
   <div class="cookie-container">
     <div class="cookie-text" id="cookie-msg"></div>
     <div class="cookie-buttons">
@@ -829,7 +918,7 @@
 </div>
 
 <!-- Customize Modal -->
-<div class="modal fade" id="cookieCustomizeModal" tabindex="-1" aria-labelledby="cookieCustomizeLabel" aria-hidden="true">
+<div class="modal fade" id="cookieCustomizeModal" tabindex="-1" aria-labelledby="cookieCustomizeLabel" aria-hidden="true" aria-label="Cookie preferences modal">
   <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">

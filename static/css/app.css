@@ -973,7 +973,6 @@ body.dark-mode #footer-marketing a:hover {
   transition: transform 0.2s ease;
 }
 
-/* 🔥 Hidden by default */
 #install-app-container {
   position: fixed;
   bottom: 12px;
@@ -1393,4 +1392,10 @@ body.dark-mode .card:hover .card-body {
     font-size: 0.85rem;
     padding: 0.4rem;
   }
+}
+
+.footer-link[aria-current="page"] {
+  font-weight: 600;
+  color: var(--bs-primary) !important;
+  text-decoration: underline;
 }
