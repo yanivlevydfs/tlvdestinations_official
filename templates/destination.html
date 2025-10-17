@@ -144,22 +144,33 @@ body.dark-mode textarea {
 {% endblock %}
 
 {% block content %}
+
 <div class="container mt-5">
   <div class="card shadow-lg">
-    <!-- Header -->
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-      <h3 class="mb-0">
+
+    <!-- ✅ Button aligned right -->
+    <div class="card-body pt-3 pb-0">
+      <div class="text-end">
+        <a href="/" class="btn btn-outline-primary btn-sm">
+          ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
+        </a>
+      </div>
+    </div>
+    <!-- ✅ Horizontal line divider -->
+    <hr class="mt-2 mb-0">
+    <!-- 🔷 Blue title/header bar -->
+    <div class="card-header bg-primary text-white d-flex align-items-center gap-2 flex-wrap">
+      <h3 class="mb-0 fs-5">
         ✈️ {{ destination.IATA }} — {{ destination.Name }}
       </h3>
-		<span class="badge bg-light text-dark">
-		  {{ destination.Country }}
-		  {% if destination.CountryISO %}
-			<img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
-				 alt="{{ destination.Country }}" class="ms-1" />
-		  {% endif %}
-		</span>
+      <span class="badge bg-light text-dark">
+        {{ destination.Country }}
+        {% if destination.CountryISO %}
+          <img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
+               alt="{{ destination.Country }}" class="ms-1" />
+        {% endif %}
+      </span>
     </div>
-
     <!-- Body -->
 <div class="card-body">
   <!-- Compact Quick info grid -->
@@ -293,9 +304,7 @@ body.dark-mode textarea {
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const city = "{{ destination.City|urlencode }}";
-  const lang = "{{ 'he' if lang == 'he' else 'en' }}";
-  const url  = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${city}`;
-
+  const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${city}`;
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error("Wiki not found");
