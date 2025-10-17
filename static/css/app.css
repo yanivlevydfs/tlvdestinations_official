@@ -1439,3 +1439,14 @@ body.dark-mode .card:hover .card-body {
     border-radius: 999px !important; /* keep pill shape */
   }
 }
+@media (max-width: 768px) {
+  .row.g-3.align-items-start.stretch-content {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .row.g-3.align-items-start.stretch-content > * {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
