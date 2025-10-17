@@ -1450,3 +1450,16 @@ body.dark-mode .card:hover .card-body {
     padding-top: 0 !important;
   }
 }
+/* 🌙 Fix outline secondary buttons in dark mode */
+body.dark-mode .btn-outline-secondary {
+  color: #e5e7eb !important;               /* light gray text */
+  border-color: #9ca3af !important;        /* mid-gray border */
+  background-color: transparent !important;
+}
+
+body.dark-mode .btn-outline-secondary:hover,
+body.dark-mode .btn-outline-secondary:focus {
+  color: #fff !important;
+  border-color: #60a5fa !important;        /* your accent blue */
+  background-color: rgba(96,165,250,0.15) !important; /* faint blue glow */
+  box-shadow: 0 0 8px rgba(96,165,250,0.
