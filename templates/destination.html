@@ -159,18 +159,19 @@ body.dark-mode textarea {
     <!-- ✅ Horizontal line divider -->
     <hr class="mt-2 mb-0">
     <!-- 🔷 Blue title/header bar -->
-    <div class="card-header bg-primary text-white d-flex align-items-center gap-2 flex-wrap">
-      <h3 class="mb-0 fs-5">
-        ✈️ {{ destination.IATA }} — {{ destination.Name }}
-      </h3>
-      <span class="badge bg-light text-dark">
-        {{ destination.Country }}
-        {% if destination.CountryISO %}
-          <img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
-               alt="{{ destination.Country }}" class="ms-1" />
-        {% endif %}
-      </span>
-    </div>
+	<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap">
+	  <h3 class="mb-0 fs-5">
+		✈️ {{ destination.IATA }} — {{ destination.Name }}
+	  </h3>
+	  <span class="badge bg-light text-dark">
+		{{ destination.Country }}
+		{% if destination.CountryISO %}
+		  <img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
+			   alt="{{ destination.Country }}" class="ms-1" />
+		{% endif %}
+	  </span>
+	</div>
+
     <!-- Body -->
 <div class="card-body">
   <!-- Compact Quick info grid -->
