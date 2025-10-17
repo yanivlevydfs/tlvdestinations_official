@@ -88,7 +88,7 @@
 </script>
 {% endblock %}
 {% block content %}
-<div class="container my-4 text-center lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+<div class="container my-4 text-center" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
 <!-- Breadcrumbs -->
 <nav aria-label="breadcrumb" class="mb-3 text-start" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <ol class="breadcrumb mb-0">
@@ -332,11 +332,6 @@ body.dark-mode .buttons-colvis:hover {
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 768px) {
-  .table-responsive table {
-    min-width: 700px;
-  }
-
   table th,
   table td {
     font-size: 0.85rem;
@@ -425,6 +420,42 @@ body.dark-mode .text-muted {
 div.dataTables_filter {
   display: none !important;
 }
+/* ✅ Global dark mode table fixes */
+body.dark-mode table {
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+}
+
+body.dark-mode thead {
+  background-color: #1f1f1f !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #1a1a1a !important;
+}
+
+body.dark-mode .table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #161616 !important;
+}
+
+body.dark-mode table td,
+body.dark-mode table th {
+  color: #e5e5e5 !important;
+}
+
+/* Fix table hover if used */
+body.dark-mode table.table-hover tbody tr:hover {
+  background-color: #2a2a2a !important;
+}
+
+/* Optional: soften table border */
+body.dark-mode table,
+body.dark-mode th,
+body.dark-mode td {
+  border-color: #333 !important;
+}
+
 @media (max-width: 768px) {
   /* Hide columns 6 (משרד), 7 (לינק), and 8 (לוגו) */
   th:nth-child(5),
@@ -436,6 +467,60 @@ div.dataTables_filter {
   th:nth-child(8),
   td:nth-child(8) {
     display: none;
+  }
+}
+
+
+/* 🌙 Dark mode base for table */
+body.dark-mode table,
+body.dark-mode th,
+body.dark-mode td {
+  background-color: #121212 !important;
+  color: #e5e5e5 !important;
+  border-color: #333 !important;
+}
+
+/* Striped rows */
+body.dark-mode .table-striped > tbody > tr.odd {
+  background-color: #1a1a1a !important;
+}
+body.dark-mode .table-striped > tbody > tr.even {
+  background-color: #161616 !important;
+}
+
+/* Hover effect */
+body.dark-mode table.table-hover tbody tr:hover {
+  background-color: #2a2a2a !important;
+}
+
+/* Table header */
+body.dark-mode thead.table-primary th {
+  background-color: #1a1a1a !important;
+  color: #f0f0f0 !important;
+}
+
+/* Optional: Remove box shadow if needed */
+body.dark-mode .card.shadow-sm {
+  box-shadow: none !important;
+}
+/* 🌙 Dark Mode — Fix dropdowns and input in filter card */
+body.dark-mode select.form-select,
+body.dark-mode input.form-control {
+  background-color: #1f1f1f !important;
+  color: #f0f0f0 !important;
+  border: 1px solid #444 !important;
+}
+
+body.dark-mode select.form-select option {
+  background-color: #1f1f1f;
+  color: #f0f0f0;
+}
+body.dark-mode input::placeholder {
+  color: #ccc !important;
+}
+@media (min-width: 992px) {
+  .table-responsive {
+    overflow-x: visible !important;
   }
 }
 
@@ -456,11 +541,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		text: `<i class="bi bi-clipboard me-1"></i> {{ 'Copy' if lang != 'he' else 'העתק' }}`,
 		className: 'btn btn-primary btn-sm'
 	  },
-	  {
-		extend: 'csvHtml5',
-		text: `<i class="bi bi-file-earmark-spreadsheet me-1"></i> {{ 'Export CSV' if lang != 'he' else 'ייצוא CSV' }}`,
-		className: 'btn btn-success btn-sm buttons-csv'
-	  },
+	  
 	  {
 		extend: 'excelHtml5',
 		text: `<i class="bi bi-file-earmark-excel me-1"></i> Excel`,

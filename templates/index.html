@@ -843,6 +843,15 @@
        aria-current="{{ 'page' if request.url.path.startswith('/direct-vs-nonstop') else 'false' }}">
       {{ "Direct vs Nonstop" if lang == "en" else "ישיר מול ללא-עצירות" }}
     </a>
+	<a href="/terms{{ '?lang=he' if lang == 'he' else '' }}"
+   class="footer-link"
+   rel="noopener"
+   hreflang="{{ lang }}"
+   aria-label="{{ 'View the Terms & Conditions for Fly TLV' if lang == 'en' else 'צפה בתנאים וההגבלות של Fly TLV' }}"
+   aria-current="{{ 'page' if request.url.path.startswith('/terms') else 'false' }}">
+  {{ 'Terms & Conditions' if lang == 'en' else 'תנאים והגבלות' }}
+	</a>
+
   </nav>
 </div>
 

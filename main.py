@@ -1762,3 +1762,23 @@ async def refresh_data_webhook():
 
     logger.info("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms_view(request: Request):
+    lang = request.query_params.get("lang", "en")
+
+    try:
+        return TEMPLATES.TemplateResponse("terms.html", {
+            "request": request,
+            "lang": lang
+        })
+    except Exception as e:
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "message": (
+                "Terms & Conditions page could not be loaded."
+                if lang != "he"
+                else "לא ניתן לטעון את עמוד התנאים וההגבלות."
+            ),
+            "lang": lang
+        })
