@@ -556,35 +556,7 @@ body.dark-mode select option {
       { extend: 'csvHtml5',  text: '<i class="bi bi-filetype-csv me-1"></i> CSV' },
       { extend: 'excelHtml5', text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel' },      
     ];
-$.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-  // Read last update from the page
-  const lastUpdateText = document.querySelector('.last-update-badge strong')?.textContent?.trim();
-  if (!lastUpdateText) return true;
 
-  // Convert DD-MM-YYYY → JS Date
-  const [day, month, year] = lastUpdateText.split("-");
-  const monthNum = parseInt(month, 10) - 1; // month is 0-indexed in JS
-  if (isNaN(day) || isNaN(monthNum) || isNaN(year)) return true;
-  const lastUpdate = new Date(year, monthNum, day);
-
-  // Extract "Scheduled" column (e.g. "Oct 11, 00:40")
-  const scheduledStr = data[5];
-  if (!scheduledStr || scheduledStr === "—") return false;
-
-  // Parse "Oct 11" part safely
-  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const parts = scheduledStr.split(" ");
-  const monthAbbr = parts[0];
-  const dayNum = parseInt(parts[1]);
-  const schedMonthIdx = monthNames.indexOf(monthAbbr);
-  if (schedMonthIdx === -1 || isNaN(dayNum)) return true;
-
-  // Build scheduled date (using same year)
-  const scheduledDate = new Date(year, schedMonthIdx, dayNum);
-
-  // ✅ Compare only dates (ignore hours)
-  return scheduledDate >= lastUpdate;
-});
     const table = $('#flightsTable').DataTable({
 	dom: "<'row mb-3 align-items-center'<'col-12 col-md-auto dt-buttons'B><'col-12 col-md dt-filters'><'col-12 col-md-auto'f>>" +
 		 "<'row'<'col-12'tr>>" +
@@ -633,17 +605,16 @@ $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
 		  .addClass('mb-0 d-flex justify-content-center justify-content-md-end w-100');
 
 		// Append search bar into toolbar
-		$('.dt-filters .d-flex').append($search);
+		//$('.dt-filters .d-flex').append($search);
 		
 		
 
-// ✅ Inject filters into toolbar
-$('.dt-filters').html(`
+$('.dt-filters').append(`
   <!-- Desktop layout -->
   <div class="d-none d-md-flex gap-3 flex-wrap align-items-center">
     <div class="d-flex align-items-center">
       <label for="direction-filter" class="me-2">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
-      <select id="direction-filter" class="form-select form-select-sm">
+      <select id="direction-filter" class="form-select form-select-sm" aria-label="{{ 'Direction filter' if lang != 'he' else 'מסנן כיוון' }}">
         <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
         <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
         <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
@@ -651,7 +622,7 @@ $('.dt-filters').html(`
     </div>
     <div class="d-flex align-items-center">
       <label for="status-filter" class="me-2">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
-      <select id="status-filter" class="form-select form-select-sm">
+      <select id="status-filter" class="form-select form-select-sm" aria-label="{{ 'Status filter' if lang != 'he' else 'מסנן סטטוס' }}">
         <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
         <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
         <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
@@ -661,7 +632,7 @@ $('.dt-filters').html(`
     </div>
     <div class="d-flex align-items-center">
       <label for="country-filter" class="me-2">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
-      <select id="country-filter" class="form-select form-select-sm">
+      <select id="country-filter" class="form-select form-select-sm" aria-label="{{ 'Country filter' if lang != 'he' else 'מסנן מדינה' }}">
         <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
         {% for country in countries %}
         <option value="{{ country }}">{{ country }}</option>
@@ -670,7 +641,7 @@ $('.dt-filters').html(`
     </div>
     <div class="d-flex align-items-center">
       <label for="actual-date-filter" class="me-2">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
-      <select id="actual-date-filter" class="form-select form-select-sm">
+      <select id="actual-date-filter" class="form-select form-select-sm" aria-label="{{ 'Actual date filter' if lang != 'he' else 'מסנן תאריך בפועל' }}">
         <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
         {% for value, label in actual_dates %}
         <option value="{{ value }}">{{ label }}</option>
@@ -679,23 +650,23 @@ $('.dt-filters').html(`
     </div>
     <div class="d-flex align-items-center">
       <label for="actual-time-filter" class="me-2">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
-      <select id="actual-time-filter" class="form-select form-select-sm">
+      <select id="actual-time-filter" class="form-select form-select-sm" aria-label="{{ 'Actual time filter' if lang != 'he' else 'מסנן שעת בפועל' }}">
         <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
         {% for t in actual_times %}
         <option value="{{ t }}">{{ t }}</option>
         {% endfor %}
       </select>
-    </div>
+    </div> 
   </div>
 
-  <!-- Mobile layout: everything in one card -->
+  <!-- Mobile layout -->
   <div class="d-md-none">
     <div class="card mt-3">
       <div class="card-body d-flex flex-column gap-3">
-        
+
         <div>
-          <label for="direction-filter" class="form-label">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
-          <select id="direction-filter" class="form-select form-select-sm w-100">
+          <label for="direction-filter-mobile" class="form-label">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
+          <select id="direction-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Direction filter' if lang != 'he' else 'מסנן כיוון' }}">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
             <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
@@ -703,8 +674,8 @@ $('.dt-filters').html(`
         </div>
 
         <div>
-          <label for="status-filter" class="form-label">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
-          <select id="status-filter" class="form-select form-select-sm w-100">
+          <label for="status-filter-mobile" class="form-label">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
+          <select id="status-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Status filter' if lang != 'he' else 'מסנן סטטוס' }}">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
             <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
@@ -714,8 +685,8 @@ $('.dt-filters').html(`
         </div>
 
         <div>
-          <label for="country-filter" class="form-label">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
-          <select id="country-filter" class="form-select form-select-sm w-100">
+          <label for="country-filter-mobile" class="form-label">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
+          <select id="country-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Country filter' if lang != 'he' else 'מסנן מדינה' }}">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for country in countries %}
             <option value="{{ country }}">{{ country }}</option>
@@ -724,8 +695,8 @@ $('.dt-filters').html(`
         </div>
 
         <div>
-          <label for="actual-date-filter" class="form-label">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
-          <select id="actual-date-filter" class="form-select form-select-sm w-100">
+          <label for="actual-date-filter-mobile" class="form-label">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
+          <select id="actual-date-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Actual date filter' if lang != 'he' else 'מסנן תאריך בפועל' }}">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for value, label in actual_dates %}
             <option value="{{ value }}">{{ label }}</option>
@@ -734,18 +705,20 @@ $('.dt-filters').html(`
         </div>
 
         <div>
-          <label for="actual-time-filter" class="form-label">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
-          <select id="actual-time-filter" class="form-select form-select-sm w-100">
+          <label for="actual-time-filter-mobile" class="form-label">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
+          <select id="actual-time-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Actual time filter' if lang != 'he' else 'מסנן שעת בפועל' }}">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for t in actual_times %}
             <option value="{{ t }}">{{ t }}</option>
             {% endfor %}
           </select>
         </div>
+
       </div>
     </div>
   </div>
 `);
+
 
       // ✅ Append search AFTER filters exist
       $('.dt-filters .d-flex').first().append($search);
