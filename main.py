@@ -1380,22 +1380,25 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
 
     client_host = request.client.host if request.client else "unknown"
 
-    if TRAVEL_WARNINGS_DF.empty:
+    if TRAVEL_WARNINGS_DF is None or TRAVEL_WARNINGS_DF.empty:
         logger.warning(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
-        return TEMPLATES.TemplateResponse("travel_warnings.html", {
+        return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
             "lang": lang,
-            "warnings": [],
-            "last_update": None,
-            "continents": [],
-            "countries": [],
-            "levels": []
-        })
+            "message": "No travel warnings available at this time."
+        }, status_code=503)
 
     warnings = TRAVEL_WARNINGS_DF.to_dict(orient="records")
+
+    # Safely get and parse last update timestamp
     last_update_str = TRAVEL_WARNINGS_DF.attrs.get("last_update")
-    dtlu = datetime.fromisoformat(last_update_str)
-    last_update = dtlu.strftime("%d-%m-%Y")
+    try:
+        dtlu = datetime.fromisoformat(last_update_str)
+        last_update = dtlu.strftime("%d-%m-%Y")
+    except Exception as e:
+        logger.error(f"Failed to parse last_update: {e}")
+        last_update = None
+
     continents = sorted(TRAVEL_WARNINGS_DF["continent"].dropna().unique())
     countries  = sorted(TRAVEL_WARNINGS_DF["country"].dropna().unique())
     levels     = ["גבוה", "בינוני", "נמוך", "לא ידוע"]
