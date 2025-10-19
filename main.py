@@ -36,7 +36,7 @@ import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
 import pycountry
-
+from geopy.distance import geodesic
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -136,17 +136,28 @@ def get_flight_time(dist_km: float | None) -> str:
     if not dist_km or dist_km <= 0:
         return "—"
 
-    total_hours = dist_km / 800  # average cruising speed
-    hours = int(total_hours)
-    minutes = int((total_hours - hours) * 60)
+    # Adjust speed based on flight range
+    if dist_km < 500:
+        cruise_speed_kmh = 700
+        buffer = 0.4  # 24 mins
+    elif dist_km < 2000:
+        cruise_speed_kmh = 800
+        buffer = 0.5
+    else:
+        cruise_speed_kmh = 850
+        buffer = 0.6  # long-haul
+
+    estimated_time_hr = dist_km / cruise_speed_kmh + buffer
+
+    hours = int(estimated_time_hr)
+    minutes = int(round((estimated_time_hr - hours) * 60))
 
     if minutes == 60:
         hours += 1
         minutes = 0
 
-    if minutes == 0:
-        return f"{hours}h"
-    return f"{hours}h {minutes}m"
+    return f"{hours}h" if minutes == 0 else f"{hours}h {minutes}m"
+
 
 def load_travel_warnings_df() -> pd.DataFrame:
     """Load travel warnings JSON from CACHE_DIR into a DataFrame."""
@@ -351,10 +362,7 @@ def get_dataset_date() -> str | None:
 
     
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    R = 6371.0
-    dlat = radians(lat2 - lat1); dlon = radians(lon2 - lon1)
-    a = sin(dlat/2)**2 + cos(radians(lat1))*cos(radians(lat2))*sin(dlon/2)**2
-    return round(R * 2 * atan2(sqrt(a), sqrt(1 - a)), 1)
+    return round(geodesic((lat1, lon1), (lat2, lon2)).kilometers, 1)
 
 
 def load_airline_names() -> Dict[str, str]:
