@@ -613,7 +613,6 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         logger.error(f"Failed to read dataset file: {e}", exc_info=True)
         return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"]), None
 
-
 def load_israel_flights_map():
     """Return dict {IATA: set(airlines)} from gov.il cache"""
     flights = []
@@ -1731,8 +1730,10 @@ async def catch_unknown_routes(request: Request, call_next):
         print(f"404 from: {request.client.host} for path: {request.url.path}")
     return response
 
-@app.get("/api/refresh-data",response_class=JSONResponse)
+@app.get("/api/refresh-data", response_class=JSONResponse)
 async def refresh_data_webhook():
+    global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
+
     logger.info("🔁 Incoming request: /api/refresh-data")
 
     response = {
@@ -1745,6 +1746,15 @@ async def refresh_data_webhook():
         res1 = fetch_israel_flights()
         if res1:
             logger.info("✅ fetch_israel_flights completed successfully")
+            
+            # ✅ Reload globals after successful fetch
+            df, d = _read_dataset_file()
+            DATASET_DF, DATASET_DATE = df, d or ""
+
+            df_flights, _ = _read_flights_file()
+            DATASET_DF_FLIGHTS = df_flights
+
+            logger.info(f"🧠 Globals updated: DATASET_DF={len(DATASET_DF)}, FLIGHTS={len(DATASET_DF_FLIGHTS)}")
             response["fetch_israel_flights"] = "Success"
         else:
             logger.error("❌ fetch_israel_flights returned None")
@@ -1767,6 +1777,7 @@ async def refresh_data_webhook():
 
     logger.info("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
+
 
 @app.get("/terms", response_class=HTMLResponse)
 async def terms_view(request: Request):
