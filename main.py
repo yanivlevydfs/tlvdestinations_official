@@ -132,6 +132,48 @@ COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def update_travel_warnings():
+    try:
+        result = fetch_travel_warnings()
+        if result:
+            reload_travel_warnings_globals()
+            logger.info(f"✅ Travel warnings updated and reloaded ({result['count']} records)")
+        else:
+            logger.warning("⚠️ fetch_travel_warnings returned None")
+    except Exception:
+        logger.exception("❌ Scheduled travel warnings update failed")
+
+
+def reload_travel_warnings_globals():
+    global TRAVEL_WARNINGS_DF
+    try:
+        TRAVEL_WARNINGS_DF = load_travel_warnings_df()
+        logger.info(f"🧠 TRAVEL_WARNINGS_DF global updated (rows={len(TRAVEL_WARNINGS_DF)})")
+    except Exception as e:
+        logger.exception("❌ Failed to reload TRAVEL_WARNINGS_DF from cache")
+        TRAVEL_WARNINGS_DF = pd.DataFrame()
+
+
+def update_flights():
+    try:
+        fetch_israel_flights()
+        reload_israel_flights_globals()
+        logger.info("✅ Scheduled flight update completed.")
+    except Exception as e:
+        logger.exception("❌ Scheduled flight update failed.")
+        
+def reload_israel_flights_globals():
+    global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
+
+    df, d = _read_dataset_file()
+    DATASET_DF, DATASET_DATE = df, d or ""
+
+    df_flights, _ = _read_flights_file()
+    DATASET_DF_FLIGHTS = df_flights
+
+    logger.info(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
+
+
 def get_flight_time(dist_km: float | None) -> str:
     if not dist_km or dist_km <= 0:
         return "—"
@@ -989,8 +1031,7 @@ async def on_startup():
 
     # 2) Load travel warnings
     try:
-        TRAVEL_WARNINGS_DF = load_travel_warnings_df()
-        logger.info(f"Loaded travel warnings (rows={len(TRAVEL_WARNINGS_DF)})")
+        update_travel_warnings()        
     except Exception as e:
         logger.error("Failed to load travel warnings", exc_info=True)
         TRAVEL_WARNINGS_DF = pd.DataFrame()
@@ -1005,24 +1046,7 @@ async def on_startup():
 
     # 4) Load datasets or fetch from API
     try:
-        if not ISRAEL_FLIGHTS_FILE.exists():
-            logger.warning("No dataset file found. Fetching from API...")
-            fetch_israel_flights()
-            logger.info("Fetched and saved dataset to disk.")
-
-        # ✅ Always attempt to load after fetch or if file existed
-        df, d = _read_dataset_file()
-        DATASET_DF, DATASET_DATE = df, d or ""
-
-        df_flights, _ = _read_flights_file()
-        DATASET_DF_FLIGHTS = df_flights
-
-        logger.info(f"Loaded DATASET_DF with {len(DATASET_DF)} rows (date={DATASET_DATE})")
-        logger.info(f"Loaded DATASET_DF_FLIGHTS with {len(DATASET_DF_FLIGHTS)} rows")
-
-        if DATASET_DF.empty:
-            logger.warning("DATASET_DF is empty even after loading/fetching!")
-
+        update_flights()
     except Exception as e:
         logger.error("Error loading or fetching datasets", exc_info=True)
         DATASET_DF = pd.DataFrame()
@@ -1039,7 +1063,7 @@ async def on_startup():
     # 6) Schedule background jobs
     try:
         scheduler.add_job(
-            fetch_israel_flights,
+            update_flights,
             "interval",
             hours=3,
             id="govil_refresh",
@@ -1047,7 +1071,7 @@ async def on_startup():
             next_run_time=datetime.now()
         )
         scheduler.add_job(
-            fetch_travel_warnings,
+            update_travel_warnings,
             "interval",
             hours=8,
             id="warnings_refresh",
@@ -1754,15 +1778,7 @@ async def refresh_data_webhook():
         res1 = fetch_israel_flights()
         if res1:
             logger.info("✅ fetch_israel_flights completed successfully")
-            
-            # ✅ Reload globals after successful fetch
-            df, d = _read_dataset_file()
-            DATASET_DF, DATASET_DATE = df, d or ""
-
-            df_flights, _ = _read_flights_file()
-            DATASET_DF_FLIGHTS = df_flights
-
-            logger.info(f"🧠 Globals updated: DATASET_DF={len(DATASET_DF)}, FLIGHTS={len(DATASET_DF_FLIGHTS)}")
+            reload_israel_flights_globals()
             response["fetch_israel_flights"] = "Success"
         else:
             logger.error("❌ fetch_israel_flights returned None")
