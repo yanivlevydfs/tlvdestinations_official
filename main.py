@@ -1756,12 +1756,43 @@ async def manifest(request: Request):
     return FileResponse(file_path, media_type="application/manifest+json")
     
 @app.middleware("http")
-async def catch_unknown_routes(request: Request, call_next):
+async def redirect_and_log_404(request: Request, call_next):
+    host_header = request.headers.get("host", "").lower()
+    hostname = (request.url.hostname or "").lower()
+    client_host = (request.client.host or "").lower()
+
+    # 🚫 Skip all redirects for local development
+    if any(
+        kw in host_header
+        for kw in ("localhost", "127.0.0.1", "::1")
+    ) or hostname in ("localhost", "127.0.0.1", "::1") or client_host in ("localhost", "127.0.0.1", "::1"):
+        response = await call_next(request)
+        if response.status_code == 404:
+            print(f"⚠️ 404 from {client_host} for path: {request.url.path}")
+        return response
+
+    # 🌍 Production redirects
+    url = str(request.url)
+    redirect_url = url
+
+    # Force HTTPS
+    if url.startswith("http://"):
+        redirect_url = redirect_url.replace("http://", "https://", 1)
+
+    # Remove "www."
+    if "://www." in redirect_url:
+        redirect_url = redirect_url.replace("://www.", "://", 1)
+
+    # Redirect only if URL changed
+    if redirect_url != url:
+        return RedirectResponse(url=redirect_url, status_code=301)
+
+    # Continue normally
     response = await call_next(request)
     if response.status_code == 404:
-        print(f"404 from: {request.client.host} for path: {request.url.path}")
+        print(f"⚠️ 404 from {client_host} for path: {request.url.path}")
     return response
-
+    
 @app.get("/api/refresh-data", response_class=JSONResponse)
 async def refresh_data_webhook():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
