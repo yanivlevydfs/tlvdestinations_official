@@ -109,6 +109,7 @@ app = FastAPI(
 )
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    app.mount("/.well-known",StaticFiles(directory=STATIC_DIR / ".well-known"),name="well-known")
 
 CORS_ORIGINS = ["http://localhost:8000", "https://fly-tlv.com"]
 
@@ -1751,9 +1752,27 @@ async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
     })
 @app.get("/manifest.json", include_in_schema=False)
 async def manifest(request: Request):
-    logger.info(f"GET /manifest.json | client={request.client.host}")
-    file_path = Path(__file__).parent / "manifest.json"
-    return FileResponse(file_path, media_type="application/manifest+json")
+    lang = request.query_params.get("lang", "en").lower()
+    if lang not in ("en", "he"):
+        lang = "en"
+
+    client = request.client.host if request.client else "unknown"
+    base_path = Path(__file__).parent
+    manifest_en = base_path / "manifest.json"
+    manifest_he = base_path / "manifest.he.json"
+
+    selected_manifest = manifest_he if lang == "he" and manifest_he.exists() else manifest_en
+
+    if selected_manifest.exists():
+        logger.info(f"📄 GET /manifest.json | lang={lang} | client={client} | file={selected_manifest.name}")
+        return FileResponse(selected_manifest, media_type="application/manifest+json")
+    else:
+        logger.error(f"❌ Manifest not found | lang={lang} | path={selected_manifest}")
+        return JSONResponse(
+            {"error": "Manifest not found", "lang": lang},
+            status_code=404
+        )
+
     
 @app.middleware("http")
 async def redirect_and_log_404(request: Request, call_next):
