@@ -1744,12 +1744,26 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
 
 @app.get("/direct-vs-nonstop", response_class=HTMLResponse)
 async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
-    logger.info(f"GET /direct-vs-nonstop | lang={lang} | client={request.client.host}")
-    return TEMPLATES.TemplateResponse("direct_vs_nonstop.html", {
-        "request": request,
-        "lang": lang,
-        "now": datetime.now()
-    })
+    client = request.client.host
+    try:
+        logger.info(f"GET /direct-vs-nonstop | lang={lang} | client={client}")
+        return TEMPLATES.TemplateResponse("direct_vs_nonstop.html", {
+            "request": request,
+            "lang": lang,
+            "now": datetime.now()
+        })
+    except Exception as e:
+        logger.error(f"❌ Failed to render direct_vs_nonstop.html | {e} | client={client}")
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "lang": lang,
+            "message": (
+                "The Direct vs Nonstop page could not be loaded. Please try again later."
+                if lang != "he"
+                else "לא ניתן לטעון את עמוד 'ישיר מול ללא-עצירות'. נסה שוב מאוחר יותר."
+            )
+        }, status_code=500)
+        
 @app.get("/manifest.json", include_in_schema=False)
 async def manifest(request: Request):
     lang = request.query_params.get("lang", "en").lower()
