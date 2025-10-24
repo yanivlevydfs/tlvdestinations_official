@@ -1,0 +1,136 @@
+{
+  "name": "Fly TLV — כל היעדים הישירים מתל אביב (TLV)",
+  "short_name": "Fly TLV",
+  "description": "גלה את כל היעדים הישירים משדה התעופה בן גוריון (TLV): מדינות, ערים, חברות תעופה, זמני טיסה ומרחקים ברחבי העולם.",
+  "lang": "he",
+  "dir": "rtl",
+
+  "start_url": "/?lang=he&source=pwa",
+  "scope": "/",
+  "id": "/?lang=he&source=pwa",
+
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "categories": ["טיסות", "תעופה", "מפות", "נסיעות", "חופשות"],
+  "prefer_related_applications": false,
+
+  "icons": [
+    {
+      "src": "/static/icons/icon-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/icons/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "בית",
+      "short_name": "בית",
+      "description": "חזרה לעמוד הבית של Fly TLV",
+      "url": "/?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "טיסות",
+      "short_name": "טיסות",
+      "description": "צפה בהמראות ונחיתות בזמן אמת",
+      "url": "/flights?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "אזהרות מסע",
+      "short_name": "אזהרות",
+      "description": "בדוק אזהרות מסע ועדכונים עולמיים",
+      "url": "/travel-warnings?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "מפה",
+      "short_name": "מפה",
+      "description": "חקור את כל היעדים על המפה",
+      "url": "/map?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "סטטיסטיקות",
+      "short_name": "נתונים",
+      "description": "צפה בסטטיסטיקות של טיסות ויעדים",
+      "url": "/stats?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "מילון מונחים",
+      "short_name": "מילון",
+      "description": "הסברים על מונחי תעופה ונסיעות",
+      "url": "/glossary?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "ישיר מול ללא עצירות",
+      "short_name": "ישיר/ללא",
+      "description": "הבין את ההבדל בין טיסות ישירות וללא עצירות",
+      "url": "/direct-vs-nonstop?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "נגישות",
+      "short_name": "נגישות",
+      "description": "מידע על נגישות באתר Fly TLV",
+      "url": "/accessibility?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "מדיניות פרטיות",
+      "short_name": "פרטיות",
+      "description": "קרא את מדיניות הפרטיות שלנו",
+      "url": "/privacy?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "תנאים והגבלות",
+      "short_name": "תנאים",
+      "description": "צפה בתנאי השימוש והאתר",
+      "url": "/terms?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "צור קשר",
+      "short_name": "קשר",
+      "description": "צור קשר עם Fly TLV",
+      "url": "/contact?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "בוט AI",
+      "short_name": "בוט AI",
+      "description": "שוחח עם הבינה המלאכותית של Fly TLV על יעדים",
+      "url": "/chat?lang=he",
+      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
