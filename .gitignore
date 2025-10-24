@@ -86,9 +86,9 @@ data/*.tmp
 # Ignore JSON data cache (but keep schema/config JSON)
 cache/*.json
 data/*.json
-!static/.well-known/*.json     # ✅ KEEP Android/iOS verification files
-!manifest.json                 # ✅ KEEP manifest
-!manifest.he.json              # ✅ KEEP Hebrew manifest
+!manifest.json                  # ✅ KEEP main manifest
+!manifest.he.json               # ✅ KEEP Hebrew manifest
+!static/.well-known/*.json      # ✅ KEEP Android/iOS verification
 
 # Local run script
 run.bat
@@ -97,15 +97,23 @@ run.bat
 # Static folder handling
 # ────────────────
 
-# Keep all important subfolders even if empty
+# Keep all important static subfolders (for deployment)
 !static/
 !static/css/
 !static/js/
 !static/icons/
+!static/Logos/
+!static/og/
 !static/.well-known/
+
+# ✅ PWA & SEO Essentials
+!static/sw.js
+!static/sitemap.xml
+!static/favicon.ico
+!static/favicon.svg
+!static/Fly-TLV_logo.png
 !static/.well-known/assetlinks.json
 !static/.well-known/apple-app-site-association
-!static/sw.js
 
 # ────────────────
 # Misc
