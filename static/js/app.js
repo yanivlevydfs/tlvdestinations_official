@@ -505,6 +505,33 @@ if (window.innerWidth <= 768) {
   }
 }
 
+  (function fixResizeObserverAndDT() {
+    // 1) Silence Chrome's harmless ResizeObserver warning
+    const re = /ResizeObserver loop completed with undelivered notifications/;
+    const origErr = console.error;
+    console.error = (...args) => {
+      if (args[0] && re.test(String(args[0]))) return; // ignore only this warning
+      origErr.apply(console, args);
+    };
 
+    // 2) Safe DataTable adjust helper
+    const adjustDT = () => {
+      if (!window.jQuery || !$.fn.DataTable) return;
+      const $t = $('#airports-table');
+      if (!$t.length) return;
+      const dt = $t.DataTable();
+      dt.columns.adjust().responsive.recalc();
+    };
+
+    // 3) Run after load/layout settle
+    window.addEventListener('load', () => setTimeout(adjustDT, 250));
+
+    // 4) Recalc after major layout changes
+    window.addEventListener('resize', () => requestAnimationFrame(adjustDT));
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') setTimeout(adjustDT, 150);
+    });
+    $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
+  })();
 
 });

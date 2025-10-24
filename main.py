@@ -1787,6 +1787,9 @@ async def manifest(request: Request):
             status_code=404
         )
 
+@app.get("/%23{tail:path}", include_in_schema=False)
+async def fix_encoded_anchor_redirect(tail: str):
+    return RedirectResponse(url="/", status_code=301)
     
 @app.middleware("http")
 async def redirect_and_log_404(request: Request, call_next):
