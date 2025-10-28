@@ -36,40 +36,168 @@
   }}" />
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
 
-  <!-- JSON-LD AccessibilityStatement -->
-  <script type="application/ld+json">
+<script type="application/ld+json">
+[
   {
     "@context": "https://schema.org",
-    "@type": "AccessibilityStatement",
-    "name": {{ '"Accessibility Statement — Fly TLV"' if lang != 'he' else '"הצהרת נגישות — Fly TLV"' }},
-    "url": "https://fly-tlv.com/accessibility",
-    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Fly TLV",
-      "url": "https://fly-tlv.com",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://fly-tlv.com/static/og/flytlv_og.jpg"
+    "@type": "WebSite",
+    "name": "Fly TLV — Worldwide Destinations Explorer",
+    "url": "https://fly-tlv.com/",
+    "inLanguage": "en-US",
+    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — כל היעדים מתל אביב",
+    "url": "https://fly-tlv.com/?lang=he",
+    "inLanguage": "he-IL",
+    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Destinations Board",
+    "url": "https://fly-tlv.com/destinations"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "לוח יעדים",
+    "url": "https://fly-tlv.com/destinations?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "World Map",
+    "url": "https://fly-tlv.com/map"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת יעדים",
+    "url": "https://fly-tlv.com/map?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Travel Warnings",
+    "url": "https://fly-tlv.com/travel-warnings"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "אזהרות מסע",
+    "url": "https://fly-tlv.com/travel-warnings?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Chat",
+    "url": "https://fly-tlv.com/chat"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צ׳אט",
+    "url": "https://fly-tlv.com/chat?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "About",
+    "url": "https://fly-tlv.com/about"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "עלינו",
+    "url": "https://fly-tlv.com/about?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Privacy Policy",
+    "url": "https://fly-tlv.com/privacy"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מדיניות פרטיות",
+    "url": "https://fly-tlv.com/privacy?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Contact",
+    "url": "https://fly-tlv.com/contact"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צור קשר",
+    "url": "https://fly-tlv.com/contact?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Sitemap",
+    "url": "https://fly-tlv.com/sitemap.xml"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת אתר",
+    "url": "https://fly-tlv.com/sitemap.xml"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Fly TLV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fly TLV is a travel insights platform listing all direct flight destinations from Ben Gurion Airport (TLV) with airlines, flight times, and distances."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I book flights through Fly TLV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Fly TLV does not sell tickets but provides verified links to airlines and booking sites."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which airlines fly from Tel Aviv?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Airlines from TLV include El Al, Arkia, Israir, Lufthansa, Emirates, Turkish Airlines, and more."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the destinations updated regularly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Fly TLV updates its data frequently according to official airline schedules."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between direct and nonstop flights?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nonstop flights have no stops between TLV and the destination; direct flights may include short stopovers but stay on the same plane."
+        }
       }
-    },
-    "accessMode": ["textual", "visual", "auditory"],
-    "accessibilitySummary": {{
-      '"This website complies with Israeli Standard 5568 and WCAG 2.1 Level AA. Accessibility features include screen reader support, ARIA labels, keyboard navigation, and bilingual RTL/LTR support."'
-      if lang != 'he' else
-      '"האתר עומד בתקן הישראלי 5568 וב-WCAG 2.1 רמה AA. תכונות נגישות כוללות תמיכה בקוראי מסך, תגיות ARIA, ניווט מקלדת ותמיכה דו-לשונית RTL/LTR."'
-    }},
-    "accessibilityControl": ["fullKeyboardControl", "fullMouseControl"],
-    "accessibilityAPI": ["ARIA"],
-    "conformance": "WCAG 2.1 AA",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "Accessibility",
-      "url": "https://fly-tlv.com/contact",
-      "email": "support@fly-tlv.com"
-    }
+    ]
   }
-  </script>
+]
+</script>
 {% endblock %}
 
 {% block content %}

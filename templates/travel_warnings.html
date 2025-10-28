@@ -2,29 +2,30 @@
 
 {% block title %}אזהרות מסע — Fly TLV{% endblock %}
 {% block head %}
-<!-- Canonical & hreflang for /stats -->
+
 <link rel="canonical" href="https://fly-tlv.com/travel-warnings" />
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/travel-warnings" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/travel-warnings?lang=he" />
 
-  <!-- ✅ Page-specific SEO -->
-  <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
-  <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
+<!-- ✅ Page-specific SEO -->
+<meta name="description" content="Up-to-date travel warnings by country from official government sources. Check threat levels and safety recommendations for travelers from Israel and abroad.">
+<meta name="keywords" content="travel warnings, Israel travel advisory, TLV destinations, safe travel, security alerts, Ministry of Foreign Affairs, Ben Gurion Airport">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
-  <meta property="og:description" content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
-  <meta property="og:url" content="https://fly-tlv.com/travel-warnings">
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
-  <meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+<!-- ✅ Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Travel Warnings — Updated by Country | Fly-TLV">
+<meta property="og:description" content="Explore current travel warnings, threat levels, and recommendations by country — updated from verified government offices.">
+<meta property="og:url" content="https://fly-tlv.com/travel-warnings">
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+<meta property="og:image:alt" content="Global travel risk map and advisories">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
-  <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
-  <meta name="twitter:image:alt" content="TLV airport stats overview">
+<!-- ✅ Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Travel Warnings — Fly TLV">
+<meta name="twitter:description" content="Current travel warnings and risk levels by country, updated frequently from official Israeli and international sources.">
+<meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+<meta name="twitter:image:alt" content="Global travel risk map and advisories">
+
 
   <!-- Structured Data: Dataset -->
 <script type="application/ld+json">
@@ -295,17 +296,17 @@
     <div class="card-body">
 	  <div class="table-responsive">
       <table id="warnings-table" class="table table-striped table-hover w-100 align-middle">
-        <thead class="table-primary">
-          <tr>
-            <th>יבשת</th>
-            <th>מדינה</th>
-            <th>רמת איום</th>
-            <th>המלצות</th>
-            <th>משרד</th>
-            <th>לינק</th>
-            <th>לוגו</th>
-          </tr>
-        </thead>
+<thead class="table-primary">
+  <tr>
+    <th scope="col">{{ 'Continent' if lang != 'he' else 'יבשת' }}</th>
+    <th scope="col">{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
+    <th scope="col">{{ 'Threat Level' if lang != 'he' else 'רמת איום' }}</th>
+    <th scope="col">{{ 'Recommendations' if lang != 'he' else 'המלצות' }}</th>
+    <th scope="col">{{ 'Office' if lang != 'he' else 'משרד' }}</th>
+    <th scope="col">{{ 'Link' if lang != 'he' else 'לינק' }}</th>
+    <th scope="col">{{ 'Logo' if lang != 'he' else 'לוגו' }}</th>
+  </tr>
+</thead>
         <tbody>
           {% for w in warnings %}
           {% set level_value = (
@@ -443,7 +444,6 @@ body.dark-mode .buttons-colvis:hover {
 
   .section-title {
     font-size: 1.5rem;
-  }
 }
 
 .badge {
@@ -631,7 +631,7 @@ body.dark-mode input::placeholder {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const isMobile = window.innerWidth <= 768;
-
+  const currentLang = "{{ lang }}";
   const table = $('#warnings-table').DataTable({
     pageLength: 25,
     responsive: true,
