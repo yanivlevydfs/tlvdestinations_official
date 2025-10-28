@@ -22,3 +22,5 @@ asyncio
 aiohttp
 pycountry
 geopy
+packaging>=24.0
+
