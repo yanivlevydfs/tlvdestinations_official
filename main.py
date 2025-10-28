@@ -1788,8 +1788,9 @@ async def manifest(request: Request):
         )
 
 @app.get("/%23{tail:path}", include_in_schema=False)
-async def fix_encoded_anchor_redirect(tail: str):
-    return RedirectResponse(url="/", status_code=301)
+async def fix_encoded_anchor_redirect(tail: str, request: Request):
+    base_url = str(request.url).split("/%23")[0]
+    return RedirectResponse(url=base_url, status_code=301)
     
 @app.middleware("http")
 async def redirect_and_log_404(request: Request, call_next):
@@ -1821,8 +1822,9 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # ✅ 3. Handle malformed encoded fragments (e.g. /%23c)
     if path.startswith("/%23"):
-        print(f"🧹 Cleaning malformed anchor → redirecting {path} → /")
-        return RedirectResponse(url="/", status_code=301)
+        clean_base = str(request.url).split("/%23")[0]
+        print(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
+        return RedirectResponse(url=clean_base, status_code=301)
 
     # ✅ 4. Optional trailing slash normalization (SEO friendly)
     if (
