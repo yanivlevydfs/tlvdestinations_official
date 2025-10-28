@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block head %}
-<!-- Canonical & hreflang for /stats -->
 <link rel="canonical" href="https://fly-tlv.com/flights" />
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/flights" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/flights?lang=he" />
@@ -192,7 +191,7 @@
 
 {% endblock %}
 {% block content %}
-<div class="container-fluid mt-5 text-center">
+<div class="container-fluid mt-5 text-center" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <h2 class="mb-2">
     <i class="bi bi-airplane-engines me-2"></i>
     {{ 'Ben Gurion Airport Flight Schedule' if lang != 'he' else 'לוח טיסות — נמל תעופה בן גוריון' }}
@@ -219,15 +218,15 @@
     <table id="flightsTable" class="display table table-bordered table-hover">
       <thead class="table-primary">
         <tr>
-          <th>{{ 'Airline' if lang != 'he' else 'חברת תעופה' }}</th>
-          <th>IATA</th>
-          <th>{{ 'Airport' if lang != 'he' else 'שדה תעופה' }}</th>
-          <th>{{ 'City' if lang != 'he' else 'עיר' }}</th>
-          <th>{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
-          <th>{{ 'Scheduled' if lang != 'he' else 'מתוכננת' }}</th>
-          <th>{{ 'Actual' if lang != 'he' else 'שעת נחיתה/המראה' }}</th>
-          <th>{{ 'Direction' if lang != 'he' else 'כיוון' }}</th>
-          <th>{{ 'Status' if lang != 'he' else 'סטטוס' }}</th>
+          <th scope="col">{{ 'Airline' if lang != 'he' else 'חברת תעופה' }}</th>
+          <th scope="col">IATA</th>
+          <th scope="col">{{ 'Airport' if lang != 'he' else 'שדה תעופה' }}</th>
+          <th scope="col">{{ 'City' if lang != 'he' else 'עיר' }}</th>
+          <th scope="col">{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
+          <th scope="col">{{ 'Scheduled' if lang != 'he' else 'מתוכננת' }}</th>
+          <th scope="col">{{ 'Actual' if lang != 'he' else 'שעת נחיתה/המראה' }}</th>
+          <th scope="col">{{ 'Direction' if lang != 'he' else 'כיוון' }}</th>
+          <th scope="col">{{ 'Status' if lang != 'he' else 'סטטוס' }}</th>
         </tr>
       </thead>
       <tbody>
@@ -647,30 +646,33 @@ body.dark-mode select option {
 </style>
 
 
-
 <script>
   $(document).ready(function () {
     const lang = "{{ lang }}";
 
-    const dtButtons = lang === "he" ? [
-      { extend: 'copyHtml5', text: '<i class="bi bi-clipboard me-1"></i> העתק' },
-      { extend: 'csvHtml5',  text: '<i class="bi bi-filetype-csv me-1"></i> CSV' },
-      { extend: 'excelHtml5', text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel' },
-    ] : [
-      { extend: 'copyHtml5', text: '<i class="bi bi-clipboard me-1"></i> Copy' },
-      { extend: 'csvHtml5',  text: '<i class="bi bi-filetype-csv me-1"></i> CSV' },
-      { extend: 'excelHtml5', text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel' },      
-    ];
+    const dtButtons = lang === "he"
+      ? [
+          { extend: 'copyHtml5', text: '<i class="bi bi-clipboard me-1"></i> העתק' },
+          { extend: 'csvHtml5', text: '<i class="bi bi-filetype-csv me-1"></i> CSV' },
+          { extend: 'excelHtml5', text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel' },
+        ]
+      : [
+          { extend: 'copyHtml5', text: '<i class="bi bi-clipboard me-1"></i> Copy' },
+          { extend: 'csvHtml5', text: '<i class="bi bi-filetype-csv me-1"></i> CSV' },
+          { extend: 'excelHtml5', text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel' },
+        ];
 
     const table = $('#flightsTable').DataTable({
-	dom: "<'row mb-3 align-items-center'<'col-12 col-md-auto dt-buttons'B><'col-12 col-md dt-filters'><'col-12 col-md-auto'f>>" +
-		 "<'row'<'col-12'tr>>" +
-		 "<'row mt-2'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
+      dom:
+        "<'row mb-3 align-items-center'<'col-12 col-md-auto dt-buttons'B><'col-12 col-md dt-filters'><'col-12 col-md-auto'f>>" +
+        "<'row'<'col-12'tr>>" +
+        "<'row mt-2'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
       buttons: dtButtons,
       pageLength: 25,
       responsive: true,
       order: [[5, 'asc']],
-	  pagingType: "simple",
+      pagingType: "simple",
+	  
       language: {
         url: lang === "he" ? "/static/js/lang.js" : "",
         infoFiltered: ""
@@ -682,195 +684,172 @@ body.dark-mode select option {
         { targets: 7, width: "120px", className: "text-center" }, // Direction
         { targets: 8, width: "150px", className: "text-center" }  // Status
       ],
-		initComplete: function () {
-		  // ✅ Style the "last update" text
-		  const info = document.querySelector('#flightsTable_info');
-		  if (info) {
-			info.classList.add('last-update-badge');
-		  }
 
-		  // ✅ Enhance search input styling and layout
-		  const $search = $('#flightsTable_filter');
-		  const $input = $search.find('input');
-		  const $label = $search.find('label');
+      initComplete: function () {
+        // ✅ Style the "last update" text
+        const info = document.querySelector('#flightsTable_info');
+        if (info) info.classList.add('last-update-badge');
 
-		// Add Bootstrap styles to input
-		$input
-		  .attr('id', 'flights-search')
-		  .attr('name', 'flights-search')
-		  .attr('placeholder', '{{ "Search…" if lang != "he" else "חיפוש…" }}')
-		  .addClass('form-control form-control-sm');
+        // ✅ Enhance search input styling
+        const $search = $('#flightsTable_filter');
+        const $input = $search.find('input');
+        const $label = $search.find('label');
 
-		// Style the label (wraps input)
-		$label
-		  .addClass('mb-0 d-flex align-items-center gap-2');
+        $input
+          .attr('id', 'flights-search')
+          .attr('name', 'flights-search')
+          .attr('placeholder', '{{ "Search…" if lang != "he" else "חיפוש…" }}')
+          .addClass('form-control form-control-sm');
 
-		// Style the whole search container
-		$search
-		  .addClass('mb-0 d-flex justify-content-center justify-content-md-end w-100');
+        $label.addClass('mb-0 d-flex align-items-center gap-2');
+        $search.addClass('mb-0 d-flex justify-content-center justify-content-md-end w-100');
 
-		// Append search bar into toolbar
-		//$('.dt-filters .d-flex').append($search);
-		
-		
+        // ✅ Append filter section
+        $('.dt-filters').append(`
+          <!-- Desktop layout -->
+          <div class="d-none d-md-flex gap-3 flex-wrap align-items-center">
+            <div class="d-flex align-items-center">
+              <label for="direction-filter" class="me-2">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
+              <select id="direction-filter" class="form-select form-select-sm">
+                <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
+                <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
+              </select>
+            </div>
+            <div class="d-flex align-items-center">
+              <label for="status-filter" class="me-2">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
+              <select id="status-filter" class="form-select form-select-sm">
+                <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
+                <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
+                <option value="Cancelled">{{ 'Cancelled' if lang != 'he' else 'בוטלה' }}</option>
+                <option value="Not Final">{{ 'Not Final' if lang != 'he' else 'לא סופי' }}</option>
+              </select>
+            </div>
+            <div class="d-flex align-items-center">
+              <label for="country-filter" class="me-2">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
+              <select id="country-filter" class="form-select form-select-sm">
+                <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="d-flex align-items-center">
+              <label for="actual-date-filter" class="me-2">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
+              <select id="actual-date-filter" class="form-select form-select-sm">
+                <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                {% for value, label in actual_dates %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="d-flex align-items-center">
+              <label for="actual-time-filter" class="me-2">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
+              <select id="actual-time-filter" class="form-select form-select-sm">
+                <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                {% for t in actual_times %}
+                <option value="{{ t }}">{{ t }}</option>
+                {% endfor %}
+              </select>
+            </div> 
+          </div>
 
-$('.dt-filters').append(`
-  <!-- Desktop layout -->
-  <div class="d-none d-md-flex gap-3 flex-wrap align-items-center">
-    <div class="d-flex align-items-center">
-      <label for="direction-filter" class="me-2">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
-      <select id="direction-filter" class="form-select form-select-sm" aria-label="{{ 'Direction filter' if lang != 'he' else 'מסנן כיוון' }}">
-        <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-        <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
-        <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
-      </select>
-    </div>
-    <div class="d-flex align-items-center">
-      <label for="status-filter" class="me-2">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
-      <select id="status-filter" class="form-select form-select-sm" aria-label="{{ 'Status filter' if lang != 'he' else 'מסנן סטטוס' }}">
-        <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-        <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
-        <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
-        <option value="Cancelled">{{ 'Cancelled' if lang != 'he' else 'בוטלה' }}</option>
-        <option value="Not Final">{{ 'Not Final' if lang != 'he' else 'לא סופי' }}</option>
-      </select>
-    </div>
-    <div class="d-flex align-items-center">
-      <label for="country-filter" class="me-2">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
-      <select id="country-filter" class="form-select form-select-sm" aria-label="{{ 'Country filter' if lang != 'he' else 'מסנן מדינה' }}">
-        <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-        {% for country in countries %}
-        <option value="{{ country }}">{{ country }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="d-flex align-items-center">
-      <label for="actual-date-filter" class="me-2">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
-      <select id="actual-date-filter" class="form-select form-select-sm" aria-label="{{ 'Actual date filter' if lang != 'he' else 'מסנן תאריך בפועל' }}">
-        <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-        {% for value, label in actual_dates %}
-        <option value="{{ value }}">{{ label }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="d-flex align-items-center">
-      <label for="actual-time-filter" class="me-2">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
-      <select id="actual-time-filter" class="form-select form-select-sm" aria-label="{{ 'Actual time filter' if lang != 'he' else 'מסנן שעת בפועל' }}">
-        <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-        {% for t in actual_times %}
-        <option value="{{ t }}">{{ t }}</option>
-        {% endfor %}
-      </select>
-    </div> 
-  </div>
+          <!-- Mobile layout -->
+          <div class="d-md-none">
+            <div class="card mt-3">
+              <div class="card-body d-flex flex-column gap-3">
+                <div>
+                  <label for="flights-search-mobile" class="form-label mb-1 d-block">{{ 'Search' if lang != 'he' else 'חיפוש' }}</label>
+                  <input type="search" id="flights-search-mobile" class="form-control form-control-sm w-100"
+                         placeholder="{{ 'Search…' if lang != 'he' else 'חיפוש…' }}">
+                </div>
+                <div>
+                  <label for="direction-filter-mobile" class="form-label">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
+                  <select id="direction-filter-mobile" class="form-select form-select-sm w-100">
+                    <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                    <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
+                    <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="status-filter-mobile" class="form-label">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
+                  <select id="status-filter-mobile" class="form-select form-select-sm w-100">
+                    <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                    <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
+                    <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
+                    <option value="Cancelled">{{ 'Cancelled' if lang != 'he' else 'בוטלה' }}</option>
+                    <option value="Not Final">{{ 'Not Final' if lang != 'he' else 'לא סופי' }}</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="country-filter-mobile" class="form-label">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
+                  <select id="country-filter-mobile" class="form-select form-select-sm w-100">
+                    <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                    {% for country in countries %}
+                    <option value="{{ country }}">{{ country }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div>
+                  <label for="actual-date-filter-mobile" class="form-label">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
+                  <select id="actual-date-filter-mobile" class="form-select form-select-sm w-100">
+                    <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                    {% for value, label in actual_dates %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div>
+                  <label for="actual-time-filter-mobile" class="form-label">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
+                  <select id="actual-time-filter-mobile" class="form-select form-select-sm w-100">
+                    <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+                    {% for t in actual_times %}
+                    <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        `);
 
-  <!-- Mobile layout -->
-  <div class="d-md-none">
-    <div class="card mt-3">
-      <div class="card-body d-flex flex-column gap-3">
+        // ✅ Place desktop search correctly
+        $('.dt-filters .d-flex').first().append($search);
 
-        <div>
-          <label for="direction-filter-mobile" class="form-label">{{ 'Direction' if lang != 'he' else 'כיוון' }}</label>
-          <select id="direction-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Direction filter' if lang != 'he' else 'מסנן כיוון' }}">
-            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-            <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
-            <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
-          </select>
-        </div>
+        // ✅ Event listeners (now within scope)
+        $('#direction-filter, #direction-filter-mobile').on('change', function () {
+          table.column(7).search(this.value).draw();
+        });
 
-        <div>
-          <label for="status-filter-mobile" class="form-label">{{ 'Status' if lang != 'he' else 'סטטוס' }}</label>
-          <select id="status-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Status filter' if lang != 'he' else 'מסנן סטטוס' }}">
-            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-            <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
-            <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
-            <option value="Cancelled">{{ 'Cancelled' if lang != 'he' else 'בוטלה' }}</option>
-            <option value="Not Final">{{ 'Not Final' if lang != 'he' else 'לא סופי' }}</option>
-          </select>
-        </div>
+        $('#status-filter, #status-filter-mobile').on('change', function () {
+          table.column(8).search(this.value).draw();
+        });
 
-        <div>
-          <label for="country-filter-mobile" class="form-label">{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
-          <select id="country-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Country filter' if lang != 'he' else 'מסנן מדינה' }}">
-            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-            {% for country in countries %}
-            <option value="{{ country }}">{{ country }}</option>
-            {% endfor %}
-          </select>
-        </div>
+        $('#country-filter, #country-filter-mobile').on('change', function () {
+          table.column(4).search(this.value).draw();  
+        });
 
-        <div>
-          <label for="actual-date-filter-mobile" class="form-label">{{ 'Actual Date' if lang != 'he' else 'תאריך בפועל' }}</label>
-          <select id="actual-date-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Actual date filter' if lang != 'he' else 'מסנן תאריך בפועל' }}">
-            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-            {% for value, label in actual_dates %}
-            <option value="{{ value }}">{{ label }}</option>
-            {% endfor %}
-          </select>
-        </div>
+        $(document).on('input', '#flights-search-mobile', function () {
+          table.search(this.value).draw();
+        });
 
-        <div>
-          <label for="actual-time-filter-mobile" class="form-label">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
-          <select id="actual-time-filter-mobile" class="form-select form-select-sm w-100" aria-label="{{ 'Actual time filter' if lang != 'he' else 'מסנן שעת בפועל' }}">
-            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
-            {% for t in actual_times %}
-            <option value="{{ t }}">{{ t }}</option>
-            {% endfor %}
-          </select>
-        </div>
+        $('#actual-date-filter, #actual-date-filter-mobile, #actual-time-filter, #actual-time-filter-mobile')
+          .on('change', function () {
+            const selDate = $('#actual-date-filter').val() || $('#actual-date-filter-mobile').val();
+            const selTime = $('#actual-time-filter').val() || $('#actual-time-filter-mobile').val();
 
-      </div>
-    </div>
-  </div>
-`);
+            let regex = '';
+            if (selDate && selTime) regex = `^${selDate}T${selTime}`;
+            else if (selDate) regex = `^${selDate}`;
+            else if (selTime) regex = `${selTime}$`;
 
-
-      // ✅ Append search AFTER filters exist
-      $('.dt-filters .d-flex').first().append($search);
-	    const $mobileCard = $('.dt-filters .card-body');
-  if ($mobileCard.length) {
-$mobileCard.prepend(`
-  <div>
-    <label for="flights-search-mobile" class="form-label mb-1 d-block">{{ 'Search' if lang != 'he' else 'חיפוש' }}</label>
-    <input type="search" id="flights-search-mobile" name="flights-search-mobile"
-           class="form-control form-control-sm w-100"
-           placeholder="{{ 'Search…' if lang != 'he' else 'חיפוש…' }}">
-  </div>
-`);
-  }
-}
-});
-
-$('#direction-filter, #direction-filter-mobile').on('change', function () {
-  table.column(7).search(this.value).draw();
-});
-
-$('#status-filter, #status-filter-mobile').on('change', function () {
-  table.column(8).search(this.value).draw();
-});
-
-$('#country-filter, #country-filter-mobile').on('change', function () {
-  table.column(4).search(this.value).draw();  
-});
-$(document).on('input', '#flights-search-mobile', function () {
-  table.search(this.value).draw();
-});
-$('#actual-date-filter, #actual-date-filter-mobile, #actual-time-filter, #actual-time-filter-mobile').on('change', function () {
-  const selDate = $('#actual-date-filter').val() || $('#actual-date-filter-mobile').val();
-  const selTime = $('#actual-time-filter').val() || $('#actual-time-filter-mobile').val();
-
-  let regex = '';
-  if (selDate && selTime) {
-    regex = `^${selDate}T${selTime}`;
-  } else if (selDate) {
-    regex = `^${selDate}`;
-  } else if (selTime) {
-    regex = `${selTime}$`;
-  }
-
-  table.column(6).search(regex, true, false).draw();
-});
-  });
+            table.column(6).search(regex, true, false).draw();
+          });
+      } // end of initComplete
+    }); // end of DataTable
+  }); // end of document.ready
 </script>
+
 
 {% endblock %}
