@@ -305,6 +305,18 @@
 			<span class="badge bg-danger">{{ 'Cancelled' if lang != 'he' else 'בוטלה' }}</span>
 		  {% elif "not final" in s %}
 			<span class="badge bg-secondary text-white">{{ 'Not Final' if lang != 'he' else 'לא סופי' }}</span>
+		  {% elif "landed" in s %}
+			<span class="badge bg-info text-dark">{{ 'Landed' if lang != 'he' else 'נחתה' }}</span>
+		  {% elif "departed" in s %}
+			<span class="badge bg-info text-dark">{{ 'Departed' if lang != 'he' else 'המראה' }}</span>
+		  {% elif "boarding" in s %}
+			<span class="badge bg-primary text-white">{{ 'Boarding' if lang != 'he' else 'עלייה למטוס' }}</span>
+		  {% elif "gate closed" in s %}
+			<span class="badge bg-secondary text-white">{{ 'Gate Closed' if lang != 'he' else 'שער נסגר' }}</span>
+		  {% elif "scheduled" in s %}
+			<span class="badge bg-light text-dark">{{ 'Scheduled' if lang != 'he' else 'מתוכננת' }}</span>
+		  {% elif "unknown" in s %}
+			<span class="badge bg-dark text-white">{{ 'Unknown' if lang != 'he' else 'לא ידוע' }}</span>
 		  {% else %}
 			<span class="badge bg-info text-dark">{{ flight.status }}</span>
 		  {% endif %}
@@ -817,15 +829,36 @@ body.dark-mode select option {
         // ✅ Place desktop search correctly
         $('.dt-filters .d-flex').first().append($search);
 
-        // ✅ Event listeners (now within scope)
-        $('#direction-filter, #direction-filter-mobile').on('change', function () {
-          table.column(7).search(this.value).draw();
-        });
+		const directionTranslations = {
+		  "Departure": "המראה",
+		  "Arrival": "נחיתה"
+		};
 
-        $('#status-filter, #status-filter-mobile').on('change', function () {
-          table.column(8).search(this.value).draw();
-        });
+		$('#direction-filter, #direction-filter-mobile').on('change', function () {
+		  let selected = this.value;
 
+		  if (lang === "he" && selected) {
+			selected = directionTranslations[selected] || selected;
+		  }
+
+		  table.column(7).search(selected).draw();
+		});
+
+
+		const statusTranslations = {
+		  "On Time": "בזמן",
+		  "Delayed": "בעיכוב",
+		  "Cancelled": "בוטלה",
+		  "Not Final": "לא סופי"
+		};
+
+		$('#status-filter, #status-filter-mobile').on('change', function () {
+		  let selected = this.value;
+		  if (lang === "he" && selected) {
+			selected = statusTranslations[selected] || selected;
+		  }
+		  table.column(8).search(selected).draw();
+		});
         $('#country-filter, #country-filter-mobile').on('change', function () {
           table.column(4).search(this.value).draw();  
         });
