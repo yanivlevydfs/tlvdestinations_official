@@ -1235,30 +1235,33 @@ def sitemap():
 
     return Response(content=xml, media_type="application/xml")
 
-
-
 def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
-    n = max(1, min(n, 50))  # Sanity cap
+    n = max(1, min(n, 50))  # Limit n between 1 and 50
 
     cities = set()
     countries = set()
     airlines = set()
 
     for dest in destinations:
-        city = dest.get("City") or dest.get("city")
-        country = dest.get("Country") or dest.get("country")
-        airline_list = dest.get("Airlines") or dest.get("airlines") or []
+        city = dest.get("city") or dest.get("City")
+        country = dest.get("country") or dest.get("Country")
+        airline_data = dest.get("airline") or dest.get("Airlines") or []
 
-        if isinstance(airline_list, str):
-            airline_list = [a.strip() for a in airline_list.split(",")]
+        # Convert airline string to list if needed
+        if isinstance(airline_data, str):
+            airline_data = [a.strip() for a in airline_data.split(",")]
+        elif isinstance(airline_data, list):
+            airline_data = [str(a).strip() for a in airline_data]
+        else:
+            airline_data = []
 
         if city and country:
             cities.add((city.strip(), country.strip()))
         if country:
             countries.add(country.strip())
-        for airline in airline_list:
+        for airline in airline_data:
             if airline:
-                airlines.add(airline.strip())
+                airlines.add(airline)
 
     cities = list(cities)
     countries = list(countries)
@@ -1266,7 +1269,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
 
     questions = []
 
-    # ENGLISH
+    # ENGLISH Questions
     for country in random.sample(countries, min(5, len(countries))):
         questions.append(f"What cities in {country} can I fly to?")
         questions.append(f"Which airlines fly to {country}?")
@@ -1279,7 +1282,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
         questions.append(f"Where does {airline} fly?")
         questions.append(f"What destinations are served by {airline}?")
 
-    # HEBREW
+    # HEBREW Questions
     for country in random.sample(countries, min(4, len(countries))):
         questions.append(f"אילו ערים יש טיסות ל-{country}?")
         questions.append(f"אילו חברות טסות ל-{country}?")
@@ -1297,27 +1300,10 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
 
 
 
-
-
-@app.post("/api/chat", response_class=JSONResponse)
-async def chat_flight_ai(
-
-    query: ChatQuery = Body(...),
-    max_rows: int = Query(default=150, le=300),
-    lang: str = Query(default="en")
-):
-    global DATASET_DF_FLIGHTS
-    question = query.question.strip()
-    if not question:
-        raise HTTPException(status_code=400, detail="Question is empty.")
-
-    if DATASET_DF_FLIGHTS.empty:
-        raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
-
-    DATASET_DF_AI = DATASET_DF_FLIGHTS.copy()
-
-    context_rows = []
-    for row in DATASET_DF_AI.to_dict(orient="records")[:max_rows]:
+def build_flight_context(df, max_rows: int) -> str:
+    """Build the structured context for the AI prompt."""
+    rows = []
+    for row in df.to_dict(orient="records")[:max_rows]:
         iata = str(row.get("iata", "—")).strip()
         city = str(row.get("city", "—")).strip()
         country = str(row.get("country", "—")).strip()
@@ -1325,13 +1311,38 @@ async def chat_flight_ai(
         
         if isinstance(airlines, str):
             airlines = [a.strip() for a in airlines.split(",")]
+        elif isinstance(airlines, list):
+            airlines = [str(a).strip() for a in airlines]
+        else:
+            airlines = []
 
         airlines = [a for a in airlines if a]
         airlines_str = ", ".join(sorted(set(airlines))) or "—"
-        context_rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
 
-    context = "\n".join(context_rows)
+        rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
+    
+    return "\n".join(rows)
 
+
+@app.post("/api/chat", response_class=JSONResponse)
+async def chat_flight_ai(
+    query: ChatQuery = Body(...),
+    max_rows: int = Query(default=150, le=300),
+    lang: str = Query(default="en")
+):
+    global DATASET_DF_FLIGHTS
+
+    question = query.question.strip()
+    if not question:
+        raise HTTPException(status_code=400, detail="Question is empty.")
+
+    if DATASET_DF_FLIGHTS.empty:
+        raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
+
+    # Build structured context
+    context = build_flight_context(DATASET_DF_FLIGHTS, max_rows)
+
+    # Construct the AI prompt
     prompt = f"""
 You are an aviation expert helping users explore destinations from Ben Gurion Airport (TLV).
 
@@ -1373,17 +1384,33 @@ Now, based on the data above, answer this user question:
   - Jetblue Airways Corporation  
   - Virgin Atlantic Airways  
 ---
+
+✏️ FORMAT EXAMPLES — COPY EXACTLY:
+
+**✈️ Flights to France**
+- Paris (CDG, France)  
+  - Air France  
+  - El Al Israel Airlines  
+
+❌ DO NOT:
+- Use inline lists (e.g., "Air France, El Al")
+- Use hyphens or slashes instead of bullets
+- Use tables or paragraphs
 """
-
-
-
+    
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
+
     try:
         result = await chat_model.generate_content_async(prompt)
-        answer = getattr(result, "text", None) or "Currently i have no answer"
+        answer = getattr(result, "text", None) or "Currently I have no answer"
     except Exception as e:
         logger.error("Gemini API error: %s", str(e))
         raise HTTPException(status_code=500, detail="Gemini API error")
+
+    # Fallback if AI returns invalid format
+    if not answer.strip().startswith("**✈️"):
+        logger.warning("AI response did not start with expected heading")
+        answer = "`I couldn't find it in the data.`"
 
     field_names = [
         "airline", "iata", "airport", "city", "country",
@@ -1400,6 +1427,7 @@ Now, based on the data above, answer this user question:
     suggestions = random.sample(suggestions, k=3)
 
     return {"answer": answer, "suggestions": suggestions}
+
 
         
         
@@ -1420,12 +1448,12 @@ async def chat_suggestions(n: int = Query(default=10, le=20)):
     """
     Return up to `n` suggested chat questions (in English and Hebrew).
     """
-    global DATASET_DF
+    global DATASET_DF_FLIGHTS
 
-    if DATASET_DF.empty:
+    if DATASET_DF_FLIGHTS.empty:
         raise HTTPException(status_code=503, detail="Destination data not loaded.")
 
-    destinations = DATASET_DF.to_dict(orient="records")
+    destinations = DATASET_DF_FLIGHTS.to_dict(orient="records")
     
     try:
         suggestions = generate_questions_from_data(destinations, n)
