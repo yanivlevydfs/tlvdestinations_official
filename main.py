@@ -1305,15 +1305,20 @@ async def chat_flight_ai(
     if DATASET_DF_FLIGHTS.empty:
         raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
 
-    DATASET_DF_AI = DATASET_DF_FLIGHTS.copy()
-
     context_rows = []
     for row in DATASET_DF_AI.to_dict(orient="records")[:max_rows]:
-        iata = row.get("IATA", "—")
-        city = row.get("City", "—")
-        country = row.get("Country", "—")
-        airlines = ", ".join(sorted(set(row.get("Airlines", [])))) or "—"
-        context_rows.append(f"{iata}, {city}, {country}, Airlines: {airlines}")
+        iata = row.get("iata", "—")
+        city = row.get("city", "—")
+        country = row.get("country", "—")
+        airlines = row.get("airline", [])
+        
+        # Ensure airlines is a list
+        if isinstance(airlines, str):
+            airlines = [airlines]
+        
+        airlines_str = ", ".join(sorted(set(airlines))) or "—"
+        context_rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
+
     context = "\n".join(context_rows)
 
     prompt = f"""
