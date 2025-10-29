@@ -1236,32 +1236,27 @@ def sitemap():
     return Response(content=xml, media_type="application/xml")
 
 def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
-    n = max(1, min(n, 50))  # Limit n between 1 and 50
+    n = max(1, min(n, 50))  # Sanity cap
 
     cities = set()
     countries = set()
     airlines = set()
 
     for dest in destinations:
-        city = dest.get("city") or dest.get("City")
-        country = dest.get("country") or dest.get("Country")
-        airline_data = dest.get("airline") or dest.get("Airlines") or []
+        city = dest.get("City") or dest.get("city")
+        country = dest.get("Country") or dest.get("country")
+        airline_list = dest.get("Airlines") or dest.get("airlines") or []
 
-        # Convert airline string to list if needed
-        if isinstance(airline_data, str):
-            airline_data = [a.strip() for a in airline_data.split(",")]
-        elif isinstance(airline_data, list):
-            airline_data = [str(a).strip() for a in airline_data]
-        else:
-            airline_data = []
+        if isinstance(airline_list, str):
+            airline_list = [a.strip() for a in airline_list.split(",")]
 
         if city and country:
             cities.add((city.strip(), country.strip()))
         if country:
             countries.add(country.strip())
-        for airline in airline_data:
+        for airline in airline_list:
             if airline:
-                airlines.add(airline)
+                airlines.add(airline.strip())
 
     cities = list(cities)
     countries = list(countries)
@@ -1269,7 +1264,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
 
     questions = []
 
-    # ENGLISH Questions
+    # ENGLISH
     for country in random.sample(countries, min(5, len(countries))):
         questions.append(f"What cities in {country} can I fly to?")
         questions.append(f"Which airlines fly to {country}?")
@@ -1282,7 +1277,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
         questions.append(f"Where does {airline} fly?")
         questions.append(f"What destinations are served by {airline}?")
 
-    # HEBREW Questions
+    # HEBREW
     for country in random.sample(countries, min(4, len(countries))):
         questions.append(f"אילו ערים יש טיסות ל-{country}?")
         questions.append(f"אילו חברות טסות ל-{country}?")
@@ -1298,18 +1293,19 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     random.shuffle(questions)
     return questions[:n]
 
+
 def build_flight_context(df, max_rows: int = 150) -> str:
-    """Aggregate airlines per destination and build clean context for AI."""
+    """Group airlines by destination (iata, city, country)."""
+
     grouped = defaultdict(set)
 
-    # Aggregate airlines by (iata, city, country)
     for row in df.to_dict(orient="records")[:max_rows]:
         iata = str(row.get("iata", "—")).strip()
         city = str(row.get("city", "—")).strip()
         country = str(row.get("country", "—")).strip()
         airlines = row.get("airline", [])
 
-        # Normalize airline data
+        # Normalize airline formats
         if isinstance(airlines, str):
             airlines = [a.strip() for a in airlines.split(",")]
         elif isinstance(airlines, list):
@@ -1317,21 +1313,19 @@ def build_flight_context(df, max_rows: int = 150) -> str:
         else:
             airlines = []
 
-        # Add to grouped set
         key = (iata, city, country)
+
         for airline in airlines:
             if airline:
                 grouped[key].add(airline)
 
-    # Build structured context text
+    # Build the final context
     rows = []
     for (iata, city, country), airline_set in sorted(grouped.items()):
         airlines_str = ", ".join(sorted(airline_set)) if airline_set else "—"
         rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
 
     return "\n".join(rows)
-
-
 
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
@@ -1405,6 +1399,15 @@ Now, based on the data above, answer this user question:
 - Use inline lists (e.g., "Air France, El Al")
 - Use hyphens or slashes instead of bullets
 - Use tables or paragraphs
+
+📌 FORMAT RULES (MANDATORY — DO NOT DEVIATE):
+
+- Start with a heading like: **✈️ Flights to [Country]**
+- Use "- City (IATA, Country)" format
+- Under each city, list each airline with: "  - Airline Name"
+- Do not use paragraphs, prose, or summaries.
+- If no flights are found, respond ONLY with: `I couldn't find it in the data.`
+- DO NOT say "Sure!" or add explanations.
 """
     
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
@@ -1436,7 +1439,6 @@ Now, based on the data above, answer this user question:
     suggestions = random.sample(suggestions, k=3)
 
     return {"answer": answer, "suggestions": suggestions}
-
 
 @app.get("/chat", response_class=HTMLResponse)
 async def chat_page(request: Request, lang: str = Depends(get_lang)):
