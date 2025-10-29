@@ -1420,9 +1420,9 @@ Now, based on the data above, answer this user question:
         raise HTTPException(status_code=500, detail="Gemini API error")
 
     # Fallback if AI returns invalid format
-    if not answer.strip().startswith("**✈️"):
-        logger.warning("AI response did not start with expected heading")
-        answer = "I couldn't find it in our current destination catalog, please check the main table."
+#    if not answer.strip().startswith("**✈️"):
+#        logger.warning("AI response did not start with expected heading")
+#        answer = "I couldn't find it in our current destination catalog, please check the main table."
 
     field_names = [
         "airline", "iata", "airport", "city", "country",
