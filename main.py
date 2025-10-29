@@ -1238,6 +1238,8 @@ def sitemap():
 
 
 def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
+    n = max(1, min(n, 50))  # Sanity cap
+
     cities = set()
     countries = set()
     airlines = set()
@@ -1245,7 +1247,10 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     for dest in destinations:
         city = dest.get("City") or dest.get("city")
         country = dest.get("Country") or dest.get("country")
-        airline_list = dest.get("Airlines") or dest.get("airlines", [])
+        airline_list = dest.get("Airlines") or dest.get("airlines") or []
+
+        if isinstance(airline_list, str):
+            airline_list = [a.strip() for a in airline_list.split(",")]
 
         if city and country:
             cities.add((city.strip(), country.strip()))
@@ -1261,24 +1266,28 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
 
     questions = []
 
-    # Build ENGLISH questions
+    # ENGLISH
     for country in random.sample(countries, min(5, len(countries))):
         questions.append(f"What cities in {country} can I fly to?")
         questions.append(f"Which airlines fly to {country}?")
+
     for city, country in random.sample(cities, min(5, len(cities))):
         questions.append(f"Which airlines fly to {city}?")
         questions.append(f"What country is {city} located in?")
+
     for airline in random.sample(airlines, min(5, len(airlines))):
         questions.append(f"Where does {airline} fly?")
         questions.append(f"What destinations are served by {airline}?")
 
-    # Build HEBREW questions
+    # HEBREW
     for country in random.sample(countries, min(4, len(countries))):
         questions.append(f"אילו ערים יש טיסות ל-{country}?")
         questions.append(f"אילו חברות טסות ל-{country}?")
+
     for city, country in random.sample(cities, min(4, len(cities))):
         questions.append(f"אילו חברות טסות ל-{city}?")
         questions.append(f"באיזו מדינה נמצאת {city}?")
+
     for airline in random.sample(airlines, min(4, len(airlines))):
         questions.append(f"לאן טסה חברת {airline}?")
         questions.append(f"אילו ערים משרתת חברת {airline}?")
@@ -1309,15 +1318,15 @@ async def chat_flight_ai(
 
     context_rows = []
     for row in DATASET_DF_AI.to_dict(orient="records")[:max_rows]:
-        iata = row.get("iata", "—")
-        city = row.get("city", "—")
-        country = row.get("country", "—")
+        iata = str(row.get("iata", "—")).strip()
+        city = str(row.get("city", "—")).strip()
+        country = str(row.get("country", "—")).strip()
         airlines = row.get("airline", [])
         
-        # Ensure airlines is a list
         if isinstance(airlines, str):
-            airlines = [airlines]
-        
+            airlines = [a.strip() for a in airlines.split(",")]
+
+        airlines = [a for a in airlines if a]
         airlines_str = ", ".join(sorted(set(airlines))) or "—"
         context_rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
 
@@ -1408,14 +1417,28 @@ async def chat_page(request: Request, lang: str = Depends(get_lang)):
     
 @app.get("/api/chat/suggestions", response_class=JSONResponse)
 async def chat_suggestions(n: int = Query(default=10, le=20)):
-    """Return up to n suggested chat questions (English + Hebrew)."""
+    """
+    Return up to `n` suggested chat questions (in English and Hebrew).
+    """
+    global DATASET_DF
+
     if DATASET_DF.empty:
-        raise HTTPException(status_code=503, detail="Destination data not loaded.")       
+        raise HTTPException(status_code=503, detail="Destination data not loaded.")
 
     destinations = DATASET_DF.to_dict(orient="records")
-    suggestions = generate_questions_from_data(destinations, n)
+    
+    try:
+        suggestions = generate_questions_from_data(destinations, n)
+    except Exception as e:
+        logger.error("Suggestion generation failed: %s", str(e))
+        raise HTTPException(status_code=500, detail="Could not generate suggestions.")
+
+    if not suggestions:
+        return {"questions": ["No suggestions available at the moment."]}
+
     logger.info(f"GET /api/chat/suggestions → {len(suggestions)} suggestions")
     return {"questions": suggestions}
+
     
 @app.get("/travel-warnings", response_class=HTMLResponse)
 async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
