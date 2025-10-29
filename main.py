@@ -1292,19 +1292,23 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
 
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
+
     query: ChatQuery = Body(...),
     max_rows: int = Query(default=150, le=300),
     lang: str = Query(default="en")
 ):
+    global DATASET_DF_FLIGHTS
     question = query.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="Question is empty.")
 
-    if DATASET_DF.empty:
-        raise HTTPException(status_code=503, detail="Flight dataset not loaded.")
+    if DATASET_DF_FLIGHTS.empty:
+        raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
+
+    DATASET_DF_AI = DATASET_DF_FLIGHTS.copy()
 
     context_rows = []
-    for row in DATASET_DF.to_dict(orient="records")[:max_rows]:
+    for row in DATASET_DF_AI.to_dict(orient="records")[:max_rows]:
         iata = row.get("IATA", "—")
         city = row.get("City", "—")
         country = row.get("Country", "—")
