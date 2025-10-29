@@ -1298,17 +1298,18 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     random.shuffle(questions)
     return questions[:n]
 
+def build_flight_context(df, max_rows: int = 150) -> str:
+    """Aggregate airlines per destination and build clean context for AI."""
+    grouped = defaultdict(set)
 
-
-def build_flight_context(df, max_rows: int) -> str:
-    """Build the structured context for the AI prompt."""
-    rows = []
+    # Aggregate airlines by (iata, city, country)
     for row in df.to_dict(orient="records")[:max_rows]:
         iata = str(row.get("iata", "—")).strip()
         city = str(row.get("city", "—")).strip()
         country = str(row.get("country", "—")).strip()
         airlines = row.get("airline", [])
-        
+
+        # Normalize airline data
         if isinstance(airlines, str):
             airlines = [a.strip() for a in airlines.split(",")]
         elif isinstance(airlines, list):
@@ -1316,12 +1317,20 @@ def build_flight_context(df, max_rows: int) -> str:
         else:
             airlines = []
 
-        airlines = [a for a in airlines if a]
-        airlines_str = ", ".join(sorted(set(airlines))) or "—"
+        # Add to grouped set
+        key = (iata, city, country)
+        for airline in airlines:
+            if airline:
+                grouped[key].add(airline)
 
+    # Build structured context text
+    rows = []
+    for (iata, city, country), airline_set in sorted(grouped.items()):
+        airlines_str = ", ".join(sorted(airline_set)) if airline_set else "—"
         rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
-    
+
     return "\n".join(rows)
+
 
 
 @app.post("/api/chat", response_class=JSONResponse)
@@ -1429,8 +1438,6 @@ Now, based on the data above, answer this user question:
     return {"answer": answer, "suggestions": suggestions}
 
 
-        
-        
 @app.get("/chat", response_class=HTMLResponse)
 async def chat_page(request: Request, lang: str = Depends(get_lang)):
     client_host = request.client.host if request.client else "unknown"
