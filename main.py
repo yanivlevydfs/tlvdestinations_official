@@ -1922,6 +1922,12 @@ async def redirect_and_log_404(request: Request, call_next):
     client_host = (request.client.host or "").lower()
     path = request.url.path
 
+    # 🚫 0. Block obvious malicious paths (before anything else)
+    suspicious_patterns = (".env", ".git", "phpinfo", "config", "composer.json", "wp-admin", "shell", "eval(")
+    if any(p in path.lower() for p in suspicious_patterns):
+        logger.warning(f"🚫 Blocked suspicious request from {client_host} → {path}")
+        return JSONResponse({"detail": "Forbidden"}, status_code=403)
+
     # 🚫 Skip redirects for localhost or internal testing
     if any(kw in host_header for kw in ("localhost", "127.0.0.1", "::1")) \
        or hostname in ("localhost", "127.0.0.1", "::1") \
@@ -1949,7 +1955,7 @@ async def redirect_and_log_404(request: Request, call_next):
         logger.error(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
         return RedirectResponse(url=clean_base, status_code=301)
 
-    # ✅ 4. Optional trailing slash normalization (SEO friendly)
+    # ✅ 4. Trailing slash normalization (SEO friendly)
     if (
         redirect_url.endswith("/") 
         and len(path) > 1
@@ -1970,6 +1976,7 @@ async def redirect_and_log_404(request: Request, call_next):
         logger.info(f"⚠️ 404 from {client_host} → {path}")
 
     return response
+
     
 @app.get("/api/refresh-data", response_class=JSONResponse)
 async def refresh_data_webhook():
