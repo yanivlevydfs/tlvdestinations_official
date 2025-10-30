@@ -1382,7 +1382,6 @@ def build_flight_context(df) -> str:
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
     query: ChatQuery = Body(...),
-    #max_rows: int = Query(default=150, le=300),
     lang: str = Query(default="en")
 ):
     global DATASET_DF_FLIGHTS
