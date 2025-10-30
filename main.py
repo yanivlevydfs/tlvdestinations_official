@@ -1363,14 +1363,15 @@ def build_flight_context(df) -> str:
 
     destination_section = []
     for country, destinations in sorted(country_dest_map.items()):
-        destination_section.append(f"✈️ **Flights to {country}**\n")  # newline after heading
+        destination_section.append(f"✈️ **Flights to {country}**\n")
+        
         for iata, city, airline_list in sorted(destinations, key=lambda x: x[1]):
             destination_section.append(f"**{city} ({iata}, {country})**")
-            for airline in airline_list:
-                destination_section.append(f"- {airline}")
-            destination_section.append("")  # ✅ newline after each city block
-        destination_section.append("")  # ✅ extra spacing between countries
-
+            destination_section.extend([f"- {airline}" for airline in airline_list])
+            destination_section.append("")  # newline after each city
+        
+        destination_section.append("---")  # divider between countries (optional)
+        destination_section.append("")     # extra newline
 
     # === Section 4: Airline → Destinations (Beautiful Markdown) ===
     airline_dest_section = []
