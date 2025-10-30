@@ -37,6 +37,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
 import pycountry
 from geopy.distance import geodesic
+import subprocess
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -75,6 +76,7 @@ CACHE_DIR: Path = BASE_DIR / "cache"
 STATIC_DIR: Path = BASE_DIR / "static"
 TEMPLATES_DIR: Path = BASE_DIR / "templates"
 DATA_DIR: Path = BASE_DIR / "data"
+
 
 # Ensure dirs exist (won't error if already exist)
 for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
@@ -133,6 +135,29 @@ COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def get_git_version():
+    try:
+        # Optional: use project root to avoid path issues
+        root = os.path.dirname(os.path.abspath(__file__))
+
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=root
+        ).decode().strip()
+
+        date = subprocess.check_output(
+            ["git", "log", "-1", "--format=%cd", "--date=short"],
+            cwd=root
+        ).decode().strip()
+
+        return f"{date.replace('-', '.')}–{commit}"  # e.g., 2025.10.30–a1b2c3d
+
+    except Exception as e:
+        logger.warning(f"[version] Falling back to 'dev': {e}")
+        return "dev"
+APP_VERSION = get_git_version()
+TEMPLATES.env.globals["app_version"] = APP_VERSION
+
 def update_travel_warnings():
     try:
         result = fetch_travel_warnings()
@@ -781,6 +806,8 @@ def home(
             "country": country,
             "query": query,
             "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
+            "version": APP_VERSION,
+
         },
     )
 
@@ -1015,9 +1042,12 @@ async def on_startup():
     global scheduler, AIRLINE_WEBSITES, AIRPORTS_DB
     global TRAVEL_WARNINGS_DF, COUNTRY_NAME_TO_ISO
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
+    global APP_VERSION
 
     logger.info("🚀 Application startup initiated")
-
+    # 🎯 0) Set Git version
+    logger.info(f"🔖 App Version: {APP_VERSION}")
+    
     # 0) Load IATA DB once
     try:
         AIRPORTS_DB = load("IATA")
