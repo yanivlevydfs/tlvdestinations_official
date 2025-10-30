@@ -23,6 +23,7 @@
   <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
   <meta name="twitter:image:alt" content="TLV airport stats overview">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- Structured Data: Dataset -->
 <script type="application/ld+json">
@@ -144,9 +145,15 @@ function appendMessage(text, sender) {
   const msgBox = document.getElementById("chat-messages");
   const div = document.createElement("div");
   div.className = `message ${sender}`;
-  div.innerHTML = text;
 
   if (sender === "ai") {
+    // ✅ Render Markdown separately in a container div
+    const contentWrapper = document.createElement("div");
+    contentWrapper.className = "message-body";
+    contentWrapper.innerHTML = marked.parse(text);
+    div.appendChild(contentWrapper);
+
+    // ✅ Feedback box
     const feedbackBox = document.createElement("div");
     feedbackBox.className = "feedback-box";
     feedbackBox.innerHTML = `
@@ -162,7 +169,6 @@ function appendMessage(text, sender) {
         const value = this.getAttribute("data-value");
         submitFeedback(value);
 
-        // Replace whole box with thank you message
         feedbackBox.innerHTML = `
           <div class="feedback-thanks text-muted small">
             ✅ {{ 'Thanks for your feedback!' if lang == 'en' else 'תודה על המשוב!' }}
@@ -172,11 +178,14 @@ function appendMessage(text, sender) {
     });
 
     div.appendChild(feedbackBox);
+  } else {
+    div.textContent = text;
   }
 
   msgBox.appendChild(div);
   msgBox.scrollTop = msgBox.scrollHeight;
 }
+
 
 
 let lastAskedQuestion = "";
@@ -444,5 +453,16 @@ body.dark-mode #suggested-questions .chip:hover {
   transform: scale(1.2);
 }
 
+.message.ai ul {
+  padding-left: 20px;
+  margin-top: 4px;
+}
+.message.ai li {
+  margin-bottom: 4px;
+}
+.message.ai strong {
+  font-weight: 600;
+}
+	
 </style>
 {% endblock %}

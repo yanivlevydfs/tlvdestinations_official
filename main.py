@@ -1298,36 +1298,44 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     return questions[:n]
 
 def build_flight_context(df) -> str:
-    from collections import defaultdict
+    """
+    Build a rich Markdown-formatted flight context from the dataset.
+    Supports:
+      - City → Country lookups
+      - Country → Cities lists
+      - Airline → Destinations
+      - Airline → Countries
+      - Country → Destinations
+    """
 
-    grouped = defaultdict(set)  # (iata, city, country) -> airlines
-    city_country_pairs = set()  # (city, country)
-    country_to_cities = defaultdict(set)  # country -> cities
-    airline_routes = defaultdict(set)  # airline -> (iata, city, country)
-    airline_to_countries = defaultdict(set)  # airline -> countries
+    # === Data Structures ===
+    grouped = defaultdict(set)              # (iata, city, country) -> airlines
+    city_country_pairs = set()              # (city, country)
+    country_to_cities = defaultdict(set)    # country -> cities
+    airline_routes = defaultdict(set)       # airline -> (iata, city, country)
+    airline_to_countries = defaultdict(set) # airline -> countries
 
+    # === Normalize and aggregate ===
     for row in df.to_dict(orient="records"):
         iata = str(row.get("iata", "—")).strip()
         city = str(row.get("city", "—")).strip()
         country = str(row.get("country", "—")).strip()
         airlines = row.get("airline", [])
 
-        # Skip incomplete rows
+        # Skip incomplete or invalid rows
         if not iata or not city or not country or "—" in (iata, city, country):
             continue
 
-        # Normalize airlines field
+        # Normalize airline field
         if isinstance(airlines, str):
-            airlines = [a.strip() for a in airlines.split(",")]
+            airlines = [a.strip() for a in airlines.split(",") if a.strip()]
         elif isinstance(airlines, list):
-            airlines = [str(a).strip() for a in airlines]
+            airlines = [str(a).strip() for a in airlines if str(a).strip()]
         else:
             airlines = []
 
-        airlines = [a for a in airlines if a]
-
+        # Update relationships
         key = (iata, city, country)
-
         for airline in airlines:
             grouped[key].add(airline)
             airline_routes[airline].add(key)
@@ -1336,48 +1344,63 @@ def build_flight_context(df) -> str:
         city_country_pairs.add((city, country))
         country_to_cities[country].add(city)
 
-    # Section 1: City-to-country
+    # === Section 1: City → Country ===
     city_country_section = "\n".join(
-        f"{city} is in {country}" for city, country in sorted(city_country_pairs)
+        f"- {city} is in {country}" for city, country in sorted(city_country_pairs)
     )
 
-    # Section 2: Country-to-cities
+    # === Section 2: Country → Cities ===
     country_city_section = "\n".join(
-        f"{country} includes cities: {', '.join(sorted(cities))}"
+        f"- **{country}** includes cities: {', '.join(sorted(cities))}"
         for country, cities in sorted(country_to_cities.items())
     )
 
-    # Section 3: Flights by destination
-    destination_section = []
-    for (iata, city, country), airline_set in sorted(grouped.items(), key=lambda x: (x[0][2], x[0][1])):
-        airlines_str = ", ".join(sorted(airline_set)) if airline_set else "—"
-        destination_section.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
+    # === Section 3: Flights by Destination (Grouped by Country) ===
+    country_dest_map = defaultdict(list)
+    for (iata, city, country), airlines in grouped.items():
+        if airlines:
+            country_dest_map[country].append((iata, city, sorted(airlines)))
 
-    # Section 4: Airline-to-destinations
+    destination_section = []
+    for country, destinations in sorted(country_dest_map.items()):
+        destination_section.append(f"✈️ **Flights to {country}**\n")  # newline after heading
+        for iata, city, airline_list in sorted(destinations, key=lambda x: x[1]):
+            destination_section.append(f"**{city} ({iata}, {country})**")
+            for airline in airline_list:
+                destination_section.append(f"- {airline}")
+            destination_section.append("")  # ✅ newline after each city block
+        destination_section.append("")  # ✅ extra spacing between countries
+
+
+    # === Section 4: Airline → Destinations (Beautiful Markdown) ===
     airline_dest_section = []
     for airline, destinations in sorted(airline_routes.items()):
-        airline_dest_section.append(f"{airline} flies to:")
+        airline_dest_section.append(f"🛫 **{airline}**")
         for iata, city, country in sorted(destinations, key=lambda x: (x[2], x[1])):
             airline_dest_section.append(f"- {city} ({iata}, {country})")
+        airline_dest_section.append("")
 
-    # Section 5: Airline-to-countries
-    airline_country_section = []
-    for airline, countries in sorted(airline_to_countries.items()):
-        airline_country_section.append(f"{airline} operates in: {', '.join(sorted(countries))}")
-
-    return (
-        "📌 City-to-Country Mapping:\n"
-        + city_country_section
-        + "\n\n🌍 Country-to-Cities:\n"
-        + country_city_section
-        + "\n\n🛫 Flights by Destination:\n"
-        + "\n".join(destination_section)
-        + "\n\n🛬 Airline-to-Destinations:\n"
-        + "\n".join(airline_dest_section)
-        + "\n\n🌐 Airline-to-Countries:\n"
-        + "\n".join(airline_country_section)
+    # === Section 5: Airline → Countries ===
+    airline_country_section = "\n".join(
+        f"- **{airline}** operates in: {', '.join(sorted(countries))}"
+        for airline, countries in sorted(airline_to_countries.items())
     )
 
+    # === Final Context Assembly ===
+    context = (
+        "📌 **City-to-Country Mapping**\n"
+        + city_country_section
+        + "\n\n🌍 **Country-to-Cities**\n"
+        + country_city_section
+        + "\n\n🛬 **Flights by Destination**\n"
+        + "\n".join(destination_section)
+        + "\n\n🛫 **Airline-to-Destinations**\n"
+        + "\n".join(airline_dest_section)
+        + "\n\n🌐 **Airline-to-Countries**\n"
+        + airline_country_section
+    )
+
+    return context
 
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
@@ -1458,7 +1481,6 @@ Now, using ONLY the data above, answer the user's question below:
 Reply ONLY with this exact line (no formatting):
 I couldn't find it in our current destination catalog, please check the main table.
 """
-
     
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
 
@@ -1468,11 +1490,6 @@ I couldn't find it in our current destination catalog, please check the main tab
     except Exception as e:
         logger.error("Gemini API error: %s", str(e))
         raise HTTPException(status_code=500, detail="Gemini API error")
-
-    # Fallback if AI returns invalid format
-#    if not answer.strip().startswith("**✈️"):
-#        logger.warning("AI response did not start with expected heading")
-#        answer = "I couldn't find it in our current destination catalog, please check the main table."
 
     field_names = [
         "airline", "iata", "airport", "city", "country",
