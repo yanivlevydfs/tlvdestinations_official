@@ -791,7 +791,7 @@ def map_view(country: str = "All", query: str = ""):
     global DATASET_DF_FLIGHTS, AIRPORTS_DB
 
     if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
-        logger.warning("⚠️ No flight data available for map")
+        logger.error("⚠️ No flight data available for map")
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
             "message": "No flight data available to show on the map.",
@@ -1297,7 +1297,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     random.shuffle(questions)
     return questions[:n]
 
-def build_flight_context(df, max_rows: int = 150) -> str:
+def build_flight_context(df) -> str:
     from collections import defaultdict
 
     grouped = defaultdict(set)  # (iata, city, country) -> airlines
@@ -1306,7 +1306,7 @@ def build_flight_context(df, max_rows: int = 150) -> str:
     airline_routes = defaultdict(set)  # airline -> (iata, city, country)
     airline_to_countries = defaultdict(set)  # airline -> countries
 
-    for row in df.to_dict(orient="records")[:max_rows]:
+    for row in df.to_dict(orient="records"):
         iata = str(row.get("iata", "—")).strip()
         city = str(row.get("city", "—")).strip()
         country = str(row.get("country", "—")).strip()
@@ -1382,7 +1382,7 @@ def build_flight_context(df, max_rows: int = 150) -> str:
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
     query: ChatQuery = Body(...),
-    max_rows: int = Query(default=150, le=300),
+    #max_rows: int = Query(default=150, le=300),
     lang: str = Query(default="en")
 ):
     global DATASET_DF_FLIGHTS
@@ -1395,7 +1395,7 @@ async def chat_flight_ai(
         raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
 
     # Build structured context
-    context = build_flight_context(DATASET_DF_FLIGHTS, max_rows)
+    context = build_flight_context(DATASET_DF_FLIGHTS)
 
     # Construct the AI prompt
     prompt = f"""
