@@ -972,10 +972,13 @@
         </a>
       </span>
       <br />
-      <span id="footer-rights" aria-label="Rights notice">
-        {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
-      </span>
-	  <span id="footer-version" style="font-size: 0.8em; color: #888; margin-left: 8px;" title="Build version">v{{ version }}</span>
+     <span id="footer-rights" aria-label="Rights notice">
+	  {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
+	</span>
+	<br>
+	<small class="text-muted" style="font-size: 0.75rem;">
+	  v{{ app_version }}
+	</small>
     </div>
   </div>
 </div>
