@@ -1243,12 +1243,16 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     airlines = set()
 
     for dest in destinations:
-        city = dest.get("City") or dest.get("city")
-        country = dest.get("Country") or dest.get("country")
-        airline_list = dest.get("Airlines") or dest.get("airlines") or []
+        city = dest.get("city")
+        country = dest.get("country")
+        airline_list = dest.get("airline") or []
 
         if isinstance(airline_list, str):
             airline_list = [a.strip() for a in airline_list.split(",")]
+        elif isinstance(airline_list, list):
+            airline_list = [str(a).strip() for a in airline_list]
+        else:
+            airline_list = []
 
         if city and country:
             cities.add((city.strip(), country.strip()))
@@ -1293,11 +1297,14 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     random.shuffle(questions)
     return questions[:n]
 
-
 def build_flight_context(df, max_rows: int = 150) -> str:
-    """Group airlines by destination (iata, city, country)."""
+    from collections import defaultdict
 
-    grouped = defaultdict(set)
+    grouped = defaultdict(set)  # (iata, city, country) -> airlines
+    city_country_pairs = set()  # (city, country)
+    country_to_cities = defaultdict(set)  # country -> cities
+    airline_routes = defaultdict(set)  # airline -> (iata, city, country)
+    airline_to_countries = defaultdict(set)  # airline -> countries
 
     for row in df.to_dict(orient="records")[:max_rows]:
         iata = str(row.get("iata", "—")).strip()
@@ -1305,7 +1312,11 @@ def build_flight_context(df, max_rows: int = 150) -> str:
         country = str(row.get("country", "—")).strip()
         airlines = row.get("airline", [])
 
-        # Normalize airline formats
+        # Skip incomplete rows
+        if not iata or not city or not country or "—" in (iata, city, country):
+            continue
+
+        # Normalize airlines field
         if isinstance(airlines, str):
             airlines = [a.strip() for a in airlines.split(",")]
         elif isinstance(airlines, list):
@@ -1313,19 +1324,60 @@ def build_flight_context(df, max_rows: int = 150) -> str:
         else:
             airlines = []
 
+        airlines = [a for a in airlines if a]
+
         key = (iata, city, country)
 
         for airline in airlines:
-            if airline:
-                grouped[key].add(airline)
+            grouped[key].add(airline)
+            airline_routes[airline].add(key)
+            airline_to_countries[airline].add(country)
 
-    # Build the final context
-    rows = []
-    for (iata, city, country), airline_set in sorted(grouped.items()):
+        city_country_pairs.add((city, country))
+        country_to_cities[country].add(city)
+
+    # Section 1: City-to-country
+    city_country_section = "\n".join(
+        f"{city} is in {country}" for city, country in sorted(city_country_pairs)
+    )
+
+    # Section 2: Country-to-cities
+    country_city_section = "\n".join(
+        f"{country} includes cities: {', '.join(sorted(cities))}"
+        for country, cities in sorted(country_to_cities.items())
+    )
+
+    # Section 3: Flights by destination
+    destination_section = []
+    for (iata, city, country), airline_set in sorted(grouped.items(), key=lambda x: (x[0][2], x[0][1])):
         airlines_str = ", ".join(sorted(airline_set)) if airline_set else "—"
-        rows.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
+        destination_section.append(f"{iata}, {city}, {country}, Airlines: {airlines_str}")
 
-    return "\n".join(rows)
+    # Section 4: Airline-to-destinations
+    airline_dest_section = []
+    for airline, destinations in sorted(airline_routes.items()):
+        airline_dest_section.append(f"{airline} flies to:")
+        for iata, city, country in sorted(destinations, key=lambda x: (x[2], x[1])):
+            airline_dest_section.append(f"- {city} ({iata}, {country})")
+
+    # Section 5: Airline-to-countries
+    airline_country_section = []
+    for airline, countries in sorted(airline_to_countries.items()):
+        airline_country_section.append(f"{airline} operates in: {', '.join(sorted(countries))}")
+
+    return (
+        "📌 City-to-Country Mapping:\n"
+        + city_country_section
+        + "\n\n🌍 Country-to-Cities:\n"
+        + country_city_section
+        + "\n\n🛫 Flights by Destination:\n"
+        + "\n".join(destination_section)
+        + "\n\n🛬 Airline-to-Destinations:\n"
+        + "\n".join(airline_dest_section)
+        + "\n\n🌐 Airline-to-Countries:\n"
+        + "\n".join(airline_country_section)
+    )
+
 
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
@@ -1347,28 +1399,39 @@ async def chat_flight_ai(
 
     # Construct the AI prompt
     prompt = f"""
-You are an aviation expert helping users explore destinations from Ben Gurion Airport (TLV).
+You are a highly accurate aviation assistant helping users explore direct flights departing from Ben Gurion Airport (TLV).
 
-Here is structured destination data:
+You are given structured aviation data including:
+- ✅ Verified airport destinations
+- ✅ City-to-country mappings
+- ✅ Airline-to-destination mappings
 
+📊 DATA START:
 {context}
+📊 DATA END.
 
-Now, based on the data above, answer this user question:
+Now, using ONLY the data above, answer the user's question below:
 
 "{question}"
 
-🚨 OUTPUT RULES — FOLLOW EXACTLY 🚨
-1. Start with a bold section heading: **✈️ Flights to [Country/Region/City]**
-2. Use a bullet list for airports.
-   - Each airport must be formatted as: **City (IATA, Country)**
-3. Under each airport, indent the airlines as sub-bullets.
-   - One airline = one bullet.
-   - No inline commas. No single-line lists.
-4. Use only Markdown bullet lists ("- "). Never use paragraphs, tables, or bold for airlines.
-5. Do not add extra commentary, explanations, or filler.
-6. If no results exist: return exactly → `I couldn't find it in the data.`
+🚨 STRICT RESPONSE RULES — FOLLOW EXACTLY 🚨
 
-✅ Correct example:
+✅ SUPPORTED QUESTION TYPES:
+- Which cities are in [Country]?
+- What country is [City] located in?
+- What destinations does [Airline] serve?
+- What airlines fly to [City] or [Country]?
+- שאלות בעברית? → Translate to English first, then answer in English.
+
+🧾 OUTPUT FORMAT (REQUIRED):
+1. Start with a bold heading: **✈️ Flights to [Country/Region/City]**
+2. Use Markdown bullet points:
+   - Format each destination as: **City (IATA, Country)**
+   - Under each, indent each airline as a separate sub-bullet:
+     - One airline per line  
+     - No commas, no inline lists, no slashes
+
+🟢 CORRECT EXAMPLE:
 ---
 **✈️ Flights to United States**
 - Newark (EWR, United States)  
@@ -1379,36 +1442,24 @@ Now, based on the data above, answer this user question:
 
 - New York (JFK, United States)  
   - Aero Mexico  
-  - Aerolineas Argentinas S.a.  
   - Arkia Israeli Airlines  
-  - Delta Airlines  
-  - Eastern Air Lines Inc.  
   - El Al Israel Airlines  
   - Jetblue Airways Corporation  
   - Virgin Atlantic Airways  
 ---
 
-✏️ FORMAT EXAMPLES — COPY EXACTLY:
+🚫 NEVER DO THIS:
+- No commas in airline lists
+- No paragraphs, summaries, or prose
+- No tables or YAML
+- No Hebrew in the output
+- Do NOT say “Sure”, “Here’s the answer”, etc.
 
-**✈️ Flights to France**
-- Paris (CDG, France)  
-  - Air France  
-  - El Al Israel Airlines  
-
-❌ DO NOT:
-- Use inline lists (e.g., "Air France, El Al")
-- Use hyphens or slashes instead of bullets
-- Use tables or paragraphs
-
-📌 FORMAT RULES (MANDATORY — DO NOT DEVIATE):
-
-- Start with a heading like: **✈️ Flights to [Country]**
-- Use "- City (IATA, Country)" format
-- Under each city, list each airline with: "  - Airline Name"
-- Do not use paragraphs, prose, or summaries.
-- If no flights are found, respond ONLY with: `I couldn't find it in the data.`
-- DO NOT say "Sure!" or add explanations.
+❌ IF THERE’S NO MATCH:
+Reply ONLY with this exact line (no formatting):
+I couldn't find it in our current destination catalog, please check the main table.
 """
+
     
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
 
@@ -1463,7 +1514,8 @@ async def chat_suggestions(n: int = Query(default=10, le=20)):
         raise HTTPException(status_code=503, detail="Destination data not loaded.")
 
     destinations = DATASET_DF_FLIGHTS.to_dict(orient="records")
-    
+    #print(DATASET_DF_FLIGHTS.columns.tolist())
+
     try:
         suggestions = generate_questions_from_data(destinations, n)
     except Exception as e:
@@ -1876,7 +1928,7 @@ async def redirect_and_log_404(request: Request, call_next):
        or client_host in ("localhost", "127.0.0.1", "::1"):
         response = await call_next(request)
         if response.status_code == 404 and not path.startswith("/%23"):
-            print(f"⚠️ 404 (dev) from {client_host} → {path}")
+            logger.error(f"⚠️ 404 (dev) from {client_host} → {path}")
         return response
 
     # 🌍 Production: clean & normalize URLs
@@ -1894,7 +1946,7 @@ async def redirect_and_log_404(request: Request, call_next):
     # ✅ 3. Handle malformed encoded fragments (e.g. /%23c)
     if path.startswith("/%23"):
         clean_base = str(request.url).split("/%23")[0]
-        print(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
+        logger.error(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
         return RedirectResponse(url=clean_base, status_code=301)
 
     # ✅ 4. Optional trailing slash normalization (SEO friendly)
@@ -1907,7 +1959,7 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # Redirect only if changed
     if redirect_url != url:
-        print(f"🔁 Redirecting {url} → {redirect_url}")
+        logger.info(f"🔁 Redirecting {url} → {redirect_url}")
         return RedirectResponse(url=redirect_url, status_code=301)
 
     # 🧩 Continue normally
@@ -1915,7 +1967,7 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # ⚠️ Log real 404s only (ignore bots hitting /%23 junk)
     if response.status_code == 404 and not path.startswith("/%23"):
-        print(f"⚠️ 404 from {client_host} → {path}")
+        logger.info(f"⚠️ 404 from {client_host} → {path}")
 
     return response
     
