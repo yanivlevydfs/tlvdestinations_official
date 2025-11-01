@@ -40,6 +40,7 @@ from geopy.distance import geodesic
 import subprocess
 import html
 import ast
+from percent23_redirect import Percent23RedirectMiddleware
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -116,7 +117,7 @@ if STATIC_DIR.exists():
     app.mount("/.well-known",StaticFiles(directory=STATIC_DIR / ".well-known"),name="well-known")
 
 CORS_ORIGINS = ["http://localhost:8000", "https://fly-tlv.com"]
-
+app.add_middleware(Percent23RedirectMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
