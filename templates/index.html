@@ -34,10 +34,7 @@
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 	
-  <!-- Canonical per variant -->
-  <link rel="canonical" href="https://fly-tlv.com/" />
-  <link rel="alternate" type="application/rss+xml" title="TLV Flights Feed" href="/feed.xml" />
-
+ 
 	<!-- Standard favicon (still needed) -->
 	<link rel="manifest" href="/manifest.json?lang={{ lang }}">
 	<link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
@@ -48,10 +45,12 @@
 	<!-- iOS Safari (Home Screen icon) -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
 
-  <!-- Hreflang alternates -->
-  <link rel="alternate" href="https://fly-tlv.com/" hreflang="en" />
-  <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he" />
-  <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default" />
+	<!-- Canonical & Hreflang -->
+	<link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
+	<link rel="alternate" hreflang="en" href="https://fly-tlv.com/" />
+	<link rel="alternate" hreflang="he" href="https://fly-tlv.com/?lang=he" />
+	<link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/" />
+	<link rel="alternate" type="application/rss+xml" title="TLV Flights Feed" href="https://fly-tlv.com/feed.xml" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
