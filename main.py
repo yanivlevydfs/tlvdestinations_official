@@ -1959,12 +1959,7 @@ async def manifest(request: Request):
             {"error": "Manifest not found", "lang": lang},
             status_code=404
         )
-
-@app.get("/%23{tail:path}", include_in_schema=False)
-async def fix_encoded_anchor_redirect(tail: str, request: Request):
-    base_url = str(request.url).split("/%23")[0]
-    return RedirectResponse(url=base_url, status_code=301)
-    
+   
 @app.middleware("http")
 async def redirect_and_log_404(request: Request, call_next):
     host_header = request.headers.get("host", "").lower()
@@ -2000,8 +1995,8 @@ async def redirect_and_log_404(request: Request, call_next):
         redirect_url = redirect_url.replace("://www.", "://", 1)
 
     # ✅ 3. Handle malformed encoded fragments (e.g. /%23c)
-    if path.startswith("/%23"):
-        clean_base = str(request.url).split("/%23")[0]
+    if "/%23" in url or path.startswith("/#") or "%23" in path:
+        clean_base = url.split("/%23")[0]
         logger.error(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
         return RedirectResponse(url=clean_base, status_code=301)
 
