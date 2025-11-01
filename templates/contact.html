@@ -107,12 +107,21 @@
             {{ "For questions or feedback, please email us at:" 
                if lang != 'he'
                else "לשאלות או הערות, ניתן לשלוח דוא\"ל לכתובת:" }}
-          </p>
-          <p class="fs-5">
-            <a href="mailto:support@fly-tlv.com" class="text-decoration-none">
-              support@fly-tlv.com
-            </a>
-          </p>
+			<p class="fs-5">
+			  <span id="email-link"></span>
+			  <noscript>
+				(Enable JavaScript to view email)
+			  </noscript>
+			</p>
+
+			<script>
+			  // 👇 Construct the email in JS to avoid bots
+			  const user = "support";
+			  const domain = "fly-tlv.com";
+			  const email = `${user}@${domain}`;
+			  const el = document.getElementById("email-link");
+			  el.innerHTML = `<a href="mailto:${email}" class="text-decoration-none">${email}</a>`;
+			</script>
         </div>
       </div>
     </div>
