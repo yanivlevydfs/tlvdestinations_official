@@ -25,6 +25,8 @@
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="en" />
   <link rel="alternate" href="https://fly-tlv.com/?lang=he" hreflang="he" />
   <link rel="alternate" href="https://fly-tlv.com/" hreflang="x-default" />
+  <link rel="alternate" type="application/rss+xml" title="TLV Flights Feed" href="/feed.xml" />
+
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -414,7 +416,7 @@ body.dark-mode .btn-outline-primary strong {
        class="footer-link"
        aria-label="Privacy policy page"
        aria-current="{{ 'page' if request.url.path.startswith('/privacy') else 'false' }}">
-      {{ "Privacy" if lang == "en" else "פרטיות" }}
+      {{ "Privacy Policy" if lang == "en" else "פרטיות" }}
     </a>
 
     <a href="/contact{{ '?lang=he' if lang == 'he' else '' }}"
@@ -491,6 +493,14 @@ body.dark-mode .btn-outline-primary strong {
    aria-current="{{ 'page' if request.url.path.startswith('/terms') else 'false' }}">
   {{ 'Terms & Conditions' if lang == 'en' else 'תנאים והגבלות' }}
 	</a>
+	<a href="/feed.xml"
+   class="footer-link"
+   rel="alternate"
+   type="application/rss+xml"
+   target="_blank"
+   aria-label="{{ 'Flight RSS feed' if lang == 'en' else 'הזנת RSS של טיסות' }}">
+  {{ "RSS Feed" if lang == "en" else "הזנת RSS" }}
+</a>
   </nav>
 </div>
 

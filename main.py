@@ -38,6 +38,8 @@ from collections import defaultdict
 import pycountry
 from geopy.distance import geodesic
 import subprocess
+import html
+import ast
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -773,6 +775,10 @@ def home(
         })
 
     df = DATASET_DF.copy()
+    wfile = "unfiltered_dataset.csv"
+    df.to_csv(wfile, index=False)
+
+    
 
     # Filter by country
     if country != "All":
@@ -2086,3 +2092,52 @@ async def terms_view(request: Request):
             ),
             "lang": lang
         })
+        
+@app.get("/feed.xml", response_class=Response)
+def flight_feed():
+    now = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000")
+    items = []
+
+    for _, row in DATASET_DF.iterrows():
+        direction_label = "Arrival" if row["Direction"] == "A" else "Departure"
+        title = f"{direction_label} | {row['City']} ({row['IATA']}) - {row['Country']}"
+        link = f"https://fly-tlv.com/destinations/{row['IATA']}"
+        
+        try:
+            airlines_list = ast.literal_eval(row['Airlines']) if isinstance(row['Airlines'], str) else row['Airlines']
+        except Exception:
+            airlines_list = [row['Airlines']]
+        
+        airlines = ', '.join(a.strip() for a in airlines_list)
+
+        description = (
+            f"{row['Name']} ({row['IATA']}) in {row['City']}, {row['Country']}<br>"
+            f"Direction: {'Arrival' if row['Direction'] == 'A' else 'Departure'}<br>"
+            f"Airlines: {airlines}<br>"
+            f"Distance: {row['Distance_km']} km<br>"
+            f"Flight Time: {row['FlightTime_hr']}"
+        )
+
+        item = f"""<item>
+<title>{html.escape(title)}</title>
+<link>{html.escape(link)}</link>
+<guid isPermaLink="true">{html.escape(link)}</guid>
+<pubDate>{now}</pubDate>
+<description><![CDATA[{description}]]></description>
+</item>"""
+
+        items.append(item)
+
+    rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>TLV Flight Destinations Feed</title>
+<link>https://fly-tlv.com/feed.xml</link>
+<description>All destinations served from TLV</description>
+<language>en-us</language>
+<lastBuildDate>{now}</lastBuildDate>
+{''.join(items)}
+</channel>
+</rss>"""
+
+    return Response(content=rss, media_type="application/rss+xml")
