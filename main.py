@@ -1448,6 +1448,7 @@ async def chat_flight_ai(
     if not question:
         raise HTTPException(status_code=400, detail="Question is empty.")
 
+    logger.info(f"📥 User question: {question}")
     if DATASET_DF_FLIGHTS.empty:
         raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
 
