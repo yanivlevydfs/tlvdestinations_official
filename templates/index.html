@@ -960,29 +960,28 @@
       {% endif %}
     </p>
 
-    <div class="text-muted" style="font-size: 0.9rem;" aria-label="Copyright information">
-      © <span id="footer-year"></span>
-      <span id="footer-brand-inline">
-        <a href="https://fly-tlv.com"
-           class="footer-link"
-           target="_blank"
-           rel="noopener"
-           aria-label="Fly TLV official website">
-          {{ "Fly TLV → Worldwide Destinations" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
-        </a>
-      </span>
-      <br />
-     <span id="footer-rights" aria-label="Rights notice">
-	  {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
-	</span>
-	<br>
-	<small class="text-muted" style="font-size: 0.75rem;">
-	  v{{ app_version }}
-	</small>
-    </div>
+<div class="text-muted" style="font-size: 0.9rem;" aria-label="Copyright">
+  © <span id="footer-year"></span>
+  <span id="footer-brand-inline">
+    <a href="https://fly-tlv.com"
+       class="footer-link"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Fly TLV official website">
+      {{ "Fly TLV → Worldwide Destinations" if lang != "he" else "TLV → כל היעדים הישירים בעולם" }}
+    </a>
+  </span>
+  <br />
+  <span id="footer-rights" aria-label="Rights notice">
+    {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
+  </span>
+  <br />
+  <small style="font-size: 0.6rem; color: #6c757d;">
+    v{{ app_version }}
+  </small>
+</div>
   </div>
 </div>
-
 <div id="install-app-container" aria-label="Install Fly TLV progressive web app">
   <div class="install-app-inner">
     <button id="install-app-btn" aria-label="Install Fly TLV App">
@@ -1107,5 +1106,6 @@ nl_link = "https://fly-tlv.com/accessibility";
 nl_compact = "1";
 </script>
 <script src="{{ url_for('static', path='js/nagishli_beta.js') }}?v=3.0" charset="utf-8" defer></script>
+<script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -136,25 +136,26 @@ COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 def get_git_version():
+    """Return the project version based on Git commit and date, or 'dev' if unavailable."""
+    root = os.path.dirname(os.path.abspath(__file__))
+
+    def run_git_command(args):
+        return subprocess.check_output(["git"] + args, cwd=root).decode().strip()
+
     try:
-        # Optional: use project root to avoid path issues
-        root = os.path.dirname(os.path.abspath(__file__))
+        commit = run_git_command(["rev-parse", "--short", "HEAD"])
+        date = run_git_command(["log", "-1", "--format=%cd", "--date=short"])
+        return f"{date.replace('-', '.')}–{commit}"
 
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"],
-            cwd=root
-        ).decode().strip()
-
-        date = subprocess.check_output(
-            ["git", "log", "-1", "--format=%cd", "--date=short"],
-            cwd=root
-        ).decode().strip()
-
-        return f"{date.replace('-', '.')}–{commit}"  # e.g., 2025.10.30–a1b2c3d
-
+    except FileNotFoundError:
+        logger.warning("[version] Git not found. Is it installed and in PATH? Falling back to 'dev'.")
+    except subprocess.CalledProcessError as e:
+        logger.warning(f"[version] Git command failed: {e}. Falling back to 'dev'.")
     except Exception as e:
-        logger.warning(f"[version] Falling back to 'dev': {e}")
-        return "dev"
+        logger.warning(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
+
+    return "dev"
+    
 APP_VERSION = get_git_version()
 TEMPLATES.env.globals["app_version"] = APP_VERSION
 
