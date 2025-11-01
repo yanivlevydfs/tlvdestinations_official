@@ -775,10 +775,6 @@ def home(
         })
 
     df = DATASET_DF.copy()
-    wfile = "unfiltered_dataset.csv"
-    df.to_csv(wfile, index=False)
-
-    
 
     # Filter by country
     if country != "All":

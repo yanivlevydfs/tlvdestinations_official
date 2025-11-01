@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
+<html lang="{{ lang | default('en') }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+
+
 <!-- Canonical & hreflang for /stats -->
 <link rel="canonical" href="https://fly-tlv.com/chat" />
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/chat" />
@@ -87,7 +90,7 @@
 </script>
 {% endblock %}
 {% block content %}
-<div class="chat-container shadow">
+<div class="chat-container shadow" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <!-- Header -->
   <div class="chat-header">
     <i class="bi bi-robot"></i> {{ "AI Destination Assistant" if lang == "en" else "עוזר יעדים חכם" }}
@@ -111,7 +114,7 @@
   <!-- Suggested Questions with Arrows -->
   <div class="suggestion-scroll-wrapper">
     <button class="scroll-btn left" onclick="scrollSuggestions('left')">‹</button>
-    <div id="suggested-questions" class="p-3 border-top"></div>
+    <div id="suggested-questions" class="p-3"></div>
     <button class="scroll-btn right" onclick="scrollSuggestions('right')">›</button>
   </div>
 
@@ -152,7 +155,21 @@ function appendMessage(text, sender) {
     contentWrapper.className = "message-body";
     contentWrapper.innerHTML = marked.parse(text);
     div.appendChild(contentWrapper);
+	
+	    // ✅ Add copy button
+    const copyBtn = document.createElement("button");
+    copyBtn.className = "copy-btn";
+    copyBtn.title = "{{ 'Copy' if lang == 'en' else 'העתקה' }}";
+    copyBtn.innerHTML = "📋";
 
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(contentWrapper.innerText.trim());
+      copyBtn.innerHTML = "✅";
+      setTimeout(() => (copyBtn.innerHTML = "📋"), 1200);
+    };
+
+    div.appendChild(copyBtn);
+	
     // ✅ Feedback box
     const feedbackBox = document.createElement("div");
     feedbackBox.className = "feedback-box";
@@ -308,6 +325,7 @@ loadSuggestions();
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
 }
 .message.ai {
+  position: relative; 
   background: #eef4ff;
   color: #1e293b;
   margin-right: auto;
@@ -323,11 +341,19 @@ loadSuggestions();
   display: flex;
   align-items: center;
   background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
   padding: 6px 0;
   overflow: hidden;
+  border-radius: 16px;
+  margin: 0 16px;
+
+  /* No top border */
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  border-top: none;
 }
+
+
 
 /* Scroll buttons */
 .scroll-btn {
@@ -425,12 +451,13 @@ body.dark-mode .message.ai {
   color: #e5e5e5;
 }
 body.dark-mode #suggested-questions {
-  background: #111827;
+  background: #0f1116;
 }
 body.dark-mode #suggested-questions .chip {
   background: rgba(34, 211, 238, 0.08);
   border-color: rgba(34, 211, 238, 0.35);
   color: #22d3ee;
+  border-radius: 999px;
 }
 body.dark-mode #suggested-questions .chip:hover {
   background: #22d3ee;
@@ -463,6 +490,64 @@ body.dark-mode #suggested-questions .chip:hover {
 .message.ai strong {
   font-weight: 600;
 }
-	
+body.dark-mode .chat-footer {
+  background: #111827;
+  border-top: 1px solid #1f2937;
+}
+
+body.dark-mode .chat-footer textarea {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+  box-shadow: none;
+}
+
+body.dark-mode .chat-footer button {
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
+  color: #fff;
+}
+body.dark-mode .suggestion-scroll-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #0f1116;
+  padding: 6px 0;
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 0 16px;
+
+  /* Dark borders — only left, right, bottom */
+  border-left: 1px solid #1f2937;
+  border-right: 1px solid #1f2937;
+  border-bottom: 1px solid #1f2937;
+  border-top: none;
+}
+.copy-btn {
+  position: absolute; 
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: auto;
+  color: #9ca3af;
+  transition: opacity 0.2s ease;
+  opacity: 0.6;
+}
+.copy-btn:hover {
+  opacity: 1;
+}
+
+/* Dark mode */
+body.dark-mode .copy-btn {
+  color: #94a3b8;
+}
+[dir="rtl"] .message.ai .copy-btn {
+  right: auto;
+  left: 12px;
+}
+[dir="ltr"] .message.ai .copy-btn {
+  left: auto;
+  right: 12px;
+}
 </style>
 {% endblock %}
