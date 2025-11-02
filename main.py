@@ -1209,21 +1209,45 @@ class Url:
 
 # Helper to generate XML
 def build_sitemap(urls: List[Url]) -> str:
-    sitemap = [
+    """Build a valid, deduplicated sitemap.xml from Url objects."""
+    if not urls:
+        return ""
+
+    seen = set()
+    unique_urls = []
+
+    for u in urls:
+        if u.loc not in seen:
+            seen.add(u.loc)
+            unique_urls.append(u)
+
+    # Sort URLs for deterministic output (by loc)
+    unique_urls.sort(key=lambda u: u.loc)
+
+    lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
     ]
 
-    for url in urls:
-        sitemap.append("  <url>")
-        sitemap.append(f"    <loc>{url.loc}</loc>")
-        sitemap.append(f"    <lastmod>{url.lastmod}</lastmod>")
-        sitemap.append(f"    <changefreq>{url.changefreq}</changefreq>")
-        sitemap.append(f"    <priority>{url.priority:.1f}</priority>")
-        sitemap.append("  </url>")
+    for u in unique_urls:
+        # Normalize lastmod → ISO 8601
+        if isinstance(u.lastmod, (datetime, date)):
+            lastmod_str = u.lastmod.strftime("%Y-%m-%d")
+        else:
+            lastmod_str = str(u.lastmod)
 
-    sitemap.append("</urlset>")
-    return "\n".join(sitemap)
+        # Escape any unsafe characters in loc
+        loc_escaped = html.escape(u.loc, quote=True)
+
+        lines.append("  <url>")
+        lines.append(f"    <loc>{loc_escaped}</loc>")
+        lines.append(f"    <lastmod>{lastmod_str}</lastmod>")
+        lines.append(f"    <changefreq>{u.changefreq}</changefreq>")
+        lines.append(f"    <priority>{float(u.priority):.1f}</priority>")
+        lines.append("  </url>")
+
+    lines.append("</urlset>")
+    return "\n".join(lines)
 
 
 @app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
