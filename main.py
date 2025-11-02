@@ -120,7 +120,7 @@ if STATIC_DIR.exists():
 
 CORS_ORIGINS = ["http://localhost:8000", "https://fly-tlv.com"]
 app.add_middleware(Percent23RedirectMiddleware)
-app.add_middleware(HardenedSecurityMiddleware)
+#app.add_middleware(HardenedSecurityMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
