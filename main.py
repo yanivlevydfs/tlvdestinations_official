@@ -1188,7 +1188,10 @@ async def robots_txt(request: Request):
         logger.error(f"robots.txt not found! | client={request.client.host}")
         raise HTTPException(status_code=404, detail="robots.txt not found")
 
-    
+@app.get("/.well-known/traffic-advice", include_in_schema=False)
+async def traffic_advice(request: Request):
+    logger.info(f"GET /traffic-advice | client={request.client.host}")
+    return JSONResponse(content={"crawl": "full"})
     
 class Url:
     def __init__(self, loc: str, lastmod: date, changefreq: str, priority: float):
@@ -1743,15 +1746,20 @@ async def redirect_to_home(request: Request):
     return RedirectResponse(url=url, status_code=301)
 
     
+
 @app.get("/destinations/{iata}", response_class=HTMLResponse)
 async def destination_detail(request: Request, iata: str):
-    global DATASET_DF, COUNTRY_NAME_TO_ISO
+    """Render destination page and export it to static HTML for SEO"""
+    global DATASET_DF, COUNTRY_NAME_TO_ISO, AIRLINE_WEBSITES, STATIC_DIR
 
+    lang = request.query_params.get("lang", "en")
+
+    # ✅ 1. Validate dataset
     if DATASET_DF is None or DATASET_DF.empty:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
             "message": "No destination data available.",
-            "lang": request.query_params.get("lang", "en")
+            "lang": lang
         })
 
     iata = iata.upper()
@@ -1761,32 +1769,51 @@ async def destination_detail(request: Request, iata: str):
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
             "message": f"Destination {iata} not found.",
-            "lang": request.query_params.get("lang", "en")
+            "lang": lang
         })
 
     dest = destination.iloc[0].to_dict()
 
-    # ✅ Normalize and lookup ISO (match key case with mapping)
+    # ✅ 2. Normalize and find country ISO
     country_name = str(dest.get("Country", "")).strip()
-
-    # First try direct match
-    iso_code = COUNTRY_NAME_TO_ISO.get(country_name)
-
-    # Then try lowercase-insensitive fallback (for safety)
-    if not iso_code:
-        iso_code = next(
-            (v for k, v in COUNTRY_NAME_TO_ISO.items() if k.lower() == country_name.lower()),
-            ""
-        )
-
+    iso_code = COUNTRY_NAME_TO_ISO.get(country_name) or next(
+        (v for k, v in COUNTRY_NAME_TO_ISO.items() if k.lower() == country_name.lower()),
+        ""
+    )
     dest["CountryISO"] = iso_code or ""
 
-    return TEMPLATES.TemplateResponse("destination.html", {
+    # ✅ 3. Prepare static export path
+    output_dir = STATIC_DIR / "destinations" / lang
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"{iata.lower()}.html"
+
+    # ✅ 4. Serve cached version if still fresh
+    MAX_AGE = 86400 * 1  # 1 day in seconds
+
+    if output_file.exists():
+        mtime = output_file.stat().st_mtime
+        if time.time() - mtime < MAX_AGE:
+            logger.info(f"🗂️ Using cached static page: {output_file}")
+            return HTMLResponse(content=output_file.read_text(encoding="utf-8"))
+        else:
+            logger.info(f"♻️ Rebuilding expired page: {output_file}")
+
+    # ✅ 5. Render new HTML and save it
+    rendered_html = TEMPLATES.get_template("destination.html").render({
         "request": request,
         "destination": dest,
-        "lang": request.query_params.get("lang", "en"),
+        "lang": lang,
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
+
+    try:
+        output_file.write_text(rendered_html, encoding="utf-8")
+        logger.info(f"🌍 Static page generated: {output_file}")
+    except Exception as e:
+        logger.error(f"⚠️ Failed to write static HTML for {iata}: {e}")
+
+    return HTMLResponse(content=rendered_html)
+
 
 # Handle all HTTP errors (404, 403, etc.)
 @app.exception_handler(StarletteHTTPException)
