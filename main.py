@@ -1117,6 +1117,13 @@ async def on_startup():
             replace_existing=True,
             next_run_time=datetime.now()
         )
+        scheduler.add_job(
+            sitemap,
+            "interval",
+            hours=24,
+            id="static_regen",
+            replace_existing=True,
+            next_run_time=datetime.now())        
         scheduler.start()
         logger.info("✅ Scheduler started")
     except Exception as e:
@@ -1218,19 +1225,21 @@ def build_sitemap(urls: List[Url]) -> str:
     sitemap.append("</urlset>")
     return "\n".join(sitemap)
 
+
 @app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
 def sitemap():
+    global STATIC_DIR, DATASET_DF
     base = "https://fly-tlv.com"
     today = date.today()
 
-    # Static base URLs
+    # --- 1. Static base URLs ---
     urls = [
         Url(f"{base}/", today, "daily", 1.0),
         Url(f"{base}/stats", today, "daily", 1.0),
         Url(f"{base}/about", today, "yearly", 0.6),
         Url(f"{base}/direct-vs-nonstop", today, "yearly", 0.6),
         Url(f"{base}/privacy", today, "yearly", 0.5),
-        Url(f"{base}/glossary", today, "yearly", 0.5),        
+        Url(f"{base}/glossary", today, "yearly", 0.5),
         Url(f"{base}/contact", today, "yearly", 0.5),
         Url(f"{base}/accessibility", today, "yearly", 0.5),
         Url(f"{base}/terms", today, "yearly", 0.5),
@@ -1238,8 +1247,7 @@ def sitemap():
         Url(f"{base}/flights", today, "weekly", 0.7),
         Url(f"{base}/travel-warnings", today, "weekly", 0.7),
         Url(f"{base}/chat", today, "weekly", 0.8),
-
-        # Hebrew versions
+        # Hebrew
         Url(f"{base}/?lang=he", today, "daily", 1.0),
         Url(f"{base}/stats?lang=he", today, "daily", 1.0),
         Url(f"{base}/about?lang=he", today, "yearly", 0.6),
@@ -1254,6 +1262,8 @@ def sitemap():
         Url(f"{base}/chat?lang=he", today, "weekly", 0.8),
         Url(f"{base}/glossary?lang=he", today, "yearly", 0.5),
     ]
+
+    # --- 2. Add dynamic FastAPI destinations from dataset ---
     try:
         for iata in DATASET_DF["IATA"].dropna().unique():
             iata = str(iata).strip()
@@ -1263,16 +1273,35 @@ def sitemap():
     except Exception as e:
         logger.warning(f"Failed to load dynamic IATA links: {e}")
 
-    # ✅ Build and save sitemap XML
+    # --- 3. Add static-generated HTML pages (SEO cache) ---
+    static_dest_dir = STATIC_DIR / "destinations"
+    if static_dest_dir.exists():
+        for lang_dir in static_dest_dir.iterdir():
+            if not lang_dir.is_dir():
+                continue
+
+            lang_code = lang_dir.name  # "en" or "he"
+            for html_file in lang_dir.glob("*.html"):
+                iata = html_file.stem.upper()
+                lastmod = date.fromtimestamp(html_file.stat().st_mtime)
+                if lang_code == "he":
+                    urls.append(Url(f"{base}/destinations/{iata}?lang=he", lastmod, "weekly", 0.7))
+                else:
+                    urls.append(Url(f"{base}/destinations/{iata}", lastmod, "weekly", 0.7))
+        logger.info(f"🗺️ Added static pages from {static_dest_dir} to sitemap.")
+    else:
+        logger.warning(f"Static destinations folder not found: {static_dest_dir}")
+
+    # --- 4. Build XML ---
     xml = build_sitemap(urls)
     out_path = STATIC_DIR / "sitemap.xml"
 
     try:
         out_path.parent.mkdir(exist_ok=True)
         out_path.write_text(xml, encoding="utf-8")
-        logger.info(f"Sitemap written to {out_path} with {len(urls)} URLs")
+        logger.info(f"✅ Sitemap written to {out_path} with {len(urls)} URLs")
     except Exception as e:
-        logger.error(f"Failed to write sitemap.xml: {e}")
+        logger.error(f"❌ Failed to write sitemap.xml: {e}")
 
     return Response(content=xml, media_type="application/xml")
 
