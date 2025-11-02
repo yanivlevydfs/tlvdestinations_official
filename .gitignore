@@ -120,3 +120,6 @@ run.bat
 # ────────────────
 .ipynb_checkpoints
 .mypy_cache/
+/static/destinations
+/cache
+static/sitemap.xml
