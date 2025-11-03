@@ -2067,7 +2067,10 @@ async def redirect_and_log_404(request: Request, call_next):
         if response.status_code == 404 and not path.startswith("/%23"):
             logger.error(f"⚠️ 404 (dev) from {client_host} → {path}")
         return response
-
+    
+    # 🚫 Skip redirect logic for known static endpoints
+    if path in ("/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml"):
+        return await call_next(request)
     # 🌍 Production: clean & normalize URLs
     url = str(request.url)
     redirect_url = url

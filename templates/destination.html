@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-<link rel="canonical" href="https://fly-tlv.com/destinations" />
-<link rel="alternate" hreflang="en" href="https://fly-tlv.com/destinations" />
-<link rel="alternate" hreflang="he" href="https://fly-tlv.com/destinations?lang=he" />
+
 <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
   <!-- ✅ Page-specific SEO -->
   <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
@@ -22,6 +20,10 @@
   <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
   <meta name="twitter:image:alt" content="TLV airport stats overview">
+	<link rel="canonical" href="https://fly-tlv.com/destinations/{{ destination.IATA }}{{ '' if lang != 'he' else '?lang=he' }}" />
+	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="en" />
+	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}?lang=he" hreflang="he" />
+	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="x-default" />
 
   <!-- Structured Data: Dataset -->
 <script type="application/ld+json">
@@ -254,10 +256,10 @@ body.dark-mode textarea {
     <!-- ✅ Button aligned right -->
     <div class="card-body pt-3 pb-0">
       <div class="text-end">
-        <a href="/" class="btn btn-outline-primary btn-sm">
-          ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
-        </a>
-      </div>
+	<a href="/?lang={{ lang }}" class="btn btn-outline-primary btn-sm">
+	  ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
+	</a>
+	</div>
     </div>
     <!-- ✅ Horizontal line divider -->
     <hr class="mt-2 mb-0">
@@ -389,7 +391,7 @@ body.dark-mode textarea {
 		</div>
 		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
 		  <div class="card-header small text-muted fw-semibold">
-			<i class="bi bi-sim-fill me-1 text-primary"></i> Travel SIM Deals
+			<i class="bi bi-sim-fill me-1 text-primary"></i>{{ 'Travel SIM Deals' if lang != 'he' else 'עסקאות סים לחו״ל' }}
 		  </div>
 		  <div class="card-body text-center p-0" style="overflow: hidden;">
 			<script
@@ -401,7 +403,7 @@ body.dark-mode textarea {
 		</div>
 		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
 		  <div class="card-header small text-muted fw-semibold">
-			<i class="bi bi-tags-fill me-1 text-primary"></i> Flight Deals
+			<i class="bi bi-tags-fill me-1 text-primary"></i>{{ 'Flight Deals' if lang != 'he' else 'מבצעי טיסות' }}
 		  </div>
 		  <div class="card-body text-center p-0" style="overflow: hidden;">
 			<script
@@ -436,9 +438,9 @@ body.dark-mode textarea {
 
     </div>
 	<div class="card-footer text-start">
-	  <a href="/" class="btn btn-outline-primary">
-		← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
-	  </a>
+	<a href="/?lang={{ lang }}" class="btn btn-outline-primary">
+	  ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
+	</a>
 	</div>
   </div>
 </div>
