@@ -6,8 +6,9 @@ import re
 
 SAFE_PATHS = (
     "/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml",
-    "/feed.xml", "/.well-known/traffic-advice"
+    "/feed.xml", "/.well-known/traffic-advice", "/.well-known/assetlinks.json"
 )
+
 SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
     "/icons/", "/og/", "/logos/", "/.well-known/"
