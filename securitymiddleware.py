@@ -1,86 +1,58 @@
-from fastapi import FastAPI, Request, Response, Depends
+from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
 from starlette.status import HTTP_403_FORBIDDEN
 import re
 
-# Suspicious patterns (same as your list)
+# ✅ Safe paths (don’t block static resources)
+SAFE_PATHS = ("/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml")
+SAFE_PATH_PREFIXES = (
+    "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
+    "/icons/", "/og/", "/logos/", "/.well-known/"
+)
+
+# 🛡️ Suspicious path patterns (incl. WordPress scanner defense)
 SUSPICIOUS_PATTERNS = [
-    # === PHP / server-side files ===
-    r"(^|/)phpinfo(\.php)?$", r"(^|/)(index|test|info|setup|config|env|settings)\.php$", r"\.php$",
-    r"wp-config\.php", r"configuration\.php",
-    
-    # === WordPress scanning ===
-    r"(^|/)wp-(admin|login|config|includes|content)(/.*)?(\.php)?$",
-    r"(^|/)xmlrpc\.php$", r"(^|/)readme\.html?$", r"(^|/)license\.txt$",
-    r"(^|/)trackback/?$", r"(^|/)feed/?$", r"(^|/)wp-json(/.*)?$",
-    r"(^|/)index\.php/\?rest_route=.*",
-    r"(^|/).+\.php(\.bak|\.old|\.save|~)?$",
-
-    # === Dotfiles / hidden folders ===
-    r"(^|/)\.(env|aws|git|svn|hg|idea|vscode|DS_Store|history|cache|npm|editorconfig|pytest_cache|tox)$",
-    r"\.swp$", r"\.pid$", r"\.tmp$", r"~$", r"\.bak$", r"\.old$",
-
-    # === Secrets / credentials / tokens / keys ===
-    r"(?i)(access|auth|api|private|client|secret|session|vault|token|key|credentials)[_.-]?(id|key|secret)?(\.txt|\.json|\.yml|\.yaml|ini|cfg)?$",
-    r"(?i)(stripe|sendgrid|twilio|slack|github|gitlab|heroku|aws|gcp|azure)[-_]?(token|key|secret)?",
-
-    # === Database dumps / backups ===
-    r"(?i)(backup|dump|database|db|data|export|site)[-_\.]?(dump|backup)?\.(sql|sqlite|json|db|csv|gz|zip|tar|bz2|bak|old|7z|rar)$",
-
-    # === DevOps / Infrastructure / CI/CD ===
-    r"(?i)(terraform|ansible|k8s|kubernetes|docker|jenkins|travis|gitlab|github|helm|vault|argo|vagrant).*",
-    r"\.tfstate(\.backup)?$", r"(^|/)(dockerfile|docker-compose\.ya?ml)$",
-    r"(cloudbuild|buildspec|azure|bitbucket|gitlab-ci|circleci|appveyor).*\.ya?ml",
-    r"(main|deploy|settings|application|config|values|Chart|kustomization)\.(ya?ml|json|ini|properties|xml)$",
-
-    # === Build / dependency files ===
-    r"(composer|package(-lock)?|yarn|pnpm-lock)\.json$", r"pyproject\.toml", r"Pipfile(\.lock)?", r"requirements\.txt",
-    r"(Gemfile|gradle\.properties|pom\.xml|build\.gradle|Cargo\.toml)$",
-
-    # === ML / AI model & config files ===
-    r"(?i)(model|weights|checkpoint|tokenizer|vectorizer|embeddings)\.(pt|pth|h5|onnx|pkl|bin|joblib)$",
-    r"(config|params|hyperparams)\.(yaml|yml|json|ini|cfg)$",
-
-    # === Log files ===
-    r"(?i)(debug|error|access|application|server|npm[-_]?debug|yarn[-_]?error)\.log$",
-    r"\.log$",
-
-    # === Test / CI output ===
-    r"(coverage|test-results|report|junit|pytest)\.(xml|json|html)$",
-    r"coverage\.xml$", r"\.coverage$", r"junit\.xml$",
-
-    # === Archive / backup / snapshots ===
-    r"\.(zip|tar|gz|rar|7z|bak|tmp|swp|log|old|orig|save|backup)$",
-
+    r"(^|/)phpinfo(\.php)?$",                    # phpinfo
+    r"(^|/)(index|config|env|setup)\.php$",      # common PHP files
+    r"\.php$",                                   # any .php
+    r"wp-(admin|login|config|includes)",         # WordPress core paths
+    r"(wlwmanifest\.xml|xmlrpc\.php)",           # WP API endpoints
+    r"\.(env|git|svn|bak|old|tmp|log|sql|db)$",  # sensitive dotfiles
+    r"(token|secret|key|credentials)[_.-]?(id|key)?",  # credentials
+    r"\.(zip|tar|gz|7z|rar)$",                   # archives
 ]
-
-
 COMPILED_PATTERNS = [re.compile(p, re.IGNORECASE) for p in SUSPICIOUS_PATTERNS]
 
-# Middleware to block suspicious paths
-BAD_AGENTS = [
-    "curl", "wget", "python-requests", "nikto", "fimap", "masscan", "nmap",
-    "sqlmap", "dirbuster", "dirb", "wpscan", "acunetix", "netcraft", "curl",
-    "HTTrack", "httpx", "fetch", "Go-http-client", "libwww", "Scrapy",
-    "Java", "CensysInspect", "scanner", "bot", "spider"
+# 🤖 Known bad bots/user-agents
+BAD_USER_AGENTS = [
+    "curl", "wget", "python-requests", "nikto", "fimap", "sqlmap", "nmap",
+    "scanner", "spider", "bot", "fetch", "httpx", "libwww", "scrapy",
 ]
 
-class HardenedSecurityMiddleware(BaseHTTPMiddleware):
+class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        path = request.url.path
+        path = request.url.path.lower()
         user_agent = request.headers.get("user-agent", "").lower()
         client_ip = request.client.host
 
-        # Block by suspicious path
+        # ⛔ HEAD/OPTIONS are safe
+        if request.method in ("HEAD", "OPTIONS"):
+            return await call_next(request)
+
+        # ✅ Allow listed static & public files
+        if path in SAFE_PATHS or any(path.startswith(p) for p in SAFE_PATH_PREFIXES):
+            return await call_next(request)
+
+        # 🛡️ Block bad paths
         for pattern in COMPILED_PATTERNS:
-            if pattern.search(path):
-                return Response(content="🚫 Forbidden", status_code=HTTP_403_FORBIDDEN)
+            if pattern.search(path):                
+                return JSONResponse({"detail": "Forbidden"}, status_code=HTTP_403_FORBIDDEN)
 
-        # Block by suspicious user-agent
-        for bad in BAD_AGENTS:
-            if bad in user_agent:
-                return Response(content="🚫 Forbidden", status_code=HTTP_403_FORBIDDEN)
+        # 🤖 Block bad bots
+        for bad_ua in BAD_USER_AGENTS:
+            if bad_ua in user_agent:
+                return JSONResponse({"detail": "Forbidden"}, status_code=HTTP_403_FORBIDDEN)
 
-        # Pass through if clean
+        # 👍 All good — proceed
         return await call_next(request)
-

@@ -41,7 +41,7 @@ import subprocess
 import html
 import ast
 from percent23_redirect import Percent23RedirectMiddleware
-from securitymiddleware import HardenedSecurityMiddleware
+from securitymiddleware import SecurityMiddleware
 
 
 os.environ["PYTHONUTF8"] = "1"
@@ -120,7 +120,7 @@ if STATIC_DIR.exists():
 
 CORS_ORIGINS = ["http://localhost:8000", "https://fly-tlv.com"]
 app.add_middleware(Percent23RedirectMiddleware)
-#app.add_middleware(HardenedSecurityMiddleware)
+app.add_middleware(SecurityMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
