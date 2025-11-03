@@ -2225,3 +2225,276 @@ def flight_feed():
 </rss>"""
 
     return Response(content=rss, media_type="application/rss+xml")
+    
+@app.get("/travel-questionnaire", include_in_schema=False)
+async def travel_questionnaire(request: Request, lang: str = "en"):
+    countries = sorted(DATASET_DF["Country"].dropna().unique())
+    return TEMPLATES.TemplateResponse("questionnaire.html", {
+        "request": request,
+        "countries": countries,
+        "lang": lang
+    })
+
+
+
+@app.get("/api/cities")
+async def get_cities(country: str):
+    df = DATASET_DF
+    df.columns = df.columns.str.strip()  # Clean any extra spaces
+    cities = sorted(df[df["Country"] == country]["City"].dropna().unique())
+    return JSONResponse(content={"cities": cities})
+
+@app.get("/api/airports")
+async def get_airports(country: str, city: str):
+    df = DATASET_DF.copy()
+    df.columns = df.columns.str.strip()
+
+    # Filter by country + city
+    filtered = df[(df["Country"] == country) & (df["City"] == city)]
+
+    # Normalize Airlines column
+    filtered.loc[:, "Airlines"] = filtered["Airlines"].astype(str)
+
+    # Drop duplicate airport entries
+    unique_airports = filtered[["IATA", "Name", "Airlines"]].drop_duplicates(subset=["IATA", "Name"])
+
+    airports = []
+    for _, row in unique_airports.iterrows():
+        airlines = []
+
+        val = row["Airlines"]
+        if pd.notna(val) and val.strip().lower() != "nan":
+            # Try to parse list-like strings safely
+            try:
+                parsed = ast.literal_eval(val)
+                if isinstance(parsed, list):
+                    airlines = [str(a).strip() for a in parsed if str(a).strip()]
+                else:
+                    airlines = [str(parsed).strip()]
+            except Exception:
+                # fallback for comma-separated
+                airlines = [a.strip() for a in val.replace(";", ",").split(",") if a.strip()]
+
+        airports.append({
+            "iata": row.IATA,
+            "name": row.Name,
+            "airlines": airlines
+        })
+
+    return JSONResponse(content={"airports": airports})
+
+
+
+EN_TO_HE_COUNTRY = {
+    "Afghanistan": "אפגניסטן",
+    "Albania": "אלבניה",
+    "Algeria": "אלג'יריה",
+    "Andorra": "אנדורה",
+    "Angola": "אנגולה",
+    "Antigua and Barbuda": "אנטיגואה וברבודה",
+    "Argentina": "ארגנטינה",
+    "Armenia": "ארמניה",
+    "Australia": "אוסטרליה",
+    "Austria": "אוסטריה",
+    "Azerbaijan": "אזרבייג'ן",
+    "Bahamas": "איי בהאמה",
+    "Bahrain": "בחריין",
+    "Bangladesh": "בנגלדש",
+    "Barbados": "ברבדוס",
+    "Belarus": "בלארוס",
+    "Belgium": "בלגיה",
+    "Belize": "בליז",
+    "Benin": "בנין",
+    "Bhutan": "בהוטן",
+    "Bolivia": "בוליביה",
+    "Bosnia and Herzegovina": "בוסניה והרצגובינה",
+    "Botswana": "בוצואנה",
+    "Brazil": "ברזיל",
+    "Brunei": "ברוניי",
+    "Bulgaria": "בולגריה",
+    "Burkina Faso": "בורקינה פאסו",
+    "Burundi": "בורונדי",
+    "Cabo Verde": "כף ורדה",
+    "Cambodia": "קמבודיה",
+    "Cameroon": "קמרון",
+    "Canada": "קנדה",
+    "Central African Republic": "הרפובליקה המרכז אפריקאית",
+    "Chad": "צ'אד",
+    "Chile": "צ'ילה",
+    "China": "סין",
+    "Colombia": "קולומביה",
+    "Comoros": "קומורוס",
+    "Congo (Congo-Brazzaville)": "קונגו",
+    "Costa Rica": "קוסטה ריקה",
+    "Croatia": "קרואטיה",
+    "Cuba": "קובה",
+    "Cyprus": "קפריסין",
+    "Czechia": "צ'כיה",
+    "Democratic Republic of the Congo": "הרפובליקה הדמוקרטית של קונגו",
+    "Denmark": "דנמרק",
+    "Djibouti": "ג'יבוטי",
+    "Dominica": "דומיניקה",
+    "Dominican Republic": "הרפובליקה הדומיניקנית",
+    "Ecuador": "אקוודור",
+    "Egypt": "מצרים",
+    "El Salvador": "אל סלבדור",
+    "Equatorial Guinea": "גינאה המשוונית",
+    "Eritrea": "אריתריאה",
+    "Estonia": "אסטוניה",
+    "Eswatini": "אסוואטיני",
+    "Ethiopia": "אתיופיה",
+    "Fiji": "פיג'י",
+    "Finland": "פינלנד",
+    "France": "צרפת",
+    "Gabon": "גבון",
+    "Gambia": "גמביה",
+    "Georgia": "גאורגיה",
+    "Germany": "גרמניה",
+    "Ghana": "גאנה",
+    "Greece": "יוון",
+    "Grenada": "גרנדה",
+    "Guatemala": "גואטמלה",
+    "Guinea": "גינאה",
+    "Guinea-Bissau": "גינאה-ביסאו",
+    "Guyana": "גיאנה",
+    "Haiti": "האיטי",
+    "Honduras": "הונדורס",
+    "Hungary": "הונגריה",
+    "Iceland": "איסלנד",
+    "India": "הודו",
+    "Indonesia": "אינדונזיה",
+    "Iran": "איראן",
+    "Iraq": "עיראק",
+    "Ireland": "אירלנד",
+    "Israel": "ישראל",
+    "Italy": "איטליה",
+    "Jamaica": "ג'מייקה",
+    "Japan": "יפן",
+    "Jordan": "ירדן",
+    "Kazakhstan": "קזחסטן",
+    "Kenya": "קניה",
+    "Kiribati": "קיריבאטי",
+    "Kuwait": "כווית",
+    "Kyrgyzstan": "קירגיזסטן",
+    "Laos": "לאוס",
+    "Latvia": "לטביה",
+    "Lebanon": "לבנון",
+    "Lesotho": "לסוטו",
+    "Liberia": "ליבריה",
+    "Libya": "לוב",
+    "Liechtenstein": "ליכטנשטיין",
+    "Lithuania": "ליטא",
+    "Luxembourg": "לוקסמבורג",
+    "Madagascar": "מדגסקר",
+    "Malawi": "מלאווי",
+    "Malaysia": "מלזיה",
+    "Maldives": "האיים המלדיביים",
+    "Mali": "מאלי",
+    "Malta": "מלטה",
+    "Marshall Islands": "איי מרשל",
+    "Mauritania": "מאוריטניה",
+    "Mauritius": "מאוריציוס",
+    "Mexico": "מקסיקו",
+    "Micronesia": "מיקרונזיה",
+    "Moldova": "מולדובה",
+    "Monaco": "מונקו",
+    "Mongolia": "מונגוליה",
+    "Montenegro": "מונטנגרו",
+    "Morocco": "מרוקו",
+    "Mozambique": "מוזמביק",
+    "Myanmar": "מיאנמר (בורמה)",
+    "Namibia": "נמיביה",
+    "Nauru": "נאורו",
+    "Nepal": "נפאל",
+    "Netherlands": "הולנד",
+    "New Zealand": "ניו זילנד",
+    "Nicaragua": "ניקרגואה",
+    "Niger": "ניז'ר",
+    "Nigeria": "ניגריה",
+    "North Korea": "צפון קוריאה",
+    "North Macedonia": "מקדוניה הצפונית",
+    "Norway": "נורווגיה",
+    "Oman": "עומאן",
+    "Pakistan": "פקיסטן",
+    "Palau": "פלאו",
+    "Panama": "פנמה",
+    "Papua New Guinea": "פפואה גינאה החדשה",
+    "Paraguay": "פרגוואי",
+    "Peru": "פרו",
+    "Philippines": "הפיליפינים",
+    "Poland": "פולין",
+    "Portugal": "פורטוגל",
+    "Qatar": "קטאר",
+    "Romania": "רומניה",
+    "Russia": "רוסיה",
+    "Rwanda": "רואנדה",
+    "Saint Kitts and Nevis": "סנט קיטס ונוויס",
+    "Saint Lucia": "סנט לוסיה",
+    "Saint Vincent and the Grenadines": "סנט וינסנט והגרנדינים",
+    "Samoa": "סמואה",
+    "San Marino": "סן מרינו",
+    "Sao Tome and Principe": "סאו טומה ופרינסיפה",
+    "Saudi Arabia": "ערב הסעודית",
+    "Senegal": "סנגל",
+    "Serbia": "סרביה",
+    "Seychelles": "איי סיישל",
+    "Sierra Leone": "סיירה לאון",
+    "Singapore": "סינגפור",
+    "Slovakia": "סלובקיה",
+    "Slovenia": "סלובניה",
+    "Solomon Islands": "איי שלמה",
+    "Somalia": "סומליה",
+    "South Africa": "דרום אפריקה",
+    "South Korea": "דרום קוריאה",
+    "South Sudan": "דרום סודאן",
+    "Spain": "ספרד",
+    "Sri Lanka": "סרי לנקה",
+    "Sudan": "סודאן",
+    "Suriname": "סורינאם",
+    "Sweden": "שוודיה",
+    "Switzerland": "שווייץ",
+    "Syria": "סוריה",
+    "Taiwan": "טייוואן",
+    "Tajikistan": "טג'יקיסטן",
+    "Tanzania": "טנזניה",
+    "Thailand": "תאילנד",
+    "Timor-Leste": "מזרח טימור",
+    "Togo": "טוגו",
+    "Tonga": "טונגה",
+    "Trinidad and Tobago": "טרינידד וטובגו",
+    "Tunisia": "תוניסיה",
+    "Turkey": "טורקיה",
+    "Turkmenistan": "טורקמניסטן",
+    "Tuvalu": "טובאלו",
+    "Uganda": "אוגנדה",
+    "Ukraine": "אוקראינה",
+    "United Arab Emirates": "איחוד האמירויות הערביות",
+    "United Kingdom": "בריטניה",
+    "United States": "ארצות הברית",
+    "Uruguay": "אורוגוואי",
+    "Uzbekistan": "אוזבקיסטן",
+    "Vanuatu": "ונואטו",
+    "Vatican City": "וותיקן",
+    "Venezuela": "ונצואלה",
+    "Vietnam": "וייטנאם",
+    "Yemen": "תימן",
+    "Zambia": "זמביה",
+    "Zimbabwe": "זימבבואה"
+}
+
+
+@app.get("/api/warnings")
+async def get_warnings(country: str):
+    df = TRAVEL_WARNINGS_DF.copy()
+    df.columns = df.columns.str.strip().str.lower()
+
+    he_country = EN_TO_HE_COUNTRY.get(country)
+    if not he_country:
+        return JSONResponse(status_code=400, content={"error": f"No Hebrew mapping found for '{country}'"})
+
+    warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
+
+
+    if not warnings.empty:
+        return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
+    return JSONResponse(content={"warnings": []})
