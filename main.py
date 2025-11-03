@@ -1197,7 +1197,11 @@ async def robots_txt(request: Request):
 
 @app.get("/.well-known/traffic-advice", include_in_schema=False)
 async def traffic_advice(request: Request):
-    logger.info(f"GET /traffic-advice | client={request.client.host}")
+    ua = request.headers.get("user-agent", "").lower()
+    if "googlebot" not in ua:
+        return Response(status_code=204)  # No Content for non-bots
+
+    logger.info(f"GET /traffic-advice | Googlebot from {request.client.host}")
     return JSONResponse(content={"crawl": "full"})
     
 class Url:
