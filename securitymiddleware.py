@@ -5,7 +5,10 @@ from starlette.status import HTTP_403_FORBIDDEN
 import re
 
 # ✅ Safe paths (don’t block static resources)
-SAFE_PATHS = ("/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml")
+SAFE_PATHS = (
+    "/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml",
+    "/feed.xml", "/.well-known/traffic-advice"  # 👈 Add any additional well-known or SEO-specific paths
+)
 SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
     "/icons/", "/og/", "/logos/", "/.well-known/"
