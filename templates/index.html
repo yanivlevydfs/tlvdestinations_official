@@ -486,7 +486,8 @@
               <!-- Ad / Sponsored Cards -->
 			<div class="card mt-3 shadow-sm" aria-label="Advertisement" style="max-width: 100%;">
 			  <div class="card-header small text-muted fw-semibold">
-				<i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Cancelled or Delayed?
+				<i class="bi bi-airplane-engines me-1 text-primary"></i>{{ 'Flight Cancelled or Delayed?' if lang != 'he' else 'טיסה בוטלה או התעכבה?' }}
+
 			  </div>
 			  <div class="card-body text-center p-0" style="overflow: hidden;">
 				<div style="overflow: hidden;">
@@ -500,7 +501,7 @@
 			</div>
 			<div class="card shadow-sm d-none d-lg-block" aria-label="Advertisement">
 			  <div class="card-header small text-muted fw-semibold">
-				<i class="bi bi-airplane-engines me-1 text-primary"></i> Airport Transfer
+				<i class="bi bi-airplane-engines me-1 text-primary"></i>{{ 'Airport Transfer' if lang != 'he' else 'העברות מנמל התעופה' }}
 			  </div>
 			  <div class="card-body text-center p-0" style="overflow: hidden;">
 				<script
@@ -688,12 +689,12 @@
         <!-- Ads Under Table -->
         <div class="card mt-3 shadow-sm" aria-label="Advertisement">
           <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-airplane-engines me-1 text-primary"></i> Direct Flights Deals
+            <i class="bi bi-airplane-engines me-1 text-primary"></i>{{ 'Direct Flight Deals' if lang != 'he' else 'מבצעי טיסות ישירות' }}
           </div>
           <div class="card-body text-center p-0">
             <script
               async
-              src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.destinationsflights&lat=32.000454&lng=34.870743&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale={{ localeParam }}&origin=TLV&value_min=0&value_max=1000000&round_trip=true&only_direct=true&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=true&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1500&height=500&zoom=2&promo_id=4054&campaign_id=100"
+              src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.destinationsflights&lat=32.000454&lng=34.870743&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale={{ localeParam }}&origin=TLV&value_min=0&value_max=1000000&round_trip=true&only_direct=true&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=true&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1010&height=500&zoom=2&promo_id=4054&campaign_id=100"
               charset="utf-8"
             ></script>
           </div>
@@ -701,7 +702,7 @@
 
         <div class="card mt-3 shadow-sm" aria-label="Advertisement">
           <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-sim-fill me-1 text-primary"></i> Travel SIM Deals
+            <i class="bi bi-sim-fill me-1 text-primary"></i>{{ 'Travel SIM Deals' if lang != 'he' else 'עסקאות סים לחו״ל' }}
           </div>
           <div class="card-body text-center p-0">
             <script
