@@ -1677,7 +1677,7 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
             "message": "No travel warnings available at this time."
         }, status_code=503)
 
-    warnings = TRAVEL_WARNINGS_DF.to_dict(orient="records")
+    warnings = TRAVEL_WARNINGS_DF[TRAVEL_WARNINGS_DF["office"] == 'מל"ל'].to_dict(orient="records")
 
     # Safely get and parse last update timestamp
     last_update_str = TRAVEL_WARNINGS_DF.attrs.get("last_update")
