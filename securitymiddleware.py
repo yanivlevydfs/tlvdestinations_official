@@ -4,16 +4,21 @@ from starlette.responses import JSONResponse
 from starlette.status import HTTP_403_FORBIDDEN
 import re
 
+
+# ✅ מסלולים בטוחים לחלוטין (קבצי מערכת)
 SAFE_PATHS = (
     "/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml",
     "/feed.xml", "/.well-known/traffic-advice", "/.well-known/assetlinks.json"
 )
 
+# ✅ כל prefix שמותר — כולל דפי האפליקציה שלך
 SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
-    "/icons/", "/og/", "/logos/", "/.well-known/"
+    "/icons/", "/og/", "/logos/", "/.well-known/",
+    "/", "/flights", "/destinations", "/travel-questionnaire"
 )
 
+# 🧩 תבניות של קבצים מסוכנים בלבד
 SUSPICIOUS_PATTERNS = [
     r"(^|/)phpinfo(\.php)?$",
     r"(^|/)(index|config|env|setup)\.php$",
@@ -26,16 +31,19 @@ SUSPICIOUS_PATTERNS = [
 ]
 COMPILED_PATTERNS = [re.compile(p, re.IGNORECASE) for p in SUSPICIOUS_PATTERNS]
 
+# ❌ בוטים לא רצויים בלבד
 BAD_USER_AGENTS = [
     "curl", "wget", "python-requests", "nikto", "fimap", "sqlmap", "nmap",
-    "scanner", "spider", "bot", "fetch", "httpx", "libwww", "scrapy",
+    "scanner", "fetch", "httpx", "libwww", "scrapy",
 ]
 
+# ✅ בוטים לגיטימיים
 GOOD_BOTS = [
     "googlebot", "bingbot", "yandex", "baiduspider", "duckduckbot",
     "facebookexternalhit", "twitterbot", "applebot", "chatgpt",
     "openai", "msnbot", "slurp"
 ]
+
 
 class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
@@ -43,22 +51,32 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         user_agent = request.headers.get("user-agent", "").lower()
         client_ip = request.client.host
 
+        # ✅ מותר ל-HEAD/OPTIONS
         if request.method in ("HEAD", "OPTIONS"):
             return await call_next(request)
 
+        # ✅ אם זה נתיב בטוח או prefix בטוח — לא לחסום
         if path in SAFE_PATHS or any(path.startswith(p) for p in SAFE_PATH_PREFIXES):
             return await call_next(request)
 
-        # ✅ Allow if from a known good bot
+        # ✅ לא לחסום בוטים טובים
         if any(bot in user_agent for bot in GOOD_BOTS):
+            logger.info(f"🟢 Allowed good bot {user_agent} from {client_ip}")
             return await call_next(request)
 
+        # ✅ לא לחסום דפדפנים אמיתיים
+        if "mozilla" in user_agent or user_agent.strip() == "":
+            return await call_next(request)
+
+        # 🚫 חסום רק אם יש דפוס חשוד ממשי (כמו .php או .env)
         for pattern in COMPILED_PATTERNS:
-            if pattern.search(path):                
+            if pattern.search(path):
                 return JSONResponse({"detail": "Forbidden"}, status_code=HTTP_403_FORBIDDEN)
 
+        # 🚫 חסום רק אם זה user-agent בעייתי
         for bad_ua in BAD_USER_AGENTS:
             if bad_ua in user_agent:
                 return JSONResponse({"detail": "Forbidden"}, status_code=HTTP_403_FORBIDDEN)
 
+        # ✅ ברירת מחדל: לעבור הלאה
         return await call_next(request)
