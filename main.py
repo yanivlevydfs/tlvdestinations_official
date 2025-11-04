@@ -96,6 +96,7 @@ TEMPLATES.env.globals['time'] = time
 AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
 ISRAEL_FLIGHTS_FILE   = CACHE_DIR / "israel_flights.json"
 TRAVEL_WARNINGS_FILE = CACHE_DIR / "travel_warnings.json"
+COUNTRY_TRANSLATIONS = DATA_DIR / "country_translations.json"
 
 # Constants
 TLV = {"IATA": "TLV", "Name": "Ben Gurion Airport", "lat": 32.0068, "lon": 34.8853}
@@ -138,10 +139,24 @@ AIRLINE_WEBSITES: dict = {}
 scheduler: AsyncIOScheduler | None = None
 AIRPORTS_DB: dict = {}
 COUNTRY_NAME_TO_ISO: dict[str, str] = {}
+EN_TO_HE_COUNTRY = {}
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def load_country_translations():
+    global EN_TO_HE_COUNTRY
+    try:
+        with open(COUNTRY_TRANSLATIONS, encoding="utf-8") as f:
+            EN_TO_HE_COUNTRY = json.load(f)
+            logger.info(f"Loaded {len(EN_TO_HE_COUNTRY)} country translations from {COUNTRY_TRANSLATIONS.name}")
+    except FileNotFoundError:
+        logger.error(f"Translation file not found: {COUNTRY_TRANSLATIONS}")
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON in {COUNTRY_TRANSLATIONS}: {e}")
+    except Exception as e:
+        logger.exception(f"Unexpected error loading country translations: {e}")
+        
 def get_git_version():
     """Return the project version based on Git commit and date, or 'dev' if unavailable."""
     root = os.path.dirname(os.path.abspath(__file__))
@@ -1051,10 +1066,13 @@ async def on_startup():
     global TRAVEL_WARNINGS_DF, COUNTRY_NAME_TO_ISO
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
     global APP_VERSION
-
+    global EN_TO_HE_COUNTRY
+    
     logger.info("🚀 Application startup initiated")
     # 🎯 0) Set Git version
     logger.info(f"🔖 App Version: {APP_VERSION}")
+    
+    load_country_translations()
     
     # 0) Load IATA DB once
     try:
@@ -2283,211 +2301,6 @@ async def get_airports(country: str, city: str):
         })
 
     return JSONResponse(content={"airports": airports})
-
-
-
-EN_TO_HE_COUNTRY = {
-    "Afghanistan": "אפגניסטן",
-    "Albania": "אלבניה",
-    "Algeria": "אלג'יריה",
-    "Andorra": "אנדורה",
-    "Angola": "אנגולה",
-    "Antigua and Barbuda": "אנטיגואה וברבודה",
-    "Argentina": "ארגנטינה",
-    "Armenia": "ארמניה",
-    "Australia": "אוסטרליה",
-    "Austria": "אוסטריה",
-    "Azerbaijan": "אזרבייג'ן",
-    "Bahamas": "איי בהאמה",
-    "Bahrain": "בחריין",
-    "Bangladesh": "בנגלדש",
-    "Barbados": "ברבדוס",
-    "Belarus": "בלארוס",
-    "Belgium": "בלגיה",
-    "Belize": "בליז",
-    "Benin": "בנין",
-    "Bhutan": "בהוטן",
-    "Bolivia": "בוליביה",
-    "Bosnia and Herzegovina": "בוסניה הרצגובינה",
-    "Bosnia": "בוסניה הרצגובינה",
-    "Botswana": "בוצואנה",
-    "Brazil": "ברזיל",
-    "Brunei": "ברוניי",
-    "Bulgaria": "בולגריה",
-    "Burkina Faso": "בורקינה פאסו",
-    "Burundi": "בורונדי",
-    "Cabo Verde": "כף ורדה",
-    "Cambodia": "קמבודיה",
-    "Cameroon": "קמרון",
-    "Canada": "קנדה",
-    "Central African Republic": "הרפובליקה המרכז אפריקאית",
-    "Chad": "צ'אד",
-    "Chile": "צ'ילה",
-    "China": "סין",
-    "Colombia": "קולומביה",
-    "Comoros": "קומורוס",
-    "Congo (Congo-Brazzaville)": "קונגו",
-    "Costa Rica": "קוסטה ריקה",
-    "Croatia": "קרואטיה",
-    "Cuba": "קובה",
-    "Cyprus": "קפריסין",
-    "Czechia": "צ'כיה",
-    "Czech Republic": "צ'כיה",
-    "Democratic Republic of the Congo": "הרפובליקה הדמוקרטית של קונגו",
-    "Denmark": "דנמרק",
-    "Djibouti": "ג'יבוטי",
-    "Dominica": "דומיניקה",
-    "Dominican Republic": "הרפובליקה הדומיניקנית",
-    "Ecuador": "אקוודור",
-    "Egypt": "מצרים",
-    "El Salvador": "אל סלבדור",
-    "Equatorial Guinea": "גינאה המשוונית",
-    "Eritrea": "אריתריאה",
-    "Estonia": "אסטוניה",
-    "Eswatini": "אסוואטיני",
-    "Ethiopia": "אתיופיה",
-    "Fiji": "פיג'י",
-    "Finland": "פינלנד",
-    "France": "צרפת",
-    "Gabon": "גבון",
-    "Gambia": "גמביה",
-    "Georgia": "גיאורגיה",
-    "Germany": "גרמניה",
-    "Ghana": "גאנה",
-    "Greece": "יוון",
-    "Grenada": "גרנדה",
-    "Guatemala": "גואטמלה",
-    "Guinea": "גינאה",
-    "Guinea-Bissau": "גינאה-ביסאו",
-    "Guyana": "גיאנה",
-    "Haiti": "האיטי",
-    "Honduras": "הונדורס",
-    "Hungary": "הונגריה",
-    "Iceland": "איסלנד",
-    "India": "הודו",
-    "Indonesia": "אינדונזיה",
-    "Iran": "איראן",
-    "Iraq": "עיראק",
-    "Ireland": "אירלנד",
-    "Israel": "ישראל",
-    "Italy": "איטליה",
-    "Jamaica": "ג'מייקה",
-    "Japan": "יפן",
-    "Jordan": "ירדן",
-    "Kazakhstan": "קזחסטן",
-    "Kenya": "קניה",
-    "Kiribati": "קיריבאטי",
-    "Kuwait": "כווית",
-    "Kyrgyzstan": "קירגיזסטן",
-    "Laos": "לאוס",
-    "Latvia": "לטביה",
-    "Lebanon": "לבנון",
-    "Lesotho": "לסוטו",
-    "Liberia": "ליבריה",
-    "Libya": "לוב",
-    "Liechtenstein": "ליכטנשטיין",
-    "Lithuania": "ליטא",
-    "Luxembourg": "לוקסמבורג",
-    "Madagascar": "מדגסקר",
-    "Malawi": "מלאווי",
-    "Malaysia": "מלזיה",
-    "Maldives": "האיים המלדיביים",
-    "Mali": "מאלי",
-    "Malta": "מלטה",
-    "Marshall Islands": "איי מרשל",
-    "Mauritania": "מאוריטניה",
-    "Mauritius": "מאוריציוס",
-    "Mexico": "מקסיקו",
-    "Micronesia": "מיקרונזיה",
-    "Moldova": "מולדובה",
-    "Monaco": "מונקו",
-    "Mongolia": "מונגוליה",
-    "Montenegro": "מונטנגרו",
-    "Morocco": "מרוקו",
-    "Mozambique": "מוזמביק",
-    "Myanmar": "מיאנמר (בורמה)",
-    "Namibia": "נמיביה",
-    "Nauru": "נאורו",
-    "Nepal": "נפאל",
-    "Netherlands": "הולנד",
-    "New Zealand": "ניו זילנד",
-    "Nicaragua": "ניקרגואה",
-    "Niger": "ניז'ר",
-    "Nigeria": "ניגריה",
-    "North Korea": "צפון קוריאה",
-    "North Macedonia": "מקדוניה הצפונית",
-    "Norway": "נורווגיה",
-    "Oman": "עומאן",
-    "Pakistan": "פקיסטן",
-    "Palau": "פלאו",
-    "Panama": "פנמה",
-    "Papua New Guinea": "פפואה גינאה החדשה",
-    "Paraguay": "פרגוואי",
-    "Peru": "פרו",
-    "Philippines": "הפיליפינים",
-    "Poland": "פולין",
-    "Portugal": "פורטוגל",
-    "Qatar": "קטאר",
-    "Romania": "רומניה",
-    "Russia": "רוסיה",
-    "Russian Federation": "רוסיה",
-    "Rwanda": "רואנדה",
-    "Saint Kitts and Nevis": "סנט קיטס ונוויס",
-    "Saint Lucia": "סנט לוסיה",
-    "Saint Vincent and the Grenadines": "סנט וינסנט והגרנדינים",
-    "Samoa": "סמואה",
-    "San Marino": "סן מרינו",
-    "Sao Tome and Principe": "סאו טומה ופרינסיפה",
-    "Saudi Arabia": "ערב הסעודית",
-    "Senegal": "סנגל",
-    "Serbia": "סרביה",
-    "Seychelles": "איי סיישל",
-    "Sierra Leone": "סיירה לאון",
-    "Singapore": "סינגפור",
-    "Slovakia": "סלובקיה",
-    "Slovenia": "סלובניה",
-    "Solomon Islands": "איי שלמה",
-    "Somalia": "סומליה",
-    "South Africa": "דרום אפריקה",
-    "South Korea": "דרום קוריאה",
-    "South Sudan": "דרום סודאן",
-    "Spain": "ספרד",
-    "Sri Lanka": "סרי לנקה",
-    "Sudan": "סודאן",
-    "Suriname": "סורינאם",
-    "Sweden": "שוודיה",
-    "Switzerland": "שווייץ",
-    "Syria": "סוריה",
-    "Taiwan": "טייוואן",
-    "Tajikistan": "טג'יקיסטן",
-    "Tanzania": "טנזניה",
-    "Thailand": "תאילנד",
-    "Timor-Leste": "מזרח טימור",
-    "Togo": "טוגו",
-    "Tonga": "טונגה",
-    "Trinidad and Tobago": "טרינידד וטובגו",
-    "Tunisia": "תוניסיה",
-    "Turkey": "טורקיה",
-    "Turkmenistan": "טורקמניסטן",
-    "Tuvalu": "טובאלו",
-    "Uganda": "אוגנדה",
-    "Ukraine": "אוקראינה",
-    "United Arab Emirates": "איחוד האמירויות הערביות",
-    "United Kingdom": "בריטניה",
-    "United States": "ארצות הברית",
-    "Uruguay": "אורוגוואי",
-    "Uzbekistan": "אוזבקיסטן",
-    "Uzbekistan": "אוזבקיסטאן",
-    "Vanuatu": "ונואטו",
-    "Vatican City": "וותיקן",
-    "Venezuela": "ונצואלה",
-    "Vietnam": "וייטנאם",
-    "Yemen": "תימן",
-    "Zambia": "זמביה",
-    "Zimbabwe": "זימבבואה",
-    "Madagaskar": "מדגסקר",
-}
-
 
 @app.get("/api/warnings")
 async def get_warnings(country: str):
