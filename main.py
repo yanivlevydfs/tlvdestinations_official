@@ -2232,7 +2232,8 @@ async def travel_questionnaire(request: Request, lang: str = "en"):
     return TEMPLATES.TemplateResponse("questionnaire.html", {
         "request": request,
         "countries": countries,
-        "lang": lang
+        "lang": lang,
+        "last_update": get_dataset_date()
     })
 
 

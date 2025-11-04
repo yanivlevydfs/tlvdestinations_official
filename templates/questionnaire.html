@@ -100,7 +100,16 @@
     <div class="card-header bg-primary text-white text-center fw-semibold">
       ✈️ {{ 'Travel Questionnaire' if lang != 'he' else 'שאלון נסיעות' }}
     </div>
-
+<div class="col-12 text-center">
+  <span class="last-update-badge d-inline-block mt-1 mx-auto">
+    <i class="bi bi-clock-history"></i>
+    {% if lang == "he" %}
+      עדכון אחרון: <strong>{{ last_update }}</strong>
+    {% else %}
+      Last update: <strong>{{ last_update }}</strong>
+    {% endif %}
+  </span>
+</div>
     <div class="card-body">
       <form id="travel-form">
         <!-- Country -->
@@ -152,7 +161,7 @@
         </h6>
         <div id="airlines-chips" class="d-flex flex-wrap gap-2"></div>
       </div>
-	  <div id="ad-container" class="card mt-3 shadow-sm d-none" aria-label="Advertisement">
+	  <div id="ad-container" class="card mt-3 shadow-sm d-none" aria-label="Flightstoshow">
 		  <div id="ad-header" class="card-header small text-muted fw-semibold">
 			<i class="bi bi-airplane-engines me-1 text-primary"></i>
 			{{ 'Direct Flight Deals' if lang != 'he' else 'מבצעי טיסות ישירות' }}
