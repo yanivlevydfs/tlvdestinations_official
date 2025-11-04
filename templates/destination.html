@@ -252,15 +252,20 @@ body.dark-mode textarea {
 
 <div class="container mt-5">
   <div class="card shadow-lg">
-
     <!-- ✅ Button aligned right -->
-    <div class="card-body pt-3 pb-0">
-      <div class="text-end">
-	<a href="/?lang={{ lang }}" class="btn btn-outline-primary btn-sm">
-	  ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
-	</a>
+	<div class="card-body pt-3 pb-0">
+	  <div class="text-end">
+		<a href="{{ '/' if lang != 'he' else '/?lang=he' }}"
+		   class="btn btn-outline-primary btn-sm"
+		   dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+		  {% if lang == 'he' %}
+			חזרה לטבלה →
+		  {% else %}
+			← Back to table
+		  {% endif %}
+		</a>
+	  </div>
 	</div>
-    </div>
     <!-- ✅ Horizontal line divider -->
     <hr class="mt-2 mb-0">
     <!-- 🔷 Blue title/header bar -->
@@ -438,9 +443,14 @@ body.dark-mode textarea {
 
     </div>
 	<div class="card-footer text-start">
-	<a href="/?lang={{ lang }}" class="btn btn-outline-primary">
-	  ← {{ 'Back to table' if lang != 'he' else 'חזרה לטבלה' }}
-	</a>
+	  <a href="{{ '/' if lang != 'he' else '/?lang=he' }}"
+		 class="btn btn-outline-primary">
+		{% if lang == 'he' %}
+		  חזרה לטבלה →
+		{% else %}
+		  ← Back to table
+		{% endif %}
+	  </a>
 	</div>
   </div>
 </div>
