@@ -253,18 +253,31 @@ body.dark-mode textarea {
 <div class="container mt-5">
   <div class="card shadow-lg">
     <!-- ✅ Button aligned right -->
-	<div class="card-body pt-3 pb-0">
-	  <div class="text-end">
-		<a href="{{ '/' if lang != 'he' else '/?lang=he' }}"
-		   class="btn btn-outline-primary btn-sm"
-		   dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
-		  {% if lang == 'he' %}
-			חזרה לטבלה →
-		  {% else %}
-			← Back to table
-		  {% endif %}
-		</a>
-	  </div>
+<div class="card-body pt-3 pb-0">
+  <div class="d-flex justify-content-between flex-wrap">
+    <!-- Left: Back to questionnaire -->
+    <a href="{{ '/travel-questionnaire' if lang != 'he' else '/travel-questionnaire?lang=he' }}"
+       class="btn btn-outline-primary btn-sm"
+       dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+      {% if lang == 'he' %}
+        🚀 תכונה חדשה
+      {% else %}
+        🚀 New Feature
+      {% endif %}
+    </a>
+
+    <!-- Right: Back to table -->
+    <a href="{{ '/' if lang != 'he' else '/?lang=he' }}"
+       class="btn btn-outline-primary btn-sm"
+       dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+      {% if lang == 'he' %}
+        חזרה לטבלה →
+      {% else %}
+        ← Back to table
+      {% endif %}
+    </a>
+  </div>
+
 	</div>
     <!-- ✅ Horizontal line divider -->
     <hr class="mt-2 mb-0">

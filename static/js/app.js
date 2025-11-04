@@ -533,5 +533,9 @@ if (window.innerWidth <= 768) {
     });
     $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
   })();
-
+  if (!sessionStorage.getItem("modalShown")) {
+    const modal = new bootstrap.Modal(document.getElementById('featureModal'));
+    modal.show();
+    sessionStorage.setItem("modalShown", "true");
+  }
 });

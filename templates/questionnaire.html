@@ -165,7 +165,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const lang = "{{ lang or 'en' }}";  // Get current language from template context
+  const lang = "{{ lang or 'en' }}";
   const countrySelect = document.getElementById("country");
   const citySelect = document.getElementById("city");
   const airportSelect = document.getElementById("airport");
@@ -176,14 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const airlinesContainer = document.getElementById("airlines-container");
   const airlinesChips = document.getElementById("airlines-chips");
 
-  // 🧭 New ad container
   const adContainer = document.getElementById("ad-container");
   const adBody = document.getElementById("ad-body");
   const adHeader = document.getElementById("ad-header");
 
   let currentAirportData = [];
 
-  // 🌐 Translations
   const t = {
     choose_city: lang === "he" ? "בחרו עיר" : "Choose a city",
     choose_airport: lang === "he" ? "בחרו שדה תעופה" : "Choose an airport",
@@ -191,7 +189,43 @@ document.addEventListener("DOMContentLoaded", () => {
     no_airlines: lang === "he" ? "אין חברות תעופה פעילות" : "No airlines available",
   };
 
-  // 🌍 Country selection → City
+  // Show travel warnings for selected country
+  async function showTravelWarnings(country) {
+    const warnRes = await fetch(`/api/warnings?country=${encodeURIComponent(country)}`);
+    const warnData = await warnRes.json();
+
+    if (warnData.warnings && warnData.warnings.length > 0) {
+      const messages = warnData.warnings.map(w => {
+        const safeText = w.recommendations || "⚠️ Travel advisory issued.";
+        const safeLink = w.link
+          ? `<a href="${w.link}" target="_blank" rel="noopener noreferrer" class="ms-1 text-decoration-underline">[More info]</a>`
+          : "";
+
+        let formattedDate = "";
+        if (w.date) {
+          const dateObj = new Date(w.date);
+          if (!isNaN(dateObj)) {
+            formattedDate = dateObj.toLocaleDateString(lang === "he" ? "he-IL" : "en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            formattedDate = `<div class="text-muted small mt-1">${formattedDate}</div>`;
+          }
+        }
+
+        return `<p class="mb-2">${safeText}${safeLink}${formattedDate}</p>`;
+      }).join("");
+
+      warningMessage.innerHTML = messages;
+      warningContainer.classList.remove("d-none");
+    } else {
+      warningMessage.innerHTML = "";
+      warningContainer.classList.add("d-none");
+    }
+  }
+
+  // Country selection → cities + travel warnings
   countrySelect.addEventListener("change", async () => {
     const country = countrySelect.value;
     resetBelow("country");
@@ -204,13 +238,19 @@ document.addEventListener("DOMContentLoaded", () => {
         citySelect.innerHTML += `<option value="${city}">${city}</option>`;
       });
       cityContainer.classList.remove("d-none");
+
+      // Auto-select city if there's only one
       if (data.cities.length === 1) {
         citySelect.value = data.cities[0];
         citySelect.dispatchEvent(new Event("change"));
       }
+
+      // Show travel warnings immediately on country change
+      await showTravelWarnings(country);
     }
   });
-  // 🏙 City selection → Airports + Travel warnings
+
+  // City selection → airports
   citySelect.addEventListener("change", async () => {
     const country = countrySelect.value;
     const city = citySelect.value;
@@ -226,28 +266,15 @@ document.addEventListener("DOMContentLoaded", () => {
         airportSelect.innerHTML += `<option value="${airport.iata}">${airport.name} (${airport.iata})</option>`;
       });
       airportContainer.classList.remove("d-none");
-	  if (data.airports.length === 1) {
-		airportSelect.value = data.airports[0].iata;
-		// Trigger the same logic as if the user selected it manually
-		airportSelect.dispatchEvent(new Event("change"));
-		}
 
-      // Travel warnings
-      const warnRes = await fetch(`/api/warnings?country=${encodeURIComponent(country)}`);
-      const warnData = await warnRes.json();
-
-      if (warnData.warnings && warnData.warnings.length > 0) {
-        const messages = warnData.warnings.map(w => `<p>${w.recommendations}</p>`).join("");
-        warningMessage.innerHTML = messages;
-        warningContainer.classList.remove("d-none");
-      } else {
-        warningContainer.classList.add("d-none");
-        warningMessage.innerHTML = "";
+      if (data.airports.length === 1) {
+        airportSelect.value = data.airports[0].iata;
+        airportSelect.dispatchEvent(new Event("change"));
       }
     }
   });
 
-  // 🛫 Airport selection → Airlines chips + Ad widget
+  // Airport selection → airlines + ad
   airportSelect.addEventListener("change", () => {
     const selectedIATA = airportSelect.value;
     const selected = currentAirportData.find(a => a.iata === selectedIATA);
@@ -268,29 +295,23 @@ document.addEventListener("DOMContentLoaded", () => {
       airlinesChips.innerHTML = `<span class="text-muted small">${t.no_airlines}</span>`;
     }
 
-    // 🧾 Dynamic Ad Widget
+    // Ad widget logic
     if (!selectedIATA) {
       adContainer.classList.add("d-none");
       adBody.innerHTML = "";
       return;
     }
 
-    // Update bilingual header
     adHeader.innerHTML =
       lang === "he"
         ? `<i class="bi bi-airplane-engines me-1 text-primary"></i> מבצעי טיסות מתל אביב אל ${cityName}`
         : `<i class="bi bi-airplane-engines me-1 text-primary"></i> Direct Flight Deals from TLV to ${cityName}`;
 
-    // Sync dark/light theme
     const theme = localStorage.getItem("fe-theme") || "light";
-    const darkColor = theme === "dark" ? "%23000000" : "%23FFFFFF";
     const localeParam = lang === 'he' ? 'he' : 'en';
 
-    // Build the Aviasales script URL dynamically
     const scriptUrl = `https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.questionnar&searchUrl=www.aviasales.com%2Fsearch&locale=${localeParam}&powered_by=true&origin=TLV&destination=${selected.iata}&one_way=false&only_direct=true&period=year&range=7%2C14&primary=%230C73FE&color_background=%23ffffff&dark=%23000000&light=%23FFFFFF&achieve=%230F57C9ff&promo_id=4041&campaign_id=100`;
 
-
-    // Clear old ad & inject new script
     adBody.innerHTML = "";
     const script = document.createElement("script");
     script.src = scriptUrl;
@@ -301,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
     adContainer.classList.remove("d-none");
   });
 
-  // 🔄 Reset logic
+  // Reset UI
   function resetBelow(level) {
     if (level === "country") {
       cityContainer.classList.add("d-none");
@@ -321,6 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
 
 <style>
 #ad-container {

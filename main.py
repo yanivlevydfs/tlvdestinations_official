@@ -2307,7 +2307,8 @@ EN_TO_HE_COUNTRY = {
     "Benin": "בנין",
     "Bhutan": "בהוטן",
     "Bolivia": "בוליביה",
-    "Bosnia and Herzegovina": "בוסניה והרצגובינה",
+    "Bosnia and Herzegovina": "בוסניה הרצגובינה",
+    "Bosnia": "בוסניה הרצגובינה",
     "Botswana": "בוצואנה",
     "Brazil": "ברזיל",
     "Brunei": "ברוניי",
@@ -2330,6 +2331,7 @@ EN_TO_HE_COUNTRY = {
     "Cuba": "קובה",
     "Cyprus": "קפריסין",
     "Czechia": "צ'כיה",
+    "Czech Republic": "צ'כיה",
     "Democratic Republic of the Congo": "הרפובליקה הדמוקרטית של קונגו",
     "Denmark": "דנמרק",
     "Djibouti": "ג'יבוטי",
@@ -2348,7 +2350,7 @@ EN_TO_HE_COUNTRY = {
     "France": "צרפת",
     "Gabon": "גבון",
     "Gambia": "גמביה",
-    "Georgia": "גאורגיה",
+    "Georgia": "גיאורגיה",
     "Germany": "גרמניה",
     "Ghana": "גאנה",
     "Greece": "יוון",
@@ -2427,6 +2429,7 @@ EN_TO_HE_COUNTRY = {
     "Qatar": "קטאר",
     "Romania": "רומניה",
     "Russia": "רוסיה",
+    "Russian Federation": "רוסיה",
     "Rwanda": "רואנדה",
     "Saint Kitts and Nevis": "סנט קיטס ונוויס",
     "Saint Lucia": "סנט לוסיה",
@@ -2473,13 +2476,15 @@ EN_TO_HE_COUNTRY = {
     "United States": "ארצות הברית",
     "Uruguay": "אורוגוואי",
     "Uzbekistan": "אוזבקיסטן",
+    "Uzbekistan": "אוזבקיסטאן",
     "Vanuatu": "ונואטו",
     "Vatican City": "וותיקן",
     "Venezuela": "ונצואלה",
     "Vietnam": "וייטנאם",
     "Yemen": "תימן",
     "Zambia": "זמביה",
-    "Zimbabwe": "זימבבואה"
+    "Zimbabwe": "זימבבואה",
+    "Madagaskar": "מדגסקר",
 }
 
 
@@ -2494,7 +2499,12 @@ async def get_warnings(country: str):
 
     warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
 
-
     if not warnings.empty:
+        # Keep only the required columns
+        warnings = warnings[["recommendations", "details_url", "date"]]
+        # Optionally rename for frontend expectations
+        warnings = warnings.rename(columns={"details_url": "link"})
         return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
+
     return JSONResponse(content={"warnings": []})
+
