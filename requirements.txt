@@ -22,4 +22,4 @@ asyncio
 aiohttp
 pycountry
 geopy
-
+json-repair

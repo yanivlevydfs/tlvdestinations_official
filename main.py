@@ -42,7 +42,7 @@ import html
 import ast
 from percent23_redirect import Percent23RedirectMiddleware
 from securitymiddleware import SecurityMiddleware
-
+from json_repair import repair_json
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -357,13 +357,11 @@ def _extract_threat_level(text: str) -> str:
         return "Low"
     return "Unknown"
 
-
 def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
     offset = 0
     all_records = []
     global TRAVEL_WARNINGS_DF
-
 
     try:
         while True:
@@ -372,9 +370,22 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
                 "limit": batch_size,
                 "offset": offset,
             }
+            logger.info(f"🌐 Fetching travel warnings batch offset={offset} ...")
             r = requests.get(TRAVEL_WARNINGS_API, params=params, timeout=30)
             r.raise_for_status()
-            data = r.json()
+
+            # ✅ Try normal JSON parsing, fallback to json-repair if malformed
+            try:
+                data = r.json()
+            except JSONDecodeError as e:
+                logger.warning(f"⚠️ Malformed JSON from gov.il travel warnings API: {e}")
+                try:
+                    fixed_json = repair_json(r.text)
+                    data = json.loads(fixed_json)
+                    logger.info("✅ JSON repaired successfully using json-repair")
+                except Exception as repair_err:
+                    logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
+                    break  # exit pagination loop safely
 
             records = data.get("result", {}).get("records", [])
             if not records:
@@ -414,9 +425,16 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             "warnings": all_records,
         }
 
-        with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
-            json.dump(result, f, ensure_ascii=False, indent=2)
+        # Cache to disk
+        try:
+            with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            logger.info(f"✅ Cached {len(all_records)} travel warnings to disk")
+        except Exception as e:
+            logger.error(f"❌ Failed to write travel warnings to disk: {e}", exc_info=True)
+            return None
 
+        # Update DataFrame
         if all_records:
             TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
             TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
@@ -427,9 +445,16 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
         logger.info(f"Travel warnings refreshed: {len(all_records)} total")
         return result
 
-    except Exception as e:
-        logger.error(f"Failed to fetch travel warnings: {e}")
+    except RequestException as e:
+        logger.error(f"🚨 Request error fetching travel warnings: {e}", exc_info=True)
         return None
+    except JSONDecodeError as e:
+        logger.error(f"🚨 Failed to decode travel warnings JSON: {e}", exc_info=True)
+        return None
+    except Exception as e:
+        logger.error(f"❌ Failed to fetch travel warnings: {e}", exc_info=True)
+        return None
+
 
 
 
@@ -554,7 +579,19 @@ def fetch_israel_flights() -> dict | None:
         r = requests.get(ISRAEL_API, params=params, timeout=30)
         r.raise_for_status()
 
-        data = r.json()
+        # ✅ Try normal JSON first, fallback to json-repair if broken
+        try:
+            data = r.json()
+        except JSONDecodeError as e:
+            logger.warning(f"⚠️ Malformed JSON from gov.il API: {e}")
+            try:
+                fixed_json = repair_json(r.text)
+                data = json.loads(fixed_json)
+                logger.info("✅ JSON repaired successfully using json-repair")
+            except Exception as repair_err:
+                logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
+                return None
+
         records = data.get("result", {}).get("records", [])
         logger.debug(f"🔍 API returned {len(records)} raw records")
 
@@ -588,6 +625,7 @@ def fetch_israel_flights() -> dict | None:
             "count": len(flights),
             "flights": flights
         }
+
         # Cache to disk
         try:
             with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
@@ -599,16 +637,15 @@ def fetch_israel_flights() -> dict | None:
 
         return result
 
-    except requests.exceptions.RequestException as e:
+    except RequestException as e:
         logger.error(f"🚨 Request error fetching gov.il flights: {e}", exc_info=True)
         return None
-    except json.JSONDecodeError as e:
+    except JSONDecodeError as e:
         logger.error(f"🚨 Failed to decode gov.il API response: {e}", exc_info=True)
         return None
     except Exception as e:
         logger.error(f"❌ Unexpected error fetching gov.il flights: {e}", exc_info=True)
         return None
-
 
 def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     """
