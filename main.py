@@ -653,13 +653,34 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     Returns a flat flight events DataFrame and optional ISO date string.
     """
     try:
-        import json
         with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
-            meta = json.load(f)
+            try:
+                meta = json.load(f)
+            except JSONDecodeError as e:
+                logger.warning(f"⚠️ Corrupted israel_flights.json detected: {e}")
+                f.seek(0)
+                broken_text = f.read()
+
+                try:
+                    fixed_text = repair_json(broken_text)
+                    meta = json.loads(fixed_text)
+                    logger.info("✅ israel_flights.json repaired successfully using json-repair")
+
+                    # Optional: rewrite the repaired version to disk
+                    with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
+                        json.dump(meta, fw, ensure_ascii=False, indent=2)
+                        logger.info("💾 Repaired israel_flights.json saved to disk")
+
+                except Exception as repair_err:
+                    logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
+                    return pd.DataFrame(columns=[
+                        "airline", "iata", "airport", "city", "country",
+                        "scheduled", "actual", "direction", "status"
+                    ]), None
 
         flights = meta.get("flights", [])
         if not flights:
-            logger.warning("No 'flights' found in israel_flights.json")
+            logger.warning("⚠️ No 'flights' found in israel_flights.json")
             return pd.DataFrame(), None
 
         df = pd.DataFrame(flights)
@@ -678,6 +699,7 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     except Exception as e:
         logger.error(f"Failed to read flights dataset: {e}", exc_info=True)
 
+    # Return empty fallback DataFrame
     return pd.DataFrame(columns=[
         "airline", "iata", "airport", "city", "country",
         "scheduled", "actual", "direction", "status"
@@ -688,20 +710,43 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     global AIRPORTS_DB
 
     if not ISRAEL_FLIGHTS_FILE.exists():
-        return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"]), None
+        return pd.DataFrame(columns=[
+            "IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"
+        ]), None
 
     try:
+        # ✅ Attempt to load JSON normally
         with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
-            meta = json.load(f)
+            try:
+                meta = json.load(f)
+            except JSONDecodeError as e:
+                logger.warning(f"⚠️ Corrupted israel_flights.json detected: {e}")
+                f.seek(0)
+                broken_text = f.read()
+                try:
+                    fixed_text = repair_json(broken_text)
+                    meta = json.loads(fixed_text)
+                    logger.info("✅ israel_flights.json repaired successfully using json-repair")
+
+                    # Optional: persist repaired version
+                    with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
+                        json.dump(meta, fw, ensure_ascii=False, indent=2)
+                        logger.info("💾 Repaired israel_flights.json saved to disk")
+                except Exception as repair_err:
+                    logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
+                    return pd.DataFrame(columns=[
+                        "IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"
+                    ]), None
 
         flights = meta.get("flights", [])
-
         grouped: dict[tuple[str, str], dict] = {}
+
         for rec in flights:
             iata = rec.get("iata")
-            direction = rec.get("direction")  # A or D
+            direction = rec.get("direction")
             if not iata or not direction:
                 continue
+
             key = (iata, direction)
             entry = grouped.setdefault(key, {
                 "IATA": iata,
@@ -733,7 +778,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
         df = pd.DataFrame(rows)
 
-        # Optional: extract date
+        # Extract last update date if present
         file_date = None
         updated = meta.get("updated")
         if updated:
@@ -747,7 +792,9 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
     except Exception as e:
         logger.error(f"Failed to read dataset file: {e}", exc_info=True)
-        return pd.DataFrame(columns=["IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"]), None
+        return pd.DataFrame(columns=[
+            "IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"
+        ]), None
 
 def load_israel_flights_map():
     """Return dict {IATA: set(airlines)} from gov.il cache"""
