@@ -43,6 +43,7 @@ import ast
 from percent23_redirect import Percent23RedirectMiddleware
 from securitymiddleware import SecurityMiddleware
 from json_repair import repair_json
+from json.decoder import JSONDecodeError
 
 os.environ["PYTHONUTF8"] = "1"
 try:
