@@ -144,16 +144,6 @@ def setup_logging(
     })
 
     logging.getLogger("app").info("Logging configured ✅")
-        # ✅ Ensure flights_explorer always writes to console
-    flights_logger = logging.getLogger("flights_explorer")
-    flights_logger.setLevel(log_level)
-    has_console = any(isinstance(h, logging.StreamHandler) for h in flights_logger.handlers)
-    if not has_console:
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(log_level)
-        console_handler.setFormatter(logging.Formatter("%(levelname)s | %(asctime)s | %(name)s | %(message)s"))
-        flights_logger.addHandler(console_handler)
-        flights_logger.info("Console handler attached to flights_explorer ✅")
 
 def get_app_logger(name: str = "app") -> logging.Logger:
     """מחזיר לוגר לשימוש באפליקציה."""

@@ -100,7 +100,7 @@ run.bat
 !static/css/
 !static/js/
 !static/icons/
-!static/Logos/
+!static/logos/
 !static/og/
 !static/.well-known/
 
@@ -119,4 +119,15 @@ run.bat
 .ipynb_checkpoints
 .mypy_cache/
 /cache
-static/sitemap.xml
+
+# ────────────────
+# Keep folder structure only (ignore contents)
+# ────────────────
+
+# Keep /static/destinations/ but ignore its contents
+/static/destinations/*
+!/static/destinations/.gitkeep
+
+# Keep /build/ but ignore its contents
+/build/*
+!/build/.gitkeep
