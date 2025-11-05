@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <title>Fly TLV → Worldwide Destinations</title>
+  <meta name="description" content="Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.">
+  <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/favicon.ico" />
+  	<!-- Standard favicon (still needed) -->
+	<link rel="manifest" href="/manifest.json">
+	<link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+	<!-- Android Chrome / PWA -->
+	<link rel="icon" type="image/png" sizes="192x192" href="/static/icons/icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="512x512" href="/static/icons/icon-512x512.png">
+	<!-- iOS Safari (Home Screen icon) -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+
+	<!-- Canonical & Hreflang -->
+	<link rel="canonical" href="https://fly-tlv.com/destinations/AUH" />
+	<link rel="alternate" hreflang="en" href="https://fly-tlv.com/" />
+	<link rel="alternate" hreflang="he" href="https://fly-tlv.com/?lang=he" />
+	<link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/" />
+	<link rel="alternate" type="application/rss+xml" title="TLV Flights Feed" href="https://fly-tlv.com/feed.xml" />
+
+
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fly-tlv.com/" />
+  <meta property="og:title" content="Flights Explorer — All TLV Destinations Worldwide" />
+  <meta property="og:description" content="Discover all direct destinations from Tel Aviv (TLV) across the globe with maps, airlines, and travel details." />
+  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+  <meta property="og:image:alt" content="Map of worldwide destinations from Tel Aviv (TLV)" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Flights Explorer — All TLV Destinations Worldwide" />
+  <meta name="twitter:description" content="Direct worldwide destinations from Tel Aviv (TLV) with airlines, maps, and travel insights." />
+  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+  <meta name="twitter:image:alt" content="Map of worldwide destinations from Tel Aviv (TLV)" />
+
+  <!-- Ads -->
+  <meta name="google-adsense-account" content="ca-pub-7964221655161384" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="http://127.0.0.1:8000/static/css/app.css?v=1762281962.9490654">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
+
+  <!-- JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+
+  <!-- Structured Data: Dataset -->
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — Worldwide Destinations Explorer",
+    "url": "https://fly-tlv.com/",
+    "inLanguage": "en-US",
+    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fly TLV — כל היעדים מתל אביב",
+    "url": "https://fly-tlv.com/?lang=he",
+    "inLanguage": "he-IL",
+    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Destinations Board",
+    "url": "https://fly-tlv.com/destinations"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "לוח יעדים",
+    "url": "https://fly-tlv.com/destinations?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "World Map",
+    "url": "https://fly-tlv.com/map"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת יעדים",
+    "url": "https://fly-tlv.com/map?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Travel Warnings",
+    "url": "https://fly-tlv.com/travel-warnings"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "אזהרות מסע",
+    "url": "https://fly-tlv.com/travel-warnings?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Chat",
+    "url": "https://fly-tlv.com/chat"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צ׳אט",
+    "url": "https://fly-tlv.com/chat?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "About",
+    "url": "https://fly-tlv.com/about"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "עלינו",
+    "url": "https://fly-tlv.com/about?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Privacy Policy",
+    "url": "https://fly-tlv.com/privacy"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מדיניות פרטיות",
+    "url": "https://fly-tlv.com/privacy?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Contact",
+    "url": "https://fly-tlv.com/contact"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "צור קשר",
+    "url": "https://fly-tlv.com/contact?lang=he"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Sitemap",
+    "url": "https://fly-tlv.com/sitemap.xml"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "מפת אתר",
+    "url": "https://fly-tlv.com/sitemap.xml"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Fly TLV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fly TLV is a travel insights platform listing all direct flight destinations from Ben Gurion Airport (TLV) with airlines, flight times, and distances."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I book flights through Fly TLV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Fly TLV does not sell tickets but provides verified links to airlines and booking sites."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which airlines fly from Tel Aviv?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Airlines from TLV include El Al, Arkia, Israir, Lufthansa, Emirates, Turkish Airlines, and more."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the destinations updated regularly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Fly TLV updates its data frequently according to official airline schedules."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between direct and nonstop flights?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nonstop flights have no stops between TLV and the destination; direct flights may include short stopovers but stay on the same plane."
+        }
+      }
+    ]
+  }
+]
+</script>
+<style>
+#brand-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Mobile (≤576px) */
+@media (max-width: 576px) {
+  .navbar .container {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+  }
+
+  #brand-title {
+    font-size: 1.2rem;
+    justify-content: center;
+  }
+}
+
+/* Tiny screens (≤400px) */
+@media (max-width: 400px) {
+  #brand-title {
+    font-size: 1rem;
+  }
+}
+/* Global override for all dark mode text */
+body.dark-mode, 
+body.dark-mode * {
+  color: #ffffff !important;
+}
+
+/* Fix Bootstrap badges and nav background */
+body.dark-mode .bg-light,
+body.dark-mode .bg-body,
+body.dark-mode .navbar,
+body.dark-mode .card-header,
+body.dark-mode .badge,
+body.dark-mode .footer-bg {
+  background-color: #1f1f1f !important;
+  color: #ffffff !important;
+}
+
+/* Fix Bootstrap class overrides */
+body.dark-mode .text-dark {
+  color: #ffffff !important;
+}
+body.dark-mode .text-muted {
+  color: #b0b0b0 !important;
+}
+.footer-link[aria-current="page"] {
+  font-weight: 600;
+  color: var(--bs-primary) !important;
+  text-decoration: underline;
+}
+/* 🔵 Improve outline button colors in dark mode */
+body.dark-mode .btn-outline-primary {
+  color: #93c5fd !important;           /* soft blue text */
+  border-color: #60a5fa !important;    /* light blue border */
+}
+
+body.dark-mode .btn-outline-primary:hover {
+  background-color: #1e40af !important; /* blue-800 */
+  color: #ffffff !important;
+  border-color: #3b82f6 !important;
+}
+
+/* 🌒 Fix icon color inside buttons */
+body.dark-mode .btn-outline-primary i {
+  color: #60a5fa !important;  /* soft yellow for moon/globe/etc */
+}
+/* 🧠 Ensure .btn-outline-primary colors the text even in RTL layout */
+body.dark-mode .btn-outline-primary,
+body.dark-mode .btn-outline-primary span,
+body.dark-mode .btn-outline-primary strong {
+  color: #93c5fd !important;
+}
+
+</style>
+
+</head>
+
+<body>
+  <!-- ✅ NAVBAR -->
+  <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
+    <div class="container-fluid">
+      <a id="brand-title" class="navbar-brand d-flex align-items-center" href="/">
+        <i class="bi bi-airplane-engines me-2"></i>Fly TLV → Worldwide Destinations
+      </a>
+<div class="d-flex align-items-center justify-content-center gap-2">
+<button id="view-map-btn" class="btn btn-outline-primary">
+  <i class="bi bi-globe-americas me-1"></i> 
+  View Map
+</button>
+
+<button id="ai-chat-btn" class="btn btn-outline-primary" type="button">
+  <i class="bi bi-robot me-1"></i> 
+  Ask AI
+</button>
+
+<button id="theme-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle theme">
+  <i id="theme-icon" class="bi bi-moon-stars me-1"></i> 
+  Theme
+</button>
+
+<button id="lang-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle language">
+  <i class="bi bi-translate me-1"></i> 
+  <span id="lang-label">עברית</span>
+</button>
+</div>
+    </div>
+  </nav>
+
+  <!-- ✅ MAIN CONTENT -->
+  <main class="container-fluid mt-4 px-3" role="main">
+    
+
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <!-- ✅ Button aligned right -->
+<div class="card-body pt-3 pb-0">
+  <div class="d-flex justify-content-between flex-wrap">
+    <!-- Left: Back to questionnaire -->
+    <a href="/travel-questionnaire"
+       class="btn btn-outline-primary btn-sm"
+       dir="ltr">
+      
+        🚀 New Feature
+      
+    </a>
+
+    <!-- Right: Back to table -->
+    <a href="/"
+       class="btn btn-outline-primary btn-sm"
+       dir="ltr">
+      
+        ← Back to table
+      
+    </a>
+  </div>
+
+	</div>
+    <!-- ✅ Horizontal line divider -->
+    <hr class="mt-2 mb-0">
+    <!-- 🔷 Blue title/header bar -->
+	<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap">
+	  <h3 class="mb-0 fs-5">
+		✈️ TLV to Abu Dhabi (AUH)
+	  </h3>
+	  <span class="badge bg-light text-dark">
+		United Arab Emirates
+		
+		  <img src="https://flagcdn.com/24x18/ae.png"
+			   alt="United Arab Emirates" class="ms-1" />
+		
+	  </span>
+	</div>
+
+    <!-- Body -->
+<div class="card-body">
+  <!-- Compact Quick info grid -->
+  <div class="row text-center mb-3">
+    <div class="col-md-3">
+      <i class="bi bi-geo-alt-fill text-danger" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small"><strong>Abu Dhabi</strong></p>
+      <small class="text-muted">City</small>
+    </div>
+    <div class="col-md-3">
+      <i class="bi bi-signpost-split-fill text-success" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small">AUH</p>
+      <small class="text-muted">IATA</small>
+    </div>
+    <div class="col-md-3">
+      <i class="bi bi-rulers text-primary" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small">2109.6 km</p>
+      <small class="text-muted">Distance</small>
+    </div>
+    <div class="col-md-3">
+      <i class="bi bi-clock-history text-warning" style="font-size: 1.3rem;"></i>
+      <p class="mb-0 small">3h 5m</p>
+      <small class="text-muted">Flight Time</small>
+    </div>
+  </div>
+
+
+      <!-- Coordinates -->
+      <p>
+        <strong>Coordinates:</strong>
+        24.433, 54.6511
+      </p>
+
+      <!-- Airlines -->
+<h6 class="mt-4 mb-2 fw-semibold">
+  <i class="bi bi-airplane-engines me-1 text-primary"></i>
+  Airlines:
+</h6>
+
+
+  <div class="d-flex flex-wrap gap-2">
+    
+      
+      
+      
+        <a href="https://www.google.com/search?q=China%20Eastern%20Airlines%20Co.%20Ltd"
+           target="_blank"
+           rel="noopener"
+           class="airline-chip text-decoration-none"
+           style="transition: all 0.2s ease-in-out;"
+           title="Search for China Eastern Airlines Co. Ltd on Google">
+          <span>China Eastern Airlines Co. Ltd</span>
+          <i class="bi bi-search ms-2 opacity-50"></i>
+        </a>
+      
+    
+      
+      
+      
+        <a href="https://www.elal.com/"
+           target="_blank"
+           rel="noopener"
+           class="airline-chip text-decoration-none"
+           style="transition: all 0.2s ease-in-out;"
+           title="Visit El Al Israel Airlines website">
+          <span>El Al Israel Airlines</span>
+          <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+        </a>
+      
+    
+      
+      
+      
+        <a href="https://www.etihad.com/"
+           target="_blank"
+           rel="noopener"
+           class="airline-chip text-decoration-none"
+           style="transition: all 0.2s ease-in-out;"
+           title="Visit Etihad Airways website">
+          <span>Etihad Airways</span>
+          <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+        </a>
+      
+    
+      
+      
+      
+        <a href="https://www.google.com/search?q=Srilanka%20Airlines"
+           target="_blank"
+           rel="noopener"
+           class="airline-chip text-decoration-none"
+           style="transition: all 0.2s ease-in-out;"
+           title="Search for Srilanka Airlines on Google">
+          <span>Srilanka Airlines</span>
+          <i class="bi bi-search ms-2 opacity-50"></i>
+        </a>
+      
+    
+  </div>
+
+
+<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
+  <div class="card-header small text-muted fw-semibold">
+    <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Search
+  </div>
+  <div class="card-body text-center p-0" style="overflow: hidden;">
+	<script
+	  async
+	  src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.flight_bannerindex&show_hotels=true&powered_by=true&locale=en&searchUrl=www.aviasales.com%2Fsearch&primary_override=%2332a8dd&color_button=%2332a8dd&color_icons=%2332a8dd&dark=%23262626&light=%23FFFFFF&secondary=%23FFFFFF&special=%23C4C4C400&color_focused=%2332a8dd&border_radius=19&no_labels=true&plain=true&origin=TLV&destination=AUH&promo_id=7879&campaign_id=100"
+	  charset="utf-8">
+	</script>
+  </div>
+</div>
+
+      <!-- Wikipedia City Overview -->
+      <div class="mt-5">
+        <h5><i class="bi bi-info-circle"></i>
+          About Abu Dhabi
+        </h5>
+        <div id="city-overview" class="border rounded p-3 bg-light">
+          Loading city info...
+        </div>
+      </div>
+	<!-- 🌤️ Weather for Destination -->
+		<div class="mt-5">
+		  <h5>
+			<i class="bi bi-cloud-sun"></i>
+			Weather in Abu Dhabi
+		  </h5>
+
+		  <div class="border rounded p-2 bg-light">
+			<iframe
+			  width="100%"
+			  height="450"
+			  frameborder="0"
+			  src="https://embed.windy.com/embed2.html?lat=24.433&lon=54.6511&detailLat=24.433&detailLon=54.6511&width=100%&height=450&zoom=8&level=surface&overlay=wind&menu=&message=true&marker=&calendar=24&pressure=false&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
+			  allowfullscreen
+			  loading="lazy"
+			  title="Abu Dhabi Weather from Windy">
+			</iframe>
+		  </div>
+		</div>
+		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
+		  <div class="card-header small text-muted fw-semibold">
+			<i class="bi bi-sim-fill me-1 text-primary"></i>Travel SIM Deals
+		  </div>
+		  <div class="card-body text-center p-0" style="overflow: hidden;">
+			<script
+			  async
+			  src="https://tpembd.com/content?trs=461563&shmarker=674907.destinationsim&locale=en&country=United%20Arab%20Emirates&powered_by=true&color_button=%2332a8dd&color_focused=%2332a8dd&secondary=%23FFFFFF&dark=%23262626&light=%23FFFFFF&special=%2300000000&border_radius=0&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
+			  charset="utf-8">
+			  </script>
+		  </div>
+		</div>
+		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
+		  <div class="card-header small text-muted fw-semibold">
+			<i class="bi bi-tags-fill me-1 text-primary"></i>Flight Deals
+		  </div>
+		  <div class="card-body text-center p-0" style="overflow: hidden;">
+			<script
+			  async
+			  src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.destinationsflights&color_button=%23045DA8ff&target_host=www.aviasales.com%2Fsearch&locale=en&powered_by=true&origin=TLV&destination=AUH&with_fallback=true&non_direct_flights=false&min_lines=5&border_radius=0&color_background=%23FFFFFF&color_text=%23000000&color_border=%23FFFFFF&promo_id=2811&campaign_id=100"
+			  charset="utf-8">
+			</script>
+		  </div>
+		</div>
+      <!-- Map -->
+
+  <div class="card shadow-sm mb-4 mt-4">
+    <div class="card-header small text-muted fw-semibold d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-globe2 me-1 text-primary"></i>
+        Interactive Flight Map
+      </span>
+      <button class="btn btn-sm btn-outline-secondary d-lg-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#flightMapWidget"
+              aria-expanded="true" aria-controls="flightMapWidget">
+        Toggle Map
+      </button>
+    </div>
+    <div class="card-body text-center p-0 collapse show d-lg-block" id="flightMapWidget" style="overflow: auto;">
+	<script
+	  async
+	  src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.destinationsflights&lat=24.433&lng=54.6511&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale=en&origin=TLV&value_min=0&value_max=1000000&round_trip=true&only_direct=true&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=true&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1500&height=500&zoom=5&promo_id=4054&campaign_id=100"
+	  charset="utf-8">
+	</script>
+    </div>
+  </div>
+
+
+    </div>
+	<div class="card-footer text-start">
+	  <a href="/"
+		 class="btn btn-outline-primary">
+		
+		  ← Back to table
+		
+	  </a>
+	</div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const city = "Abu%20Dhabi";
+  const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${city}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Wiki not found");
+    const data = await res.json();
+
+    const box = document.getElementById("city-overview");
+    let html = "";
+
+    if (data.thumbnail) {
+      html += `
+        <div class="row">
+          <div class="col-12 col-md-auto text-center">
+            <img src="${data.thumbnail.source}" 
+                 alt="${data.title}" 
+                 class="img-fluid rounded shadow-sm mb-3 me-md-3" 
+                 style="max-width:180px;">
+          </div>
+          <div class="col">
+      `;
+    }
+
+    html += `<strong>${data.title}</strong><br>`;
+    if (data.description) {
+      html += `<em>${data.description}</em><br>`;
+    }
+    html += `<p>${data.extract}</p>`;
+
+    if (data.thumbnail) {
+      html += `</div></div>`; // ✅ close the row
+    }
+
+    box.innerHTML = html;
+  } catch (err) {
+    document.getElementById("city-overview").innerHTML =
+      "No Wikipedia data found.";
+    console.error(err);
+  }
+});
+</script>
+
+
+
+  </main>
+
+<!-- ✅ FOOTER -->
+<footer class="mt-3 border-top footer-bg">
+  <!-- First container -->
+  <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-3 mb-md-0">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-airplane-engines text-primary me-3 fs-5"></i>
+        <span id="footer-brand" class="fw-semibold">
+          Fly TLV → Worldwide Destinations
+        </span>
+      </div>
+      <div id="footer-tagline" class="small text-muted mt-1">
+        Real routes, distances &amp; estimated flight times.
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div id="footer-marketing">
+        
+        ✈️ <strong>The smart way to explore direct destinations from Tel Aviv (TLV)</strong><br>
+        Finding the right destination can be confusing — which airlines actually serve the route, on what days, and whether it’s truly non-stop or just a codeshare.
+		<br>
+        At <a href="https://fly-tlv.com" class="fw-bold text-decoration-none" target="_blank" rel="noopener">Fly-TLV.com</a>,
+        we make it simple: a clear overview of all nonstop destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.  
+        Everything in one place, so you can plan your next trip with confidence.
+        
+      </div>
+    </div>
+  </div> <!-- ✅ closes first .container -->
+
+<!-- 📦 Organized Footer Navigation -->
+<div class="container">
+  <nav class="footer-nav small mb-3 mb-md-0" aria-label="Footer navigation">
+    <a href="/"
+       class="footer-link"
+       rel="home"
+       aria-label="Home page"
+       aria-current="false">
+      Home
+    </a>
+
+    <a href="/about"
+       class="footer-link"
+       aria-label="About Fly TLV page"
+       aria-current="false">
+      About
+    </a>
+
+    <a href="/accessibility"
+       class="footer-link"
+       aria-label="Accessibility statement"
+       aria-current="false">
+      Accessibility
+    </a>
+
+    <a href="/privacy"
+       class="footer-link"
+       aria-label="Privacy policy page"
+       aria-current="false">
+      Privacy Policy
+    </a>
+
+    <a href="/contact"
+       class="footer-link"
+       aria-label="Contact page"
+       aria-current="false">
+      Contact
+    </a>
+
+    <a href="/chat"
+       class="footer-link"
+       aria-label="AI Bot chat page"
+       aria-current="false">
+      AI Bot
+    </a>
+
+    <a href="/flights"
+       class="footer-link"
+       aria-label="Flights overview page"
+       aria-current="false">
+      Flights
+    </a>
+
+    <a href="/travel-warnings"
+       class="footer-link"
+       aria-label="Travel warnings page"
+       aria-current="false">
+      Travel Warnings
+    </a>
+
+    <a href="/map"
+       class="footer-link"
+       aria-label="World destinations map page"
+       aria-current="false">
+      Map
+    </a>
+
+    <a href="/sitemap.xml"
+       class="footer-link"
+       rel="sitemap"
+       aria-label="Website sitemap"
+       aria-current="false">
+      Sitemap
+    </a>
+
+    <a href="/glossary"
+       class="footer-link"
+       rel="glossary"
+       aria-label="Glossary of flight terms"
+       aria-current="false">
+      Glossary
+    </a>
+
+    <a href="/stats"
+       class="footer-link"
+       rel="statistics"
+       aria-label="Flight statistics page"
+       aria-current="false">
+      Statistics
+    </a>
+
+    <a href="/direct-vs-nonstop"
+       class="footer-link"
+       rel="direct-vs-nonstop"
+       aria-label="Direct versus nonstop explanation page"
+       aria-current="false">
+      Direct vs Nonstop
+    </a>
+	<a href="/terms"
+   class="footer-link"
+   rel="noopener"
+   hreflang="en"
+   aria-label="View the Terms &amp; Conditions for Fly TLV"
+   aria-current="false">
+  Terms &amp; Conditions
+	</a>
+	<a href="/feed.xml"
+   class="footer-link"
+   rel="alternate"
+   type="application/rss+xml"
+   target="_blank"
+   aria-label="Flight RSS feed">
+  RSS Feed
+</a>
+  </nav>
+</div>
+
+<!-- Bottom bar -->
+<div class="footer-bottom py-2" aria-label="Site legal notice and copyright">
+  <div class="container small text-center text-muted">
+    <p class="mb-2 fw-bold text-muted" style="font-size: 1.0rem;" aria-label="Disclaimer notice">
+      
+        ⚠️ Note: The information presented on this site is an estimate only and may vary depending on factors beyond our knowledge.
+        Please follow airline and government authority instructions. Do not rely solely on the information here, which is provided for guidance only.
+      
+    </p>
+
+<div class="text-muted" style="font-size: 0.9rem;" aria-label="Copyright">
+  © <span id="footer-year"></span>
+  <span id="footer-brand-inline">
+    <a href="https://fly-tlv.com"
+       class="footer-link"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Fly TLV official website">
+      Fly TLV → Worldwide Destinations
+    </a>
+  </span>
+  <br />
+  <span id="footer-rights" aria-label="Rights notice">
+    All rights reserved
+  </span>
+  <br />
+  <small style="font-size: 0.6rem; color: #6c757d;">
+    vdev
+  </small>
+</div>
+
+  </div>
+</div>
+
+<div id="install-app-container" aria-label="Install Fly TLV progressive web app">
+  <div class="install-app-inner">
+    <button id="install-app-btn" aria-label="Install Fly-TLV App">
+      📲 Install Fly-TLV App 📲
+    </button>
+  </div>
+</div>
+</footer>
+
+
+
+
+
+  <!-- ✅ JS -->
+  <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('theme-toggle');
+      const icon = document.getElementById('theme-icon');
+      const saved = localStorage.getItem('theme') || 'light';
+
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+        icon.className = 'bi bi-sun';
+      }
+
+      btn.addEventListener('click', () => {
+        const dark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        icon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      });
+    });
+  </script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const mapModal = document.getElementById('mapModal');
+  const iframe   = document.getElementById('map-frame');
+
+  // Bootstrap event when modal is shown
+  mapModal.addEventListener('shown.bs.modal', () => {
+    if (!iframe.src) {
+      iframe.src = iframe.dataset.src;
+    }
+  });
+
+  // Optional: unload map when modal is closed (prevents multiple /map reloads in background)
+  mapModal.addEventListener('hidden.bs.modal', () => {
+    iframe.removeAttribute('src');
+  });
+});
+</script>
+  <!-- ✅ Map Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl" style="max-width:95%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-map me-2"></i>
+          <span id="map-title">Flight Map</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="height:80vh;overflow:hidden;padding:0">
+        <iframe id="map-frame" data-src="/map" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js")
+        .then((reg) => {
+          console.log("✅ Service Worker registered:", reg.scope);
+        })
+        .catch((err) => {
+          console.error("❌ Service Worker registration failed:", err);
+        });
+    });
+  }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // MAP BUTTON -> show map modal
+  const mapBtn = document.getElementById('view-map-btn');
+  if (mapBtn) {
+    mapBtn.addEventListener('click', () => {
+      const mapModal = new bootstrap.Modal(document.getElementById('mapModal'));
+      mapModal.show();
+    });
+  }
+
+  // AI BUTTON -> redirect to chat
+  const aiBtn = document.getElementById('ai-chat-btn');
+  if (aiBtn) {
+    aiBtn.addEventListener('click', () => {
+      const lang = document.documentElement.getAttribute('lang');
+      window.location.href = lang === 'he' ? '/chat?lang=he' : '/chat';
+    });
+  }
+
+  // LANGUAGE BUTTON -> toggle lang param in URL
+  const langBtn = document.getElementById('lang-toggle');
+  if (langBtn) {
+    langBtn.addEventListener('click', () => {
+      const currentLang = document.documentElement.getAttribute('lang') || 'en';
+      const newLang = currentLang === 'he' ? 'en' : 'he';
+
+      const url = new URL(window.location.href);
+      if (newLang === 'he') {
+        url.searchParams.set('lang', 'he');
+      } else {
+        url.searchParams.delete('lang');
+      }
+      window.location.href = url.toString();
+    });
+  }
+});
+</script>
+<script>
+(function() {
+  const url = new URL(window.location.href);
+  const urlLang = url.searchParams.get('lang');
+  const storedLang = localStorage.getItem('fe-lang');
+
+  if (!urlLang && storedLang === 'he') {
+    // Reload page with lang=he
+    url.searchParams.set('lang', 'he');
+    window.location.replace(url.toString());
+  }
+})();
+</script>
+
+
+</body>
+</html>

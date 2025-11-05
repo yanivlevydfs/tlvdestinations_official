@@ -80,12 +80,10 @@ Thumbs.db
 # Cache + temp data
 cache/
 cache/*
-data/*.tmp
 *.log
 
 # Ignore JSON data cache (but keep schema/config JSON)
 cache/*.json
-data/*.json
 !manifest.json                  # ✅ KEEP main manifest
 !manifest.he.json               # ✅ KEEP Hebrew manifest
 !static/.well-known/*.json      # ✅ KEEP Android/iOS verification
@@ -120,6 +118,5 @@ run.bat
 # ────────────────
 .ipynb_checkpoints
 .mypy_cache/
-/static/destinations
 /cache
 static/sitemap.xml
