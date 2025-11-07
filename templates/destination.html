@@ -242,7 +242,28 @@ body.dark-mode textarea {
   color: #ffffff !important;
   border-color: #444 !important;
 }
+.country-badge {
+  white-space: nowrap;
+  line-height: 1.2;
+}
 
+/* 🔹 Mobile Fix */
+@media (max-width: 576px) {
+  .country-badge {
+    display: inline-flex !important;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem !important;
+  }
+  .country-badge img {
+    width: 18px !important;
+    margin-left: 3px;
+  }
+  .card-header {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 6px !important;
+  }
+}
 
 </style>
 
@@ -286,41 +307,47 @@ body.dark-mode textarea {
 	  <h3 class="mb-0 fs-5">
 		✈️ TLV to {{ destination.Name }} ({{ destination.IATA }})
 	  </h3>
-	  <span class="badge bg-light text-dark">
-		{{ destination.Country }}
-		{% if destination.CountryISO %}
-		  <img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
-			   alt="{{ destination.Country or 'Country flag' }}" class="ms-1" />
-		{% endif %}
-	  </span>
+<span class="badge bg-light text-dark d-inline-flex align-items-center justify-content-center gap-1 px-2 py-1 flex-nowrap country-badge">
+  <span>{{ destination.Country }}</span>
+  {% if destination.CountryISO %}
+    <img 
+      src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
+      alt="{{ destination.Country or 'Country flag' }}"
+      class="rounded shadow-sm"
+      style="width: 22px; height: auto; object-fit: contain;"
+    />
+  {% endif %}
+</span>
 	</div>
 
     <!-- Body -->
 <div class="card-body">
   <!-- Compact Quick info grid -->
-  <div class="row text-center mb-3">
-    <div class="col-md-3">
-      <i class="bi bi-geo-alt-fill text-danger" style="font-size: 1.3rem;"></i>
-      <p class="mb-0 small"><strong>{{ destination.City }}</strong></p>
-      <small class="text-muted">{{ 'City' if lang != 'he' else 'עיר' }}</small>
-    </div>
-    <div class="col-md-3">
-      <i class="bi bi-signpost-split-fill text-success" style="font-size: 1.3rem;"></i>
-      <p class="mb-0 small">{{ destination.IATA }}</p>
-      <small class="text-muted">IATA</small>
-    </div>
-    <div class="col-md-3">
-      <i class="bi bi-rulers text-primary" style="font-size: 1.3rem;"></i>
-      <p class="mb-0 small">{{ "%.1f"|format(destination.Distance_km or 0) }} km</p>
-      <small class="text-muted">{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
-    </div>
-    <div class="col-md-3">
-      <i class="bi bi-clock-history text-warning" style="font-size: 1.3rem;"></i>
-      <p class="mb-0 small">{{ destination.FlightTime_hr or "—" }}</p>
-      <small class="text-muted">{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
-    </div>
+<div class="row text-center mb-3 g-3 align-items-stretch">
+  <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
+    <i class="bi bi-geo-alt-fill text-danger" style="font-size: 1.6rem;"></i>
+    <p class="mb-0 small mt-1"><strong>{{ destination.City }}</strong></p>
+    <small class="text-muted">{{ 'City' if lang != 'he' else 'עיר' }}</small>
   </div>
 
+  <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
+    <i class="bi bi-signpost-split-fill text-success" style="font-size: 1.6rem;"></i>
+    <p class="mb-0 small mt-1">{{ destination.IATA }}</p>
+    <small class="text-muted">IATA</small>
+  </div>
+
+  <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
+    <i class="bi bi-rulers text-primary" style="font-size: 1.6rem;"></i>
+    <p class="mb-0 small mt-1">{{ "%.1f"|format(destination.Distance_km or 0) }} km</p>
+    <small class="text-muted">{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
+  </div>
+
+  <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
+    <i class="bi bi-clock-history text-warning" style="font-size: 1.6rem;"></i>
+    <p class="mb-0 small mt-1">{{ destination.FlightTime_hr or "—" }}</p>
+    <small class="text-muted">{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
+  </div>
+</div>
 
       <!-- Coordinates -->
       <p>
