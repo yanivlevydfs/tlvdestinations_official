@@ -1957,7 +1957,7 @@ async def destination_detail(request: Request, iata: str):
     if destination.empty:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
-            "message": f"Destination {iata} not found.",
+            "message": f"Destination {iata} not found from Tel-Aviv (TLV).",
             "lang": lang
         })
 
