@@ -538,27 +538,4 @@ if (window.innerWidth <= 768) {
     modal.show();
     sessionStorage.setItem("modalShown", "true");
   }
-
-  const loader = document.getElementById("page-loader");
-  if (loader) {
-    requestAnimationFrame(() => { loader.style.width = "30%"; });
-
-    let progress = 30;
-    const interval = setInterval(() => {
-      if (progress < 90) {
-        progress += Math.random() * 5;
-        loader.style.width = progress + "%";
-      } else {
-        clearInterval(interval);
-      }
-    }, 250);
-
-    window.addEventListener("load", () => {
-      loader.style.width = "100%";
-      setTimeout(() => {
-        loader.classList.add("fade-out");
-        setTimeout(() => loader.remove(), 700);
-      }, 300);
-    });
-  }
 });
