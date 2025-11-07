@@ -1370,6 +1370,7 @@ def build_sitemap(urls: List[Url]) -> str:
 
 @app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
 def sitemap():
+    """Generate sitemap.xml including static pages (all on disk) and dynamic endpoints."""
     global STATIC_DIR, DATASET_DF
     base = "https://fly-tlv.com"
     today = date.today()
@@ -1405,43 +1406,60 @@ def sitemap():
         Url(f"{base}/glossary?lang=he", today, "yearly", 0.5),
     ]
 
-    # --- 2. Add dynamic FastAPI destinations from dataset ---
+    # --- 2. Add dynamic FastAPI destinations (live routes) ---
     try:
         for iata in DATASET_DF["IATA"].dropna().unique():
             iata = str(iata).strip()
             if iata:
                 urls.append(Url(f"{base}/destinations/{iata}", today, "weekly", 0.7))
                 urls.append(Url(f"{base}/destinations/{iata}?lang=he", today, "weekly", 0.7))
+        logger.info(f"🧭 Added {len(DATASET_DF['IATA'].dropna().unique())} dynamic destinations.")
     except Exception as e:
-        logger.warning(f"Failed to load dynamic IATA links: {e}")
+        logger.warning(f"⚠️ Failed to load dynamic IATA links: {e}")
 
-    # --- 3. Add static-generated HTML pages (SEO cache) ---
+    # --- 3. Include *all* static-generated HTML pages physically saved on disk ---
     static_dest_dir = STATIC_DIR / "destinations"
     if static_dest_dir.exists():
+        logger.info(f"🗺️ Scanning static HTML destinations recursively from {static_dest_dir} ...")
+        total_files = 0
+
         for lang_dir in static_dest_dir.iterdir():
             if not lang_dir.is_dir():
                 continue
 
-            lang_code = lang_dir.name  # "en" or "he"
-            for html_file in lang_dir.glob("*.html"):
-                iata = html_file.stem.upper()
-                lastmod = date.fromtimestamp(html_file.stat().st_mtime)
-                if lang_code == "he":
-                    urls.append(Url(f"{base}/destinations/{iata}?lang=he", lastmod, "weekly", 0.7))
-                else:
-                    urls.append(Url(f"{base}/destinations/{iata}", lastmod, "weekly", 0.7))
-        logger.info(f"🗺️ Added static pages from {static_dest_dir} to sitemap.")
-    else:
-        logger.warning(f"Static destinations folder not found: {static_dest_dir}")
+            lang_code = lang_dir.name  # e.g. "en" or "he"
+            for html_file in lang_dir.rglob("*.html"):
+                try:
+                    iata = html_file.stem.upper()
+                    lastmod = date.fromtimestamp(html_file.stat().st_mtime)
 
-    # --- 4. Build XML ---
+                    # Build the URL
+                    if lang_code == "he":
+                        url = f"{base}/destinations/{iata}?lang=he"
+                    else:
+                        url = f"{base}/destinations/{iata}"
+
+                    urls.append(Url(url, lastmod, "weekly", 0.7))
+                    total_files += 1
+
+                    # 🪵 Detailed log line for each file
+                    logger.info(f"📄 Added static file: {html_file.relative_to(STATIC_DIR)} → {url}")
+
+                except Exception as e:
+                    logger.warning(f"⚠️ Skipped file {html_file}: {e}")
+
+        logger.info(f"✅ Added {total_files:,} static HTML destination files from {static_dest_dir}")
+    else:
+        logger.warning(f"⚠️ Static destinations folder not found: {static_dest_dir}")
+
+    # --- 4. Build and write sitemap.xml ---
     xml = build_sitemap(urls)
     out_path = STATIC_DIR / "sitemap.xml"
 
     try:
         out_path.parent.mkdir(exist_ok=True)
         out_path.write_text(xml, encoding="utf-8")
-        logger.info(f"✅ Sitemap written to {out_path} with {len(urls)} URLs")
+        logger.info(f"✅ Sitemap written to {out_path} with {len(urls)} URLs total")
     except Exception as e:
         logger.error(f"❌ Failed to write sitemap.xml: {e}")
 
@@ -1955,7 +1973,15 @@ async def destination_detail(request: Request, iata: str):
 
     # ✅ 3. Prepare static export path
     output_dir = STATIC_DIR / "destinations" / lang
-    output_dir.mkdir(parents=True, exist_ok=True)
+    if iso_code:
+        output_dir = output_dir / iso_code.upper()
+
+    # Make sure the directory exists
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        logger.error(f"⚠️ Could not create folder {output_dir}: {e}")
+
     output_file = output_dir / f"{iata.lower()}.html"
 
     # ✅ 4. Serve cached version if still fresh
@@ -1967,7 +1993,8 @@ async def destination_detail(request: Request, iata: str):
             logger.info(f"🗂️ Using cached static page: {output_file}")
             return HTMLResponse(content=output_file.read_text(encoding="utf-8"))
         else:
-            logger.info(f"♻️ Rebuilding expired page: {output_file}")
+            age = time.time() - mtime
+            logger.info(f"♻️ Rebuilding expired page ({age/3600:.1f}h old): {output_file}")
 
     # ✅ 5. Render new HTML and save it
     rendered_html = TEMPLATES.get_template("destination.html").render({
