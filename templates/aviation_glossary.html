@@ -55,14 +55,23 @@
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
 
   <!-- Structured Data -->
-  <script type="application/ld+json">
+ <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "{{ 'Aviation Glossary' if lang != 'he' else 'מילון תעופה' }}",
     "url": "https://fly-tlv.com/glossary",
     "description": "{{ 'Glossary of aviation terms for air travelers — includes codeshare, direct flight, non-stop, connection, flight length, IATA, and more.' if lang != 'he' else 'מילון מונחי תעופה לנוסעים — כולל קוד־שייר, טיסה ישירה, ללא עצירות, חיבור, אורך טיסה, IATA ועוד.' }}",
-    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}"
+    "inLanguage": "{{ 'en-US' if lang != 'he' else 'he-IL' }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fly TLV",
+      "url": "https://fly-tlv.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fly-tlv.com/static/icons/favicon-512.png"
+      }
+    }
   }
   </script>
 {% endblock %}
