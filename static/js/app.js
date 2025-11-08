@@ -486,56 +486,69 @@ function dtButtonsFor(lang) {
 }
 
 // ---------- 🔺 Triangle blink until user opens one ----------
-if (window.innerWidth <= 768) {
-  if (!localStorage.getItem('triangle_learned')) {
-    // show animation
-    document.body.classList.remove('user-learned');
+(function initMobileUXFixes() {
+  const IS_MOBILE = window.innerWidth <= 768;
 
-    // detect first open on any row
-    document.addEventListener('click', e => {
-      const td = e.target.closest('td.dtr-control');
-      if (td) {
-        localStorage.setItem('triangle_learned', '1');
-        document.body.classList.add('user-learned');
-      }
-    });
-  } else {
-    // already interacted before
-    document.body.classList.add('user-learned');
+  // ========== 🔺 Triangle animation (mobile only) ==========
+  if (IS_MOBILE && !window.__triangleInitDone) {
+    window.__triangleInitDone = true;
+
+    const TRI_KEY = 'triangle_learned';
+    const learned = localStorage.getItem(TRI_KEY);
+
+    if (!learned) {
+      document.body.classList.remove('user-learned');
+      document.addEventListener('click', e => {
+        const td = e.target.closest('td.dtr-control');
+        if (td) {
+          localStorage.setItem(TRI_KEY, '1');
+          document.body.classList.add('user-learned');
+        }
+      });
+    } else {
+      document.body.classList.add('user-learned');
+    }
   }
-}
 
+  // ========== 🛠 Fix ResizeObserver & DataTable Adjustments ==========
   (function fixResizeObserverAndDT() {
-    // 1) Silence Chrome's harmless ResizeObserver warning
-    const re = /ResizeObserver loop completed with undelivered notifications/;
+    const warnRE = /ResizeObserver loop completed with undelivered notifications/;
     const origErr = console.error;
     console.error = (...args) => {
-      if (args[0] && re.test(String(args[0]))) return; // ignore only this warning
+      if (args[0] && warnRE.test(String(args[0]))) return;
       origErr.apply(console, args);
     };
 
-    // 2) Safe DataTable adjust helper
     const adjustDT = () => {
       if (!window.jQuery || !$.fn.DataTable) return;
-      const $t = $('#airports-table');
-      if (!$t.length) return;
-      const dt = $t.DataTable();
+      const $table = $('#airports-table');
+      if (!$table.length) return;
+      const dt = $table.DataTable();
       dt.columns.adjust().responsive.recalc();
     };
 
-    // 3) Run after load/layout settle
+    // Initial and triggered adjustments
     window.addEventListener('load', () => setTimeout(adjustDT, 250));
-
-    // 4) Recalc after major layout changes
     window.addEventListener('resize', () => requestAnimationFrame(adjustDT));
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') setTimeout(adjustDT, 150);
     });
     $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
   })();
+
+  // ========== 💬 Feature Modal: Show ONLY after full load ==========
   if (!sessionStorage.getItem("modalShown")) {
-    const modal = new bootstrap.Modal(document.getElementById('featureModal'));
-    modal.show();
-    sessionStorage.setItem("modalShown", "true");
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const modalEl = document.getElementById('featureModal');
+        if (modalEl) {
+          const modal = new bootstrap.Modal(modalEl);
+          modal.show();
+          sessionStorage.setItem("modalShown", "true");
+        }
+      }, 600); // Delay for layout/UI settle
+    });
   }
+})();
+
 });
