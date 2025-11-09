@@ -44,6 +44,7 @@ from percent23_redirect import Percent23RedirectMiddleware
 from securitymiddleware import SecurityMiddleware
 from json_repair import repair_json
 from json.decoder import JSONDecodeError
+import httpx
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -1976,7 +1977,6 @@ async def destination_detail(request: Request, iata: str):
     if iso_code:
         output_dir = output_dir / iso_code.upper()
 
-    # Make sure the directory exists
     try:
         output_dir.mkdir(parents=True, exist_ok=True)
     except Exception as e:
@@ -1985,23 +1985,34 @@ async def destination_detail(request: Request, iata: str):
     output_file = output_dir / f"{iata.lower()}.html"
 
     # ✅ 4. Serve cached version if still fresh
-    MAX_AGE = 86400 * 1  # 1 day in seconds
-
+    MAX_AGE = 86400  # 1 day
     if output_file.exists():
         mtime = output_file.stat().st_mtime
         if time.time() - mtime < MAX_AGE:
             logger.info(f"🗂️ Using cached static page: {output_file}")
-            return HTMLResponse(content=output_file.read_text(encoding="utf-8"))
+            return HTMLResponse(content=output_file.read_text(encoding='utf-8'))
         else:
-            age = time.time() - mtime
-            logger.info(f"♻️ Rebuilding expired page ({age/3600:.1f}h old): {output_file}")
+            logger.info(f"♻️ Rebuilding expired page for {iata}")
 
-    # ✅ 5. Render new HTML and save it
+    # ✅ 5. Fetch travel info internally (from your existing route)
+   # ✅ fetch travel info
+    travel_info_data = None
+    try:
+        city_name = dest.get("City", "").strip()
+        if city_name:
+            travel_info_data = await get_travel_info(city_name, lang=lang)
+            logger.info(f"✅ Travel info loaded for {city_name}")
+    except Exception as e:
+        logger.warning(f"⚠️ Travel info unavailable for {city_name}: {e}")
+        travel_info_data = None
+
+    # ✅ 6. Render and cache
     rendered_html = TEMPLATES.get_template("destination.html").render({
         "request": request,
         "destination": dest,
         "lang": lang,
-        "AIRLINE_WEBSITES": AIRLINE_WEBSITES
+        "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
+        "travel_info": travel_info_data
     })
 
     try:
@@ -2011,6 +2022,7 @@ async def destination_detail(request: Request, iata: str):
         logger.error(f"⚠️ Failed to write static HTML for {iata}: {e}")
 
     return HTMLResponse(content=rendered_html)
+
 
 
 # Handle all HTTP errors (404, 403, etc.)
@@ -2444,4 +2456,79 @@ async def get_warnings(country: str):
         return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
 
     return JSONResponse(content={"warnings": []})
+
+async def get_travel_info(city: str, lang: str = "en"):
+    """
+    Fetch and parse full tourist information from Wikivoyage (all sections, decoded HTML).
+    """
+    city = city.strip().title()
+    base_url = f"https://{'he' if lang == 'he' else 'en'}.wikivoyage.org/w/api.php"
+    params = {
+        "action": "parse",
+        "page": city,
+        "prop": "text",
+        "format": "json",
+        "redirects": 1
+    }
+    headers = {
+        "User-Agent": "Fly-TLV (https://fly-tlv.com; contact@fly-tlv.com)",
+        "Accept": "application/json"
+    }
+
+    async with httpx.AsyncClient(timeout=30, headers=headers) as client:
+        r = await client.get(base_url, params=params)
+        if r.status_code != 200:
+            raise HTTPException(status_code=r.status_code, detail=f"Wikivoyage returned {r.status_code}")
+        data = r.json()
+
+    # 🧩 Step 1: extract and decode HTML
+    raw_html = data.get("parse", {}).get("text", {}).get("*", "")
+    if not raw_html:
+        raise HTTPException(status_code=404, detail=f"No article content for {city}")
+
+    html_content = html.unescape(raw_html)  # decode JSON-escaped HTML
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # 🧩 Step 2: traverse structure and extract text
+    sections = []
+    current_section = None
+    buffer = []
+
+    def flush():
+        if current_section and buffer:
+            text = " ".join(buffer)
+            text = re.sub(r"\[\d+\]", "", text)
+            text = re.sub(r"\s+", " ", text).strip()
+            if text:
+                sections.append({"section": current_section, "text": text})
+
+    for tag in soup.find_all(["h2", "h3", "p", "ul", "ol"]):
+        if tag.name in ("h2", "h3"):
+            flush()
+            current_section = tag.get_text(" ", strip=True)
+            buffer = []
+        elif tag.name in ("p", "ul", "ol"):
+            txt = tag.get_text(" ", strip=True)
+            if txt:
+                buffer.append(txt)
+    flush()
+
+    # 🧩 Step 3: clean up / fallback
+    if not sections:
+        intro = " ".join(p.get_text(" ", strip=True) for p in soup.find_all("p")[:3])
+        sections = [{"section": "Overview", "text": intro}]
+
+    # 🧩 Step 4: filter to travel-relevant sections
+    keywords = [
+        "understand", "climate", "talk", "get in", "get around",
+        "see", "do", "buy", "eat", "drink", "sleep",
+        "stay safe", "cope", "go next"
+    ]
+    filtered = [
+        s for s in sections if any(k in s["section"].lower() for k in keywords)
+    ] or sections
+
+    return {"city": city, "tips": filtered}
+
+
 
