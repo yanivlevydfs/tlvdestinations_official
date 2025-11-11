@@ -1943,6 +1943,14 @@ async def destination_detail(request: Request, iata: str):
     global DATASET_DF, COUNTRY_NAME_TO_ISO, AIRLINE_WEBSITES, STATIC_DIR
 
     lang = request.query_params.get("lang", "en")
+    iata = iata.upper().strip()
+
+    # ✅ Redirect if TLV itself is requested
+    if iata in {"TLV", "LLBG", "BEN-GURION"}:
+        logger.info(f"🔁 Redirected attempt to access TLV itself → homepage")
+        target = "/" if lang == "en" else "/?lang=he"
+        return RedirectResponse(url=target, status_code=302)
+
 
     # ✅ 1. Validate dataset
     if DATASET_DF is None or DATASET_DF.empty:

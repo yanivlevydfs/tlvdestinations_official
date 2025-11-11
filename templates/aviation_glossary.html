@@ -77,7 +77,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="container my-4">
+<div class="container py-3 px-2 px-md-4">
+{% set rtl = (lang == 'he') %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+        {{ 'Home' if lang != 'he' else 'בית' }}
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ 'Aviation Glossary' if lang != 'he' else 'מילון תעופה' }}
+    </li>
+  </ol>
+</nav>
   <div class="text-center mb-5">
     <h1 class="display-5 fw-bold">
       {{ 'A Glossary of Aviation Terms' if lang != 'he' else 'מילון מונחי תעופה' }}
@@ -94,7 +107,7 @@
     </p>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="row row-cols-1 row-cols-md-2 g-4"  dir="{{ 'rtl' if rtl else 'ltr' }}">
 
     <!-- Airline -->
     <div class="col">
