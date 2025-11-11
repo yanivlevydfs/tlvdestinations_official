@@ -1520,65 +1520,87 @@ def sitemap():
     return Response(content=xml, media_type="application/xml")
 
 def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
-    n = max(1, min(n, 50))  # Sanity cap
+    """
+    Generate a list of bilingual (EN + HE) flight-related questions safely from destination data.
+    Handles float/None/NaN gracefully.
+    """
+    n = max(1, min(n, 50))  # Safety limit
 
-    cities = set()
-    countries = set()
-    airlines = set()
+    cities, countries, airlines = set(), set(), set()
 
     for dest in destinations:
-        city = dest.get("city")
-        country = dest.get("country")
-        airline_list = dest.get("airline") or []
+        try:
+            city = str(dest.get("city", "") or "").strip()
+            country = str(dest.get("country", "") or "").strip()
+            airline_list = dest.get("airline") or []
 
-        if isinstance(airline_list, str):
-            airline_list = [a.strip() for a in airline_list.split(",")]
-        elif isinstance(airline_list, list):
-            airline_list = [str(a).strip() for a in airline_list]
-        else:
-            airline_list = []
+            # Normalize airline list
+            if isinstance(airline_list, str):
+                airline_list = [a.strip() for a in airline_list.split(",") if a.strip()]
+            elif isinstance(airline_list, list):
+                airline_list = [str(a).strip() for a in airline_list if a]
+            else:
+                airline_list = []
 
-        if city and country:
-            cities.add((city.strip(), country.strip()))
-        if country:
-            countries.add(country.strip())
-        for airline in airline_list:
-            if airline:
-                airlines.add(airline.strip())
+            if city and country and city.lower() != "nan" and country.lower() != "nan":
+                cities.add((city, country))
 
+            if country and country.lower() != "nan":
+                countries.add(country)
+
+            for airline in airline_list:
+                if airline and airline.lower() != "nan":
+                    airlines.add(airline)
+
+        except Exception as e:
+            logger.warning(f"⚠️ Skipping malformed record: {e}")
+            continue
+
+    # Convert to lists
     cities = list(cities)
     countries = list(countries)
     airlines = list(airlines)
 
+    if not (cities or countries or airlines):
+        logger.warning("⚠️ No valid destination data to generate suggestions from.")
+        return ["No valid data available for question generation."]
+
     questions = []
 
-    # ENGLISH
-    for country in random.sample(countries, min(5, len(countries))):
-        questions.append(f"What cities in {country} can I fly to?")
-        questions.append(f"Which airlines fly to {country}?")
+    # --- ENGLISH ---
+    if countries:
+        for country in random.sample(countries, min(5, len(countries))):
+            questions.append(f"What cities in {country} can I fly to?")
+            questions.append(f"Which airlines fly to {country}?")
 
-    for city, country in random.sample(cities, min(5, len(cities))):
-        questions.append(f"Which airlines fly to {city}?")
-        questions.append(f"What country is {city} located in?")
+    if cities:
+        for city, country in random.sample(cities, min(5, len(cities))):
+            questions.append(f"Which airlines fly to {city}?")
+            questions.append(f"What country is {city} located in?")
 
-    for airline in random.sample(airlines, min(5, len(airlines))):
-        questions.append(f"Where does {airline} fly?")
-        questions.append(f"What destinations are served by {airline}?")
+    if airlines:
+        for airline in random.sample(airlines, min(5, len(airlines))):
+            questions.append(f"Where does {airline} fly?")
+            questions.append(f"What destinations are served by {airline}?")
 
-    # HEBREW
-    for country in random.sample(countries, min(4, len(countries))):
-        questions.append(f"אילו ערים יש טיסות ל-{country}?")
-        questions.append(f"אילו חברות טסות ל-{country}?")
+    # --- HEBREW ---
+    if countries:
+        for country in random.sample(countries, min(4, len(countries))):
+            questions.append(f"אילו ערים יש טיסות ל-{country}?")
+            questions.append(f"אילו חברות טסות ל-{country}?")
 
-    for city, country in random.sample(cities, min(4, len(cities))):
-        questions.append(f"אילו חברות טסות ל-{city}?")
-        questions.append(f"באיזו מדינה נמצאת {city}?")
+    if cities:
+        for city, country in random.sample(cities, min(4, len(cities))):
+            questions.append(f"אילו חברות טסות ל-{city}?")
+            questions.append(f"באיזו מדינה נמצאת {city}?")
 
-    for airline in random.sample(airlines, min(4, len(airlines))):
-        questions.append(f"לאן טסה חברת {airline}?")
-        questions.append(f"אילו ערים משרתת חברת {airline}?")
+    if airlines:
+        for airline in random.sample(airlines, min(4, len(airlines))):
+            questions.append(f"לאן טסה חברת {airline}?")
+            questions.append(f"אילו ערים משרתת חברת {airline}?")
 
     random.shuffle(questions)
+    logger.info(f"✅ Generated {len(questions[:n])} bilingual question suggestions.")
     return questions[:n]
 
 def build_flight_context(df) -> str:
