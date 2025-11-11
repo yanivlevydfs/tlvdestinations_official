@@ -25,169 +25,189 @@
 	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}?lang=he" hreflang="he" />
 	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="x-default" />
 
-  <!-- Structured Data: Dataset -->
+<!-- Structured Data: Fly-TLV Destination Page -->
 <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fly TLV — Worldwide Destinations Explorer",
-    "url": "https://fly-tlv.com/",
-    "inLanguage": "en-US",
-    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fly TLV — כל היעדים מתל אביב",
-    "url": "https://fly-tlv.com/?lang=he",
-    "inLanguage": "he-IL",
-    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Destinations Board",
-    "url": "https://fly-tlv.com/destinations"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "לוח יעדים",
-    "url": "https://fly-tlv.com/destinations?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "World Map",
-    "url": "https://fly-tlv.com/map"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "מפת יעדים",
-    "url": "https://fly-tlv.com/map?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Travel Warnings",
-    "url": "https://fly-tlv.com/travel-warnings"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "אזהרות מסע",
-    "url": "https://fly-tlv.com/travel-warnings?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Chat",
-    "url": "https://fly-tlv.com/chat"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "צ׳אט",
-    "url": "https://fly-tlv.com/chat?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "About",
-    "url": "https://fly-tlv.com/about"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "עלינו",
-    "url": "https://fly-tlv.com/about?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Privacy Policy",
-    "url": "https://fly-tlv.com/privacy"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "מדיניות פרטיות",
-    "url": "https://fly-tlv.com/privacy?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Contact",
-    "url": "https://fly-tlv.com/contact"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "צור קשר",
-    "url": "https://fly-tlv.com/contact?lang=he"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Sitemap",
-    "url": "https://fly-tlv.com/sitemap.xml"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "מפת אתר",
-    "url": "https://fly-tlv.com/sitemap.xml"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is Fly TLV?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Fly TLV is a travel insights platform listing all direct flight destinations from Ben Gurion Airport (TLV) with airlines, flight times, and distances."
-        }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+
+    /* ---------- Publisher / Brand ---------- */
+    {
+      "@type": "Organization",
+      "@id": "https://fly-tlv.com/#organization",
+      "name": "Fly TLV",
+      "url": "https://fly-tlv.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fly-tlv.com/static/icons/favicon-512.png",
+        "width": 512,
+        "height": 512
       },
-      {
-        "@type": "Question",
-        "name": "Can I book flights through Fly TLV?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Fly TLV does not sell tickets but provides verified links to airlines and booking sites."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Which airlines fly from Tel Aviv?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Airlines from TLV include El Al, Arkia, Israir, Lufthansa, Emirates, Turkish Airlines, and more."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Are the destinations updated regularly?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Fly TLV updates its data frequently according to official airline schedules."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the difference between direct and nonstop flights?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Nonstop flights have no stops between TLV and the destination; direct flights may include short stopovers but stay on the same plane."
-        }
+      "sameAs": [
+        "https://www.facebook.com/flytlv",
+        "https://www.instagram.com/flytlv",
+        "https://www.linkedin.com/company/flytlv"
+      ]
+    },
+
+    /* ---------- Base Website (EN/HE) ---------- */
+    {
+      "@type": "WebSite",
+      "name": "Fly TLV — Worldwide Destinations Explorer",
+      "url": "https://fly-tlv.com/",
+      "inLanguage": "en-US",
+      "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data.",
+      "publisher": { "@id": "https://fly-tlv.com/#organization" }
+    },
+    {
+      "@type": "WebSite",
+      "name": "Fly TLV — כל היעדים מתל אביב",
+      "url": "https://fly-tlv.com/?lang=he",
+      "inLanguage": "he-IL",
+      "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה.",
+      "publisher": { "@id": "https://fly-tlv.com/#organization" }
+    },
+
+    /* ---------- Current Destination Page ---------- */
+    {
+      "@type": "WebPage",
+      "@id": "https://fly-tlv.com/destinations/{{ destination.IATA }}/#webpage",
+      "name": "{{ 'Flights from Tel Aviv (TLV) to ' ~ destination.City ~ ' (' ~ destination.IATA ~ ')' if lang != 'he' else 'טיסות מתל אביב (TLV) אל ' ~ destination.City }}",
+      "url": "https://fly-tlv.com/destinations/{{ destination.IATA }}{{ '?lang=he' if lang == 'he' else '' }}",
+      "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
+      "description": "{{ 'Explore direct flights from Tel Aviv (TLV) to ' ~ destination.City ~ ', including airlines, schedules, and distances.' if lang != 'he' else 'טיסות ישירות מתל אביב (TLV) אל ' ~ destination.City ~ ': חברות תעופה, לוחות זמנים ומרחקי טיסה.' }}",
+      "publisher": { "@id": "https://fly-tlv.com/#organization" },
+      "isPartOf": { "@id": "https://fly-tlv.com/#organization" },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://fly-tlv.com/static/og/flytlv_world.jpg",
+        "width": 1200,
+        "height": 630
       }
-    ]
-  }
-]
+    },
+
+    /* ---------- Flight Data ---------- */
+    {
+      "@type": "Flight",
+      "@id": "https://fly-tlv.com/destinations/{{ destination.IATA }}/#flight",
+      "name": "Direct flights from Tel Aviv (TLV) to {{ destination.City }} ({{ destination.IATA }})",
+      "provider": { "@id": "https://fly-tlv.com/#organization" },
+      "departureAirport": {
+        "@type": "Airport",
+        "name": "Ben Gurion Airport",
+        "iataCode": "TLV",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tel Aviv",
+          "addressCountry": "IL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 32.000,
+          "longitude": 34.870
+        }
+      },
+      "arrivalAirport": {
+        "@type": "Airport",
+        "name": "{{ destination.Airport }}",
+        "iataCode": "{{ destination.IATA }}",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "{{ destination.City }}",
+          "addressCountry": "{{ destination.Country }}"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": {{ destination.lat }},
+          "longitude": {{ destination.lon }}
+        }
+      },
+      "flightDistance": {
+        "@type": "QuantitativeValue",
+        "value": {{ destination.Distance if destination.Distance else 'null' }},
+        "unitText": "km"
+      },
+      {% if destination.Airlines %}
+      "operatedBy": [
+        {% for airline in destination.Airlines.split(',') %}
+          { "@type": "Airline", "name": "{{ airline.strip() }}" }{{ ',' if not loop.last else '' }}
+        {% endfor %}
+      ],
+      {% endif %}
+      "offers": {
+        "@type": "Offer",
+        "url": "https://fly-tlv.com/destinations/{{ destination.IATA }}",
+        "availability": "https://schema.org/InStock",
+        "priceCurrency": "USD"
+      }
+    },
+
+    /* ---------- Tourist Destination (optional but valuable) ---------- */
+    {
+      "@type": "TouristDestination",
+      "name": "{{ destination.City }}",
+      "description": "{{ destination.City }} is a travel destination reachable directly from Tel Aviv (TLV).",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": {{ destination.lat }},
+        "longitude": {{ destination.lon }}
+      },
+      "containsPlace": {
+        "@type": "Place",
+        "name": "{{ destination.Airport }}",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "{{ destination.City }}",
+          "addressCountry": "{{ destination.Country }}"
+        }
+      },
+      "touristType": "{{ 'Leisure' if destination.Country in ['Greece', 'Cyprus'] else 'Cultural' }}"
+    },
+
+    /* ---------- Breadcrumbs ---------- */
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "{{ 'Home' if lang != 'he' else 'בית' }}", "item": "https://fly-tlv.com/{{ '?lang=he' if lang == 'he' else '' }}" },
+        { "@type": "ListItem", "position": 2, "name": "{{ 'Destinations' if lang != 'he' else 'יעדים' }}", "item": "https://fly-tlv.com/destinations{{ '?lang=he' if lang == 'he' else '' }}" },
+        { "@type": "ListItem", "position": 3, "name": "{{ destination.City }} ({{ destination.IATA }})", "item": "https://fly-tlv.com/destinations/{{ destination.IATA }}{{ '?lang=he' if lang == 'he' else '' }}" }
+      ]
+    },
+
+    /* ---------- Navigation Elements ---------- */
+    { "@type": "SiteNavigationElement", "name": "Destinations Board", "url": "https://fly-tlv.com/destinations" },
+    { "@type": "SiteNavigationElement", "name": "לוח יעדים", "url": "https://fly-tlv.com/destinations?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "World Map", "url": "https://fly-tlv.com/map" },
+    { "@type": "SiteNavigationElement", "name": "מפת יעדים", "url": "https://fly-tlv.com/map?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "Travel Warnings", "url": "https://fly-tlv.com/travel-warnings" },
+    { "@type": "SiteNavigationElement", "name": "אזהרות מסע", "url": "https://fly-tlv.com/travel-warnings?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "Chat", "url": "https://fly-tlv.com/chat" },
+    { "@type": "SiteNavigationElement", "name": "צ׳אט", "url": "https://fly-tlv.com/chat?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "About", "url": "https://fly-tlv.com/about" },
+    { "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "Privacy Policy", "url": "https://fly-tlv.com/privacy" },
+    { "@type": "SiteNavigationElement", "name": "מדיניות פרטיות", "url": "https://fly-tlv.com/privacy?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "Contact", "url": "https://fly-tlv.com/contact" },
+    { "@type": "SiteNavigationElement", "name": "צור קשר", "url": "https://fly-tlv.com/contact?lang=he" },
+    { "@type": "SiteNavigationElement", "name": "Sitemap", "url": "https://fly-tlv.com/sitemap.xml" },
+    { "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml" },
+
+    /* ---------- FAQ ---------- */
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is Fly TLV?", "acceptedAnswer": { "@type": "Answer", "text": "Fly TLV is a travel insights platform listing all direct flight destinations from Ben Gurion Airport (TLV) with airlines, flight times, and distances." } },
+        { "@type": "Question", "name": "Can I book flights through Fly TLV?", "acceptedAnswer": { "@type": "Answer", "text": "No. Fly TLV does not sell tickets but provides verified links to airlines and booking sites." } },
+        { "@type": "Question", "name": "Which airlines fly from Tel Aviv?", "acceptedAnswer": { "@type": "Answer", "text": "Airlines from TLV include El Al, Arkia, Israir, Lufthansa, Emirates, Turkish Airlines, and more." } },
+        { "@type": "Question", "name": "Are the destinations updated regularly?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Fly TLV updates its data frequently according to official airline schedules." } },
+        { "@type": "Question", "name": "What is the difference between direct and nonstop flights?", "acceptedAnswer": { "@type": "Answer", "text": "Nonstop flights have no stops between TLV and the destination; direct flights may include short stopovers but stay on the same plane." } }
+      ],
+      "publisher": { "@id": "https://fly-tlv.com/#organization" }
+    }
+  ]
+}
 </script>
+
 <style>
 /* Light hover effect (unchanged) */
 .hover-opacity:hover {

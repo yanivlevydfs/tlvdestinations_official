@@ -320,6 +320,263 @@
         </div>
       </div>
     </div>
+	    <!-- PNR -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'PNR (Passenger Name Record)' if lang != 'he' else 'PNR — רשומת שם נוסע' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "A PNR is a unique booking record in the airline or travel agency system. It stores passenger details, flight segments, ticket numbers, and special requests. It can be shared between airlines and global distribution systems (GDS)."
+              if lang != 'he'
+              else
+              "PNR היא רשומת הזמנה ייחודית במערכת של חברת תעופה או סוכן נסיעות. היא מכילה פרטי נוסע, קטעי טיסה, מספרי כרטיסים ובקשות מיוחדות. ניתן לשתף אותה בין חברות תעופה ומערכות הפצה גלובליות (GDS)."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- GDS -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'GDS (Global Distribution System)' if lang != 'he' else 'GDS — מערכת הפצה גלובלית' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "A GDS is a worldwide computerized network that enables travel agencies and booking platforms to access flight, hotel, and car rental data. Major GDSs include Amadeus, Sabre, and Travelport (Galileo)."
+              if lang != 'he'
+              else
+              "GDS היא מערכת ממוחשבת עולמית שמאפשרת לסוכנויות נסיעות ולפלטפורמות להזמין טיסות, מלונות והשכרת רכב. בין ה-GDS המרכזיות: Amadeus, Sabre ו-Travelport (Galileo)."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ICAO -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'ICAO (International Civil Aviation Organization)' if lang != 'he' else 'ICAO — ארגון התעופה האזרחית הבין־לאומי' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "ICAO is a specialized UN agency that defines global standards for aviation safety, air navigation, airport codes, and environmental protection."
+              if lang != 'he'
+              else
+              "ICAO הוא סוכנות מיוחדת של האו״ם הקובעת תקנים עולמיים לבטיחות טיסה, ניווט אווירי, קודי שדות תעופה והגנה סביבתית."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATC -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'ATC (Air Traffic Control)' if lang != 'he' else 'ATC — פיקוח טיסה' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "ATC is the service responsible for managing aircraft movement in the air and on the ground to maintain safe distances between aircraft."
+              if lang != 'he'
+              else
+              "ATC הוא שירות שאחראי לניהול תנועת המטוסים באוויר ועל הקרקע, כדי לשמור על מרחקי בטיחות ביניהם."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ETA / ETD -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'ETA / ETD' if lang != 'he' else 'ETA / ETD — זמן הגעה/המראה משוער' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "ETA (Estimated Time of Arrival) and ETD (Estimated Time of Departure) indicate the expected arrival and departure times for a flight."
+              if lang != 'he'
+              else
+              "ETA (שעת הגעה משוערת) ו-ETD (שעת המראה משוערת) מציינות את הזמנים הצפויים להגעה ולהמראה של טיסה."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Check-in -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'Check-in' if lang != 'he' else 'צ׳ק-אין' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "The process of confirming your presence on a flight, choosing seats, and receiving a boarding pass. Can be done online or at the airport."
+              if lang != 'he'
+              else
+              "תהליך שבו מאשרים את הנסיעה בטיסה, בוחרים מושבים ומקבלים כרטיס עלייה למטוס. ניתן לבצע אונליין או בשדה התעופה."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boarding Pass -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'Boarding Pass' if lang != 'he' else 'כרטיס עלייה למטוס' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "A document — digital or printed — that allows passengers to enter the secure area and board their aircraft."
+              if lang != 'he'
+              else
+              "מסמך (דיגיטלי או מודפס) שמאפשר לנוסעים להיכנס לאזור הבידוק ולעלות למטוס."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- ICAO Code -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'ICAO Code' if lang != 'he' else 'קוד ICAO' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "A four-letter airport code defined by ICAO, used for flight operations and navigation (e.g., Ben Gurion = LLBG, Heathrow = EGLL). Unlike IATA codes, ICAO codes are used by pilots and air-traffic systems."
+              if lang != 'he'
+              else
+              "קוד ICAO הוא קוד בן ארבע אותיות לשדות תעופה, המשמש לפעילות תעופתית וניווט (לדוגמה: נתב״ג = LLBG, הית׳רו = EGLL). בניגוד לקוד IATA, הוא מיועד לשימוש של טייסים ומערכות פיקוח טיסה."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Runway -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'Runway' if lang != 'he' else 'מסלול המראה ונחיתה' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "A runway is the strip of land where aircraft take off and land. Each runway is numbered by its magnetic heading (e.g., 08/26). Large airports often have parallel runways."
+              if lang != 'he'
+              else
+              "מסלול הוא רצועת הקרקע המשמשת להמראות ולנחיתות. לכל מסלול מספר המבוסס על כיוונו המגנטי (לדוגמה 08/26). בשדות תעופה גדולים יש לעיתים כמה מסלולים מקבילים."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Taxiway -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'Taxiway' if lang != 'he' else 'דרך הסעה' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "Taxiways are the paths connecting runways with terminals and hangars. Aircraft use them to move on the ground before take-off or after landing."
+              if lang != 'he'
+              else
+              "דרכי הסעה (Taxiways) מחברות בין המסלולים, הטרמינלים וההאנגרים. מטוסים נוסעים בהן על הקרקע לפני ההמראה או אחרי הנחיתה."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- METAR -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'METAR' if lang != 'he' else 'דו״ח מזג אוויר METAR' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "METAR is an aviation weather report updated hourly, giving temperature, visibility, wind, and cloud conditions at an airport (e.g., LLBG 101120Z 27010KT CAVOK 28/16 Q1012)."
+              if lang != 'he'
+              else
+              "METAR הוא דו״ח מזג אוויר לתעופה, המתעדכן מדי שעה וכולל נתונים על טמפרטורה, ראות, רוח ומצב עננות בשדה תעופה (למשל: LLBG 101120Z 27010KT CAVOK 28/16 Q1012)."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAF -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'TAF' if lang != 'he' else 'תחזית תעופתית TAF' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "TAF (Terminal Aerodrome Forecast) is a weather forecast for pilots, covering expected wind, visibility, and conditions at an airport for up to 30 hours."
+              if lang != 'he'
+              else
+              "TAF (תחזית תעופתית) היא תחזית מזג אוויר לטייסים, הכוללת מידע על רוחות, ראות ותנאים צפויים בשדה התעופה לטווח של עד 30 שעות."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTOT / Slot Time -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'CTOT / Slot Time' if lang != 'he' else 'CTOT / זמן הקצאה' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "CTOT (Calculated Take-Off Time) or ‘slot time’ is an assigned window for an aircraft to depart, used by air-traffic flow management to prevent congestion."
+              if lang != 'he'
+              else
+              "CTOT (זמן המראה מחושב) או 'Slot Time' הוא חלון זמן מוקצה להמראת מטוס, שנקבע על-ידי בקרת התעבורה האווירית כדי למנוע עומסים."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- APIS -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'APIS (Advance Passenger Information System)' if lang != 'he' else 'APIS — מערכת מידע מקדימה לנוסעים' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "APIS is an international security system where airlines transmit passenger passport data to border authorities before arrival or departure."
+              if lang != 'he'
+              else
+              "APIS היא מערכת ביטחון בינלאומית שבה חברות תעופה מעבירות לרשויות הגבול את פרטי הדרכונים של הנוסעים לפני ההמראה או הנחיתה."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SSR / ADS-B -->
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold text-primary">{{ 'SSR / ADS-B' if lang != 'he' else 'מערכות זיהוי — SSR / ADS-B' }}</div>
+        <div class="card-body">
+          <p class="card-text">
+            {{
+              "SSR (Secondary Surveillance Radar) and ADS-B (Automatic Dependent Surveillance-Broadcast) are systems that identify and track aircraft in real time, improving flight safety and monitoring."
+              if lang != 'he'
+              else
+              "SSR (רדאר משני) ו-ADS-B (מערכת שידור מיקום אוטומטית) הן טכנולוגיות שמזהות ועוקבות בזמן אמת אחר מטוסים, לשיפור בטיחות וניהול התעבורה האווירית."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+<div class="alert alert-info mt-5 shadow-sm small">
+  <i class="bi bi-book me-2"></i>
+  {{ "Learn more about aviation systems, codes, and air traffic management — soon on the Fly-TLV Aviation Data Insights section." if lang != 'he' else "למדו עוד על מערכות תעופה, קודים וניהול תנועה אווירית — בקרוב במדור 'Aviation Data Insights' של Fly-TLV." }}
 </div>
 {% endblock %}
