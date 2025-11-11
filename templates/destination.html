@@ -536,20 +536,23 @@ body.dark-mode textarea {
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const city = "{{ destination.City|urlencode }}";
-  const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${city}`;
+  const lang = "{{ lang }}";
+  const url = `/api/wiki-summary?city=${city}&lang=${lang}`;  // ← now calls your backend route
+
   try {
     const res = await fetch(url);
-    if (!res.ok) throw new Error("Wiki not found");
+    if (!res.ok) throw new Error(`Server returned ${res.status}`);
     const data = await res.json();
 
     const box = document.getElementById("city-overview");
     let html = "";
 
+    // 🖼️ Optional thumbnail
     if (data.thumbnail) {
       html += `
         <div class="row">
           <div class="col-12 col-md-auto text-center">
-            <img src="${data.thumbnail.source}" 
+            <img src="${data.thumbnail}" 
                  alt="${data.title}" 
                  class="img-fluid rounded shadow-sm mb-3 me-md-3" 
                  style="max-width:180px;">
@@ -559,21 +562,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     html += `<strong>${data.title}</strong><br>`;
-    if (data.description) {
-      html += `<em>${data.description}</em><br>`;
-    }
+    if (data.description) html += `<em>${data.description}</em><br>`;
     html += `<p>${data.extract}</p>`;
 
-    if (data.thumbnail) {
-      html += `</div></div>`; // ✅ close the row
-    }
+    if (data.thumbnail) html += `</div></div>`; // close the row
 
     box.innerHTML = html;
   } catch (err) {
+    console.error("❌ Error fetching Wikipedia summary:", err);
     document.getElementById("city-overview").innerHTML =
       "{{ 'No Wikipedia data found.' if lang != 'he' else 'לא נמצא מידע בוויקיפדיה.' }}";
-    console.error(err);
   }
 });
 </script>
+
+
 {% endblock %}

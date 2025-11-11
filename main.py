@@ -99,6 +99,7 @@ AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
 ISRAEL_FLIGHTS_FILE   = CACHE_DIR / "israel_flights.json"
 TRAVEL_WARNINGS_FILE = CACHE_DIR / "travel_warnings.json"
 COUNTRY_TRANSLATIONS = DATA_DIR / "country_translations.json"
+CITY_TRANSLATIONS_FILE = DATA_DIR / "city_translations.json"
 
 # Constants
 TLV = {"IATA": "TLV", "Name": "Ben Gurion Airport", "lat": 32.0068, "lon": 34.8853}
@@ -108,6 +109,7 @@ DEFAULT_LIMIT = 32000
 
 TRAVEL_WARNINGS_API = "https://data.gov.il/api/3/action/datastore_search"
 TRAVEL_WARNINGS_RESOURCE = "2a01d234-b2b0-4d46-baa0-cec05c401e7d"
+WIKI_API_BASE = "https://{lang}.wikipedia.org/api/rest_v1/page/summary/{city}"
 
 
 # App
@@ -142,10 +144,61 @@ scheduler: AsyncIOScheduler | None = None
 AIRPORTS_DB: dict = {}
 COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 EN_TO_HE_COUNTRY = {}
+CITY_TRANSLATIONS = {}
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def get_city_info(city_en: str, return_type: str = "both"):
+    """
+    Get Hebrew city and country names by English city.
+    :param return_type: "both", "city", or "country"
+    """
+    if not CITY_TRANSLATIONS:
+        logger.error("⚠️ CITY_TRANSLATIONS not loaded. Call load_city_translations() first.")
+        raise RuntimeError("CITY_TRANSLATIONS not loaded. Run load_city_translations() first.")
+
+    city_key = next((k for k in CITY_TRANSLATIONS if k.lower() == city_en.lower()), None)
+
+    if city_key is None:
+        logger.warning(f"⚠️ City '{city_en}' not found in translations.")
+        return None
+
+    entry = CITY_TRANSLATIONS[city_key]
+    logger.info(f"Found translation for '{city_en}': {entry['he']} ({entry['country_he']})")
+
+    if return_type == "city":
+        return entry["he"]
+    elif return_type == "country":
+        return entry["country_he"]
+    else:
+        return {"city_he": entry["he"], "country_he": entry["country_he"]}
+
+def load_city_translations(file_path: Path = CITY_TRANSLATIONS_FILE):
+    """
+    Load city translation JSON into global dictionary.
+    :param file_path: Path to the JSON file (default: DATA_DIR/city_translations.json)
+    """
+    global CITY_TRANSLATIONS
+
+    try:
+        if not file_path.exists():
+            logger.error(f"❌ File not found: {file_path}")
+            raise FileNotFoundError(f"City translations file not found: {file_path}")
+
+        with open(file_path, "r", encoding="utf-8") as f:
+            CITY_TRANSLATIONS = json.load(f)
+
+        logger.info(f"✅ Loaded {len(CITY_TRANSLATIONS)} city entries from {file_path.name}.")
+
+    except json.JSONDecodeError as e:
+        logger.error(f"❌ Failed to parse {file_path.name}: {e}")
+        raise
+
+    except Exception as e:
+        logger.error(f"❌ Unexpected error loading {file_path.name}: {e}")
+        raise
+    
 def load_country_translations():
     global EN_TO_HE_COUNTRY
     try:
@@ -1157,7 +1210,7 @@ async def on_startup():
     logger.info("🚀 Application startup initiated")
     # 🎯 0) Set Git version
     logger.info(f"🔖 App Version: {APP_VERSION}")
-    
+    load_city_translations()
     load_country_translations()
     
     # 0) Load IATA DB once
@@ -1934,9 +1987,7 @@ async def redirect_to_home(request: Request):
     lang = request.query_params.get("lang")
     url = f"/?lang={lang}" if lang else "/"
     return RedirectResponse(url=url, status_code=301)
-
-    
-
+  
 @app.get("/destinations/{iata}", response_class=HTMLResponse)
 async def destination_detail(request: Request, iata: str):
     """Render destination page and export it to static HTML for SEO"""
@@ -2468,75 +2519,165 @@ async def get_warnings(country: str):
 async def get_travel_info(city: str, lang: str = "en"):
     """
     Fetch and parse full tourist information from Wikivoyage (all sections, decoded HTML).
+    Supports Hebrew translation via get_city_info(return_type="city").
     """
-    city = city.strip().title()
-    base_url = f"https://{'he' if lang == 'he' else 'en'}.wikivoyage.org/w/api.php"
-    params = {
-        "action": "parse",
-        "page": city,
-        "prop": "text",
-        "format": "json",
-        "redirects": 1
-    }
-    headers = {
-        "User-Agent": "Fly-TLV (https://fly-tlv.com; contact@fly-tlv.com)",
-        "Accept": "application/json"
-    }
+    try:
+        city = city.strip().title()
 
-    async with httpx.AsyncClient(timeout=30, headers=headers) as client:
-        r = await client.get(base_url, params=params)
+        # 🌍 Translate city to Hebrew if requested
+        if lang == "he":
+            hebrew_city = get_city_info(city, return_type="city")
+            if hebrew_city:
+                logger.info(f"🌐 Translating '{city}' → '{hebrew_city}' for Hebrew Wikivoyage lookup.")
+                city = hebrew_city
+            else:
+                logger.warning(f"⚠️ No Hebrew translation found for '{city}', using English name.")
+
+        base_url = f"https://{'he' if lang == 'he' else 'en'}.wikivoyage.org/w/api.php"
+        params = {
+            "action": "parse",
+            "page": city,
+            "prop": "text",
+            "format": "json",
+            "redirects": 1
+        }
+        headers = {
+            "User-Agent": "Fly-TLV (https://fly-tlv.com; contact@fly-tlv.com)",
+            "Accept": "application/json"
+        }
+
+        async with httpx.AsyncClient(timeout=30, headers=headers) as client:
+            logger.info(f"🌍 Fetching Wikivoyage for '{city}' (lang={lang})")
+            r = await client.get(base_url, params=params)
+
         if r.status_code != 200:
+            logger.error(f"❌ Wikivoyage returned {r.status_code} for {city}")
             raise HTTPException(status_code=r.status_code, detail=f"Wikivoyage returned {r.status_code}")
+
         data = r.json()
+        raw_html = data.get("parse", {}).get("text", {}).get("*", "")
+        if not raw_html:
+            logger.warning(f"❌ No article content for '{city}' ({lang})")
+            raise HTTPException(status_code=404, detail=f"No article content for {city}")
 
-    # 🧩 Step 1: extract and decode HTML
-    raw_html = data.get("parse", {}).get("text", {}).get("*", "")
-    if not raw_html:
-        raise HTTPException(status_code=404, detail=f"No article content for {city}")
+        # 🧩 Decode HTML
+        html_content = html.unescape(raw_html)
+        soup = BeautifulSoup(html_content, "html.parser")
 
-    html_content = html.unescape(raw_html)  # decode JSON-escaped HTML
-    soup = BeautifulSoup(html_content, "html.parser")
+        # 🧩 Extract structured sections
+        sections = []
+        current_section = None
+        buffer = []
 
-    # 🧩 Step 2: traverse structure and extract text
-    sections = []
-    current_section = None
-    buffer = []
+        def flush():
+            nonlocal buffer, current_section
+            if current_section and buffer:
+                text = " ".join(buffer)
+                text = re.sub(r"\[\d+\]", "", text)
+                text = re.sub(r"\s+", " ", text).strip()
+                if text:
+                    sections.append({"section": current_section, "text": text})
+                buffer = []
 
-    def flush():
-        if current_section and buffer:
-            text = " ".join(buffer)
-            text = re.sub(r"\[\d+\]", "", text)
-            text = re.sub(r"\s+", " ", text).strip()
-            if text:
-                sections.append({"section": current_section, "text": text})
+        for tag in soup.find_all(["h2", "h3", "p", "ul", "ol"]):
+            if tag.name in ("h2", "h3"):
+                flush()
+                current_section = tag.get_text(" ", strip=True)
+            elif tag.name in ("p", "ul", "ol"):
+                txt = tag.get_text(" ", strip=True)
+                if txt:
+                    buffer.append(txt)
+        flush()
 
-    for tag in soup.find_all(["h2", "h3", "p", "ul", "ol"]):
-        if tag.name in ("h2", "h3"):
-            flush()
-            current_section = tag.get_text(" ", strip=True)
-            buffer = []
-        elif tag.name in ("p", "ul", "ol"):
-            txt = tag.get_text(" ", strip=True)
-            if txt:
-                buffer.append(txt)
-    flush()
+        # 🧩 Fallback: get intro text
+        if not sections:
+            intro = " ".join(p.get_text(" ", strip=True) for p in soup.find_all("p")[:3])
+            sections = [{"section": "Overview", "text": intro}]
 
-    # 🧩 Step 3: clean up / fallback
-    if not sections:
-        intro = " ".join(p.get_text(" ", strip=True) for p in soup.find_all("p")[:3])
-        sections = [{"section": "Overview", "text": intro}]
+        # 🧩 Filter to travel-relevant sections
+        keywords = [
+            "understand", "climate", "talk", "get in", "get around",
+            "see", "do", "buy", "eat", "drink", "sleep",
+            "stay safe", "cope", "go next"
+        ]
+        filtered = [
+            s for s in sections if any(k in s["section"].lower() for k in keywords)
+        ] or sections
 
-    # 🧩 Step 4: filter to travel-relevant sections
-    keywords = [
-        "understand", "climate", "talk", "get in", "get around",
-        "see", "do", "buy", "eat", "drink", "sleep",
-        "stay safe", "cope", "go next"
-    ]
-    filtered = [
-        s for s in sections if any(k in s["section"].lower() for k in keywords)
-    ] or sections
+        logger.info(f"✅ Parsed {len(filtered)} travel sections for '{city}' ({lang}).")
+        return {"city": city, "tips": filtered}
 
-    return {"city": city, "tips": filtered}
+    except Exception as e:
+        logger.error(f"❌ Error in get_travel_info(city={city}, lang={lang}): {e}")
+        raise
 
 
 
+@app.get("/api/wiki-summary")
+async def get_wikipedia_summary(
+    city: str = Query(..., description="City name in English (or Hebrew if lang=he)"),
+    lang: str = Query("en", pattern="^(en|he)$", description="Language: en or he")
+):
+    """
+    🔹 Fetch summarized Wikipedia info for a city (supports English & Hebrew).
+    - If lang=he, it will try to translate the city name using get_city_info().
+    - Returns title, description, extract, thumbnail, and page URL.
+    """
+    try:
+        city = city.strip().title()
+
+        # 🈁 Hebrew translation (if requested)
+        if lang == "he":
+            translated_city = get_city_info(city, return_type="city")
+            if translated_city:
+                logger.info(f"🌐 Translating '{city}' → '{translated_city}' for Hebrew Wikipedia lookup.")
+                city = translated_city
+            else:
+                logger.warning(f"⚠️ No Hebrew translation found for '{city}', using English name.")
+
+        url = WIKI_API_BASE.format(lang=lang, city=city.replace(" ", "_"))
+        logger.info(f"🌍 Fetching Wikipedia summary for '{city}' ({lang}) — {url}")
+
+        async with httpx.AsyncClient(timeout=15) as client:
+            response = await client.get(url, headers={
+                "User-Agent": "Fly-TLV (https://fly-tlv.com; contact@fly-tlv.com)",
+                "Accept": "application/json"
+            })
+
+        # 🧭 Handle API responses
+        if response.status_code == 404:
+            logger.warning(f"⚠️ Wikipedia article not found for '{city}' ({lang})")
+            raise HTTPException(status_code=404, detail=f"No Wikipedia article for {city} ({lang})")
+        elif response.status_code != 200:
+            logger.error(f"❌ Wikipedia API returned {response.status_code} for '{city}'")
+            raise HTTPException(status_code=response.status_code, detail="Wikipedia API error")
+
+        data = response.json()
+
+        result = {
+            "title": data.get("title"),
+            "description": data.get("description"),
+            "extract": data.get("extract"),
+            "thumbnail": data.get("thumbnail", {}).get("source"),
+            "lang": lang,
+            "url": data.get("content_urls", {}).get(lang, {}).get("page"),
+            "requested_city": city
+        }
+
+        if not result["extract"]:
+            logger.warning(f"⚠️ Wikipedia summary missing text for '{city}' ({lang})")
+            raise HTTPException(status_code=204, detail="No summary available")
+
+        logger.info(f"✅ Wikipedia summary fetched successfully for '{city}' ({lang})")
+        return result
+
+    except httpx.TimeoutException:
+        logger.error(f"⏱️ Timeout fetching Wikipedia for '{city}' ({lang})")
+        raise HTTPException(status_code=504, detail="Wikipedia request timed out")
+
+    except HTTPException:
+        raise  # Already logged
+
+    except Exception as e:
+        logger.exception(f"💥 Unexpected error fetching Wikipedia for '{city}' ({lang}): {e}")
+        raise HTTPException(status_code=500, detail=str(e))
