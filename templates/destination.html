@@ -127,11 +127,14 @@
         "value": {{ destination.Distance if destination.Distance else 'null' }},
         "unitText": "km"
       },
-      {% if destination.Airlines %}
-      "operatedBy": [
-        {% for airline in destination.Airlines.split(',') %}
-          { "@type": "Airline", "name": "{{ airline.strip() }}" }{{ ',' if not loop.last else '' }}
-        {% endfor %}
+		{% if destination.Airlines %}
+		{% set airlines_list = destination.Airlines if destination.Airlines is iterable and destination.Airlines is not string else destination.Airlines.split(',') %}
+		"operatedBy": [
+		  {% for airline in airlines_list %}
+			{ "@type": "Airline", "name": "{{ airline | trim }}" }{{ ',' if not loop.last else '' }}
+		  {% endfor %}
+		],
+		{% endif %}
       ],
       {% endif %}
       "offers": {
