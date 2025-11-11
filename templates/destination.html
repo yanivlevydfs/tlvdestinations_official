@@ -135,14 +135,12 @@
 		  {% endfor %}
 		],
 		{% endif %}
-      ],
-      {% endif %}
-      "offers": {
-        "@type": "Offer",
-        "url": "https://fly-tlv.com/destinations/{{ destination.IATA }}",
-        "availability": "https://schema.org/InStock",
-        "priceCurrency": "USD"
-      }
+		"offers": {
+		  "@type": "Offer",
+		  "url": "https://fly-tlv.com/destinations/{{ destination.IATA }}",
+		  "availability": "https://schema.org/InStock",
+		  "priceCurrency": "USD"
+		}
     },
 
     /* ---------- Tourist Destination (optional but valuable) ---------- */
