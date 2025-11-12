@@ -52,9 +52,41 @@ function dtButtonsFor(lang) {
       text: `<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}`
     },
     {
-      extend: 'pdfHtml5',
-      className: 'btn btn-primary btn-sm mobile-small-btn',
-      text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`
+	  extend: 'pdfHtml5',
+	  className: 'btn btn-primary btn-sm mobile-small-btn',
+	  text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`,
+	  customize: function (doc) {
+		if (lang === 'he') {
+		  doc.defaultStyle = {
+			font: 'DejaVuSans',
+			alignment: 'right',
+			rtl: true
+		  };
+
+		  if (
+			doc.content &&
+			doc.content[1] &&
+			doc.content[1].table &&
+			doc.content[1].table.body
+		  ) {
+			doc.content[1].table.body.forEach(function (row) {
+			  row.forEach(function (cell) {
+				if (typeof cell === 'object') {
+				  cell.alignment = 'right';
+				  cell.rtl = true; // ✅ Enables correct Hebrew direction
+				}
+			  });
+			});
+		  }
+		} else {
+		  // ✅ Use DejaVuSans also for English
+		  doc.defaultStyle = {
+			font: 'DejaVuSans',
+			alignment: 'left',
+			rtl: false
+		  };
+		}
+	  }
     },
     {
       extend: 'print',
