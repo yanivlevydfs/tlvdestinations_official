@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+	
   // ---------- Constants & DOM refs ----------
   const THEMES = {
     light: 'https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css',
@@ -39,119 +40,141 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------- DataTable init / destroy helper ----------
 function dtButtonsFor(lang) {
-  const b = LANG[lang].dtButtons;
+  // 🧱 Safe fallback if LANG or dtButtons missing
+  const safeLang = (typeof LANG !== "undefined" && LANG[lang]) ? LANG[lang] : LANG?.en || {};
+  const b = safeLang.dtButtons || { copy: "Copy", excel: "Excel", pdf: "PDF", print: "Print" };
+
   return [
     {
-      extend: 'copyHtml5',
-      className: 'btn btn-primary btn-sm mobile-small-btn',
-      text: `<i class="bi bi-clipboard me-1"></i> ${b.copy}`
+      extend: "copyHtml5",
+      className: "btn btn-primary btn-sm mobile-small-btn",
+      text: `<i class="bi bi-clipboard me-1"></i> ${b.copy}`,
     },
     {
-      extend: 'excelHtml5',
-      className: 'btn btn-primary btn-sm mobile-small-btn',
-      text: `<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}`
+      extend: "excelHtml5",
+      className: "btn btn-primary btn-sm mobile-small-btn",
+      text: `<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}`,
     },
     {
-	  extend: 'pdfHtml5',
-	  className: 'btn btn-primary btn-sm mobile-small-btn',
-	  text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`,
-		customize: function (doc) {
-		const now = new Date();
-		const timestamp = now.toLocaleString('en-GB', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		hour: '2-digit',
-		minute: '2-digit'
-		}).replace(',', '');
+      extend: "pdfHtml5",
+      className: "btn btn-primary btn-sm mobile-small-btn",
+      text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`,
+      customize: function (doc) {
+        const now = new Date();
+        const timestamp = now
+          .toLocaleString("en-GB", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+          .replace(",", "");
 
-		// 🕒 Add export timestamp in PDF header
-		doc.header = function () {
-		return {
-		  text: `Exported: ${timestamp}`,
-		  alignment: 'right',
-		  margin: [0, 10, 10, 0],
-		  fontSize: 8
-		};
-		};
+        // 🕒 Header timestamp
+        doc.header = function () {
+          return {
+            text: `Exported: ${timestamp}`,
+            alignment: "right",
+            margin: [0, 10, 10, 0],
+            fontSize: 8,
+          };
+        };
 
-		// 🌍 Base text direction setup
-		doc.defaultStyle = {
-		font: 'DejaVuSans',
-		alignment: lang === 'he' ? 'right' : 'left',
-		rtl: lang === 'he'
-		};
+        // 🌍 RTL/LTR handling
+        doc.defaultStyle = {
+          font: "DejaVuSans",
+          alignment: lang === "he" ? "right" : "left",
+          rtl: lang === "he",
+        };
 
-		const table = doc.content?.[1]?.table;
-		if (table?.body) {
-		if (lang === 'he') {
-		  // 🛠️ Apply RTL + wrap strings in objects
-		  table.body.forEach((row, rowIndex) => {
-			row.forEach((cell, colIndex) => {
-			  if (typeof cell === 'string') {
-				row[colIndex] = {
-				  text: cell,
-				  alignment: 'right',
-				  rtl: true
-				};
-			  } else if (typeof cell === 'object') {
-				cell.alignment = 'right';
-				cell.rtl = true;
-			  }
-			});
-		  });
-		}
+        const table = doc.content?.[1]?.table;
+        if (table?.body) {
+          // 🪞 Apply RTL text fixes
+          if (lang === "he") {
+            table.body.forEach((row) => {
+              row.forEach((cell, idx) => {
+                if (typeof cell === "string") {
+                  row[idx] = { text: cell, alignment: "right", rtl: true };
+                } else if (typeof cell === "object") {
+                  cell.alignment = "right";
+                  cell.rtl = true;
+                }
+              });
+            });
+          }
 
-		// ❌ Remove "Direction" column (index 7)
-		table.body.forEach(row => {
-		  row.splice(7, 1);
-		});
+          // 🔍 Dynamically detect “Direction” column index
+          const headerRow = table.body[0] || [];
+          const dirIndex = headerRow.findIndex((c) =>
+            typeof c === "string"
+              ? /direction/i.test(c)
+              : /direction/i.test(c.text || "")
+          );
 
-		if (table.widths && table.widths.length > 7) {
-		  table.widths.splice(7, 1);
-		}
-		}
-		}
+          if (dirIndex >= 0) {
+            table.body.forEach((row) => row.splice(dirIndex, 1));
+            if (table.widths && table.widths.length > dirIndex) {
+              table.widths.splice(dirIndex, 1);
+            }
+          }
+        }
+      },
     },
     {
-      extend: 'print',
-      className: 'btn btn-primary btn-sm mobile-small-btn',
-      text: `<i class="bi bi-printer me-1"></i> ${b.print}`
-    }
+      extend: "print",
+      className: "btn btn-primary btn-sm mobile-small-btn",
+      text: `<i class="bi bi-printer me-1"></i> ${b.print}`,
+    },
   ];
 }
 
+ function initDataTable(lang) {
+  // 🧱 Guard language object safely
+  const safeLang =
+    (typeof LANG !== "undefined" && LANG[lang])
+      ? LANG[lang]
+      : LANG?.en || {};
 
-  function initDataTable(lang) {
-    return $('#airports-table').DataTable({
-      dom:
-        "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-        "<'row'<'col-12'tr>>" +
-        "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-      buttons: dtButtonsFor(lang),
-      responsive: true,
-      fixedHeader: true,
-      pageLength: 10,
-      lengthMenu: [5, 10, 25, 50],
-      columnDefs: [
-        { targets: [0, 1, 2], responsivePriority: 1 },
-        { targets: [3], responsivePriority: 2 },
-        { targets: [4, 5, 6], responsivePriority: 10000 },
-        { targets: [7], visible: false, searchable: true }
-      ],
-      order: [[1, 'asc']],
-      language: LANG[lang].dt,
-      pagingType: "simple",
-      initComplete: function () {
-        $('#airports-table_filter input')
-          .attr('id', 'airports-search')
-          .attr('name', 'airports-search')
-          .attr('placeholder', LANG[lang].placeholderSearch || 'Search…');
-        const info = document.querySelector('#airports-table_info');
-        if (info) info.classList.add('last-update-badge');
-      }
-    });
-  }
+  // 🧩 Detect "Direction" column index dynamically
+  const dirHeader = document.querySelectorAll('#airports-table thead th');
+  let dirIndex = 7; // fallback default
+  dirHeader.forEach((th, i) => {
+    const text = th.textContent?.trim().toLowerCase();
+    if (text.includes('direction') || text.includes('כיוון')) dirIndex = i;
+  });
+
+  return $('#airports-table').DataTable({
+    dom:
+      "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+      "<'row'<'col-12'tr>>" +
+      "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+    buttons: dtButtonsFor(lang),
+    responsive: true,
+    fixedHeader: true,
+    pageLength: 20,
+    lengthMenu: [5, 10, 25, 50],
+    columnDefs: [
+      { targets: [0, 1, 2], responsivePriority: 1 },
+      { targets: [3], responsivePriority: 2 },
+      { targets: [4, 5, 6], responsivePriority: 10000 },
+      { targets: [dirIndex], visible: false, searchable: true } // ✅ dynamic
+    ],
+    order: [[1, 'asc']],
+    language: safeLang.dt || {},
+    pagingType: "simple",
+    initComplete: function () {
+      $('#airports-table_filter input')
+        .attr('id', 'airports-search')
+        .attr('name', 'airports-search')
+        .attr('placeholder', safeLang.placeholderSearch || 'Search…');
+
+      const info = document.querySelector('#airports-table_info');
+      if (info) info.classList.add('last-update-badge');
+    }
+  });
+}
+
 
   function escapeRegex(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -316,10 +339,24 @@ function dtButtonsFor(lang) {
     }
   });
 
-  // ---------- Initialize table + language ----------
+  // ---------- Initialize DataTable + language safely ----------
   const savedLang2 = localStorage.getItem('fe-lang') || 'en';
-  table = initDataTable(savedLang2);
-  applyLanguage(savedLang2, false);
+  const safeLangObj =
+    (typeof LANG !== "undefined" && LANG[savedLang2])
+      ? LANG[savedLang2]
+      : LANG?.en || {};
+
+  if (!LANG || !LANG[savedLang2]) {
+    console.warn(`⚠️ Missing LANG data for '${savedLang2}', falling back to English.`);
+  }
+
+  try {
+    table = initDataTable(savedLang2);
+    // Defer applyLanguage slightly to allow DOM + DT render
+    setTimeout(() => applyLanguage(savedLang2, false), 50);
+  } catch (err) {
+    console.error("❌ Failed to initialize DataTable or language:", err);
+  }
 
   // ---------- Desktop filters ----------
   $('#country-filter').on('change', function () {
@@ -351,27 +388,31 @@ function dtButtonsFor(lang) {
   updateActiveFilters(LANG[currentLang]);
 
   // ---------- View Map button logic ----------
-  if (viewMapBtn && mapModal && iframe) {
-    viewMapBtn.addEventListener('click', () => {
-      // Debug: log
-      console.log('View map clicked. iframe:', iframe, 'mapModal:', mapModal);
+	if (viewMapBtn && mapModal && iframe) {
+	  viewMapBtn.addEventListener('click', () => {
+		console.log('🗺️ View map clicked. iframe:', iframe, 'mapModal:', mapModal);
 
-      // If iframe has no src, set from data-src
-      const dataSrc = iframe.dataset?.src;
-      if (!iframe.src && dataSrc) {
-        iframe.src = dataSrc;
-      }
-      try {
-        const modal = new bootstrap.Modal(mapModal);
-        modal.show();
-        iframe.contentWindow?.postMessage('modal-shown', '*');
-      } catch (err) {
-        console.error('Error showing map modal:', err);
-      }
-    });
-  } else {
-    console.warn('View-map elements missing:', { viewMapBtn, mapModal, iframe });
-  }
+		// If iframe has no src, set from data-src
+		const dataSrc = iframe.dataset?.src;
+		if (!iframe.src && dataSrc) {
+		  iframe.src = dataSrc;
+		}
+
+		try {
+		  const modal = new bootstrap.Modal(mapModal);
+		  modal.show();
+		  iframe.contentWindow?.postMessage('modal-shown', '*');
+		} catch (err) {
+		  console.error('❌ Error showing map modal:', err);
+		}
+	  });
+	} else if (viewMapBtn || mapModal || iframe) {
+	  // ⚠️ Warn only if SOME map elements exist, but not all
+	  console.warn('⚠️ Some view-map elements missing:', { viewMapBtn, mapModal, iframe });
+	} else {
+	  // ✅ No map section at all → no warning needed
+	  // console.debug('ℹ️ This page has no map section, skipping map logic.');
+	}
 
   // ---------- Install App Banner (mobile) ----------
   if (window.innerWidth <= 768) {
@@ -426,7 +467,7 @@ function dtButtonsFor(lang) {
       applyDirectionFilter(directionSelect.value);
     });
   }
-{
+(() => {
   const COOKIE_KEY = 'cookie_consent_choice';
   const PREFS_KEY = 'cookie_prefs';
   const cookieLang = document.documentElement.lang || 'en';
@@ -525,8 +566,10 @@ function dtButtonsFor(lang) {
       analyticsToggle.checked = !!prefs.analytics;
       marketingToggle.checked = !!prefs.marketing;
     }
-    const modal = new bootstrap.Modal(customizeModalEl);
-    modal.show();
+	if (customizeModalEl) {
+	  const modal = new bootstrap.Modal(customizeModalEl);
+	  modal.show();
+	}
   });
 
   savePrefsBtn.addEventListener('click', () => {
@@ -540,7 +583,7 @@ function dtButtonsFor(lang) {
     cookieBanner.classList.add('d-none');
     bootstrap.Modal.getInstance(customizeModalEl)?.hide();
   });
-}
+})();
 
 // ---------- 🔺 Triangle blink until user opens one ----------
 if (window.innerWidth <= 768) {
@@ -562,32 +605,70 @@ if (window.innerWidth <= 768) {
   }
 }
 
-  (function fixResizeObserverAndDT() {
-    // 1) Silence Chrome's harmless ResizeObserver warning
-    const re = /ResizeObserver loop completed with undelivered notifications/;
-    const origErr = console.error;
-    console.error = (...args) => {
-      if (args[0] && re.test(String(args[0]))) return; // ignore only this warning
-      origErr.apply(console, args);
-    };
+// ---------- 🔧 Fix ResizeObserver + DataTable recalcs ----------
+(function fixResizeObserverAndDT() {
+  // 1) Silence Chrome's harmless ResizeObserver warning
+  const re = /ResizeObserver loop completed with undelivered notifications/;
+  const origErr = console.error;
+  console.error = (...args) => {
+    if (args[0] && re.test(String(args[0]))) return; // ignore only this warning
+    origErr.apply(console, args);
+  };
 
-    // 2) Safe DataTable adjust helper
-    const adjustDT = () => {
-      if (!window.jQuery || !$.fn.DataTable) return;
-      const $t = $('#airports-table');
-      if (!$t.length) return;
-      const dt = $t.DataTable();
-      dt.columns.adjust().responsive.recalc();
-    };
+  // 2) Safe DataTable adjust helper
+  const adjustDT = () => {
+    if (!window.jQuery || !$.fn.DataTable) return;
+    const $t = $('#airports-table');
+    if (!$t.length) return;
+    const dt = $t.DataTable();
+    dt.columns.adjust().responsive.recalc();
+  };
 
-    // 3) Run after load/layout settle
-    window.addEventListener('load', () => setTimeout(adjustDT, 250));
+  // 3) Run after load/layout settle
+  window.addEventListener('load', () => setTimeout(adjustDT, 250));
 
-    // 4) Recalc after major layout changes
-    window.addEventListener('resize', () => requestAnimationFrame(adjustDT));
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') setTimeout(adjustDT, 150);
-    });
-    $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
-  })();
+  // 4) Recalc after major layout changes
+  window.addEventListener('resize', () => requestAnimationFrame(adjustDT));
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') setTimeout(adjustDT, 150);
+  });
+
+  $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
+})();
+
+// ---------- 🧾 Generic Click Logger ----------
+console.log("✅ Click logger initialized");
+
+// attach on body, not on document — ensures all delegated clicks work
+document.body.addEventListener("click", (event) => {
+  const el = event.target.closest("[data-log]");
+  if (!el) return;
+
+  const payload = {
+    type: el.dataset.log,
+    timestamp: new Date().toISOString(),
+    ...el.dataset,
+    page: window.location.pathname
+  };
+  delete payload.log;
+
+  console.log("🛰️ Sending click log:", payload);
+
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+      navigator.sendBeacon("/log-click", blob);
+    } else {
+      fetch("/log-click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    }
+  } catch (err) {
+    console.warn("Click log failed:", err);
+  }
 });
+
+}); // ✅ closes DOMContentLoaded cleanly
+

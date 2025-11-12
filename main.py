@@ -1860,7 +1860,6 @@ async def chat_suggestions(n: int = Query(default=10, le=20)):
         raise HTTPException(status_code=503, detail="Destination data not loaded.")
 
     destinations = DATASET_DF_FLIGHTS.to_dict(orient="records")
-    #print(DATASET_DF_FLIGHTS.columns.tolist())
 
     try:
         suggestions = generate_questions_from_data(destinations, n)
@@ -2725,3 +2724,22 @@ async def get_wikipedia_summary(
     except Exception as e:
         logger.exception(f"💥 Unexpected error fetching Wikipedia for '{city}' ({lang}): {e}")
         raise HTTPException(status_code=500, detail=str(e))
+        
+@app.post("/log-click")
+async def log_click(request: Request):
+    data = await request.json()
+    click_type = data.get("type")
+
+    if click_type == "airline":
+        airline = data.get("airline")
+        logger.info(f"🛫 Airline chip clicked: {airline}")
+
+    elif click_type == "destination":
+        iata = data.get("iata")
+        airport = data.get("airport")
+        logger.info(f"🌍 Destination link clicked: {airport} ({iata})")
+
+    else:
+        logger.warning(f"⚠️ Unknown click log type: {data}")
+
+    return {"status": "ok"}

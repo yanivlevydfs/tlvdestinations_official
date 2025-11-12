@@ -644,9 +644,14 @@
                 <tr>
                   <td>{{ ap.IATA }}</td>
                   <td>
-                    <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold" aria-label="View destination {{ ap.Name }}">
-                      {{ ap.Name }}
-                    </a>
+					<a href="/destinations/{{ ap.IATA }}"
+					   class="text-decoration-none fw-bold"
+					   aria-label="View destination {{ ap.Name }}"
+					   data-log="destination"
+					   data-iata="{{ ap.IATA }}"
+					   data-airport="{{ ap.Name }}">
+					  {{ ap.Name }}
+					</a>
                   </td>
 					<td>{{ ap.Country }}</td>  <!-- ✅ Country first -->
 					<td>{{ ap.City }}</td>     <!-- ✅ City second -->
@@ -661,6 +666,8 @@
                             target="_blank"
                             rel="noopener"
                             class="airline-chip text-decoration-none"
+							data-log="airline"
+							data-airline="{{ airline_name }}"
                             title="Visit {{ airline_name | e }} website"
                           >
                             {{ airline_name }}
@@ -672,6 +679,8 @@
                             target="_blank"
                             rel="noopener"
                             class="airline-chip text-decoration-none"
+							data-log="airline"
+							data-airline="{{ airline_name }}"
                             title="Search for {{ airline_name | e }} on Google"
                           >
                             {{ airline_name }}
@@ -1012,9 +1021,6 @@
 </div>
 </footer>
 
-  <script src="/static/js/lang.js"></script>
-  <script src="/static/js/app.js"></script>
-  <script src="/static/js/ads-and-modal.js"></script>
   <script>
 	  if ("serviceWorker" in navigator) {
 		window.addEventListener("load", () => {
@@ -1128,5 +1134,9 @@ nl_compact = "1";
 </script>
 <script src="{{ url_for('static', path='js/nagishli_beta.js') }}?v=3.0" charset="utf-8" defer></script>
 <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
+  <script src="/static/js/lang.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/ads-and-modal.js"></script>
+
 </body>
 </html>
