@@ -55,38 +55,63 @@ function dtButtonsFor(lang) {
 	  extend: 'pdfHtml5',
 	  className: 'btn btn-primary btn-sm mobile-small-btn',
 	  text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`,
-	  customize: function (doc) {
-		if (lang === 'he') {
-		  doc.defaultStyle = {
-			font: 'DejaVuSans',
-			alignment: 'right',
-			rtl: true
-		  };
+		customize: function (doc) {
+		const now = new Date();
+		const timestamp = now.toLocaleString('en-GB', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit'
+		}).replace(',', '');
 
-		  if (
-			doc.content &&
-			doc.content[1] &&
-			doc.content[1].table &&
-			doc.content[1].table.body
-		  ) {
-			doc.content[1].table.body.forEach(function (row) {
-			  row.forEach(function (cell) {
-				if (typeof cell === 'object') {
-				  cell.alignment = 'right';
-				  cell.rtl = true; // ✅ Enables correct Hebrew direction
-				}
-			  });
+		// 🕒 Add export timestamp in PDF header
+		doc.header = function () {
+		return {
+		  text: `Exported: ${timestamp}`,
+		  alignment: 'right',
+		  margin: [0, 10, 10, 0],
+		  fontSize: 8
+		};
+		};
+
+		// 🌍 Base text direction setup
+		doc.defaultStyle = {
+		font: 'DejaVuSans',
+		alignment: lang === 'he' ? 'right' : 'left',
+		rtl: lang === 'he'
+		};
+
+		const table = doc.content?.[1]?.table;
+		if (table?.body) {
+		if (lang === 'he') {
+		  // 🛠️ Apply RTL + wrap strings in objects
+		  table.body.forEach((row, rowIndex) => {
+			row.forEach((cell, colIndex) => {
+			  if (typeof cell === 'string') {
+				row[colIndex] = {
+				  text: cell,
+				  alignment: 'right',
+				  rtl: true
+				};
+			  } else if (typeof cell === 'object') {
+				cell.alignment = 'right';
+				cell.rtl = true;
+			  }
 			});
-		  }
-		} else {
-		  // ✅ Use DejaVuSans also for English
-		  doc.defaultStyle = {
-			font: 'DejaVuSans',
-			alignment: 'left',
-			rtl: false
-		  };
+		  });
 		}
-	  }
+
+		// ❌ Remove "Direction" column (index 7)
+		table.body.forEach(row => {
+		  row.splice(7, 1);
+		});
+
+		if (table.widths && table.widths.length > 7) {
+		  table.widths.splice(7, 1);
+		}
+		}
+		}
     },
     {
       extend: 'print',
