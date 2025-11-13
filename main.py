@@ -988,7 +988,13 @@ def map_view(country: str = "All", query: str = ""):
 
     df = DATASET_DF_FLIGHTS.copy()
     airports = df.to_dict(orient="records")
-    existing_iatas = {ap["iata"].upper() for ap in airports if "iata" in ap}
+    existing_iatas = {
+        str(ap.get("iata", "")).upper()
+        for ap in airports
+        if isinstance(ap, dict)
+        and ap.get("iata")
+        and isinstance(ap.get("iata"), (str, int, float))
+    }
 
 
     # ✅ Group flights by IATA, ignore direction (D/A)
