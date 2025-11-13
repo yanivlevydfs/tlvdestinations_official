@@ -347,11 +347,11 @@ def datetimeformat(value: str, fmt: str = "%d/%m/%Y %H:%M"):
 
 TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 
-def normalize_case(value: str) -> str:
-    """Capitalize each word properly, safe for missing/placeholder values."""
-    if not value or value == "—":
-        return value or "—"
-    return string.capwords(value.strip())
+def normalize_case(value) -> str:
+    """Capitalize each word safely, handling None, numbers, and placeholders."""
+    if not value or str(value).strip() in {"", "—", "None", "nan"}:
+        return "—"
+    return string.capwords(str(value).strip())
 
 def get_lang(request: Request) -> str:
     return "he" if request.query_params.get("lang") == "he" else "en"
@@ -658,7 +658,7 @@ def fetch_israel_flights() -> dict | None:
 
             if not iata or iata == "—" or not direction or direction == "—":
                 continue  # Skip incomplete records
-
+    
             flights.append({
                 "airline": normalize_case(rec.get("CHOPERD", "—")),
                 "iata": iata,
@@ -675,6 +675,20 @@ def fetch_israel_flights() -> dict | None:
             logger.warning("❌ No usable flight records received — skipping cache write.")
             return None
 
+        df = pd.DataFrame(flights)
+        if "iata" not in df.columns:
+            logger.error("❌ 'iata' column missing in DataFrame — invalid records.")
+            return None
+
+        df["iata"] = (
+            df["iata"]
+            .astype(str)
+            .str.strip()
+            .str.upper()
+            .replace("NAN", None)
+        )
+        flights = df.to_dict(orient="records")
+    
         result = {
             "updated": datetime.now().isoformat(),
             "count": len(flights),
