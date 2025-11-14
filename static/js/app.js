@@ -669,6 +669,5 @@ document.body.addEventListener("click", (event) => {
     console.warn("Click log failed:", err);
   }
 });
-
 }); // ✅ closes DOMContentLoaded cleanly
 

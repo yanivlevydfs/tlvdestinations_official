@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title -%}
-  {{ 'Travel Questionnaire — TLV → Worldwide Destinations | Find Airlines and Travel Warnings'
+  {{ 'Travel Guide — TLV → Worldwide Destinations | Find Airlines and Travel Warnings'
      if lang != 'he' else
-     'שאלון נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב' }}
+     'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב' }}
 {%- endblock %}
 
 {% block head_extra %}
@@ -36,29 +36,29 @@
   <meta property="og:site_name" content="Fly TLV — Worldwide Destinations" />
   <meta property="og:url" content="https://fly-tlv.com/travel-questionnaire{{ '' if lang != 'he' else '?lang=he' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
-  <meta property="og:title" content="{{
-    'Travel Questionnaire — TLV → Worldwide Destinations'
-    if lang != 'he' else
-    'שאלון נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב'
-  }}" />
+<meta property="og:title" content="{{
+  'Travel Guide — TLV → Worldwide Destinations'
+  if lang != 'he' else
+  'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב'
+}}" />
   <meta property="og:description" content="{{
     'Discover direct destinations, airlines, and official travel warnings from Tel Aviv Ben Gurion Airport (TLV). Data sourced from verified APIs and government databases.'
     if lang != 'he' else
     'גלו יעדים ישירים, חברות תעופה ואזהרות מסע רשמיות מנתב״ג תל אביב (TLV). הנתונים מבוססים על מקורות רשמיים ו־API ממשלתיים.'
   }}" />
   <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
-  <meta property="og:image:alt" content="{{ 'Interactive TLV travel questionnaire' if lang != 'he' else 'שאלון נסיעות מנתב״ג תל אביב' }}" />
+  <meta property="og:image:alt" content="{{ 'Interactive TLV travel guide' if lang != 'he' else 'מדריך נסיעות מנתב״ג תל אביב' }}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@flyTLV" />
-  <meta name="twitter:title" content="{{
-    'Travel Questionnaire — TLV → Worldwide Destinations'
-    if lang != 'he' else
-    'שאלון נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב'
-  }}" />
+<meta name="twitter:title" content="{{
+  'Travel Guide — TLV → Worldwide Destinations'
+  if lang != 'he' else
+  'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב'
+}}" />
   <meta name="twitter:description" content="{{
     'Choose a country, city, or airport and explore airlines and travel warnings for direct destinations from Tel Aviv Ben Gurion Airport.'
     if lang != 'he' else
@@ -102,7 +102,7 @@
       "@type": "WebPage",
       "@id": "https://fly-tlv.com/travel-questionnaire/#webpage",
       "url": "https://fly-tlv.com/travel-questionnaire{{ '' if lang != 'he' else '?lang=he' }}",
-      "name": "{{ 'Travel Questionnaire — Fly TLV' if lang != 'he' else 'שאלון נסיעות — Fly TLV' }}",
+      "name": "{{ 'Travel Guide — Fly TLV' if lang != 'he' else 'מדריך נסיעות — Fly TLV' }}",
       "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
       "description": "{{ 'Interactive tool to explore direct flights, airlines, and travel advisories from Tel Aviv (TLV).' if lang != 'he' else 'כלי אינטראקטיבי לגילוי יעדי טיסה ישירים, חברות תעופה ואזהרות מסע מנתב״ג תל אביב.' }}",
       "publisher": { "@id": "https://fly-tlv.com/#organization" },
@@ -119,7 +119,7 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "{{ 'Home' if lang != 'he' else 'בית' }}", "item": "https://fly-tlv.com/{{ '?lang=he' if lang == 'he' else '' }}" },
-        { "@type": "ListItem", "position": 2, "name": "{{ 'Travel Questionnaire' if lang != 'he' else 'שאלון נסיעות' }}", "item": "https://fly-tlv.com/travel-questionnaire{{ '?lang=he' if lang == 'he' else '' }}" }
+        { "@type": "ListItem", "position": 2, "name": "{{ 'Travel Guide' if lang != 'he' else 'מדריך נסיעות' }}", "item": "https://fly-tlv.com/travel-questionnaire{{ '?lang=he' if lang == 'he' else '' }}" }
       ]
     },
 
@@ -164,7 +164,7 @@
 <div class="container mt-5" {% if lang == 'he' %}dir="rtl"{% endif %}>
   <div class="card shadow">
     <div class="card-header bg-primary text-white text-center fw-semibold">
-      ✈️ {{ 'Travel Questionnaire' if lang != 'he' else 'שאלון נסיעות' }}
+     ✈️ {{ 'Travel Guide' if lang != 'he' else 'מדריך נסיעות' }}
     </div>
 <div class="col-12 text-center">
   <span class="last-update-badge d-inline-block mt-1 mx-auto">

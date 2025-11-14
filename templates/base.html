@@ -318,9 +318,10 @@ body.dark-mode .btn-outline-primary strong {
   <!-- ✅ NAVBAR -->
   <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
     <div class="container-fluid">
-      <a id="brand-title" class="navbar-brand d-flex align-items-center" href="/">
-        <i class="bi bi-airplane-engines me-2"></i>Fly TLV → Worldwide Destinations
-      </a>
+		<a id="brand-title" class="navbar-brand d-flex align-items-center" href="/">
+		  <i class="bi bi-airplane-engines me-2"></i>
+		  {{ "Fly TLV → Worldwide Destinations" if lang != "he" else "יעדים ישירים מנתב״ג לכל העולם" }}
+		</a>
 <div class="d-flex align-items-center justify-content-center gap-2">
 <button id="view-map-btn" class="btn btn-outline-primary">
   <i class="bi bi-globe-americas me-1"></i> 

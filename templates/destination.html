@@ -24,7 +24,8 @@
 	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="en" />
 	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}?lang=he" hreflang="he" />
 	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="x-default" />
-
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>	
 <!-- Structured Data: Fly-TLV Destination Page -->
 <script type="application/ld+json">
 {
@@ -432,9 +433,33 @@ body.dark-mode textarea {
         <h5><i class="bi bi-info-circle"></i>
           {{ 'About ' ~ destination.City if lang != 'he' else 'על ' ~ destination.City }}
         </h5>
-        <div id="city-overview" class="border rounded p-3 bg-light">
-          {{ 'Loading city info...' if lang != 'he' else 'טוען מידע על העיר...' }}
-        </div>
+		<div id="city-overview" class="border rounded p-3 bg-light">
+		  {% if wiki_summary and wiki_summary.extract %}
+			<div class="row">
+			  {% if wiki_summary.thumbnail %}
+				<div class="col-12 col-md-auto text-center mb-3 mb-md-0">
+				  <img src="{{ wiki_summary.thumbnail }}" alt="{{ wiki_summary.title }}" class="img-fluid rounded shadow-sm" style="max-width:180px;">
+				</div>
+			  {% endif %}
+			  <div class="col">
+				<strong>{{ wiki_summary.title }}</strong><br>
+				{% if wiki_summary.description %}
+				  <em>{{ wiki_summary.description }}</em><br>
+				{% endif %}
+				<p>{{ wiki_summary.extract }}</p>
+				{% if wiki_summary.url %}
+				  <a href="{{ wiki_summary.url }}" target="_blank" rel="noopener">
+					🌐 {{ 'קרא עוד בוויקיפדיה' if lang == 'he' else 'Read more on Wikipedia' }}
+				  </a>
+				{% endif %}
+			  </div>
+			</div>
+		  {% else %}
+			<div class="text-muted">
+			  {{ 'לא נמצא מידע בוויקיפדיה.' if lang == 'he' else 'No Wikipedia data found.' }}
+			</div>
+		  {% endif %}
+		</div>
       </div>
 	<!-- 🌤️ Weather for Destination -->
 		<div class="mt-5">
@@ -502,22 +527,143 @@ body.dark-mode textarea {
   </div>
 {% endif %}
 {% if travel_info and travel_info['tips'] %}
-<div id="travel-info-card" class="card shadow-sm mt-4">
+  <div id="travel-info-card" class="mt-4">
+    <div class="mb-2 fw-semibold text-primary">
+      <i class="bi bi-map-fill me-1"></i>
+      {{ 'Tourist Information' if lang != 'he' else 'מידע למטיילים' }}
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+      {% for tip in travel_info['tips'] %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h6 class="text-primary mb-2">
+                <i class="bi bi-geo-alt-fill me-1"></i> {{ tip.section }}
+              </h6>
+              <p class="small text-muted mb-0">{{ tip.text }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+{% if travel_info and travel_info['pois'] %}
+<div id="poi-list" class="card shadow-sm mt-4">
   <div class="card-header text-primary fw-semibold">
-    <i class="bi bi-map-fill me-1"></i>
-    {{ 'Tourist Information' if lang != 'he' else 'מידע למטיילים' }}
+    <i class="bi bi-stars me-1"></i>
+    {{ 'Points of Interest' if lang != 'he' else 'נקודות עניין' }}
   </div>
   <div class="card-body">
-    {% for tip in travel_info['tips'] %}
-      <div class="mb-3">
-        <h6 class="text-primary mb-1">
-          <i class="bi bi-geo-alt-fill me-1"></i> {{ tip.section }}
-        </h6>
-        <p class="mb-0 small">{{ tip.text }}</p>
-      </div>
-    {% endfor %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for poi in travel_info['pois'] %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <h6 class="mb-1">{{ poi.name }}</h6>
+                <span class="badge bg-secondary text-capitalize small">{{ poi.type }}</span>
+              </div>
+              <p class="text-muted small">{{ poi.description }}</p>
+              <ul class="list-unstyled small mb-0">
+                {% if poi.price %}
+                  <li><strong>💲 {{ 'Price' if lang != 'he' else 'מחיר' }}:</strong> {{ poi.price }}</li>
+                {% endif %}
+                {% if poi.phone %}
+                  <li><strong>📞 {{ 'Phone' if lang != 'he' else 'טלפון' }}:</strong> 
+                    <a href="tel:{{ poi.phone }}" class="text-decoration-none">{{ poi.phone }}</a></li>
+                {% endif %}
+                {% if poi.email %}
+                  <li><strong>✉️ {{ 'Email' if lang != 'he' else 'אימייל' }}:</strong> 
+                    <a href="mailto:{{ poi.email }}" class="text-decoration-none">{{ poi.email }}</a></li>
+                {% endif %}
+              </ul>
+            </div>
+            {% if poi.lat and poi.lon %}
+              <div class="card-footer text-muted small">
+                📍 {{ poi.lat }}, {{ poi.lon }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
+<script>
+const labels = {
+  price: "{{ 'Price' if lang != 'he' else 'מחיר' }}",
+  phone: "{{ 'Phone' if lang != 'he' else 'טלפון' }}",
+  email: "{{ 'Email' if lang != 'he' else 'אימייל' }}"
+};
+</script>
+{% endif %}
+{% set has_coords = travel_info['pois'] | selectattr('lat') | list | length > 0 %}
+{% if has_coords %}
+<div class="card shadow-sm mt-4">
+  <div class="card-header text-primary fw-semibold">
+    <i class="bi bi-map me-1"></i>
+    {{ 'POI Map' if lang != 'he' else 'מפת נקודות עניין' }}
+  </div>
+  <div class="card-body p-0">
+    <div id="poiMap" style="height: 400px;"></div>
+  </div>
+</div>
+
+<script>
+  // ✅ Safe HTML escape function
+  function escapeHTML(str) {
+    return String(str).replace(/[&<>"']/g, function (m) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m];
+    });
+  }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const map = L.map('poiMap').setView([{{ destination.lat }}, {{ destination.lon }}], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const pois = {{ travel_info['pois'] | tojson | safe }};
+  const markers = L.layerGroup();  // ✅ Use LayerGroup instead of clustering
+
+  pois.forEach(poi => {
+    if (poi.lat && poi.lon) {
+      const marker = L.marker([poi.lat, poi.lon]);
+      let popup = `<strong>${escapeHTML(poi.name)}</strong>`;
+
+      if (poi.description && !poi.description.startsWith(poi.name)) {
+        popup += `<br>${escapeHTML(poi.description)}`;
+      }
+
+      if (poi.price) {
+        popup += `<br><strong>💲 ${labels.price}:</strong> ${escapeHTML(poi.price)}`;
+      }
+
+      if (poi.phone) {
+        popup += `<br><strong>📞 ${labels.phone}:</strong> ${escapeHTML(poi.phone)}`;
+      }
+
+      if (poi.email) {
+        popup += `<br><strong>✉️ ${labels.email}:</strong> ${escapeHTML(poi.email)}`;
+      }
+
+      marker.bindPopup(popup);
+      markers.addLayer(marker);
+    }
+  });
+
+  map.addLayer(markers); // ✅ Add the LayerGroup to the map
+});
+</script>
 {% endif %}
     </div>
 	<div class="card-footer text-start">
@@ -532,49 +678,4 @@ body.dark-mode textarea {
 	</div>
   </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  const city = "{{ destination.City|urlencode }}";
-  const lang = "{{ lang }}";
-  const url = `/api/wiki-summary?city=${city}&lang=${lang}`;  // ← now calls your backend route
-
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Server returned ${res.status}`);
-    const data = await res.json();
-
-    const box = document.getElementById("city-overview");
-    let html = "";
-
-    // 🖼️ Optional thumbnail
-    if (data.thumbnail) {
-      html += `
-        <div class="row">
-          <div class="col-12 col-md-auto text-center">
-            <img src="${data.thumbnail}" 
-                 alt="${data.title}" 
-                 class="img-fluid rounded shadow-sm mb-3 me-md-3" 
-                 style="max-width:180px;">
-          </div>
-          <div class="col">
-      `;
-    }
-
-    html += `<strong>${data.title}</strong><br>`;
-    if (data.description) html += `<em>${data.description}</em><br>`;
-    html += `<p>${data.extract}</p>`;
-
-    if (data.thumbnail) html += `</div></div>`; // close the row
-
-    box.innerHTML = html;
-  } catch (err) {
-    console.error("❌ Error fetching Wikipedia summary:", err);
-    document.getElementById("city-overview").innerHTML =
-      "{{ 'No Wikipedia data found.' if lang != 'he' else 'לא נמצא מידע בוויקיפדיה.' }}";
-  }
-});
-</script>
-
-
 {% endblock %}
