@@ -429,60 +429,57 @@ body.dark-mode textarea {
 </div>
 
       <!-- Wikipedia City Overview -->
-<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="City Overview">
-  <div class="card-header small text-muted fw-semibold">
-    <i class="bi bi-info-circle me-1"></i>
-    {{ 'About ' ~ destination.City if lang != 'he' else 'על ' ~ destination.City }}
-  </div>
-
-  <div class="card-body bg-light">
-    {% if wiki_summary and wiki_summary.extract %}
-      <div class="row">
-        {% if wiki_summary.thumbnail %}
-          <div class="col-12 col-md-auto text-center mb-3 mb-md-0">
-            <img src="{{ wiki_summary.thumbnail }}" alt="{{ wiki_summary.title }}" class="img-fluid rounded shadow-sm" style="max-width:180px;">
-          </div>
-        {% endif %}
-        <div class="col">
-          <strong>{{ wiki_summary.title }}</strong><br>
-          {% if wiki_summary.description %}
-            <em>{{ wiki_summary.description }}</em><br>
-          {% endif %}
-          <p class="mb-2">{{ wiki_summary.extract }}</p>
-          {% if wiki_summary.url %}
-            <a href="{{ wiki_summary.url }}" target="_blank" rel="noopener">
-              🌐 {{ 'קרא עוד בוויקיפדיה' if lang == 'he' else 'Read more on Wikipedia' }}
-            </a>
-          {% endif %}
-        </div>
+      <div class="mt-2">
+        <h5><i class="bi bi-info-circle"></i>
+          {{ 'About ' ~ destination.City if lang != 'he' else 'על ' ~ destination.City }}
+        </h5>
+		<div id="city-overview" class="border rounded p-3 bg-light">
+		  {% if wiki_summary and wiki_summary.extract %}
+			<div class="row">
+			  {% if wiki_summary.thumbnail %}
+				<div class="col-12 col-md-auto text-center mb-3 mb-md-0">
+				  <img src="{{ wiki_summary.thumbnail }}" alt="{{ wiki_summary.title }}" class="img-fluid rounded shadow-sm" style="max-width:180px;">
+				</div>
+			  {% endif %}
+			  <div class="col">
+				<strong>{{ wiki_summary.title }}</strong><br>
+				{% if wiki_summary.description %}
+				  <em>{{ wiki_summary.description }}</em><br>
+				{% endif %}
+				<p>{{ wiki_summary.extract }}</p>
+				{% if wiki_summary.url %}
+				  <a href="{{ wiki_summary.url }}" target="_blank" rel="noopener">
+					🌐 {{ 'קרא עוד בוויקיפדיה' if lang == 'he' else 'Read more on Wikipedia' }}
+				  </a>
+				{% endif %}
+			  </div>
+			</div>
+		  {% else %}
+			<div class="text-muted">
+			  {{ 'לא נמצא מידע בוויקיפדיה.' if lang == 'he' else 'No Wikipedia data found.' }}
+			</div>
+		  {% endif %}
+		</div>
       </div>
-    {% else %}
-      <div class="text-muted">
-        {{ 'לא נמצא מידע בוויקיפדיה.' if lang == 'he' else 'No Wikipedia data found.' }}
-      </div>
-    {% endif %}
-  </div>
-</div>
+	<!-- 🌤️ Weather for Destination -->
+		<div class="mt-2">
+		  <h5>
+			<i class="bi bi-cloud-sun"></i>
+			{{ ('Weather in ' if lang != 'he' else 'מזג האוויר ב־') ~ destination.City }}
+		  </h5>
 
-<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Weather">
-  <div class="card-header small text-muted fw-semibold">
-    <i class="bi bi-cloud-sun me-1"></i>
-    {{ ('Weather in ' if lang != 'he' else 'מזג האוויר ב־') ~ destination.City }}
-  </div>
-
-  <div class="card-body p-0 bg-light">
-    <iframe
-      width="100%"
-      height="450"
-      frameborder="0"
-      src="https://embed.windy.com/embed2.html?lat={{ destination.lat }}&lon={{ destination.lon }}&detailLat={{ destination.lat }}&detailLon={{ destination.lon }}&width=100%&height=450&zoom=8&level=surface&overlay=wind&menu=&message=true&marker=&calendar=24&pressure=false&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
-      allowfullscreen
-      loading="lazy"
-      title="{{ destination.City }} Weather from Windy">
-    </iframe>
-  </div>
-</div>
-
+		  <div class="border rounded p-2 bg-light">
+			<iframe
+			  width="100%"
+			  height="450"
+			  frameborder="0"
+			  src="https://embed.windy.com/embed2.html?lat={{ destination.lat }}&lon={{ destination.lon }}&detailLat={{ destination.lat }}&detailLon={{ destination.lon }}&width=100%&height=450&zoom=8&level=surface&overlay=wind&menu=&message=true&marker=&calendar=24&pressure=false&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
+			  allowfullscreen
+			  loading="lazy"
+			  title="{{ destination.City }} Weather from Windy">
+			</iframe>
+		  </div>
+		</div>
 		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
 		  <div class="card-header small text-muted fw-semibold">
 			<i class="bi bi-sim-fill me-1 text-primary"></i>{{ 'Travel SIM Deals' if lang != 'he' else 'עסקאות סים לחו״ל' }}
