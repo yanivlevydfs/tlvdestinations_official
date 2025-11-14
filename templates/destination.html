@@ -429,57 +429,60 @@ body.dark-mode textarea {
 </div>
 
       <!-- Wikipedia City Overview -->
-      <div class="mt-5">
-        <h5><i class="bi bi-info-circle"></i>
-          {{ 'About ' ~ destination.City if lang != 'he' else 'על ' ~ destination.City }}
-        </h5>
-		<div id="city-overview" class="border rounded p-3 bg-light">
-		  {% if wiki_summary and wiki_summary.extract %}
-			<div class="row">
-			  {% if wiki_summary.thumbnail %}
-				<div class="col-12 col-md-auto text-center mb-3 mb-md-0">
-				  <img src="{{ wiki_summary.thumbnail }}" alt="{{ wiki_summary.title }}" class="img-fluid rounded shadow-sm" style="max-width:180px;">
-				</div>
-			  {% endif %}
-			  <div class="col">
-				<strong>{{ wiki_summary.title }}</strong><br>
-				{% if wiki_summary.description %}
-				  <em>{{ wiki_summary.description }}</em><br>
-				{% endif %}
-				<p>{{ wiki_summary.extract }}</p>
-				{% if wiki_summary.url %}
-				  <a href="{{ wiki_summary.url }}" target="_blank" rel="noopener">
-					🌐 {{ 'קרא עוד בוויקיפדיה' if lang == 'he' else 'Read more on Wikipedia' }}
-				  </a>
-				{% endif %}
-			  </div>
-			</div>
-		  {% else %}
-			<div class="text-muted">
-			  {{ 'לא נמצא מידע בוויקיפדיה.' if lang == 'he' else 'No Wikipedia data found.' }}
-			</div>
-		  {% endif %}
-		</div>
-      </div>
-	<!-- 🌤️ Weather for Destination -->
-		<div class="mt-5">
-		  <h5>
-			<i class="bi bi-cloud-sun"></i>
-			{{ ('Weather in ' if lang != 'he' else 'מזג האוויר ב־') ~ destination.City }}
-		  </h5>
+<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="City Overview">
+  <div class="card-header small text-muted fw-semibold">
+    <i class="bi bi-info-circle me-1"></i>
+    {{ 'About ' ~ destination.City if lang != 'he' else 'על ' ~ destination.City }}
+  </div>
 
-		  <div class="border rounded p-2 bg-light">
-			<iframe
-			  width="100%"
-			  height="450"
-			  frameborder="0"
-			  src="https://embed.windy.com/embed2.html?lat={{ destination.lat }}&lon={{ destination.lon }}&detailLat={{ destination.lat }}&detailLon={{ destination.lon }}&width=100%&height=450&zoom=8&level=surface&overlay=wind&menu=&message=true&marker=&calendar=24&pressure=false&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
-			  allowfullscreen
-			  loading="lazy"
-			  title="{{ destination.City }} Weather from Windy">
-			</iframe>
-		  </div>
-		</div>
+  <div class="card-body bg-light">
+    {% if wiki_summary and wiki_summary.extract %}
+      <div class="row">
+        {% if wiki_summary.thumbnail %}
+          <div class="col-12 col-md-auto text-center mb-3 mb-md-0">
+            <img src="{{ wiki_summary.thumbnail }}" alt="{{ wiki_summary.title }}" class="img-fluid rounded shadow-sm" style="max-width:180px;">
+          </div>
+        {% endif %}
+        <div class="col">
+          <strong>{{ wiki_summary.title }}</strong><br>
+          {% if wiki_summary.description %}
+            <em>{{ wiki_summary.description }}</em><br>
+          {% endif %}
+          <p class="mb-2">{{ wiki_summary.extract }}</p>
+          {% if wiki_summary.url %}
+            <a href="{{ wiki_summary.url }}" target="_blank" rel="noopener">
+              🌐 {{ 'קרא עוד בוויקיפדיה' if lang == 'he' else 'Read more on Wikipedia' }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="text-muted">
+        {{ 'לא נמצא מידע בוויקיפדיה.' if lang == 'he' else 'No Wikipedia data found.' }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Weather">
+  <div class="card-header small text-muted fw-semibold">
+    <i class="bi bi-cloud-sun me-1"></i>
+    {{ ('Weather in ' if lang != 'he' else 'מזג האוויר ב־') ~ destination.City }}
+  </div>
+
+  <div class="card-body p-0 bg-light">
+    <iframe
+      width="100%"
+      height="450"
+      frameborder="0"
+      src="https://embed.windy.com/embed2.html?lat={{ destination.lat }}&lon={{ destination.lon }}&detailLat={{ destination.lat }}&detailLon={{ destination.lon }}&width=100%&height=450&zoom=8&level=surface&overlay=wind&menu=&message=true&marker=&calendar=24&pressure=false&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
+      allowfullscreen
+      loading="lazy"
+      title="{{ destination.City }} Weather from Windy">
+    </iframe>
+  </div>
+</div>
+
 		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
 		  <div class="card-header small text-muted fw-semibold">
 			<i class="bi bi-sim-fill me-1 text-primary"></i>{{ 'Travel SIM Deals' if lang != 'he' else 'עסקאות סים לחו״ל' }}
@@ -526,145 +529,135 @@ body.dark-mode textarea {
     </div>
   </div>
 {% endif %}
-{% if travel_info and travel_info['tips'] %}
-  <div id="travel-info-card" class="mt-4">
-    <div class="mb-2 fw-semibold text-primary">
-      <i class="bi bi-map-fill me-1"></i>
-      {{ 'Tourist Information' if lang != 'he' else 'מידע למטיילים' }}
-    </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-3">
-      {% for tip in travel_info['tips'] %}
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h6 class="text-primary mb-2">
-                <i class="bi bi-geo-alt-fill me-1"></i> {{ tip.section }}
-              </h6>
-              <p class="small text-muted mb-0">{{ tip.text }}</p>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-{% endif %}
 {% if travel_info and travel_info['pois'] %}
-<div id="poi-list" class="card shadow-sm mt-4">
-  <div class="card-header text-primary fw-semibold">
-    <i class="bi bi-stars me-1"></i>
-    {{ 'Points of Interest' if lang != 'he' else 'נקודות עניין' }}
-  </div>
-  <div class="card-body">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      {% for poi in travel_info['pois'] %}
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-start">
-                <h6 class="mb-1">{{ poi.name }}</h6>
-                <span class="badge bg-secondary text-capitalize small">{{ poi.type }}</span>
+  <div id="poi-list" class="card shadow-sm mt-4">
+	<div class="card-header text-primary fw-semibold d-flex justify-content-between align-items-center">
+	  <span>
+		<i class="bi bi-stars me-1"></i>
+		{{ 'Points of Interest' if lang != 'he' else 'נקודות עניין' }}
+	  </span>
+	  <span class="badge bg-secondary">
+		{{ travel_info['pois'] | length }}
+	  </span>
+	</div>
+    <div class="card-body">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for poi in travel_info['pois'] %}
+          <div class="col">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="row g-0 align-items-center">
+                
+                <!-- Left: Image -->
+                <div class="col-auto">
+                  <div class="bg-light d-flex align-items-center justify-content-center rounded"
+                       style="width:110px; height:110px; overflow:hidden;">
+                    {% if poi.image %}
+                      <img src="{{ poi.image }}"
+                           alt="{{ poi.name }}"
+                           class="img-fluid"
+                           style="width:110px; height:110px; object-fit:cover;">
+                    {% else %}
+                      <i class="bi bi-image text-muted" style="font-size:2rem;"></i>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="col ps-3">
+                  <h6 class="fw-semibold mb-1" style="line-height:1.3;">{{ poi.name }}</h6>
+
+                  {% if poi.description %}
+                    <p class="small text-muted mb-1" style="line-height:1.25;">
+                      {{ poi.description[:180] ~ ('…' if poi.description|length > 180 else '') }}
+                    </p>
+                  {% endif %}
+
+                  {% if poi.lat and poi.lon %}
+					  <div class="text-muted small">
+						<a href="https://www.google.com/maps?q={{ poi.lat }},{{ poi.lon }}"
+						   target="_blank"
+						   rel="noopener"
+						   class="text-decoration-none">
+						  📍 Map
+						</a>
+					  </div>
+					{% endif %}
+                </div>
               </div>
-              <p class="text-muted small">{{ poi.description }}</p>
-              <ul class="list-unstyled small mb-0">
-                {% if poi.price %}
-                  <li><strong>💲 {{ 'Price' if lang != 'he' else 'מחיר' }}:</strong> {{ poi.price }}</li>
-                {% endif %}
-                {% if poi.phone %}
-                  <li><strong>📞 {{ 'Phone' if lang != 'he' else 'טלפון' }}:</strong> 
-                    <a href="tel:{{ poi.phone }}" class="text-decoration-none">{{ poi.phone }}</a></li>
-                {% endif %}
-                {% if poi.email %}
-                  <li><strong>✉️ {{ 'Email' if lang != 'he' else 'אימייל' }}:</strong> 
-                    <a href="mailto:{{ poi.email }}" class="text-decoration-none">{{ poi.email }}</a></li>
-                {% endif %}
-              </ul>
             </div>
-            {% if poi.lat and poi.lon %}
-              <div class="card-footer text-muted small">
-                📍 {{ poi.lat }}, {{ poi.lon }}
-              </div>
-            {% endif %}
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
   </div>
-</div>
-<script>
-const labels = {
-  price: "{{ 'Price' if lang != 'he' else 'מחיר' }}",
-  phone: "{{ 'Phone' if lang != 'he' else 'טלפון' }}",
-  email: "{{ 'Email' if lang != 'he' else 'אימייל' }}"
-};
-</script>
 {% endif %}
 {% set has_coords = travel_info['pois'] | selectattr('lat') | list | length > 0 %}
 {% if has_coords %}
-<div class="card shadow-sm mt-4">
-  <div class="card-header text-primary fw-semibold">
-    <i class="bi bi-map me-1"></i>
-    {{ 'POI Map' if lang != 'he' else 'מפת נקודות עניין' }}
+  <div class="card shadow-sm mt-4">
+    <div class="card-header text-primary fw-semibold">
+      <i class="bi bi-map me-1"></i>
+      {{ 'POI Map' if lang != 'he' else 'מפת נקודות עניין' }}
+    </div>
+    <div class="card-body p-0">
+      <div id="poiMap" style="height: 400px;"></div>
+    </div>
   </div>
-  <div class="card-body p-0">
-    <div id="poiMap" style="height: 400px;"></div>
-  </div>
-</div>
 
-<script>
-  // ✅ Safe HTML escape function
-  function escapeHTML(str) {
-    return String(str).replace(/[&<>"']/g, function (m) {
-      return {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      }[m];
-    });
-  }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const map = L.map('poiMap').setView([{{ destination.lat }}, {{ destination.lon }}], 12);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-
-  const pois = {{ travel_info['pois'] | tojson | safe }};
-  const markers = L.layerGroup();  // ✅ Use LayerGroup instead of clustering
-
-  pois.forEach(poi => {
-    if (poi.lat && poi.lon) {
-      const marker = L.marker([poi.lat, poi.lon]);
-      let popup = `<strong>${escapeHTML(poi.name)}</strong>`;
-
-      if (poi.description && !poi.description.startsWith(poi.name)) {
-        popup += `<br>${escapeHTML(poi.description)}`;
-      }
-
-      if (poi.price) {
-        popup += `<br><strong>💲 ${labels.price}:</strong> ${escapeHTML(poi.price)}`;
-      }
-
-      if (poi.phone) {
-        popup += `<br><strong>📞 ${labels.phone}:</strong> ${escapeHTML(poi.phone)}`;
-      }
-
-      if (poi.email) {
-        popup += `<br><strong>✉️ ${labels.email}:</strong> ${escapeHTML(poi.email)}`;
-      }
-
-      marker.bindPopup(popup);
-      markers.addLayer(marker);
+  <script>
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[m];
+      });
     }
-  });
 
-  map.addLayer(markers); // ✅ Add the LayerGroup to the map
-});
-</script>
+    window.addEventListener("load", () => {
+      const map = L.map('poiMap');
+      const pois = {{ travel_info['pois'] | tojson | safe }};
+      const markers = L.layerGroup();
+      const bounds = [];
+
+	pois.forEach(poi => {
+	  if (poi.lat && poi.lon) {
+		const latlng = [poi.lat, poi.lon];
+		bounds.push(latlng);
+
+		const marker = L.marker(latlng);
+		let popup = `<strong>${escapeHTML(poi.name)}</strong>`;
+
+		if (poi.description && !poi.description.startsWith(poi.name)) {
+		  popup += `<br>${escapeHTML(poi.description)}`;
+		}
+
+		marker.bindPopup(popup);
+		markers.addLayer(marker);
+	  }
+	});
+
+      markers.addTo(map);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      if (bounds.length) {
+        map.fitBounds(bounds, { padding: [20, 20] });
+      } else {
+        map.setView([{{ destination.lat }}, {{ destination.lon }}], 12);
+      }
+
+      // 🩹 Fix for hidden container or late rendering
+      setTimeout(() => map.invalidateSize(), 200);
+    });
+  </script>
 {% endif %}
+
     </div>
 	<div class="card-footer text-start">
 	  <a href="{{ '/' if lang != 'he' else '/?lang=he' }}"

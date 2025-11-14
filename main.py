@@ -149,129 +149,6 @@ CITY_TRANSLATIONS = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
-def extract_pois_from_sections(sections: list[dict]) -> list[dict]:
-
-    pois = []
-
-    # --- REGEX SETUP ---
-    coord_regex = re.compile(
-        r"(?P<lat>\d{2}\.\d+)\s+(?P<lon>\d{2,3}\.\d+)\s*(?P<index>\d+)?\s*(?P<name>[^\n]{3,150})"
-    )
-
-    phone_regex = re.compile(r"(?:☎|☏)?\s*(\+?\d[\d\s\-]{5,})")
-    email_regex = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
-    price_regex = re.compile(r"(?P<amount>\d{1,4}(?:[.,]\d{1,2})?)\s*(?P<currency>(USD|ILS|EUR|AED|dirham|₪|£|€|\$)?)", re.IGNORECASE)
-    website_regex = re.compile(r"https?://[^\s<>\"]+", re.IGNORECASE)
-
-    type_map = {
-        "see": "attraction",
-        "do": "activity",
-        "buy": "shopping",
-        "eat": "restaurant",
-        "drink": "nightlife",
-        "sleep": "hotel",
-        "stay": "hotel",
-        "around": "transport",
-        "get in": "transport",
-        "go next": "connection",
-        "climate": "climate",
-        "theatre": "event",
-        "festival": "event"
-    }
-
-    seen = set()
-
-    def clean_name(name: str) -> str:
-        name = re.sub(phone_regex, "", name)
-        name = re.sub(email_regex, "", name)
-        name = re.sub(r"[.,;:\s]+$", "", name)
-        name = re.sub(r"\s{2,}", " ", name)
-        return name.strip(" \n\t-–•")
-
-    # --- MAIN LOOP ---
-    for section in sections:
-        section_text = section["text"]
-        section_html = section.get("raw_html", "")
-        section_lower = section["section"].lower()
-        poi_type = next((v for k, v in type_map.items() if k in section_lower), "other")
-
-        # ✅ 1. Parse coordinate-based POIs
-        for match in coord_regex.finditer(section_text):
-            g = match.groupdict()
-            lat, lon = float(g["lat"]), float(g["lon"])
-            raw_name = g["name"].strip()
-            name = clean_name(raw_name)
-
-            key = (lat, lon, name.lower())
-            if key in seen:
-                continue
-            seen.add(key)
-
-            # Metadata context window
-            pos = section_text.find(raw_name)
-            snippet = section_text[max(0, pos - 150): pos + 300] if pos != -1 else section_text[:300]
-
-            poi = {
-                "name": name,
-                "lat": lat,
-                "lon": lon,
-                "type": poi_type,
-                "description": f"{name} — from {section['section']}"
-            }
-
-            if phone := phone_regex.search(snippet):
-                poi["phone"] = phone.group(1).strip()
-            if email := email_regex.search(snippet):
-                poi["email"] = email.group(0).strip()
-            if price := price_regex.search(snippet):
-                poi["price"] = f"{price.group('amount')} {price.group('currency')}".strip()
-            if website := website_regex.search(snippet):
-                poi["website"] = website.group(0).strip()
-
-            pois.append(poi)
-
-        # ✅ 2. Fallback: Rich list items with contact but no coordinates
-        soup = BeautifulSoup(section_html, "html.parser")
-        for li in soup.find_all(["li", "p"]):
-            text = li.get_text(" ", strip=True)
-            if not text or len(text) < 20:
-                continue
-
-            if coord_regex.search(text):
-                continue  # Already handled
-
-            contact = phone_regex.search(text) or email_regex.search(text)
-            if not contact:
-                continue  # Skip generic items
-
-            name = clean_name(text[:100])
-            key = (name.lower(), section["section"])
-            if key in seen:
-                continue
-            seen.add(key)
-
-            poi = {
-                "name": name,
-                "type": poi_type,
-                "description": f"{text} — from {section['section']}"
-            }
-
-            if phone := phone_regex.search(text):
-                poi["phone"] = phone.group(1).strip()
-            if email := email_regex.search(text):
-                poi["email"] = email.group(0).strip()
-            if price := price_regex.search(text):
-                poi["price"] = f"{price.group('amount')} {price.group('currency')}".strip()
-            if website := website_regex.search(text):
-                poi["website"] = website.group(0).strip()
-
-            pois.append(poi)
-
-    return pois
-
-
-
-
 def get_city_info(city_en: str, return_type: str = "both"):
     """
     Get Hebrew city and country names by English city.
@@ -2723,120 +2600,6 @@ async def get_warnings(country: str):
 
     return JSONResponse(content={"warnings": []})
 
-async def get_travel_info(city: str, lang: str = "en") -> dict:
-    """
-    Fetch and parse full tourist information from Wikivoyage.
-    Works generically for all cities and languages.
-    """
-    try:
-        city = city.strip().title()
-
-        # 🌍 Translate to Hebrew if needed
-        if lang == "he":
-            hebrew_city = get_city_info(city, return_type="city")
-            if hebrew_city:
-                logger.info(f"🌐 Translating '{city}' → '{hebrew_city}' for Hebrew Wikivoyage lookup.")
-                city = hebrew_city
-            else:
-                logger.warning(f"⚠️ No Hebrew translation found for '{city}', using English name.")
-
-        # 🔗 Wikivoyage API
-        base_url = f"https://{'he' if lang == 'he' else 'en'}.wikivoyage.org/w/api.php"
-        params = {
-            "action": "parse",
-            "page": city,
-            "prop": "text",
-            "format": "json",
-            "redirects": 1
-        }
-        headers = {
-            "User-Agent": "Fly-TLV (https://fly-tlv.com; contact@fly-tlv.com)",
-            "Accept": "application/json"
-        }
-
-        # 🌐 Fetch data
-        async with httpx.AsyncClient(timeout=30, headers=headers) as client:
-            logger.info(f"🌍 Fetching Wikivoyage for '{city}' (lang={lang})")
-            r = await client.get(base_url, params=params)
-
-        if r.status_code != 200:
-            logger.error(f"❌ Wikivoyage returned {r.status_code} for {city}")
-            raise HTTPException(status_code=r.status_code, detail="Wikivoyage request failed")
-
-        data = r.json()
-        raw_html = data.get("parse", {}).get("text", {}).get("*", "")
-        if not raw_html:
-            logger.warning(f"❌ No article content for '{city}' ({lang})")
-            raise HTTPException(status_code=404, detail="No Wikivoyage article found")
-
-        # 🧩 Parse and decode
-        soup = BeautifulSoup(html.unescape(raw_html), "html.parser")
-
-        # ✅ Parse sections, preserving both text and raw HTML
-        sections = []
-        current_section = None
-        buffer = []
-
-        def flush():
-            nonlocal buffer, current_section
-            if current_section and buffer:
-                html_block = " ".join(str(tag) for tag in buffer)
-                text = BeautifulSoup(html_block, "html.parser").get_text(" ", strip=True)
-                text = re.sub(r"\[\d+\]", "", text)
-                text = re.sub(r"\s+", " ", text).strip()
-
-                if text:
-                    sections.append({
-                        "section": current_section,
-                        "text": text,
-                        "raw_html": html_block
-                    })
-                buffer.clear()
-
-        for tag in soup.find_all(["h2", "h3", "p", "ul", "ol"]):
-            if tag.name in ("h2", "h3"):
-                flush()
-                current_section = tag.get_text(" ", strip=True)
-            elif tag.name in ("p", "ul", "ol"):
-                buffer.append(tag)
-        flush()
-
-        # 🧩 Fallback intro if nothing found
-        if not sections:
-            intro = " ".join(p.get_text(" ", strip=True) for p in soup.find_all("p")[:3])
-            sections = [{
-                "section": "Overview",
-                "text": intro,
-                "raw_html": intro
-            }]
-
-        # ✅ Only keep travel-relevant sections
-        keywords = [
-            "understand", "climate", "talk", "get in", "get around",
-            "see", "do", "buy", "eat", "drink", "sleep",
-            "stay safe", "cope", "go next"
-        ]
-        filtered = [
-            s for s in sections if any(k in s["section"].lower() for k in keywords)
-        ] or sections  # fallback to all if no match
-
-        logger.info(f"✅ Parsed {len(filtered)} travel sections for '{city}' ({lang})")
-
-        # 🔍 Extract POIs (uses text + HTML)
-        pois = extract_pois_from_sections(filtered)
-        logger.info(f"📌 Extracted {len(pois)} POIs for '{city}'")
-
-        return {
-            "city": city,
-            "tips": filtered,
-            "pois": pois
-        }
-
-    except Exception as e:
-        logger.exception(f"❌ Error in get_travel_info(city={city}, lang={lang})")
-        raise HTTPException(status_code=500, detail="Failed to fetch travel info")
-
-
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
     city: str = Query(..., description="City name in English (or Hebrew if lang=he)"),
@@ -2923,3 +2686,141 @@ async def log_click(request: Request):
         logger.warning(f"⚠️ Unknown click log type: {data}")
 
     return {"status": "ok"}
+
+SPARQL_URL = "https://query.wikidata.org/sparql"
+
+ALLOWED_ROOTS = [
+    "wd:Q4989906",   # tourist attraction
+    "wd:Q33506",     # attraction
+    "wd:Q839954",    # landmark
+    "wd:Q5084",      # archaeological site
+    "wd:Q9134",      # historic site
+    "wd:Q35509",     # monument
+    "wd:Q570116",    # museum
+    "wd:Q12973014",  # art gallery
+    "wd:Q22698",     # park
+    "wd:Q123705",    # square
+    "wd:Q16970",     # cathedral
+    "wd:Q23413",     # church
+    "wd:Q2065736",   # temple
+    "wd:Q875157",    # statue
+    "wd:Q811979",    # viewpoint
+]
+
+ROOT_VALUES = " ".join(ALLOWED_ROOTS)
+
+
+async def get_travel_info(city: str, lang="en"):
+    HEADERS = {
+    "User-Agent": "FlyTLV/1.0 (contact@fly-tlv.com)",
+    "Accept": "application/json"}
+    
+    city = city.strip().title()
+
+    async with httpx.AsyncClient(timeout=15, headers=HEADERS) as client:
+
+        # --------------------------------------------------------
+        # 1) SEARCH CITY → GET QID
+        # --------------------------------------------------------
+        r = await client.get(
+            "https://www.wikidata.org/w/api.php",
+            params={
+                "action": "wbsearchentities",
+                "search": city,
+                "language": "en",
+                "type": "item",
+                "limit": 1,
+                "format": "json",
+            }
+        )
+
+        data = r.json()
+        if not data.get("search"):
+            logger.warning(f"❌ No QID found for {city}")
+            return {"city": city, "pois": [], "tips": []}
+
+        city_qid = data["search"][0]["id"]
+        logger.info(f"🔎 City QID = {city_qid}")
+
+        # --------------------------------------------------------
+        # 2) SPARQL → Extended + DISTINCT + image + desc
+        # --------------------------------------------------------
+        query = f"""
+        SELECT DISTINCT ?item ?itemLabel ?coord ?image ?desc ?sitelinks WHERE {{
+          VALUES ?root {{ {ROOT_VALUES} }}
+
+          ?item wdt:P131 wd:{city_qid} .
+          ?item wdt:P31/wdt:P279* ?root .
+
+          OPTIONAL {{ ?item wdt:P625 ?coord }}
+          OPTIONAL {{ ?item wdt:P18 ?image }}
+          OPTIONAL {{ ?item schema:description ?desc FILTER(LANG(?desc)="{lang}") }}
+          OPTIONAL {{ ?item wikibase:sitelinks ?sitelinks }}
+
+          SERVICE wikibase:label {{ bd:serviceParam wikibase:language "{lang},en". }}
+        }}
+        ORDER BY DESC(?sitelinks)
+        LIMIT 100
+        """
+
+        r = await client.post(
+            SPARQL_URL,
+            params={"format": "json"},
+            data={"query": query},
+            headers={"Accept": "application/sparql-results+json"},
+        )
+
+        ctype = r.headers.get("content-type", "").lower()
+        if "json" not in ctype:
+            logger.error("❌ SPARQL returned NON-JSON content!")
+            logger.error(r.text[:600])
+            return {"city": city, "pois": [], "tips": []}
+
+        results = r.json().get("results", {}).get("bindings", [])
+        pois = []
+        seen_keys = set()  # (name, lat, lon) deduplication
+
+        # --------------------------------------------------------
+        # 3) PARSE + FILTER + DEDUPLICATE
+        # --------------------------------------------------------
+        for row in results:
+            name = row.get("itemLabel", {}).get("value")
+            desc = row.get("desc", {}).get("value")
+            img = row.get("image", {}).get("value")
+
+            if not name or not desc or not img:
+                continue  # skip if missing any required field
+
+            coord_raw = row.get("coord", {}).get("value", "")
+            lat = lon = None
+            if coord_raw.startswith("Point("):
+                lon, lat = coord_raw[6:-1].split()
+                lat, lon = float(lat), float(lon)
+            else:
+                continue  # skip if no coordinates
+
+            # Deduplicate by (name, lat, lon)
+            key = (name.lower(), round(lat, 5), round(lon, 5))
+            if key in seen_keys:
+                continue
+            seen_keys.add(key)
+
+            pois.append({
+                "name": name,
+                "description": desc,
+                "image": img,
+                "lat": lat,
+                "lon": lon,
+                "gmap_url": f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
+            })
+
+        logger.info(f"📌 Filtered down to {len(pois)} top tourist attractions for {city}")
+        random.shuffle(pois)
+        pois = pois[:20]
+        return {
+            "city": city,
+            "pois": pois,
+            "tips": []
+        }
+
+
