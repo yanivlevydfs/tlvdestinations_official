@@ -1806,15 +1806,26 @@ Now, using ONLY the data above, answer the user's question below:
 - What country is [City] located in?
 - What destinations does [Airline] serve?
 - What airlines fly to [City] or [Country]?
+- What is the website of [Airline]?
 - שאלות בעברית? → Translate to English first, then answer in English.
 
 🧾 OUTPUT FORMAT (REQUIRED):
-1. Start with a bold heading: **✈️ Flights to [Country/Region/City]**
-2. Use Markdown bullet points:
-   - Format each destination as: **City (IATA, Country)**
-   - Under each, indent each airline as a separate sub-bullet:
-     - One airline per line  
-     - No commas, no inline lists, no slashes
+1. If the question is about flight destinations:
+   - Start with a bold heading: **✈️ Flights to [Country/Region/City]**
+   - Use Markdown bullet points:
+     - Format each destination as: **City (IATA, Country)**
+     - Under each city, indent each airline as a separate sub-bullet:
+       - Format: `- Airline Name — [https://example.com](https://example.com)`
+       - If the website is not available, list only the airline name
+       - One airline per line  
+       - No commas, no inline lists, no slashes
+
+2. If the question is about an airline website:
+   - Start with a bold heading: **🌐 Website for [Airline]**
+   - On the next line, provide the URL as a Markdown link:
+     [https://example.com](https://example.com)
+   - Do not include summaries, explanations, or extra text.
+
 
 🟢 CORRECT EXAMPLE:
 ---
