@@ -2690,7 +2690,7 @@ async def fetch_wikipedia_summary(
                 logger.warning(f"⚠️ No Hebrew translation found for '{city}', using English name.")
 
         url = WIKI_API_BASE.format(lang=lang, city=city.replace(" ", "_"))
-        logger.info(f"🌍 Fetching Wikipedia summary for '{city}' ({lang}) — {url}")
+        logger.info(f"🌍 Fetching Wikipedia summary for '{city}' ({lang})")
 
         async with httpx.AsyncClient(timeout=15) as client:
             response = await client.get(url, headers={
