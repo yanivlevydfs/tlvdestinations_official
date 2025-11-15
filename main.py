@@ -1591,18 +1591,40 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     # --- 🇬🇧 ENGLISH ---
     if countries:
         for country in random.sample(countries, min(5, len(countries))):
-            questions.append(f"What cities in {country} can I fly to?")
-            questions.append(f"Which airlines fly to {country}?")
+            questions.append(f"What cities can I fly to in {country}?")
+            questions.append(f"Are there direct flights to {country}?")
+            questions.append(f"Which destinations are available in {country}?")
+            questions.append(f"Can I fly to {country} from TLV?")
+            questions.append(f"What airports are available in {country}?")
 
     if cities:
         for city, country in random.sample(cities, min(5, len(cities))):
-            questions.append(f"Which airlines fly to {city}?")
-            questions.append(f"What country is {city} located in?")
+            questions.append(f"Which airlines fly directly to {city}?")
+            questions.append(f"Is there a direct flight to {city}?")
+            questions.append(f"What country does {city} belong to?")
+            questions.append(f"Can I fly to {city} from Ben Gurion Airport?")
+            questions.append(f"Are there flights from TLV to {city}?")
+
 
     if airlines:
         for airline in random.sample(airlines, min(5, len(airlines))):
-            questions.append(f"Where does {airline} fly?")
-            questions.append(f"What destinations are served by {airline}?")
+            questions.append(f"What are the destinations for {airline}?")
+            questions.append(f"Where does {airline} operate flights?")
+            questions.append(f"What cities are served by {airline}?")
+            questions.append(f"What countries does {airline} fly to?")
+            questions.append(f"Which routes are available with {airline}?")
+            url = AIRLINE_WEBSITES.get(airline)
+            if url:
+                questions.append(f"What is the website of {airline}?")
+                questions.append(f"Show me the website for {airline}")
+                questions.append(f"Where can I find the website of {airline}?")
+                questions.append(f"Does {airline} have a website?")
+                questions.append(f"Can you give me the link to {airline}'s website?")
+                questions.append(f"What's the official site of {airline}?")
+                questions.append(f"Where do I find the official website of {airline}?")
+                questions.append(f"Is there an official website for {airline}?")
+                questions.append(f"Give me the website for {airline}.")
+                questions.append(f"What's the homepage URL of {airline}?")
 
     # --- 🇮🇱 HEBREW (with translation lookup) ---
     if countries:
@@ -1617,9 +1639,11 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
 
                 if not he_country:
                     he_country = country  # fallback to English
-
-                questions.append(f"אילו ערים יש טיסות ל-{he_country}?")
-                questions.append(f"אילו חברות טסות ל-{he_country}?")
+                questions.append(f"לאילו ערים אפשר לטוס בתוך {he_country}?")
+                questions.append(f"איזה יעדים יש במדינת {he_country}?")
+                questions.append(f"אילו טיסות יוצאות ל-{he_country}?")
+                questions.append(f"אילו ערים ב-{he_country} זמינות בטיסות ישירות?")
+                questions.append(f"לאן אפשר להגיע ב-{he_country} בטיסה?")
             except Exception as e:
                 logger.debug(f"⚠️ Country translation fallback: {e}")
                 continue
@@ -1630,16 +1654,35 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
                 info = get_city_info(city, return_type="both")
                 city_he = info.get("city_he") if info else city
                 country_he = info.get("country_he") if info else country
-                questions.append(f"אילו חברות טסות ל-{city_he}?")
-                questions.append(f"באיזו מדינה נמצאת {city_he}? ({country_he})")
+                questions.append(f"עם אילו חברות תעופה אפשר להגיע ל-{city_he}?")
+                questions.append(f"אילו טיסות מגיעות ל-{city_he}?")
+                questions.append(f"יש טיסות ישירות ל-{city_he}?")
+                questions.append(f"אילו חברות מציעות טיסות ל-{city_he}?")
+                questions.append(f"אילו חברות טסות ישירות ל-{city_he}?")
             except Exception as e:
                 logger.debug(f"⚠️ City translation fallback: {e}")
                 continue
 
     if airlines:
         for airline in random.sample(airlines, min(4, len(airlines))):
-            questions.append(f"לאן טסה חברת {airline}?")
-            questions.append(f"אילו ערים משרתת חברת {airline}?")
+            questions.append(f"לאן אפשר לטוס עם חברת {airline}?")
+            questions.append(f"באילו מסלולים פועלת חברת {airline}?")
+            questions.append(f"אילו מדינות נמצאות ברשימת היעדים של חברת {airline}?")
+            questions.append(f"מהם היעדים שחברת {airline} מגיעה אליהם?")
+            questions.append(f"באילו נמלי תעופה נוחתת חברת {airline}?")
+            questions.append(f"האם חברת {airline} טסה ליעדים בינלאומיים?")
+            questions.append(f"יש טיסות של חברת {airline} לאירופה?")
+            questions.append(f"אילו יעדים פופולריים יש עם חברת {airline}?")
+            questions.append(f"באילו מדינות פועלת חברת {airline}?")
+            questions.append(f"מהם היעדים העיקריים של חברת {airline}?")
+            url = AIRLINE_WEBSITES.get(airline)
+            if url:
+                questions.append(f"מה האתר של חברת {airline}?")
+                questions.append(f"תראה לי את האתר של חברת {airline}")
+                questions.append(f"איפה אפשר למצוא את האתר של חברת {airline}?")
+                questions.append(f"האם יש אתר לחברת {airline}?")
+                questions.append(f"אתה יכול לשלוח לי קישור לאתר של חברת {airline}?")
+                questions.append(f"מהו האתר הרשמי של חברת {airline}?")
 
     random.shuffle(questions)
     logger.info(f"✅ Generated {len(questions[:n])} bilingual question suggestions (EN+HE).")
