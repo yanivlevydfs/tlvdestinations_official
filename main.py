@@ -1646,6 +1646,9 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
     return questions[:n]
 
 def build_flight_context(df) -> str:
+    
+    global AIRLINE_WEBSITES
+    
     """
     Build a rich Markdown-formatted flight context from the dataset.
     Supports:
@@ -1654,6 +1657,7 @@ def build_flight_context(df) -> str:
       - Airline → Destinations
       - Airline → Countries
       - Country → Destinations
+      - Airline → Website Directory
     """
 
     # === Data Structures ===
@@ -1734,6 +1738,13 @@ def build_flight_context(df) -> str:
         f"- **{airline}** operates in: {', '.join(sorted(countries))}"
         for airline, countries in sorted(airline_to_countries.items())
     )
+    
+    # === Section 6: Airline → Website Directory ===
+    airline_website_section = "\n".join(
+        f"- {airline}: {url}"
+        for airline, url in sorted(AIRLINE_WEBSITES.items())
+        if url
+    )
 
     # === Final Context Assembly ===
     context = (
@@ -1747,6 +1758,8 @@ def build_flight_context(df) -> str:
         + "\n".join(airline_dest_section)
         + "\n\n🌐 **Airline-to-Countries**\n"
         + airline_country_section
+        + "\n\n🌐 **Airline Website Directory**\n"
+        + airline_website_section
     )
 
     return context
