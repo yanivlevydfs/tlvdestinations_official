@@ -601,6 +601,11 @@ body.dark-mode textarea {
     </div>
   </div>
 
+  <!-- ✅ EMBED POI JSON SAFELY -->
+  <script id="poi-data" type="application/json">
+    {{ travel_info['pois'] | tojson(indent=0) | safe }}
+  </script>
+
   <script>
     function escapeHTML(str) {
       return String(str).replace(/[&<>"']/g, function (m) {
@@ -616,26 +621,39 @@ body.dark-mode textarea {
 
     window.addEventListener("load", () => {
       const map = L.map('poiMap');
-      const pois = {{ travel_info['pois'] | tojson | safe }};
+      const rawJson = document.getElementById("poi-data").textContent;
+      let pois = [];
+
+      try {
+        pois = JSON.parse(rawJson);
+      } catch (e) {
+        console.error("❌ Failed to parse POI data:", e);
+        return;
+      }
+
       const markers = L.layerGroup();
       const bounds = [];
 
-	pois.forEach(poi => {
-	  if (poi.lat && poi.lon) {
-		const latlng = [poi.lat, poi.lon];
-		bounds.push(latlng);
+      pois.forEach(poi => {
+        if (typeof poi.lat === 'number' && typeof poi.lon === 'number') {
+          const latlng = [poi.lat, poi.lon];
+          bounds.push(latlng);
 
-		const marker = L.marker(latlng);
-		let popup = `<strong>${escapeHTML(poi.name)}</strong>`;
+          const marker = L.marker(latlng);
+          let popup = poi.name ? `<strong>${escapeHTML(poi.name)}</strong>` : '';
 
-		if (poi.description && !poi.description.startsWith(poi.name)) {
-		  popup += `<br>${escapeHTML(poi.description)}`;
-		}
+          if (
+            poi.description &&
+            typeof poi.description === 'string' &&
+            (!poi.name || !poi.description.startsWith(poi.name))
+          ) {
+            popup += `<br>${escapeHTML(poi.description)}`;
+          }
 
-		marker.bindPopup(popup);
-		markers.addLayer(marker);
-	  }
-	});
+          marker.bindPopup(popup);
+          markers.addLayer(marker);
+        }
+      });
 
       markers.addTo(map);
 
@@ -649,7 +667,6 @@ body.dark-mode textarea {
         map.setView([{{ destination.lat }}, {{ destination.lon }}], 12);
       }
 
-      // 🩹 Fix for hidden container or late rendering
       setTimeout(() => map.invalidateSize(), 200);
     });
   </script>
