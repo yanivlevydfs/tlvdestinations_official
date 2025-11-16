@@ -73,89 +73,103 @@
   "@graph": [
 
     {
-      "@type": "Organization",
-      "@id": "https://fly-tlv.com/#organization",
-      "name": "Fly TLV",
-      "url": "https://fly-tlv.com/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://fly-tlv.com/static/icons/favicon-512.png",
-        "width": 512,
-        "height": 512
-      },
-      "sameAs": [
-        "https://www.facebook.com/flytlv",
-        "https://www.instagram.com/flytlv",
-        "https://www.linkedin.com/company/flytlv"
-      ]
-    },
-
-    {
-      "@type": "WebSite",
-      "name": "Fly TLV — Worldwide Destinations",
-      "url": "https://fly-tlv.com/",
-      "inLanguage": "en-US",
-      "publisher": { "@id": "https://fly-tlv.com/#organization" }
-    },
-
-    {
       "@type": "WebPage",
-      "@id": "https://fly-tlv.com/travel-questionnaire/#webpage",
-      "url": "https://fly-tlv.com/travel-questionnaire{{ '' if lang != 'he' else '?lang=he' }}",
-      "name": "{{ 'Travel Guide — Fly TLV' if lang != 'he' else 'מדריך נסיעות — Fly TLV' }}",
-      "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
-      "description": "{{ 'Interactive tool to explore direct flights, airlines, and travel advisories from Tel Aviv (TLV).' if lang != 'he' else 'כלי אינטראקטיבי לגילוי יעדי טיסה ישירים, חברות תעופה ואזהרות מסע מנתב״ג תל אביב.' }}",
-      "publisher": { "@id": "https://fly-tlv.com/#organization" },
-      "isPartOf": { "@id": "https://fly-tlv.com/#organization" },
-      "primaryImageOfPage": {
-        "@type": "ImageObject",
-        "url": "https://fly-tlv.com/static/og/flytlv_world.jpg",
-        "width": 1200,
-        "height": 630
-      }
+      "@id": "https://fly-tlv.com/travel-questionnaire/#page",
+      "url": "https://fly-tlv.com/travel-questionnaire{{ lang == 'he' ? '?lang=he' : '' }}",
+      "name": "{{ lang != 'he' 
+        ? 'Travel Questionnaire — Fly TLV' 
+        : 'מדריך נסיעות — Fly TLV' }}",
+      "inLanguage": "{{ lang == 'he' ? 'he-IL' : 'en-US' }}",
+      "description": "{{ lang != 'he'
+        ? 'Interactive travel questionnaire for exploring direct destinations, airlines, and travel warnings from Tel Aviv (TLV).'
+        : 'שאלון נסיעות אינטראקטיבי לגילוי יעדים ישירים, חברות תעופה ואזהרות מסע מנתב״ג.' }}",
+      "publisher": { "@id": "https://fly-tlv.com/#org" },
+      "isPartOf": { "@id": "https://fly-tlv.com/#website" }
     },
 
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "{{ 'Home' if lang != 'he' else 'בית' }}", "item": "https://fly-tlv.com/{{ '?lang=he' if lang == 'he' else '' }}" },
-        { "@type": "ListItem", "position": 2, "name": "{{ 'Travel Guide' if lang != 'he' else 'מדריך נסיעות' }}", "item": "https://fly-tlv.com/travel-questionnaire{{ '?lang=he' if lang == 'he' else '' }}" }
+        { 
+          "@type": "ListItem", 
+          "position": 1, 
+          "name": "{{ lang != 'he' ? 'Home' : 'בית' }}", 
+          "item": "https://fly-tlv.com/{{ lang == 'he' ? '?lang=he' : '' }}" 
+        },
+        { 
+          "@type": "ListItem", 
+          "position": 2, 
+          "name": "{{ lang != 'he' ? 'Travel Guide' : 'מדריך נסיעות' }}", 
+          "item": "https://fly-tlv.com/travel-questionnaire{{ lang == 'he' ? '?lang=he' : '' }}" 
+        }
       ]
     },
 
     {
       "@type": "FAQPage",
+      "@id": "https://fly-tlv.com/travel-questionnaire/#faq",
       "mainEntity": [
+
         {
           "@type": "Question",
-          "name": "What is the Travel Questionnaire?",
+          "name": "{{ lang != 'he' 
+            ? 'How does the Travel Questionnaire work?' 
+            : 'איך עובד שאלון הנסיעות?' }}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The Fly TLV Travel Questionnaire helps travelers explore which destinations, cities, and airports can be reached by direct flights from Tel Aviv (TLV)."
+            "text": "{{ lang != 'he'
+              ? 'Choose a country, then a city and airport, and instantly view airlines and travel warnings updated from official APIs.'
+              : 'בחרו מדינה, לאחר מכן עיר ושדה תעופה, ותקבלו מיידית אילו חברות תעופה פעילות ומהן אזהרות המסע הרשמית.' }}"
           }
         },
+
         {
           "@type": "Question",
-          "name": "Where does the travel warning information come from?",
+          "name": "{{ lang != 'he' 
+            ? 'Where do the travel warnings come from?' 
+            : 'מהיכן מגיעות אזהרות המסע?' }}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Travel warnings are updated directly from verified government sources and public APIs, including Israel’s official National Security Council data."
+            "text": "{{ lang != 'he'
+              ? 'Travel warnings are updated directly from official Israeli government National Security Council data.'
+              : 'אזהרות המסע מתעדכנות ישירות ממאגרי המידע של המטה לביטחון לאומי (המל״ל).' }}"
           }
         },
+
         {
           "@type": "Question",
-          "name": "Can I book flights directly through Fly TLV?",
+          "name": "{{ lang != 'he' 
+            ? 'Does Fly TLV sell flight tickets?' 
+            : 'האם Fly TLV מוכר כרטיסי טיסה?' }}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Fly TLV provides verified airline links and travel tools but does not sell tickets directly."
+            "text": "{{ lang != 'he'
+              ? 'Fly TLV does not sell tickets, but provides safe links to airlines, travel tools, and flight comparison partners.'
+              : 'Fly TLV אינו מוכר כרטיסים, אך מספק קישורים בטוחים לחברות תעופה, כלים לנסיעה ואתרי השוואת טיסות.' }}"
+          }
+        },
+
+        {
+          "@type": "Question",
+          "name": "{{ lang != 'he' 
+            ? 'Can I find the cheapest direct flights through the tool?' 
+            : 'האם ניתן למצוא טיסות ישירות זולות דרך השאלון?' }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{{ lang != 'he'
+              ? 'Yes. After selecting an airport, the tool shows active airlines and displays direct-flight deals from TLV using real search data.'
+              : 'כן. לאחר בחירת שדה תעופה, מוצגות חברות תעופה פעילות וכן מוצגים מבצעי טיסות ישירות מתל אביב בהתאם לנתוני חיפוש אמיתיים.' }}"
           }
         }
+
       ],
-      "publisher": { "@id": "https://fly-tlv.com/#organization" }
+      "publisher": { "@id": "https://fly-tlv.com/#org" }
     }
+
   ]
 }
 </script>
+
 
 {% endblock %}
 

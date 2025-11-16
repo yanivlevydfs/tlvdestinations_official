@@ -208,6 +208,7 @@
       "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data.",
       "publisher": { "@id": "https://fly-tlv.com/#organization" }
     },
+
     {
       "@type": "WebSite",
       "@id": "https://fly-tlv.com/#website-he",
@@ -216,6 +217,19 @@
       "inLanguage": "he-IL",
       "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה.",
       "publisher": { "@id": "https://fly-tlv.com/#organization" }
+    },
+
+    <!-- 📌 HERE IS THE ADDED SITELINKS BOOST -->
+    {
+      "@type": "WebSite",
+      "@id": "https://fly-tlv.com/#search",
+      "url": "https://fly-tlv.com/",
+      "name": "Fly TLV",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://fly-tlv.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     },
 
     {
@@ -349,6 +363,7 @@
   ]
 }
 </script>
+
 
 
 <script src="https://cdn.lgrckt-in.com/LogRocket.min.js" crossorigin="anonymous"></script>
