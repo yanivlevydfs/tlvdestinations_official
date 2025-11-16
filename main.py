@@ -1788,7 +1788,28 @@ def build_flight_context(df) -> str:
         for airline, url in sorted(AIRLINE_WEBSITES.items())
         if url
     )
+        # === Section 7: Real-Time Flight Status Data ===
+    if "actual" in df.columns and "direction" in df.columns and "status" in df.columns:
+        flight_status_section = ["🕓 **Flight Status Schedule**"]
+        for row in df.to_dict(orient="records"):
+            airline = row.get("airline", "").strip()
+            airport = row.get("airport", "").strip()
+            time = row.get("actual", "").strip()
+            status = row.get("status", "").strip()
+            direction = row.get("direction", "").strip().upper()
 
+            if not all([airline, airport, time, status, direction]) or direction not in ("A", "D"):
+                continue
+
+            direction_full = "Arrival" if direction == "A" else "Departure"
+            flight_status_section.append(
+                f"- **{airline}** — {direction_full} — {time} — {status} — {airport}"
+            )
+
+        flight_status_text = "\n".join(flight_status_section)
+    else:
+        flight_status_text = ""
+        
     # === Final Context Assembly ===
     context = (
         "📌 **City-to-Country Mapping**\n"
@@ -1805,7 +1826,11 @@ def build_flight_context(df) -> str:
         + airline_website_section
     )
 
+    if flight_status_text:
+        context += "\n\n" + flight_status_text
+
     return context
+
 
 @app.post("/api/chat", response_class=JSONResponse)
 async def chat_flight_ai(
@@ -1823,16 +1848,18 @@ async def chat_flight_ai(
         raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
 
     # Build structured context
+    print(DATASET_DF_FLIGHTS)
     context = build_flight_context(DATASET_DF_FLIGHTS)
 
     # Construct the AI prompt
     prompt = f"""
-You are a highly accurate aviation assistant helping users explore direct flights departing from Ben Gurion Airport (TLV).
+    You are a highly accurate aviation assistant helping users explore direct flights departing from Ben Gurion Airport (TLV).
 
 You are given structured aviation data including:
 - ✅ Verified airport destinations
 - ✅ City-to-country mappings
 - ✅ Airline-to-destination mappings
+- ✅ Real-time flight schedule data (arrival/departure/status)
 
 📊 DATA START:
 {context}
@@ -1850,9 +1877,13 @@ Now, using ONLY the data above, answer the user's question below:
 - What destinations does [Airline] serve?
 - What airlines fly to [City] or [Country]?
 - What is the website of [Airline]?
+- What flights are arriving/departing to/from [City or Country]?
+- What is the status of flights to/from [City or Airport]?
+- When is the next flight to/from [City or Country]?
 - שאלות בעברית? → Translate to English first, then answer in English.
 
 🧾 OUTPUT FORMAT (REQUIRED):
+
 1. If the question is about flight destinations:
    - Start with a bold heading: **✈️ Flights to [Country/Region/City]**
    - Use Markdown bullet points:
@@ -1860,8 +1891,9 @@ Now, using ONLY the data above, answer the user's question below:
        - Replace `IATA` in the URL with the actual IATA code of the destination (e.g., GYD)
      - Under each city, indent each airline as a separate sub-bullet:
        - Format: `- Airline Name — [https://example.com](https://example.com)`
-       - If the website is not available, list only the airline name
-       - One airline per line  
+       - You MUST include the link if it is available in the data
+       - Only omit the link if no URL is available for that airline
+       - One airline per line
        - No commas, no inline lists, no slashes
 
 2. If the question is about an airline website:
@@ -1870,22 +1902,28 @@ Now, using ONLY the data above, answer the user's question below:
      [https://example.com](https://example.com)
    - Do not include summaries, explanations, or extra text.
 
+3. If the question is about flight times or statuses:
+   - Start with a bold heading: **🕓 Flight Details for [City or Airport]**
+   - Use a Markdown bullet list for each matching flight:
+     - Format: **Airline Name** — Direction — Time — Status
+       - `Direction`: use "Arrival" if `A`, "Departure" if `D`
+       - `Time`: use the `actual` field exactly as shown (e.g., 2025-11-15T18:06:00)
+       - `Status`: must match exactly from the data (e.g., On Time, Landed)
+   - Sort by time ascending
+   - Show up to 10 matching flights
 
 🟢 CORRECT EXAMPLE:
 ---
 **✈️ Flights to United States**
-- Newark (EWR, United States)  
-  - Delta Airlines  
-  - El Al Israel Airlines  
-  - Jetblue Airways Corporation  
-  - United Airlines  
+- Newark (EWR, United States) — [https://fly-tlv.com/destinations/EWR](https://fly-tlv.com/destinations/EWR)  
+  - Delta Airlines — [https://delta.com](https://delta.com)  
+  - El Al Israel Airlines — [https://www.elal.com](https://www.elal.com)  
+  - Jetblue Airways Corporation — [https://jetblue.com](https://jetblue.com)  
+  - United Airlines — [https://united.com](https://united.com)  
 
-- New York (JFK, United States)  
-  - Aero Mexico  
-  - Arkia Israeli Airlines  
-  - El Al Israel Airlines  
-  - Jetblue Airways Corporation  
-  - Virgin Atlantic Airways  
+**🕓 Flight Details for Munich**
+- Lufthansa — Departure — 2025-11-15T18:08:00 — Departed  
+- Brussels Airlines — Departure — 2025-11-15T18:08:00 — Departed  
 ---
 
 🚫 NEVER DO THIS:
@@ -1894,6 +1932,8 @@ Now, using ONLY the data above, answer the user's question below:
 - No tables or YAML
 - No Hebrew in the output
 - Do NOT say “Sure”, “Here’s the answer”, etc.
+- Do NOT show airline name without a link if one exists
+- Do NOT reword or reformat time/status/direction values
 
 ❌ IF THERE’S NO MATCH:
 Reply ONLY with this exact line (no formatting):
