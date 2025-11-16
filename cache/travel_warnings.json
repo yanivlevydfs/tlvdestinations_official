@@ -1,6 +1,6 @@
 {
-  "updated": "2025-10-12T17:21:27.772274",
-  "count": 428,
+  "updated": "2025-11-16T11:41:56.148998",
+  "count": 429,
   "warnings": [
     {
       "id": 1,
@@ -3631,6 +3631,20 @@
     {
       "id": 260,
       "continent": "אפריקה",
+      "country": "מדגסקר",
+      "recommendations": "הימנעו מלהגיע למדגסקר עד שהמצב הפוליטי יתייצב.",
+      "level": "Unknown",
+      "details_url": "https://www.gov.il/he/pages/madagascar161025",
+      "logo": {
+        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
+        "alt": "משרד החוץ"
+      },
+      "date": null,
+      "office": "חוץ"
+    },
+    {
+      "id": 261,
+      "continent": "אפריקה",
       "country": "מוזמביק",
       "recommendations": "מוזמביק - המלצות מסע",
       "level": "Unknown",
@@ -3643,7 +3657,7 @@
       "office": "חוץ"
     },
     {
-      "id": 261,
+      "id": 262,
       "continent": "אפריקה",
       "country": "מוזמביק",
       "recommendations": "רמת איום משולבת: רמה 4/ איום גבוה ולהימנע מהגעה: צפון המדינה לאור פעילות טרור מצד קבוצות אסלאמיות קיצוניות באזור קאבו דלגדו. רמה 2/ איום מזדמן, המלצה לנקוט באמצעי זהירות מוגברים: שאר שטחי מוזמביק.",
@@ -3657,7 +3671,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 262,
+      "id": 263,
       "continent": "אירופה",
       "country": "מולדובה",
       "recommendations": "אין אזהרות",
@@ -3671,7 +3685,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 263,
+      "id": 264,
       "continent": "אסיה",
       "country": "מונגוליה",
       "recommendations": "אין אזהרות",
@@ -3685,7 +3699,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 264,
+      "id": 265,
       "continent": "אירופה",
       "country": "מונטנגרו",
       "recommendations": "אין אזהרות",
@@ -3699,7 +3713,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 265,
+      "id": 266,
       "continent": "אירופה",
       "country": "מונקו",
       "recommendations": "אין אזהרות",
@@ -3713,7 +3727,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 266,
+      "id": 267,
       "continent": "אסיה",
       "country": "מזרח טימור",
       "recommendations": "אין אזהרות",
@@ -3727,7 +3741,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 267,
+      "id": 268,
       "continent": "אסיה",
       "country": "מיאנמר",
       "recommendations": "אין אזהרות",
@@ -3741,7 +3755,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 268,
+      "id": 269,
       "continent": "פאסיפיק",
       "country": "מיקרונזיה",
       "recommendations": "אין אזהרות",
@@ -3755,7 +3769,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 269,
+      "id": 270,
       "continent": "אמריקה",
       "country": "מכסיקו",
       "recommendations": "אין אזהרות",
@@ -3769,7 +3783,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 270,
+      "id": 271,
       "continent": "אפריקה",
       "country": "מלאווי",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -3783,7 +3797,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 271,
+      "id": 272,
       "continent": "אסיה",
       "country": "מלזיה",
       "recommendations": "רמה 4/ איום גבוה להימנע מהגעה למדינה.",
@@ -3797,7 +3811,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 272,
+      "id": 273,
       "continent": "אירופה",
       "country": "מלטה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -3811,7 +3825,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 273,
+      "id": 274,
       "continent": "אפריקה",
       "country": "מצרים",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -3825,7 +3839,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 274,
+      "id": 275,
       "continent": "אירופה",
       "country": "מקדוניה",
       "recommendations": "אין אזהרות",
@@ -3839,7 +3853,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 275,
+      "id": 276,
       "continent": "אפריקה",
       "country": "מרוקו",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -3853,7 +3867,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 276,
+      "id": 277,
       "continent": "פאסיפיק",
       "country": "נאורו",
       "recommendations": "אין אזהרות",
@@ -3867,7 +3881,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 277,
+      "id": 278,
       "continent": "אירופה",
       "country": "נורבגיה",
       "recommendations": "אין אזהרות",
@@ -3881,7 +3895,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 278,
+      "id": 279,
       "continent": "אפריקה",
       "country": "ניגריה",
       "recommendations": "רמת איום משולבת: רמה 4/ איום גבוה ולהימנע מהגעה: צפון המדינה. רמה 2/ איום מזדמן ולנקוט באמצעי זהירות מוגברים: דרום המדינה",
@@ -3895,7 +3909,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 279,
+      "id": 280,
       "continent": "פאסיפיק",
       "country": "ניו זילנד",
       "recommendations": "אין אזהרות",
@@ -3909,7 +3923,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 280,
+      "id": 281,
       "continent": "אפריקה",
       "country": "ניז'ר",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -3923,7 +3937,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 281,
+      "id": 282,
       "continent": "אמריקה",
       "country": "ניקרגואה",
       "recommendations": "אין אזהרות",
@@ -3937,7 +3951,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 282,
+      "id": 283,
       "continent": "אמריקה",
       "country": "ניקרגואה",
       "recommendations": "המלצת משרד החוץ: הימנעו מנסיעה לניקרגואה עד להודעה חדשה",
@@ -3951,7 +3965,7 @@
       "office": "חוץ"
     },
     {
-      "id": 283,
+      "id": 284,
       "continent": "אפריקה",
       "country": "נמיביה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -3965,7 +3979,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 284,
+      "id": 285,
       "continent": "אסיה",
       "country": "נפאל",
       "recommendations": "אין אזהרות",
@@ -3979,7 +3993,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 285,
+      "id": 286,
       "continent": "אסיה",
       "country": "נפאל",
       "recommendations": "המלצת משרד החוץ: שימרו על עירנות.",
@@ -3993,7 +4007,7 @@
       "office": "חוץ"
     },
     {
-      "id": 286,
+      "id": 287,
       "continent": "אפריקה",
       "country": "סאו תומה ופרינציפה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4007,7 +4021,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 287,
+      "id": 288,
       "continent": "אפריקה",
       "country": "סודאן",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -4021,7 +4035,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 288,
+      "id": 289,
       "continent": "אפריקה",
       "country": "סומליה",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -4035,7 +4049,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 289,
+      "id": 290,
       "continent": "אסיה",
       "country": "סוריה",
       "recommendations": "רמה 4/ איום גבוה: חל איסור הגעה לסוריה.",
@@ -4049,7 +4063,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 290,
+      "id": 291,
       "continent": "אמריקה",
       "country": "סורינם",
       "recommendations": "אין אזהרות",
@@ -4063,7 +4077,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 291,
+      "id": 292,
       "continent": "אמריקה",
       "country": "סט' וינסנט והגרנדינים",
       "recommendations": "אין אזהרות",
@@ -4077,7 +4091,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 292,
+      "id": 293,
       "continent": "אמריקה",
       "country": "סט' לוציה",
       "recommendations": "אין אזהרות",
@@ -4091,7 +4105,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 293,
+      "id": 294,
       "continent": "אמריקה",
       "country": "סט' קיטס ונביס",
       "recommendations": "אין אזהרות",
@@ -4105,7 +4119,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 294,
+      "id": 295,
       "continent": "אפריקה",
       "country": "סיירה ליאונה",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -4119,7 +4133,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 295,
+      "id": 296,
       "continent": "אסיה",
       "country": "סין",
       "recommendations": "אין אזהרות",
@@ -4133,7 +4147,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 296,
+      "id": 297,
       "continent": "אסיה",
       "country": "סינגפור",
       "recommendations": "אין אזהרות",
@@ -4147,7 +4161,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 297,
+      "id": 298,
       "continent": "אירופה",
       "country": "סלובניה",
       "recommendations": "אין אזהרות",
@@ -4161,7 +4175,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 298,
+      "id": 299,
       "continent": "אירופה",
       "country": "סלובקיה",
       "recommendations": "אין אזהרות",
@@ -4175,7 +4189,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 299,
+      "id": 300,
       "continent": "פאסיפיק",
       "country": "סמואה",
       "recommendations": "אין אזהרות",
@@ -4189,7 +4203,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 300,
+      "id": 301,
       "continent": "אירופה",
       "country": "סן מרינו",
       "recommendations": "אין אזהרות",
@@ -4203,7 +4217,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 301,
+      "id": 302,
       "continent": "אפריקה",
       "country": "סנגל",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -4217,7 +4231,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 302,
+      "id": 303,
       "continent": "אירופה",
       "country": "ספרד",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4231,7 +4245,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 303,
+      "id": 304,
       "continent": "אירופה",
       "country": "סרביה",
       "recommendations": "אין אזהרות",
@@ -4245,7 +4259,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 304,
+      "id": 305,
       "continent": "אסיה",
       "country": "סרי לנקה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4259,7 +4273,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 305,
+      "id": 306,
       "continent": "אסיה",
       "country": "עומאן",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -4273,7 +4287,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 306,
+      "id": 307,
       "continent": "אסיה",
       "country": "עיראק",
       "recommendations": "רמה 4/ איום גבוה: חל איסור הגעה לעיראק.",
@@ -4287,7 +4301,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 307,
+      "id": 308,
       "continent": "אסיה",
       "country": "ערב הסעודית",
       "recommendations": "רמה 3/ איום בינוני. חל איסור הגעה לערב הסעודית.",
@@ -4301,7 +4315,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 308,
+      "id": 309,
       "continent": "אירופה",
       "country": "פולין",
       "recommendations": "אין אזהרות",
@@ -4315,7 +4329,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 309,
+      "id": 310,
       "continent": "אירופה",
       "country": "פורטוגל",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4329,7 +4343,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 310,
+      "id": 311,
       "continent": "פאסיפיק",
       "country": "פיג'י",
       "recommendations": "אין אזהרות",
@@ -4343,7 +4357,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 311,
+      "id": 312,
       "continent": "אסיה",
       "country": "פיליפינים",
       "recommendations": "רמת איום משולבת: רמה 4/ איום גבוה ולהימנע מהגעה: דרום המדינה - מינדנאו וקבוצת איי סולו. רמה 2/ איום מזדמן, המלצה לנקוט באמצעי זהירות מוגברים: שאר שטחי המדינה.",
@@ -4357,7 +4371,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 312,
+      "id": 313,
       "continent": "אירופה",
       "country": "פינלנד",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4369,25 +4383,25 @@
       },
       "date": null,
       "office": "בריאות"
-    },
-    {
-      "id": 313,
-      "continent": "אירופה",
-      "country": "פינלנד",
-      "recommendations": "אין המלצות",
-      "level": "Unknown",
-      "details_url": "",
-      "logo": {
-        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
-        "alt": "משרד החוץ"
-      },
-      "date": null,
-      "office": "חוץ"
     },
     {
       "id": 314,
       "continent": "אירופה",
       "country": "פינלנד",
+      "recommendations": "אין המלצות",
+      "level": "Unknown",
+      "details_url": "",
+      "logo": {
+        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
+        "alt": "משרד החוץ"
+      },
+      "date": null,
+      "office": "חוץ"
+    },
+    {
+      "id": 315,
+      "continent": "אירופה",
+      "country": "פינלנד",
       "recommendations": "אין אזהרות",
       "level": "Unknown",
       "details_url": "",
@@ -4397,25 +4411,25 @@
       },
       "date": null,
       "office": "מל\"ל"
-    },
-    {
-      "id": 315,
-      "continent": "פאסיפיק",
-      "country": "פלאו",
-      "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
-      "level": "Unknown",
-      "details_url": "https://www.gov.il/he/departments/topics/travelers-health/govil-landing-page",
-      "logo": {
-        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_health.png",
-        "alt": "משרד הבריאות"
-      },
-      "date": null,
-      "office": "בריאות"
     },
     {
       "id": 316,
       "continent": "פאסיפיק",
       "country": "פלאו",
+      "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
+      "level": "Unknown",
+      "details_url": "https://www.gov.il/he/departments/topics/travelers-health/govil-landing-page",
+      "logo": {
+        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_health.png",
+        "alt": "משרד הבריאות"
+      },
+      "date": null,
+      "office": "בריאות"
+    },
+    {
+      "id": 317,
+      "continent": "פאסיפיק",
+      "country": "פלאו",
       "recommendations": "אין המלצות",
       "level": "Unknown",
       "details_url": "",
@@ -4427,7 +4441,7 @@
       "office": "חוץ"
     },
     {
-      "id": 317,
+      "id": 318,
       "continent": "פאסיפיק",
       "country": "פלאו",
       "recommendations": "אין אזהרות",
@@ -4441,7 +4455,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 318,
+      "id": 319,
       "continent": "אמריקה",
       "country": "פנמה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4453,25 +4467,25 @@
       },
       "date": null,
       "office": "בריאות"
-    },
-    {
-      "id": 319,
-      "continent": "אמריקה",
-      "country": "פנמה",
-      "recommendations": "אין המלצות",
-      "level": "Unknown",
-      "details_url": "",
-      "logo": {
-        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
-        "alt": "משרד החוץ"
-      },
-      "date": null,
-      "office": "חוץ"
     },
     {
       "id": 320,
       "continent": "אמריקה",
       "country": "פנמה",
+      "recommendations": "אין המלצות",
+      "level": "Unknown",
+      "details_url": "",
+      "logo": {
+        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
+        "alt": "משרד החוץ"
+      },
+      "date": null,
+      "office": "חוץ"
+    },
+    {
+      "id": 321,
+      "continent": "אמריקה",
+      "country": "פנמה",
       "recommendations": "אין אזהרות",
       "level": "Unknown",
       "details_url": "",
@@ -4483,7 +4497,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 321,
+      "id": 322,
       "continent": "פאסיפיק",
       "country": "פפואה ניו גיני",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4497,7 +4511,7 @@
       "office": "בריאות"
     },
     {
-      "id": 322,
+      "id": 323,
       "continent": "פאסיפיק",
       "country": "פפואה ניו גיני",
       "recommendations": "אין המלצות",
@@ -4511,7 +4525,7 @@
       "office": "חוץ"
     },
     {
-      "id": 323,
+      "id": 324,
       "continent": "פאסיפיק",
       "country": "פפואה ניו גיני",
       "recommendations": "אין אזהרות",
@@ -4525,7 +4539,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 324,
+      "id": 325,
       "continent": "אסיה",
       "country": "פקיסטאן",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -4539,7 +4553,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 325,
+      "id": 326,
       "continent": "אמריקה",
       "country": "פרגוואי",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4553,7 +4567,7 @@
       "office": "בריאות"
     },
     {
-      "id": 326,
+      "id": 327,
       "continent": "אמריקה",
       "country": "פרגוואי",
       "recommendations": "אין המלצות",
@@ -4567,7 +4581,7 @@
       "office": "חוץ"
     },
     {
-      "id": 327,
+      "id": 328,
       "continent": "אמריקה",
       "country": "פרגוואי",
       "recommendations": "אין אזהרות",
@@ -4581,7 +4595,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 328,
+      "id": 329,
       "continent": "אמריקה",
       "country": "פרו",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4595,7 +4609,7 @@
       "office": "בריאות"
     },
     {
-      "id": 329,
+      "id": 330,
       "continent": "אמריקה",
       "country": "פרו",
       "recommendations": "פרו - המלצות",
@@ -4609,7 +4623,7 @@
       "office": "חוץ"
     },
     {
-      "id": 330,
+      "id": 331,
       "continent": "אמריקה",
       "country": "פרו",
       "recommendations": "רמת איום משולבת: רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות: אזור  VRAEM ולאורך הגבול עם קולומביה. רמה 1/ ללא אזהרת מסע, לנקוט באמצעי זהירות רגילים: שאר שטחי המדינה.",
@@ -4623,7 +4637,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 331,
+      "id": 332,
       "continent": "אפריקה",
       "country": "צ'אד",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4637,7 +4651,7 @@
       "office": "בריאות"
     },
     {
-      "id": 332,
+      "id": 333,
       "continent": "אפריקה",
       "country": "צ'אד",
       "recommendations": "אין המלצות",
@@ -4651,7 +4665,7 @@
       "office": "חוץ"
     },
     {
-      "id": 333,
+      "id": 334,
       "continent": "אפריקה",
       "country": "צ'אד",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -4665,7 +4679,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 334,
+      "id": 335,
       "continent": "אמריקה",
       "country": "צ'ילה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4679,7 +4693,7 @@
       "office": "בריאות"
     },
     {
-      "id": 335,
+      "id": 336,
       "continent": "אמריקה",
       "country": "צ'ילה",
       "recommendations": "צ'ילה - המלצות למטיילים הישראלים",
@@ -4693,7 +4707,7 @@
       "office": "חוץ"
     },
     {
-      "id": 336,
+      "id": 337,
       "continent": "אמריקה",
       "country": "צ'ילה",
       "recommendations": "אין אזהרות",
@@ -4707,7 +4721,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 337,
+      "id": 338,
       "continent": "אירופה",
       "country": "צ'כיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4721,7 +4735,7 @@
       "office": "בריאות"
     },
     {
-      "id": 338,
+      "id": 339,
       "continent": "אירופה",
       "country": "צ'כיה",
       "recommendations": "אין המלצות",
@@ -4735,23 +4749,9 @@
       "office": "חוץ"
     },
     {
-      "id": 339,
-      "continent": "אירופה",
-      "country": "צ'כיה",
-      "recommendations": "אין אזהרות",
-      "level": "Unknown",
-      "details_url": "",
-      "logo": {
-        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_malal.png",
-        "alt": "המטה לביטחון לאומי"
-      },
-      "date": null,
-      "office": "מל\"ל"
-    },
-    {
       "id": 340,
       "continent": "אירופה",
-      "country": "צפון מקדוניה",
+      "country": "צ'כיה",
       "recommendations": "אין אזהרות",
       "level": "Unknown",
       "details_url": "",
@@ -4765,6 +4765,20 @@
     {
       "id": 341,
       "continent": "אירופה",
+      "country": "צפון מקדוניה",
+      "recommendations": "אין אזהרות",
+      "level": "Unknown",
+      "details_url": "",
+      "logo": {
+        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_malal.png",
+        "alt": "המטה לביטחון לאומי"
+      },
+      "date": null,
+      "office": "מל\"ל"
+    },
+    {
+      "id": 342,
+      "continent": "אירופה",
       "country": "צרפת",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
       "level": "Unknown",
@@ -4777,7 +4791,7 @@
       "office": "בריאות"
     },
     {
-      "id": 342,
+      "id": 343,
       "continent": "אירופה",
       "country": "צרפת",
       "recommendations": "אין המלצות",
@@ -4791,7 +4805,7 @@
       "office": "חוץ"
     },
     {
-      "id": 343,
+      "id": 344,
       "continent": "אירופה",
       "country": "צרפת",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4805,7 +4819,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 344,
+      "id": 345,
       "continent": "אמריקה",
       "country": "קובה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4819,7 +4833,7 @@
       "office": "בריאות"
     },
     {
-      "id": 345,
+      "id": 346,
       "continent": "אמריקה",
       "country": "קובה",
       "recommendations": "אין המלצות",
@@ -4833,7 +4847,7 @@
       "office": "חוץ"
     },
     {
-      "id": 346,
+      "id": 347,
       "continent": "אמריקה",
       "country": "קובה",
       "recommendations": "אין אזהרות",
@@ -4847,7 +4861,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 347,
+      "id": 348,
       "continent": "אמריקה",
       "country": "קולומביה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4861,7 +4875,7 @@
       "office": "בריאות"
     },
     {
-      "id": 348,
+      "id": 349,
       "continent": "אמריקה",
       "country": "קולומביה",
       "recommendations": "קולומביה - המלצות",
@@ -4875,7 +4889,7 @@
       "office": "חוץ"
     },
     {
-      "id": 349,
+      "id": 350,
       "continent": "אמריקה",
       "country": "קולומביה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4889,7 +4903,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 350,
+      "id": 351,
       "continent": "אפריקה",
       "country": "קומורוס",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4903,7 +4917,7 @@
       "office": "בריאות"
     },
     {
-      "id": 351,
+      "id": 352,
       "continent": "אפריקה",
       "country": "קומורוס",
       "recommendations": "אין המלצות",
@@ -4917,7 +4931,7 @@
       "office": "חוץ"
     },
     {
-      "id": 352,
+      "id": 353,
       "continent": "אפריקה",
       "country": "קומורוס",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4931,7 +4945,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 353,
+      "id": 354,
       "continent": "אפריקה",
       "country": "קונגו",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -4945,7 +4959,7 @@
       "office": "בריאות"
     },
     {
-      "id": 354,
+      "id": 355,
       "continent": "אפריקה",
       "country": "קונגו",
       "recommendations": "אין המלצות",
@@ -4959,7 +4973,7 @@
       "office": "חוץ"
     },
     {
-      "id": 355,
+      "id": 356,
       "continent": "אפריקה",
       "country": "קונגו",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -4973,7 +4987,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 356,
+      "id": 357,
       "continent": "אירופה",
       "country": "קוסובו",
       "recommendations": "אין אזהרות",
@@ -4987,7 +5001,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 357,
+      "id": 358,
       "continent": "אמריקה",
       "country": "קוסטה ריקה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5001,7 +5015,7 @@
       "office": "בריאות"
     },
     {
-      "id": 358,
+      "id": 359,
       "continent": "אמריקה",
       "country": "קוסטה ריקה",
       "recommendations": "אין המלצות",
@@ -5015,7 +5029,7 @@
       "office": "חוץ"
     },
     {
-      "id": 359,
+      "id": 360,
       "continent": "אמריקה",
       "country": "קוסטה ריקה",
       "recommendations": "אין אזהרות",
@@ -5029,7 +5043,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 360,
+      "id": 361,
       "continent": "אסיה",
       "country": "קוריאה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5043,7 +5057,7 @@
       "office": "בריאות"
     },
     {
-      "id": 361,
+      "id": 362,
       "continent": "אסיה",
       "country": "קוריאה",
       "recommendations": "דרום קוריאה - המלצות",
@@ -5057,7 +5071,7 @@
       "office": "חוץ"
     },
     {
-      "id": 362,
+      "id": 363,
       "continent": "אסיה",
       "country": "קוריאה",
       "recommendations": "אין אזהרות",
@@ -5071,7 +5085,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 363,
+      "id": 364,
       "continent": "אסיה",
       "country": "קוריאה הצפונית",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה ולשוהים במדינה לצאת לאלתר.",
@@ -5085,7 +5099,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 364,
+      "id": 365,
       "continent": "אסיה",
       "country": "קזחסטאן",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5099,7 +5113,7 @@
       "office": "בריאות"
     },
     {
-      "id": 365,
+      "id": 366,
       "continent": "אסיה",
       "country": "קזחסטאן",
       "recommendations": "אין המלצות",
@@ -5113,7 +5127,7 @@
       "office": "חוץ"
     },
     {
-      "id": 366,
+      "id": 367,
       "continent": "אסיה",
       "country": "קזחסטאן",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -5127,7 +5141,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 367,
+      "id": 368,
       "continent": "אסיה",
       "country": "קטר",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5141,7 +5155,7 @@
       "office": "בריאות"
     },
     {
-      "id": 368,
+      "id": 369,
       "continent": "אסיה",
       "country": "קטר",
       "recommendations": "אין המלצות",
@@ -5155,7 +5169,7 @@
       "office": "חוץ"
     },
     {
-      "id": 369,
+      "id": 370,
       "continent": "אסיה",
       "country": "קטר",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -5169,7 +5183,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 370,
+      "id": 371,
       "continent": "אפריקה",
       "country": "קייפ ורדה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5183,7 +5197,7 @@
       "office": "בריאות"
     },
     {
-      "id": 371,
+      "id": 372,
       "continent": "אפריקה",
       "country": "קייפ ורדה",
       "recommendations": "אין המלצות",
@@ -5197,7 +5211,7 @@
       "office": "חוץ"
     },
     {
-      "id": 372,
+      "id": 373,
       "continent": "אפריקה",
       "country": "קייפ ורדה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -5211,7 +5225,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 373,
+      "id": 374,
       "continent": "אירופה",
       "country": "קירגיסטאן",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5225,7 +5239,7 @@
       "office": "בריאות"
     },
     {
-      "id": 374,
+      "id": 375,
       "continent": "אירופה",
       "country": "קירגיסטאן",
       "recommendations": "אין המלצות",
@@ -5239,7 +5253,7 @@
       "office": "חוץ"
     },
     {
-      "id": 375,
+      "id": 376,
       "continent": "אירופה",
       "country": "קירגיסטאן",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -5253,7 +5267,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 376,
+      "id": 377,
       "continent": "פאסיפיק",
       "country": "קיריבטי",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5265,25 +5279,25 @@
       },
       "date": null,
       "office": "בריאות"
-    },
-    {
-      "id": 377,
-      "continent": "פאסיפיק",
-      "country": "קיריבטי",
-      "recommendations": "אין המלצות",
-      "level": "Unknown",
-      "details_url": "",
-      "logo": {
-        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
-        "alt": "משרד החוץ"
-      },
-      "date": null,
-      "office": "חוץ"
     },
     {
       "id": 378,
       "continent": "פאסיפיק",
       "country": "קיריבטי",
+      "recommendations": "אין המלצות",
+      "level": "Unknown",
+      "details_url": "",
+      "logo": {
+        "src": "https://www.gov.il/BlobFolder/generalpage/logos-for-travel-warnings/he/Flags_Artboard%201.png",
+        "alt": "משרד החוץ"
+      },
+      "date": null,
+      "office": "חוץ"
+    },
+    {
+      "id": 379,
+      "continent": "פאסיפיק",
+      "country": "קיריבטי",
       "recommendations": "אין אזהרות",
       "level": "Unknown",
       "details_url": "",
@@ -5295,7 +5309,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 379,
+      "id": 380,
       "continent": "אסיה",
       "country": "קמבודיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5309,7 +5323,7 @@
       "office": "בריאות"
     },
     {
-      "id": 380,
+      "id": 381,
       "continent": "אסיה",
       "country": "קמבודיה",
       "recommendations": "אין המלצות",
@@ -5323,7 +5337,7 @@
       "office": "חוץ"
     },
     {
-      "id": 381,
+      "id": 382,
       "continent": "אסיה",
       "country": "קמבודיה",
       "recommendations": "אין אזהרות",
@@ -5337,7 +5351,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 382,
+      "id": 383,
       "continent": "אפריקה",
       "country": "קמרון",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5351,7 +5365,7 @@
       "office": "בריאות"
     },
     {
-      "id": 383,
+      "id": 384,
       "continent": "אפריקה",
       "country": "קמרון",
       "recommendations": "קמרון - המלצות",
@@ -5365,7 +5379,7 @@
       "office": "חוץ"
     },
     {
-      "id": 384,
+      "id": 385,
       "continent": "אפריקה",
       "country": "קמרון",
       "recommendations": "רמת איום משולבת: רמה 4/ איום גבוה להימנע מהגעה: צפון המדינה, לאור נוכחות ארגון הטרור \"בוקו חראם\". רמה 2/ איום מזדמן, המלצה לנקוט באמצעי זהירות מוגברים: שאר שטחי המדינה.",
@@ -5379,7 +5393,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 385,
+      "id": 386,
       "continent": "אמריקה",
       "country": "קנדה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5393,7 +5407,7 @@
       "office": "בריאות"
     },
     {
-      "id": 386,
+      "id": 387,
       "continent": "אמריקה",
       "country": "קנדה",
       "recommendations": "אין המלצות",
@@ -5407,7 +5421,7 @@
       "office": "חוץ"
     },
     {
-      "id": 387,
+      "id": 388,
       "continent": "אמריקה",
       "country": "קנדה",
       "recommendations": "אין אזהרות",
@@ -5421,7 +5435,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 388,
+      "id": 389,
       "continent": "אפריקה",
       "country": "קניה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5435,7 +5449,7 @@
       "office": "בריאות"
     },
     {
-      "id": 389,
+      "id": 390,
       "continent": "אפריקה",
       "country": "קניה",
       "recommendations": "קניה - המלצות",
@@ -5449,7 +5463,7 @@
       "office": "חוץ"
     },
     {
-      "id": 390,
+      "id": 391,
       "continent": "אפריקה",
       "country": "קניה",
       "recommendations": "רמת איום משולבת: רמה 3/ איום בינוני להימנע מנסיעות שאינן חיוניות: צפון ומזרח המדינה (אזור הגבול עם סומליה ורצועת החוף עד מלינדי-כולל), לאור נוכחות ארגוני טרור אסלאמי (אלשבאב הסומלי). רמה 2/ איום מזדמן, המלצה לנקוט באמצעי זהירות מוגברים: שאר שטחי המדינה.",
@@ -5463,7 +5477,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 391,
+      "id": 392,
       "continent": "אירופה",
       "country": "קפריסין",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5477,7 +5491,7 @@
       "office": "בריאות"
     },
     {
-      "id": 392,
+      "id": 393,
       "continent": "אירופה",
       "country": "קפריסין",
       "recommendations": "קפריסין - המלצות",
@@ -5491,7 +5505,7 @@
       "office": "חוץ"
     },
     {
-      "id": 393,
+      "id": 394,
       "continent": "אירופה",
       "country": "קפריסין",
       "recommendations": "אין אזהרות",
@@ -5505,7 +5519,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 394,
+      "id": 395,
       "continent": "אירופה",
       "country": "קרואטיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5519,7 +5533,7 @@
       "office": "בריאות"
     },
     {
-      "id": 395,
+      "id": 396,
       "continent": "אירופה",
       "country": "קרואטיה",
       "recommendations": "אין המלצות",
@@ -5533,7 +5547,7 @@
       "office": "חוץ"
     },
     {
-      "id": 396,
+      "id": 397,
       "continent": "אירופה",
       "country": "קרואטיה",
       "recommendations": "אין אזהרות",
@@ -5547,7 +5561,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 397,
+      "id": 398,
       "continent": "אפריקה",
       "country": "רואנדה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5561,7 +5575,7 @@
       "office": "בריאות"
     },
     {
-      "id": 398,
+      "id": 399,
       "continent": "אפריקה",
       "country": "רואנדה",
       "recommendations": "אין המלצות",
@@ -5575,7 +5589,7 @@
       "office": "חוץ"
     },
     {
-      "id": 399,
+      "id": 400,
       "continent": "אפריקה",
       "country": "רואנדה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -5589,7 +5603,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 400,
+      "id": 401,
       "continent": "אירופה",
       "country": "רומניה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5603,7 +5617,7 @@
       "office": "בריאות"
     },
     {
-      "id": 401,
+      "id": 402,
       "continent": "אירופה",
       "country": "רומניה",
       "recommendations": "אין המלצות",
@@ -5617,7 +5631,7 @@
       "office": "חוץ"
     },
     {
-      "id": 402,
+      "id": 403,
       "continent": "אירופה",
       "country": "רומניה",
       "recommendations": "אין אזהרות",
@@ -5631,7 +5645,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 403,
+      "id": 404,
       "continent": "אירופה",
       "country": "רוסיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5645,7 +5659,7 @@
       "office": "בריאות"
     },
     {
-      "id": 404,
+      "id": 405,
       "continent": "אירופה",
       "country": "רוסיה",
       "recommendations": "כניסת אזרח ישראלי לרוסיה עם אזרחות רוסית והחמרת המלצת המסע לצפון הקווקז",
@@ -5659,7 +5673,7 @@
       "office": "חוץ"
     },
     {
-      "id": 405,
+      "id": 406,
       "continent": "אירופה",
       "country": "רוסיה",
       "recommendations": "רוסיה - המלצות",
@@ -5673,7 +5687,7 @@
       "office": "חוץ"
     },
     {
-      "id": 406,
+      "id": 407,
       "continent": "אירופה",
       "country": "רוסיה",
       "recommendations": "רמת איום משולבת: רמה 4/ איום גבוה להימנע מהגעה: אזור צפון הקווקז.רמה 2/ איום מזדמן, המלצה לנקוט באמצעי זהירות מוגברים: שאר שטחי המדינה.",
@@ -5687,7 +5701,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 407,
+      "id": 408,
       "continent": "אפריקה",
       "country": "רפובליקה מרכז אפריקנית",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5701,7 +5715,7 @@
       "office": "בריאות"
     },
     {
-      "id": 408,
+      "id": 409,
       "continent": "אפריקה",
       "country": "רפובליקה מרכז אפריקנית",
       "recommendations": "אין המלצות",
@@ -5715,7 +5729,7 @@
       "office": "חוץ"
     },
     {
-      "id": 409,
+      "id": 410,
       "continent": "אפריקה",
       "country": "רפובליקה מרכז אפריקנית",
       "recommendations": "רמה 4/איום גבוה: להימנע מהגעה למדינה",
@@ -5729,7 +5743,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 410,
+      "id": 411,
       "continent": "אירופה",
       "country": "שבדיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5743,7 +5757,7 @@
       "office": "בריאות"
     },
     {
-      "id": 411,
+      "id": 412,
       "continent": "אירופה",
       "country": "שבדיה",
       "recommendations": "אין המלצות",
@@ -5757,7 +5771,7 @@
       "office": "חוץ"
     },
     {
-      "id": 412,
+      "id": 413,
       "continent": "אירופה",
       "country": "שבדיה",
       "recommendations": "רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים.",
@@ -5771,7 +5785,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 413,
+      "id": 414,
       "continent": "אירופה",
       "country": "שווייץ",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5785,7 +5799,7 @@
       "office": "בריאות"
     },
     {
-      "id": 414,
+      "id": 415,
       "continent": "אירופה",
       "country": "שווייץ",
       "recommendations": "אין המלצות",
@@ -5799,7 +5813,7 @@
       "office": "חוץ"
     },
     {
-      "id": 415,
+      "id": 416,
       "continent": "אירופה",
       "country": "שווייץ",
       "recommendations": "אין אזהרות",
@@ -5813,7 +5827,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 416,
+      "id": 417,
       "continent": "אסיה",
       "country": "תאילנד",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5827,7 +5841,7 @@
       "office": "בריאות"
     },
     {
-      "id": 417,
+      "id": 418,
       "continent": "אסיה",
       "country": "תאילנד",
       "recommendations": "תאילנד - המלצות",
@@ -5841,7 +5855,7 @@
       "office": "חוץ"
     },
     {
-      "id": 418,
+      "id": 419,
       "continent": "אסיה",
       "country": "תאילנד",
       "recommendations": "רמת איום משולבת: רמה 4/ איום גבוה להימנע מהגעה: דרום המדינה (לא כולל האיים). רמה 2/ איום מזדמן: המלצה לנקוט באמצעי זהירות מוגברים: שאר שטחי המדינה.",
@@ -5855,7 +5869,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 419,
+      "id": 420,
       "continent": "אפריקה",
       "country": "תוניסיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5869,7 +5883,7 @@
       "office": "בריאות"
     },
     {
-      "id": 420,
+      "id": 421,
       "continent": "אפריקה",
       "country": "תוניסיה",
       "recommendations": "אין המלצות",
@@ -5883,7 +5897,7 @@
       "office": "חוץ"
     },
     {
-      "id": 421,
+      "id": 422,
       "continent": "אפריקה",
       "country": "תוניסיה",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -5897,7 +5911,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 422,
+      "id": 423,
       "continent": "אירופה",
       "country": "תורכיה",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5911,7 +5925,7 @@
       "office": "בריאות"
     },
     {
-      "id": 423,
+      "id": 424,
       "continent": "אירופה",
       "country": "תורכיה",
       "recommendations": "תורכיה - תוקף דרכון",
@@ -5925,7 +5939,7 @@
       "office": "חוץ"
     },
     {
-      "id": 424,
+      "id": 425,
       "continent": "אירופה",
       "country": "תורכיה",
       "recommendations": "רמה 4/ איום גבוה, להימנע מהגעה.",
@@ -5939,7 +5953,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 425,
+      "id": 426,
       "continent": "אירופה",
       "country": "תורכמניסטאן",
       "recommendations": "מידע בריאותי עדכני לנוסעים לחוץ לארץ",
@@ -5953,7 +5967,7 @@
       "office": "בריאות"
     },
     {
-      "id": 426,
+      "id": 427,
       "continent": "אסיה",
       "country": "תורכמניסטאן",
       "recommendations": "תורכמניסטאן - המלצות",
@@ -5967,7 +5981,7 @@
       "office": "חוץ"
     },
     {
-      "id": 427,
+      "id": 428,
       "continent": "אירופה",
       "country": "תורכמניסטאן",
       "recommendations": "רמה 3/ איום בינוני: להימנע מנסיעות שאינן חיוניות.",
@@ -5981,7 +5995,7 @@
       "office": "מל\"ל"
     },
     {
-      "id": 428,
+      "id": 429,
       "continent": "אסיה",
       "country": "תימן",
       "recommendations": "רמה 4/ איום גבוה: חל איסור הגעה לתימן.",

@@ -1856,7 +1856,8 @@ Now, using ONLY the data above, answer the user's question below:
 1. If the question is about flight destinations:
    - Start with a bold heading: **✈️ Flights to [Country/Region/City]**
    - Use Markdown bullet points:
-     - Format each destination as: **City (IATA, Country)**
+     - Format each destination as: **City (IATA, Country)** — [https://fly-tlv.com/destinations/IATA](https://fly-tlv.com/destinations/IATA)
+       - Replace `IATA` in the URL with the actual IATA code of the destination (e.g., GYD)
      - Under each city, indent each airline as a separate sub-bullet:
        - Format: `- Airline Name — [https://example.com](https://example.com)`
        - If the website is not available, list only the airline name
