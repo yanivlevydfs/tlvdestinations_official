@@ -1788,27 +1788,43 @@ def build_flight_context(df) -> str:
         for airline, url in sorted(AIRLINE_WEBSITES.items())
         if url
     )
-        # === Section 7: Real-Time Flight Status Data ===
-    if "actual" in df.columns and "direction" in df.columns and "status" in df.columns:
-        flight_status_section = ["🕓 **Flight Status Schedule**"]
-        for row in df.to_dict(orient="records"):
-            airline = row.get("airline", "").strip()
-            airport = row.get("airport", "").strip()
-            time = row.get("actual", "").strip()
-            status = row.get("status", "").strip()
-            direction = row.get("direction", "").strip().upper()
+    # === Section 7: Real-Time Flight Status Data ===
+    if {"actual", "direction", "status"}.issubset(df.columns):
 
-            if not all([airline, airport, time, status, direction]) or direction not in ("A", "D"):
+        # Separate arrivals & departures
+        arrivals = []
+        departures = []
+
+        for row in df.to_dict(orient="records"):
+            airline = str(row.get("airline", "")).strip()
+            airport = str(row.get("airport", "")).strip()
+            time = str(row.get("actual", "")).strip()
+            status = str(row.get("status", "")).strip()
+            direction = str(row.get("direction", "")).strip().upper()
+
+            # Skip incomplete or invalid rows
+            if not all([airline, airport, time, status, direction]):
                 continue
 
-            direction_full = "Arrival" if direction == "A" else "Departure"
-            flight_status_section.append(
-                f"- **{airline}** — {direction_full} — {time} — {status} — {airport}"
-            )
+            if direction == "A":
+                arrivals.append(f"- **{airline}** — Arrival — {time} — {status} — {airport}")
+            elif direction == "D":
+                departures.append(f"- **{airline}** — Departure — {time} — {status} — {airport}")
 
-        flight_status_text = "\n".join(flight_status_section)
+        # Build final text output
+        parts = ["🕓 **Flight Status Schedule**"]
+
+        if arrivals:
+            parts.append("\n### 🛬 Arrivals\n" + "\n".join(arrivals))
+
+        if departures:
+            parts.append("\n### 🛫 Departures\n" + "\n".join(departures))
+
+        flight_status_text = "\n".join(parts)
+
     else:
         flight_status_text = ""
+
         
     # === Final Context Assembly ===
     context = (
@@ -1847,8 +1863,7 @@ async def chat_flight_ai(
     if DATASET_DF_FLIGHTS.empty:
         raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
 
-    # Build structured context
-    print(DATASET_DF_FLIGHTS)
+    # Build structured context    
     context = build_flight_context(DATASET_DF_FLIGHTS)
 
     # Construct the AI prompt
