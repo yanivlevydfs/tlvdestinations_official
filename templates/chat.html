@@ -242,11 +242,15 @@ async function ask() {
       body: JSON.stringify({ question })
     });
     const data = await res.json();
-	appendMessage(data.answer || "{{ 'AI could not find the answer. Please use https://fly-tlv.com' if lang == 'en' else 'ה-AI לא הצליח למצוא תשובה. אנא השתמשו באתר https://fly-tlv.com' }}","ai");
+	appendMessage(data.answer || "{{ 'AI tried its best, but the answer escaped ☕🤦‍♂️ Try again later… or check https://fly-tlv.com!' if lang == 'en' else 'ה-AI באמת ניסה, אבל התשובה ברחה לו ☕🤦‍♂️ נסו שוב מאוחר יותר… או פשוט היכנסו ל-https://fly-tlv.com!' }}",  "ai"
+);
+
 
   } catch (err) {
     console.error("Chat error", err);
-    appendMessage("{{ 'AI is resting now. Please use https://fly-tlv.com' if lang == 'en' else 'ה-AI במנוחה כרגע. אנא השתמשו באתר https://fly-tlv.com' }}", "ai");
+    appendMessage("{{ 'AI is overworked and demanded a coffee break ☕ Try again in a few minutes… or hop over to https://fly-tlv.com!' if lang == 'en' else 'ה-AI עייף ויצא להפסקת קפה ☕ נסו שוב בעוד כמה דקות… או בינתיים בקרו ב-https://fly-tlv.com!' }}",  "ai"
+);
+
   }
 }
 

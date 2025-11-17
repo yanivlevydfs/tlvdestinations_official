@@ -1968,7 +1968,7 @@ I couldn't find it in our current destination catalog, please check the main tab
         result = await chat_model.generate_content_async(prompt)
         answer = getattr(result, "text", None) or "Currently I have no answer"
     except Exception as e:
-        logger.error("Gemini API error: %s", str(e))
+        logger.error("Gemini API error: %s", str(e).split('\n')[0])
         raise HTTPException(status_code=500, detail="Gemini API error")
 
     field_names = [
