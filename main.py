@@ -2736,24 +2736,67 @@ async def fetch_wikipedia_summary(
     lang: str = Query("en", pattern="^(en|he)$", description="Language: en or he")
 ):
     """
-    🔹 Fetch summarized Wikipedia info for a city (supports English & Hebrew).
-    - If lang=he, it will try to translate the city name using get_city_info().
-    - Returns title, description, extract, thumbnail, and page URL.
+    🔹 Fetch summarized Wikipedia info for a city (supports English & Hebrew)
+    🔹 Hebrew mode:
+        1. Translate city → Hebrew (if exists)
+        2. Try fetching Hebrew Wikipedia
+        3. If missing → fallback to English Wikipedia
     """
     try:
-        city = city.strip().title()
+        city_original = city.strip().title()
+        city = city_original
 
-        # 🈁 Hebrew translation (if requested)
+        # ============================================================
+        # 🈁 HEBREW MODE — ATTEMPT TRANSLATION + FALLBACK TO ENGLISH
+        # ============================================================
         if lang == "he":
-            translated_city = get_city_info(city, return_type="city")
-            if translated_city:
-                logger.debug(f"🌐 Translating '{city}' → '{translated_city}' for Hebrew Wikipedia lookup.")
-                city = translated_city
-            else:
-                logger.warning(f"⚠️ No Hebrew translation found for '{city}', using English name.")
 
-        url = WIKI_API_BASE.format(lang=lang, city=city.replace(" ", "_"))
-        logger.debug(f"🌍 Fetching Wikipedia summary for '{city}' ({lang})")
+            # Try Hebrew database translation
+            translated_city = get_city_info(city_original, return_type="city")
+
+            if translated_city:
+                logger.debug(f"🌐 Translating '{city_original}' → '{translated_city}' for Hebrew Wikipedia lookup.")
+                city_he = translated_city
+            else:
+                logger.warning(f"⚠️ No Hebrew translation for '{city_original}', using English name.")
+                city_he = city_original
+
+            # → First try Hebrew Wikipedia
+            url_he = WIKI_API_BASE.format(lang="he", city=city_he.replace(" ", "_"))
+            logger.debug(f"📘 Trying Hebrew Wikipedia for '{city_he}' → {url_he}")
+
+            async with httpx.AsyncClient(timeout=15) as client:
+                response_he = await client.get(url_he, headers={
+                    "User-Agent": "Fly-TLV (https://fly-tlv.com; contact@fly-tlv.com)",
+                    "Accept": "application/json"
+                })
+
+            # If found → return Hebrew page
+            if response_he.status_code == 200:
+                data = response_he.json()
+                return {
+                    "title": data.get("title"),
+                    "description": data.get("description"),
+                    "extract": data.get("extract"),
+                    "thumbnail": data.get("thumbnail", {}).get("source"),
+                    "lang": "he",
+                    "url": data.get("content_urls", {}).get("desktop", {}).get("page"),
+                    "requested_city": city_he
+                }
+
+            # If not → fallback to English
+            logger.warning(f"⚠️ Hebrew Wikipedia NOT found for '{city_he}'. Falling back to English.")
+
+            lang = "en"     # Force English lookup
+            city = city_original   # Use English city name
+
+        # ============================================================
+        # 🌍 ENGLISH MODE (default or fallback)
+        # ============================================================
+
+        city_en = city.replace(" ", "_")
+        url = WIKI_API_BASE.format(lang="en", city=city_en)
+        logger.debug(f"🌍 Fetching English Wikipedia for '{city}' → {url}")
 
         async with httpx.AsyncClient(timeout=15) as client:
             response = await client.get(url, headers={
@@ -2761,13 +2804,12 @@ async def fetch_wikipedia_summary(
                 "Accept": "application/json"
             })
 
-        # 🧭 Handle API responses
         if response.status_code == 404:
-            logger.warning(f"⚠️ Wikipedia article not found for '{city}' ({lang})")
-            raise HTTPException(status_code=404, detail=f"No Wikipedia article for {city} ({lang})")
-        elif response.status_code != 200:
+            raise HTTPException(404, f"No Wikipedia article for {city} (en)")
+
+        if response.status_code != 200:
             logger.error(f"❌ Wikipedia API returned {response.status_code} for '{city}'")
-            raise HTTPException(status_code=response.status_code, detail="Wikipedia API error")
+            raise HTTPException(response.status_code, "Wikipedia API error")
 
         data = response.json()
 
@@ -2776,27 +2818,25 @@ async def fetch_wikipedia_summary(
             "description": data.get("description"),
             "extract": data.get("extract"),
             "thumbnail": data.get("thumbnail", {}).get("source"),
-            "lang": lang,
-            "url": data.get("content_urls", {}).get(lang, {}).get("page"),
+            "lang": "en",
+            "url": data.get("content_urls", {}).get("desktop", {}).get("page"),
             "requested_city": city
         }
 
         if not result["extract"]:
-            logger.warning(f"⚠️ Wikipedia summary missing text for '{city}' ({lang})")
-            raise HTTPException(status_code=204, detail="No summary available")
-        
+            raise HTTPException(204, "No summary available")
+
         return result
 
     except httpx.TimeoutException:
-        logger.error(f"⏱️ Timeout fetching Wikipedia for '{city}' ({lang})")
-        raise HTTPException(status_code=504, detail="Wikipedia request timed out")
+        raise HTTPException(504, "Wikipedia request timed out")
 
     except HTTPException:
-        raise  # Already logged
+        raise
 
     except Exception as e:
-        logger.exception(f"💥 Unexpected error fetching Wikipedia for '{city}' ({lang}): {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception(f"💥 Unexpected error fetching Wikipedia for '{city_original}' ({lang}): {e}")
+        raise HTTPException(500, str(e))
         
 @app.post("/log-click")
 async def log_click(request: Request):
