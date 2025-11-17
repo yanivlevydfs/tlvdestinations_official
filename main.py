@@ -940,12 +940,19 @@ def home(
     global AIRPORTS_DB, DATASET_DF, AIRLINE_WEBSITES
 
     # Defensive check
+    # === If dataset missing → call refresh function (no await needed) ===
+    if DATASET_DF is None or DATASET_DF.empty:
+        logger.warning("⚠️ DATASET_DF empty — running refresh_data_webhook()")
+        refresh_data_webhook()   # <--- THIS IS NOW CORRECT
+
+    # === If still missing → show error ===
     if DATASET_DF is None or DATASET_DF.empty:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
             "message": "No data available.",
             "lang": lang
         })
+
 
     df = DATASET_DF.copy()
 
