@@ -64,7 +64,7 @@ setup_logging(log_level="INFO", log_dir="logs", log_file_name="app.log")
 feedback_logger = setup_feedback_logger()
 logger = get_app_logger("flights_explorer")
 
-logger.info("Server starting…")
+logger.debug("Server starting…")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 # Set up Gemini API
 
@@ -189,7 +189,7 @@ def load_city_translations(file_path: Path = CITY_TRANSLATIONS_FILE):
         with open(file_path, "r", encoding="utf-8") as f:
             CITY_TRANSLATIONS = json.load(f)
 
-        logger.info(f"✅ Loaded {len(CITY_TRANSLATIONS)} city entries from {file_path.name}.")
+        logger.debug(f"✅ Loaded {len(CITY_TRANSLATIONS)} city entries from {file_path.name}.")
 
     except json.JSONDecodeError as e:
         logger.error(f"❌ Failed to parse {file_path.name}: {e}")
@@ -204,7 +204,7 @@ def load_country_translations():
     try:
         with open(COUNTRY_TRANSLATIONS, encoding="utf-8") as f:
             EN_TO_HE_COUNTRY = json.load(f)
-            logger.info(f"Loaded {len(EN_TO_HE_COUNTRY)} country translations from {COUNTRY_TRANSLATIONS.name}")
+            logger.debug(f"Loaded {len(EN_TO_HE_COUNTRY)} country translations from {COUNTRY_TRANSLATIONS.name}")
     except FileNotFoundError:
         logger.error(f"Translation file not found: {COUNTRY_TRANSLATIONS}")
     except json.JSONDecodeError as e:
@@ -225,11 +225,11 @@ def get_git_version():
         return f"{date.replace('-', '.')}–{commit}"
 
     except FileNotFoundError:
-        logger.warning("[version] Git not found. Is it installed and in PATH? Falling back to 'dev'.")
+        logger.error("[version] Git not found. Is it installed and in PATH? Falling back to 'dev'.")
     except subprocess.CalledProcessError as e:
-        logger.warning(f"[version] Git command failed: {e}. Falling back to 'dev'.")
+        logger.error(f"[version] Git command failed: {e}. Falling back to 'dev'.")
     except Exception as e:
-        logger.warning(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
+        logger.error(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
 
     return "dev"
     
@@ -241,7 +241,7 @@ def update_travel_warnings():
         result = fetch_travel_warnings()
         if result:
             reload_travel_warnings_globals()
-            logger.info(f"✅ Travel warnings updated and reloaded ({result['count']} records)")
+            logger.debug(f"✅ Travel warnings updated and reloaded ({result['count']} records)")
         else:
             logger.warning("⚠️ fetch_travel_warnings returned None")
     except Exception:
@@ -252,7 +252,7 @@ def reload_travel_warnings_globals():
     global TRAVEL_WARNINGS_DF
     try:
         TRAVEL_WARNINGS_DF = load_travel_warnings_df()
-        logger.info(f"🧠 TRAVEL_WARNINGS_DF global updated (rows={len(TRAVEL_WARNINGS_DF)})")
+        logger.debug(f"🧠 TRAVEL_WARNINGS_DF global updated (rows={len(TRAVEL_WARNINGS_DF)})")
     except Exception as e:
         logger.exception("❌ Failed to reload TRAVEL_WARNINGS_DF from cache")
         TRAVEL_WARNINGS_DF = pd.DataFrame()
@@ -262,7 +262,7 @@ def update_flights():
     try:
         fetch_israel_flights()
         reload_israel_flights_globals()
-        logger.info("✅ Scheduled flight update completed.")
+        logger.debug("✅ Scheduled flight update completed.")
     except Exception as e:
         logger.exception("❌ Scheduled flight update failed.")
         
@@ -275,7 +275,7 @@ def reload_israel_flights_globals():
     df_flights, _ = _read_flights_file()
     DATASET_DF_FLIGHTS = df_flights
 
-    logger.info(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
+    logger.debug(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
 
 
 def get_flight_time(dist_km: float | None) -> str:
@@ -317,7 +317,7 @@ def load_travel_warnings_df() -> pd.DataFrame:
         df = pd.DataFrame(warnings)
         # Keep last_update in metadata
         df.attrs["last_update"] = data.get("updated")
-        logger.info(f"✅ Loaded {len(df)} travel warnings from cache (updated {df.attrs['last_update']})")
+        logger.debug(f"✅ Loaded {len(df)} travel warnings from cache (updated {df.attrs['last_update']})")
         return df
 
     except Exception as e:
@@ -425,7 +425,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
                 "limit": batch_size,
                 "offset": offset,
             }
-            logger.info(f"🌐 Fetching travel warnings batch offset={offset} ...")
+            logger.debug(f"🌐 Fetching travel warnings batch offset={offset} ...")
             r = requests.get(TRAVEL_WARNINGS_API, params=params, timeout=30)
             r.raise_for_status()
 
@@ -437,7 +437,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
                 try:
                     fixed_json = repair_json(r.text)
                     data = json.loads(fixed_json)
-                    logger.info("✅ JSON repaired successfully using json-repair")
+                    logger.debug("✅ JSON repaired successfully using json-repair")
                 except Exception as repair_err:
                     logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
                     break  # exit pagination loop safely
@@ -484,7 +484,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
         try:
             with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
-            logger.info(f"✅ Cached {len(all_records)} travel warnings to disk")
+            logger.debug(f"✅ Cached {len(all_records)} travel warnings to disk")
         except Exception as e:
             logger.error(f"❌ Failed to write travel warnings to disk: {e}", exc_info=True)
             return None
@@ -493,11 +493,11 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
         if all_records:
             TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
             TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
-            logger.info(f"🧠 TRAVEL_WARNINGS_DF updated with {len(TRAVEL_WARNINGS_DF)} rows")
+            logger.debug(f"🧠 TRAVEL_WARNINGS_DF updated with {len(TRAVEL_WARNINGS_DF)} rows")
         else:
             logger.warning("⚠️ No records fetched. Global TRAVEL_WARNINGS_DF was not updated.")
 
-        logger.info(f"Travel warnings refreshed: {len(all_records)} total")
+        logger.debug(f"Travel warnings refreshed: {len(all_records)} total")
         return result
 
     except RequestException as e:
@@ -630,7 +630,7 @@ def fetch_israel_flights() -> dict | None:
     }
 
     try:
-        logger.info("🌐 Requesting flight data from gov.il API...")
+        logger.debug("🌐 Requesting flight data from gov.il API...")
         r = requests.get(ISRAEL_API, params=params, timeout=30)
         r.raise_for_status()
 
@@ -642,7 +642,7 @@ def fetch_israel_flights() -> dict | None:
             try:
                 fixed_json = repair_json(r.text)
                 data = json.loads(fixed_json)
-                logger.info("✅ JSON repaired successfully using json-repair")
+                logger.debug("✅ JSON repaired successfully using json-repair")
             except Exception as repair_err:
                 logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
                 return None
@@ -699,7 +699,7 @@ def fetch_israel_flights() -> dict | None:
         try:
             with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
-            logger.info(f"✅ Cached {len(flights)} flight records to disk")
+            logger.debug(f"✅ Cached {len(flights)} flight records to disk")
         except Exception as e:
             logger.error(f"❌ Failed to write flight data to disk: {e}", exc_info=True)
             return None
@@ -795,12 +795,12 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 try:
                     fixed_text = repair_json(broken_text)
                     meta = json.loads(fixed_text)
-                    logger.info("✅ israel_flights.json repaired successfully using json-repair")
+                    logger.debug("✅ israel_flights.json repaired successfully using json-repair")
 
                     # Optional: persist repaired version
                     with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
                         json.dump(meta, fw, ensure_ascii=False, indent=2)
-                        logger.info("💾 Repaired israel_flights.json saved to disk")
+                        logger.debug("💾 Repaired israel_flights.json saved to disk")
                 except Exception as repair_err:
                     logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
                     return pd.DataFrame(columns=[
@@ -976,7 +976,7 @@ def home(
     # All unique countries for dropdown
     countries = ["All"] + sorted(DATASET_DF["Country"].dropna().unique().tolist())
     last_update = get_dataset_date()
-    logger.info(f"GET /  country={country} query='{query}'  rows={len(airports)}")
+    logger.debug(f"GET /  country={country} query='{query}'  rows={len(airports)}")
     return TEMPLATES.TemplateResponse(
         "index.html",
         {
@@ -1194,7 +1194,7 @@ def map_view(country: str = "All", query: str = ""):
         except Exception:
             pass
 
-    logger.info(f"✅ /map rendered: {len(airports)} unique airports (merged by IATA)")
+    logger.debug(f"✅ /map rendered: {len(airports)} unique airports (merged by IATA)")
 
     # ✅ Ensure map reflows inside modal if needed
     bounds_js = json.dumps(bounds)
@@ -2341,7 +2341,7 @@ async def accessibility(request: Request, lang: str = "en"):
 async def receive_feedback(payload: dict):
     question = payload.get("question")
     score = payload.get("score")
-    feedback_logger.info(f"{score} | {question}")
+    feedback_logger.debug(f"{score} | {question}")
     return {"status": "ok"}
     
 @app.get("/sw.js", include_in_schema=False)
@@ -2429,7 +2429,7 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
 async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
     client = request.client.host
     try:
-        logger.info(f"GET /direct-vs-nonstop | lang={lang} | client={client}")
+        logger.debug(f"GET /direct-vs-nonstop | lang={lang} | client={client}")
         return TEMPLATES.TemplateResponse("direct_vs_nonstop.html", {
             "request": request,
             "lang": lang,

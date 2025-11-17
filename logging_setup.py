@@ -143,7 +143,7 @@ def setup_logging(
         },
     })
 
-    logging.getLogger("app").info("Logging configured ✅")
+    logging.getLogger("app").debug("Logging configured ✅")
 
 def get_app_logger(name: str = "app") -> logging.Logger:
     """מחזיר לוגר לשימוש באפליקציה."""
