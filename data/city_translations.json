@@ -101,5 +101,6 @@
   "Wellington": {"he": "ולינגטון", "country": "New Zealand", "country_he": "ניו זילנד"},
   "Yerevan": {"he": "ירוואן", "country": "Armenia", "country_he": "ארמניה"},
   "Zanzibar": {"he": "זנזיבר", "country": "Tanzania", "country_he": "טנזניה"},
-  "Zurich": {"he": "ציריך", "country": "Switzerland", "country_he": "שווייץ"}
+  "Zurich": {"he": "ציריך", "country": "Switzerland", "country_he": "שווייץ"},
+  "Bologna": {"he": "בולוניה","country": "Italy","country_he": "איטליה"}
 }
