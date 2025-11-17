@@ -165,7 +165,7 @@ def get_city_info(city_en: str, return_type: str = "both"):
         return None
 
     entry = CITY_TRANSLATIONS[city_key]
-    logger.info(f"Found translation for '{city_en}': {entry['he']} ({entry['country_he']})")
+    logger.debug(f"Found translation for '{city_en}': {entry['he']} ({entry['country_he']})")
 
     if return_type == "city":
         return entry["he"]
@@ -733,12 +733,12 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
                 try:
                     fixed_text = repair_json(broken_text)
                     meta = json.loads(fixed_text)
-                    logger.info("✅ israel_flights.json repaired successfully using json-repair")
+                    logger.warning("✅ israel_flights.json repaired successfully using json-repair")
 
                     # Optional: rewrite the repaired version to disk
                     with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
                         json.dump(meta, fw, ensure_ascii=False, indent=2)
-                        logger.info("💾 Repaired israel_flights.json saved to disk")
+                        logger.warning("💾 Repaired israel_flights.json saved to disk")
 
                 except Exception as repair_err:
                     logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
@@ -1234,16 +1234,16 @@ async def on_startup():
     global APP_VERSION
     global EN_TO_HE_COUNTRY
     
-    logger.info("🚀 Application startup initiated")
+    logger.debug("🚀 Application startup initiated")
     # 🎯 0) Set Git version
-    logger.info(f"🔖 App Version: {APP_VERSION}")
+    logger.debug(f"🔖 App Version: {APP_VERSION}")
     load_city_translations()
     load_country_translations()
     
     # 0) Load IATA DB once
     try:
         AIRPORTS_DB = load("IATA")
-        logger.info(f"Loaded airportsdata IATA DB with {len(AIRPORTS_DB)} records")
+        logger.debug(f"Loaded airportsdata IATA DB with {len(AIRPORTS_DB)} records")
     except Exception as e:
         logger.error("Failed to load airportsdata", exc_info=True)
         AIRPORTS_DB = {}
@@ -1262,7 +1262,7 @@ async def on_startup():
     # 3) Load airline websites
     try:
         AIRLINE_WEBSITES = load_airline_websites()
-        logger.info(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
+        logger.debug(f"Loaded {len(AIRLINE_WEBSITES)} airline websites")
     except Exception as e:
         logger.error("Failed to load airline websites", exc_info=True)
         AIRLINE_WEBSITES = {}
@@ -1278,7 +1278,7 @@ async def on_startup():
     # 5) Load country → ISO code mapping
     try:
         COUNTRY_NAME_TO_ISO = build_country_name_to_iso_map()
-        logger.info(f"Loaded {len(COUNTRY_NAME_TO_ISO)} country → ISO mappings")
+        logger.debug(f"Loaded {len(COUNTRY_NAME_TO_ISO)} country → ISO mappings")
     except Exception as e:
         logger.error("Failed to build ISO mapping", exc_info=True)
         COUNTRY_NAME_TO_ISO = {}
@@ -1309,33 +1309,33 @@ async def on_startup():
             replace_existing=True,
             next_run_time=datetime.now())        
         scheduler.start()
-        logger.info("✅ Scheduler started")
+        logger.debug("✅ Scheduler started")
     except Exception as e:
-        logger.critical("Failed to start scheduler", exc_info=True)
+        logger.error("Failed to start scheduler", exc_info=True)
 
-    logger.info("🎯 Application startup completed")
+    logger.debug("🎯 Application startup completed")
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
     global scheduler
-    logger.info("🛑 Application shutdown initiated")
+    logger.debug("🛑 Application shutdown initiated")
 
     if scheduler:
         try:
             scheduler.shutdown(wait=False)
-            logger.info("✅ Scheduler stopped successfully")
+            logger.debug("✅ Scheduler stopped successfully")
         except Exception as e:
             logger.error("Error shutting down scheduler", exc_info=True)
     else:
         logger.warning("No scheduler instance to shut down")
 
-    logger.info("👋 Application shutdown completed")
+    logger.debug("👋 Application shutdown completed")
 
     
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request, lang: str = Depends(get_lang)):
-    logger.info(f"GET /about | lang={lang} | client={request.client.host}")
+    logger.debug(f"GET /about | lang={lang} | client={request.client.host}")
     return TEMPLATES.TemplateResponse("about.html", {
         "request": request,
         "lang": lang,
@@ -1344,7 +1344,7 @@ async def about(request: Request, lang: str = Depends(get_lang)):
 
 @app.get("/privacy", response_class=HTMLResponse)
 async def privacy(request: Request, lang: str = Depends(get_lang)):
-    logger.info(f"GET /privacy | lang={lang} | client={request.client.host}")
+    logger.debug(f"GET /privacy | lang={lang} | client={request.client.host}")
     return TEMPLATES.TemplateResponse("privacy.html", {
         "request": request,
         "lang": lang,
@@ -1354,7 +1354,7 @@ async def privacy(request: Request, lang: str = Depends(get_lang)):
 
 @app.get("/contact", response_class=HTMLResponse)
 async def contact(request: Request, lang: str = Depends(get_lang)):
-    logger.info(f"GET /contact | lang={lang} | client={request.client.host}")
+    logger.debug(f"GET /contact | lang={lang} | client={request.client.host}")
     return TEMPLATES.TemplateResponse("contact.html", {
         "request": request,
         "lang": lang,
@@ -1364,7 +1364,7 @@ async def contact(request: Request, lang: str = Depends(get_lang)):
 
 @app.get("/ads.txt", include_in_schema=False)
 async def ads_txt(request: Request):
-    logger.info(f"GET /ads.txt | client={request.client.host}")
+    logger.debug(f"GET /ads.txt | client={request.client.host}")
     file_path = Path(__file__).parent / "ads.txt"
     return FileResponse(file_path, media_type="text/plain")
    
@@ -1373,7 +1373,7 @@ async def ads_txt(request: Request):
 async def robots_txt(request: Request):
     file_path = Path(__file__).parent / "robots.txt"
     if file_path.exists():
-        logger.info(f"GET /robots.txt | client={request.client.host}")
+        logger.debug(f"GET /robots.txt | client={request.client.host}")
         return FileResponse(file_path, media_type="text/plain")
     else:
         logger.error(f"robots.txt not found! | client={request.client.host}")
@@ -1389,7 +1389,7 @@ async def traffic_advice(request: Request):
         return Response(status_code=204)  # No Content
 
     # 🟢 Log Googlebot probe once
-    logger.info(f"✅ Googlebot traffic-advice request from {request.client.host}")
+    logger.debug(f"✅ Googlebot traffic-advice request from {request.client.host}")
 
     # 🔵 Recommended JSON format (official spec)
     # Docs: https://developers.google.com/search/docs/crawling-indexing/traffic-advice
@@ -1494,14 +1494,14 @@ def sitemap():
             if iata:
                 urls.append(Url(f"{base}/destinations/{iata}", today, "weekly", 0.7))
                 urls.append(Url(f"{base}/destinations/{iata}?lang=he", today, "weekly", 0.7))
-        logger.info(f"🧭 Added {len(DATASET_DF['IATA'].dropna().unique())} dynamic destinations.")
+        logger.debug(f"🧭 Added {len(DATASET_DF['IATA'].dropna().unique())} dynamic destinations.")
     except Exception as e:
         logger.warning(f"⚠️ Failed to load dynamic IATA links: {e}")
 
     # --- 3. Include *all* static-generated HTML pages physically saved on disk ---
     static_dest_dir = STATIC_DIR / "destinations"
     if static_dest_dir.exists():
-        logger.info(f"🗺️ Scanning static HTML destinations recursively from {static_dest_dir} ...")
+        logger.debug(f"🗺️ Scanning static HTML destinations recursively from {static_dest_dir} ...")
         total_files = 0
 
         for lang_dir in static_dest_dir.iterdir():
@@ -1524,12 +1524,12 @@ def sitemap():
                     total_files += 1
 
                     # 🪵 Detailed log line for each file
-                    logger.info(f"📄 Added static file: {html_file.relative_to(STATIC_DIR)} → {url}")
+                    logger.debug(f"📄 Added static file: {html_file.relative_to(STATIC_DIR)} → {url}")
 
                 except Exception as e:
                     logger.warning(f"⚠️ Skipped file {html_file}: {e}")
 
-        logger.info(f"✅ Added {total_files:,} static HTML destination files from {static_dest_dir}")
+        logger.debug(f"✅ Added {total_files:,} static HTML destination files from {static_dest_dir}")
     else:
         logger.warning(f"⚠️ Static destinations folder not found: {static_dest_dir}")
 
@@ -1540,7 +1540,7 @@ def sitemap():
     try:
         out_path.parent.mkdir(exist_ok=True)
         out_path.write_text(xml, encoding="utf-8")
-        logger.info(f"✅ Sitemap written to {out_path} with {len(urls)} URLs total")
+        logger.debug(f"✅ Sitemap written to {out_path} with {len(urls)} URLs total")
     except Exception as e:
         logger.error(f"❌ Failed to write sitemap.xml: {e}")
 
@@ -1652,7 +1652,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
                 questions.append(f"אילו ערים ב-{he_country} זמינות בטיסות ישירות?")
                 questions.append(f"לאן אפשר להגיע ב-{he_country} בטיסה?")
             except Exception as e:
-                logger.debug(f"⚠️ Country translation fallback: {e}")
+                logger.error(f"⚠️ Country translation fallback: {e}")
                 continue
 
     if cities:
@@ -1667,7 +1667,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
                 questions.append(f"אילו חברות מציעות טיסות ל-{city_he}?")
                 questions.append(f"אילו חברות טסות ישירות ל-{city_he}?")
             except Exception as e:
-                logger.debug(f"⚠️ City translation fallback: {e}")
+                logger.error(f"⚠️ City translation fallback: {e}")
                 continue
 
     if airlines:
@@ -1692,7 +1692,7 @@ def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[
                 questions.append(f"מהו האתר הרשמי של חברת {airline}?")
 
     random.shuffle(questions)
-    logger.info(f"✅ Generated {len(questions[:n])} bilingual question suggestions (EN+HE).")
+    logger.debug(f"✅ Generated {len(questions[:n])} bilingual question suggestions (EN+HE).")
     return questions[:n]
 
 def build_flight_context(df) -> str:
@@ -1866,7 +1866,7 @@ async def chat_flight_ai(
     if not question:
         raise HTTPException(status_code=400, detail="Question is empty.")
 
-    logger.info(f"📥 User question: {question}")
+    logger.debug(f"📥 User question: {question}")
     if DATASET_DF_FLIGHTS.empty:
         raise HTTPException(status_code=503, detail="Flight dataset is empty or not loaded.")
 
@@ -1990,7 +1990,7 @@ I couldn't find it in our current destination catalog, please check the main tab
 @app.get("/chat", response_class=HTMLResponse)
 async def chat_page(request: Request, lang: str = Depends(get_lang)):
     client_host = request.client.host if request.client else "unknown"
-    logger.info(f"GET /chat from {client_host} (lang={lang})")
+    logger.debug(f"GET /chat from {client_host} (lang={lang})")
 
     return TEMPLATES.TemplateResponse("chat.html", {
         "request": request,
@@ -2020,7 +2020,7 @@ async def chat_suggestions(n: int = Query(default=10, le=20)):
     if not suggestions:
         return {"questions": ["No suggestions available at the moment."]}
 
-    logger.info(f"GET /api/chat/suggestions → {len(suggestions)} suggestions")
+    logger.debug(f"GET /api/chat/suggestions → {len(suggestions)} suggestions")
     return {"questions": suggestions}
 
     
@@ -2031,7 +2031,7 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
     client_host = request.client.host if request.client else "unknown"
 
     if TRAVEL_WARNINGS_DF is None or TRAVEL_WARNINGS_DF.empty:
-        logger.warning(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
+        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
             "lang": lang,
@@ -2053,7 +2053,7 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
     countries  = sorted(TRAVEL_WARNINGS_DF["country"].dropna().unique())
     levels     = ["גבוה", "בינוני", "נמוך", "לא ידוע"]
 
-    logger.info(f"GET /travel-warnings from {client_host} (lang={lang}) → {len(warnings)} warnings")
+    logger.debug(f"GET /travel-warnings from {client_host} (lang={lang}) → {len(warnings)} warnings")
 
     return TEMPLATES.TemplateResponse("travel_warnings.html", {
         "request": request,
@@ -2068,19 +2068,19 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
 
 @app.get("/openapi.json", include_in_schema=False)
 async def custom_openapi(username: str = Depends(verify_docs_credentials)):
-    logger.info(f"GET /openapi.json → served for user={username}")
+    logger.debug(f"GET /openapi.json → served for user={username}")
     return get_openapi(title=app.title,version="1.0.0",routes=app.routes,)
 
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui(username: str = Depends(verify_docs_credentials)):
-    logger.info(f"GET /docs → Swagger UI served for user={username}")
+    logger.debug(f"GET /docs → Swagger UI served for user={username}")
     return get_swagger_ui_html(openapi_url="/openapi.json",title="API Docs")
 
 
 @app.get("/redoc", include_in_schema=False)
 async def custom_redoc(username: str = Depends(verify_docs_credentials)):
-    logger.info(f"GET /redoc → ReDoc UI served for user={username}")
+    logger.debug(f"GET /redoc → ReDoc UI served for user={username}")
     return get_redoc_html(openapi_url="/openapi.json",title="API ReDoc")
 
 @app.get("/flights", response_class=HTMLResponse)
@@ -2138,7 +2138,7 @@ async def flights_view(request: Request):
     actual_dates = sorted(actual_dates_set)
 
     # ✅ Simple logs
-    logger.info(f"✅ Loaded total flights: {len(processed_flights)} (no filtering applied)")
+    logger.debug(f"✅ Loaded total flights: {len(processed_flights)} (no filtering applied)")
 
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
@@ -2175,7 +2175,7 @@ async def redirect_to_home(request: Request):
     global DATASET_DF
 
     if DATASET_DF is None or DATASET_DF.empty:
-        logger.warning("DATASET_DF is not loaded. Redirecting anyway to avoid SEO issues.")
+        logger.error("DATASET_DF is not loaded. Redirecting anyway to avoid SEO issues.")
 
     lang = request.query_params.get("lang")
     url = f"/?lang={lang}" if lang else "/"
@@ -2191,7 +2191,7 @@ async def destination_detail(request: Request, iata: str):
 
     # ✅ Redirect if TLV itself is requested
     if iata in {"TLV", "LLBG", "BEN-GURION"}:
-        logger.info(f"🔁 Redirected attempt to access TLV itself → homepage")
+        logger.debug(f"🔁 Redirected attempt to access TLV itself → homepage")
         target = "/" if lang == "en" else "/?lang=he"
         return RedirectResponse(url=target, status_code=302)
 
@@ -2241,10 +2241,10 @@ async def destination_detail(request: Request, iata: str):
     if output_file.exists():
         mtime = output_file.stat().st_mtime
         if time.time() - mtime < MAX_AGE:
-            logger.info(f"🗂️ Using cached static page: {output_file}")
+            logger.debug(f"🗂️ Using cached static page: {output_file}")
             return HTMLResponse(content=output_file.read_text(encoding='utf-8'))
         else:
-            logger.info(f"♻️ Rebuilding expired page for {iata}")
+            logger.debug(f"♻️ Rebuilding expired page for {iata}")
 
     # ✅ 5. Fetch travel info internally (from your existing route)
    # ✅ fetch travel info
@@ -2256,20 +2256,20 @@ async def destination_detail(request: Request, iata: str):
         # Fetch travel info
         try:
             travel_info_data = await get_travel_info(city_name, lang=lang)
-            logger.info(f"✅ Travel info loaded for {city_name}")
+            logger.debug(f"✅ Travel info loaded for {city_name}")
         except Exception as e:
-            logger.warning(f"⚠️ Travel info unavailable for {city_name}: {e}")
+            logger.error(f"⚠️ Travel info unavailable for {city_name}: {e}")
             travel_info_data = None
 
         # Fetch Wikipedia summary
         try:
             wiki_summary_data = await fetch_wikipedia_summary(city_name, lang)
             if wiki_summary_data:
-                logger.info(f"✅ Wikipedia summary fetched for {city_name}")
+                logger.debug(f"✅ Wikipedia summary fetched for {city_name}")
             else:
-                logger.warning(f"⚠️ No Wikipedia summary for {city_name}")
+                logger.error(f"⚠️ No Wikipedia summary for {city_name}")
         except Exception as e:
-            logger.warning(f"⚠️ Wikipedia summary unavailable for {city_name}: {e}")
+            logger.error(f"⚠️ Wikipedia summary unavailable for {city_name}: {e}")
             wiki_summary_data = None
 
     # ✅ 6. Render and cache
@@ -2284,7 +2284,7 @@ async def destination_detail(request: Request, iata: str):
 
     try:
         output_file.write_text(rendered_html, encoding="utf-8")
-        logger.info(f"🌍 Static page generated: {output_file}")
+        logger.debug(f"🌍 Static page generated: {output_file}")
     except Exception as e:
         logger.error(f"⚠️ Failed to write static HTML for {iata}: {e}")
 
@@ -2461,7 +2461,7 @@ async def manifest(request: Request):
     selected_manifest = manifest_he if lang == "he" and manifest_he.exists() else manifest_en
 
     if selected_manifest.exists():
-        logger.info(f"📄 GET /manifest.json | lang={lang} | client={client} | file={selected_manifest.name}")
+        logger.debug(f"📄 GET /manifest.json | lang={lang} | client={client} | file={selected_manifest.name}")
         return FileResponse(selected_manifest, media_type="application/manifest+json")
     else:
         logger.error(f"❌ Manifest not found | lang={lang} | path={selected_manifest}")
@@ -2529,7 +2529,7 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # Redirect only if changed
     if redirect_url != url:
-        logger.info(f"🔁 Redirecting {url} → {redirect_url}")
+        logger.debug(f"🔁 Redirecting {url} → {redirect_url}")
         return RedirectResponse(url=redirect_url, status_code=301)
 
     # 🧩 Continue normally
@@ -2537,7 +2537,7 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # ⚠️ Log real 404s only (ignore bots hitting /%23 junk)
     if response.status_code == 404 and not path.startswith("/%23"):
-        logger.info(f"⚠️ 404 from {client_host} → {path}")
+        logger.debug(f"⚠️ 404 from {client_host} → {path}")
 
     return response
 
@@ -2546,7 +2546,7 @@ async def redirect_and_log_404(request: Request, call_next):
 async def refresh_data_webhook():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
 
-    logger.info("🔁 Incoming request: /api/refresh-data")
+    logger.warning("🔁 Incoming request: /api/refresh-data")
 
     response = {
         "fetch_israel_flights": None,
@@ -2557,7 +2557,7 @@ async def refresh_data_webhook():
     try:
         res1 = fetch_israel_flights()
         if res1:
-            logger.info("✅ fetch_israel_flights completed successfully")
+            logger.debug("✅ fetch_israel_flights completed successfully")
             reload_israel_flights_globals()
             response["fetch_israel_flights"] = "Success"
         else:
@@ -2570,7 +2570,7 @@ async def refresh_data_webhook():
     try:
         res2 = fetch_travel_warnings()
         if res2:
-            logger.info("✅ fetch_travel_warnings completed successfully")
+            logger.debug("✅ fetch_travel_warnings completed successfully")
             response["fetch_travel_warnings"] = "Success"
         else:
             logger.error("❌ fetch_travel_warnings returned None")
@@ -2579,7 +2579,7 @@ async def refresh_data_webhook():
         logger.exception("❌ Exception in fetch_travel_warnings")
         response["fetch_travel_warnings"] = f"Exception: {str(e)}"
 
-    logger.info("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
+    logger.debug("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
 
 
@@ -2747,13 +2747,13 @@ async def fetch_wikipedia_summary(
         if lang == "he":
             translated_city = get_city_info(city, return_type="city")
             if translated_city:
-                logger.info(f"🌐 Translating '{city}' → '{translated_city}' for Hebrew Wikipedia lookup.")
+                logger.debug(f"🌐 Translating '{city}' → '{translated_city}' for Hebrew Wikipedia lookup.")
                 city = translated_city
             else:
                 logger.warning(f"⚠️ No Hebrew translation found for '{city}', using English name.")
 
         url = WIKI_API_BASE.format(lang=lang, city=city.replace(" ", "_"))
-        logger.info(f"🌍 Fetching Wikipedia summary for '{city}' ({lang})")
+        logger.debug(f"🌍 Fetching Wikipedia summary for '{city}' ({lang})")
 
         async with httpx.AsyncClient(timeout=15) as client:
             response = await client.get(url, headers={
@@ -2805,12 +2805,12 @@ async def log_click(request: Request):
 
     if click_type == "airline":
         airline = data.get("airline")
-        logger.info(f"🛫 Airline chip clicked: {airline}")
+        logger.debug(f"🛫 Airline chip clicked: {airline}")
 
     elif click_type == "destination":
         iata = data.get("iata")
         airport = data.get("airport")
-        logger.info(f"🌍 Destination link clicked: {airport} ({iata})")
+        logger.debug(f"🌍 Destination link clicked: {airport} ({iata})")
 
     else:
         logger.warning(f"⚠️ Unknown click log type: {data}")
@@ -2870,7 +2870,7 @@ async def get_travel_info(city: str, lang="en"):
             return {"city": city, "pois": [], "tips": []}
 
         city_qid = data["search"][0]["id"]
-        logger.info(f"🔎 City QID = {city_qid}")
+        logger.debug(f"🔎 City QID = {city_qid}")
 
         # --------------------------------------------------------
         # 2) SPARQL → Extended + DISTINCT + image + desc
@@ -2944,7 +2944,7 @@ async def get_travel_info(city: str, lang="en"):
                 "gmap_url": f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
             })
 
-        logger.info(f"📌 Filtered down to {len(pois)} top tourist attractions for {city}")
+        logger.debug(f"📌 Filtered down to {len(pois)} top tourist attractions for {city}")
         random.shuffle(pois)
         pois = pois[:20]
         return {
