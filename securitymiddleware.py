@@ -92,8 +92,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         # -----------------------------------------
         # 4️⃣ Allow good bots
         # -----------------------------------------
-        if any(bot in user_agent for bot in GOOD_BOTS):
-            logger.info(f"🟢 Allowed good bot: {user_agent}")
+        if any(bot in user_agent for bot in GOOD_BOTS):            
             return await call_next(request)
 
         # -----------------------------------------
