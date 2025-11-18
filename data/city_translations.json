@@ -48,7 +48,7 @@
   "Los Angeles": {"he": "לוס אנג׳לס", "country": "United States", "country_he": "ארצות הברית"},
   "Lyon": {"he": "ליון", "country": "France", "country_he": "צרפת"},
   "Madrid": {"he": "מדריד", "country": "Spain", "country_he": "ספרד"},
-  "Mahe Seychelles": {"he": "מאאה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל"},
+  "Mahé, Seychelles": {"he": "מאאה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל"},
   "Malta": {"he": "מלטה", "country": "Malta", "country_he": "מלטה"},
   "Manila": {"he": "מנילה", "country": "Philippines", "country_he": "הפיליפינים"},
   "Marseille": {"he": "מרסיי", "country": "France", "country_he": "צרפת"},
@@ -69,7 +69,7 @@
   "Paphos": {"he": "פאפוס", "country": "Cyprus", "country_he": "קפריסין"},
   "Paris": {"he": "פריז", "country": "France", "country_he": "צרפת"},
   "Phuket": {"he": "פוקט", "country": "Thailand", "country_he": "תאילנד"},
-  "Prague": {"he": "פראג", "country": "Czech Republic", "country_he": "צ׳כיה"},
+  "Prague": {"he": "פראג", "country": "Czech Republic", "country_he": "צ׳כיה"},  
   "Ramon": {"he": "רמון", "country": "Israel", "country_he": "ישראל"},
   "Riga": {"he": "ריגה", "country": "Latvia", "country_he": "לטביה"},
   "Rio De Janeiro": {"he": "ריו דה ז׳ניירו", "country": "Brazil", "country_he": "ברזיל"},
@@ -149,5 +149,6 @@
   "Podgorica": {"he": "פודגוריצה", "country": "Montenegro", "country_he": "מונטנגרו"},
   "Nis": {"he": "ניש", "country": "Serbia", "country_he": "סרביה"},
   "Chicago O'Hare": {"he": "שיקגו אוהייר", "country": "United States", "country_he": "ארצות הברית"},
-  "San Francisco": {"he": "סן פרנסיסקו", "country": "United States", "country_he": "ארצות הברית"}
+  "San Francisco": {"he": "סן פרנסיסקו", "country": "United States", "country_he": "ארצות הברית"},
+  "Toulouse": {"he": "טולוז", "country": "France", "country_he": "צרפת"} 
 }

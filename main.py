@@ -2886,8 +2886,14 @@ async def get_travel_info(city: str, lang="en"):
     "Accept": "application/json"}
     
     city = city.strip().title()
-
-    async with httpx.AsyncClient(timeout=15, headers=HEADERS) as client:
+        # >>> Improved timeout handling (granular instead of single number)
+    timeout_city = httpx.Timeout(connect=10.0,  # fail fast if server unreachable
+        read=60.0,     # allow slow SPARQL / Wikidata
+        write=20.0,
+        pool=10.0
+    )
+    
+    async with httpx.AsyncClient(timeout=timeout_city, headers=HEADERS) as client:
 
         # --------------------------------------------------------
         # 1) SEARCH CITY → GET QID
@@ -2947,6 +2953,7 @@ async def get_travel_info(city: str, lang="en"):
             return {"city": city, "pois": [], "tips": []}
 
         results = r.json().get("results", {}).get("bindings", [])
+        logger.debug(f"SPARQL returned {len(results)} raw items for {city}")
         pois = []
         seen_keys = set()  # (name, lat, lon) deduplication
 
