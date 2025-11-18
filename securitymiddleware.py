@@ -17,7 +17,7 @@ SAFE_PATHS = (
 SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
     "/icons/", "/og/", "/logos/", "/.well-known/",
-    "/", "/flights", "/destinations", "/travel-questionnaire"
+    "/flights", "/destinations", "/travel-questionnaire"
 )
 
 
@@ -31,10 +31,15 @@ SUSPICIOUS_PATTERNS = [
     r"\.php$",
     r"wp-(admin|login|config|includes)",
     r"(wlwmanifest\.xml|xmlrpc\.php)",
+    r"rest_route=/wp/",
+    r"wp-json",
+    r"/wp/v2/",
     r"\.(env|git|svn|bak|old|tmp|log|sql|db)$",
     r"(token|secret|key|credentials)[_.-]?(id|key)?",
     r"\.(zip|tar|gz|7z|rar)$",
+    r"(^|/)(config|settings|secret|env)\.json$",
 ]
+
 COMPILED_PATTERNS = [re.compile(p, re.IGNORECASE) for p in SUSPICIOUS_PATTERNS]
 
 
@@ -110,6 +115,9 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         for bad in BAD_USER_AGENTS:
             if bad in user_agent:
                 return JSONResponse({"detail": "Forbidden"}, status_code=HTTP_403_FORBIDDEN)
+        
+        if path_lower.endswith("config.json"):
+            return JSONResponse({"detail": "Forbidden"}, status_code=HTTP_403_FORBIDDEN)
 
         # -----------------------------------------
         # 8️⃣ Default → allow
