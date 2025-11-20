@@ -898,10 +898,17 @@ def load_airline_websites() -> dict:
         
 def format_time(dt_string):
     """Return (short, full, raw_iso) for datetime strings."""
-    if not dt_string or dt_string.strip() in {"—", ""}:
+
+    # ---- FIX: Safely handle float/None/NaN ----
+    if dt_string is None or isinstance(dt_string, float):
         return "—", "—", ""
 
-    dt_string = dt_string.strip()
+    dt_string = str(dt_string).strip()
+
+    if dt_string in {"—", "", "nan", "None"}:
+        return "—", "—", ""
+
+    # -------------------------------------------
 
     formats = [
         "%Y-%m-%dT%H:%M:%S",

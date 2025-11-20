@@ -44,7 +44,7 @@
   "Larnaca": {"he": "לרנקה", "country": "Cyprus", "country_he": "קפריסין"},
   "Lisbon": {"he": "ליסבון", "country": "Portugal", "country_he": "פורטוגל"},
   "London": {"he": "לונדון", "country": "United Kingdom", "country_he": "בריטניה"},
-  "London Luton": {"he": "לונדון לוטון", "country": "United Kingdom", "country_he": "בריטניה"},
+  "London Luton": {"he": "לונדון", "country": "United Kingdom", "country_he": "בריטניה"},
   "Los Angeles": {"he": "לוס אנג׳לס", "country": "United States", "country_he": "ארצות הברית"},
   "Lyon": {"he": "ליון", "country": "France", "country_he": "צרפת"},
   "Madrid": {"he": "מדריד", "country": "Spain", "country_he": "ספרד"},
@@ -150,5 +150,7 @@
   "Nis": {"he": "ניש", "country": "Serbia", "country_he": "סרביה"},
   "Chicago O'Hare": {"he": "שיקגו אוהייר", "country": "United States", "country_he": "ארצות הברית"},
   "San Francisco": {"he": "סן פרנסיסקו", "country": "United States", "country_he": "ארצות הברית"},
-  "Toulouse": {"he": "טולוז", "country": "France", "country_he": "צרפת"} 
+  "Toulouse": {"he": "טולוז", "country": "France", "country_he": "צרפת"},
+  "London Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"},
+  "Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"}  
 }
