@@ -2261,12 +2261,12 @@ async def destination_detail(request: Request, iata: str):
 
     if city_name:
         # Fetch travel info
-        try:
-            travel_info_data = await get_travel_info(city_name, lang=lang)
-            logger.debug(f"✅ Travel info loaded for {city_name}")
-        except Exception as e:
-            logger.error(f"⚠️ Travel info unavailable for {city_name}: {e}")
-            travel_info_data = None
+        #try:
+        #    travel_info_data = await get_travel_info(city_name, lang=lang)
+        #    logger.debug(f"✅ Travel info loaded for {city_name}")
+        #except Exception as e:
+        #    logger.error(f"⚠️ Travel info unavailable for {city_name}: {e}")
+        #    travel_info_data = None
 
         # Fetch Wikipedia summary
         try:
