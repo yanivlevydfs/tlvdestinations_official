@@ -2290,10 +2290,12 @@ async def destination_detail(request: Request, iata: str):
     })
 
     try:
-        output_file.write_text(rendered_html, encoding="utf-8")
+        with open(output_file, "w", encoding="utf-8", buffering=1024*64) as f:
+            f.write(rendered_html)
         logger.debug(f"🌍 Static page generated: {output_file}")
     except Exception as e:
         logger.error(f"⚠️ Failed to write static HTML for {iata}: {e}")
+
 
     return HTMLResponse(content=rendered_html)
 
