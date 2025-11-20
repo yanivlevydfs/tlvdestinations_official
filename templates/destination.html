@@ -26,12 +26,11 @@
 	<link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="x-default" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>	
-<!-- Structured Data: Fly-TLV Destination Page -->
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://fly-tlv.com/#org",
@@ -44,7 +43,6 @@
         "height": 512
       }
     },
-
     {
       "@type": "WebSite",
       "@id": "https://fly-tlv.com/#website",
@@ -57,7 +55,6 @@
         "query-input": "required name=search_term_string"
       }
     },
-
     {
       "@type": "WebPage",
       "@id": "https://fly-tlv.com/destinations/{{ destination.IATA }}/#page",
@@ -68,7 +65,6 @@
       "publisher": { "@id": "https://fly-tlv.com/#org" },
       "isPartOf": { "@id": "https://fly-tlv.com/#website" }
     },
-
     {
       "@type": "Flight",
       "@id": "https://fly-tlv.com/#flight-{{ destination.IATA }}",
@@ -84,7 +80,8 @@
         "@type": "Airport",
         "name": "{{ destination.Airport }}",
         "iataCode": "{{ destination.IATA }}",
-        "geo": { "@type": "GeoCoordinates", "latitude": {{ destination.lat }}, "longitude": {{ destination.lon }} }
+        "geo": {"@type": "GeoCoordinates","latitude": {{ destination.lat | default(0, true) }},"longitude": {{ destination.lon | default(0, true) }}
+}
       },
       "flightDistance": {
         "@type": "QuantitativeValue",
@@ -97,7 +94,6 @@
         {% endfor %}
       ]
     },
-
     {
       "@type": "TouristDestination",
       "@id": "https://fly-tlv.com/#dest-{{ destination.IATA }}",
@@ -113,13 +109,44 @@
         "name": "{{ destination.Country }}"
       }
     },
-
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "{% if lang!='he' %}Home{% else %}בית{% endif %}", "item": "https://fly-tlv.com/{% if lang=='he' %}?lang=he{% endif %}" },
         { "@type": "ListItem", "position": 2, "name": "{% if lang!='he' %}Destinations{% else %}יעדים{% endif %}", "item": "https://fly-tlv.com/destinations{% if lang=='he' %}?lang=he{% endif %}" },
         { "@type": "ListItem", "position": 3, "name": "{{ destination.City }} ({{ destination.IATA }})", "item": "https://fly-tlv.com/destinations/{{ destination.IATA }}{% if lang=='he' %}?lang=he{% endif %}" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "Site Navigation",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "item": { "@type": "SiteNavigationElement", "name": "Home", "url": "https://fly-tlv.com/" } },
+        { "@type": "ListItem", "position": 2, "item": { "@type": "SiteNavigationElement", "name": "בית", "url": "https://fly-tlv.com/?lang=he" } },
+        { "@type": "ListItem", "position": 3, "item": { "@type": "SiteNavigationElement", "name": "Stats", "url": "https://fly-tlv.com/stats" } },
+        { "@type": "ListItem", "position": 4, "item": { "@type": "SiteNavigationElement", "name": "נתוני שדה", "url": "https://fly-tlv.com/stats?lang=he" } },
+        { "@type": "ListItem", "position": 5, "item": { "@type": "SiteNavigationElement", "name": "Flights", "url": "https://fly-tlv.com/flights" } },
+        { "@type": "ListItem", "position": 6, "item": { "@type": "SiteNavigationElement", "name": "טיסות", "url": "https://fly-tlv.com/flights?lang=he" } },
+        { "@type": "ListItem", "position": 7, "item": { "@type": "SiteNavigationElement", "name": "World Map", "url": "https://fly-tlv.com/map" } },
+        { "@type": "ListItem", "position": 8, "item": { "@type": "SiteNavigationElement", "name": "מפת יעדים", "url": "https://fly-tlv.com/map?lang=he" } },
+        { "@type": "ListItem", "position": 9, "item": { "@type": "SiteNavigationElement", "name": "Travel Warnings", "url": "https://fly-tlv.com/travel-warnings" } },
+        { "@type": "ListItem", "position": 10, "item": { "@type": "SiteNavigationElement", "name": "אזהרות מסע", "url": "https://fly-tlv.com/travel-warnings?lang=he" } },
+        { "@type": "ListItem", "position": 11, "item": { "@type": "SiteNavigationElement", "name": "Chat", "url": "https://fly-tlv.com/chat" } },
+        { "@type": "ListItem", "position": 12, "item": { "@type": "SiteNavigationElement", "name": "צ׳אט", "url": "https://fly-tlv.com/chat?lang=he" } },
+        { "@type": "ListItem", "position": 13, "item": { "@type": "SiteNavigationElement", "name": "About", "url": "https://fly-tlv.com/about" } },
+        { "@type": "ListItem", "position": 14, "item": { "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" } },
+        { "@type": "ListItem", "position": 15, "item": { "@type": "SiteNavigationElement", "name": "Direct vs Nonstop", "url": "https://fly-tlv.com/direct-vs-nonstop" } },
+        { "@type": "ListItem", "position": 16, "item": { "@type": "SiteNavigationElement", "name": "ישיר מול ללא-עצירות", "url": "https://fly-tlv.com/direct-vs-nonstop?lang=he" } },
+        { "@type": "ListItem", "position": 17, "item": { "@type": "SiteNavigationElement", "name": "Glossary", "url": "https://fly-tlv.com/glossary" } },
+        { "@type": "ListItem", "position": 18, "item": { "@type": "SiteNavigationElement", "name": "מילון מונחים", "url": "https://fly-tlv.com/glossary?lang=he" } },
+        { "@type": "ListItem", "position": 19, "item": { "@type": "SiteNavigationElement", "name": "Privacy Policy", "url": "https://fly-tlv.com/privacy" } },
+        { "@type": "ListItem", "position": 20, "item": { "@type": "SiteNavigationElement", "name": "מדיניות פרטיות", "url": "https://fly-tlv.com/privacy?lang=he" } },
+        { "@type": "ListItem", "position": 21, "item": { "@type": "SiteNavigationElement", "name": "Accessibility", "url": "https://fly-tlv.com/accessibility" } },
+        { "@type": "ListItem", "position": 22, "item": { "@type": "SiteNavigationElement", "name": "נגישות", "url": "https://fly-tlv.com/accessibility?lang=he" } },
+        { "@type": "ListItem", "position": 23, "item": { "@type": "SiteNavigationElement", "name": "Contact", "url": "https://fly-tlv.com/contact" } },
+        { "@type": "ListItem", "position": 24, "item": { "@type": "SiteNavigationElement", "name": "צור קשר", "url": "https://fly-tlv.com/contact?lang=he" } },
+        { "@type": "ListItem", "position": 25, "item": { "@type": "SiteNavigationElement", "name": "Sitemap", "url": "https://fly-tlv.com/sitemap.xml" } },
+        { "@type": "ListItem", "position": 26, "item": { "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" } }
       ]
     }
   ]

@@ -36,66 +36,161 @@
   'תנאי שימוש מלאים לאתר Fly TLV — זכויות וחובות משתמשים בהתאם לחוק הישראלי.'
 }}" />
 <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
-  <!-- Structured Data: Dataset -->
+
 <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fly TLV — Worldwide Destinations Explorer",
-    "url": "https://fly-tlv.com/",
-    "inLanguage": "en-US",
-    "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fly TLV — כל היעדים מתל אביב",
-    "url": "https://fly-tlv.com/?lang=he",
-    "inLanguage": "he-IL",
-    "description": "גלה את כל היעדים בעולם מתל אביב (TLV): חברות תעופה, מפות, מרחקים ונתוני טיסה."
-  },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Home", "url": "https://fly-tlv.com/" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "בית", "url": "https://fly-tlv.com/?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Stats", "url": "https://fly-tlv.com/stats" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "נתוני שדה", "url": "https://fly-tlv.com/stats?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Flights", "url": "https://fly-tlv.com/flights" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "טיסות", "url": "https://fly-tlv.com/flights?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "World Map", "url": "https://fly-tlv.com/map" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מפת יעדים", "url": "https://fly-tlv.com/map?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Travel Warnings", "url": "https://fly-tlv.com/travel-warnings" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "אזהרות מסע", "url": "https://fly-tlv.com/travel-warnings?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Chat", "url": "https://fly-tlv.com/chat" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "צ׳אט", "url": "https://fly-tlv.com/chat?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "About", "url": "https://fly-tlv.com/about" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Direct vs Nonstop", "url": "https://fly-tlv.com/direct-vs-nonstop" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "ישיר מול ללא-עצירות", "url": "https://fly-tlv.com/direct-vs-nonstop?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Glossary", "url": "https://fly-tlv.com/glossary" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מילון מונחים", "url": "https://fly-tlv.com/glossary?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Privacy Policy", "url": "https://fly-tlv.com/privacy" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מדיניות פרטיות", "url": "https://fly-tlv.com/privacy?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Accessibility", "url": "https://fly-tlv.com/accessibility" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "נגישות", "url": "https://fly-tlv.com/accessibility?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Contact", "url": "https://fly-tlv.com/contact" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "צור קשר", "url": "https://fly-tlv.com/contact?lang=he" },
-
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "Sitemap", "url": "https://fly-tlv.com/sitemap.xml" },
-  { "@context": "https://schema.org", "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" }
-]
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fly-tlv.com/#organization",
+      "name": "Fly TLV",
+      "url": "https://fly-tlv.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fly-tlv.com/static/icons/favicon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": [
+        "https://www.facebook.com/flytlv",
+        "https://www.instagram.com/flytlv",
+        "https://www.linkedin.com/company/flytlv"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://fly-tlv.com/#website",
+      "url": "https://fly-tlv.com/",
+      "name": "Fly TLV — Direct Destinations from Tel Aviv",
+      "description": "Explore all direct flight destinations from Tel Aviv (TLV) with airlines, maps, distances, warnings and travel data.",
+      "publisher": { "@id": "https://fly-tlv.com/#organization" },
+      "inLanguage": "en-US",
+      "hasPart": {
+        "@type": "WebPage",
+        "url": "https://fly-tlv.com/?lang=he",
+        "inLanguage": "he"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://fly-tlv.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://fly-tlv.com/terms",
+      "url": "https://fly-tlv.com/terms",
+      "name": "Terms & Conditions — Fly TLV",
+      "description": "Terms and conditions for using Fly TLV: user responsibilities, data usage, service disclaimers and website terms.",
+      "inLanguage": "en-US",
+      "isPartOf": { "@id": "https://fly-tlv.com/#website" },
+      "alternateLanguage": "https://fly-tlv.com/terms?lang=he",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://fly-tlv.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Terms & Conditions",
+            "item": "https://fly-tlv.com/terms"
+          }
+        ]
+      },
+      "mainEntityOfPage": true
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://fly-tlv.com/#navigation",
+      "name": "Site Navigation",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "item": { "@type": "SiteNavigationElement", "name": "Home", "url": "https://fly-tlv.com/" } },
+        { "@type": "ListItem", "position": 2, "item": { "@type": "SiteNavigationElement", "name": "בית", "url": "https://fly-tlv.com/?lang=he" } },
+        { "@type": "ListItem", "position": 3, "item": { "@type": "SiteNavigationElement", "name": "About", "url": "https://fly-tlv.com/about" } },
+        { "@type": "ListItem", "position": 4, "item": { "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" } },
+        { "@type": "ListItem", "position": 5, "item": { "@type": "SiteNavigationElement", "name": "Accessibility", "url": "https://fly-tlv.com/accessibility" } },
+        { "@type": "ListItem", "position": 6, "item": { "@type": "SiteNavigationElement", "name": "נגישות", "url": "https://fly-tlv.com/accessibility?lang=he" } },
+        { "@type": "ListItem", "position": 7, "item": { "@type": "SiteNavigationElement", "name": "Privacy Policy", "url": "https://fly-tlv.com/privacy" } },
+        { "@type": "ListItem", "position": 8, "item": { "@type": "SiteNavigationElement", "name": "מדיניות פרטיות", "url": "https://fly-tlv.com/privacy?lang=he" } },
+        { "@type": "ListItem", "position": 9, "item": { "@type": "SiteNavigationElement", "name": "Contact", "url": "https://fly-tlv.com/contact" } },
+        { "@type": "ListItem", "position": 10, "item": { "@type": "SiteNavigationElement", "name": "צור קשר", "url": "https://fly-tlv.com/contact?lang=he" } },
+        { "@type": "ListItem", "position": 11, "item": { "@type": "SiteNavigationElement", "name": "AI Bot", "url": "https://fly-tlv.com/chat" } },
+        { "@type": "ListItem", "position": 12, "item": { "@type": "SiteNavigationElement", "name": "צ׳אט", "url": "https://fly-tlv.com/chat?lang=he" } },
+        { "@type": "ListItem", "position": 13, "item": { "@type": "SiteNavigationElement", "name": "Flights", "url": "https://fly-tlv.com/destinations" } },
+        { "@type": "ListItem", "position": 14, "item": { "@type": "SiteNavigationElement", "name": "טיסות", "url": "https://fly-tlv.com/destinations?lang=he" } },
+        { "@type": "ListItem", "position": 15, "item": { "@type": "SiteNavigationElement", "name": "Travel Warnings", "url": "https://fly-tlv.com/travel-warnings" } },
+        { "@type": "ListItem", "position": 16, "item": { "@type": "SiteNavigationElement", "name": "אזהרות מסע", "url": "https://fly-tlv.com/travel-warnings?lang=he" } },
+        { "@type": "ListItem", "position": 17, "item": { "@type": "SiteNavigationElement", "name": "Map", "url": "https://fly-tlv.com/map" } },
+        { "@type": "ListItem", "position": 18, "item": { "@type": "SiteNavigationElement", "name": "מפת יעדים", "url": "https://fly-tlv.com/map?lang=he" } },
+        { "@type": "ListItem", "position": 19, "item": { "@type": "SiteNavigationElement", "name": "Glossary", "url": "https://fly-tlv.com/glossary" } },
+        { "@type": "ListItem", "position": 20, "item": { "@type": "SiteNavigationElement", "name": "מילון מונחים", "url": "https://fly-tlv.com/glossary?lang=he" } },
+        { "@type": "ListItem", "position": 21, "item": { "@type": "SiteNavigationElement", "name": "Statistics", "url": "https://fly-tlv.com/stats" } },
+        { "@type": "ListItem", "position": 22, "item": { "@type": "SiteNavigationElement", "name": "נתוני שדה", "url": "https://fly-tlv.com/stats?lang=he" } },
+        { "@type": "ListItem", "position": 23, "item": { "@type": "SiteNavigationElement", "name": "Direct vs Nonstop", "url": "https://fly-tlv.com/direct-vs-nonstop" } },
+        { "@type": "ListItem", "position": 24, "item": { "@type": "SiteNavigationElement", "name": "ישיר מול ללא-עצירות", "url": "https://fly-tlv.com/direct-vs-nonstop?lang=he" } },
+        { "@type": "ListItem", "position": 25, "item": { "@type": "SiteNavigationElement", "name": "Terms & Conditions", "url": "https://fly-tlv.com/terms" } },
+        { "@type": "ListItem", "position": 26, "item": { "@type": "SiteNavigationElement", "name": "תנאים והגבלות", "url": "https://fly-tlv.com/terms?lang=he" } },
+        { "@type": "ListItem", "position": 27, "item": { "@type": "SiteNavigationElement", "name": "Sitemap", "url": "https://fly-tlv.com/sitemap.xml" } },
+        { "@type": "ListItem", "position": 28, "item": { "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" } },
+        { "@type": "ListItem", "position": 29, "item": { "@type": "SiteNavigationElement", "name": "RSS Feed", "url": "https://fly-tlv.com/rss.xml" } }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://fly-tlv.com/about#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Fly TLV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fly TLV is a travel insights platform listing all direct flight destinations from Ben Gurion Airport (TLV) with airlines, flight times, and distances."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I book flights through Fly TLV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Fly TLV does not sell tickets but provides verified links to airlines and booking sites."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which airlines fly from Tel Aviv?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Airlines from TLV include El Al, Arkia, Israir, Lufthansa, Emirates, Turkish Airlines, and more."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the destinations updated regularly?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Fly TLV updates its data frequently according to official airline schedules."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between direct and nonstop flights?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nonstop flights have no stops between TLV and the destination; direct flights may include short stopovers but stay on the same plane."
+          }
+        }
+      ]
+    }
+  ]
+}
 </script>
+
 {% endblock %}
 
 {% block content %}
