@@ -40,6 +40,15 @@
             ) }}
           </p>
 
+          <!-- Redirect notice -->
+          <p class="text-muted mt-3">
+            {% if lang != "he" %}
+              Redirecting to homepage in 3 seconds…
+            {% else %}
+              מעביר לדף הבית בעוד 3 שניות…
+            {% endif %}
+          </p>
+
           <!-- Divider -->
           <hr class="my-4">
 
@@ -57,4 +66,12 @@
     </div>
   </div>
 </div>
+
+<!-- Auto redirect after 5 seconds -->
+<script>
+  setTimeout(function() {
+    window.location.href = "/";
+  }, 5000);
+</script>
+
 {% endblock %}

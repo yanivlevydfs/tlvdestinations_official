@@ -2205,21 +2205,31 @@ async def destination_detail(request: Request, iata: str):
 
     # ✅ 1. Validate dataset
     if DATASET_DF is None or DATASET_DF.empty:
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "message": "No destination data available.",
-            "lang": lang
-        })
+        return TEMPLATES.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "message": "No destination data available.",
+                "status_code": 500,
+                "lang": lang
+            },
+            status_code=500
+        )
 
     iata = iata.upper()
     destination = DATASET_DF.loc[DATASET_DF["IATA"] == iata]
 
     if destination.empty:
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "message": f"Destination {iata} not found from Tel-Aviv (TLV).",
-            "lang": lang
-        })
+        return TEMPLATES.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "message": f"Destination {iata} not found from Tel-Aviv (TLV).",
+                "status_code": 404,
+                "lang": lang
+            },
+            status_code=404
+        )
 
     dest = destination.iloc[0].to_dict()
 
