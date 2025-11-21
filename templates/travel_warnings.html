@@ -55,7 +55,9 @@
       "url": "https://fly-tlv.com/",
       "name": "Fly TLV — Direct Destinations from Tel Aviv",
       "description": "Explore all direct flight destinations from Tel Aviv (TLV) with airlines, maps, distances, warnings and travel data.",
-      "publisher": { "@id": "https://fly-tlv.com/#organization" },
+      "publisher": {
+        "@id": "https://fly-tlv.com/#organization"
+      },
       "inLanguage": "en-US",
       "hasPart": {
         "@type": "WebPage",
@@ -71,21 +73,34 @@
 
     {
       "@type": "WebPage",
-      "@id": "https://fly-tlv.com/travel-questionnaire",
-      "url": "https://fly-tlv.com/travel-questionnaire",
-      "name": "Travel Questionnaire — Fly TLV",
-      "description": "Interactive travel questionnaire for exploring direct destinations, airlines, and travel warnings from Tel Aviv (TLV).",
+      "@id": "https://fly-tlv.com/travel-warnings/#webpage",
+      "url": "https://fly-tlv.com/travel-warnings",
+      "name": "Travel Warnings — Fly TLV",
+      "description": "Up-to-date travel warnings by country from official government sources.",
       "inLanguage": "en-US",
       "isPartOf": { "@id": "https://fly-tlv.com/#website" },
-      "alternateLanguage": "https://fly-tlv.com/travel-questionnaire?lang=he",
       "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fly-tlv.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Travel Guide", "item": "https://fly-tlv.com/travel-questionnaire" }
-        ]
-      },
-      "mainEntityOfPage": true
+        "@id": "https://fly-tlv.com/travel-warnings/#breadcrumb"
+      }
+    },
+
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://fly-tlv.com/travel-warnings/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://fly-tlv.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Travel Warnings",
+          "item": "https://fly-tlv.com/travel-warnings"
+        }
+      ]
     },
 
     {
@@ -123,46 +138,6 @@
         { "@type": "ListItem", "position": 28, "item": { "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" } },
         { "@type": "ListItem", "position": 29, "item": { "@type": "SiteNavigationElement", "name": "RSS Feed", "url": "https://fly-tlv.com/rss.xml" } }
       ]
-    },
-
-    {
-      "@type": "FAQPage",
-      "@id": "https://fly-tlv.com/travel-questionnaire#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How does the Travel Questionnaire work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Choose a country, then a city and airport, and instantly view airlines and travel warnings updated from official APIs."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where do the travel warnings come from?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Travel warnings are updated directly from official Israeli government National Security Council data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does Fly TLV sell flight tickets?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Fly TLV does not sell tickets, but provides safe links to airlines, travel tools, and flight comparison partners."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I find the cheapest direct flights through the tool?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. After selecting an airport, the tool displays airlines and real direct‑flight deals from TLV."
-          }
-        }
-      ],
-      "publisher": { "@id": "https://fly-tlv.com/#organization" }
     }
 
   ]

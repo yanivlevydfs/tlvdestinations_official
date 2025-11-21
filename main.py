@@ -2210,10 +2210,10 @@ async def destination_detail(request: Request, iata: str):
             {
                 "request": request,
                 "message": "No destination data available.",
-                "status_code": 500,
+                "status_code": 410,
                 "lang": lang
             },
-            status_code=500
+            status_code=410
         )
 
     iata = iata.upper()
