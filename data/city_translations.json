@@ -152,5 +152,6 @@
   "San Francisco": {"he": "סן פרנסיסקו", "country": "United States", "country_he": "ארצות הברית"},
   "Toulouse": {"he": "טולוז", "country": "France", "country_he": "צרפת"},
   "London Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"},
-  "Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"}  
-}
+  "Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"},
+  "Krasnodar": { "he": "קרסנודר", "country": "Russia", "country_he": "רוסיה" }
+  }
