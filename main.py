@@ -2264,30 +2264,32 @@ async def destination_detail(request: Request, iata: str):
             logger.debug(f"♻️ Rebuilding expired page for {iata}")
 
     # ✅ 5. Fetch travel info internally (from your existing route)
-   # ✅ fetch travel info
     travel_info_data = None
     wiki_summary_data = None
     city_name = dest.get("City", "").strip()
+    lat = dest.get("lat")
+    lon = dest.get("lon")
 
     if city_name:
-        # Fetch travel info
-        #try:
-        #    travel_info_data = await get_travel_info(city_name, lang=lang)
-        #    logger.debug(f"✅ Travel info loaded for {city_name}")
-        #except Exception as e:
-        #    logger.error(f"⚠️ Travel info unavailable for {city_name}: {e}")
-        #    travel_info_data = None
-
-        # Fetch Wikipedia summary
         try:
-            wiki_summary_data = await fetch_wikipedia_summary(city_name, lang)
-            if wiki_summary_data:
-                logger.debug(f"✅ Wikipedia summary fetched for {city_name}")
-            else:
-                logger.error(f"⚠️ No Wikipedia summary for {city_name}")
+            travel_info_data = await get_travel_info(city_name, lang=lang)
+            logger.debug(f"✅ Travel info loaded for coordinates {lat}, {lon}")
         except Exception as e:
-            logger.error(f"⚠️ Wikipedia summary unavailable for {city_name}: {e}")
-            wiki_summary_data = None
+            logger.error(f"⚠️ Travel info unavailable for ({lat},{lon}): {e}", exc_info=True)
+            travel_info_data = None
+    else:
+        logger.warning(f"⚠️ No coordinates available for destination {city_name!r}")
+        travel_info_data = None
+    # Fetch Wikipedia summary
+    try:
+        wiki_summary_data = await fetch_wikipedia_summary(city_name, lang)
+        if wiki_summary_data:
+            logger.debug(f"✅ Wikipedia summary fetched for {city_name}")
+        else:
+            logger.error(f"⚠️ No Wikipedia summary for {city_name}")
+    except Exception as e:
+        logger.error(f"⚠️ Wikipedia summary unavailable for {city_name}: {e}")
+        wiki_summary_data = None
 
     # ✅ 6. Render and cache
     rendered_html = TEMPLATES.get_template("destination.html").render({
@@ -2876,147 +2878,168 @@ async def log_click(request: Request):
 
     return {"status": "ok"}
 
-SPARQL_URL = "https://query.wikidata.org/sparql"
 
-ALLOWED_ROOTS = [
-    "wd:Q4989906",   # tourist attraction
-    "wd:Q33506",     # attraction
-    "wd:Q839954",    # landmark
-    "wd:Q5084",      # archaeological site
-    "wd:Q9134",      # historic site
-    "wd:Q35509",     # monument
-    "wd:Q570116",    # museum
-    "wd:Q12973014",  # art gallery
-    "wd:Q22698",     # park
-    "wd:Q123705",    # square
-    "wd:Q16970",     # cathedral
-    "wd:Q23413",     # church
-    "wd:Q2065736",   # temple
-    "wd:Q875157",    # statue
-    "wd:Q811979",    # viewpoint
-]
+WIKI_API = "https://en.wikipedia.org/w/api.php"
 
-ROOT_VALUES = " ".join(ALLOWED_ROOTS)
+# ============================================================
+# 🚀 ROBUST CITY-BASED TRAVEL INFO FUNCTION
+# ============================================================
+async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
+    """
+    Fast and robust tourist attraction fetcher by CITY NAME.
+    Uses Wikipedia GeoSearch (global, free, reliable).
+    """
 
+    # -----------------------------
+    # 0. CLEAN INPUT
+    # -----------------------------
+    if not city or not city.strip():
+        logger.error("❌ Empty city name passed to get_travel_info()")
+        return {"city": city, "pois": [], "tips": [], "error": "Invalid city"}
 
-async def get_travel_info(city: str, lang="en"):
-    HEADERS = {
-    "User-Agent": "FlyTLV/1.0 (contact@fly-tlv.com)",
-    "Accept": "application/json"}
-    
     city = city.strip().title()
-        # >>> Improved timeout handling (granular instead of single number)
-    timeout_city = httpx.Timeout(connect=10.0,  # fail fast if server unreachable
-        read=60.0,     # allow slow SPARQL / Wikidata
-        write=20.0,
-        pool=10.0
+    logger.debug(f"🌍 get_travel_info(city={city})")
+
+    # -----------------------------
+    # 1. HTTP CLIENT
+    # -----------------------------
+    HEADERS = {
+        "User-Agent": "FlyTLV/1.0 (contact@fly-tlv.com)",
+        "Accept": "application/json",
+    }
+
+    timeout = httpx.Timeout(
+        connect=5.0,
+        read=10.0,
+        write=5.0,
+        pool=5.0
     )
-    
-    async with httpx.AsyncClient(timeout=timeout_city, headers=HEADERS) as client:
 
-        # --------------------------------------------------------
-        # 1) SEARCH CITY → GET QID
-        # --------------------------------------------------------
-        r = await client.get(
-            "https://www.wikidata.org/w/api.php",
-            params={
-                "action": "wbsearchentities",
-                "search": city,
-                "language": "en",
-                "type": "item",
-                "limit": 1,
-                "format": "json",
+    try:
+        async with httpx.AsyncClient(timeout=timeout, headers=HEADERS) as client:
+
+            # ============================================================
+            # 1️⃣ GEOCODE CITY → get lat/lon from Wikipedia
+            # ============================================================
+            try:
+                geo_resp = await client.get(WIKI_API, params={
+                    "action": "query",
+                    "format": "json",
+                    "prop": "coordinates",
+                    "titles": city,
+                })
+            except httpx.TimeoutException:
+                logger.error("⛔ Timeout on city geocode")
+                return {"city": city, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
+            except Exception:
+                logger.error("🔥 Unexpected city geocode error", exc_info=True)
+                return {"city": city, "pois": [], "tips": [], "error": "Internal error"}
+
+            pages = geo_resp.json().get("query", {}).get("pages", {})
+            page = next(iter(pages.values()), {})
+
+            coords = page.get("coordinates")
+            if not coords:
+                logger.warning(f"⚠️ No coordinates found for city '{city}'")
+                return {"city": city, "pois": [], "tips": []}
+
+            lat = coords[0]["lat"]
+            lon = coords[0]["lon"]
+            logger.debug(f"📍 City {city} coords: {lat}, {lon}")
+
+            # ============================================================
+            # 2️⃣ GEOSEARCH → Find attractions within 10 km
+            # (max allowed by Wikipedia API)
+            # ============================================================
+            try:
+                geo_resp = await client.get(WIKI_API, params={
+                    "action": "query",
+                    "list": "geosearch",
+                    "gscoord": f"{lat}|{lon}",
+                    "gsradius": 10000,  # max allowed
+                    "gslimit": 50,
+                    "format": "json"
+                })
+            except httpx.TimeoutException:
+                logger.error("⛔ Timeout on geosearch")
+                return {"city": city, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
+            except Exception:
+                logger.error("🔥 Unexpected geosearch error", exc_info=True)
+                return {"city": city, "pois": [], "tips": [], "error": "Internal error"}
+
+            geolist = geo_resp.json().get("query", {}).get("geosearch", [])
+            logger.debug(f"📌 Found {len(geolist)} nearby Wikipedia POIs for {city}")
+
+            if not geolist:
+                return {"city": city, "pois": [], "tips": []}
+
+            # ============================================================
+            # 3️⃣ DETAIL LOOKUP FOR EACH POI
+            # ============================================================
+            pois = []
+
+            for item in geolist[:20]:  # limit 20 POIs
+                pageid = item.get("pageid")
+                title = item.get("title")
+
+                if not pageid or not title:
+                    continue
+
+                try:
+                    dresp = await client.get(WIKI_API, params={
+                        "action": "query",
+                        "pageids": pageid,
+                        "prop": "extracts|pageimages",
+                        "explaintext": 1,
+                        "exintro": 1,
+                        "piprop": "original",
+                        "format": "json"
+                    })
+                except Exception:
+                    continue
+
+                details = dresp.json().get("query", {}).get("pages", {})
+                dpage = next(iter(details.values()), {})
+
+                desc = dpage.get("extract", "")
+
+                img = None
+                if "original" in dpage and "source" in dpage["original"]:
+                    img = dpage["original"]["source"]
+
+                poi_lat = item.get("lat")
+                poi_lon = item.get("lon")
+
+                pois.append({
+                    "name": title,
+                    "description": desc,
+                    "image": img,
+                    "lat": poi_lat,
+                    "lon": poi_lon,
+                    "gmap_url": f"https://www.google.com/maps/search/?api=1&query={poi_lat},{poi_lon}"
+                })
+
+            random.shuffle(pois)
+
+            return {
+                "city": city,
+                "pois": pois,
+                "tips": []
             }
-        )
 
-        data = r.json()
-        if not data.get("search"):
-            logger.warning(f"❌ No QID found for {city}")
-            return {"city": city, "pois": [], "tips": []}
+    # ============================================================
+    # GLOBAL FAIL-SAFE EXCEPTIONS
+    # ============================================================
+    except httpx.TimeoutException:
+        logger.error("⛔ Timeout contacting Wikipedia (global)")
+        return {"city": city, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
 
-        city_qid = data["search"][0]["id"]
-        logger.debug(f"🔎 City QID = {city_qid}")
+    except httpx.NetworkError:
+        logger.error("🌐 Network error calling Wikipedia (global)", exc_info=True)
+        return {"city": city, "pois": [], "tips": [], "error": "Network error"}
 
-        # --------------------------------------------------------
-        # 2) SPARQL → Extended + DISTINCT + image + desc
-        # --------------------------------------------------------
-        query = f"""
-        SELECT DISTINCT ?item ?itemLabel ?coord ?image ?desc ?sitelinks WHERE {{
-          VALUES ?root {{ {ROOT_VALUES} }}
-
-          ?item wdt:P131 wd:{city_qid} .
-          ?item wdt:P31/wdt:P279* ?root .
-
-          OPTIONAL {{ ?item wdt:P625 ?coord }}
-          OPTIONAL {{ ?item wdt:P18 ?image }}
-          OPTIONAL {{ ?item schema:description ?desc FILTER(LANG(?desc)="{lang}") }}
-          OPTIONAL {{ ?item wikibase:sitelinks ?sitelinks }}
-
-          SERVICE wikibase:label {{ bd:serviceParam wikibase:language "{lang},en". }}
-        }}
-        ORDER BY DESC(?sitelinks)
-        LIMIT 100
-        """
-
-        r = await client.post(
-            SPARQL_URL,
-            params={"format": "json"},
-            data={"query": query},
-            headers={"Accept": "application/sparql-results+json"},
-        )
-
-        ctype = r.headers.get("content-type", "").lower()
-        if "json" not in ctype:
-            logger.error("❌ SPARQL returned NON-JSON content!")
-            logger.error(r.text[:600])
-            return {"city": city, "pois": [], "tips": []}
-
-        results = r.json().get("results", {}).get("bindings", [])
-        logger.debug(f"SPARQL returned {len(results)} raw items for {city}")
-        pois = []
-        seen_keys = set()  # (name, lat, lon) deduplication
-
-        # --------------------------------------------------------
-        # 3) PARSE + FILTER + DEDUPLICATE
-        # --------------------------------------------------------
-        for row in results:
-            name = row.get("itemLabel", {}).get("value")
-            desc = row.get("desc", {}).get("value")
-            img = row.get("image", {}).get("value")
-
-            if not name or not desc or not img:
-                continue  # skip if missing any required field
-
-            coord_raw = row.get("coord", {}).get("value", "")
-            lat = lon = None
-            if coord_raw.startswith("Point("):
-                lon, lat = coord_raw[6:-1].split()
-                lat, lon = float(lat), float(lon)
-            else:
-                continue  # skip if no coordinates
-
-            # Deduplicate by (name, lat, lon)
-            key = (name.lower(), round(lat, 5), round(lon, 5))
-            if key in seen_keys:
-                continue
-            seen_keys.add(key)
-
-            pois.append({
-                "name": name,
-                "description": desc,
-                "image": img,
-                "lat": lat,
-                "lon": lon,
-                "gmap_url": f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
-            })
-
-        logger.debug(f"📌 Filtered down to {len(pois)} top tourist attractions for {city}")
-        random.shuffle(pois)
-        pois = pois[:20]
-        return {
-            "city": city,
-            "pois": pois,
-            "tips": []
-        }
+    except Exception:
+        logger.error("🔥 Unexpected error in get_travel_info() (global)", exc_info=True)
+        return {"city": city, "pois": [], "tips": [], "error": "Internal error"}
 
 
