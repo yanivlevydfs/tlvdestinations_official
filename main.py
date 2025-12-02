@@ -2881,44 +2881,37 @@ async def log_click(request: Request):
 
 async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
     """
-    Fast and robust tourist attraction fetcher by CITY NAME.
-    Uses Wikipedia GeoSearch (global, free, reliable).
-    Supports Hebrew + English via language switching.
+    PRODUCTION-GRADE tourist attraction search by CITY NAME.
+    Uses Wikipedia GeoSearch + robust filtering.
+    Supports Hebrew + English.
+    Extremely strict in keeping only real attractions.
     """
 
     # ============================================================
-    # 0️⃣ INPUT CLEANING
+    # 0️⃣ VALIDATE INPUT
     # ============================================================
-    if not city or not city.strip():
-        logger.error("❌ Empty city name passed to get_travel_info()")
+    if not city or not isinstance(city, str) or not city.strip():
         return {"city": city, "pois": [], "tips": [], "error": "Invalid city"}
 
-    city = city.strip().title()
-    logger.info(f"🌍 get_travel_info(city={city}, lang={lang})")
-    
-    # ============================================================
-    # 🔤 TRANSLATE CITY FOR HEBREW LOOKUPS
-    # ============================================================
-    city_fallback = city  # always store English fallback
+    city_clean = city.strip()
+    logger.debug(f"🌍 get_travel_info(city={city_clean}, lang={lang})")
 
+    # ============================================================
+    # 1️⃣ TRANSLATE CITY FOR HEBREW LOOKUP
+    # ============================================================
     if lang == "he":
         try:
-            city_he = get_city_info(city, return_type="city")
-            if city_he:
-                logger.info(f"🌐 Using Hebrew city name for lookup: {city_he}")
-                city_lookup = city_he
-            else:
-                logger.warning(f"⚠️ Hebrew translation missing for '{city}', using English fallback")
-                city_lookup = city_fallback
-        except Exception as e:
-            logger.error(f"⚠️ Translation error for '{city}': {e}", exc_info=True)
-            city_lookup = city_fallback
+            translated = get_city_info(city_clean, return_type="city")
+            city_lookup = translated or city_clean
+            if translated:
+                logger.debug(f"✨ Hebrew lookup: {city_lookup}")
+        except Exception:
+            city_lookup = city_clean
     else:
-        city_lookup = city_fallback
-
+        city_lookup = city_clean
 
     # ============================================================
-    # 1️⃣ LANGUAGE SELECTOR: CHOOSE API BASE URL
+    # 2️⃣ CHOOSE API BASE
     # ============================================================
     if lang == "he":
         WIKI_API = "https://he.wikipedia.org/w/api.php"
@@ -2928,7 +2921,7 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
         FALLBACK_API = None
 
     # ============================================================
-    # 2️⃣ HTTP CLIENT
+    # 3️⃣ HTTP CLIENT
     # ============================================================
     HEADERS = {"User-Agent": "FlyTLV/1.0 (contact@fly-tlv.com)"}
     timeout = httpx.Timeout(connect=5, read=10, write=5, pool=5)
@@ -2937,43 +2930,46 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
         async with httpx.AsyncClient(timeout=timeout, headers=HEADERS) as client:
 
             # ============================================================
-            # 3️⃣ CITY GEOLOOKUP (HE or EN)
+            # 4️⃣ GET CITY COORDINATES (HE → fallback EN)
             # ============================================================
-            def get_city_coords(api_url):
+            async def fetch_coords(api):
                 try:
-                    return client.get(
-                        api_url,
+                    return await client.get(
+                        api,
                         params={
                             "action": "query",
                             "format": "json",
                             "prop": "coordinates",
+                            "redirects": 1,
                             "titles": city_lookup,
                         },
                     )
-                except:
+                except Exception:
                     return None
 
-            geo_resp = await get_city_coords(WIKI_API)
+            geo_resp = await fetch_coords(WIKI_API)
 
-            # Hebrew page may not exist → fallback to English
-            if (not geo_resp or not geo_resp.json().get("query", {}).get("pages")) and FALLBACK_API:
-                logger.debug("⚠️ Hebrew city page missing → using English fallback")
-                geo_resp = await get_city_coords(FALLBACK_API)
+            if (
+                not geo_resp
+                or not geo_resp.json().get("query", {}).get("pages")
+            ) and FALLBACK_API:
+                logger.warning("⚠️ Hebrew page missing → English fallback")
+                geo_resp = await fetch_coords(FALLBACK_API)
 
             pages = geo_resp.json().get("query", {}).get("pages", {})
             page = next(iter(pages.values()), {})
             coords = page.get("coordinates")
 
             if not coords:
-                logger.warning(f"⚠️ No coordinates found for city '{city}'")
-                return {"city": city, "pois": [], "tips": []}
+                logger.warning(f"❌ No coordinates for city '{city_clean}'")
+                return {"city": city_lookup, "pois": [], "tips": []}
 
             lat = coords[0]["lat"]
             lon = coords[0]["lon"]
-            logger.debug(f"📍 City {city} coords: {lat}, {lon}")
+            logger.debug(f"📍 Coordinates for {city_clean}: {lat},{lon}")
 
             # ============================================================
-            # 4️⃣ GEOSEARCH  (returns POIs near city center)
+            # 5️⃣ GEOSEARCH — find POIs near the city center
             # ============================================================
             geo_resp = await client.get(
                 WIKI_API,
@@ -2983,96 +2979,263 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                     "gscoord": f"{lat}|{lon}",
                     "gsradius": 10000,
                     "gslimit": 50,
+                    "gsprop": "type|name",
                     "format": "json",
                 },
             )
 
             geolist = geo_resp.json().get("query", {}).get("geosearch", [])
-            logger.debug(f"📌 Found {len(geolist)} POIs for {city_lookup}")
+            logger.debug(f"🔍 Found {len(geolist)} raw POIs for {city_lookup}")
 
             if not geolist:
                 return {"city": city_lookup, "pois": [], "tips": []}
 
             # ============================================================
-            # 5️⃣ DETAIL CALL (LANGUAGE-AWARE)
+            # 6️⃣ DETAIL FETCH + FILTERING
             # ============================================================
             pois = []
+            seen = set()
+            # -------------- FILTER CONSTANTS -----------------
+            BLOCK = [
+                # English (all lowercase because category titles are lowered)
+                "railway station", "railway stations",
+                "metro station", "metro stations",
+                "suburbs", "neighbourhoods", "neighborhoods",
+                "villages in", "towns in",
+                "municipalities", "districts",
+                "hospitals", "clinics",
+                "universities", "schools", "education",
+                "companies", "organizations",
+                "roads in", "streets in", "bridges in",
+                "sports venues", "stadiums",
+                "transport",
+                "buildings and structures in",
+                "populated places",                
 
-            for item in geolist[:20]:  # limit 20
+                # Hebrew
+                "תחנות רכבת", "תחנת רכבת", "רכבת",
+                "תחנות מטרו", "מטרו",
+                "שכונות", "פרברים", "פרבר", "שכונה",
+                "מועצות מקומיות", "יישובים", "יישוב",
+                "בתי חולים", "מרפאות",
+                "אוניברסיטאות", "בתי ספר", "חינוך",
+                "חברות", "ארגונים",
+                "כבישים", "רחובות", "גשרים",
+                "אצטדיונים", "מגרשי ספורט",
+                "מבנים ואתרים", "מקומות יישוב",
+                "תחבורה",
+                "מסגד",  
+            ]
+            ALLOW = [
+                # English
+                "tourist attraction", "tourist attractions",
+                "tourism",
+                "heritage site", "heritage sites",
+                "world heritage", "unesco",
+                "historic site", "historical sites",
+                "archaeological site", "archaeological sites",
+
+                "museum", "museums", "art museum",
+                "gallery", "galleries",
+                "exhibition",
+
+                "monument", "monuments",
+                "statue", "memorial",
+
+                "palace", "castle", "citadel", "fortress",
+
+                "cathedral", "church", "synagogue", "basilica",
+                "mosque",   # attraction
+
+                "park", "national park",
+                "garden", "botanical garden",
+
+                "square", "public square", "plaza",
+                "historic center", "old town",
+                "promenade", "viewpoint",
+
+                # Culinary categories (category-based only)
+                "restaurants in", "famous restaurants",
+                "notable restaurants",
+                "cafes in", "coffeehouses", "historic cafes",
+
+                # Hebrew
+                "אטרקציות תיירות", "אטרקציות לתיירים", "אתרי תיירות",
+                "מורשת עולמית", "אתר מורשת", "אתרי מורשת",
+                "אתר היסטורי", "אתרים היסטוריים",
+                "אתר ארכאולוגי", "אתרים ארכאולוגיים",
+
+                "מוזיאון", "מוזיאונים",
+                "גלריה", "גלריות",
+
+                "מונומנט", "אנדרטה", "פסל",
+
+                "ארמון", "מבצר", "מצודה", "טירה",
+
+                "קתדרלה", "כנסייה", "בית כנסת", "מסגד",
+
+                "פארק", "פארקים", "גן", "גנים",
+
+                "כיכר", "כיכרות", "העיר העתיקה",
+
+                "טיילת", "נקודת תצפית",
+
+                # Hebrew culinary categories (only category names)
+                "מסעדות", "מסעדה",
+                "בתי קפה", "בית קפה", "קפה היסטורי",
+                "קולינרי",
+            ]
+            DESC_KEYS = [
+                # English
+                "tourist", "attraction", "popular", "famous",
+                "historic", "ancient", "architecture",
+                "archaeological", "landmark",
+                "museum", "gallery",
+                "park", "garden",
+                "cathedral", "church", "temple", "mosque", "synagogue",
+                "viewpoint", "promenade",
+
+                # Culinary
+                "restaurant", "cafe", "café", "coffeehouse", "culinary", "food",
+
+                # Hebrew
+                "אטרקציה", "תיירות",
+                "מוזיאון", "גלריה",
+                "היסטורי", "עתיק",
+                "טיילת", "תצפית",
+                "מסעדה", "קפה", "קולינרי",
+            ]
+            TITLE_KEYS = [
+                # English
+                "park", "museum", "gallery",
+                "palace", "castle", "fortress", "citadel",
+                "cathedral", "church", "temple", "mosque", "synagogue",
+                "square", "plaza", "market",
+                "tower", "observatory",
+                "zoo", "aquarium",
+
+                # Culinary fallback
+                "restaurant", "cafe", "café", "coffee",
+
+                # Hebrew
+                "פארק", "מוזיאון", "גלריה",
+                "ארמון", "טירה", "מבצר", "מצודה",
+                "כיכר", "מגדל",
+                "מסעדה", "קפה",
+            ]
+
+            # -------------------------------------------------
+            for item in geolist:   # NO LIMIT HERE
                 pageid = item.get("pageid")
                 title = item.get("title")
 
                 if not pageid:
                     continue
 
-                # ---- Fetch details in desired language ----
+                # ----- BATCH DETAIL -----
                 try:
                     dresp = await client.get(
                         WIKI_API,
                         params={
                             "action": "query",
                             "pageids": pageid,
-                            "prop": "extracts|pageimages|langlinks",
+                            "prop": "extracts|pageimages|langlinks|categories",
+                            "redirects": 1,
                             "explaintext": 1,
                             "exintro": 1,
+                            "exchars": 700,
                             "exsectionformat": "plain",
-                            "exchars": 600,
                             "exlang": lang,
-                            "piprop": "original",
-                            "lllimit": 10,
+                            "pithumbsize": 640,
+                            "lllimit": 1,
+                            "lllang": "he" if lang == "he" else "en",
+                            "cllimit": 100,
+                            "clshow": "!hidden",
                             "format": "json",
                         },
                     )
-                except:
+                except Exception:
                     continue
 
                 dpage = next(iter(dresp.json().get("query", {}).get("pages", {}).values()), {})
 
-                # -----------------------
-                # Title: Hebrew via langlinks
-                # -----------------------
+                # ===== normalize =====
+                rawcats = [c.get("title", "") for c in dpage.get("categories", [])]
+
+                def norm(x):
+                    x = x.lower()
+                    x = x.replace("category:", "").replace("קטגוריה:", "")
+                    return x.strip()
+
+                cat_titles = [norm(x) for x in rawcats]
+                desc = (dpage.get("extract") or "").lower()
+                title_low = title.lower()
+
+                # ====================================================
+                # 🎯 FILTER LAYERS
+                # ====================================================
+
+                # 1️⃣ BLOCK
+                if any(bad in cat for bad in BLOCK for cat in cat_titles):
+                    continue
+
+                # 2️⃣ ALLOW
+                allow_hit = any(good in cat for good in ALLOW for cat in cat_titles)
+
+                # 3️⃣ DESC
+                desc_hit = any(k in desc for k in DESC_KEYS)
+
+                # 4️⃣ TITLE
+                title_hit = any(k in title_low for k in TITLE_KEYS)
+
+                if not (allow_hit or desc_hit or title_hit):
+                    continue
+
+                # ====================================================
+                # TITLE in Hebrew
+                # ====================================================
                 if lang == "he" and "langlinks" in dpage:
-                    for ll in dpage["langlinks"]:
-                        if ll.get("lang") == "he":
-                            title = ll.get("*", title)
+                    for link in dpage["langlinks"]:
+                        if link.get("lang") == "he":
+                            title = link.get("*") or title
 
-                desc = dpage.get("extract", "")
-
-                img = None
-                if "original" in dpage and "source" in dpage["original"]:
-                    img = dpage["original"]["source"]
-
+                # ====================================================
+                # CREATE POI
+                # ====================================================
+                thumb = dpage.get("thumbnail", {}).get("source")
                 poi_lat = item.get("lat")
                 poi_lon = item.get("lon")
 
-                pois.append(
-                    {
-                        "name": title,
-                        "description": desc,
-                        "image": img,
-                        "lat": poi_lat,
-                        "lon": poi_lon,
-                        "gmap_url": f"https://www.google.com/maps/search/?api=1&query={poi_lat},{poi_lon}",
-                    }
-                )
+                # dedup
+                key = (title.strip().lower(), round(poi_lat or 0, 5), round(poi_lon or 0, 5))
+                if key in seen:
+                    continue
+                seen.add(key)
+
+                pois.append({
+                    "name": title,
+                    "description": dpage.get("extract", ""),
+                    "image": thumb,
+                    "lat": poi_lat,
+                    "lon": poi_lon,
+                    "gmap_url": f"https://www.google.com/maps/search/?api=1&query={poi_lat},{poi_lon}"
+                })
 
             random.shuffle(pois)
-
             return {"city": city_lookup, "pois": pois, "tips": []}
 
     # ============================================================
-    # 6️⃣ GLOBAL FAIL-SAFE EXCEPTIONS
+    # 7️⃣ GLOBAL EXCEPTIONS
     # ============================================================
     except httpx.TimeoutException:
-        logger.error("⛔ Timeout contacting Wikipedia (global)")
-        return {"city": city_lookup, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
+        return {"city": city_lookup, "pois": [], "tips": [], "error": "Timeout contacting Wikipedia"}
 
     except httpx.NetworkError:
-        logger.error("🌐 Network error calling Wikipedia (global)", exc_info=True)
         return {"city": city_lookup, "pois": [], "tips": [], "error": "Network error"}
 
-    except Exception:
-        logger.error("🔥 Unexpected error in get_travel_info() (global)", exc_info=True)
+    except Exception as e:
+        logger.error("🔥 Unexpected error in get_travel_info()", exc_info=True)
         return {"city": city_lookup, "pois": [], "tips": [], "error": "Internal error"}
+
 
 
