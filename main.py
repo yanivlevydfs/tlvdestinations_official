@@ -2879,66 +2879,91 @@ async def log_click(request: Request):
     return {"status": "ok"}
 
 
-WIKI_API = "https://en.wikipedia.org/w/api.php"
-
-# ============================================================
-# 🚀 ROBUST CITY-BASED TRAVEL INFO FUNCTION
-# ============================================================
 async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
     """
     Fast and robust tourist attraction fetcher by CITY NAME.
     Uses Wikipedia GeoSearch (global, free, reliable).
+    Supports Hebrew + English via language switching.
     """
 
-    # -----------------------------
-    # 0. CLEAN INPUT
-    # -----------------------------
+    # ============================================================
+    # 0️⃣ INPUT CLEANING
+    # ============================================================
     if not city or not city.strip():
         logger.error("❌ Empty city name passed to get_travel_info()")
         return {"city": city, "pois": [], "tips": [], "error": "Invalid city"}
 
     city = city.strip().title()
-    logger.debug(f"🌍 get_travel_info(city={city})")
+    logger.info(f"🌍 get_travel_info(city={city}, lang={lang})")
+    
+    # ============================================================
+    # 🔤 TRANSLATE CITY FOR HEBREW LOOKUPS
+    # ============================================================
+    city_fallback = city  # always store English fallback
 
-    # -----------------------------
-    # 1. HTTP CLIENT
-    # -----------------------------
-    HEADERS = {
-        "User-Agent": "FlyTLV/1.0 (contact@fly-tlv.com)",
-        "Accept": "application/json",
-    }
+    if lang == "he":
+        try:
+            city_he = get_city_info(city, return_type="city")
+            if city_he:
+                logger.info(f"🌐 Using Hebrew city name for lookup: {city_he}")
+                city_lookup = city_he
+            else:
+                logger.warning(f"⚠️ Hebrew translation missing for '{city}', using English fallback")
+                city_lookup = city_fallback
+        except Exception as e:
+            logger.error(f"⚠️ Translation error for '{city}': {e}", exc_info=True)
+            city_lookup = city_fallback
+    else:
+        city_lookup = city_fallback
 
-    timeout = httpx.Timeout(
-        connect=5.0,
-        read=10.0,
-        write=5.0,
-        pool=5.0
-    )
+
+    # ============================================================
+    # 1️⃣ LANGUAGE SELECTOR: CHOOSE API BASE URL
+    # ============================================================
+    if lang == "he":
+        WIKI_API = "https://he.wikipedia.org/w/api.php"
+        FALLBACK_API = "https://en.wikipedia.org/w/api.php"
+    else:
+        WIKI_API = "https://en.wikipedia.org/w/api.php"
+        FALLBACK_API = None
+
+    # ============================================================
+    # 2️⃣ HTTP CLIENT
+    # ============================================================
+    HEADERS = {"User-Agent": "FlyTLV/1.0 (contact@fly-tlv.com)"}
+    timeout = httpx.Timeout(connect=5, read=10, write=5, pool=5)
 
     try:
         async with httpx.AsyncClient(timeout=timeout, headers=HEADERS) as client:
 
             # ============================================================
-            # 1️⃣ GEOCODE CITY → get lat/lon from Wikipedia
+            # 3️⃣ CITY GEOLOOKUP (HE or EN)
             # ============================================================
-            try:
-                geo_resp = await client.get(WIKI_API, params={
-                    "action": "query",
-                    "format": "json",
-                    "prop": "coordinates",
-                    "titles": city,
-                })
-            except httpx.TimeoutException:
-                logger.error("⛔ Timeout on city geocode")
-                return {"city": city, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
-            except Exception:
-                logger.error("🔥 Unexpected city geocode error", exc_info=True)
-                return {"city": city, "pois": [], "tips": [], "error": "Internal error"}
+            def get_city_coords(api_url):
+                try:
+                    return client.get(
+                        api_url,
+                        params={
+                            "action": "query",
+                            "format": "json",
+                            "prop": "coordinates",
+                            "titles": city_lookup,
+                        },
+                    )
+                except:
+                    return None
+
+            geo_resp = await get_city_coords(WIKI_API)
+
+            # Hebrew page may not exist → fallback to English
+            if (not geo_resp or not geo_resp.json().get("query", {}).get("pages")) and FALLBACK_API:
+                logger.debug("⚠️ Hebrew city page missing → using English fallback")
+                geo_resp = await get_city_coords(FALLBACK_API)
 
             pages = geo_resp.json().get("query", {}).get("pages", {})
             page = next(iter(pages.values()), {})
-
             coords = page.get("coordinates")
+
             if not coords:
                 logger.warning(f"⚠️ No coordinates found for city '{city}'")
                 return {"city": city, "pois": [], "tips": []}
@@ -2948,58 +2973,68 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
             logger.debug(f"📍 City {city} coords: {lat}, {lon}")
 
             # ============================================================
-            # 2️⃣ GEOSEARCH → Find attractions within 10 km
-            # (max allowed by Wikipedia API)
+            # 4️⃣ GEOSEARCH  (returns POIs near city center)
             # ============================================================
-            try:
-                geo_resp = await client.get(WIKI_API, params={
+            geo_resp = await client.get(
+                WIKI_API,
+                params={
                     "action": "query",
                     "list": "geosearch",
                     "gscoord": f"{lat}|{lon}",
-                    "gsradius": 10000,  # max allowed
+                    "gsradius": 10000,
                     "gslimit": 50,
-                    "format": "json"
-                })
-            except httpx.TimeoutException:
-                logger.error("⛔ Timeout on geosearch")
-                return {"city": city, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
-            except Exception:
-                logger.error("🔥 Unexpected geosearch error", exc_info=True)
-                return {"city": city, "pois": [], "tips": [], "error": "Internal error"}
+                    "format": "json",
+                },
+            )
 
             geolist = geo_resp.json().get("query", {}).get("geosearch", [])
-            logger.debug(f"📌 Found {len(geolist)} nearby Wikipedia POIs for {city}")
+            logger.debug(f"📌 Found {len(geolist)} POIs for {city_lookup}")
 
             if not geolist:
-                return {"city": city, "pois": [], "tips": []}
+                return {"city": city_lookup, "pois": [], "tips": []}
 
             # ============================================================
-            # 3️⃣ DETAIL LOOKUP FOR EACH POI
+            # 5️⃣ DETAIL CALL (LANGUAGE-AWARE)
             # ============================================================
             pois = []
 
-            for item in geolist[:20]:  # limit 20 POIs
+            for item in geolist[:20]:  # limit 20
                 pageid = item.get("pageid")
                 title = item.get("title")
 
-                if not pageid or not title:
+                if not pageid:
                     continue
 
+                # ---- Fetch details in desired language ----
                 try:
-                    dresp = await client.get(WIKI_API, params={
-                        "action": "query",
-                        "pageids": pageid,
-                        "prop": "extracts|pageimages",
-                        "explaintext": 1,
-                        "exintro": 1,
-                        "piprop": "original",
-                        "format": "json"
-                    })
-                except Exception:
+                    dresp = await client.get(
+                        WIKI_API,
+                        params={
+                            "action": "query",
+                            "pageids": pageid,
+                            "prop": "extracts|pageimages|langlinks",
+                            "explaintext": 1,
+                            "exintro": 1,
+                            "exsectionformat": "plain",
+                            "exchars": 600,
+                            "exlang": lang,
+                            "piprop": "original",
+                            "lllimit": 10,
+                            "format": "json",
+                        },
+                    )
+                except:
                     continue
 
-                details = dresp.json().get("query", {}).get("pages", {})
-                dpage = next(iter(details.values()), {})
+                dpage = next(iter(dresp.json().get("query", {}).get("pages", {}).values()), {})
+
+                # -----------------------
+                # Title: Hebrew via langlinks
+                # -----------------------
+                if lang == "he" and "langlinks" in dpage:
+                    for ll in dpage["langlinks"]:
+                        if ll.get("lang") == "he":
+                            title = ll.get("*", title)
 
                 desc = dpage.get("extract", "")
 
@@ -3010,36 +3045,34 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                 poi_lat = item.get("lat")
                 poi_lon = item.get("lon")
 
-                pois.append({
-                    "name": title,
-                    "description": desc,
-                    "image": img,
-                    "lat": poi_lat,
-                    "lon": poi_lon,
-                    "gmap_url": f"https://www.google.com/maps/search/?api=1&query={poi_lat},{poi_lon}"
-                })
+                pois.append(
+                    {
+                        "name": title,
+                        "description": desc,
+                        "image": img,
+                        "lat": poi_lat,
+                        "lon": poi_lon,
+                        "gmap_url": f"https://www.google.com/maps/search/?api=1&query={poi_lat},{poi_lon}",
+                    }
+                )
 
             random.shuffle(pois)
 
-            return {
-                "city": city,
-                "pois": pois,
-                "tips": []
-            }
+            return {"city": city_lookup, "pois": pois, "tips": []}
 
     # ============================================================
-    # GLOBAL FAIL-SAFE EXCEPTIONS
+    # 6️⃣ GLOBAL FAIL-SAFE EXCEPTIONS
     # ============================================================
     except httpx.TimeoutException:
         logger.error("⛔ Timeout contacting Wikipedia (global)")
-        return {"city": city, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
+        return {"city": city_lookup, "pois": [], "tips": [], "error": "Timeout contacting data provider"}
 
     except httpx.NetworkError:
         logger.error("🌐 Network error calling Wikipedia (global)", exc_info=True)
-        return {"city": city, "pois": [], "tips": [], "error": "Network error"}
+        return {"city": city_lookup, "pois": [], "tips": [], "error": "Network error"}
 
     except Exception:
         logger.error("🔥 Unexpected error in get_travel_info() (global)", exc_info=True)
-        return {"city": city, "pois": [], "tips": [], "error": "Internal error"}
+        return {"city": city_lookup, "pois": [], "tips": [], "error": "Internal error"}
 
 
