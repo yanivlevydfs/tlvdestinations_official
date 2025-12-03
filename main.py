@@ -19,7 +19,7 @@ import folium
 from airportsdata import load
 from folium.plugins import MarkerCluster
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse,RedirectResponse
-from fastapi.templating import Jinja2Templates
+#from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,7 +31,6 @@ from fastapi import status
 import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
-import pycountry
 import html
 import ast
 from helpers.percent23_redirect import Percent23RedirectMiddleware
@@ -40,7 +39,29 @@ from json_repair import repair_json
 from json.decoder import JSONDecodeError
 import httpx
 from routers.infra_docs import router as infra_docs
-from helpers.helper import _clean_html, _extract_first_href, _extract_first_img, get_git_version,normalize_case,get_lang,safe_js,get_flight_time,datetimeformat,_extract_threat_level,haversine_km
+from routers.error_handlers import (
+    http_exception_handler,
+    validation_exception_handler,
+    generic_exception_handler
+)
+from helpers.helper import (
+    _clean_html,
+    _extract_first_href,
+    _extract_first_img,
+    get_git_version,
+    normalize_case,
+    get_lang,
+    safe_js,
+    get_flight_time,
+    datetimeformat,
+    _extract_threat_level,
+    haversine_km,
+    format_time,
+    build_country_name_to_iso_map,
+)
+from helpers.sitemap_utils import Url, build_sitemap
+from core.templates import TEMPLATES
+import re
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -86,7 +107,7 @@ for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
     d.mkdir(exist_ok=True)
 
 # Templates
-TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
+#TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
 TEMPLATES.env.globals["now"] = datetime.utcnow
 TEMPLATES.env.globals['time'] = time
 
@@ -131,6 +152,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(infra_docs)
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(Exception, generic_exception_handler)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -411,63 +435,6 @@ AIRLINE_NAMES = load_airline_names()
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-def build_country_name_to_iso_map() -> dict[str, str]:
-    """
-    Build a robust mapping from country name variants to ISO alpha-2 codes.
-    Includes official, common, short, and overridden names.
-    """
-    mapping = {}
-
-    for country in pycountry.countries:
-        names = {
-            country.name.strip().lower(): country.alpha_2,
-            country.alpha_2.strip().upper(): country.alpha_2
-        }
-
-        if hasattr(country, "official_name"):
-            names[country.official_name.strip().lower()] = country.alpha_2
-
-        # Add all name variants to mapping
-        for k, v in names.items():
-            mapping[k] = v
-
-    # Add overrides and aliases (manually curated)
-    overrides = {
-        "usa": "US",
-        "united states": "US",
-        "united states of america": "US",
-        "south korea": "KR",
-        "north korea": "KP",
-        "russia": "RU",
-        "vietnam": "VN",
-        "syria": "SY",
-        "palestine": "PS",
-        "iran": "IR",
-        "uk": "GB",
-        "united kingdom": "GB",
-        "bolivia": "BO",
-        "venezuela": "VE",
-        "tanzania": "TZ",
-        "moldova": "MD",
-        "czech republic": "CZ",
-        "ivory coast": "CI",
-        "côte d’ivoire": "CI",
-        "cote d'ivoire": "CI",
-        "brunei": "BN",
-        "laos": "LA",
-        "myanmar": "MM",
-        "macedonia": "MK",
-        "north macedonia": "MK",
-        "são tomé and príncipe": "ST",
-        "sao tome and principe": "ST"
-    }
-
-    mapping.update(overrides)
-
-    return mapping
-
-
-
 def normalize_airline_list(items: List[str]) -> List[str]:
     seen = set()
     out = []
@@ -757,39 +724,6 @@ def load_airline_websites() -> dict:
         logger.error(f"Failed to load airline websites: {e}")
         return {}
         
-def format_time(dt_string):
-    """Return (short, full, raw_iso) for datetime strings."""
-
-    # ---- FIX: Safely handle float/None/NaN ----
-    if dt_string is None or isinstance(dt_string, float):
-        return "—", "—", ""
-
-    dt_string = str(dt_string).strip()
-
-    if dt_string in {"—", "", "nan", "None"}:
-        return "—", "—", ""
-
-    # -------------------------------------------
-
-    formats = [
-        "%Y-%m-%dT%H:%M:%S",
-        "%Y-%m-%d %H:%M:%S",
-        "%Y-%m-%d %H:%M",
-    ]
-
-    for fmt in formats:
-        try:
-            dt = datetime.strptime(dt_string, fmt)
-            formatted_short = dt.strftime("%b %d, %H:%M")
-            formatted_full  = dt.strftime("%b %d, %H:%M")
-            raw_iso         = dt.strftime("%Y-%m-%dT%H:%M:%S")
-            return formatted_short, formatted_full, raw_iso
-        except ValueError:
-            continue
-
-    return dt_string, dt_string, dt_string
-
-
 # ──────────────────────────────────────────────────────────────────────────────
 # Routes
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1266,56 +1200,6 @@ async def traffic_advice(request: Request):
             "crawling": {"state": "allowed"}  # or "disallowed" if you want to throttle bots
         }
     )
-    
-class Url:
-    def __init__(self, loc: str, lastmod: date, changefreq: str, priority: float):
-        self.loc = loc
-        self.lastmod = lastmod.isoformat()
-        self.changefreq = changefreq
-        self.priority = priority
-
-# Helper to generate XML
-def build_sitemap(urls: List[Url]) -> str:
-    """Build a valid, deduplicated sitemap.xml from Url objects."""
-    if not urls:
-        return ""
-
-    seen = set()
-    unique_urls = []
-
-    for u in urls:
-        if u.loc not in seen:
-            seen.add(u.loc)
-            unique_urls.append(u)
-
-    # Sort URLs for deterministic output (by loc)
-    unique_urls.sort(key=lambda u: u.loc)
-
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-    ]
-
-    for u in unique_urls:
-        # Normalize lastmod → ISO 8601
-        if isinstance(u.lastmod, (datetime, date)):
-            lastmod_str = u.lastmod.strftime("%Y-%m-%d")
-        else:
-            lastmod_str = str(u.lastmod)
-
-        # Escape any unsafe characters in loc
-        loc_escaped = html.escape(u.loc, quote=True)
-
-        lines.append("  <url>")
-        lines.append(f"    <loc>{loc_escaped}</loc>")
-        lines.append(f"    <lastmod>{lastmod_str}</lastmod>")
-        lines.append(f"    <changefreq>{u.changefreq}</changefreq>")
-        lines.append(f"    <priority>{float(u.priority):.1f}</priority>")
-        lines.append("  </url>")
-
-    lines.append("</urlset>")
-    return "\n".join(lines)
-
 
 @app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
 def sitemap():
@@ -2153,44 +2037,6 @@ async def destination_detail(request: Request, iata: str):
 
 
     return HTMLResponse(content=rendered_html)
-
-
-
-# Handle all HTTP errors (404, 403, etc.)
-@app.exception_handler(StarletteHTTPException)
-async def http_exception_handler(request: Request, exc: StarletteHTTPException):
-    return TEMPLATES.TemplateResponse("error.html", {
-        "request": request,
-        "status_code": exc.status_code,
-        "message": exc.detail,
-        "lang": request.query_params.get("lang", "en")
-    }, status_code=exc.status_code)
-
-
-# Handle validation errors (422 Unprocessable Entity, bad query/body params)
-@app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    return TEMPLATES.TemplateResponse("error.html", {
-        "request": request,
-        "status_code": 422,
-        "message": "Invalid request. Please check your input." if request.query_params.get("lang", "en") == "en" else "בקשה לא חוקית. בדוק את הנתונים שלך.",
-        "lang": request.query_params.get("lang", "en")
-    }, status_code=422)
-
-
-# Handle all unexpected exceptions (500)
-@app.exception_handler(Exception)
-async def generic_exception_handler(request: Request, exc: Exception):
-    import traceback
-    # Optional: log full stacktrace
-    logger.error(f"Unhandled error: {exc}", exc_info=True)
-
-    return TEMPLATES.TemplateResponse("error.html", {
-        "request": request,
-        "status_code": 500,
-        "message": "Internal Server Error" if request.query_params.get("lang", "en") == "en" else "שגיאת שרת פנימית",
-        "lang": request.query_params.get("lang", "en")
-    }, status_code=500)
 
 @app.get("/accessibility", response_class=HTMLResponse)
 async def accessibility(request: Request, lang: str = "en"):

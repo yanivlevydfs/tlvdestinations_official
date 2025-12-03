@@ -1,4 +1,4 @@
-# helper_html.py
+# helper.py
 """
 HTML parsing & extraction helpers — Production grade.
 """
@@ -10,6 +10,10 @@ import os
 import string
 from datetime import datetime
 from geopy.distance import geodesic
+import pycountry
+
+_COUNTRY_CACHE: dict[str, str] | None = None
+
 
 def _clean_html(raw: str) -> str:
     if not raw:
@@ -127,3 +131,101 @@ def _extract_threat_level(text: str) -> str:
     
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return round(geodesic((lat1, lon1), (lat2, lon2)).kilometers, 1)
+    
+    
+def format_time(dt_string):
+    """Return (short, full, raw_iso) for datetime strings."""
+
+    # ---- FIX: Safely handle float/None/NaN ----
+    if dt_string is None or isinstance(dt_string, float):
+        return "—", "—", ""
+
+    dt_string = str(dt_string).strip()
+
+    if dt_string in {"—", "", "nan", "None"}:
+        return "—", "—", ""
+
+    # -------------------------------------------
+
+    formats = [
+        "%Y-%m-%dT%H:%M:%S",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%d %H:%M",
+    ]
+
+    for fmt in formats:
+        try:
+            dt = datetime.strptime(dt_string, fmt)
+            formatted_short = dt.strftime("%b %d, %H:%M")
+            formatted_full  = dt.strftime("%b %d, %H:%M")
+            raw_iso         = dt.strftime("%Y-%m-%dT%H:%M:%S")
+            return formatted_short, formatted_full, raw_iso
+        except ValueError:
+            continue
+
+    return dt_string, dt_string, dt_string
+    
+def build_country_name_to_iso_map() -> dict[str, str]:
+    """
+    Cached: Build a mapping from country name variants to ISO alpha-2 codes.
+    Loaded once and reused.
+    """
+    global _COUNTRY_CACHE
+
+    if _COUNTRY_CACHE is not None:
+        return _COUNTRY_CACHE   # ⚡ instant return, no processing
+
+    mapping = {}
+
+    for country in pycountry.countries:
+        try:
+            names = {
+                country.name.strip().lower(): country.alpha_2,
+                country.alpha_2.strip().upper(): country.alpha_2,
+            }
+
+            if hasattr(country, "official_name") and country.official_name:
+                names[country.official_name.strip().lower()] = country.alpha_2
+
+            for k, v in names.items():
+                mapping[k] = v
+
+        except Exception:
+            continue
+
+    # Manual overrides
+    overrides = {
+        "usa": "US",
+        "united states": "US",
+        "united states of america": "US",
+        "south korea": "KR",
+        "north korea": "KP",
+        "russia": "RU",
+        "vietnam": "VN",
+        "syria": "SY",
+        "palestine": "PS",
+        "iran": "IR",
+        "uk": "GB",
+        "united kingdom": "GB",
+        "bolivia": "BO",
+        "venezuela": "VE",
+        "tanzania": "TZ",
+        "moldova": "MD",
+        "czech republic": "CZ",
+        "ivory coast": "CI",
+        "côte d’ivoire": "CI",
+        "cote d'ivoire": "CI",
+        "brunei": "BN",
+        "laos": "LA",
+        "myanmar": "MM",
+        "macedonia": "MK",
+        "north macedonia": "MK",
+        "são tomé and príncipe": "ST",
+        "sao tome and principe": "ST",
+    }
+
+    mapping.update(overrides)
+
+    _COUNTRY_CACHE = mapping  # 💾 save in cache
+
+    return mapping
