@@ -1089,7 +1089,7 @@ async def on_startup():
         scheduler.add_job(
             update_flights,
             "interval",
-            hours=3,
+            hours=24,
             id="govil_refresh",
             replace_existing=True,
             next_run_time=datetime.now()
@@ -1097,7 +1097,7 @@ async def on_startup():
         scheduler.add_job(
             update_travel_warnings,
             "interval",
-            hours=8,
+            hours=96,
             id="warnings_refresh",
             replace_existing=True,
             next_run_time=datetime.now()
@@ -1105,7 +1105,7 @@ async def on_startup():
         scheduler.add_job(
             sitemap,
             "interval",
-            hours=24,
+            hours=25,
             id="static_regen",
             replace_existing=True,
             next_run_time=datetime.now())        
