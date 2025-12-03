@@ -62,6 +62,8 @@ from helpers.helper import (
 from helpers.sitemap_utils import Url, build_sitemap
 from core.templates import TEMPLATES
 import re
+from helpers.chat_query import ChatQuery
+from routers.middleware_redirect import redirect_and_log_404
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -89,9 +91,6 @@ genai.configure(api_key=GEMINI_API_KEY)
 chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
 security = HTTPBasic()
 
-class ChatQuery(BaseModel):
-    question: str
-
 # ──────────────────────────────────────────────────────────────────────────────
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
@@ -107,7 +106,6 @@ for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
     d.mkdir(exist_ok=True)
 
 # Templates
-#TEMPLATES = Jinja2Templates(directory=str(TEMPLATES_DIR))
 TEMPLATES.env.globals["now"] = datetime.utcnow
 TEMPLATES.env.globals['time'] = time
 
@@ -155,6 +153,7 @@ app.include_router(infra_docs)
 app.add_exception_handler(StarletteHTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, generic_exception_handler)
+app.middleware("http")(redirect_and_log_404)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -1981,7 +1980,7 @@ async def destination_detail(request: Request, iata: str):
     output_file = output_dir / f"{iata.lower()}.html"
 
     # ✅ 4. Serve cached version if still fresh
-    MAX_AGE = 86400  # 1 day
+    MAX_AGE = 432000  # 5 days
     if output_file.exists():
         mtime = output_file.stat().st_mtime
         if time.time() - mtime < MAX_AGE:
@@ -2179,78 +2178,6 @@ async def manifest(request: Request):
             {"error": "Manifest not found", "lang": lang},
             status_code=404
         )
-   
-@app.middleware("http")
-async def redirect_and_log_404(request: Request, call_next):
-    host_header = request.headers.get("host", "").lower()
-    hostname = (request.url.hostname or "").lower()
-    client_host = (request.client.host or "").lower()
-    path = request.url.path
-
-    # 🚫 0. Block obvious malicious paths (before anything else)
-    suspicious_patterns = (".env", ".git", "phpinfo", "config", "composer.json", "wp-admin", "shell", "eval(")
-    if any(p in path.lower() for p in suspicious_patterns):
-        logger.warning(f"🚫 Blocked suspicious request from {client_host} → {path}")
-        return JSONResponse({"detail": "Forbidden"}, status_code=403)
-
-    # 🚫 Skip redirects for localhost or internal testing
-    if any(kw in host_header for kw in ("localhost", "127.0.0.1", "::1")) \
-       or hostname in ("localhost", "127.0.0.1", "::1") \
-       or client_host in ("localhost", "127.0.0.1", "::1"):
-        response = await call_next(request)
-        if response.status_code == 404 and not path.startswith("/%23"):
-            logger.error(f"⚠️ 404 (dev) from {client_host} → {path}")
-        return response
-    
-    # 🚫 Skip redirect logic for known static endpoints
-    if path in ("/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml"):
-        return await call_next(request)
-    # 🌍 Production: clean & normalize URLs
-    url = str(request.url)
-    redirect_url = url
-
-    # ✅ 1. Enforce HTTPS
-    if url.startswith("http://"):
-        redirect_url = redirect_url.replace("http://", "https://", 1)
-
-    # ✅ 2. Remove 'www.'
-    if "://www." in redirect_url:
-        redirect_url = redirect_url.replace("://www.", "://", 1)
-
-    # ✅ 3. Handle malformed encoded fragments (e.g. /%23c)
-    if "/%23" in url or path.startswith("/#") or "%23" in path:
-        clean_base = url.split("/%23")[0]
-        logger.error(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
-        return RedirectResponse(url=clean_base, status_code=301)
-
-    # ✅ 4. Trailing slash normalization (SEO-friendly)
-    # Don't strip for known dynamic paths like /destinations/{iata}
-    if (
-        path.endswith("/") 
-        and len(path) > 1
-        and not (
-            path.startswith("/static") or 
-            path.startswith("/.well-known") or 
-            re.match(r"^/destinations/[A-Z]{3}/?$", path, re.IGNORECASE)
-        )
-    ):
-        redirect_url = redirect_url.rstrip("/")
-
-
-    # Redirect only if changed
-    if redirect_url != url:
-        logger.debug(f"🔁 Redirecting {url} → {redirect_url}")
-        return RedirectResponse(url=redirect_url, status_code=301)
-
-    # 🧩 Continue normally
-    response = await call_next(request)
-
-    # ⚠️ Log real 404s only (ignore bots hitting /%23 junk)
-    if response.status_code == 404 and not path.startswith("/%23"):
-        logger.debug(f"⚠️ 404 from {client_host} → {path}")
-
-    return response
-
     
 @app.get("/api/refresh-data", response_class=JSONResponse)
 async def refresh_data_webhook():
