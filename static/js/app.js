@@ -636,38 +636,5 @@ if (window.innerWidth <= 768) {
   $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
 })();
 
-// ---------- 🧾 Generic Click Logger ----------
-console.log("✅ Click logger initialized");
-
-// attach on body, not on document — ensures all delegated clicks work
-document.body.addEventListener("click", (event) => {
-  const el = event.target.closest("[data-log]");
-  if (!el) return;
-
-  const payload = {
-    type: el.dataset.log,
-    timestamp: new Date().toISOString(),
-    ...el.dataset,
-    page: window.location.pathname
-  };
-  delete payload.log;
-
-  console.log("🛰️ Sending click log:", payload);
-
-  try {
-    if (navigator.sendBeacon) {
-      const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-      navigator.sendBeacon("/log-click", blob);
-    } else {
-      fetch("/log-click", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-    }
-  } catch (err) {
-    console.warn("Click log failed:", err);
-  }
-});
 }); // ✅ closes DOMContentLoaded cleanly
 

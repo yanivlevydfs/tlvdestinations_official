@@ -7,15 +7,11 @@ from pathlib import Path
 from datetime import datetime, date
 import time
 from typing import Any, Dict, List
-from math import radians, sin, cos, sqrt, atan2
-import re
-import string
 from pydantic import BaseModel
 import google.generativeai as genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from bs4 import BeautifulSoup
 # === Third-Party Libraries ===
 import pandas as pd
 import requests
@@ -36,15 +32,15 @@ import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from collections import defaultdict
 import pycountry
-from geopy.distance import geodesic
-import subprocess
 import html
 import ast
-from percent23_redirect import Percent23RedirectMiddleware
-from securitymiddleware import SecurityMiddleware
+from helpers.percent23_redirect import Percent23RedirectMiddleware
+from helpers.securitymiddleware import SecurityMiddleware
 from json_repair import repair_json
 from json.decoder import JSONDecodeError
 import httpx
+from routers.infra_docs import router as infra_docs
+from helpers.helper import _clean_html, _extract_first_href, _extract_first_img, get_git_version,normalize_case,get_lang,safe_js,get_flight_time,datetimeformat,_extract_threat_level,haversine_km
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -134,6 +130,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(infra_docs)
+
 # ───────────────────────────────────────────────
 # Global in-memory dataset
 # ───────────────────────────────────────────────
@@ -212,26 +210,6 @@ def load_country_translations():
     except Exception as e:
         logger.exception(f"Unexpected error loading country translations: {e}")
         
-def get_git_version():
-    """Return the project version based on Git commit and date, or 'dev' if unavailable."""
-    root = os.path.dirname(os.path.abspath(__file__))
-
-    def run_git_command(args):
-        return subprocess.check_output(["git"] + args, cwd=root).decode().strip()
-
-    try:
-        commit = run_git_command(["rev-parse", "--short", "HEAD"])
-        date = run_git_command(["log", "-1", "--format=%cd", "--date=short"])
-        return f"{date.replace('-', '.')}–{commit}"
-
-    except FileNotFoundError:
-        logger.error("[version] Git not found. Is it installed and in PATH? Falling back to 'dev'.")
-    except subprocess.CalledProcessError as e:
-        logger.error(f"[version] Git command failed: {e}. Falling back to 'dev'.")
-    except Exception as e:
-        logger.error(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
-
-    return "dev"
     
 APP_VERSION = get_git_version()
 TEMPLATES.env.globals["app_version"] = APP_VERSION
@@ -277,34 +255,6 @@ def reload_israel_flights_globals():
 
     logger.debug(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
 
-
-def get_flight_time(dist_km: float | None) -> str:
-    if not dist_km or dist_km <= 0:
-        return "—"
-
-    # Adjust speed based on flight range
-    if dist_km < 500:
-        cruise_speed_kmh = 700
-        buffer = 0.4  # 24 mins
-    elif dist_km < 2000:
-        cruise_speed_kmh = 800
-        buffer = 0.5
-    else:
-        cruise_speed_kmh = 850
-        buffer = 0.6  # long-haul
-
-    estimated_time_hr = dist_km / cruise_speed_kmh + buffer
-
-    hours = int(estimated_time_hr)
-    minutes = int(round((estimated_time_hr - hours) * 60))
-
-    if minutes == 60:
-        hours += 1
-        minutes = 0
-
-    return f"{hours}h" if minutes == 0 else f"{hours}h {minutes}m"
-
-
 def load_travel_warnings_df() -> pd.DataFrame:
     """Load travel warnings JSON from CACHE_DIR into a DataFrame."""
     if not TRAVEL_WARNINGS_FILE.exists():
@@ -323,94 +273,13 @@ def load_travel_warnings_df() -> pd.DataFrame:
     except Exception as e:
         logger.error(f"❌ Failed to load travel warnings: {e}")
         return pd.DataFrame()
-
-def verify_docs_credentials(credentials: HTTPBasicCredentials = Depends(security)):
-    correct_username = os.getenv("DOCS_USER", "admin")
-    correct_password = os.getenv("DOCS_PASS", "secret123")
-    is_user = secrets.compare_digest(credentials.username, correct_username)
-    is_pass = secrets.compare_digest(credentials.password, correct_password)
-    if not (is_user and is_pass):
-        logger.warning(f"Unauthorized docs access attempt from {credentials.username}")
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authorized",
-            headers={"WWW-Authenticate": "Basic"},
-        )
-    return credentials.username
     
-def datetimeformat(value: str, fmt: str = "%d/%m/%Y %H:%M"):
-    try:
-        dt = datetime.fromisoformat(value)
-        return dt.strftime(fmt)
-    except Exception:
-        return value
-
 TEMPLATES.env.filters["datetimeformat"] = datetimeformat
-
-def normalize_case(value) -> str:
-    """Capitalize each word safely, handling None, numbers, and placeholders."""
-    if not value or str(value).strip() in {"", "—", "None", "nan"}:
-        return "—"
-    return string.capwords(str(value).strip())
-
-def get_lang(request: Request) -> str:
-    return "he" if request.query_params.get("lang") == "he" else "en"
-    
-def safe_js(text: str) -> str:
-    """Escape backticks, quotes and newlines for safe JS embedding"""
-    if text is None:
-        return ""
-    return (
-        str(text)
-        .replace("\\", "\\\\")
-        .replace("`", "\\`")   # ✅ escape backticks
-        .replace('"', '\\"')   # escape double quotes
-        .replace("'", "\\'")   # escape single quotes
-        .replace("\n", " ")
-        .replace("\r", "")
-    )
     
 # ──────────────────────────────────────────────────────────────────────────────
 # Load airports once for dataset builds
 # ──────────────────────────────────────────────────────────────────────────────
 
-def _clean_html(raw: str) -> str:
-    if not raw:
-        return ""
-    return BeautifulSoup(raw, "html.parser").get_text(" ", strip=True)
-
-
-def _extract_first_href(raw: str) -> str:
-    if not raw:
-        return ""
-    match = re.search(r'href="([^"]+)"', raw)
-    return match.group(1) if match else ""
-
-
-def _extract_first_img(raw: str) -> dict:
-    if not raw:
-        return {}
-    match = re.search(r'<img src="([^"]+)" alt="([^"]+)"', raw)
-    if match:
-        return {"src": match.group(1), "alt": match.group(2)}
-    return {}
-
-
-def _extract_threat_level(text: str) -> str:
-    """
-    מזהה רמת איום מתוך ההמלצות
-    מחזיר High / Medium / Low / Unknown
-    """
-    if not text:
-        return "Unknown"
-    t = text.strip()
-    if "רמה 4" in t or "גבוה" in t:
-        return "High"
-    if "רמה 3" in t or "בינוני" in t:
-        return "Medium"
-    if "רמה 2" in t or "נמוך" in t:
-        return "Low"
-    return "Unknown"
 
 def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
@@ -510,9 +379,6 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
         logger.error(f"❌ Failed to fetch travel warnings: {e}", exc_info=True)
         return None
 
-
-
-
 def get_dataset_date() -> str | None:
     if not ISRAEL_FLIGHTS_FILE.exists():
         return None
@@ -530,11 +396,6 @@ def get_dataset_date() -> str | None:
     except Exception as e:
         logger.error(f"Failed to read dataset date: {e}")
     return None
-
-    
-def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    return round(geodesic((lat1, lon1), (lat2, lon2)).kilometers, 1)
-
 
 def load_airline_names() -> Dict[str, str]:
     cols = ["AirlineID","Name","Alias","IATA","ICAO","Callsign","Country","Active"]
@@ -2072,24 +1933,6 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
         "levels": levels
     })
 
-
-@app.get("/openapi.json", include_in_schema=False)
-async def custom_openapi(username: str = Depends(verify_docs_credentials)):
-    logger.debug(f"GET /openapi.json → served for user={username}")
-    return get_openapi(title=app.title,version="1.0.0",routes=app.routes,)
-
-
-@app.get("/docs", include_in_schema=False)
-async def custom_swagger_ui(username: str = Depends(verify_docs_credentials)):
-    logger.debug(f"GET /docs → Swagger UI served for user={username}")
-    return get_swagger_ui_html(openapi_url="/openapi.json",title="API Docs")
-
-
-@app.get("/redoc", include_in_schema=False)
-async def custom_redoc(username: str = Depends(verify_docs_credentials)):
-    logger.debug(f"GET /redoc → ReDoc UI served for user={username}")
-    return get_redoc_html(openapi_url="/openapi.json",title="API ReDoc")
-
 @app.get("/flights", response_class=HTMLResponse)
 async def flights_view(request: Request):
     global DATASET_DF_FLIGHTS
@@ -2858,26 +2701,6 @@ async def fetch_wikipedia_summary(
     except Exception as e:
         logger.exception(f"💥 Unexpected error fetching Wikipedia for '{city_original}' ({lang}): {e}")
         raise HTTPException(500, str(e))
-        
-@app.post("/log-click")
-async def log_click(request: Request):
-    data = await request.json()
-    click_type = data.get("type")
-
-    if click_type == "airline":
-        airline = data.get("airline")
-        logger.debug(f"🛫 Airline chip clicked: {airline}")
-
-    elif click_type == "destination":
-        iata = data.get("iata")
-        airport = data.get("airport")
-        logger.debug(f"🌍 Destination link clicked: {airport} ({iata})")
-
-    else:
-        logger.warning(f"⚠️ Unknown click log type: {data}")
-
-    return {"status": "ok"}
-
 
 async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
     """
