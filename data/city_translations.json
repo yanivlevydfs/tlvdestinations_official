@@ -47,8 +47,7 @@
   "London Luton": {"he": "לונדון", "country": "United Kingdom", "country_he": "בריטניה"},
   "Los Angeles": {"he": "לוס אנג'לס","country": "United States","country_he": "ארצות הברית"},
   "Lyon": {"he": "ליון", "country": "France", "country_he": "צרפת"},
-  "Madrid": {"he": "מדריד", "country": "Spain", "country_he": "ספרד"},
-  "Mahé, Seychelles": {"he": "מאאה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל"},
+  "Madrid": {"he": "מדריד", "country": "Spain", "country_he": "ספרד"},  
   "Malta": {"he": "מלטה", "country": "Malta", "country_he": "מלטה"},
   "Manila": {"he": "מנילה", "country": "Philippines", "country_he": "הפיליפינים"},
   "Marseille": {"he": "מרסיי", "country": "France", "country_he": "צרפת"},
@@ -153,5 +152,24 @@
   "Toulouse": {"he": "טולוז", "country": "France", "country_he": "צרפת"},
   "London Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"},
   "Stansted": {"he": "לונדון","country": "United Kingdom","country_he": "בריטניה"},
-  "Krasnodar": { "he": "קרסנודר", "country": "Russia", "country_he": "רוסיה" }
+  "Krasnodar": { "he": "קרסנודר", "country": "Russia", "country_he": "רוסיה" },
+  "Kaunas": { "he": "קאונס", "country": "Lithuania", "country_he": "ליטא" },
+"Mahé, Seychelles": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahe, Seychelles": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahé Seychelles": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahe Seychelles": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahé Island, Seychelles": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahe Island, Seychelles": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahé Island": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahe Island": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahe Island (Seychelles)": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahé Island (Seychelles)": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahe, SC": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Mahé, SC": { "he": "מהה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Victoria (Mahé)": { "he": "ויקטוריה (מהה, איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Victoria, Mahé": { "he": "ויקטוריה (מהה, איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" },
+"Victoria, Seychelles": { "he": "ויקטוריה (איי סיישל)", "country": "Seychelles", "country_he": "איי סיישל" }
+
+
+
   }
