@@ -31,41 +31,23 @@
 
   <meta name="keywords" content="TLV travel questionnaire, Ben Gurion destinations, direct flights Tel Aviv, airlines TLV, travel warnings Israel, nonstop routes TLV" />
 
-  <!-- Open Graph -->
+  <!-- OG / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Fly TLV — Worldwide Destinations" />
   <meta property="og:url" content="https://fly-tlv.com/travel-questionnaire{{ '' if lang != 'he' else '?lang=he' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
-<meta property="og:title" content="{{
-  'Travel Guide — TLV → Worldwide Destinations'
-  if lang != 'he' else
-  'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב'
-}}" />
-  <meta property="og:description" content="{{
-    'Discover direct destinations, airlines, and official travel warnings from Tel Aviv Ben Gurion Airport (TLV). Data sourced from verified APIs and government databases.'
-    if lang != 'he' else
-    'גלו יעדים ישירים, חברות תעופה ואזהרות מסע רשמיות מנתב״ג תל אביב (TLV). הנתונים מבוססים על מקורות רשמיים ו־API ממשלתיים.'
-  }}" />
+  <meta property="og:title" content="{{ 'Travel Guide — TLV → Worldwide Destinations' if lang != 'he' else 'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב' }}" />
+  <meta property="og:description" content="{{ 'Discover direct destinations, airlines, and official travel warnings from Tel Aviv Ben Gurion Airport (TLV).' if lang != 'he' else 'גלו יעדים ישירים, חברות תעופה ואזהרות מסע רשמיות מנתב״ג תל אביב (TLV). הנתונים מבוססים על מקורות רשמיים ו־API ממשלתיים.' }}" />
   <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
   <meta property="og:image:alt" content="{{ 'Interactive TLV travel guide' if lang != 'he' else 'מדריך נסיעות מנתב״ג תל אביב' }}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@flyTLV" />
-<meta name="twitter:title" content="{{
-  'Travel Guide — TLV → Worldwide Destinations'
-  if lang != 'he' else
-  'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב'
-}}" />
-  <meta name="twitter:description" content="{{
-    'Choose a country, city, or airport and explore airlines and travel warnings for direct destinations from Tel Aviv Ben Gurion Airport.'
-    if lang != 'he' else
-    'בחרו מדינה, עיר או שדה תעופה וגלו אילו חברות תעופה פועלות מנתב״ג ומהן אזהרות המסע הפעילות.'
-  }}" />
+  <meta name="twitter:title" content="{{ 'Travel Guide — TLV → Worldwide Destinations' if lang != 'he' else 'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב' }}" />
+  <meta name="twitter:description" content="{{ 'Choose a country, city, or airport and explore airlines and travel warnings for direct destinations from Tel Aviv.' if lang != 'he' else 'בחרו מדינה, עיר או שדה תעופה וגלו אילו חברות תעופה פועלות ומהן אזהרות המסע.' }}" />
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
-
 <!-- Structured Data: Travel Questionnaire -->
 <script type="application/ld+json">
 {
@@ -161,9 +143,7 @@
 </script>
 
 
-
 {% endblock %}
-
 
 {% block content %}
 <div class="container mt-5" {% if lang == 'he' %}dir="rtl"{% endif %}>
@@ -171,27 +151,30 @@
     <div class="card-header bg-primary text-white text-center fw-semibold">
      ✈️ {{ 'Travel Guide' if lang != 'he' else 'מדריך נסיעות' }}
     </div>
-<div class="col-12 text-center">
-  <span class="last-update-badge d-inline-block mt-1 mx-auto">
-    <i class="bi bi-clock-history"></i>
-    {% if lang == "he" %}
-      עדכון אחרון: <strong>{{ last_update }}</strong>
-    {% else %}
-      Last update: <strong>{{ last_update }}</strong>
-    {% endif %}
-  </span>
-</div>
+
+    <div class="col-12 text-center">
+      <span class="last-update-badge d-inline-block mt-1 mx-auto">
+        <i class="bi bi-clock-history"></i>
+        {% if lang == "he" %}
+          עדכון אחרון: <strong>{{ last_update }}</strong>
+        {% else %}
+          Last update: <strong>{{ last_update }}</strong>
+        {% endif %}
+      </span>
+    </div>
+
     <div class="card-body">
+
+      <!-- FORM -->
       <form id="travel-form">
+        
         <!-- Country -->
         <div class="mb-3">
           <label for="country" class="form-label">
             🌍 {{ 'Where do you want to fly?' if lang != 'he' else 'לאן תרצו לטוס?' }}
           </label>
           <select class="form-select" id="country" required>
-            <option value="">
-              {{ 'Choose a country' if lang != 'he' else 'בחרו מדינה' }}
-            </option>
+            <option value="">{{ 'Choose a country' if lang != 'he' else 'בחרו מדינה' }}</option>
             {% for country in countries %}
               <option value="{{ country }}">{{ country }}</option>
             {% endfor %}
@@ -202,9 +185,7 @@
         <div id="warning-container"
              class="mt-4 d-none {% if lang == 'he' %}text-end{% else %}text-start{% endif %}"
              {% if lang == 'he' %}dir="rtl"{% endif %}>
-          <h5>
-            ⚠️ {{ 'Travel Warning' if lang != 'he' else 'אזהרת מסע' }}
-          </h5>
+          <h5>⚠️ {{ 'Travel Warning' if lang != 'he' else 'אזהרת מסע' }}</h5>
           <div class="alert alert-warning" id="warning-message"></div>
         </div>
 
@@ -223,22 +204,50 @@
           </label>
           <select class="form-select" id="airport" required></select>
         </div>
+
       </form>
 
       <!-- Airlines -->
       <div id="airlines-container" class="mt-4 d-none">
-        <h6>
-          ✈️ {{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}
-        </h6>
+        <h6>✈️ {{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}</h6>
         <div id="airlines-chips" class="d-flex flex-wrap gap-2"></div>
       </div>
-	  <div id="ad-container" class="card mt-3 shadow-sm d-none" aria-label="Flightstoshow">
-		  <div id="ad-header" class="card-header small text-muted fw-semibold">
-			<i class="bi bi-airplane-engines me-1 text-primary"></i>
-			{{ 'Direct Flight Deals' if lang != 'he' else 'מבצעי טיסות ישירות' }}
-		  </div>
-		  <div class="card-body text-center p-0" id="ad-body"></div>
-		</div>
+
+      <!-- Ad Widget -->
+      <div id="ad-container" class="card mt-3 shadow-sm d-none" aria-label="Flightstoshow">
+        <div id="ad-header" class="card-header small text-muted fw-semibold">
+          <i class="bi bi-airplane-engines me-1 text-primary"></i>
+          {{ 'Direct Flight Deals' if lang != 'he' else 'מבצעי טיסות ישירות' }}
+        </div>
+        <div class="card-body text-center p-0" id="ad-body"></div>
+      </div>
+
+      <!-- ATTRACTIONS CATEGORY BUTTONS -->
+      <div class="mb-3 d-none" id="attractions-category-container">
+        <label class="form-label">
+          🗺️ {{ 'What do you want to explore?' if lang != 'he' else 'מה תרצו לחקור?' }}
+        </label>
+
+        <div id="attraction-buttons" class="d-flex flex-wrap gap-2">
+          <button data-cat="" class="attr-btn active">📌 {{ 'All' if lang != 'he' else 'הכל' }}</button>
+          <button data-cat="museums" class="attr-btn">🖼️ {{ 'Museums' if lang != 'he' else 'מוזיאונים' }}</button>
+          <button data-cat="parks" class="attr-btn">🌳 {{ 'Parks' if lang != 'he' else 'פארקים' }}</button>
+          <button data-cat="landmarks" class="attr-btn">🗽 {{ 'Landmarks' if lang != 'he' else 'נקודות ציון' }}</button>
+          <button data-cat="religious" class="attr-btn">⛪ {{ 'Religious' if lang != 'he' else 'אתרים דתיים' }}</button>
+          <button data-cat="beaches" class="attr-btn">🏖️ {{ 'Beaches' if lang != 'he' else 'חופים' }}</button>
+          <button data-cat="castles" class="attr-btn">🏰 {{ 'Castles' if lang != 'he' else 'טירות' }}</button>
+          <button data-cat="zoo" class="attr-btn">🐅 {{ 'Zoo' if lang != 'he' else 'גן חיות' }}</button>
+          <button data-cat="aquarium" class="attr-btn">🐠 {{ 'Aquarium' if lang != 'he' else 'אקווריום' }}</button>
+          <button data-cat="viewpoints" class="attr-btn">🌄 {{ 'Viewpoints' if lang != 'he' else 'תצפיות' }}</button>
+        </div>
+      </div>
+
+      <!-- ATTRACTIONS RESULT LIST -->
+      <div id="attractions-container" class="mt-4 d-none">
+        <h6>🗺️ {{ 'Attractions' if lang != 'he' else 'אטרקציות' }}</h6>
+        <ul id="attractions-list" class="list-group"></ul>
+      </div>
+
     </div>
   </div>
 </div>
@@ -269,7 +278,9 @@ document.addEventListener("DOMContentLoaded", () => {
     no_airlines: lang === "he" ? "אין חברות תעופה פעילות" : "No airlines available",
   };
 
-  // Show travel warnings for selected country
+  // ------------------------------------
+  // TRAVEL WARNINGS
+  // ------------------------------------
   async function showTravelWarnings(country) {
     const warnRes = await fetch(`/api/warnings?country=${encodeURIComponent(country)}`);
     const warnData = await warnRes.json();
@@ -305,7 +316,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Country selection → cities + travel warnings
+  // ------------------------------------
+  // COUNTRY → CITIES
+  // ------------------------------------
   countrySelect.addEventListener("change", async () => {
     const country = countrySelect.value;
     resetBelow("country");
@@ -319,18 +332,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       cityContainer.classList.remove("d-none");
 
-      // Auto-select city if there's only one
       if (data.cities.length === 1) {
         citySelect.value = data.cities[0];
         citySelect.dispatchEvent(new Event("change"));
       }
 
-      // Show travel warnings immediately on country change
       await showTravelWarnings(country);
     }
   });
 
-  // City selection → airports
+  // ------------------------------------
+  // CITY → AIRPORTS + SHOW ATTRACTIONS
+  // ------------------------------------
   citySelect.addEventListener("change", async () => {
     const country = countrySelect.value;
     const city = citySelect.value;
@@ -347,6 +360,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       airportContainer.classList.remove("d-none");
 
+      // --- ENABLE ATTRACTIONS ---
+      currentCityName = city;
+      attractionsCategoryContainer.classList.remove("d-none");
+      loadAttractions();
+
       if (data.airports.length === 1) {
         airportSelect.value = data.airports[0].iata;
         airportSelect.dispatchEvent(new Event("change"));
@@ -354,7 +372,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Airport selection → airlines + ad
+  // ------------------------------------
+  // AIRPORT → AIRLINES + ADS
+  // ------------------------------------
   airportSelect.addEventListener("change", () => {
     const selectedIATA = airportSelect.value;
     const selected = currentAirportData.find(a => a.iata === selectedIATA);
@@ -375,7 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
       airlinesChips.innerHTML = `<span class="text-muted small">${t.no_airlines}</span>`;
     }
 
-    // Ad widget logic
     if (!selectedIATA) {
       adContainer.classList.add("d-none");
       adBody.innerHTML = "";
@@ -387,7 +406,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ? `<i class="bi bi-airplane-engines me-1 text-primary"></i> מבצעי טיסות מתל אביב אל ${cityName}`
         : `<i class="bi bi-airplane-engines me-1 text-primary"></i> Direct Flight Deals from TLV to ${cityName}`;
 
-    const theme = localStorage.getItem("fe-theme") || "light";
     const localeParam = lang === 'he' ? 'he' : 'en';
 
     const scriptUrl = `https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.questionnar&searchUrl=www.aviasales.com%2Fsearch&locale=${localeParam}&powered_by=true&origin=TLV&destination=${selected.iata}&one_way=false&only_direct=true&period=year&range=7%2C14&primary=%230C73FE&color_background=%23ffffff&dark=%23000000&light=%23FFFFFF&achieve=%230F57C9ff&promo_id=4041&campaign_id=100`;
@@ -402,29 +420,150 @@ document.addEventListener("DOMContentLoaded", () => {
     adContainer.classList.remove("d-none");
   });
 
-  // Reset UI
-  function resetBelow(level) {
-    if (level === "country") {
-      cityContainer.classList.add("d-none");
-      citySelect.innerHTML = "";
-      resetBelow("city");
-    }
-    if (level === "city") {
-      airportContainer.classList.add("d-none");
-      airportSelect.innerHTML = "";
-      warningContainer.classList.add("d-none");
-      warningMessage.innerHTML = "";
-      airlinesContainer.classList.add("d-none");
-      airlinesChips.innerHTML = "";
-      adContainer.classList.add("d-none");
-      adBody.innerHTML = "";
-    }
+  // ------------------------------------
+  // ATTRACTIONS FEATURE
+  // ------------------------------------
+// ------------------------------------
+// ATTRACTIONS FEATURE (CACHED + FAST)
+// ------------------------------------
+const attractionButtons = document.getElementById("attraction-buttons");
+const attractionsList = document.getElementById("attractions-list");
+const attractionsContainer = document.getElementById("attractions-container");
+const attractionsCategoryContainer = document.getElementById("attractions-category-container");
+
+let currentCategory = "";
+let currentCityName = "";
+let cachedAttractions = [];   // ← STORE ONCE
+
+async function loadAttractions() {
+  if (!currentCityName) return;
+
+  // if cache empty → call API once
+  if (cachedAttractions.length === 0) {
+    attractionsList.innerHTML = `
+      <li class="list-group-item text-muted">
+        ⏳ ${lang === "he" ? "טוען אטרקציות…" : "Loading attractions…"}
+      </li>
+    `;
+
+    const res = await fetch(`/api/attractions?city=${encodeURIComponent(currentCityName)}`);
+    const data = await res.json();
+
+    cachedAttractions = data.results || [];   // <– SAVE FOR FUTURE FILTERS
   }
+
+  renderAttractions(); // render based on currentCategory
+}
+
+function renderAttractions() {
+  let filtered = cachedAttractions;
+
+  if (currentCategory) {
+    filtered = cachedAttractions.filter(a => a.category === currentCategory);
+  }
+
+  attractionsList.innerHTML = "";
+
+  if (filtered.length === 0) {
+    attractionsList.innerHTML = `
+      <li class="list-group-item text-muted">
+        ${lang === "he" ? "לא נמצאו אטרקציות." : "No attractions found."}
+      </li>`;
+    attractionsContainer.classList.remove("d-none");
+    return;
+  }
+
+  filtered.forEach(a => {
+    const title = a.title || "";
+    const extract = a.extract || "";
+    const thumb = a.thumbnail || "";
+    const wikiUrl = a.url || "#";
+    const category = a.category || "";
+    const lat = a.lat;
+    const lon = a.lon;
+
+    const maps = lat && lon ? `
+      <div class="d-flex gap-2 mt-2">
+        <a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank" class="btn btn-sm btn-outline-primary">Google Maps</a>
+        <a href="https://waze.com/ul?ll=${lat}%2C${lon}&navigate=yes" target="_blank" class="btn btn-sm btn-outline-success">Waze</a>
+        <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/${lat}/${lon}" target="_blank" class="btn btn-sm btn-outline-secondary">OSM</a>
+      </div>
+    ` : "";
+
+    attractionsList.innerHTML += `
+      <li class="list-group-item">
+        <div class="d-flex">
+          ${thumb ? `<img src="${thumb}" class="rounded me-3" style="width:80px;height:80px;object-fit:cover;">` : ""}
+
+          <div class="flex-grow-1">
+            <h6 class="mb-1">${title}</h6>
+            <div class="small text-muted">${category}</div>
+            ${extract ? `<p class="mt-2 mb-1">${extract}</p>` : ""}
+            <a href="${wikiUrl}" target="_blank" class="text-primary small text-decoration-none">
+              ${lang === "he" ? "ויקיפדיה →" : "Wikipedia →"}
+            </a>
+            ${maps}
+          </div>
+        </div>
+      </li>
+    `;
+  });
+
+  attractionsContainer.classList.remove("d-none");
+}
+
+// category button click
+attractionButtons.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("attr-btn")) return;
+
+  attractionButtons.querySelectorAll(".attr-btn").forEach(btn =>
+    btn.classList.remove("active")
+  );
+  e.target.classList.add("active");
+
+  currentCategory = e.target.dataset.cat;
+
+  renderAttractions(); // ← NO API CALL, ONLY FILTER
+});
+
+
+  // ------------------------------------
+  // RESET UI
+  // ------------------------------------
+function resetBelow(level) {
+  // Reset attractions cache ALWAYS
+  cachedAttractions = [];
+  currentCategory = "";
+  currentCityName = "";
+
+  if (level === "country") {
+    cityContainer.classList.add("d-none");
+    citySelect.innerHTML = "";
+    resetBelow("city");
+  }
+
+  if (level === "city") {
+    airportContainer.classList.add("d-none");
+    airportSelect.innerHTML = "";
+    warningContainer.classList.add("d-none");
+    warningMessage.innerHTML = "";
+    airlinesContainer.classList.add("d-none");
+    airlinesChips.innerHTML = "";
+    adContainer.classList.add("d-none");
+    adBody.innerHTML = "";
+
+    attractionsCategoryContainer.classList.add("d-none");
+    attractionsContainer.classList.add("d-none");
+    attractionsList.innerHTML = "";
+  }
+}
+
+
 });
 </script>
 
-
 <style>
+/* Ad fade-in */
 #ad-container {
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -432,6 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
 #ad-container:not(.d-none) {
   opacity: 1;
 }
+
 /* 🌙 Dark-mode fixes for Travel Questionnaire */
 body.dark-mode select.form-select,
 body.dark-mode input.form-control,
@@ -450,20 +590,19 @@ body.dark-mode textarea.form-control:focus {
   box-shadow: 0 0 0 0.15rem rgba(50, 168, 221, 0.3);
 }
 
-/* Dropdown options inside select */
 body.dark-mode option {
   background-color: #1e1e1e;
   color: #f1f1f1;
 }
 
-/* Travel warning alert */
+/* Dark mode warning alert */
 body.dark-mode .alert-warning {
   background-color: #2e2a00 !important;
   color: #ffe082 !important;
   border-color: #554d00 !important;
 }
 
-/* Cards and headers */
+/* Dark-mode cards */
 body.dark-mode .card {
   background-color: #181818 !important;
   border-color: #2a2a2a !important;
@@ -474,14 +613,66 @@ body.dark-mode .card-header {
   color: #fff !important;
 }
 
-/* Labels and text */
 body.dark-mode label.form-label,
 body.dark-mode h5,
 body.dark-mode h6 {
   color: #e0e0e0 !important;
 }
+
+/* -----------------------------------------
+   ✨ ATTRACTIONS — BUTTON STYLES
+----------------------------------------- */
+.attr-btn {
+  border: 1px solid #d0d0d0;
+  background: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.attr-btn:hover {
+  background: #e7f0ff;
+  border-color: #0d6efd;
+}
+
+.attr-btn.active {
+  background: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+/* Dark mode attraction buttons */
+body.dark-mode .attr-btn {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+body.dark-mode .attr-btn:hover {
+  background: #333;
+  border-color: #0d6efd;
+}
+
+body.dark-mode .attr-btn.active {
+  background: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+/* Attractions list */
+#attractions-list .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body.dark-mode #attractions-list .list-group-item {
+  background-color: #202020;
+  color: #f1f1f1;
+  border-color: #303030;
+}
 </style>
-
-
-
 {% endblock %}
