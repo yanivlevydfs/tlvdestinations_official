@@ -2364,8 +2364,6 @@ async def fetch_wikipedia_summary(
     city: str = Query(..., description="City name in English (or Hebrew if lang=he)"),
     lang: str = Query("en", pattern="^(en|he)$", description="Language: en or he")
 ):
-    if not category or category not in CATEGORY_KEYWORDS:
-        category = None
 
     """
     🔹 Fetch summarized Wikipedia info for a city (supports English & Hebrew)
