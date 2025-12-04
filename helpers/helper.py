@@ -11,6 +11,7 @@ import string
 from datetime import datetime
 from geopy.distance import geodesic
 import pycountry
+from typing import List
 
 _COUNTRY_CACHE: dict[str, str] | None = None
 
@@ -229,3 +230,15 @@ def build_country_name_to_iso_map() -> dict[str, str]:
     _COUNTRY_CACHE = mapping  # 💾 save in cache
 
     return mapping
+
+def normalize_airline_list(items: List[str]) -> List[str]:
+    seen = set()
+    out = []
+    for name in items:
+        if not name:
+            continue
+        key = str(name).strip().lower()
+        if key and key not in seen:
+            seen.add(key)
+            out.append(key.title())
+    return out

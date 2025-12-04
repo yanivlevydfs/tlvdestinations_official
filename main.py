@@ -12,14 +12,12 @@ import google.generativeai as genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-# === Third-Party Libraries ===
 import pandas as pd
 import requests
 import folium
 from airportsdata import load
 from folium.plugins import MarkerCluster
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse,RedirectResponse
-#from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -58,6 +56,7 @@ from helpers.helper import (
     haversine_km,
     format_time,
     build_country_name_to_iso_map,
+    normalize_airline_list,
 )
 from helpers.sitemap_utils import Url, build_sitemap
 from core.templates import TEMPLATES
@@ -434,18 +433,7 @@ AIRLINE_NAMES = load_airline_names()
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-def normalize_airline_list(items: List[str]) -> List[str]:
-    seen = set()
-    out = []
-    for name in items:
-        if not name:
-            continue
-        key = str(name).strip().lower()
-        if key and key not in seen:
-            seen.add(key)
-            out.append(key.title())
-    return out
-    
+   
 def fetch_israel_flights() -> dict | None:
     """
     Fetch gov.il flights (all countries) and cache to disk.
