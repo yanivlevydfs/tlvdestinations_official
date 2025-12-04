@@ -65,6 +65,7 @@ from helpers.chat_query import ChatQuery
 from routers.middleware_redirect import redirect_and_log_404
 from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
+from routers import fetch_coords
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -156,6 +157,8 @@ app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, generic_exception_handler)
 app.middleware("http")(redirect_and_log_404)
 app.include_router(attractions_router)
+app.include_router(fetch_coords.router)
+
 
 
 # ───────────────────────────────────────────────
@@ -2519,43 +2522,95 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
         async with httpx.AsyncClient(timeout=timeout, headers=HEADERS) as client:
 
             # ============================================================
-            # 4️⃣ GET CITY COORDINATES (HE → fallback EN)
+            # 4️⃣ GET CITY COORDINATES (HE → fallback EN → resolve ambiguity)
             # ============================================================
-            async def fetch_coords(api):
+            async def fetch_coords(api, title):
                 try:
                     return await client.get(
                         api,
                         params={
                             "action": "query",
                             "format": "json",
-                            "prop": "coordinates",
+                            "prop": "coordinates|categories",
                             "redirects": 1,
-                            "titles": city_lookup,
+                            "titles": title,
+                            "cllimit": 50,
+                            "clshow": "!hidden",
                         },
                     )
                 except Exception:
                     return None
 
-            geo_resp = await fetch_coords(WIKI_API)
+            # First attempt
+            geo_resp = await fetch_coords(WIKI_API, city_lookup)
 
+            # Fallback to EN
             if (
                 not geo_resp
                 or not geo_resp.json().get("query", {}).get("pages")
             ) and FALLBACK_API:
                 logger.warning("⚠️ Hebrew page missing → English fallback")
-                geo_resp = await fetch_coords(FALLBACK_API)
+                geo_resp = await fetch_coords(FALLBACK_API, city_clean)
 
-            pages = geo_resp.json().get("query", {}).get("pages", {})
+            # Extract page
+            data = geo_resp.json()
+            pages = data.get("query", {}).get("pages", {})
             page = next(iter(pages.values()), {})
-            coords = page.get("coordinates")
 
+            # ------------------------------------------------------------
+            # Detect disambiguation and resolve it
+            # ------------------------------------------------------------
+            categories = [c.get("title", "").lower() 
+                          for c in page.get("categories", [])]
+
+            is_disambig = any("disambiguation" in c for c in categories)
+
+            if is_disambig:
+                logger.warning(f"⚠️ '{city_lookup}' is a disambiguation page → resolving best match…")
+
+                # Search for real pages
+                search_resp = await client.get(
+                    WIKI_API,
+                    params={
+                        "action": "query",
+                        "list": "search",
+                        "srsearch": city_lookup,
+                        "format": "json",
+                    },
+                )
+
+                search_list = search_resp.json().get("query", {}).get("search", [])
+                if search_list:
+                    best_title = search_list[0]["title"]
+                    logger.info(f"➡️ Using '{best_title}' instead of ambiguous '{city_lookup}'")
+
+                    # Fetch coords for resolved page
+                    geo_resp = await fetch_coords(WIKI_API, best_title)
+                    data = geo_resp.json()
+                    pages = data.get("query", {}).get("pages", {})
+                    page = next(iter(pages.values()), {})
+
+                else:
+                    logger.error("❌ No usable results in disambiguation search")
+                    return {"city": city_lookup, "pois": [], "tips": []}
+
+            # ------------------------------------------------------------
+            # Extract coordinates
+            # ------------------------------------------------------------
+            coords = page.get("coordinates")
             if not coords:
                 logger.warning(f"❌ No coordinates for city '{city_clean}'")
                 return {"city": city_lookup, "pois": [], "tips": []}
 
-            lat = coords[0]["lat"]
-            lon = coords[0]["lon"]
+            lat = coords[0].get("lat")
+            lon = coords[0].get("lon")
+
+            if lat is None or lon is None:
+                logger.warning(f"❌ Coordinates missing for city '{city_clean}'")
+                return {"city": city_lookup, "pois": [], "tips": []}
+
             logger.debug(f"📍 Coordinates for {city_clean}: {lat},{lon}")
+
 
             # ============================================================
             # 5️⃣ GEOSEARCH — find POIs near the city center
