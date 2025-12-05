@@ -67,8 +67,6 @@ from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
 from geopy.geocoders import Nominatim
 
-geolocator = Nominatim(user_agent="flytlv-travel-info", timeout=10)
-
 os.environ["PYTHONUTF8"] = "1"
 try:
     enc = (sys.stdout.encoding or "").lower()
@@ -2712,8 +2710,7 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
             if lat is None or lon is None:
                 logger.debug(f"❌ Wikipedia failed → GEOPY fallback for '{city_clean}'")
                 try:
-                    from geopy.geocoders import Nominatim
-                    geolocator = Nominatim(user_agent="flytlv_geopy", timeout=8)
+                    geolocator = Nominatim(user_agent="FlyTLV/1.0 (contact@fly-tlv.com)",timeout=10)
                     location = geolocator.geocode(city_clean)
 
                     if location:
