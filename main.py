@@ -65,7 +65,6 @@ from helpers.chat_query import ChatQuery
 from routers.middleware_redirect import redirect_and_log_404
 from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
-from geopy.geocoders import Nominatim
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -2705,24 +2704,35 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                         continue
 
             # ------------------------------------------------------------
-            # 3) FINAL FALLBACK → GEOPY (always works)
+            # 3) FINAL FALLBACK → PHOTON (RELIABLE SERVER-SAFE)
             # ------------------------------------------------------------
             if lat is None or lon is None:
-                logger.debug(f"❌ Wikipedia failed → GEOPY fallback for '{city_clean}'")
-                try:
-                    geolocator = Nominatim(user_agent="FlyTLV/1.0 (contact@fly-tlv.com)",timeout=10)
-                    location = geolocator.geocode(city_clean)
+                logger.debug(f"⚠️ Wikipedia failed → PHOTON fallback for '{city_clean}'")
 
-                    if location:
-                        lat = location.latitude
-                        lon = location.longitude
-                        logger.debug(f"✔️ Geopy resolved '{city_clean}' → {lat}, {lon}")
+                try:
+                    photon_url = (
+                        "https://photon.komoot.io/api/"
+                        f"?q={city_clean}&limit=1"
+                    )
+
+                    resp = await client.get(photon_url, timeout=10)
+                    data_photon = resp.json()
+
+                    features = data_photon.get("features")
+                    if features:
+                        coords_photon = features[0]["geometry"]["coordinates"]  # [lon, lat]
+                        lon = coords_photon[0]
+                        lat = coords_photon[1]
+
+                        logger.debug(f"✔️ Photon resolved '{city_clean}' → {lat}, {lon}")
                     else:
-                        logger.debug(f"❌ Geopy could not resolve '{city_clean}'")
+                        logger.error(f"❌ Photon could not resolve '{city_clean}'")
                         return {"city": city_lookup, "pois": [], "tips": []}
+
                 except Exception as ex:
-                    logger.error(f"❌ Geopy error for '{city_clean}': {ex}")
+                    logger.error(f"❌ Photon error for '{city_clean}': {ex}")
                     return {"city": city_lookup, "pois": [], "tips": []}
+
 
             # ------------------------------------------------------------
             # SAFETY CHECK
