@@ -231,6 +231,49 @@ body.dark-mode textarea {
   }
 }
 
+/* ============================================================
+   Purple compact warning chip — EXACT airline chip style
+   ============================================================ */
+.warning-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 14px;
+    border-radius: 22px;
+
+    background: rgba(112, 0, 150, 0.18);
+    border: 1px solid rgba(112, 0, 150, 0.45);
+
+    /* LIGHT MODE TEXT COLOR */
+    color: #000 !important;
+
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.warning-chip:hover {
+    background: rgba(112, 0, 150, 0.28);
+    border-color: rgba(112, 0, 150, 0.65);
+}
+
+/* Icons + spans inside chip (LIGHT MODE) */
+.warning-chip span,
+.warning-chip i,
+.warning-chip a {
+    color: #000 !important;
+}
+
+
+/* ============================================================
+   DARK MODE — everything white
+   ============================================================ */
+body.dark-mode .warning-chip,
+body.dark-mode .warning-chip span,
+body.dark-mode .warning-chip i,
+body.dark-mode .warning-chip a {
+    color: #fff !important;
+}
 </style>
 
 {% endblock %}
@@ -320,6 +363,23 @@ body.dark-mode textarea {
         <strong>{{ 'Coordinates' if lang != 'he' else 'קואורדינטות' }}:</strong>
         {{ destination.lat }}, {{ destination.lon }}
       </p>
+<div id="warning-container" 
+     class="mt-4 d-none text-end"
+     dir="rtl">
+
+  <a class="warning-chip text-decoration-none">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+      <!-- Hebrew warning text injected here -->
+      <span id="warning-message"></span>
+
+      <!-- external link icon shown only if needed -->
+      <i class="bi bi-box-arrow-up-right ms-2 opacity-50" 
+         id="warning-link-icon" 
+         style="display:none;"></i>
+  </a>
+
+</div>
 
       <!-- Airlines -->
 <h6 class="mt-4 mb-2 fw-semibold">
@@ -549,6 +609,73 @@ body.dark-mode textarea {
   <script id="poi-data" type="application/json">
     {{ travel_info['pois'] | tojson(indent=0) | safe }}
   </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const lang = "{{ lang or 'en' }}";
+    const destinationCountry = "{{ destination.Country }}";
+
+    const warningContainer = document.getElementById("warning-container");
+    const warningMessage = document.getElementById("warning-message");
+
+    const t_more = lang === "he" ? "מטה לביטחון לאומי" : "National Security Council";
+    const locale = lang === "he" ? "he-IL" : "en-US";
+
+    // -------------------------------
+    // Load travel warnings for country
+    // -------------------------------
+    async function showTravelWarnings(country) {
+        try {
+            const res = await fetch(`/api/warnings?country=${encodeURIComponent(country)}`);
+            const data = await res.json();
+
+            if (!data.warnings || data.warnings.length === 0) {
+                warningContainer.classList.add("d-none");
+                warningMessage.innerHTML = "";
+                return;
+            }
+
+            const html = data.warnings.map(w => {
+                const text = w.recommendations || "⚠️ Travel advisory issued.";
+                const link = w.link
+                    ? `<a href="${w.link}" target="_blank" rel="noopener noreferrer" class="ms-1 text-decoration-underline">[${t_more}]</a>`
+                    : "";
+
+                let dateHtml = "";
+                if (w.date) {
+                    const d = new Date(w.date);
+                    if (!isNaN(d)) {
+                        dateHtml = `<div class="text-muted small mt-1">${d.toLocaleDateString(locale, {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric"
+                        })}</div>`;
+                    }
+                }
+
+                return `<p class="mb-2">${text}${link}${dateHtml}</p>`;
+            }).join("");
+
+            warningMessage.innerHTML = html;
+            warningContainer.classList.remove("d-none");
+
+        } catch (err) {
+            console.error("⚠️ Travel warning fetch error:", err);
+        }
+    }
+
+    // Auto-run for destination page
+    if (destinationCountry) {
+        showTravelWarnings(destinationCountry);
+    }
+
+});
+</script>
+
+
+
+
 
   <script>
     function escapeHTML(str) {

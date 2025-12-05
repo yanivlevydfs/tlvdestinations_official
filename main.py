@@ -65,6 +65,9 @@ from helpers.chat_query import ChatQuery
 from routers.middleware_redirect import redirect_and_log_404
 from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
+from geopy.geocoders import Nominatim
+
+geolocator = Nominatim(user_agent="flytlv-travel-info", timeout=10)
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -2564,7 +2567,7 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
             is_disambig = any("disambiguation" in c for c in categories)
 
             if is_disambig:
-                logger.warning(f"⚠️ '{city_lookup}' is a disambiguation page → resolving best match…")
+                logger.debug(f"⚠️ '{city_lookup}' is a disambiguation page → resolving best match…")
 
                 # Search for real pages
                 search_resp = await client.get(
@@ -2579,35 +2582,162 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
 
                 search_list = search_resp.json().get("query", {}).get("search", [])
                 if search_list:
-                    best_title = search_list[0]["title"]
-                    logger.info(f"➡️ Using '{best_title}' instead of ambiguous '{city_lookup}'")
 
-                    # Fetch coords for resolved page
-                    geo_resp = await fetch_coords(WIKI_API, best_title)
-                    data = geo_resp.json()
-                    pages = data.get("query", {}).get("pages", {})
-                    page = next(iter(pages.values()), {})
+                    resolved_page = None
+
+                    # Keywords that indicate the page is a CITY (en/he)
+                    CITY_KEYWORDS_EN = [
+                        "cities in", "city", "town", "municipality", "urban area",
+                        "populated places", "capital", "metropolitan area"
+                    ]
+                    CITY_KEYWORDS_HE = [
+                        "עיר", "ערים", "יישוב", "יישובים", "מועצה מקומית"
+                    ]
+
+                    for item in search_list:
+                        candidate = item["title"]
+
+                        geo_resp2 = await fetch_coords(WIKI_API, candidate)
+                        if not geo_resp2:
+                            continue
+
+                        data2 = geo_resp2.json()
+                        page2 = next(iter(data2.get("query", {}).get("pages", {}).values()), {})
+
+                        # ---------------------------------------------------
+                        # Skip disambiguation pages
+                        # ---------------------------------------------------
+                        cats = [c.get("title", "").lower() for c in page2.get("categories", [])]
+                        if any("disambiguation" in c for c in cats):
+                            continue
+
+                        # ---------------------------------------------------
+                        # Must have coordinates to be a real place
+                        # ---------------------------------------------------
+                        if not page2.get("coordinates"):
+                            continue
+
+                        # ---------------------------------------------------
+                        # CITY DETECTOR from categories
+                        # ---------------------------------------------------
+                        cat_text = " ".join(cats)
+
+                        is_city = (
+                            any(k in cat_text for k in CITY_KEYWORDS_EN) or
+                            any(k in cat_text for k in CITY_KEYWORDS_HE)
+                        )
+
+                        if not is_city:
+                            # Example: New York (state) → skip
+                            #          New York County → skip
+                            continue
+
+                        # FIRST valid city wins → stop
+                        logger.debug(f"➡️ Resolved ambiguous '{city_lookup}' → city page: '{candidate}'")
+                        resolved_page = page2
+                        break
+
+                    if not resolved_page:
+                        logger.debug("❌ No valid city pages found in disambiguation search")
+                        return {"city": city_lookup, "pois": [], "tips": []}
+
+                    page = resolved_page
 
                 else:
-                    logger.error("❌ No usable results in disambiguation search")
+                    logger.debug("❌ No usable results in disambiguation search")
+                    return {"city": city_lookup, "pois": [], "tips": []}
+
+
+
+            # ------------------------------------------------------------
+            # Extract coordinates (with safe fallback to English canonical page)
+            # ------------------------------------------------------------
+            # ------------------------------------------------------------
+            # Extract coordinates (Wikipedia → fallback to English → GEOPY)
+            # ------------------------------------------------------------
+            coords = page.get("coordinates")
+            lat = None
+            lon = None
+
+            # -----------------------------
+            # 1) Wikipedia coords (primary)
+            # -----------------------------
+            if coords:
+                try:
+                    lat = coords[0].get("lat")
+                    lon = coords[0].get("lon")
+                except:
+                    lat = None
+                    lon = None
+
+            # ------------------------------------------------------------
+            # 2) If still missing → try English canonical variations
+            # ------------------------------------------------------------
+            if (lat is None or lon is None) and FALLBACK_API:
+                logger.warning(f"⚠️ No coords for '{city_clean}' → trying English canonical variants")
+
+                candidates = [
+                    city_clean,
+                    f"{city_clean}, Spain",
+                    f"{city_clean} (city)",
+                    f"{city_clean} (Spain)",
+                ]
+
+                for cand in candidates:
+                    try:
+                        geo_fb_resp = await fetch_coords(FALLBACK_API, cand)
+                        if not geo_fb_resp:
+                            continue
+
+                        data_fb = geo_fb_resp.json()
+                        page_fb = next(iter(data_fb.get("query", {}).get("pages", {}).values()), {})
+                        coords_fb = page_fb.get("coordinates")
+
+                        # Skip disambiguation
+                        cats = [c.get("title", "").lower() for c in page_fb.get("categories", [])]
+                        if any("disambiguation" in c for c in cats):
+                            continue
+
+                        if coords_fb:
+                            lat = coords_fb[0].get("lat")
+                            lon = coords_fb[0].get("lon")
+                            logger.debug(f"✔️ Canonical resolved '{cand}' → {lat},{lon}")
+                            break
+                    except:
+                        continue
+
+            # ------------------------------------------------------------
+            # 3) FINAL FALLBACK → GEOPY (always works)
+            # ------------------------------------------------------------
+            if lat is None or lon is None:
+                logger.debug(f"❌ Wikipedia failed → GEOPY fallback for '{city_clean}'")
+                try:
+                    from geopy.geocoders import Nominatim
+                    geolocator = Nominatim(user_agent="flytlv_geopy", timeout=8)
+                    location = geolocator.geocode(city_clean)
+
+                    if location:
+                        lat = location.latitude
+                        lon = location.longitude
+                        logger.debug(f"✔️ Geopy resolved '{city_clean}' → {lat}, {lon}")
+                    else:
+                        logger.debug(f"❌ Geopy could not resolve '{city_clean}'")
+                        return {"city": city_lookup, "pois": [], "tips": []}
+                except Exception as ex:
+                    logger.error(f"❌ Geopy error for '{city_clean}': {ex}")
                     return {"city": city_lookup, "pois": [], "tips": []}
 
             # ------------------------------------------------------------
-            # Extract coordinates
+            # SAFETY CHECK
             # ------------------------------------------------------------
-            coords = page.get("coordinates")
-            if not coords:
-                logger.warning(f"❌ No coordinates for city '{city_clean}'")
-                return {"city": city_lookup, "pois": [], "tips": []}
-
-            lat = coords[0].get("lat")
-            lon = coords[0].get("lon")
-
             if lat is None or lon is None:
-                logger.warning(f"❌ Coordinates missing for city '{city_clean}'")
+                logger.error(f"❌ FINAL coord failure for '{city_clean}'")
                 return {"city": city_lookup, "pois": [], "tips": []}
 
             logger.debug(f"📍 Coordinates for {city_clean}: {lat},{lon}")
+
+
+
 
 
             # ============================================================
