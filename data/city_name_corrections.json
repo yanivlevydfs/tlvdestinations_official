@@ -1,0 +1,44 @@
+{
+  "London Luton": "London",
+  "Luton": "London",
+  "Luton Airport": "London",
+  "Luton Destination": "London",
+  "Luton Intl": "London",
+
+  "London Stansted": "London",
+  "Stansted": "London",
+  "Stansted Airport": "London",
+  "Stansted Intl": "London",
+
+  "London Gatwick": "London",
+  "Gatwick": "London",
+  "Gatwick Airport": "London",
+
+  "London Heathrow": "London",
+  "Heathrow": "London",
+  "Heathrow Airport": "London",
+
+  "London City Airport": "London",
+  "London City": "London",
+
+  "Mahe": "Mahé",
+  "Mahe Seychelles": "Mahé",
+  "Mahe Island": "Mahé",
+  "Seychelles Mahe": "Mahé",
+  "Victoria Mahe": "Mahé",
+  "Victoria (Mahé)": "Mahé",
+
+  "Zanzibar": "Zanzibar City",
+  "Zanzibar Airport": "Zanzibar City",
+  "Zanzibar Intl": "Zanzibar City",
+  "Kisauni": "Zanzibar City",
+  "Abeid Amani Karume": "Zanzibar City",
+
+  "Dubai Airport": "Dubai",
+  "Dubai Intl": "Dubai",
+
+  "Abu Dhabi Airport": "Abu Dhabi",
+  "Abu Dhabi Intl": "Abu Dhabi",
+  "Newark": "New York",
+  "Ramon": "Eilat"
+}

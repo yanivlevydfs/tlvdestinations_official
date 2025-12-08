@@ -116,6 +116,7 @@ ISRAEL_FLIGHTS_FILE   = CACHE_DIR / "israel_flights.json"
 TRAVEL_WARNINGS_FILE = CACHE_DIR / "travel_warnings.json"
 COUNTRY_TRANSLATIONS = DATA_DIR / "country_translations.json"
 CITY_TRANSLATIONS_FILE = DATA_DIR / "city_translations.json"
+CITY_NAME_CORRECTIONS_FILE = DATA_DIR / "city_name_corrections.json"
 
 # Constants
 TLV = {"IATA": "TLV", "Name": "Ben Gurion Airport", "lat": 32.0068, "lon": 34.8853}
@@ -223,6 +224,25 @@ def load_city_translations(file_path: Path = CITY_TRANSLATIONS_FILE):
     except Exception as e:
         logger.error(f"❌ Unexpected error loading {file_path.name}: {e}")
         raise
+
+def load_city_name_corrections() -> dict:
+    
+    global CITY_NAME_CORRECTIONS
+    """
+    Loads city_name_corrections.json into memory.
+    Returns a dictionary mapping wrong city names -> correct city names.
+    """
+    try:
+        with open(CITY_NAME_CORRECTIONS_FILE, "r", encoding="utf-8") as f:
+            CITY_NAME_CORRECTIONS = json.load(f)
+            return CITY_NAME_CORRECTIONS
+    except FileNotFoundError:
+        logger.error(f"⚠️ WARNING: {CITY_NAME_CORRECTIONS_FILE} not found!")
+        CITY_NAME_CORRECTIONS = {}
+    except Exception as e:
+        logger.error(f"❌ Failed to load city_name_corrections.json: {e}")
+        CITY_NAME_CORRECTIONS = {}
+
     
 def load_country_translations():
     global EN_TO_HE_COUNTRY
@@ -270,6 +290,20 @@ def update_flights():
         logger.debug("✅ Scheduled flight update completed.")
     except Exception as e:
         logger.exception("❌ Scheduled flight update failed.")
+
+
+def fix_city_name(name: str) -> str:
+    """
+    Returns corrected city name based ONLY on city_name_corrections.json.
+    No hardcoded rules. No magic.
+    """
+    if not name:
+        return name
+
+    cleaned = name.strip()
+
+    # direct correction from JSON
+    return CITY_NAME_CORRECTIONS.get(cleaned, cleaned)
         
 def reload_israel_flights_globals():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
@@ -478,12 +512,15 @@ def fetch_israel_flights() -> dict | None:
 
             if not iata or iata == "—" or not direction or direction == "—":
                 continue  # Skip incomplete records
-    
+                
+            raw_city = normalize_case(rec.get("CHLOC1T", "—"))
+            corrected_city = fix_city_name(raw_city)
+            
             flights.append({
                 "airline": normalize_case(rec.get("CHOPERD", "—")),
                 "iata": iata,
                 "airport": normalize_case(rec.get("CHLOC1D", "—")),
-                "city": normalize_case(rec.get("CHLOC1T", "—")),
+                "city": corrected_city,
                 "country": normalize_case(rec.get("CHLOCCT", "—")),
                 "scheduled": normalize_case(rec.get("CHSTOL", "—")),
                 "actual": normalize_case(rec.get("CHPTOL", "—")),
@@ -1027,12 +1064,14 @@ async def on_startup():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
     global APP_VERSION
     global EN_TO_HE_COUNTRY
+    global CITY_NAME_CORRECTIONS
     
     logger.debug("🚀 Application startup initiated")
     # 🎯 0) Set Git version
     logger.debug(f"🔖 App Version: {APP_VERSION}")
     load_city_translations()
     load_country_translations()
+    load_city_name_corrections()
     
     # 0) Load IATA DB once
     try:
