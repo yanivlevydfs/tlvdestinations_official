@@ -1,25 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 fade-in">
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-lg border-danger">
+    <div class="col-md-9 col-lg-8">
+      
+      <div class="card shadow-lg border-0">
         <div class="card-body text-center p-5">
-          
-          <!-- Dynamic icon based on status_code -->
+
+          <!-- ICON -->
           {% if status_code == 404 %}
-            <i class="bi bi-search display-1 text-primary mb-3"></i>
+            <i class="bi bi-airplane-engines display-1 text-primary mb-4"></i>
           {% elif status_code == 500 %}
-            <i class="bi bi-bug-fill display-1 text-danger mb-3"></i>
+            <i class="bi bi-bug-fill display-1 text-danger mb-4"></i>
           {% else %}
-            <i class="bi bi-exclamation-triangle-fill display-1 text-warning mb-3"></i>
+            <i class="bi bi-exclamation-triangle-fill display-1 text-warning mb-4"></i>
           {% endif %}
 
-          <!-- Title -->
-          <h2 class="mb-3">
+          <!-- TITLE -->
+          <h2 class="fw-bold mb-3">
             {% if status_code == 404 %}
-              {{ "Page Not Found" if lang != "he" else "הדף לא נמצא" }}
+              {{ "Destination Not Found" if lang != "he" else "היעד לא נמצא" }}
             {% elif status_code == 500 %}
               {{ "Internal Server Error" if lang != "he" else "שגיאת שרת פנימית" }}
             {% else %}
@@ -27,51 +28,81 @@
             {% endif %}
           </h2>
 
-          <!-- Error message -->
-          <p class="fs-5 text-muted">
-            {{ message if message else (
-                "The page you requested could not be found." if status_code == 404 else
-                "The server encountered an error. Please try again later." if status_code == 500 else
-                "An unexpected error occurred. Please try again later."
-            ) if lang != "he" else (
-                "הדף שחיפשת לא נמצא." if status_code == 404 else
-                "אירעה שגיאת שרת פנימית. נסה שוב מאוחר יותר." if status_code == 500 else
-                "אירעה שגיאה לא צפויה. נסה שוב מאוחר יותר."
-            ) }}
-          </p>
-
-          <!-- Redirect notice -->
-          <p class="text-muted mt-3">
+          <!-- FUNNY MESSAGES FOR INVALID DESTINATIONS -->
+          {% if invalid_iata %}
+            
             {% if lang != "he" %}
-              Redirecting to homepage in 3 seconds…
+              {% set funny = [
+                "This destination doesn’t seem to exist from Tel Aviv… unless you have a private jet! 😉",
+                "We checked the runways. Nope, still no flights to this place.",
+                "Great imagination! Sadly, no airline flies there from TLV.",
+                "We searched the entire departure board… nothing. Try a real destination?",
+                "If TLV ever opens flights to this destination, we pinky-promise to add it!"
+              ] %}
             {% else %}
-              מעביר לדף הבית בעוד 3 שניות…
+              {% set funny = [
+                "היעד הזה לא קיים מנתב\"ג… אלא אם יש לך מטוס פרטי! 😉",
+                "בדקנו את כל לוח הטיסות — אין טיסות ליעד הזה.",
+                "דמיון מפותח זה מעולה… אבל אין טיסות לשם.",
+                "לא מצאנו טיסה ליעד הזה. אולי תבחר יעד אמיתי?",
+                "אם תהיה טיסה מהיעד הזה מת\"א — אנחנו מוסיפים מיד!"
+              ] %}
+            {% endif %}
+
+            <p class="fs-5 text-muted mb-4">{{ funny | random }}</p>
+
+          {% else %}
+            <!-- Regular error message -->
+            <p class="fs-5 text-muted mb-4">
+              {{ message if message else (
+                  "The page you requested could not be found." if status_code == 404 else
+                  "The server encountered an error. Please try again later." if status_code == 500 else
+                  "An unexpected error occurred. Please try again later."
+              ) if lang != "he" else (
+                  "הדף שחיפשת לא נמצא." if status_code == 404 else
+                  "אירעה שגיאת שרת פנימית. נסה שוב מאוחר יותר." if status_code == 500 else
+                  "אירעה שגיאה לא צפויה. נסה שוב מאוחר יותר."
+              ) }}
+            </p>
+          {% endif %}
+
+          <!-- Redirection Notice -->
+          <p class="text-muted small mb-4">
+            {% if lang != "he" %}
+              Redirecting to homepage in 5 seconds…
+            {% else %}
+              מעביר לדף הבית בעוד 5 שניות…
             {% endif %}
           </p>
 
-          <!-- Divider -->
           <hr class="my-4">
 
-          <!-- Navigation buttons -->
-          <div class="d-flex justify-content-center gap-3">
-            <a href="/" class="btn btn-outline-primary btn-lg">
-              <i class="bi bi-house-door"></i> {{ "Back to Home" if lang != "he" else "חזרה לדף הבית" }}
+          <!-- BUTTONS -->
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="/" class="btn btn-primary btn-lg">
+              <i class="bi bi-house-door"></i> {{ "Home" if lang != "he" else "דף הבית" }}
             </a>
             <button class="btn btn-outline-secondary btn-lg" onclick="history.back()">
-              <i class="bi bi-arrow-left-circle"></i> {{ "Go Back" if lang != "he" else "חזור אחורה" }}
+              <i class="bi bi-arrow-left-circle"></i> {{ "Back" if lang != "he" else "חזרה" }}
             </button>
           </div>
+
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- Auto redirect after 5 seconds -->
+<!-- Redirect Script -->
 <script>
-  setTimeout(function() {
-    window.location.href = "/";
-  }, 5000);
+  setTimeout(() => window.location.href = "/", 5000);
 </script>
+
+<!-- Simple animation -->
+<style>
+.fade-in { animation: fadein 0.5s ease-in-out; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+</style>
 
 {% endblock %}
