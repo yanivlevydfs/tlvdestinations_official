@@ -307,6 +307,22 @@
 </head>
 
 <body>
+<div id="global-loader" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    z-index: 50000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #007bff;
+    font-weight: bold;
+">
+  Loading destination…
+</div>
+
   <!-- Top Nav -->
   <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
     <div class="container-fluid">
@@ -1088,6 +1104,25 @@ nl_compact = "1";
   <script src="/static/js/lang.js"></script>
   <script src="/static/js/app.js"></script>
   <script src="/static/js/ads-and-modal.js"></script>
+<script>
+document.addEventListener("click", function(e) {
+    const a = e.target.closest("a[href^='/destinations/']");
+    if (!a) return;
+
+    e.preventDefault();  // ❗ DataTables won't intercept anymore
+    const loader = document.getElementById("global-loader");
+
+    // show loader immediately
+    loader.style.display = "flex";
+
+    // let the browser paint the loader before navigation
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            window.location.href = a.href;
+        }, 30);
+    });
+});
+</script>
 
 </body>
 </html>
