@@ -636,5 +636,33 @@ if (window.innerWidth <= 768) {
   $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
 })();
 
+document.addEventListener("click", function (e) {
+    const a = e.target.closest("a[href^='/destinations/']");
+    if (!a) return;
+
+    e.preventDefault();
+
+    const loader = document.getElementById("global-loader");
+    const textEl = document.querySelector("#global-loader .loader-text");
+    const lang = document.documentElement.lang || "en";
+
+    textEl.textContent = lang === "he"
+        ? "טוען את נתוני היעד…"
+        : "Grabbing information…";
+
+    loader.style.display = "flex";
+
+    let url = new URL(a.href, window.location.origin);
+
+    if (lang === "he") {
+        url.searchParams.set("lang", "he");
+    }
+
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            window.location.href = url.toString();
+        }, 30);
+    });
+});
 }); // ✅ closes DOMContentLoaded cleanly
 

@@ -321,9 +321,12 @@
     color: #007bff;
     font-weight: bold;
 ">
-  <div class="loader-plane"></div>
+  <div class="loader-plane">
+    <div class="plane-icon">✈️</div>
+  </div>
   <div class="loader-text">Grabbing information…</div>
 </div>
+
 
   <!-- Top Nav -->
   <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
@@ -1106,25 +1109,5 @@ nl_compact = "1";
   <script src="/static/js/lang.js"></script>
   <script src="/static/js/app.js"></script>
   <script src="/static/js/ads-and-modal.js"></script>
-<script>
-document.addEventListener("click", function(e) {
-    const a = e.target.closest("a[href^='/destinations/']");
-    if (!a) return;
-
-    e.preventDefault();  // ❗ DataTables won't intercept anymore
-    const loader = document.getElementById("global-loader");
-
-    // show loader immediately
-    loader.style.display = "flex";
-
-    // let the browser paint the loader before navigation
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            window.location.href = a.href;
-        }, 30);
-    });
-});
-</script>
-
 </body>
 </html>
