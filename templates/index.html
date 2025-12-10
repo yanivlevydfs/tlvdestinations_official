@@ -913,14 +913,16 @@
        aria-current="{{ 'page' if request.url.path.startswith('/flights') else 'false' }}">
       {{ "Flights" if lang == "en" else "טיסות" }}
     </a>
-
-    <a href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}"
+		<span class="footer-link">
+    {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
+</span>
+<!--   <a href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}"
        class="footer-link"
        aria-label="Travel warnings page"
        aria-current="{{ 'page' if request.url.path.startswith('/travel-warnings') else 'false' }}">
       {{ "Travel Warnings" if lang == "en" else "אזהרות מסע" }}
     </a>
-
+-->
     <a href="/map{{ '?lang=he' if lang == 'he' else '' }}"
        class="footer-link"
        aria-label="World destinations map page"

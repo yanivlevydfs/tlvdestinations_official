@@ -637,7 +637,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const html = data.warnings.map(w => {
-                const text = w.recommendations || "⚠️ Travel advisory issued.";
+                const text = w.recommendations || "Missing Information.";
                 const link = w.link
                     ? `<a href="${w.link}" target="_blank" rel="noopener noreferrer" class="ms-1 text-decoration-underline">[${t_more}]</a>`
                     : "";

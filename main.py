@@ -1086,11 +1086,11 @@ async def on_startup():
     logger.debug("AsyncIOScheduler instance created")
 
     # 2) Load travel warnings
-    try:
-        update_travel_warnings()        
-    except Exception as e:
-        logger.error("Failed to load travel warnings", exc_info=True)
-        TRAVEL_WARNINGS_DF = pd.DataFrame()
+    #try:
+    #    update_travel_warnings()        
+    #except Exception as e:
+    #    logger.error("Failed to load travel warnings", exc_info=True)
+    #    TRAVEL_WARNINGS_DF = pd.DataFrame()
 
     # 3) Load airline websites
     try:
@@ -1126,14 +1126,14 @@ async def on_startup():
             replace_existing=True,
             next_run_time=datetime.now()
         )
-        scheduler.add_job(
-            update_travel_warnings,
-            "interval",
-            hours=96,
-            id="warnings_refresh",
-            replace_existing=True,
-            next_run_time=datetime.now()
-        )
+        #scheduler.add_job(
+        #    update_travel_warnings,
+        #    "interval",
+        #    hours=96,
+        #    id="warnings_refresh",
+        #    replace_existing=True,
+        #    next_run_time=datetime.now())
+        
         scheduler.add_job(
             sitemap,
             "interval",
@@ -1814,31 +1814,12 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
     client_host = request.client.host if request.client else "unknown"
 
     if TRAVEL_WARNINGS_DF is None or TRAVEL_WARNINGS_DF.empty:
-    # Try loading from local file instead of returning 503
-        try:
-            with open(TRAVEL_WARNINGS_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-
-            df = pd.DataFrame(data.get("records", []))
-            df.attrs["last_update"] = data.get("last_update")
-            TRAVEL_WARNINGS_DF = df
-
-            logger.info(f"Loaded TRAVEL_WARNINGS_DF from file ({len(df)} rows).")
-
-        except Exception as e:
-            logger.error(f"Failed loading TRAVEL_WARNINGS_FILE: {e}")
-            return TEMPLATES.TemplateResponse("error.html", {
-                "request": request,
-                "lang": lang,
-                "message": "No travel warnings available at this time."
-            }, status_code=503)    
-      
-#        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
-#        return TEMPLATES.TemplateResponse("error.html", {
-#            "request": request,
-#            "lang": lang,
-#            "message": "No travel warnings available at this time."
-#        }, status_code=503)
+        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
+        return TEMPLATES.TemplateResponse("error.html", {
+            "request": request,
+            "lang": lang,
+            "message": "No travel warnings available at this time."
+        }, status_code=503)
 
     warnings = TRAVEL_WARNINGS_DF[TRAVEL_WARNINGS_DF["office"] == 'מל"ל'].to_dict(orient="records")
 
@@ -2255,17 +2236,17 @@ async def refresh_data_webhook():
         logger.exception("❌ Exception in fetch_israel_flights")
         response["fetch_israel_flights"] = f"Exception: {str(e)}"
 
-    try:
-        res2 = fetch_travel_warnings()
-        if res2:
-            logger.debug("✅ fetch_travel_warnings completed successfully")
-            response["fetch_travel_warnings"] = "Success"
-        else:
-            logger.error("❌ fetch_travel_warnings returned None")
-            response["fetch_travel_warnings"] = "Failed: returned None"
-    except Exception as e:
-        logger.exception("❌ Exception in fetch_travel_warnings")
-        response["fetch_travel_warnings"] = f"Exception: {str(e)}"
+#    try:
+#        res2 = fetch_travel_warnings()
+#        if res2:
+#            logger.debug("✅ fetch_travel_warnings completed successfully")
+#            response["fetch_travel_warnings"] = "Success"
+#        else:
+#            logger.error("❌ fetch_travel_warnings returned None")
+#            response["fetch_travel_warnings"] = "Failed: returned None"
+#    except Exception as e:
+#        logger.exception("❌ Exception in fetch_travel_warnings")
+#        response["fetch_travel_warnings"] = f"Exception: {str(e)}"
 
     logger.debug("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
@@ -2399,24 +2380,33 @@ async def get_airports(country: str, city: str):
     return JSONResponse(content={"airports": airports})
 
 @app.get("/api/warnings")
-async def get_warnings(country: str):
-    df = TRAVEL_WARNINGS_DF.copy()
-    df.columns = df.columns.str.strip().str.lower()
+async def get_warnings(country: str, lang: str = "en"):
+    # Ignore country completely — no DB, no API, no errors.
+    if lang == "he":
+        return {"warnings": [{"message": "אין מידע"}]}
+    else:
+        return {"warnings": [{"message": "No Info"}]}
 
-    he_country = EN_TO_HE_COUNTRY.get(country)
-    if not he_country:
-        return JSONResponse(status_code=400, content={"error": f"No Hebrew mapping found for '{country}'"})
 
-    warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
 
-    if not warnings.empty:
-        # Keep only the required columns
-        warnings = warnings[["recommendations", "details_url", "date"]]
-        # Optionally rename for frontend expectations
-        warnings = warnings.rename(columns={"details_url": "link"})
-        return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
+#@app.get("/api/warnings")
+#async def get_warnings(country: str):
+#    df = TRAVEL_WARNINGS_DF.copy()
+#    df.columns = df.columns.str.strip().str.lower()
 
-    return JSONResponse(content={"warnings": []})
+#    he_country = EN_TO_HE_COUNTRY.get(country)
+#    if not he_country:
+#        return JSONResponse(status_code=400, content={"error": f"No Hebrew mapping found for '{country}'"})
+
+#    warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
+
+#    if not warnings.empty:
+#        # Keep only the required columns
+#        warnings = warnings[["recommendations", "details_url", "date"]]
+#        warnings = warnings.rename(columns={"details_url": "link"})
+#        return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
+
+#    return JSONResponse(content={"warnings": []})
 
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
