@@ -173,7 +173,7 @@ AIRPORTS_DB: dict = {}
 COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 EN_TO_HE_COUNTRY = {}
 CITY_TRANSLATIONS = {}
-
+TRAVEL_WARNINGS_DF = {}
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
