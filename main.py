@@ -1814,12 +1814,31 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
     client_host = request.client.host if request.client else "unknown"
 
     if TRAVEL_WARNINGS_DF is None or TRAVEL_WARNINGS_DF.empty:
-        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "lang": lang,
-            "message": "No travel warnings available at this time."
-        }, status_code=503)
+    # Try loading from local file instead of returning 503
+        try:
+            with open(TRAVEL_WARNINGS_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            df = pd.DataFrame(data.get("records", []))
+            df.attrs["last_update"] = data.get("last_update")
+            TRAVEL_WARNINGS_DF = df
+
+            logger.info(f"Loaded TRAVEL_WARNINGS_DF from file ({len(df)} rows).")
+
+        except Exception as e:
+            logger.error(f"Failed loading TRAVEL_WARNINGS_FILE: {e}")
+            return TEMPLATES.TemplateResponse("error.html", {
+                "request": request,
+                "lang": lang,
+                "message": "No travel warnings available at this time."
+            }, status_code=503)    
+      
+#        logger.error(f"GET /travel-warnings from {client_host} (lang={lang}) → no cached data")
+#        return TEMPLATES.TemplateResponse("error.html", {
+#            "request": request,
+#            "lang": lang,
+#            "message": "No travel warnings available at this time."
+#        }, status_code=503)
 
     warnings = TRAVEL_WARNINGS_DF[TRAVEL_WARNINGS_DF["office"] == 'מל"ל'].to_dict(orient="records")
 
