@@ -324,7 +324,7 @@
   <div class="loader-plane">
     <div class="plane-icon">✈️</div>
   </div>
-  <div class="loader-text">Grabbing information…</div>
+  <div class="loader-text">Please Wait…</div>
 </div>
 
 
@@ -621,7 +621,9 @@
 					   aria-label="View destination {{ ap.Name }}"
 					   data-log="destination"
 					   data-iata="{{ ap.IATA }}"
-					   data-airport="{{ ap.Name }}">
+					   data-airport="{{ ap.Name }}"
+					   data-city="{{ ap.City }}"
+					   data-country="{{ ap.Country }}">
 					  {{ ap.Name }}
 					</a>
                   </td>
@@ -677,6 +679,36 @@
             </table>
           </div>
         </div>
+<div class="row g-3 my-4">
+
+  <!-- Popular Destinations -->
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-primary text-white fw-semibold">
+        <i class="bi bi-bar-chart-fill me-2"></i>
+        {{ "Most Popular Destinations" if lang != "he" else "היעדים הפופולריים ביותר" }}
+      </div>
+      <div class="card-body" id="popular-widget">
+        <div class="text-center text-muted small">Loading…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trending Today -->
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-warning fw-semibold">
+        <i class="bi bi-lightning-charge-fill me-2"></i>
+        {{ "Trending Today" if lang != "he" else "מובילים היום" }}
+      </div>
+      <div class="card-body" id="trending-widget">
+        <div class="text-center text-muted small">Loading…</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
         <!-- Ads Under Table -->
         <div class="card mt-3 shadow-sm" aria-label="Advertisement">
@@ -1109,5 +1141,6 @@ nl_compact = "1";
   <script src="/static/js/lang.js"></script>
   <script src="/static/js/app.js"></script>
   <script src="/static/js/ads-and-modal.js"></script>
+  <script src="/static/js/analytics-widgets.js?v=1"></script> 
 </body>
 </html>

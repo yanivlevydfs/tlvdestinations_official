@@ -23,4 +23,4 @@ aiohttp
 pycountry
 geopy
 json-repair
-
+sqlite3

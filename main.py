@@ -65,6 +65,7 @@ from helpers.chat_query import ChatQuery
 from routers.middleware_redirect import redirect_and_log_404
 from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
+from routers.analytics import router as analytics_router
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -157,6 +158,7 @@ app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, generic_exception_handler)
 app.middleware("http")(redirect_and_log_404)
 app.include_router(attractions_router)
+app.include_router(analytics_router)
 
 
 

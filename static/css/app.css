@@ -1554,3 +1554,40 @@ body.dark-mode input.form-control:focus {
     50% { opacity: 0.5; transform: translateX(20px); }
     100% { opacity: 0.1; transform: translateX(40px); }
 }
+
+.badge-change-up { background-color: #28a745 !important; }
+.badge-change-down { background-color: #dc3545 !important; }
+.badge-change-flat { background-color: #6c757d !important; }
+/* ===========================================
+   WIDGET LINKS — KEEP NEUTRAL (NO BLUE)
+   =========================================== */
+/* ===========================================
+   WIDGET LINKS — FORCE BLUE (Light + Dark)
+   =========================================== */
+#popular-widget a,
+#trending-widget a {
+    color: #2563eb !important;       /* brand deep blue */
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Hover underline + slightly brighter blue */
+#popular-widget a:hover,
+#trending-widget a:hover {
+    color: #60a5fa !important;       /* hover blue */
+    text-decoration: underline;
+}
+
+/* Dark Mode override: ALSO blue */
+body.dark-mode #popular-widget a,
+body.dark-mode #trending-widget a {
+    color: #60a5fa !important;       /* bright blue for dark mode */
+}
+
+body.dark-mode #popular-widget a:hover,
+body.dark-mode #trending-widget a:hover {
+    color: #93c5fd !important;       /* lighter hover blue */
+    text-decoration: underline;
+}
+
+

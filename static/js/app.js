@@ -642,13 +642,29 @@ document.addEventListener("click", function (e) {
 
     e.preventDefault();
 
+    // ------------------------------------------------------
+    // ANALYTICS CLICK (non-blocking)
+    // ------------------------------------------------------
+    const iata = (a.dataset.iata || a.href.split("/").pop()).toUpperCase();
+    const city = a.dataset.city || "";
+    const country = a.dataset.country || "";
+
+    fetch("/api/analytics/click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ iata, city, country })
+    }).catch(() => {});
+
+    // ------------------------------------------------------
+    // YOUR EXISTING LOADER LOGIC (unchanged)
+    // ------------------------------------------------------
     const loader = document.getElementById("global-loader");
     const textEl = document.querySelector("#global-loader .loader-text");
     const lang = document.documentElement.lang || "en";
 
     textEl.textContent = lang === "he"
         ? "טוען את נתוני היעד…"
-        : "Grabbing information…";
+        : "Please Wait…";
 
     loader.style.display = "flex";
 
@@ -664,5 +680,6 @@ document.addEventListener("click", function (e) {
         }, 30);
     });
 });
+
 }); // ✅ closes DOMContentLoaded cleanly
 
