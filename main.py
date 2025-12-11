@@ -66,6 +66,7 @@ from routers.middleware_redirect import redirect_and_log_404
 from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
 from routers.analytics import router as analytics_router
+from helpers.proxies import get_random_proxy
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -357,119 +358,134 @@ TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 # Load airports once for dataset builds
 # ──────────────────────────────────────────────────────────────────────────────
 
+def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
+    """
+    Fetch ALL travel warnings from gov.il using proxy rotation,
+    clean fields, extract threat level, cache results, and update global DF.
+    """
 
-def fetch_travel_warnings(batch_size: int = 500) -> dict | None:    
+    # ----------------- REQUIRED HEADERS (NO NAMEERROR) -----------------
     HEADERS = {
-    "User-Agent": (
-        "datagov-external-client; "
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0.0.0 Safari/537.36"
-    ),
-    "Accept": "application/json",
-    "Referer": "https://www.gov.il/"}
+        "User-Agent": (
+            "datagov-external-client; "
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/120.0.0.0 Safari/537.36"
+        ),
+        "Accept": "application/json",
+        "Referer": "https://www.gov.il/",
+    }
 
-    """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
     offset = 0
     all_records = []
     global TRAVEL_WARNINGS_DF
 
-    try:
-        while True:
-            params = {
-                "resource_id": TRAVEL_WARNINGS_RESOURCE,
-                "limit": batch_size,
-                "offset": offset,
-            }
-            logger.debug(f"🌐 Fetching travel warnings batch offset={offset} ...")
+    while True:
+        # ----------------- ROTATE PROXY -----------------
+        proxy = get_random_proxy()
+        proxy_url = f"http://{proxy['user']}:{proxy['pass']}@{proxy['host']}:{proxy['port']}"
+        proxies = {
+            "http": proxy_url,
+            "https": proxy_url,
+        }
+
+        params = {
+            "resource_id": TRAVEL_WARNINGS_RESOURCE,
+            "limit": batch_size,
+            "offset": offset,
+        }
+
+        logger.debug(f"🌐 Fetching TW offset={offset} via proxy {proxy['host']} ...")
+
+        # ------------------ MAKE REQUEST ------------------
+        try:
             r = requests.get(
                 TRAVEL_WARNINGS_API,
                 params=params,
-                headers=HEADERS,    
-                timeout=30
+                headers=HEADERS,
+                proxies=proxies,   
+                timeout=40
             )
             r.raise_for_status()
 
-            # ✅ Try normal JSON parsing, fallback to json-repair if malformed
-            try:
-                data = r.json()
-            except JSONDecodeError as e:
-                logger.warning(f"⚠️ Malformed JSON from gov.il travel warnings API: {e}")
-                try:
-                    fixed_json = repair_json(r.text)
-                    data = json.loads(fixed_json)
-                    logger.debug("✅ JSON repaired successfully using json-repair")
-                except Exception as repair_err:
-                    logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
-                    break  # exit pagination loop safely
-
-            records = data.get("result", {}).get("records", [])
-            if not records:
-                break
-
-            for rec in records:
-                raw_reco = rec.get("recommendations", "")
-                raw_details = rec.get("details", "")
-
-                all_records.append({
-                    "id": rec.get("_id"),
-                    "continent": rec.get("continent", "").strip(),
-                    "country": rec.get("country", "").strip(),
-                    # טקסט נקי בלבד
-                    "recommendations": _clean_html(raw_reco),
-                    # שליפת רמת איום מתוך הטקסט
-                    "level": _extract_threat_level(raw_reco),
-                    # שמירת לינק – קודם מ־recommendations, ואם אין אז מ־details
-                    "details_url": (
-                        _extract_first_href(raw_reco)
-                        or _extract_first_href(raw_details)
-                    ),
-                    # לוגו
-                    "logo": _extract_first_img(rec.get("logo", "")),
-                    "date": rec.get("date"),
-                    "office": rec.get("משרד", ""),
-                })
-
-            offset += batch_size
-            total = data.get("result", {}).get("total")
-            if total and offset >= total:
-                break
-
-        result = {
-            "updated": datetime.now().isoformat(),
-            "count": len(all_records),
-            "warnings": all_records,
-        }
-
-        # Cache to disk
-        try:
-            with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
-                json.dump(result, f, ensure_ascii=False, indent=2)
-            logger.debug(f"✅ Cached {len(all_records)} travel warnings to disk")
         except Exception as e:
-            logger.error(f"❌ Failed to write travel warnings to disk: {e}", exc_info=True)
-            return None
+            logger.error(f"❌ Proxy {proxy['host']} failed → retrying: {e}")
+            continue  # try next proxy
 
-        # Update DataFrame
-        if all_records:
-            TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
-            TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
-            logger.debug(f"🧠 TRAVEL_WARNINGS_DF updated with {len(TRAVEL_WARNINGS_DF)} rows")
-        else:
-            logger.warning("⚠️ No records fetched. Global TRAVEL_WARNINGS_DF was not updated.")
 
-        logger.debug(f"Travel warnings refreshed: {len(all_records)} total")
-        return result
+        # ------------------ PARSE JSON ------------------
+        try:
+            data = r.json()
+        except JSONDecodeError:
+            try:
+                fixed_json = repair_json(r.text)
+                data = json.loads(fixed_json)
+                logger.debug("🔧 JSON repaired")
+            except Exception as parse_err:
+                logger.error(f"❌ JSON repair failed: {parse_err}")
+                return None
 
-    except RequestException as e:
-        logger.error(f"🚨 Request error fetching travel warnings: {e}", exc_info=True)
+        records = data.get("result", {}).get("records", [])
+        total = data.get("result", {}).get("total", 0)
+
+        if not records:
+            logger.warning("⚠️ No more records — stopping.")
+            break
+
+        # ------------------ PROCESS RECORDS ------------------
+        for rec in records:
+            raw_reco = rec.get("recommendations", "")
+            raw_details = rec.get("details", "")
+
+            all_records.append({
+                "id": rec.get("_id"),
+                "continent": rec.get("continent", "").strip(),
+                "country": rec.get("country", "").strip(),
+                "recommendations": _clean_html(raw_reco),
+                "level": _extract_threat_level(raw_reco),
+                "details_url": (
+                    _extract_first_href(raw_reco)
+                    or _extract_first_href(raw_details)
+                ),
+                "logo": _extract_first_img(rec.get("logo", "")),
+                "date": rec.get("date"),
+                "office": rec.get("משרד", ""),
+            })
+
+        offset += batch_size
+        logger.debug(f"📦 Loaded {len(all_records)}/{total}")
+
+        # stop if last batch
+        if len(records) < batch_size or offset >= total:
+            break
+
+    # ------------------ SAVE RESULT ------------------
+    if not all_records:
+        logger.error("❌ No travel warnings fetched at all")
         return None
-    except JSONDecodeError as e:
-        logger.error(f"🚨 Failed to decode travel warnings JSON: {e}", exc_info=True)
-        return None
+
+    result = {
+        "updated": datetime.now().isoformat(),
+        "count": len(all_records),
+        "warnings": all_records,
+    }
+
+    try:
+        with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        logger.debug("💾 Travel warnings cached to disk")
     except Exception as e:
-        logger.error(f"❌ Failed to fetch travel warnings: {e}", exc_info=True)
+        logger.error(f"❌ Failed saving travel warnings: {e}")
         return None
+
+    # ------------------ UPDATE GLOBAL DF ------------------
+    TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
+    TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
+
+    logger.debug(f"🧠 TRAVEL_WARNINGS_DF updated ({len(TRAVEL_WARNINGS_DF)} rows)")
+
+    return result
+
 
 def get_dataset_date() -> str | None:
     if not ISRAEL_FLIGHTS_FILE.exists():
@@ -506,9 +522,10 @@ AIRLINE_NAMES = load_airline_names()
    
 def fetch_israel_flights() -> dict | None:
     """
-    Fetch gov.il flights (all countries) and cache to disk.
-    Returns the data dict if successful, or None if failed or empty.
+    Fetch gov.il flights using rotating Webshare proxies.
+    Handles JSON repair, DataFrame normalization, and disk caching.
     """
+    from proxies import get_random_proxy
 
     HEADERS = {
         "User-Agent": (
@@ -526,68 +543,93 @@ def fetch_israel_flights() -> dict | None:
         "limit": DEFAULT_LIMIT
     }
 
-    try:
-        logger.debug("🌐 Requesting flight data from gov.il API...")
+    logger.debug("🌐 Requesting Israel flight data with rotating proxies...")
 
-        # *** SAME FIX AS TRAVEL-WARNINGS ***
-        r = requests.get(
-            ISRAEL_API,
-            params=params,
-            headers=HEADERS,   # <--- THIS FIXES THE BLOCK
-            timeout=30
+    # Retry until success using the proxy pool
+    while True:
+        proxy = get_random_proxy()
+
+        proxy_url = (
+            f"http://{proxy['user']}:{proxy['pass']}"
+            f"@{proxy['host']}:{proxy['port']}"
         )
-        r.raise_for_status()
 
+        proxies = {
+            "http": proxy_url,
+            "https": proxy_url,
+        }
 
-        # ✅ Try normal JSON first, fallback to json-repair if broken
+        logger.debug(f"🌍 Trying proxy {proxy['host']} ...")
+
+        # ----------------------------
+        # REQUEST WITH PROXY
+        # ----------------------------
+        try:
+            r = requests.get(
+                ISRAEL_API,
+                params=params,
+                headers=HEADERS,
+                proxies=proxies,
+                timeout=40
+            )
+            r.raise_for_status()
+
+        except Exception as e:
+            logger.error(f"❌ Proxy {proxy['host']} failed → retrying: {e}")
+            continue  # Try another proxy
+
+        # ----------------------------
+        # JSON PARSING (with repair)
+        # ----------------------------
         try:
             data = r.json()
-        except JSONDecodeError as e:
-            logger.warning(f"⚠️ Malformed JSON from gov.il API: {e}")
+        except JSONDecodeError:
             try:
                 fixed_json = repair_json(r.text)
                 data = json.loads(fixed_json)
-                logger.debug("✅ JSON repaired successfully using json-repair")
-            except Exception as repair_err:
-                logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
+                logger.debug("🔧 JSON repaired for flight data")
+            except Exception as parse_err:
+                logger.error(f"❌ Cannot parse JSON from gov.il flights: {parse_err}")
                 return None
 
         records = data.get("result", {}).get("records", [])
-        logger.debug(f"🔍 API returned {len(records)} raw records")
+        logger.debug(f"✈ Received {len(records)} raw flight rows")
 
-        # Parse and normalize flight records
+        if not records:
+            logger.warning("⚠ Gov.il returned 0 records for flights.")
+            return None
+
+        # ----------------------------
+        # PARSE & NORMALIZE RECORDS
+        # ----------------------------
         flights = []
         for rec in records:
-            iata = (rec.get("CHLOC1") or "—").strip().upper()
-            direction = normalize_case(rec.get("CHAORD", "—"))
+            iata = (rec.get("CHLOC1") or "").strip().upper()
+            direction = normalize_case(rec.get("CHAORD", ""))
 
-            if not iata or iata == "—" or not direction or direction == "—":
-                continue  # Skip incomplete records
-                
-            raw_city = normalize_case(rec.get("CHLOC1T", "—"))
+            if not iata or not direction:
+                continue
+
+            raw_city = normalize_case(rec.get("CHLOC1T", ""))
             corrected_city = fix_city_name(raw_city)
-            
+
             flights.append({
-                "airline": normalize_case(rec.get("CHOPERD", "—")),
+                "airline": normalize_case(rec.get("CHOPERD", "")),
                 "iata": iata,
-                "airport": normalize_case(rec.get("CHLOC1D", "—")),
+                "airport": normalize_case(rec.get("CHLOC1D", "")),
                 "city": corrected_city,
-                "country": normalize_case(rec.get("CHLOCCT", "—")),
-                "scheduled": normalize_case(rec.get("CHSTOL", "—")),
-                "actual": normalize_case(rec.get("CHPTOL", "—")),
+                "country": normalize_case(rec.get("CHLOCCT", "")),
+                "scheduled": normalize_case(rec.get("CHSTOL", "")),
+                "actual": normalize_case(rec.get("CHPTOL", "")),
                 "direction": direction,
-                "status": normalize_case(rec.get("CHRMINE", "—")),
+                "status": normalize_case(rec.get("CHRMINE", "")),
             })
 
         if not flights:
-            logger.warning("❌ No usable flight records received — skipping cache write.")
+            logger.warning("⚠ No valid flight rows after filtering.")
             return None
 
         df = pd.DataFrame(flights)
-        if "iata" not in df.columns:
-            logger.error("❌ 'iata' column missing in DataFrame — invalid records.")
-            return None
-
         df["iata"] = (
             df["iata"]
             .astype(str)
@@ -595,34 +637,32 @@ def fetch_israel_flights() -> dict | None:
             .str.upper()
             .replace("NAN", None)
         )
+
         flights = df.to_dict(orient="records")
-    
+
+        # ----------------------------
+        # BUILD RESULT
+        # ----------------------------
         result = {
             "updated": datetime.now().isoformat(),
             "count": len(flights),
             "flights": flights
         }
 
-        # Cache to disk
+        # ----------------------------
+        # WRITE TO CACHE FILE
+        # ----------------------------
         try:
             with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
-            logger.debug(f"✅ Cached {len(flights)} flight records to disk")
+            logger.debug(f"💾 Cached {len(flights)} flights to disk")
         except Exception as e:
-            logger.error(f"❌ Failed to write flight data to disk: {e}", exc_info=True)
+            logger.error(f"❌ Failed writing flights cache: {e}")
             return None
 
+        logger.info(f"✈ Flight data refreshed ({len(flights)} records)")
         return result
 
-    except RequestException as e:
-        logger.error(f"🚨 Request error fetching gov.il flights: {e}", exc_info=True)
-        return None
-    except JSONDecodeError as e:
-        logger.error(f"🚨 Failed to decode gov.il API response: {e}", exc_info=True)
-        return None
-    except Exception as e:
-        logger.error(f"❌ Unexpected error fetching gov.il flights: {e}", exc_info=True)
-        return None
 
 def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     """
@@ -1137,11 +1177,11 @@ async def on_startup():
     logger.debug("AsyncIOScheduler instance created")
 
     # 2) Load travel warnings
-    #try:
-    #    update_travel_warnings()        
-    #except Exception as e:
-    #    logger.error("Failed to load travel warnings", exc_info=True)
-    #    TRAVEL_WARNINGS_DF = pd.DataFrame()
+    try:
+        update_travel_warnings()        
+    except Exception as e:
+        logger.error("Failed to load travel warnings", exc_info=True)
+        TRAVEL_WARNINGS_DF = pd.DataFrame()
 
     # 3) Load airline websites
     try:
@@ -1177,13 +1217,13 @@ async def on_startup():
             replace_existing=True,
             next_run_time=datetime.now()
         )
-        #scheduler.add_job(
-        #    update_travel_warnings,
-        #    "interval",
-        #    hours=96,
-        #    id="warnings_refresh",
-        #    replace_existing=True,
-        #    next_run_time=datetime.now())
+        scheduler.add_job(
+            update_travel_warnings,
+            "interval",
+            hours=96,
+            id="warnings_refresh",
+            replace_existing=True,
+            next_run_time=datetime.now())
         
         scheduler.add_job(
             sitemap,
