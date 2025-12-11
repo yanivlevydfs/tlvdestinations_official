@@ -263,15 +263,28 @@ APP_VERSION = get_git_version()
 TEMPLATES.env.globals["app_version"] = APP_VERSION
 
 def update_travel_warnings():
+    """
+    Try to refresh the cached travel warnings.
+    Since API access is blocked on Render, we only reload the local file.
+    """
     try:
+        # Try online fetch first (disabled but kept for future)
         result = fetch_travel_warnings()
-        if result:
+
+        if result and result.get("count"):
+            # Saved and cached → reload global
             reload_travel_warnings_globals()
-            logger.debug(f"✅ Travel warnings updated and reloaded ({result['count']} records)")
-        else:
-            logger.warning("⚠️ fetch_travel_warnings returned None")
+            logger.debug(f"✅ Travel warnings updated via API and reloaded ({result['count']} records)")
+            return
+
+        # If API fails or returns nothing → fallback to local file
+        reload_travel_warnings_globals()
+        logger.debug("⚠️ API unavailable → Reloaded travel warnings from local cache only")
+
     except Exception:
-        logger.exception("❌ Scheduled travel warnings update failed")
+        logger.exception("❌ Scheduled travel warnings update failed (fallback to local cache)")
+        reload_travel_warnings_globals()
+
 
 
 def reload_travel_warnings_globals():
@@ -345,7 +358,17 @@ TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 # ──────────────────────────────────────────────────────────────────────────────
 
 
-def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
+def fetch_travel_warnings(batch_size: int = 500) -> dict | None:    
+    HEADERS = {
+    "User-Agent": (
+        "datagov-external-client; "
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json",
+    "Referer": "https://www.gov.il/"}
+
     """Fetch ALL travel warnings from gov.il (handles pagination) and cache them locally."""
     offset = 0
     all_records = []
@@ -359,7 +382,12 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
                 "offset": offset,
             }
             logger.debug(f"🌐 Fetching travel warnings batch offset={offset} ...")
-            r = requests.get(TRAVEL_WARNINGS_API, params=params, timeout=30)
+            r = requests.get(
+                TRAVEL_WARNINGS_API,
+                params=params,
+                headers=HEADERS,    
+                timeout=30
+            )
             r.raise_for_status()
 
             # ✅ Try normal JSON parsing, fallback to json-repair if malformed
@@ -481,6 +509,18 @@ def fetch_israel_flights() -> dict | None:
     Fetch gov.il flights (all countries) and cache to disk.
     Returns the data dict if successful, or None if failed or empty.
     """
+
+    HEADERS = {
+        "User-Agent": (
+            "datagov-external-client; "
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/120.0.0.0 Safari/537.36"
+        ),
+        "Accept": "application/json",
+        "Referer": "https://www.gov.il/",
+    }
+
     params = {
         "resource_id": RESOURCE_ID,
         "limit": DEFAULT_LIMIT
@@ -488,8 +528,16 @@ def fetch_israel_flights() -> dict | None:
 
     try:
         logger.debug("🌐 Requesting flight data from gov.il API...")
-        r = requests.get(ISRAEL_API, params=params, timeout=30)
+
+        # *** SAME FIX AS TRAVEL-WARNINGS ***
+        r = requests.get(
+            ISRAEL_API,
+            params=params,
+            headers=HEADERS,   # <--- THIS FIXES THE BLOCK
+            timeout=30
+        )
         r.raise_for_status()
+
 
         # ✅ Try normal JSON first, fallback to json-repair if broken
         try:
