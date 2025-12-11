@@ -171,6 +171,7 @@ AIRPORTS_DB: dict = {}
 COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 EN_TO_HE_COUNTRY = {}
 CITY_TRANSLATIONS = {}
+TRAVEL_WARNINGS_DF: pd.DataFrame = pd.DataFrame()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -276,11 +277,13 @@ def update_travel_warnings():
 def reload_travel_warnings_globals():
     global TRAVEL_WARNINGS_DF
     try:
-        TRAVEL_WARNINGS_DF = load_travel_warnings_df()
-        logger.debug(f"🧠 TRAVEL_WARNINGS_DF global updated (rows={len(TRAVEL_WARNINGS_DF)})")
+        df = load_travel_warnings_df()
+        TRAVEL_WARNINGS_DF = df
+        logger.debug(f"🧠 TRAVEL_WARNINGS_DF global updated (rows={len(df)})")
     except Exception as e:
         logger.exception("❌ Failed to reload TRAVEL_WARNINGS_DF from cache")
         TRAVEL_WARNINGS_DF = pd.DataFrame()
+
 
 
 def update_flights():
