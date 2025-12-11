@@ -2469,33 +2469,23 @@ async def get_airports(country: str, city: str):
     return JSONResponse(content={"airports": airports})
 
 @app.get("/api/warnings")
-async def get_warnings(country: str, lang: str = "en"):
-    # Ignore country completely — no DB, no API, no errors.
-    if lang == "he":
-        return {"warnings": [{"message": "אין מידע"}]}
-    else:
-        return {"warnings": [{"message": "No Info"}]}
+async def get_warnings(country: str):
+    df = TRAVEL_WARNINGS_DF.copy()
+    df.columns = df.columns.str.strip().str.lower()
 
+    he_country = EN_TO_HE_COUNTRY.get(country)
+    if not he_country:
+        return JSONResponse(status_code=400, content={"error": f"No Hebrew mapping found for '{country}'"})
 
+    warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
 
-#@app.get("/api/warnings")
-#async def get_warnings(country: str):
-#    df = TRAVEL_WARNINGS_DF.copy()
-#    df.columns = df.columns.str.strip().str.lower()
+    if not warnings.empty:
+        # Keep only the required columns
+        warnings = warnings[["recommendations", "details_url", "date"]]
+        warnings = warnings.rename(columns={"details_url": "link"})
+        return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
 
-#    he_country = EN_TO_HE_COUNTRY.get(country)
-#    if not he_country:
-#        return JSONResponse(status_code=400, content={"error": f"No Hebrew mapping found for '{country}'"})
-
-#    warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
-
-#    if not warnings.empty:
-#        # Keep only the required columns
-#        warnings = warnings[["recommendations", "details_url", "date"]]
-#        warnings = warnings.rename(columns={"details_url": "link"})
-#        return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
-
-#    return JSONResponse(content={"warnings": []})
+    return JSONResponse(content={"warnings": []})
 
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
