@@ -2239,17 +2239,17 @@ async def refresh_data_webhook():
         logger.exception("❌ Exception in fetch_israel_flights")
         response["fetch_israel_flights"] = f"Exception: {str(e)}"
 
-#    try:
-#        res2 = fetch_travel_warnings()
-#        if res2:
-#            logger.debug("✅ fetch_travel_warnings completed successfully")
-#            response["fetch_travel_warnings"] = "Success"
-#        else:
-#            logger.error("❌ fetch_travel_warnings returned None")
-#            response["fetch_travel_warnings"] = "Failed: returned None"
-#    except Exception as e:
-#        logger.exception("❌ Exception in fetch_travel_warnings")
-#        response["fetch_travel_warnings"] = f"Exception: {str(e)}"
+    try:
+        res2 = fetch_travel_warnings()
+        if res2:
+            logger.debug("✅ fetch_travel_warnings completed successfully")
+            response["fetch_travel_warnings"] = "Success"
+        else:
+            logger.error("❌ fetch_travel_warnings returned None")
+            response["fetch_travel_warnings"] = "Failed: returned None"
+    except Exception as e:
+        logger.exception("❌ Exception in fetch_travel_warnings")
+        response["fetch_travel_warnings"] = f"Exception: {str(e)}"
 
     logger.debug("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
