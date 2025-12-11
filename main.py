@@ -525,8 +525,6 @@ def fetch_israel_flights() -> dict | None:
     Fetch gov.il flights using rotating Webshare proxies.
     Handles JSON repair, DataFrame normalization, and disk caching.
     """
-    from proxies import get_random_proxy
-
     HEADERS = {
         "User-Agent": (
             "datagov-external-client; "
