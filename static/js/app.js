@@ -688,5 +688,12 @@ window.addEventListener("pageshow", (event) => {
   }
 });
 
+// ---------- Fix Android Back Button Restoring Loader ----------
+window.addEventListener("pageshow", () => {
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.style.display = "none";
+});
+
+
 }); // ✅ closes DOMContentLoaded cleanly
 
