@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // -----------------------------
     // TRENDING DESTINATIONS
     // -----------------------------
-    fetch("/api/analytics/trending?limit=10")
+    fetch("/api/analytics/trending?limit=5")
         .then(r => r.json())
         .then(data => {
             const container = document.getElementById("trending-widget");
