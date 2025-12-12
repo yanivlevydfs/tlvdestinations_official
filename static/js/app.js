@@ -679,21 +679,19 @@ if (!window.location.pathname.startsWith("/destinations/")) {
   });
 }
 
-// ---------- Handle BFCache restore (back/forward navigation) ----------
+// ---------- Handle BFCache restore + Android Back ----------
 window.addEventListener("pageshow", (event) => {
+  const loader = document.getElementById("global-loader");
   const navEntry = performance.getEntriesByType("navigation")[0];
-  if (event.persisted || (navEntry && navEntry.type === "back_forward")) {
-    const loader = document.getElementById("global-loader");
-    if (loader) loader.style.display = "none";
+
+  // Hide loader ONLY when coming back (not on normal page load)
+  const isBackRestore =
+    event.persisted || (navEntry && navEntry.type === "back_forward");
+
+  if (isBackRestore && loader) {
+    loader.style.display = "none";
   }
 });
-
-// ---------- Fix Android Back Button Restoring Loader ----------
-window.addEventListener("pageshow", () => {
-  const loader = document.getElementById("global-loader");
-  if (loader) loader.style.display = "none";
-});
-
 
 }); // ✅ closes DOMContentLoaded cleanly
 
