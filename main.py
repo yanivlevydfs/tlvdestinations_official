@@ -360,8 +360,9 @@ TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 
 def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     """
-    Fetch all travel warnings from data.gov.il using direct requests only.
-    Keeps JSON repair fallback, paging, and updates global TRAVEL_WARNINGS_DF.
+    Fetch all travel warnings from data.gov.il.
+    Try direct connection first, fall back to proxy rotation only if blocked.
+    Includes JSON repair, paging, and DataFrame updates.
     """
     HEADERS = {
         "User-Agent": (
@@ -383,10 +384,9 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             "offset": offset,
         }
 
-        logger.debug(f"🌐 Fetching travel warnings offset={offset} (direct)…")
-
-        # Direct request only (no proxy rotation)
+        # --- 1️⃣ Direct fetch first ---
         try:
+            logger.debug(f"🌐 Fetching TW offset={offset} direct …")
             r = requests.get(
                 TRAVEL_WARNINGS_API,
                 params=params,
@@ -395,8 +395,35 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             )
             r.raise_for_status()
         except Exception as e:
-            logger.error(f"❌ Direct fetch failed for offset={offset}: {e}")
-            return None
+            logger.warning(f"⚠️ Direct fetch failed ({e}) → switching to proxy.")
+            # --- 2️⃣ Proxy fallback ---
+            proxy = get_random_proxy()
+            proxy_url = f"http://{proxy['user']}:{proxy['pass']}@{proxy['host']}:{proxy['port']}"
+            proxies = {"http": proxy_url, "https": proxy_url}
+            try:
+                r = requests.get(
+                    TRAVEL_WARNINGS_API,
+                    params=params,
+                    headers=HEADERS,
+                    proxies=proxies,
+                    timeout=40,
+                )
+                r.raise_for_status()
+            except Exception as e2:
+                logger.error(f"❌ Proxy {proxy['host']} failed: {e2}")
+                continue
+
+        # --- 3️⃣ Parse / repair JSON ---
+        try:
+            data = r.json()
+        except JSONDecodeError:
+            try:
+                fixed_json = repair_json(r.text)
+                data = json.loads(fixed_json)
+                logger.debug("🔧 JSON repaired successfully")
+            except Exception as parse_err:
+                logger.error(f"❌ JSON repair failed: {parse_err}")
+                return None
 
 
         # ------------------ PARSE JSON ------------------
@@ -506,75 +533,80 @@ AIRLINE_NAMES = load_airline_names()
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
    
-def fetch_israel_flights() -> dict | None:
+def fetch_israel_flights(batch_size: int = 500) -> dict | None:
     """
-    Fetch gov.il flights using rotating Webshare proxies.
-    Handles JSON repair, DataFrame normalization, and disk caching.
+    Fetch all Israel Airports Authority flight records from data.gov.il.
+    First tries a direct HTTPS request; if blocked (403, timeout, etc.),
+    falls back to rotating Webshare proxies. Handles JSON repair,
+    DataFrame normalization, and disk caching.
     """
     HEADERS = {
         "User-Agent": (
-            "datagov-external-client; "
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/120.0.0.0 Safari/537.36"
+            "datagov-external-client; Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         ),
-        "Accept": "application/json",
+        "Accept": "application/json, text/plain, */*",
         "Referer": "https://www.gov.il/",
     }
 
     params = {
         "resource_id": RESOURCE_ID,
-        "limit": DEFAULT_LIMIT
+        "limit": DEFAULT_LIMIT,
     }
 
-    logger.debug("🌐 Requesting Israel flight data with rotating proxies...")
+    logger.debug("🌐 Requesting Israel flight data (direct + proxy fallback)…")
 
-    # Retry until success using the proxy pool
-    while True:
-        proxy = get_random_proxy()
-
-        proxy_url = (
-            f"http://{proxy['user']}:{proxy['pass']}"
-            f"@{proxy['host']}:{proxy['port']}"
+    # ----------------------------
+    # 1️⃣ TRY DIRECT REQUEST
+    # ----------------------------
+    try:
+        r = requests.get(
+            ISRAEL_API,
+            params=params,
+            headers=HEADERS,
+            timeout=40
         )
-
-        proxies = {
-            "http": proxy_url,
-            "https": proxy_url,
-        }
-
-        logger.debug(f"🌍 Trying proxy {proxy['host']} ...")
+        r.raise_for_status()
+    except Exception as e:
+        logger.warning(f"⚠️ Direct fetch failed ({e}) → switching to proxy.")
 
         # ----------------------------
-        # REQUEST WITH PROXY
+        # 2️⃣ FALLBACK: ROTATING PROXY
         # ----------------------------
-        try:
-            r = requests.get(
-                ISRAEL_API,
-                params=params,
-                headers=HEADERS,
-                proxies=proxies,
-                timeout=40
-            )
-            r.raise_for_status()
+        while True:
+            proxy = get_random_proxy()
+            proxy_url = f"http://{proxy['user']}:{proxy['pass']}@{proxy['host']}:{proxy['port']}"
+            proxies = {"http": proxy_url, "https": proxy_url}
+            logger.debug(f"🌍 Trying proxy {proxy['host']} …")
 
-        except Exception as e:
-            logger.error(f"❌ Proxy {proxy['host']} failed → retrying: {e}")
-            continue  # Try another proxy
-
-        # ----------------------------
-        # JSON PARSING (with repair)
-        # ----------------------------
-        try:
-            data = r.json()
-        except JSONDecodeError:
             try:
-                fixed_json = repair_json(r.text)
-                data = json.loads(fixed_json)
-                logger.debug("🔧 JSON repaired for flight data")
-            except Exception as parse_err:
-                logger.error(f"❌ Cannot parse JSON from gov.il flights: {parse_err}")
-                return None
+                r = requests.get(
+                    ISRAEL_API,
+                    params=params,
+                    headers=HEADERS,
+                    proxies=proxies,
+                    timeout=40
+                )
+                r.raise_for_status()
+                break  # ✅ success
+            except Exception as e2:
+                logger.error(f"❌ Proxy {proxy['host']} failed → retrying: {e2}")
+                continue
+
+    # ----------------------------
+    # 3️⃣ PARSE + JSON REPAIR
+    # ----------------------------
+    try:
+        data = r.json()
+    except JSONDecodeError:
+        try:
+            fixed_json = repair_json(r.text)
+            data = json.loads(fixed_json)
+            logger.debug("🔧 JSON repaired successfully (flights)")
+        except Exception as parse_err:
+            logger.error(f"❌ Cannot parse JSON from gov.il flights: {parse_err}")
+            return None
+
 
         records = data.get("result", {}).get("records", [])
         logger.debug(f"✈ Received {len(records)} raw flight rows")
