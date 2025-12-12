@@ -1,10 +1,10 @@
+import aiosqlite
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from pathlib import Path
-import sqlite3
-import json
-from fastapi.responses import HTMLResponse
 from datetime import datetime, timedelta
+import asyncio
 
 router = APIRouter(tags=["Analytics"])
 
@@ -17,19 +17,30 @@ DB_PATH = ANALYTICS_DIR / "destinations.db"
 ANALYTICS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ------------------------------------------------------
-# DB CONNECTION
+# GLOBAL ASYNC CONNECTION (kept open)
 # ------------------------------------------------------
-def get_conn():
-    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
-    conn.execute("PRAGMA journal_mode=WAL;")
-    return conn
+DB_CONN: aiosqlite.Connection | None = None
+DB_LOCK = asyncio.Lock()   # Avoid concurrency write collisions
+
+
+async def get_conn() -> aiosqlite.Connection:
+    global DB_CONN
+    if DB_CONN is None:
+        DB_CONN = await aiosqlite.connect(DB_PATH)
+        await DB_CONN.execute("PRAGMA journal_mode=WAL;")
+        await DB_CONN.execute("PRAGMA synchronous=NORMAL;")
+        await DB_CONN.execute("PRAGMA temp_store=MEMORY;")
+    return DB_CONN
 
 
 # ------------------------------------------------------
-# CREATE TABLE (NOW DIRECTORY EXISTS!)
+# DATABASE INIT (async)
 # ------------------------------------------------------
-with get_conn() as conn:
-    conn.execute("""
+@router.on_event("startup")
+async def init_tables():
+    conn = await get_conn()
+
+    await conn.execute("""
         CREATE TABLE IF NOT EXISTS destination_clicks (
             iata TEXT PRIMARY KEY,
             city TEXT,
@@ -38,10 +49,8 @@ with get_conn() as conn:
             last_clicked TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    conn.commit()
 
-with get_conn() as conn:
-    conn.execute("""
+    await conn.execute("""
         CREATE TABLE IF NOT EXISTS analytics_daily (
             date   TEXT,
             iata   TEXT,
@@ -49,9 +58,20 @@ with get_conn() as conn:
             PRIMARY KEY (date, iata)
         )
     """)
-    conn.commit()
+
+    await conn.commit()
+
+
 # ------------------------------------------------------
-# Pydantic Model
+# CACHING LAYER FOR READS
+# ------------------------------------------------------
+TOP_CACHE = None
+TOP_CACHE_EXP = None
+TOP_TTL_SEC = 10   # refresh every 10 sec
+
+
+# ------------------------------------------------------
+# MODELS
 # ------------------------------------------------------
 class ClickEvent(BaseModel):
     iata: str
@@ -59,29 +79,11 @@ class ClickEvent(BaseModel):
     country: str
 
 
-def save_daily_snapshot():
-    """Store the current total_clicks into analytics_daily for today."""
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    with get_conn() as conn:
-        rows = conn.execute("""
-            SELECT iata, total_clicks
-            FROM destination_clicks
-        """).fetchall()
-
-        for iata, clicks in rows:
-            conn.execute("""
-                INSERT OR REPLACE INTO analytics_daily (date, iata, clicks)
-                VALUES (?, ?, ?)
-            """, (today, iata, clicks))  # correct order: date, iata, clicks
-
-        conn.commit()
-
 # ------------------------------------------------------
-# API: Track click
+# TRACK CLICK  (async, non-blocking)
 # ------------------------------------------------------
 @router.post("/api/analytics/click")
-def track_click(event: ClickEvent):
+async def track_click(event: ClickEvent):
     iata = event.iata.upper().strip()
     city = event.city.strip()
     country = event.country.strip()
@@ -90,11 +92,10 @@ def track_click(event: ClickEvent):
         raise HTTPException(status_code=400, detail="Invalid IATA code")
 
     today = datetime.now().strftime("%Y-%m-%d")
+    conn = await get_conn()
 
-    with get_conn() as conn:
-
-        # lifetime
-        conn.execute("""
+    async with DB_LOCK:  # prevent write collisions
+        await conn.execute("""
             INSERT INTO destination_clicks (iata, city, country, total_clicks, last_clicked)
             VALUES (?, ?, ?, 1, CURRENT_TIMESTAMP)
             ON CONFLICT(iata)
@@ -105,54 +106,128 @@ def track_click(event: ClickEvent):
                 last_clicked = CURRENT_TIMESTAMP
         """, (iata, city, country))
 
-        # DAILY realtime trending counter
-        conn.execute("""
+        await conn.execute("""
             INSERT INTO analytics_daily (date, iata, clicks)
             VALUES (?, ?, 1)
             ON CONFLICT(date, iata)
             DO UPDATE SET clicks = clicks + 1
         """, (today, iata))
 
-        conn.commit()
+        await conn.commit()
+
+    # invalidate cache
+    global TOP_CACHE_EXP
+    TOP_CACHE_EXP = None
 
     return {"status": "ok", "iata": iata}
 
 
-
 # ------------------------------------------------------
-# API: Get Top Destinations
+# GET TOP DESTINATIONS (async + cached)
 # ------------------------------------------------------
 @router.get("/api/analytics/top")
-def get_top(limit: int = 20):
-    with get_conn() as conn:
-        rows = conn.execute("""
-            SELECT iata, city, country, total_clicks, last_clicked
-            FROM destination_clicks
-            ORDER BY total_clicks DESC
-            LIMIT ?
-        """, (limit,)).fetchall()
+async def get_top(limit: int = 20):
 
-    return [
-        {
-            "iata": r[0],
-            "city": r[1],
-            "country": r[2],
-            "total_clicks": r[3],
-            "last_clicked": r[4]
-        }
-        for r in rows
-    ]
+    global TOP_CACHE, TOP_CACHE_EXP
+
+    now = datetime.now()
+
+    if TOP_CACHE and TOP_CACHE_EXP and now < TOP_CACHE_EXP:
+        return TOP_CACHE[:limit]  # return already-sliced
+
+    conn = await get_conn()
+
+    cursor = await conn.execute("""
+        SELECT iata, city, country, total_clicks, last_clicked
+        FROM destination_clicks
+        ORDER BY total_clicks DESC
+        LIMIT ?
+    """, (limit,))
+
+    rows = await cursor.fetchall()
+
+    result = [{
+        "iata": r[0],
+        "city": r[1],
+        "country": r[2],
+        "total_clicks": r[3],
+        "last_clicked": r[4],
+    } for r in rows]
+
+    # update cache
+    TOP_CACHE = result
+    TOP_CACHE_EXP = now + timedelta(seconds=TOP_TTL_SEC)
+
+    return result
 
 
 # ------------------------------------------------------
-# API: Reset Stats (optional)
+# TRENDING DESTINATIONS (async)
+# ------------------------------------------------------
+@router.get("/api/analytics/trending")
+async def trending_destinations(limit: int = 50):
+    today = datetime.now().strftime("%Y-%m-%d")
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    conn = await get_conn()
+
+    # LOAD TODAY
+    cur = await conn.execute(
+        "SELECT iata, clicks FROM analytics_daily WHERE date = ?", (today,)
+    )
+    today_rows = {r[0]: r[1] for r in await cur.fetchall()}
+
+    # LOAD YESTERDAY
+    cur = await conn.execute(
+        "SELECT iata, clicks FROM analytics_daily WHERE date = ?", (yesterday,)
+    )
+    yesterday_rows = {r[0]: r[1] for r in await cur.fetchall()}
+
+    # LOAD META (city/country)
+    cur = await conn.execute(
+        "SELECT iata, city, country FROM destination_clicks"
+    )
+    meta = {r[0]: (r[1], r[2]) for r in await cur.fetchall()}
+
+    trending = []
+
+    for iata, today_clicks in today_rows.items():
+        y_clicks = yesterday_rows.get(iata, 0)
+        change = today_clicks - y_clicks
+        city, country = meta.get(iata, ("Unknown", "Unknown"))
+
+        trending.append({
+            "iata": iata,
+            "city": city,
+            "country": country,
+            "today": today_clicks,
+            "yesterday": y_clicks,
+            "change": change,
+            "percent": round((change / y_clicks * 100), 1) if y_clicks else None
+        })
+
+    trending.sort(key=lambda x: x["change"], reverse=True)
+    return trending[:limit]
+
+
+# ------------------------------------------------------
+# ADMIN DASHBOARD
+# ------------------------------------------------------
+@router.get("/admin/analytics", response_class=HTMLResponse)
+async def analytics_dashboard():
+    return HTMLResponse(content=DASHBOARD_HTML)
+
+
+# ------------------------------------------------------
+# RESET DB
 # ------------------------------------------------------
 @router.get("/analytics/reset")
-def reset_stats():
-    with get_conn() as conn:
-        conn.execute("DELETE FROM destination_clicks")
-        conn.execute("DELETE FROM analytics_daily")
-        conn.commit()
+async def reset_stats():
+    conn = await get_conn()
+    async with DB_LOCK:
+        await conn.execute("DELETE FROM destination_clicks")
+        await conn.execute("DELETE FROM analytics_daily")
+        await conn.commit()
     return {"status": "reset"}
 
 

@@ -1,5 +1,4 @@
 // ads-and-modal.js
-
 document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("mapModal");
   const iframe = document.getElementById("map-frame");
@@ -55,3 +54,34 @@ function renderAd(containerId, slotId, format = "auto") {
     console.warn("AdSense render failed", e);
   }
 }
+
+// ----------------------------------------------------
+// Dynamic Direct Flight Deals injection
+// ----------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const select = document.getElementById("deals-city-select");
+  const container = document.getElementById("deals-script-container");
+  if (!select || !container) return;
+
+  select.addEventListener("change", () => {
+    const iata = select.value;
+    const locale = document.documentElement.lang === "he" ? "he" : "en";
+
+    // Clear previous script
+    container.innerHTML = "";
+
+    // Create new ad script with dynamic destination
+    const script = document.createElement("script");
+    script.async = true;
+    script.charset = "utf-8";
+    script.src =
+      `https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.2323443` +
+      `&destination=${iata}` +
+      `&target_host=www.aviasales.com%2Fsearch` +
+      `&locale=${locale}` +
+      `&limit=1&powered_by=true&width=360` +
+      `&primary=%230085FF&promo_id=4044&campaign_id=100`;
+
+    container.appendChild(script);
+  });
+});

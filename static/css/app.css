@@ -1590,4 +1590,18 @@ body.dark-mode #trending-widget a:hover {
     text-decoration: underline;
 }
 
+#deals-city-select {
+  width: auto !important;
+  min-width: 90px;
+  font-size: 0.75rem;
+  line-height: 1.1;
+  padding: 0 0.3rem;
+  border: none;
+  background-color: #f8f9fa;
+    /* Hide native arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
 

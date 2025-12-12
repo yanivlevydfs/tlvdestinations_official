@@ -494,14 +494,35 @@
 				></script>
 			  </div>
 			</div>
-			<div class="card shadow-sm d-none d-lg-block" aria-label="Advertisement">
-			  <div class="card-header small text-muted fw-semibold">
-				<i class="bi bi-airplane-engines me-1 text-primary"></i>{{ 'Direct Flight Deals' if lang != 'he' else 'דילים לטיסות ישירות' }}
-			  </div>
-			  <div class="card-body text-center p-0" style="overflow: hidden;">
-				<script async src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.2323443&target_host=www.aviasales.com%2Fsearch&locale={{ localeParam }}&limit=10&powered_by=true&width=360&primary=%230085FF&promo_id=4044&campaign_id=100" charset="utf-8"></script>
-			  </div>
-			</div>
+				<div class="card shadow-sm d-none d-lg-block" aria-label="Advertisement">
+				  <div class="card-header small text-muted fw-semibold d-flex align-items-center justify-content-between">
+					<div>
+					  <i class="bi bi-airplane-engines me-1 text-primary"></i>
+					  {{ 'Direct Flight Deals' if lang != 'he' else 'דילים לטיסות ישירות' }}
+					</div>
+
+					<!-- City selector built from your airports list -->
+				<select id="deals-city-select"
+						class="form-select form-select-sm border-0 bg-light"
+						style="width:auto; min-width:90px; font-size:0.75rem; line-height:1.1; padding:0 0.3rem;">
+				  {% for ap in airports|unique(attribute='IATA')|sort(attribute='City') %}
+					<option value="{{ ap.IATA }}">{{ ap.City }} ({{ ap.IATA }})</option>
+				  {% endfor %}
+				</select>
+
+
+				  </div>
+				  <div class="card-body text-center p-0" style="overflow: hidden;">
+					<!-- Script placeholder (will be injected dynamically with selected IATA) -->
+					<div id="deals-script-container">
+					  <script
+						async
+						src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.2323443&destination=TLV&target_host=www.aviasales.com%2Fsearch&locale={{ localeParam }}&limit=10&powered_by=true&width=360&primary=%230085FF&promo_id=4044&campaign_id=100"
+						charset="utf-8">
+					  </script>
+					</div>
+				  </div>
+				</div>
             </div>
           </div>
         </div>
