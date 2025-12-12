@@ -639,7 +639,11 @@ if (window.innerWidth <= 768) {
 document.addEventListener("click", function (e) {
     const a = e.target.closest("a[href^='/destinations/']");
     if (!a) return;
-
+	
+	if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        return; // let the browser handle it natively
+    }
+	
     e.preventDefault();
 
     // ------------------------------------------------------
@@ -679,6 +683,13 @@ document.addEventListener("click", function (e) {
             window.location.href = url.toString();
         }, 30);
     });
+});
+window.addEventListener("pageshow", (event) => {
+    const navEntry = performance.getEntriesByType("navigation")[0];
+    if (event.persisted || (navEntry && navEntry.type === "back_forward")) {
+        const loader = document.getElementById("global-loader");
+        if (loader) loader.style.display = "none";
+    }
 });
 
 }); // ✅ closes DOMContentLoaded cleanly

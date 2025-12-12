@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // -----------------------------
     // POPULAR DESTINATIONS
     // -----------------------------
-    fetch("/api/analytics/top?limit=10")
+    fetch("/api/analytics/top?limit=5")
         .then(r => r.json())
         .then(data => {
             const container = document.getElementById("popular-widget");

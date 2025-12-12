@@ -203,7 +203,7 @@ h1 { margin-bottom: 20px; }
 
 <script>
 // Fetch analytics
-fetch('/api/analytics/top?limit=50')
+fetch('/api/analytics/top?limit=5')
   .then(r => r.json())
   .then(data => {
       // ---------- TABLE FILL ----------
@@ -250,7 +250,7 @@ def analytics_dashboard():
     return HTMLResponse(content=html)
     
 @router.get("/api/analytics/trending")
-def trending_destinations(limit: int = 10):
+def trending_destinations(limit: int = 50):
     today = datetime.now().strftime("%Y-%m-%d")
     yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
 
