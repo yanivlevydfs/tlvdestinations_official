@@ -638,13 +638,12 @@ if (window.innerWidth <= 768) {
 
 // ---------- Destination click interception ----------
 // Run only on home or stats pages to prevent loops on destination pages
+// ---------- Destination click interception ----------
+// Run only on home or stats pages to prevent loops on destination pages
 if (!window.location.pathname.startsWith("/destinations/")) {
   document.addEventListener("click", function (e) {
     const a = e.target.closest("a[href^='/destinations/']");
     if (!a) return;
-
-    // Skip mobile browsers (native navigation is smoother)
-    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) return;
 
     e.preventDefault();
 
@@ -662,35 +661,41 @@ if (!window.location.pathname.startsWith("/destinations/")) {
     const loader = document.getElementById("global-loader");
     const textEl = document.querySelector("#global-loader .loader-text");
     const lang = document.documentElement.lang || "en";
-    textEl.textContent = lang === "he"
-      ? "טוען את נתוני היעד…"
-      : "Please Wait…";
-    if (loader) loader.style.display = "flex";
 
-    // --- Redirect ---
-    const url = new URL(a.href, window.location.origin);
-    if (lang === "he") url.searchParams.set("lang", "he");
+    if (loader && textEl) {
+      textEl.textContent =
+        lang === "he" ? "טוען את נתוני היעד…" : "Please Wait…";
 
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        window.location.href = url.toString();
-      }, 30);
-    });
+      loader.style.display = "flex";
+      // ✅ Force paint on mobile browsers
+      loader.style.transform = "translateZ(0)";
+      void loader.offsetHeight;
+
+      // ✅ Double rAF ensures repaint before navigation
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const url = new URL(a.href, window.location.origin);
+          if (lang === "he") url.searchParams.set("lang", "he");
+          window.location.href = url.toString();
+        });
+      });
+    } else {
+      // Fallback: normal redirect if loader missing
+      window.location.href = a.href;
+    }
   });
 }
-}); // ✅ closes DOMContentLoaded cleanly
+  });
 // ---------- Handle BFCache restore + Android Back ----------
 window.addEventListener("pageshow", (event) => {
   const loader = document.getElementById("global-loader");
   const navEntry = performance.getEntriesByType("navigation")[0];
 
-  // Hide loader ONLY when coming back (not on normal page load)
+  // Hide loader ONLY when coming back (not on normal load)
   const isBackRestore =
     event.persisted || (navEntry && navEntry.type === "back_forward");
 
-  if (isBackRestore && loader) {
-    loader.style.display = "none";
-  }
+  if (isBackRestore && loader) loader.style.display = "none";
 });
 
 
