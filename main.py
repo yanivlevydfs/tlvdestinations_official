@@ -560,12 +560,7 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
     # 1️⃣ TRY DIRECT REQUEST
     # ----------------------------
     try:
-        r = requests.get(
-            ISRAEL_API,
-            params=params,
-            headers=HEADERS,
-            timeout=40
-        )
+        r = requests.get(ISRAEL_API, params=params, headers=HEADERS, timeout=40)
         r.raise_for_status()
     except Exception as e:
         logger.warning(f"⚠️ Direct fetch failed ({e}) → switching to proxy.")
@@ -585,7 +580,7 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
                     params=params,
                     headers=HEADERS,
                     proxies=proxies,
-                    timeout=40
+                    timeout=40,
                 )
                 r.raise_for_status()
                 break  # ✅ success
@@ -607,77 +602,70 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
             logger.error(f"❌ Cannot parse JSON from gov.il flights: {parse_err}")
             return None
 
+    # ✅ Everything below should always run after JSON is parsed
+    records = data.get("result", {}).get("records", [])
+    logger.debug(f"✈ Received {len(records)} raw flight rows")
 
-        records = data.get("result", {}).get("records", [])
-        logger.debug(f"✈ Received {len(records)} raw flight rows")
+    if not records:
+        logger.warning("⚠ Gov.il returned 0 records for flights.")
+        return None
 
-        if not records:
-            logger.warning("⚠ Gov.il returned 0 records for flights.")
-            return None
+    # ----------------------------
+    # PARSE & NORMALIZE RECORDS
+    # ----------------------------
+    flights = []
+    for rec in records:
+        iata = (rec.get("CHLOC1") or "").strip().upper()
+        direction = normalize_case(rec.get("CHAORD", ""))
 
-        # ----------------------------
-        # PARSE & NORMALIZE RECORDS
-        # ----------------------------
-        flights = []
-        for rec in records:
-            iata = (rec.get("CHLOC1") or "").strip().upper()
-            direction = normalize_case(rec.get("CHAORD", ""))
+        if not iata or not direction:
+            continue
 
-            if not iata or not direction:
-                continue
+        raw_city = normalize_case(rec.get("CHLOC1T", ""))
+        corrected_city = fix_city_name(raw_city)
 
-            raw_city = normalize_case(rec.get("CHLOC1T", ""))
-            corrected_city = fix_city_name(raw_city)
+        flights.append({
+            "airline": normalize_case(rec.get("CHOPERD", "")),
+            "iata": iata,
+            "airport": normalize_case(rec.get("CHLOC1D", "")),
+            "city": corrected_city,
+            "country": normalize_case(rec.get("CHLOCCT", "")),
+            "scheduled": normalize_case(rec.get("CHSTOL", "")),
+            "actual": normalize_case(rec.get("CHPTOL", "")),
+            "direction": direction,
+            "status": normalize_case(rec.get("CHRMINE", "")),
+        })
 
-            flights.append({
-                "airline": normalize_case(rec.get("CHOPERD", "")),
-                "iata": iata,
-                "airport": normalize_case(rec.get("CHLOC1D", "")),
-                "city": corrected_city,
-                "country": normalize_case(rec.get("CHLOCCT", "")),
-                "scheduled": normalize_case(rec.get("CHSTOL", "")),
-                "actual": normalize_case(rec.get("CHPTOL", "")),
-                "direction": direction,
-                "status": normalize_case(rec.get("CHRMINE", "")),
-            })
+    if not flights:
+        logger.warning("⚠ No valid flight rows after filtering.")
+        return None
 
-        if not flights:
-            logger.warning("⚠ No valid flight rows after filtering.")
-            return None
+    df = pd.DataFrame(flights)
+    df["iata"] = (
+        df["iata"].astype(str).str.strip().str.upper().replace("NAN", None)
+    )
+    flights = df.to_dict(orient="records")
 
-        df = pd.DataFrame(flights)
-        df["iata"] = (
-            df["iata"]
-            .astype(str)
-            .str.strip()
-            .str.upper()
-            .replace("NAN", None)
-        )
+    result = {
+        "updated": datetime.now().isoformat(),
+        "count": len(flights),
+        "flights": flights,
+    }
 
-        flights = df.to_dict(orient="records")
+    # ----------------------------
+    # WRITE TO CACHE FILE
+    # ----------------------------
+    try:
+        with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        logger.debug(f"💾 Cached {len(flights)} flights to disk")
+    except Exception as e:
+        logger.error(f"❌ Failed writing flights cache: {e}")
+        return None
 
-        # ----------------------------
-        # BUILD RESULT
-        # ----------------------------
-        result = {
-            "updated": datetime.now().isoformat(),
-            "count": len(flights),
-            "flights": flights
-        }
+    logger.debug(f"✈ Flight data refreshed ({len(flights)} records)")    
+    return result
 
-        # ----------------------------
-        # WRITE TO CACHE FILE
-        # ----------------------------
-        try:
-            with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
-                json.dump(result, f, ensure_ascii=False, indent=2)
-            logger.debug(f"💾 Cached {len(flights)} flights to disk")
-        except Exception as e:
-            logger.error(f"❌ Failed writing flights cache: {e}")
-            return None
-
-        logger.debug(f"✈ Flight data refreshed ({len(flights)} records)")
-        return result
 
 
 def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
