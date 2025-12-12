@@ -658,7 +658,7 @@ def fetch_israel_flights() -> dict | None:
             logger.error(f"❌ Failed writing flights cache: {e}")
             return None
 
-        logger.info(f"✈ Flight data refreshed ({len(flights)} records)")
+        logger.debug(f"✈ Flight data refreshed ({len(flights)} records)")
         return result
 
 
@@ -1306,18 +1306,19 @@ async def traffic_advice(request: Request):
     """Responds to Google's Traffic Advice probe requests."""
     ua = request.headers.get("user-agent", "").lower()
 
-    # 🕵️‍♂️ If not Googlebot — silently ignore (prevents noise)
+    # Ignore non-Google bots silently
     if "googlebot" not in ua:
-        return Response(status_code=204)  # No Content
+        return Response(status_code=204)
 
-    # 🟢 Log Googlebot probe once
-    logger.debug(f"✅ Googlebot traffic-advice request from {request.client.host}")
+    client_ip = request.client.host if request.client else "unknown"
+    logger.debug(f"✅ Googlebot traffic-advice request from {client_ip}")
 
-    # 🔵 Recommended JSON format (official spec)
-    # Docs: https://developers.google.com/search/docs/crawling-indexing/traffic-advice
     return JSONResponse(
         content={
-            "crawling": {"state": "allowed"}  # or "disallowed" if you want to throttle bots
+            "crawling": {"state": "allowed"}
+        },
+        headers={
+            "Cache-Control": "public, max-age=86400"
         }
     )
 

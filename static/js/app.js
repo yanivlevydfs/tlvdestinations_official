@@ -678,7 +678,7 @@ if (!window.location.pathname.startsWith("/destinations/")) {
     });
   });
 }
-
+}); // ✅ closes DOMContentLoaded cleanly
 // ---------- Handle BFCache restore + Android Back ----------
 window.addEventListener("pageshow", (event) => {
   const loader = document.getElementById("global-loader");
@@ -693,5 +693,4 @@ window.addEventListener("pageshow", (event) => {
   }
 });
 
-}); // ✅ closes DOMContentLoaded cleanly
 
