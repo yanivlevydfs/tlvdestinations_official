@@ -360,19 +360,15 @@ TEMPLATES.env.filters["datetimeformat"] = datetimeformat
 
 def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     """
-    Fetch ALL travel warnings from gov.il using proxy rotation,
-    clean fields, extract threat level, cache results, and update global DF.
+    Fetch all travel warnings from data.gov.il using direct requests only.
+    Keeps JSON repair fallback, paging, and updates global TRAVEL_WARNINGS_DF.
     """
-
-    # ----------------- REQUIRED HEADERS (NO NAMEERROR) -----------------
     HEADERS = {
         "User-Agent": (
-            "datagov-external-client; "
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/120.0.0.0 Safari/537.36"
+            "datagov-external-client; Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         ),
-        "Accept": "application/json",
+        "Accept": "application/json, text/plain, */*",
         "Referer": "https://www.gov.il/",
     }
 
@@ -381,36 +377,26 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     global TRAVEL_WARNINGS_DF
 
     while True:
-        # ----------------- ROTATE PROXY -----------------
-        proxy = get_random_proxy()
-        proxy_url = f"http://{proxy['user']}:{proxy['pass']}@{proxy['host']}:{proxy['port']}"
-        proxies = {
-            "http": proxy_url,
-            "https": proxy_url,
-        }
-
         params = {
             "resource_id": TRAVEL_WARNINGS_RESOURCE,
             "limit": batch_size,
             "offset": offset,
         }
 
-        logger.debug(f"🌐 Fetching TW offset={offset} via proxy {proxy['host']} ...")
+        logger.debug(f"🌐 Fetching travel warnings offset={offset} (direct)…")
 
-        # ------------------ MAKE REQUEST ------------------
+        # Direct request only (no proxy rotation)
         try:
             r = requests.get(
                 TRAVEL_WARNINGS_API,
                 params=params,
                 headers=HEADERS,
-                proxies=proxies,   
-                timeout=40
+                timeout=40,
             )
             r.raise_for_status()
-
         except Exception as e:
-            logger.error(f"❌ Proxy {proxy['host']} failed → retrying: {e}")
-            continue  # try next proxy
+            logger.error(f"❌ Direct fetch failed for offset={offset}: {e}")
+            return None
 
 
         # ------------------ PARSE JSON ------------------
