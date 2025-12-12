@@ -636,60 +636,56 @@ if (window.innerWidth <= 768) {
   $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
 })();
 
-document.addEventListener("click", function (e) {
+// ---------- Destination click interception ----------
+// Run only on home or stats pages to prevent loops on destination pages
+if (!window.location.pathname.startsWith("/destinations/")) {
+  document.addEventListener("click", function (e) {
     const a = e.target.closest("a[href^='/destinations/']");
     if (!a) return;
-	
-	if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-        return; // let the browser handle it natively
-    }
-	
+
+    // Skip mobile browsers (native navigation is smoother)
+    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) return;
+
     e.preventDefault();
 
-    // ------------------------------------------------------
-    // ANALYTICS CLICK (non-blocking)
-    // ------------------------------------------------------
+    // --- Analytics (non-blocking) ---
     const iata = (a.dataset.iata || a.href.split("/").pop()).toUpperCase();
     const city = a.dataset.city || "";
     const country = a.dataset.country || "";
-
     fetch("/api/analytics/click", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ iata, city, country })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ iata, city, country }),
     }).catch(() => {});
 
-    // ------------------------------------------------------
-    // YOUR EXISTING LOADER LOGIC (unchanged)
-    // ------------------------------------------------------
+    // --- Loader ---
     const loader = document.getElementById("global-loader");
     const textEl = document.querySelector("#global-loader .loader-text");
     const lang = document.documentElement.lang || "en";
-
     textEl.textContent = lang === "he"
-        ? "טוען את נתוני היעד…"
-        : "Please Wait…";
+      ? "טוען את נתוני היעד…"
+      : "Please Wait…";
+    if (loader) loader.style.display = "flex";
 
-    loader.style.display = "flex";
-
-    let url = new URL(a.href, window.location.origin);
-
-    if (lang === "he") {
-        url.searchParams.set("lang", "he");
-    }
+    // --- Redirect ---
+    const url = new URL(a.href, window.location.origin);
+    if (lang === "he") url.searchParams.set("lang", "he");
 
     requestAnimationFrame(() => {
-        setTimeout(() => {
-            window.location.href = url.toString();
-        }, 30);
+      setTimeout(() => {
+        window.location.href = url.toString();
+      }, 30);
     });
-});
+  });
+}
+
+// ---------- Handle BFCache restore (back/forward navigation) ----------
 window.addEventListener("pageshow", (event) => {
-    const navEntry = performance.getEntriesByType("navigation")[0];
-    if (event.persisted || (navEntry && navEntry.type === "back_forward")) {
-        const loader = document.getElementById("global-loader");
-        if (loader) loader.style.display = "none";
-    }
+  const navEntry = performance.getEntriesByType("navigation")[0];
+  if (event.persisted || (navEntry && navEntry.type === "back_forward")) {
+    const loader = document.getElementById("global-loader");
+    if (loader) loader.style.display = "none";
+  }
 });
 
 }); // ✅ closes DOMContentLoaded cleanly
