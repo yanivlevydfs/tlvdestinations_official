@@ -24,9 +24,9 @@ function formatRemovedRoute(r, dateText) {
     return `
         <span class="ticker-item removed">
             <i class="bi bi-x-circle-fill"></i>
-            <strong>${r.airline}</strong> has discontinued service to
+            <strong>${r.airline}</strong> is not operating flights to
             <strong>${r.city} (${r.iata})</strong>
-            <span class="update-date">as of ${dateText}</span>
+            <span class="update-date">on ${dateText}</span>
         </span>
     `.trim();
 }
@@ -35,9 +35,9 @@ function formatAddedRoute(r, dateText) {
     return `
         <span class="ticker-item added">
             <i class="bi bi-check-circle-fill"></i>
-            <strong>${r.airline}</strong> has launched new service to
+            <strong>${r.airline}</strong> is operating flights to
             <strong>${r.city} (${r.iata})</strong>
-            <span class="update-date">effective ${dateText}</span>
+            <span class="update-date">on ${dateText}</span>
         </span>
     `.trim();
 }
@@ -102,4 +102,10 @@ async function loadRouteTicker() {
 // -------------------------
 // Init on DOM load
 // -------------------------
-document.addEventListener("DOMContentLoaded", loadRouteTicker);
+document.addEventListener("DOMContentLoaded", function () {
+    loadRouteTicker();
+
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+        new bootstrap.Tooltip(el);
+    });
+});

@@ -354,11 +354,17 @@
     </div>
   </nav>
 <!-- Route Changes Ticker (Card Style) -->
-  <div class="container-fluid px-2 px-md-3">
+<div class="container-fluid px-2 px-md-3">
 <div id="route-ticker" class="card shadow-sm mb-2 small p-2 mt-3 d-none">
     <div class="ticker-title fw-semibold mb-1 text-primary text-start">
         <i class="bi bi-airplane-engines-fill me-1"></i>
         Route Updates
+	   <i class="bi bi-info-circle ms-1 text-muted"
+       data-bs-toggle="tooltip"
+       data-bs-placement="right"
+       title="Based on today’s published flight schedule. Routes may appear or disappear on different dates."
+       aria-label="Route updates are based on today’s schedule">
+    </i>
     </div>
     <div class="ticker-wrapper">
         <div class="ticker-inner"></div>
