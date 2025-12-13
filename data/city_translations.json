@@ -174,5 +174,7 @@
 "Grenoble": {"he": "גרנובל", "country": "France", "country_he": "צרפת"},
 "Strasbourg": {"he": "שטרסבורג", "country": "France", "country_he": "צרפת"},
 "Stuttgart": {"he": "שטוטגרט", "country": "Germany", "country_he": "גרמניה"},
-"Kilimanjaro": {"he": "קילימנג'רו","country": "Tanzania","country_he": "טנזניה"}
+"Kilimanjaro": {"he": "קילימנג'רו","country": "Tanzania","country_he": "טנזניה"},
+"Eilat": {"he": "אילת","country": "Israel","country_he": "ישראל"},
+"Mahé": {"he": "מהה","country": "Seychelles","country_he": "סיישל"}
 }

@@ -67,6 +67,8 @@ from routers.attractions import router as attractions_router
 from requests.exceptions import RequestException, ReadTimeout, ConnectTimeout
 from routers.analytics import router as analytics_router
 from helpers.proxies import get_random_proxy
+from routers.generic_routes import router as generic_routes
+from helpers.attraction_filters import load_filters
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -160,6 +162,7 @@ app.add_exception_handler(Exception, generic_exception_handler)
 app.middleware("http")(redirect_and_log_404)
 app.include_router(attractions_router)
 app.include_router(analytics_router)
+app.include_router(generic_routes)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -818,27 +821,32 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         ]), None
 
 def load_israel_flights_map():
-    """Return dict {IATA: set(airlines)} from gov.il cache"""
-    flights = []
-    if ISRAEL_FLIGHTS_FILE.exists():
-        try:
-            with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
-                flights = json.load(f).get("flights", [])
-        except Exception as e:
-            logger.error(f"Failed to read gov.il flights: {e}")
-            return {}
+    """
+    Build a mapping {IATA: set(airlines)} directly from DATASET_DF.
+    No file access, no reloading—DATASET_DF already contains all current flights.
+    """
+    global DATASET_DF
 
-    # Build map
+    if DATASET_DF is None or DATASET_DF.empty:
+        logger.warning("DATASET_DF is empty — cannot build flights map.")
+        return {}
+
     mapping = {}
-    for f in flights:
-        iata = f.get("iata")
-        airline = f.get("airline")
+
+    for _, row in DATASET_DF.iterrows():
+        iata = row.get("IATA") or row.get("iata")
+        airline = row.get("AIRLINE") or row.get("airline")
+
         if not iata or not airline:
             continue
-        normalized = airline.strip().lower()
+
+        normalized = str(airline).strip().lower()
         if normalized:
             mapping.setdefault(iata, set()).add(normalized)
+
     return mapping
+
+
 
 def load_airline_websites() -> dict:
     try:
@@ -1259,36 +1267,6 @@ async def shutdown_event():
         logger.warning("No scheduler instance to shut down")
 
     logger.debug("👋 Application shutdown completed")
-
-    
-@app.get("/about", response_class=HTMLResponse)
-async def about(request: Request, lang: str = Depends(get_lang)):
-    logger.debug(f"GET /about | lang={lang} | client={request.client.host}")
-    return TEMPLATES.TemplateResponse("about.html", {
-        "request": request,
-        "lang": lang,
-        "now": datetime.now()
-    })
-
-@app.get("/privacy", response_class=HTMLResponse)
-async def privacy(request: Request, lang: str = Depends(get_lang)):
-    logger.debug(f"GET /privacy | lang={lang} | client={request.client.host}")
-    return TEMPLATES.TemplateResponse("privacy.html", {
-        "request": request,
-        "lang": lang,
-        "now": datetime.now()
-    })
-
-
-@app.get("/contact", response_class=HTMLResponse)
-async def contact(request: Request, lang: str = Depends(get_lang)):
-    logger.debug(f"GET /contact | lang={lang} | client={request.client.host}")
-    return TEMPLATES.TemplateResponse("contact.html", {
-        "request": request,
-        "lang": lang,
-        "now": datetime.now()
-    })
-
 
 @app.get("/ads.txt", include_in_schema=False)
 async def ads_txt(request: Request):
@@ -1865,18 +1843,6 @@ I couldn't find it in our current destination catalog, please check the main tab
     suggestions = random.sample(suggestions, k=3)
 
     return {"answer": answer, "suggestions": suggestions}
-
-@app.get("/chat", response_class=HTMLResponse)
-async def chat_page(request: Request, lang: str = Depends(get_lang)):
-    client_host = request.client.host if request.client else "unknown"
-    logger.debug(f"GET /chat from {client_host} (lang={lang})")
-
-    return TEMPLATES.TemplateResponse("chat.html", {
-        "request": request,
-        "lang": lang,
-        "now": datetime.now()
-    })
-
     
 @app.get("/api/chat/suggestions", response_class=JSONResponse)
 async def chat_suggestions(n: int = Query(default=10, le=20)):
@@ -2011,25 +1977,6 @@ async def flights_view(request: Request):
         "lang": request.query_params.get("lang", "en"),
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
-@app.get("/glossary", response_class=HTMLResponse)
-async def glossary_view(request: Request):
-    lang = request.query_params.get("lang", "en").lower()
-
-    try:
-        return TEMPLATES.TemplateResponse("aviation_glossary.html", {
-            "request": request,
-            "lang": lang
-        })
-    except Exception as e:
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "message": (
-                "Glossary page could not be loaded."
-                if lang != "he"
-                else "לא ניתן לטעון את עמוד המונחים."
-            ),
-            "lang": lang
-        })
 
 @app.get("/destinations", include_in_schema=False)
 async def redirect_to_home(request: Request):
@@ -2165,15 +2112,6 @@ async def destination_detail(request: Request, iata: str):
 
     return HTMLResponse(content=rendered_html)
 
-@app.get("/accessibility", response_class=HTMLResponse)
-async def accessibility(request: Request, lang: str = "en"):
-    return TEMPLATES.TemplateResponse(
-        "accessibility.html",
-        {
-            "request": request,
-            "lang": lang
-        }
-    )
 @app.post("/api/chat/feedback")
 async def receive_feedback(payload: dict):
     question = payload.get("question")
@@ -2181,27 +2119,6 @@ async def receive_feedback(payload: dict):
     feedback_logger.debug(f"{score} | {question}")
     return {"status": "ok"}
     
-@app.get("/sw.js", include_in_schema=False)
-async def service_worker():
-    js = """
-    self.addEventListener("install", (event) => {
-        console.log("Service Worker installed");
-        self.skipWaiting();
-    });
-
-    self.addEventListener("activate", (event) => {
-        console.log("Service Worker activated");
-        event.waitUntil(clients.claim());
-    });
-
-    // Minimal fetch handler (passthrough to network)
-    self.addEventListener("fetch", (event) => {
-        event.respondWith(fetch(event.request));
-    });
-    """
-    return Response(content=js, media_type="application/javascript")    
-
-
 @app.get("/stats", response_class=HTMLResponse)
 async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
     global DATASET_DF_FLIGHTS
@@ -2262,51 +2179,6 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         "airlines_data": airlines_data,
     })
 
-@app.get("/direct-vs-nonstop", response_class=HTMLResponse)
-async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
-    client = request.client.host
-    try:
-        logger.debug(f"GET /direct-vs-nonstop | lang={lang} | client={client}")
-        return TEMPLATES.TemplateResponse("direct_vs_nonstop.html", {
-            "request": request,
-            "lang": lang,
-            "now": datetime.now()
-        })
-    except Exception as e:
-        logger.error(f"❌ Failed to render direct_vs_nonstop.html | {e} | client={client}")
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "lang": lang,
-            "message": (
-                "The Direct vs Nonstop page could not be loaded. Please try again later."
-                if lang != "he"
-                else "לא ניתן לטעון את עמוד 'ישיר מול ללא-עצירות'. נסה שוב מאוחר יותר."
-            )
-        }, status_code=500)
-        
-@app.get("/manifest.json", include_in_schema=False)
-async def manifest(request: Request):
-    lang = request.query_params.get("lang", "en").lower()
-    if lang not in ("en", "he"):
-        lang = "en"
-
-    client = request.client.host if request.client else "unknown"
-    base_path = Path(__file__).parent
-    manifest_en = base_path / "manifest.json"
-    manifest_he = base_path / "manifest.he.json"
-
-    selected_manifest = manifest_he if lang == "he" and manifest_he.exists() else manifest_en
-
-    if selected_manifest.exists():
-        logger.debug(f"📄 GET /manifest.json | lang={lang} | client={client} | file={selected_manifest.name}")
-        return FileResponse(selected_manifest, media_type="application/manifest+json")
-    else:
-        logger.error(f"❌ Manifest not found | lang={lang} | path={selected_manifest}")
-        return JSONResponse(
-            {"error": "Manifest not found", "lang": lang},
-            status_code=404
-        )
-    
 @app.get("/api/refresh-data", response_class=JSONResponse)
 async def refresh_data_webhook():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
@@ -2346,28 +2218,7 @@ async def refresh_data_webhook():
 
     logger.debug("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
-
-
-@app.get("/terms", response_class=HTMLResponse)
-async def terms_view(request: Request):
-    lang = request.query_params.get("lang", "en").lower()
-
-    try:
-        return TEMPLATES.TemplateResponse("terms.html", {
-            "request": request,
-            "lang": lang
-        })
-    except Exception as e:
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "message": (
-                "Terms & Conditions page could not be loaded."
-                if lang != "he"
-                else "לא ניתן לטעון את עמוד התנאים וההגבלות."
-            ),
-            "lang": lang
-        })
-        
+      
 @app.get("/feed.xml", response_class=Response)
 def flight_feed():
     now = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000")
@@ -2426,8 +2277,6 @@ async def travel_questionnaire(request: Request, lang: str = "en"):
         "lang": lang,
         "last_update": get_dataset_date()
     })
-
-
 
 @app.get("/api/cities")
 async def get_cities(country: str):
@@ -2715,15 +2564,9 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                 if search_list:
 
                     resolved_page = None
-
-                    # Keywords that indicate the page is a CITY (en/he)
-                    CITY_KEYWORDS_EN = [
-                        "cities in", "city", "town", "municipality", "urban area",
-                        "populated places", "capital", "metropolitan area"
-                    ]
-                    CITY_KEYWORDS_HE = [
-                        "עיר", "ערים", "יישוב", "יישובים", "מועצה מקומית"
-                    ]
+                    filters = load_filters()
+                    CITY_KEYWORDS_EN = filters.get("CITY_KEYWORDS_EN", [])
+                    CITY_KEYWORDS_HE = filters.get("CITY_KEYWORDS_HE", [])
 
                     for item in search_list:
                         candidate = item["title"]
@@ -2877,10 +2720,6 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
 
             logger.debug(f"📍 Coordinates for {city_clean}: {lat},{lon}")
 
-
-
-
-
             # ============================================================
             # 5️⃣ GEOSEARCH — find POIs near the city center
             # ============================================================
@@ -2909,133 +2748,11 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
             pois = []
             seen = set()
             # -------------- FILTER CONSTANTS -----------------
-            BLOCK = [
-                # English (all lowercase because category titles are lowered)
-                "railway station", "railway stations",
-                "metro station", "metro stations",
-                "suburbs", "neighbourhoods", "neighborhoods",
-                "villages in", "towns in",
-                "municipalities", "districts",
-                "hospitals", "clinics",
-                "universities", "schools", "education",
-                "companies", "organizations",
-                "roads in", "streets in", "bridges in",
-                "sports venues", "stadiums",
-                "transport",
-                "buildings and structures in",
-                "populated places",                
-
-                # Hebrew
-                "תחנות רכבת", "תחנת רכבת", "רכבת",
-                "תחנות מטרו", "מטרו",
-                "שכונות", "פרברים", "פרבר", "שכונה",
-                "מועצות מקומיות", "יישובים", "יישוב",
-                "בתי חולים", "מרפאות",
-                "אוניברסיטאות", "בתי ספר", "חינוך",
-                "חברות", "ארגונים",
-                "כבישים", "רחובות", "גשרים",
-                "אצטדיונים", "מגרשי ספורט",
-                "מבנים ואתרים", "מקומות יישוב",
-                "תחבורה",
-                "מסגד",  
-            ]
-            ALLOW = [
-                # English
-                "tourist attraction", "tourist attractions",
-                "tourism",
-                "heritage site", "heritage sites",
-                "world heritage", "unesco",
-                "historic site", "historical sites",
-                "archaeological site", "archaeological sites",
-
-                "museum", "museums", "art museum",
-                "gallery", "galleries",
-                "exhibition",
-
-                "monument", "monuments",
-                "statue", "memorial",
-
-                "palace", "castle", "citadel", "fortress",
-
-                "cathedral", "church", "synagogue", "basilica",
-                "mosque",   # attraction
-
-                "park", "national park",
-                "garden", "botanical garden",
-
-                "square", "public square", "plaza",
-                "historic center", "old town",
-                "promenade", "viewpoint",
-
-                # Culinary categories (category-based only)
-                "restaurants in", "famous restaurants",
-                "notable restaurants",
-                "cafes in", "coffeehouses", "historic cafes",
-
-                # Hebrew
-                "אטרקציות תיירות", "אטרקציות לתיירים", "אתרי תיירות",
-                "מורשת עולמית", "אתר מורשת", "אתרי מורשת",
-                "אתר היסטורי", "אתרים היסטוריים",
-                "אתר ארכאולוגי", "אתרים ארכאולוגיים",
-
-                "מוזיאון", "מוזיאונים",
-                "גלריה", "גלריות",
-
-                "מונומנט", "אנדרטה", "פסל",
-
-                "ארמון", "מבצר", "מצודה", "טירה",
-
-                "קתדרלה", "כנסייה", "בית כנסת", "מסגד",
-
-                "פארק", "פארקים", "גן", "גנים",
-
-                "כיכר", "כיכרות", "העיר העתיקה",
-
-                "טיילת", "נקודת תצפית",
-
-                # Hebrew culinary categories (only category names)
-                "מסעדות", "מסעדה",
-                "בתי קפה", "בית קפה", "קפה היסטורי",
-                "קולינרי",
-            ]
-            DESC_KEYS = [
-                # English
-                "tourist", "attraction", "popular", "famous",
-                "historic", "ancient", "architecture",
-                "archaeological", "landmark",
-                "museum", "gallery",
-                "park", "garden",
-                "cathedral", "church", "temple", "mosque", "synagogue",
-                "viewpoint", "promenade",
-
-                # Culinary
-                "restaurant", "cafe", "café", "coffeehouse", "culinary", "food",
-
-                # Hebrew
-                "אטרקציה", "תיירות",
-                "מוזיאון", "גלריה",
-                "היסטורי", "עתיק",
-                "טיילת", "תצפית",
-                "מסעדה", "קפה", "קולינרי",
-            ]
-            TITLE_KEYS = [
-                # English
-                "park", "museum", "gallery",
-                "palace", "castle", "fortress", "citadel",
-                "cathedral", "church", "temple", "mosque", "synagogue",
-                "square", "plaza", "market",
-                "tower", "observatory",
-                "zoo", "aquarium",
-
-                # Culinary fallback
-                "restaurant", "cafe", "café", "coffee",
-
-                # Hebrew
-                "פארק", "מוזיאון", "גלריה",
-                "ארמון", "טירה", "מבצר", "מצודה",
-                "כיכר", "מגדל",
-                "מסעדה", "קפה",
-            ]
+            filters = load_filters()
+            BLOCK = filters["BLOCK"]
+            ALLOW = filters["ALLOW"]
+            DESC_KEYS = filters["DESC_KEYS"]
+            TITLE_KEYS = filters["TITLE_KEYS"]
 
             # -------------------------------------------------
             for item in geolist:   # NO LIMIT HERE

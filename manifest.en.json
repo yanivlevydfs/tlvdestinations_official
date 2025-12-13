@@ -5,17 +5,24 @@
   "lang": "en",
   "dir": "ltr",
 
-  "start_url": "/?source=pwa",
-  "scope": "/",
-  "id": "/?source=pwa",
-
+  "id": "https://fly-tlv.com/?source=pwa",
+  "start_url": "https://fly-tlv.com/?source=pwa",
+  "scope": "https://fly-tlv.com/",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
   "categories": ["travel", "flights", "aviation", "maps", "explorer"],
   "prefer_related_applications": false,
-
+  "protocol_handlers": [
+    {
+      "protocol": "https",
+      "url": "https://fly-tlv.com/"
+    }
+  ],
+	
   "icons": [
     {
       "src": "/static/icons/icon-1024x1024.png",

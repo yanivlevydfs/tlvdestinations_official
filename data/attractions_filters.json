@@ -1,0 +1,138 @@
+{
+  "BLOCK": [
+    "railway station", "railway stations",
+    "metro station", "metro stations",
+    "suburbs", "neighbourhoods", "neighborhoods",
+    "villages in", "towns in",
+    "municipalities", "districts",
+    "hospitals", "clinics",
+    "universities", "schools", "education",
+    "companies", "organizations",
+    "roads in", "streets in", "bridges in",
+    "sports venues", "stadiums",
+    "transport",
+    "buildings and structures in",
+    "populated places",
+
+    "תחנות רכבת", "תחנת רכבת", "רכבת",
+    "תחנות מטרו", "מטרו",
+    "שכונות", "פרברים", "פרבר", "שכונה",
+    "מועצות מקומיות", "יישובים", "יישוב",
+    "בתי חולים", "מרפאות",
+    "אוניברסיטאות", "בתי ספר", "חינוך",
+    "חברות", "ארגונים",
+    "כבישים", "רחובות", "גשרים",
+    "אצטדיונים", "מגרשי ספורט",
+    "מבנים ואתרים", "מקומות יישוב",
+    "תחבורה",
+    "מסגד"
+  ],
+
+  "ALLOW": [
+    "tourist attraction", "tourist attractions",
+    "tourism",
+    "heritage site", "heritage sites",
+    "world heritage", "unesco",
+    "historic site", "historical sites",
+    "archaeological site", "archaeological sites",
+
+    "museum", "museums", "art museum",
+    "gallery", "galleries",
+    "exhibition",
+
+    "monument", "monuments",
+    "statue", "memorial",
+
+    "palace", "castle", "citadel", "fortress",
+
+    "cathedral", "church", "synagogue", "basilica",
+    "mosque",
+
+    "park", "national park",
+    "garden", "botanical garden",
+
+    "square", "public square", "plaza",
+    "historic center", "old town",
+    "promenade", "viewpoint",
+
+    "restaurants in", "famous restaurants",
+    "notable restaurants",
+    "cafes in", "coffeehouses", "historic cafes",
+
+    "אטרקציות תיירות", "אטרקציות לתיירים", "אתרי תיירות",
+    "מורשת עולמית", "אתר מורשת", "אתרי מורשת",
+    "אתר היסטורי", "אתרים היסטוריים",
+    "אתר ארכאולוגי", "אתרים ארכאולוגיים",
+
+    "מוזיאון", "מוזיאונים",
+    "גלריה", "גלריות",
+
+    "מונומנט", "אנדרטה", "פסל",
+
+    "ארמון", "מבצר", "מצודה", "טירה",
+
+    "קתדרלה", "כנסייה", "בית כנסת", "מסגד",
+
+    "פארק", "פארקים", "גן", "גנים",
+
+    "כיכר", "כיכרות", "העיר העתיקה",
+
+    "טיילת", "נקודת תצפית",
+
+    "מסעדות", "מסעדה",
+    "בתי קפה", "בית קפה", "קפה היסטורי",
+    "קולינרי"
+  ],
+
+  "DESC_KEYS": [
+    "tourist", "attraction", "popular", "famous",
+    "historic", "ancient", "architecture",
+    "archaeological", "landmark",
+    "museum", "gallery",
+    "park", "garden",
+    "cathedral", "church", "temple", "mosque", "synagogue",
+    "viewpoint", "promenade",
+
+    "restaurant", "cafe", "café", "coffeehouse", "culinary", "food",
+
+    "אטרקציה", "תיירות",
+    "מוזיאון", "גלריה",
+    "היסטורי", "עתיק",
+    "טיילת", "תצפית",
+    "מסעדה", "קפה", "קולינרי"
+  ],
+
+  "TITLE_KEYS": [
+    "park", "museum", "gallery",
+    "palace", "castle", "fortress", "citadel",
+    "cathedral", "church", "temple", "mosque", "synagogue",
+    "square", "plaza", "market",
+    "tower", "observatory",
+    "zoo", "aquarium",
+
+    "restaurant", "cafe", "café", "coffee",
+
+    "פארק", "מוזיאון", "גלריה",
+    "ארמון", "טירה", "מבצר", "מצודה",
+    "כיכר", "מגדל",
+    "מסעדה", "קפה"
+  ],
+   "CITY_KEYWORDS_EN": [
+    "cities in",
+    "city",
+    "town",
+    "municipality",
+    "urban area",
+    "populated places",
+    "capital",
+    "metropolitan area"
+  ],
+
+  "CITY_KEYWORDS_HE": [
+    "עיר",
+    "ערים",
+    "יישוב",
+    "יישובים",
+    "מועצה מקומית"
+  ]
+}

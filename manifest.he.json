@@ -5,11 +5,13 @@
   "lang": "he",
   "dir": "rtl",
 
-  "start_url": "/?lang=he&source=pwa",
+  "id": "https://fly-tlv.com/?lang=he&source=pwa",
+  "start_url": "https://fly-tlv.com/?lang=he&source=pwa",
   "scope": "/",
-  "id": "/?lang=he&source=pwa",
+
 
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
