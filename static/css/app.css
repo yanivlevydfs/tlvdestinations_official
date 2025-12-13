@@ -1645,7 +1645,12 @@ body.dark-mode #trending-widget a:hover {
 /* Smooth marquee */
 @keyframes ticker-scroll {
     from { transform: translateX(100%); }
-    to   { transform: translateX(-200%); }
+    to   { transform: translateX(-100%); }
+}
+#route-ticker .ticker-inner {
+    display: inline-flex;
+    gap: 24px;
+    animation: ticker-scroll 40s linear infinite;
 }
 /* Dark Mode – Route Ticker */
 body.dark-mode #route-ticker {
@@ -1672,4 +1677,10 @@ body.dark-mode #route-ticker .ticker-item.added {
 /* REMOVED ROUTES = FULL RED */
 body.dark-mode #route-ticker .ticker-item.removed {
     color: #ff7d7d !important;
+}
+.scroller:hover {
+  animation-play-state: paused;
+}
+.scroller {
+  animation: scroll 35s linear infinite;
 }
