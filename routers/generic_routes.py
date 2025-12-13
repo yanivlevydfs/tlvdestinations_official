@@ -5,10 +5,54 @@ import logging
 from helpers.helper import get_lang
 from main import TEMPLATES
 from datetime import datetime
-
+from config_paths import BASE_DIR 
 logger = logging.getLogger("generic_router")
 
 router = APIRouter()
+
+# ----------------------------------------------------------
+# Google Traffic Advice (/.well-known/traffic-advice)
+# ----------------------------------------------------------
+@router.get("/.well-known/traffic-advice", include_in_schema=False)
+async def traffic_advice(request: Request):
+    """
+    Responds to Google's Traffic Advice probe requests.
+    Docs:
+    https://developers.google.com/search/docs/crawling-indexing/traffic-advice
+    """
+    ua = request.headers.get("user-agent", "").lower() if request.headers else ""
+
+    # Silent ignore for non-Googlebot
+    if "googlebot" not in ua:
+        return Response(status_code=204)
+
+    client_ip = request.client.host if request.client else "unknown"
+    logger.debug(f"Googlebot traffic-advice request from {client_ip}")
+
+    return JSONResponse(
+        content={"crawling": {"state": "allowed"}},
+        headers={"Cache-Control": "public, max-age=86400"}
+    )
+
+@router.get("/robots.txt", include_in_schema=False)
+async def robots_txt(request: Request):
+    file_path = BASE_DIR / "robots.txt"   # <-- CORRECT PATH
+
+    if file_path.exists():
+        logger.debug(f"GET /robots.txt | client={request.client.host}")
+        return FileResponse(file_path, media_type="text/plain")
+
+    logger.error(f"robots.txt not found! | client={request.client.host}")
+    raise HTTPException(status_code=404, detail="robots.txt not found")
+
+@router.get("/ads.txt", include_in_schema=False)
+async def ads_txt(request: Request):
+    logger.debug(f"GET /ads.txt | client={request.client.host}")
+
+    # ads.txt must live in project root or static folder
+    file_path = Path(__file__).resolve().parent.parent / "ads.txt"
+
+    return FileResponse(file_path, media_type="text/plain")
 
 @router.get("/manifest.json", include_in_schema=False)
 async def manifest(request: Request):

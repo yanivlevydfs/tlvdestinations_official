@@ -69,6 +69,14 @@ from routers.analytics import router as analytics_router
 from helpers.proxies import get_random_proxy
 from routers.generic_routes import router as generic_routes
 from helpers.attraction_filters import load_filters
+from config_paths import (
+    BASE_DIR, CACHE_DIR, STATIC_DIR, TEMPLATES_DIR, DATA_DIR,
+    AIRLINE_WEBSITES_FILE, ISRAEL_FLIGHTS_FILE, TRAVEL_WARNINGS_FILE,
+    COUNTRY_TRANSLATIONS, CITY_TRANSLATIONS_FILE, CITY_NAME_CORRECTIONS_FILE
+)
+from routers.sitemap_routes import router as sitemap_routes
+import app_state
+from routers.sitemap_routes import sitemap
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -96,31 +104,9 @@ genai.configure(api_key=GEMINI_API_KEY)
 chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
 security = HTTPBasic()
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Config
-# ──────────────────────────────────────────────────────────────────────────────
-BASE_DIR: Path = Path(__file__).resolve().parent
-CACHE_DIR: Path = BASE_DIR / "cache"
-STATIC_DIR: Path = BASE_DIR / "static"
-TEMPLATES_DIR: Path = BASE_DIR / "templates"
-DATA_DIR: Path = BASE_DIR / "data"
-
-
-# Ensure dirs exist (won't error if already exist)
-for d in (CACHE_DIR, TEMPLATES_DIR, STATIC_DIR, DATA_DIR):
-    d.mkdir(exist_ok=True)
-
 # Templates
 TEMPLATES.env.globals["now"] = datetime.utcnow
 TEMPLATES.env.globals['time'] = time
-
-# Data files
-AIRLINE_WEBSITES_FILE = DATA_DIR / "airline_websites.json"
-ISRAEL_FLIGHTS_FILE   = CACHE_DIR / "israel_flights.json"
-TRAVEL_WARNINGS_FILE = CACHE_DIR / "travel_warnings.json"
-COUNTRY_TRANSLATIONS = DATA_DIR / "country_translations.json"
-CITY_TRANSLATIONS_FILE = DATA_DIR / "city_translations.json"
-CITY_NAME_CORRECTIONS_FILE = DATA_DIR / "city_name_corrections.json"
 
 # Constants
 TLV = {"IATA": "TLV", "Name": "Ben Gurion Airport", "lat": 32.0068, "lon": 34.8853}
@@ -163,6 +149,7 @@ app.middleware("http")(redirect_and_log_404)
 app.include_router(attractions_router)
 app.include_router(analytics_router)
 app.include_router(generic_routes)
+app.include_router(sitemap_routes)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -333,7 +320,7 @@ def reload_israel_flights_globals():
 
     df_flights, _ = _read_flights_file()
     DATASET_DF_FLIGHTS = df_flights
-
+    app_state.DATASET_DF = DATASET_DF
     logger.debug(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
 
 def load_travel_warnings_df() -> pd.DataFrame:
@@ -1268,140 +1255,6 @@ async def shutdown_event():
 
     logger.debug("👋 Application shutdown completed")
 
-@app.get("/ads.txt", include_in_schema=False)
-async def ads_txt(request: Request):
-    logger.debug(f"GET /ads.txt | client={request.client.host}")
-    file_path = Path(__file__).parent / "ads.txt"
-    return FileResponse(file_path, media_type="text/plain")
-   
-    
-@app.get("/robots.txt", include_in_schema=False)
-async def robots_txt(request: Request):
-    file_path = Path(__file__).parent / "robots.txt"
-    if file_path.exists():
-        logger.debug(f"GET /robots.txt | client={request.client.host}")
-        return FileResponse(file_path, media_type="text/plain")
-    else:
-        logger.error(f"robots.txt not found! | client={request.client.host}")
-        raise HTTPException(status_code=404, detail="robots.txt not found")
-
-@app.get("/.well-known/traffic-advice", include_in_schema=False)
-async def traffic_advice(request: Request):
-    """Responds to Google's Traffic Advice probe requests."""
-    ua = request.headers.get("user-agent", "").lower()
-
-    # Ignore non-Google bots silently
-    if "googlebot" not in ua:
-        return Response(status_code=204)
-
-    client_ip = request.client.host if request.client else "unknown"
-    logger.debug(f"✅ Googlebot traffic-advice request from {client_ip}")
-
-    return JSONResponse(
-        content={
-            "crawling": {"state": "allowed"}
-        },
-        headers={
-            "Cache-Control": "public, max-age=86400"
-        }
-    )
-
-@app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
-def sitemap():
-    """Generate sitemap.xml including static pages (all on disk) and dynamic endpoints."""
-    global STATIC_DIR, DATASET_DF
-    base = "https://fly-tlv.com"
-    today = date.today()
-
-    # --- 1. Static base URLs ---
-    urls = [
-        Url(f"{base}/", today, "daily", 1.0),
-        Url(f"{base}/stats", today, "daily", 1.0),
-        Url(f"{base}/about", today, "yearly", 0.6),
-        Url(f"{base}/direct-vs-nonstop", today, "yearly", 0.6),
-        Url(f"{base}/privacy", today, "yearly", 0.5),
-        Url(f"{base}/glossary", today, "yearly", 0.5),
-        Url(f"{base}/contact", today, "yearly", 0.5),
-        Url(f"{base}/accessibility", today, "yearly", 0.5),
-        Url(f"{base}/terms", today, "yearly", 0.5),
-        Url(f"{base}/map", today, "weekly", 0.7),
-        Url(f"{base}/flights", today, "weekly", 0.7),
-        Url(f"{base}/travel-warnings", today, "weekly", 0.7),
-        Url(f"{base}/chat", today, "weekly", 0.8),
-        # Hebrew
-        Url(f"{base}/?lang=he", today, "daily", 1.0),
-        Url(f"{base}/stats?lang=he", today, "daily", 1.0),
-        Url(f"{base}/about?lang=he", today, "yearly", 0.6),
-        Url(f"{base}/direct-vs-nonstop?lang=he", today, "yearly", 0.6),
-        Url(f"{base}/accessibility?lang=he", today, "yearly", 0.5),
-        Url(f"{base}/terms?lang=he", today, "yearly", 0.5),
-        Url(f"{base}/privacy?lang=he", today, "yearly", 0.5),
-        Url(f"{base}/contact?lang=he", today, "yearly", 0.5),
-        Url(f"{base}/map?lang=he", today, "weekly", 0.7),
-        Url(f"{base}/flights?lang=he", today, "weekly", 0.7),
-        Url(f"{base}/travel-warnings?lang=he", today, "weekly", 0.7),
-        Url(f"{base}/chat?lang=he", today, "weekly", 0.8),
-        Url(f"{base}/glossary?lang=he", today, "yearly", 0.5),
-    ]
-
-    # --- 2. Add dynamic FastAPI destinations (live routes) ---
-    try:
-        for iata in DATASET_DF["IATA"].dropna().unique():
-            iata = str(iata).strip()
-            if iata:
-                urls.append(Url(f"{base}/destinations/{iata}", today, "weekly", 0.7))
-                urls.append(Url(f"{base}/destinations/{iata}?lang=he", today, "weekly", 0.7))
-        logger.debug(f"🧭 Added {len(DATASET_DF['IATA'].dropna().unique())} dynamic destinations.")
-    except Exception as e:
-        logger.warning(f"⚠️ Failed to load dynamic IATA links: {e}")
-
-    # --- 3. Include *all* static-generated HTML pages physically saved on disk ---
-    static_dest_dir = STATIC_DIR / "destinations"
-    if static_dest_dir.exists():
-        logger.debug(f"🗺️ Scanning static HTML destinations recursively from {static_dest_dir} ...")
-        total_files = 0
-
-        for lang_dir in static_dest_dir.iterdir():
-            if not lang_dir.is_dir():
-                continue
-
-            lang_code = lang_dir.name  # e.g. "en" or "he"
-            for html_file in lang_dir.rglob("*.html"):
-                try:
-                    iata = html_file.stem.upper()
-                    lastmod = date.fromtimestamp(html_file.stat().st_mtime)
-
-                    # Build the URL
-                    if lang_code == "he":
-                        url = f"{base}/destinations/{iata}?lang=he"
-                    else:
-                        url = f"{base}/destinations/{iata}"
-
-                    urls.append(Url(url, lastmod, "weekly", 0.7))
-                    total_files += 1
-
-                    # 🪵 Detailed log line for each file
-                    logger.debug(f"📄 Added static file: {html_file.relative_to(STATIC_DIR)} → {url}")
-
-                except Exception as e:
-                    logger.warning(f"⚠️ Skipped file {html_file}: {e}")
-
-        logger.debug(f"✅ Added {total_files:,} static HTML destination files from {static_dest_dir}")
-    else:
-        logger.warning(f"⚠️ Static destinations folder not found: {static_dest_dir}")
-
-    # --- 4. Build and write sitemap.xml ---
-    xml = build_sitemap(urls)
-    out_path = STATIC_DIR / "sitemap.xml"
-
-    try:
-        out_path.parent.mkdir(exist_ok=True)
-        out_path.write_text(xml, encoding="utf-8")
-        logger.debug(f"✅ Sitemap written to {out_path} with {len(urls)} URLs total")
-    except Exception as e:
-        logger.error(f"❌ Failed to write sitemap.xml: {e}")
-
-    return Response(content=xml, media_type="application/xml")
 
 def generate_questions_from_data(destinations: list[dict], n: int = 20) -> list[str]:
     """
