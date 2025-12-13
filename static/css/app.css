@@ -1644,13 +1644,14 @@ body.dark-mode #trending-widget a:hover {
 
 /* Smooth marquee */
 @keyframes ticker-scroll {
-    from { transform: translateX(100%); }
+    from { transform: translateX(100vw); }
     to   { transform: translateX(-100%); }
 }
+
 #route-ticker .ticker-inner {
     display: inline-flex;
     gap: 24px;
-    animation: ticker-scroll 40s linear infinite;
+    animation: ticker-scroll 60s linear infinite;
 }
 /* Dark Mode – Route Ticker */
 body.dark-mode #route-ticker {
@@ -1682,5 +1683,8 @@ body.dark-mode #route-ticker .ticker-item.removed {
   animation-play-state: paused;
 }
 .scroller {
-  animation: scroll 35s linear infinite;
+  animation: scroll 60S linear infinite;
+}
+#route-ticker:hover .ticker-inner {
+    animation-play-state: paused;
 }
