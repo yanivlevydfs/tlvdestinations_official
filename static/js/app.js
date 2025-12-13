@@ -244,8 +244,8 @@ function dtButtonsFor(lang) {
       }
     }
 
-    const isDesktop = window.matchMedia("(min-width: 992px)").matches;
-	safeSet("brand-title",isDesktop ? d.brand_desktop : d.brand_mobile,true);
+	const isDesktop = window.matchMedia("(min-width: 992px)").matches;
+	safeSet("brand-title", isDesktop ? d.brand_desktop : d.brand_mobile, true);
     safeSet('view-map-btn', `<i class="bi bi-globe-americas me-1"></i> ${d.viewMap}`, true);
     safeSet('theme-toggle', `<i id="theme-icon" class="bi bi-moon-stars me-1"></i> ${d.theme}`, true);
     safeSet('lang-label', d.langToggleLabelOther);
