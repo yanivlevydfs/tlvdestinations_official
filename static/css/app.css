@@ -1605,4 +1605,71 @@ body.dark-mode #trending-widget a:hover {
   background-image: none;
 }
 
+/* TICKER CARD WRAPPER */
+#route-ticker {
+    white-space: nowrap;
+    overflow: hidden;
+}
 
+/* INNER SCROLLING ROW */
+#route-ticker .ticker-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+#route-ticker .ticker-inner {
+    display: inline-flex;
+    gap: 24px;
+    animation: ticker-scroll 30s linear infinite;
+}
+
+/* ITEMS */
+#route-ticker .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.85rem;
+    gap: 6px;
+}
+
+/* Colors */
+#route-ticker .added {
+    color: #28a745; /* green */
+    font-weight: 600;
+}
+
+#route-ticker .removed {
+    color: #dc3545; /* red */
+    font-weight: 600;
+}
+
+/* Smooth marquee */
+@keyframes ticker-scroll {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(-200%); }
+}
+/* Dark Mode – Route Ticker */
+body.dark-mode #route-ticker {
+    background: #1e1e1e !important;
+    border: 1px solid #2b2b2b !important;
+}
+
+/* TITLE ALWAYS WHITE */
+body.dark-mode #route-ticker .ticker-title {
+    color: #ffffff !important;
+}
+
+/* REMOVE ALL NEUTRAL OVERRIDES — CRITICAL FIX */
+body.dark-mode #route-ticker .ticker-item,
+body.dark-mode #route-ticker .update-date {
+    color: inherit !important;   /* FOLLOW PARENT COLOR */
+}
+
+/* ADDED ROUTES = FULL GREEN */
+body.dark-mode #route-ticker .ticker-item.added {
+    color: #6fe27c !important;
+}
+
+/* REMOVED ROUTES = FULL RED */
+body.dark-mode #route-ticker .ticker-item.removed {
+    color: #ff7d7d !important;
+}

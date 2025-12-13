@@ -77,6 +77,8 @@ from config_paths import (
 from routers.sitemap_routes import router as sitemap_routes
 import app_state
 from routers.sitemap_routes import sitemap
+from routers.destination_diff_routes import router as destination_diff_routes
+from helpers.destination_diff import ensure_previous_snapshot
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -150,6 +152,7 @@ app.include_router(attractions_router)
 app.include_router(analytics_router)
 app.include_router(generic_routes)
 app.include_router(sitemap_routes)
+app.include_router(destination_diff_routes)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -276,8 +279,6 @@ def update_travel_warnings():
         logger.exception("❌ Scheduled travel warnings update failed (fallback to local cache)")
         reload_travel_warnings_globals()
 
-
-
 def reload_travel_warnings_globals():
     global TRAVEL_WARNINGS_DF
     try:
@@ -288,10 +289,9 @@ def reload_travel_warnings_globals():
         logger.exception("❌ Failed to reload TRAVEL_WARNINGS_DF from cache")
         TRAVEL_WARNINGS_DF = pd.DataFrame()
 
-
-
 def update_flights():
     try:
+        ensure_previous_snapshot()
         fetch_israel_flights()
         reload_israel_flights_globals()
         logger.debug("✅ Scheduled flight update completed.")
@@ -2035,7 +2035,7 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
 @app.get("/api/refresh-data", response_class=JSONResponse)
 async def refresh_data_webhook():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
-
+    ensure_previous_snapshot()
     logger.warning("🔁 Incoming request: /api/refresh-data")
 
     response = {
