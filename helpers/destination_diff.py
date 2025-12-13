@@ -62,6 +62,10 @@ def extract_routes(path: Path) -> List[Dict]:
     routes = {}
 
     for rec in flights:
+        # IGNORE ARRIVALS
+        if rec.get("direction") != "D":
+            continue
+
         key = _route_key(rec)
         airline, iata = key
 
