@@ -28,7 +28,7 @@ function formatRemovedRoute(r, dateText, isHebrew) {
             <strong>${r.airline}</strong>
             אינה מפעילה טיסות ל
             <strong>${r.city} (${r.iata})</strong>
-            <span class="update-date">בתאריך ${dateText}</span>
+            <span class="update-date">מעודכן לתאריך ${dateText}</span>
         </span>
         `.trim()
         : `
@@ -36,7 +36,7 @@ function formatRemovedRoute(r, dateText, isHebrew) {
             <i class="bi bi-x-circle-fill"></i>
             <strong>${r.airline}</strong> is not operating flights to
             <strong>${r.city} (${r.iata})</strong>
-            <span class="update-date">on ${dateText}</span>
+            <span class="update-date">updated on ${dateText}</span>
         </span>
         `.trim();
 }

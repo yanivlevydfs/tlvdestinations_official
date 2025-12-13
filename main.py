@@ -864,7 +864,7 @@ def home(
     # === If dataset missing → call refresh function (no await needed) ===
     if DATASET_DF is None or DATASET_DF.empty:
         logger.warning("⚠️ DATASET_DF empty — running refresh_data_webhook()")
-        refresh_data_webhook()   # <--- THIS IS NOW CORRECT
+        refresh_data_webhook()
 
     # === If still missing → show error ===
     if DATASET_DF is None or DATASET_DF.empty:
@@ -914,8 +914,6 @@ def home(
 
         },
     )
-
-
 
 @app.get("/map", response_class=HTMLResponse)
 def map_view(country: str = "All", query: str = ""):
@@ -1211,7 +1209,7 @@ async def on_startup():
         scheduler.add_job(
             update_flights,
             "interval",
-            hours=24,
+            hours=10,
             id="govil_refresh",
             replace_existing=True,
             next_run_time=datetime.now()
