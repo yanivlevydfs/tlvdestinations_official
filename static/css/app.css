@@ -1651,7 +1651,7 @@ body.dark-mode #trending-widget a:hover {
 #route-ticker .ticker-inner {
     display: inline-flex;
     gap: 24px;
-    animation: ticker-scroll 60s linear infinite;
+    animation: ticker-scroll 80s linear infinite;
 }
 /* Dark Mode – Route Ticker */
 body.dark-mode #route-ticker {
@@ -1683,7 +1683,7 @@ body.dark-mode #route-ticker .ticker-item.removed {
   animation-play-state: paused;
 }
 .scroller {
-  animation: scroll 60S linear infinite;
+  animation: scroll 80S linear infinite;
 }
 #route-ticker:hover .ticker-inner {
     animation-play-state: paused;
