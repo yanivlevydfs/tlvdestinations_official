@@ -57,6 +57,7 @@ from helpers.helper import (
     format_time,
     build_country_name_to_iso_map,
     normalize_airline_list,
+    cleanup_local_cache,
 )
 from helpers.sitemap_utils import Url, build_sitemap
 from core.templates import TEMPLATES
@@ -1156,6 +1157,7 @@ async def on_startup():
     logger.debug("🚀 Application startup initiated")
     # 🎯 0) Set Git version
     logger.debug(f"🔖 App Version: {APP_VERSION}")
+    cleanup_local_cache()
     load_city_translations()
     load_country_translations()
     load_city_name_corrections()

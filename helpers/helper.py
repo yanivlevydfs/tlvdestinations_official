@@ -12,9 +12,11 @@ from datetime import datetime
 from geopy.distance import geodesic
 import pycountry
 from typing import List
+import shutil
+from config_paths import CACHE_DIR
+import logging
 
 _COUNTRY_CACHE: dict[str, str] | None = None
-
 
 def _clean_html(raw: str) -> str:
     if not raw:
@@ -242,3 +244,30 @@ def normalize_airline_list(items: List[str]) -> List[str]:
             seen.add(key)
             out.append(key.title())
     return out
+    
+def cleanup_local_cache():
+
+    logger = logging.getLogger("cache_cleanup")
+
+    # Localhost only (Render always sets RENDER env var)
+    if os.getenv("RENDER"):
+        logger.debug("Cache cleanup skipped (Render environment detected)")
+        return  # 🚫 NEVER touch server
+
+    if not CACHE_DIR.exists():
+        logger.debug("Cache directory does not exist — nothing to clean")
+        return
+
+    logger.warning("🧹 Localhost detected — clearing entire CACHE directory")
+
+    for item in CACHE_DIR.iterdir():
+        try:
+            if item.is_file() or item.is_symlink():
+                item.unlink()
+            elif item.is_dir():
+                shutil.rmtree(item)
+
+            logger.warning(f"🗑️ Removed cache item: {item.name}")
+
+        except Exception as e:
+            logger.error(f"❌ Failed to remove cache item {item}", exc_info=True)
