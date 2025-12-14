@@ -62,32 +62,41 @@ def extract_routes(path: Path) -> List[Dict]:
     routes = {}
 
     for rec in flights:
-        # IGNORE ARRIVALS
-        if rec.get("direction") != "D":
-            continue
-
-        key = _route_key(rec)
-        airline, iata = key
+        airline = rec.get("airline")
+        iata = rec.get("iata")
 
         if not airline or not iata:
             continue
 
-        # Store first appearance of this airline-IATA route
+        key = (airline.strip(), iata)
+
+        # Initialize route bucket ONCE
         if key not in routes:
             routes[key] = {
-                "airline": airline.title() if airline else "",
+                "airline": airline.strip(),
                 "iata": iata,
                 "airport": rec.get("airport", ""),
                 "city": rec.get("city", ""),
                 "country": rec.get("country", ""),
-                "direction": rec.get("direction", ""),
-                "status": rec.get("status", ""),
-                "scheduled": rec.get("scheduled", ""),
-                "actual": rec.get("actual", "")
+                "_has_departure": False
             }
 
-    # ALWAYS SORT — Stable deterministic diff
-    return sorted(routes.values(), key=lambda r: (r["airline"].lower(), r["iata"]))
+        # Mark if ANY departure exists
+        if rec.get("direction") == "D":
+            routes[key]["_has_departure"] = True
+
+    # Keep only routes that have at least one departure
+    result = [
+        {k: v for k, v in r.items() if not k.startswith("_")}
+        for r in routes.values()
+        if r["_has_departure"]
+    ]
+
+    return sorted(
+        result,
+        key=lambda r: (r["airline"].lower(), r["iata"])
+    )
+
 
 
 # ===============================================================
