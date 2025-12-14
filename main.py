@@ -930,7 +930,6 @@ def home(
             "query": query,
             "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
             "version": APP_VERSION,
-
         },
     )
 
