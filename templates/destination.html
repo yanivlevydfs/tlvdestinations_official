@@ -508,28 +508,18 @@ body.dark-mode .warning-chip a {
 			</script>
 		  </div>
 		</div>
-      <!-- Map -->
-{% if destination.lat and destination.lon %}
-  <div class="card shadow-sm mb-4 mt-4">
-    <div class="card-header small text-muted fw-semibold d-flex justify-content-between align-items-center">
-      <span><i class="bi bi-globe2 me-1 text-primary"></i>
-        {{ 'Interactive Flight Map' if lang != 'he' else 'מפת טיסות אינטראקטיבית' }}
-      </span>
-      <button class="btn btn-sm btn-outline-secondary d-lg-none" type="button"
-              data-bs-toggle="collapse" data-bs-target="#flightMapWidget"
-              aria-expanded="true" aria-controls="flightMapWidget">
-        {{ 'Toggle Map' if lang != 'he' else 'הצג/הסתר מפה' }}
-      </button>
-    </div>
-    <div class="card-body text-center p-0 collapse show d-lg-block" id="flightMapWidget" style="overflow: auto;">
-	<script
-	  async
-	  src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.destinationsflights&lat={{ destination.lat }}&lng={{ destination.lon }}&powered_by=true&search_host=www.aviasales.com%2Fsearch&locale={{ 'he' if lang == 'he' else 'en' }}&origin=TLV&value_min=0&value_max=1000000&round_trip=true&only_direct=true&radius=1&draggable=true&disable_zoom=false&show_logo=false&scrollwheel=true&primary=%233FABDB&secondary=%233FABDB&light=%23ffffff&width=1500&height=500&zoom=5&promo_id=4054&campaign_id=100"
-	  charset="utf-8">
-	</script>
-    </div>
-  </div>
-{% endif %}
+		<div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
+		  <div class="card-header small text-muted fw-semibold">
+			<i class="bi bi-tags-fill me-1 text-primary"></i>{{ 'Find Things to Do' if lang != 'he' else 'מצאו דברים לעשות' }}
+		  </div>
+		  <div class="card-body text-center p-0" style="overflow: hidden;">
+		<script
+		  async
+		  src="https://tpembd.com/content?trs=461563&shmarker=674907.destination_banner_page2&iata={{ destination.IATA }}&locale=en-US&powered_by=true&campaign_id=108&promo_id=4040"
+		  charset="utf-8">
+		</script>
+		  </div>
+		</div>
 
 {% if travel_info and travel_info['pois'] %}
   <div id="poi-list" class="card shadow-sm mt-4">
