@@ -2098,7 +2098,7 @@ def flight_feed():
     now = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000")
     items = []
 
-    for _, row in DATASET_DF.iterrows():
+    for _, row in DATASET_DF[DATASET_DF["Direction"].str.upper() == "D"].iterrows():
         direction_label = "Arrival" if row["Direction"] == "A" else "Departure"
         title = f"{direction_label} | {row['City']} ({row['IATA']}) - {row['Country']}"
         link = f"https://fly-tlv.com/destinations/{row['IATA']}"
@@ -2112,7 +2112,6 @@ def flight_feed():
 
         description = (
             f"{row['Name']} ({row['IATA']}) in {row['City']}, {row['Country']}<br>"
-            f"Direction: {'Arrival' if row['Direction'] == 'A' else 'Departure'}<br>"
             f"Airlines: {airlines}<br>"
             f"Distance: {row['Distance_km']} km<br>"
             f"Flight Time: {row['FlightTime_hr']}"
