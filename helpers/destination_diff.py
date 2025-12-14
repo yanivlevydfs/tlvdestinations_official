@@ -62,35 +62,46 @@ def extract_routes(path: Path) -> List[Dict]:
     routes = {}
 
     for rec in flights:
-        airline = rec.get("airline")
-        iata = rec.get("iata")
+        key = _route_key(rec)
+        airline, iata = key
 
         if not airline or not iata:
             continue
 
-        key = (airline.strip(), iata)
-
         # Initialize route bucket ONCE
         if key not in routes:
             routes[key] = {
-                "airline": airline.strip(),
+                "airline": airline.title(),  # keep as you requested
                 "iata": iata,
                 "airport": rec.get("airport", ""),
                 "city": rec.get("city", ""),
                 "country": rec.get("country", ""),
+                "direction": None,
+                "status": None,
+                "scheduled": None,
+                "actual": None,
                 "_has_departure": False
             }
 
-        # Mark if ANY departure exists
+        # Mark route as valid if ANY departure exists
         if rec.get("direction") == "D":
             routes[key]["_has_departure"] = True
 
-    # Keep only routes that have at least one departure
-    result = [
-        {k: v for k, v in r.items() if not k.startswith("_")}
-        for r in routes.values()
-        if r["_has_departure"]
-    ]
+            # Use the FIRST departure record as canonical metadata
+            if routes[key]["direction"] is None:
+                routes[key].update({
+                    "direction": "D",
+                    "status": rec.get("status", ""),
+                    "scheduled": rec.get("scheduled", ""),
+                    "actual": rec.get("actual", "")
+                })
+
+    # Emit only routes that actually have departures
+    result = []
+    for r in routes.values():
+        if r["_has_departure"]:
+            r.pop("_has_departure", None)
+            result.append(r)
 
     return sorted(
         result,
