@@ -656,8 +656,6 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
     logger.debug(f"✈ Flight data refreshed ({len(flights)} records)")    
     return result
 
-
-
 def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     """
     Extract raw 'flights' records from israel_flights.json without aggregation.
@@ -715,7 +713,6 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
         "airline", "iata", "airport", "city", "country",
         "scheduled", "actual", "direction", "status"
     ]), None
-
 
 def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     global AIRPORTS_DB
@@ -833,8 +830,6 @@ def load_israel_flights_map():
 
     return mapping
 
-
-
 def load_airline_websites() -> dict:
     try:
         with open(AIRLINE_WEBSITES_FILE, "r", encoding="utf-8") as f:
@@ -842,7 +837,33 @@ def load_airline_websites() -> dict:
     except Exception as e:
         logger.error(f"Failed to load airline websites: {e}")
         return {}
-        
+
+def schedule_immediate_refresh():
+    global scheduler
+
+    if scheduler is None:
+        logger.error("Scheduler not initialized — cannot schedule refresh")
+        return
+
+    job_id = "manual_refresh_once"
+
+    # Prevent duplicates
+    if scheduler.get_job(job_id):
+        logger.debug("Manual refresh already scheduled — skipping")
+        return
+
+    logger.warning("🕓 Dataset empty — scheduling immediate refresh job")
+
+    scheduler.add_job(
+        refresh_data_webhook,   # sync function
+        trigger="date",
+        run_date=datetime.now(),
+        id=job_id,
+        replace_existing=True,
+        misfire_grace_time=300,
+        max_instances=1,
+    )
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Routes
 # ──────────────────────────────────────────────────────────────────────────────
@@ -860,21 +881,19 @@ def home(
 ):
     global AIRPORTS_DB, DATASET_DF, AIRLINE_WEBSITES
 
-    # Defensive check
-    # === If dataset missing → call refresh function (no await needed) ===
     if DATASET_DF is None or DATASET_DF.empty:
-        logger.warning("⚠️ DATASET_DF empty — running refresh_data_webhook()")
-        refresh_data_webhook()
+        logger.warning("⚠️ DATASET_DF empty — scheduling background refresh")
+        schedule_immediate_refresh()
 
-    # === If still missing → show error ===
-    if DATASET_DF is None or DATASET_DF.empty:
-        return TEMPLATES.TemplateResponse("error.html", {
-            "request": request,
-            "message": "No data available.",
-            "lang": lang
-        })
-
-
+        return TEMPLATES.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "message": "Data is loading. Please refresh in a moment.",
+                "lang": lang,
+            },
+            status_code=503,
+        )
     df = DATASET_DF.copy()
 
     # Filter by country
@@ -2035,7 +2054,7 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)
-async def refresh_data_webhook():
+def refresh_data_webhook():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
     ensure_previous_snapshot()
     logger.warning("🔁 Incoming request: /api/refresh-data")
