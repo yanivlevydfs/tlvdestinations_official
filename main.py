@@ -1,4 +1,5 @@
 # === Standard Library ===
+import app_state
 import os
 import sys
 import json
@@ -7,7 +8,6 @@ from pathlib import Path
 from datetime import datetime, date
 import time
 from typing import Any, Dict, List
-from pydantic import BaseModel
 import google.generativeai as genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
@@ -75,7 +75,6 @@ from config_paths import (
     COUNTRY_TRANSLATIONS, CITY_TRANSLATIONS_FILE, CITY_NAME_CORRECTIONS_FILE
 )
 from routers.sitemap_routes import router as sitemap_routes
-import app_state
 from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
 from helpers.destination_diff import ensure_previous_snapshot
@@ -1195,6 +1194,9 @@ async def on_startup():
         logger.error("Error loading or fetching datasets", exc_info=True)
         DATASET_DF = pd.DataFrame()
         DATASET_DF_FLIGHTS = pd.DataFrame()
+
+    app_state.DATASET_DF = DATASET_DF
+    app_state.TRAVEL_WARNINGS_DF = TRAVEL_WARNINGS_DF
 
     # 5) Load country → ISO code mapping
     try:
