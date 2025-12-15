@@ -57,7 +57,7 @@ from helpers.helper import (
     format_time,
     build_country_name_to_iso_map,
     normalize_airline_list,
-    cleanup_local_cache,
+    cleanup_local_cache,    
 )
 from helpers.sitemap_utils import Url, build_sitemap
 from core.templates import TEMPLATES
@@ -73,12 +73,11 @@ from helpers.attraction_filters import load_filters
 from config_paths import (
     BASE_DIR, CACHE_DIR, STATIC_DIR, TEMPLATES_DIR, DATA_DIR,
     AIRLINE_WEBSITES_FILE, ISRAEL_FLIGHTS_FILE, TRAVEL_WARNINGS_FILE,
-    COUNTRY_TRANSLATIONS, CITY_TRANSLATIONS_FILE, CITY_NAME_CORRECTIONS_FILE
-)
+    COUNTRY_TRANSLATIONS, CITY_TRANSLATIONS_FILE, CITY_NAME_CORRECTIONS_FILE)
 from routers.sitemap_routes import router as sitemap_routes
 from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
-from helpers.destination_diff import ensure_previous_snapshot
+from helpers.destination_diff import ensure_previous_snapshot, generate_destination_diff
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -294,9 +293,11 @@ def update_flights():
         ensure_previous_snapshot()
         fetch_israel_flights()
         reload_israel_flights_globals()
-        logger.debug("✅ Scheduled flight update completed.")
+        generate_destination_diff()
+        logger.debug("✅ Scheduled flight update + diff completed.")
     except Exception as e:
         logger.exception("❌ Scheduled flight update failed.")
+
 
 
 def fix_city_name(name: str) -> str:
@@ -489,7 +490,6 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
 
     return result
 
-
 def get_dataset_date() -> str | None:
     if not ISRAEL_FLIGHTS_FILE.exists():
         return None
@@ -507,17 +507,6 @@ def get_dataset_date() -> str | None:
     except Exception as e:
         logger.error(f"Failed to read dataset date: {e}")
     return None
-
-def load_airline_names() -> Dict[str, str]:
-    cols = ["AirlineID","Name","Alias","IATA","ICAO","Callsign","Country","Active"]
-    try:
-        df = pd.read_csv(BASE_DIR / "data" / "airlines.dat", names=cols, header=None, encoding="utf-8")
-        return df.set_index("IATA")["Name"].dropna().to_dict()
-    except Exception as e:
-        logger.warning(f"Airline names not loaded: {e}")
-        return {}
-
-AIRLINE_NAMES = load_airline_names()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers

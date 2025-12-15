@@ -24,3 +24,4 @@ TRAVEL_WARNINGS_FILE  = CACHE_DIR / "travel_warnings.json"
 COUNTRY_TRANSLATIONS  = DATA_DIR / "country_translations.json"
 CITY_TRANSLATIONS_FILE = DATA_DIR / "city_translations.json"
 CITY_NAME_CORRECTIONS_FILE = DATA_DIR / "city_name_corrections.json"
+

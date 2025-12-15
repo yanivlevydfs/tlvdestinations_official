@@ -11,7 +11,7 @@ import string
 from datetime import datetime
 from geopy.distance import geodesic
 import pycountry
-from typing import List
+from typing import List, Dict
 import shutil
 from config_paths import CACHE_DIR
 import logging
