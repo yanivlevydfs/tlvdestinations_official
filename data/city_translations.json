@@ -319,5 +319,7 @@
   "Windhoek": { "he": "וינדהוק", "country": "Namibia", "country_he": "נמיביה" },
   "Gaborone": { "he": "גבורונה", "country": "Botswana", "country_he": "בוצואנה" },
   "Tbilisi Old Town": { "he": "טביליסי העתיקה", "country": "Georgia", "country_he": "גאורגיה" },
-  "Kutaisi": { "he": "קוטאיסי", "country": "Georgia", "country_he": "גאורגיה" }
+  "Kutaisi": { "he": "קוטאיסי", "country": "Georgia", "country_he": "גאורגיה" },
+  "Menorca": {"he": "מנורקה","country": "Spain","country_he": "ספרד"}
+
 }
