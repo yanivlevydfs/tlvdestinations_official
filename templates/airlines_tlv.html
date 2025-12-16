@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% set is_he = lang == "he" %}
+
+{% block title %}
+{{ "חברות תעופה פעילות בנתב״ג" if is_he else "Active Airlines at TLV" }}
+{% endblock %}
+
+{% block content %}
+<div class="container my-4" {% if is_he %}dir="rtl"{% endif %}>
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <h1 class="mb-2">
+      ✈️ {{ "חברות תעופה פעילות בנתב״ג" if is_he else "Active Airlines at TLV" }}
+    </h1>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card p-3 shadow-sm h-100">
+        <div class="text-muted small">
+          {{ "סה״כ חברות תעופה בעולם" if is_he else "Worldwide Airlines" }}
+        </div>
+        <div class="fs-3 fw-semibold">{{ total_worldwide }}</div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3 shadow-sm border-primary h-100">
+        <div class="text-muted small">
+          {{ "פעילות בנתב״ג" if is_he else "Active at TLV" }}
+        </div>
+        <div class="fs-3 fw-semibold text-primary">
+          {{ total_active_tlv }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <div class="row g-2 align-items-center">
+        <div class="col-md-6">
+          <input
+            type="text"
+            id="airline-search"
+            class="form-control"
+            placeholder="{{ 'חיפוש חברת תעופה…' if is_he else 'Search airline…' }}"
+            onkeyup="filterAirlines()"
+          >
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="lowcost-only" onchange="filterAirlines()">
+            <label class="form-check-label" for="lowcost-only">
+              {{ "לואו־קוסט בלבד" if is_he else "Low-cost only" }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  {% if active_airlines %}
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle" id="airlines-table">
+      <thead>
+        <tr>
+          <th>IATA</th>
+          <th>{{ "חברת תעופה" if is_he else "Airline" }}</th>
+          <th class="text-center">{{ "לואו־קוסט" if is_he else "Low-cost" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in active_airlines %}
+        <tr
+          data-name="{{ (a.name_en or a.name)|lower }}"
+          data-lowcost="{{ '1' if a.is_lowcost else '0' }}"
+        >
+          <td class="fw-semibold">{{ a.iata }}</td>
+          <td>{{ a.name_en or a.name }}</td>
+          <td class="text-center">
+            {% if a.is_lowcost %}
+              <span class="badge bg-success">✓</span>
+            {% else %}
+              —
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="alert alert-warning">
+      {{ "לא נמצאו חברות תעופה פעילות." if is_he else "No active airlines found." }}
+    </div>
+  {% endif %}
+
+</div>
+
+<!-- Simple client-side filtering -->
+<script>
+function filterAirlines() {
+  const search = document.getElementById("airline-search").value.toLowerCase();
+  const lowcostOnly = document.getElementById("lowcost-only").checked;
+  const rows = document.querySelectorAll("#airlines-table tbody tr");
+
+  rows.forEach(row => {
+    const name = row.dataset.name || "";
+    const isLowcost = row.dataset.lowcost === "1";
+
+    let visible = true;
+
+    if (search && !name.includes(search)) {
+      visible = false;
+    }
+    if (lowcostOnly && !isLowcost) {
+      visible = false;
+    }
+
+    row.style.display = visible ? "" : "none";
+  });
+}
+</script>
+{% endblock %}

@@ -78,6 +78,7 @@ from routers.sitemap_routes import router as sitemap_routes
 from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
 from helpers.destination_diff import ensure_previous_snapshot, generate_destination_diff
+from routers.airlines_tlv import router as airlines_router
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -152,6 +153,7 @@ app.include_router(analytics_router)
 app.include_router(generic_routes)
 app.include_router(sitemap_routes)
 app.include_router(destination_diff_routes)
+app.include_router(airlines_router)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -322,6 +324,7 @@ def reload_israel_flights_globals():
     df_flights, _ = _read_flights_file()
     DATASET_DF_FLIGHTS = df_flights
     app_state.DATASET_DF = DATASET_DF
+    app_state.DATASET_DF_FLIGHTS = DATASET_DF_FLIGHTS
     logger.debug(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
 
 def load_travel_warnings_df() -> pd.DataFrame:

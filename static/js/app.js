@@ -455,19 +455,25 @@ function dtButtonsFor(lang) {
     });
   }
 
-  // ---------- Direction filter ----------
-  if (directionSelect && $.fn.dataTable.isDataTable('#airports-table')) {
-    const dt = $('#airports-table').DataTable();
-    function applyDirectionFilter(value) {
-      const regex = value === 'outbound' ? '^D$' : '^A$';
-      dt.column(7).search(regex, true, false).draw();
-    }
-    // initial
-    applyDirectionFilter(directionSelect.value);
-    directionSelect.addEventListener('change', () => {
-      applyDirectionFilter(directionSelect.value);
-    });
-  }
+	// ---------- Direction filter ----------
+	if (directionSelect && $.fn.dataTable.isDataTable('#airports-table')) {
+	  const dt = table; // IMPORTANT: reuse existing instance
+
+	  function applyDirectionFilter(value) {
+		if (!value || value === 'all') {
+		  dt.column(7).search('', true, false).draw();
+		  return;
+		}
+		const regex = value === 'outbound' ? '^D$' : '^A$';
+		dt.column(7).search(regex, true, false).draw();
+	  }
+
+	  applyDirectionFilter(directionSelect.value);
+	  directionSelect.addEventListener('change', () => {
+		applyDirectionFilter(directionSelect.value);
+	  });
+	}
+
 (() => {
   const COOKIE_KEY = 'cookie_consent_choice';
   const PREFS_KEY = 'cookie_prefs';
