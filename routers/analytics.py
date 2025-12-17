@@ -117,12 +117,16 @@ class ClickEvent(BaseModel):
 # ------------------------------------------------------
 @router.post("/api/analytics/click")
 async def track_click(event: ClickEvent):
-    iata = event.iata.upper().strip()
-    city = event.city.strip()
-    country = event.country.strip()
+    iata = (event.iata or "").upper().strip()
+    city = (event.city or "").strip()
+    country = (event.country or "").strip()
 
     if len(iata) != 3:
         raise HTTPException(status_code=400, detail="Invalid IATA code")
+
+    # If you prefer to reject bad payloads instead of preserving old values, uncomment:
+    # if not city or not country:
+    #     raise HTTPException(status_code=400, detail="City and country are required")
 
     today = datetime.now().strftime("%Y-%m-%d")
     conn = await get_conn()
@@ -131,11 +135,11 @@ async def track_click(event: ClickEvent):
         await conn.execute(
             """
             INSERT INTO destination_clicks (iata, city, country, total_clicks, last_clicked)
-            VALUES (?, ?, ?, 1, CURRENT_TIMESTAMP)
+            VALUES (?, NULLIF(?, ''), NULLIF(?, ''), 1, CURRENT_TIMESTAMP)
             ON CONFLICT(iata) DO UPDATE SET
-                total_clicks = total_clicks + 1,
-                city = excluded.city,
-                country = excluded.country,
+                total_clicks = destination_clicks.total_clicks + 1,
+                city = COALESCE(excluded.city, destination_clicks.city),
+                country = COALESCE(excluded.country, destination_clicks.country),
                 last_clicked = CURRENT_TIMESTAMP
             """,
             (iata, city, country),
@@ -146,7 +150,7 @@ async def track_click(event: ClickEvent):
             INSERT INTO analytics_daily (date, iata, clicks)
             VALUES (?, ?, 1)
             ON CONFLICT(date, iata) DO UPDATE SET
-                clicks = clicks + 1
+                clicks = analytics_daily.clicks + 1
             """,
             (today, iata),
         )
@@ -158,7 +162,6 @@ async def track_click(event: ClickEvent):
     TOP_CACHE_EXP = None
 
     return {"status": "ok", "iata": iata}
-
 
 # ------------------------------------------------------
 # TOP DESTINATIONS (async + cached)

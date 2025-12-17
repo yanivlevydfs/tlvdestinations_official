@@ -320,6 +320,6 @@
   "Gaborone": { "he": "גבורונה", "country": "Botswana", "country_he": "בוצואנה" },
   "Tbilisi Old Town": { "he": "טביליסי העתיקה", "country": "Georgia", "country_he": "גאורגיה" },
   "Kutaisi": { "he": "קוטאיסי", "country": "Georgia", "country_he": "גאורגיה" },
-  "Menorca": {"he": "מנורקה","country": "Spain","country_he": "ספרד"}
-
+  "Menorca": {"he": "מנורקה","country": "Spain","country_he": "ספרד"},
+  "Zanzibar City": {"he": "זנזיבר סיטי","country": "Tanzania","country_he": "טנזניה"}
 }
