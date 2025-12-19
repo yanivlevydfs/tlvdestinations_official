@@ -296,6 +296,7 @@ def update_flights():
         fetch_israel_flights()
         reload_israel_flights_globals()
         generate_destination_diff()
+        sitemap()
         logger.debug("✅ Scheduled flight update + diff completed.")
     except Exception as e:
         logger.exception("❌ Scheduled flight update failed.")
@@ -1234,15 +1235,7 @@ async def on_startup():
             hours=24,
             id="warnings_refresh",
             replace_existing=True,
-            next_run_time=datetime.now())
-        
-        scheduler.add_job(
-            sitemap,
-            "interval",
-            hours=3,
-            id="static_regen",
-            replace_existing=True,
-            next_run_time=datetime.now())        
+            next_run_time=datetime.now())           
         scheduler.start()
         logger.debug("✅ Scheduler started")
     except Exception as e:
