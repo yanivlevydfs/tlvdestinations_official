@@ -504,18 +504,15 @@
 					<div>
 					  <i class="bi bi-airplane-engines me-1 text-primary"></i>
 					  {{ 'Direct Flights from Tel Aviv' if lang != 'he' else 'טיסות ישירות מתל אביב' }}
-					</div>
-
-					<!-- City selector built from your airports list -->
+					  					<!-- City selector built from your airports list -->
 				<select id="deals-city-select"
-						class="form-select form-select-sm border-0 bg-light"
+						class="form-select form-select-sm border-0 bg-light mt-3"
 						style="width:auto; min-width:90px; font-size:0.75rem; line-height:1.1; padding:0 0.3rem;">
 				  {% for ap in airports|unique(attribute='IATA')|sort(attribute='City') %}
 					<option value="{{ ap.IATA }}">{{ ap.City }} ({{ ap.IATA }})</option>
 				  {% endfor %}
 				</select>
-
-
+					</div>
 				  </div>
 				  <div class="card-body text-center p-0" style="overflow: hidden;">
 					<!-- Script placeholder (will be injected dynamically with selected IATA) -->
