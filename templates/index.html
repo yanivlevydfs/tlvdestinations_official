@@ -396,13 +396,26 @@
         <div class="offcanvas-body p-0">
           <div class="d-flex flex-column gap-3">
             <div class="card shadow-sm" style="margin-top: 0;">
-              <div class="card-header fw-semibold">
-                {% if lang == "he" %}
-                  🔎 חיפוש וסינון
-                {% else %}
-                  Search & Filter
-                {% endif %}
-              </div>
+			<div class="card-header fw-semibold text-start header-title-desktop">
+			  <i class="bi bi-funnel-fill me-1"></i>
+			  {% if lang == "he" %}
+				חיפוש וסינון
+			  {% else %}
+				Search & Filter
+			  {% endif %}
+
+			  <i class="bi bi-info-circle ms-1 text-muted"
+				 data-bs-toggle="tooltip"
+				 data-bs-placement="right"
+				 {% if lang == "he" %}
+				   title="סינון וחיפוש לפי יעד, מדינה וחברות תעופה"
+				   aria-label="מידע על חיפוש וסינון"
+				 {% else %}
+				   title="Filter and search by destination, country, and airlines"
+				   aria-label="Search and filter information"
+				 {% endif %}>
+			  </i>
+			</div>
               <div class="card-body">
 				<div class="mb-3">
 				  <label for="direction-select" class="form-label">
@@ -505,13 +518,18 @@
 					  <i class="bi bi-airplane-engines me-1 text-primary"></i>
 					  {{ 'Direct Flights from Tel Aviv' if lang != 'he' else 'טיסות ישירות מתל אביב' }}
 					  					<!-- City selector built from your airports list -->
-				<select id="deals-city-select"
-						class="form-select form-select-sm border-0 bg-light mt-3"
-						style="width:auto; min-width:90px; font-size:0.75rem; line-height:1.1; padding:0 0.3rem;">
-				  {% for ap in airports|unique(attribute='IATA')|sort(attribute='City') %}
-					<option value="{{ ap.IATA }}">{{ ap.City }} ({{ ap.IATA }})</option>
-				  {% endfor %}
-				</select>
+					<div class="text-center mt-3">
+					  <div class="small text-muted mb-1">
+						Choose Destination:
+					  <select id="deals-city-select"
+							  class="form-select form-select-sm border-0 bg-light d-inline-block"
+							  style="width:auto; min-width:90px; font-size:0.75rem; line-height:1.1; padding:0 0.3rem;">
+						{% for ap in airports|unique(attribute='IATA')|sort(attribute='City') %}
+						  <option value="{{ ap.IATA }}">{{ ap.City }} ({{ ap.IATA }})</option>
+						{% endfor %}
+					  </select>
+					 </div>
+					</div>
 					</div>
 				  </div>
 				  <div class="card-body text-center p-0" style="overflow: hidden;">
@@ -564,16 +582,16 @@
         </div>
       </div>
     </div>
-
-<!-- Mobile Inline Filters - Compact Version -->
-<div class="card shadow-sm mb-2 d-lg-none small p-2">
-  <div class="card-header fw-semibold py-2 px-3 small">
-    {% if lang == "he" %}
-      🔎 חיפוש וסינון
-    {% else %}
-      Search & Filter
-    {% endif %}
-  </div>
+	<!-- Mobile Inline Filters - Compact Version -->
+	<div class="card shadow-sm mb-2 d-lg-none small p-2">
+	<div class="card-header fw-semibold py-2 px-3 small header-title-mobile">
+	  <i class="bi bi-funnel-fill me-1"></i>
+	  {% if lang == "he" %}
+		חיפוש וסינון
+	  {% else %}
+		Search & Filter
+	  {% endif %}
+	</div>
   <div class="card-body p-2">
     <div class="mb-2">
       <label for="direction-select-mobile" class="form-label mb-1 small">
@@ -588,7 +606,6 @@
         </option>
       </select>
     </div>
-
     <div class="mb-2">
       <label for="country-filter-mobile" class="form-label mb-1 small">
         {% if lang == "he" %}מדינה{% else %}Country{% endif %}

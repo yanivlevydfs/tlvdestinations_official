@@ -1630,10 +1630,9 @@ body.dark-mode #trending-widget a:hover {
     font-size: 0.85rem;
     gap: 6px;
 }
-
 /* Colors */
 #route-ticker .added {
-    color: #6fe27c;
+    color: #51A85A;
     font-weight: 600;
 }
 
@@ -1663,6 +1662,17 @@ body.dark-mode #route-ticker {
 body.dark-mode #route-ticker .ticker-title {
     color: #ffffff !important;
 }
+.header-title-mobile {
+  color: var(--bs-primary);
+}
+body.dark-mode .card-header.header-title-mobile {
+  --bs-card-color: #ffffff;
+  color: #ffffff;
+}
+
+body.dark-mode .card-header.header-title-mobile i {
+  color: #ffffff;
+}
 
 /* REMOVE ALL NEUTRAL OVERRIDES — CRITICAL FIX */
 body.dark-mode #route-ticker .ticker-item,
@@ -1687,4 +1697,15 @@ body.dark-mode #route-ticker .ticker-item.removed {
 }
 #route-ticker:hover .ticker-inner {
     animation-play-state: paused;
+}
+.header-title-desktop {
+  color: var(--bs-primary);
+}
+body.dark-mode .card-header.header-title-desktop {
+  --bs-card-color: #ffffff;
+  color: #ffffff;
+}
+
+body.dark-mode .card-header.header-title-desktop i {
+  color: #ffffff;
 }
