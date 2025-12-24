@@ -391,7 +391,7 @@ function dtButtonsFor(lang) {
   // ---------- View Map button logic ----------
 	if (viewMapBtn && mapModal && iframe) {
 	  viewMapBtn.addEventListener('click', () => {
-		console.log('🗺️ View map clicked. iframe:', iframe, 'mapModal:', mapModal);
+		//console.log('🗺️ View map clicked. iframe:', iframe, 'mapModal:', mapModal);
 
 		// If iframe has no src, set from data-src
 		const dataSrc = iframe.dataset?.src;
