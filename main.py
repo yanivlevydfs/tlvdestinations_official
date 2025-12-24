@@ -2644,7 +2644,29 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                 except Exception:
                     continue
 
-                dpage = next(iter(dresp.json().get("query", {}).get("pages", {}).values()), {})
+                #dpage = next(iter(dresp.json().get("query", {}).get("pages", {}).values()), {})
+                # -------- SAFE JSON PARSING (MANDATORY) --------
+                if dresp.status_code != 200 or not dresp.content:
+                    logger.warning(
+                        f"⚠️ POI detail empty/non-200 "
+                        f"(status={dresp.status_code}) pageid={pageid}"
+                    )
+                    continue
+
+                try:
+                    ddata = dresp.json()
+                except ValueError:
+                    logger.warning(
+                        f"⚠️ POI detail non-JSON pageid={pageid}: "
+                        f"{dresp.text[:120]}"
+                    )
+                    continue
+
+                dpage = next(
+                    iter(ddata.get("query", {}).get("pages", {}).values()),
+                    {}
+                )
+
 
                 # ===== normalize =====
                 rawcats = [c.get("title", "") for c in dpage.get("categories", [])]
