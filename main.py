@@ -1884,10 +1884,10 @@ async def destination_detail(request: Request, iata: str):
             {
                 "request": request,
                 "message": f"Destination {iata} not found from Tel-Aviv (TLV).",
-                "status_code": 404,
+                "status_code": 410,
                 "lang": lang
             },
-            status_code=404
+            status_code=410
         )
 
     dest = destination.iloc[0].to_dict()

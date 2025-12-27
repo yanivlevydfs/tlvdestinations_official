@@ -1,6 +1,6 @@
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import JSONResponse, RedirectResponse
+from starlette.responses import JSONResponse, RedirectResponse, Response
 from starlette.status import HTTP_403_FORBIDDEN
 import re
 
@@ -10,9 +10,17 @@ import re
 # -----------------------------------------
 
 SAFE_PATHS = (
-    "/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml",
-    "/feed.xml", "/.well-known/traffic-advice", "/.well-known/assetlinks.json"
+    "/favicon.ico", "/favicon.svg",
+    "/robots.txt", "/sitemap.xml",
+    "/feed.xml",
+    "/manifest.json",
+    "/manifest.en.json",
+    "/manifest.he.json",  
+    "/sw.js",
+    "/.well-known/traffic-advice",
+    "/.well-known/assetlinks.json",
 )
+
 
 SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
@@ -26,19 +34,34 @@ SAFE_PATH_PREFIXES = (
 # -----------------------------------------
 
 SUSPICIOUS_PATTERNS = [
-    r"(^|/)phpinfo(\.php)?$",
-    r"(^|/)(index|config|env|setup)\.php$",
+    # ---- PHP & generic ----
     r"\.php$",
-    r"wp-(admin|login|config|includes)",
-    r"(wlwmanifest\.xml|xmlrpc\.php)",
+
+    # ---- WordPress core ----
+    r"(^|/)wp-admin(/|$)",
+    r"(^|/)wp-login\.php$",
+    r"(^|/)wp-config\.php$",
+    r"(^|/)wp-content(/|$)",
+    r"(^|/)wp-includes(/|$)",
+    r"(^|/)wp-json(/|$)",
+    r"(^|/)xmlrpc\.php$",
+    r"(^|/)wlwmanifest\.xml$",
+
+    # ---- WordPress backups / exploits ----
+    r"wp-content/(uploads|plugins|themes).*(\.php|\.zip|\.bak|\.old)?$",
+
+    # ---- REST abuse ----
     r"rest_route=/wp/",
-    r"wp-json",
-    r"/wp/v2/",
+
+    # ---- Secrets / configs ----
     r"\.(env|git|svn|bak|old|tmp|log|sql|db)$",
     r"(token|secret|key|credentials)[_.-]?(id|key)?",
+    r"(^|/)(config|settings|secret|env)\.(json|yaml|yml)$",
+
+    # ---- Archives ----
     r"\.(zip|tar|gz|7z|rar)$",
-    r"(^|/)(config|settings|secret|env)\.json$",
 ]
+
 
 COMPILED_PATTERNS = [re.compile(p, re.IGNORECASE) for p in SUSPICIOUS_PATTERNS]
 
@@ -88,7 +111,16 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             or any(path_lower.startswith(p) for p in SAFE_PATH_PREFIXES)
         ):
             return await call_next(request)
-
+        # -----------------------------------------
+        # 3.5️⃣ Quietly drop WordPress noise
+        # -----------------------------------------
+        if path_lower.startswith((
+            "/wp-",
+            "/wp/",
+            "/wp-content",
+            "/wp-includes",
+        )):
+            return Response(status_code=404)
         # -----------------------------------------
         # 4️⃣ Allow good bots
         # -----------------------------------------
