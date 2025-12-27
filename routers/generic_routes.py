@@ -34,9 +34,9 @@ async def traffic_advice(request: Request):
         headers={"Cache-Control": "public, max-age=86400"}
     )
 
-@router.get("/robots.txt", include_in_schema=False)
+@router.api_route("/robots.txt", methods=["GET", "HEAD"])
 async def robots_txt(request: Request):
-    file_path = BASE_DIR / "robots.txt"   # <-- CORRECT PATH
+    file_path = BASE_DIR / "robots.txt" 
 
     if file_path.exists():
         logger.debug(f"GET /robots.txt | client={request.client.host}")
