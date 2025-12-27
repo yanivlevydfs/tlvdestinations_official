@@ -121,6 +121,10 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             "/wp-includes",
         )):
             return Response(status_code=404)
+            
+        if path_lower.endswith((".env", ".env.bak", ".env.example")):
+            return Response(status_code=404)
+
         # -----------------------------------------
         # 4️⃣ Allow good bots
         # -----------------------------------------
