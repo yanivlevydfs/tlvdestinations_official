@@ -15,7 +15,7 @@ async def redirect_and_log_404(request: Request, call_next):
     # 🚫 0. Block obvious malicious paths (before anything else)
     suspicious_patterns = (".env", ".git", "phpinfo", "config", "composer.json", "wp-admin", "shell", "eval(")
     if any(p in path.lower() for p in suspicious_patterns):
-        logger.warning(f"🚫 Blocked suspicious request from {client_host} → {path}")
+        logger.debug(f"🚫 Blocked suspicious request from {client_host} → {path}")
         return JSONResponse({"detail": "Forbidden"}, status_code=403)
 
     # 🚫 Skip redirects for localhost or internal testing
@@ -45,7 +45,7 @@ async def redirect_and_log_404(request: Request, call_next):
     # ✅ 3. Handle malformed encoded fragments (e.g. /%23c)
     if "/%23" in url or path.startswith("/#") or "%23" in path:
         clean_base = url.split("/%23")[0]
-        logger.error(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
+        logger.debug(f"🧹 Cleaning malformed anchor → redirecting {path} → {clean_base}")
         return RedirectResponse(url=clean_base, status_code=301)
 
     # ✅ 4. Trailing slash normalization (SEO-friendly)
