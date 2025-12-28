@@ -10,22 +10,34 @@ import re
 # -----------------------------------------
 
 SAFE_PATHS = (
+    "/",
+    "/about",
+    "/accessibility",
+    "/chat",
+    "/contact",
+    "/direct-vs-nonstop",
+    "/glossary",
+    "/map",
+    "/privacy",
+    "/stats",
+    "/terms",
+    "/travel-warnings",
+
     "/favicon.ico", "/favicon.svg",
     "/robots.txt", "/sitemap.xml",
     "/feed.xml",
     "/manifest.json",
     "/manifest.en.json",
-    "/manifest.he.json",  
+    "/manifest.he.json",
     "/sw.js",
     "/.well-known/traffic-advice",
     "/.well-known/assetlinks.json",
 )
 
-
 SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
     "/icons/", "/og/", "/logos/", "/.well-known/",
-    "/flights", "/destinations", "/travel-questionnaire"
+    "/stats","/flights", "/destinations", "/travel-questionnaire",
 )
 
 
@@ -84,9 +96,12 @@ GOOD_BOTS = [
 
 class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        original_path = request.url.path  # 🔥 KEEP ORIGINAL CASE
-        path_lower = original_path.lower()  # only for security checks
+        original_path = request.url.path  
+        path_lower = original_path.lower() 
         user_agent = request.headers.get("user-agent", "").lower()
+        
+        if original_path.startswith("//"):
+            return Response(status_code=404)
 
         # -----------------------------------------
         # 1️⃣ Normalize only trailing slash — do NOT lowercase
