@@ -93,7 +93,7 @@ def api_destination_diff(
             curr = extract_routes(Path(ISRAEL_FLIGHTS_FILE))
             _save_json(DEST_PREVIOUS, curr)
 
-            logger.info(
+            logger.debug(
                 f"Snapshot rebuilt successfully → {len(curr)} routes stored."
             )
 
@@ -102,7 +102,7 @@ def api_destination_diff(
         # ---------------------------------------------------------
         diff_raw = generate_destination_diff()
 
-        logger.info(
+        logger.debug(
             f"DIFF GENERATED → added={diff_raw['counts']['added']} "
             f"removed={diff_raw['counts']['removed']}"
         )
