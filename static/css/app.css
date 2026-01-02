@@ -1617,12 +1617,6 @@ body.dark-mode #trending-widget a:hover {
     position: relative;
 }
 
-#route-ticker .ticker-inner {
-    display: inline-flex;
-    gap: 24px;
-    animation: ticker-scroll 30s linear infinite;
-}
-
 /* ITEMS */
 #route-ticker .ticker-item {
     display: inline-flex;
