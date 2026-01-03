@@ -48,7 +48,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384" crossorigin="anonymous"></script>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
+  <link rel="stylesheet" href="/static/css/app.css?v={{ app_version }}">
   <link id="bs-theme-link" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css" />
@@ -609,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/sw.js")
+      navigator.serviceWorker.register("/static/js/sw.js")
         .then((reg) => {
           console.log("✅ Service Worker registered:", reg.scope);
         })
@@ -676,7 +676,7 @@ nl_pos = "br";
 nl_link = "https://fly-tlv.com/accessibility";
 nl_compact = "1";
 </script>
-<script src="{{ url_for('static', path='js/nagishli_beta.js') }}?v=3.0" charset="utf-8" defer></script>
+<script src="/static/js/nagishli_beta.js?v=3.0" defer></script>
 <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
