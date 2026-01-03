@@ -5,24 +5,18 @@
   "lang": "en",
   "dir": "ltr",
 
-  "id": "https://fly-tlv.com/?source=pwa",
-  "start_url": "https://fly-tlv.com/?source=pwa",
-  "scope": "https://fly-tlv.com/",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+
   "display": "standalone",
   "display_override": ["standalone", "fullscreen"],
-  
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
-  "categories": ["travel", "flights", "aviation", "maps", "explorer"],
+  "categories": ["travel", "flights", "aviation", "maps"],
   "prefer_related_applications": false,
-  "protocol_handlers": [
-    {
-      "protocol": "https",
-      "url": "https://fly-tlv.com/"
-    }
-  ],
-	
+
   "icons": [
     {
       "src": "/static/icons/icon-1024x1024.png",
@@ -39,105 +33,20 @@
     {
       "src": "/static/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/static/icons/favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/static/icons/favicon-16x16.png",
-      "sizes": "16x16",
       "type": "image/png"
     }
   ],
 
   "shortcuts": [
-    {
-      "name": "Home",
-      "short_name": "Home",
-      "description": "Return to the Fly TLV homepage",
-      "url": "/",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Flights",
-      "short_name": "Flights",
-      "description": "View live flight departures and arrivals",
-      "url": "/flights",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Travel Warnings",
-      "short_name": "Warnings",
-      "description": "Check global travel advisories and restrictions",
-      "url": "/travel-warnings",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Map",
-      "short_name": "Map",
-      "description": "Explore destinations on the world map",
-      "url": "/map",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Statistics",
-      "short_name": "Stats",
-      "description": "View flight and destination statistics",
-      "url": "/stats",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Glossary",
-      "short_name": "Glossary",
-      "description": "Learn about flight and travel terms",
-      "url": "/glossary",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Direct vs Nonstop",
-      "short_name": "Direct vs Nonstop",
-      "description": "Understand the difference between direct and nonstop flights",
-      "url": "/direct-vs-nonstop",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Accessibility",
-      "short_name": "Accessibility",
-      "description": "Read about accessibility on Fly TLV",
-      "url": "/accessibility",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Privacy Policy",
-      "short_name": "Privacy",
-      "description": "Read our privacy policy",
-      "url": "/privacy",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Terms & Conditions",
-      "short_name": "Terms",
-      "description": "View Fly TLV’s terms of service",
-      "url": "/terms",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Contact",
-      "short_name": "Contact",
-      "description": "Get in touch with Fly TLV",
-      "url": "/contact",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "AI Bot",
-      "short_name": "AI Chat",
-      "description": "Ask the Fly TLV AI assistant about destinations",
-      "url": "/chat",
-      "icons": [{ "src": "/static/icons/icon-192x192.png", "sizes": "192x192" }]
-    }
+    { "name": "Home", "short_name": "Home", "url": "/" },
+    { "name": "Flights", "short_name": "Flights", "url": "/flights" },
+    { "name": "Travel Warnings", "short_name": "Warnings", "url": "/travel-warnings" },
+    { "name": "Map", "short_name": "Map", "url": "/map" },
+    { "name": "Statistics", "short_name": "Stats", "url": "/stats" },
+    { "name": "Glossary", "short_name": "Glossary", "url": "/glossary" },
+    { "name": "Direct vs Nonstop", "short_name": "Direct", "url": "/direct-vs-nonstop" },
+    { "name": "Accessibility", "short_name": "Access", "url": "/accessibility" },
+    { "name": "Privacy Policy", "short_name": "Privacy", "url": "/privacy" },
+    { "name": "Contact", "short_name": "Contact", "url": "/contact" }
   ]
 }

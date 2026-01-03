@@ -357,14 +357,23 @@
 <div class="container-fluid px-2 px-md-3">
 <div id="route-ticker" class="card shadow-sm mb-2 small p-2 mt-3 d-none">
     <div class="ticker-title fw-semibold mb-1 text-primary text-start">
-        <i class="bi bi-airplane-engines-fill me-1"></i>
-        Route Updates
-	   <i class="bi bi-info-circle ms-1 text-muted"
-       data-bs-toggle="tooltip"
-       data-bs-placement="right"
-       title="Based on today’s published flight schedule. Routes may appear or disappear on different dates."
-       aria-label="Route updates are based on today’s schedule">
-    </i>
+	<i class="bi bi-airplane-engines-fill me-1"></i>
+	{% if lang == "he" %}
+	  עדכוני קווים
+	{% else %}
+	  Route Updates
+	{% endif %}
+
+	<i class="bi bi-info-circle ms-1 text-muted"
+	   data-bs-toggle="tooltip"
+	   data-bs-placement="right"
+	   {% if lang == "he" %}
+		 title="מבוסס על לוח הטיסות שפורסם היום. קווים עשויים להופיע או להיעלם בתאריכים שונים."
+		 aria-label="עדכוני קווים מבוססים על לוח הטיסות של היום"
+	   {% else %}
+		 title="Based on today’s published flight schedule. Routes may appear or disappear on different dates."
+		 aria-label="Route updates are based on today’s schedule"
+	   {% endif %}></i>
     </div>
     <div class="ticker-wrapper">
         <div class="ticker-inner"></div>
@@ -591,6 +600,17 @@
 	  {% else %}
 		Search & Filter
 	  {% endif %}
+	  <i class="bi bi-info-circle ms-1 text-muted"
+		 data-bs-toggle="tooltip"
+		 data-bs-placement="right"
+		 {% if lang == "he" %}
+		   title="סינון וחיפוש לפי יעד, מדינה וחברות תעופה"
+		   aria-label="מידע על חיפוש וסינון"
+		 {% else %}
+		   title="Filter and search by destination, country, and airlines"
+		   aria-label="Search and filter information"
+		 {% endif %}>
+	  </i>
 	</div>
   <div class="card-body p-2">
     <div class="mb-2">
@@ -876,7 +896,7 @@
       <div class="d-flex align-items-center">
         <i class="bi bi-airplane-engines text-primary me-3 fs-5"></i>
         <span id="footer-brand" class="fw-semibold">
-          {{ "Fly TLV → Worldwide Destinations" if lang != 'he' else "TLV → מגלה יעדים בעולם" }}
+          {{ "Fly TLV → Worldwide Destinations Explorer" if lang != 'he' else "TLV → מגלה יעדים בעולם" }}
         </span>
       </div>
       <div id="footer-tagline" class="small text-muted mt-1">
