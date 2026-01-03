@@ -40,6 +40,9 @@ def _extract_first_img(raw: str) -> dict:
     return {}
     
 def get_git_version():
+    
+    logger = logging.getLogger("version")
+
     """Return the project version based on Git commit and date, or 'dev' if unavailable."""
     root = os.path.dirname(os.path.abspath(__file__))
 
