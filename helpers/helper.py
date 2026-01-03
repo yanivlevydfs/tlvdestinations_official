@@ -39,9 +39,20 @@ def _extract_first_img(raw: str) -> dict:
         return {"src": match.group(1), "alt": match.group(2)}
     return {}
     
-def get_git_version():
+def get_git_version() -> str:
     sha = os.getenv("RAILWAY_GIT_COMMIT_SHA")
-    return sha[:7] if sha else "dev"
+
+    # Local / dev environment
+    if not sha:
+        return "dev"
+
+    # Date: DD-MM-YYYY (deploy time, deterministic)
+    date_str = datetime.utcnow().strftime("%d-%m-%Y")
+
+    # Short commit
+    short_sha = sha[:6]
+
+    return f"V-{date_str}_{short_sha}"
 
 def normalize_case(value) -> str:
     """Capitalize each word safely, handling None, numbers, and placeholders."""
