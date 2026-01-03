@@ -40,20 +40,8 @@ def _extract_first_img(raw: str) -> dict:
     return {}
     
 def get_git_version():
-    """Return short git commit hash or 'unknown'."""
-    try:
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"],
-            stderr=subprocess.DEVNULL
-        ).decode().strip()
-
-        if commit:
-            return commit
-
-    except Exception:
-        pass
-
-    return "unknown"
+    sha = os.getenv("RAILWAY_GIT_COMMIT_SHA")
+    return sha[:7] if sha else "dev"
 
 def normalize_case(value) -> str:
     """Capitalize each word safely, handling None, numbers, and placeholders."""
