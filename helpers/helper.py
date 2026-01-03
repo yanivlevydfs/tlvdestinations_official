@@ -42,10 +42,34 @@ def _extract_first_img(raw: str) -> dict:
 def get_git_version() -> str:
     logger = logging.getLogger("version")
 
-    # 🚨 IMPORTANT: project root, not helpers/
-    root = os.getenv("RAILWAY_PROJECT_DIR", "/app")
+    # ============================================================
+    # 1️⃣ Railway / CI-provided version (PRIMARY)
+    # ============================================================
+    # Set this in Railway → Variables
+    # Example: 2026.01.03–rwy or 2026.01.03–abc1234
+    app_version = os.getenv("APP_VERSION")
+    if app_version:
+        return app_version
 
-    def run_git_command(args):
+    # ============================================================
+    # 2️⃣ Railway Git metadata (SECONDARY, if present)
+    # ============================================================
+    sha = os.getenv("RAILWAY_GIT_COMMIT_SHA")
+    date = os.getenv("RAILWAY_GIT_COMMIT_DATE")
+
+    if sha and date:
+        return f"{date.replace('-', '.')}–{sha[:7]}"
+
+    # ============================================================
+    # 3️⃣ Local development ONLY (Git fallback)
+    # ============================================================
+    if os.getenv("RAILWAY_ENVIRONMENT"):
+        # We are on Railway — do NOT try git
+        return "dev"
+
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    def run_git(args):
         return subprocess.check_output(
             ["git"] + args,
             cwd=root,
@@ -53,16 +77,12 @@ def get_git_version() -> str:
         ).decode().strip()
 
     try:
-        commit = run_git_command(["rev-parse", "--short", "HEAD"])
-        date = run_git_command(["log", "-1", "--format=%cd", "--date=short"])
+        commit = run_git(["rev-parse", "--short", "HEAD"])
+        date = run_git(["log", "-1", "--format=%cd", "--date=short"])
         return f"{date.replace('-', '.')}–{commit}"
 
-    except FileNotFoundError:
-        logger.warning("[version] Git binary not found. Falling back to 'dev'.")
-    except subprocess.CalledProcessError:
-        logger.warning("[version] Git metadata unavailable. Falling back to 'dev'.")
     except Exception as e:
-        logger.warning(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
+        logger.debug(f"[version] Local git unavailable: {e}")
 
     return "dev"
 
