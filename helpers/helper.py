@@ -39,15 +39,18 @@ def _extract_first_img(raw: str) -> dict:
         return {"src": match.group(1), "alt": match.group(2)}
     return {}
     
-def get_git_version():
-    
+def get_git_version() -> str:
     logger = logging.getLogger("version")
 
-    """Return the project version based on Git commit and date, or 'dev' if unavailable."""
-    root = os.path.dirname(os.path.abspath(__file__))
+    # 🚨 IMPORTANT: project root, not helpers/
+    root = os.getenv("RAILWAY_PROJECT_DIR", "/app")
 
     def run_git_command(args):
-        return subprocess.check_output(["git"] + args, cwd=root).decode().strip()
+        return subprocess.check_output(
+            ["git"] + args,
+            cwd=root,
+            stderr=subprocess.DEVNULL,
+        ).decode().strip()
 
     try:
         commit = run_git_command(["rev-parse", "--short", "HEAD"])
@@ -55,11 +58,11 @@ def get_git_version():
         return f"{date.replace('-', '.')}–{commit}"
 
     except FileNotFoundError:
-        logger.error("[version] Git not found. Is it installed and in PATH? Falling back to 'dev'.")
-    except subprocess.CalledProcessError as e:
-        logger.error(f"[version] Git command failed: {e}. Falling back to 'dev'.")
+        logger.warning("[version] Git binary not found. Falling back to 'dev'.")
+    except subprocess.CalledProcessError:
+        logger.warning("[version] Git metadata unavailable. Falling back to 'dev'.")
     except Exception as e:
-        logger.error(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
+        logger.warning(f"[version] Unexpected error: {e}. Falling back to 'dev'.")
 
     return "dev"
 
