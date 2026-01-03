@@ -34,8 +34,10 @@ async def redirect_and_log_404(request: Request, call_next):
     url = str(request.url)
     redirect_url = url
 
-    # ✅ 1. Enforce HTTPS
-    if url.startswith("http://"):
+    # ✅ 1. Enforce HTTPS (proxy-aware, Railway-safe)
+    proto = request.headers.get("x-forwarded-proto", "").lower()
+
+    if proto == "http" and not os.getenv("RAILWAY_ENVIRONMENT"):
         redirect_url = redirect_url.replace("http://", "https://", 1)
 
     # ✅ 2. Remove 'www.'
