@@ -216,26 +216,18 @@ async def terms_view(request: Request, lang: str = Depends(get_lang)):
             },
             status_code=500
         )
+        
 @router.get("/sw.js", include_in_schema=False)
-async def service_worker():
-    js = """
-    self.addEventListener("install", (event) => {
-        console.log("Service Worker installed");
-        self.skipWaiting();
-    });
-
-    self.addEventListener("activate", (event) => {
-        console.log("Service Worker activated");
-        event.waitUntil(clients.claim());
-    });
-
-    // Minimal fetch handler (passthrough to network)
-    self.addEventListener("fetch", (event) => {
-        event.respondWith(fetch(event.request));
-    });
-    """
-    return Response(content=js, media_type="application/javascript")
-
+async def sw_root():
+    return FileResponse(
+        "static/js/sw.js",
+        media_type="application/javascript",
+        headers={
+            "Cache-Control": "no-store",
+            "Service-Worker-Allowed": "/",
+        },
+    )
+    
 @router.get("/chat", response_class=HTMLResponse)
 async def chat_page(request: Request, lang: str = Depends(get_lang)):
     client = request.client.host if request.client else "unknown"
