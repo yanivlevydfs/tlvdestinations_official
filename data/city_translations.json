@@ -322,5 +322,6 @@
   "Kutaisi": { "he": "קוטאיסי", "country": "Georgia", "country_he": "גאורגיה" },
   "Menorca": {"he": "מנורקה","country": "Spain","country_he": "ספרד"},
   "Zanzibar City": {"he": "זנזיבר סיטי","country": "Tanzania","country_he": "טנזניה"},
-  "Nosy Be": {"he": "נוסי בה", "country": "Madagascar", "country_he": "מדגסקר"}
+  "Nosy Be": {"he": "נוסי בה", "country": "Madagascar", "country_he": "מדגסקר"},
+  "New Delhi": {"he": "ניו דלהי","country": "India","country_he": "הודו"}
 }
