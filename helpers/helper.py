@@ -39,52 +39,21 @@ def _extract_first_img(raw: str) -> dict:
         return {"src": match.group(1), "alt": match.group(2)}
     return {}
     
-def get_git_version() -> str:
-    logger = logging.getLogger("version")
-
-    # ============================================================
-    # 1️⃣ Railway / CI-provided version (PRIMARY)
-    # ============================================================
-    # Set this in Railway → Variables
-    # Example: 2026.01.03–rwy or 2026.01.03–abc1234
-    app_version = os.getenv("APP_VERSION")
-    if app_version:
-        return app_version
-
-    # ============================================================
-    # 2️⃣ Railway Git metadata (SECONDARY, if present)
-    # ============================================================
-    sha = os.getenv("RAILWAY_GIT_COMMIT_SHA")
-    date = os.getenv("RAILWAY_GIT_COMMIT_DATE")
-
-    if sha and date:
-        return f"{date.replace('-', '.')}–{sha[:7]}"
-
-    # ============================================================
-    # 3️⃣ Local development ONLY (Git fallback)
-    # ============================================================
-    if os.getenv("RAILWAY_ENVIRONMENT"):
-        # We are on Railway — do NOT try git
-        return "dev"
-
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-
-    def run_git(args):
-        return subprocess.check_output(
-            ["git"] + args,
-            cwd=root,
-            stderr=subprocess.DEVNULL,
+def get_git_version():
+    """Return short git commit hash or 'unknown'."""
+    try:
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            stderr=subprocess.DEVNULL
         ).decode().strip()
 
-    try:
-        commit = run_git(["rev-parse", "--short", "HEAD"])
-        date = run_git(["log", "-1", "--format=%cd", "--date=short"])
-        return f"{date.replace('-', '.')}–{commit}"
+        if commit:
+            return commit
 
-    except Exception as e:
-        logger.debug(f"[version] Local git unavailable: {e}")
+    except Exception:
+        pass
 
-    return "dev"
+    return "unknown"
 
 def normalize_case(value) -> str:
     """Capitalize each word safely, handling None, numbers, and placeholders."""
