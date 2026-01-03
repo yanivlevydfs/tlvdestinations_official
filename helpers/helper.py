@@ -5,7 +5,6 @@ HTML parsing & extraction helpers — Production grade.
 from fastapi import Request
 import re
 from bs4 import BeautifulSoup
-import subprocess
 import os
 import string
 from datetime import datetime
