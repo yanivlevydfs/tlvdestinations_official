@@ -1070,13 +1070,21 @@
     </a>
   </span>
   <br />
-  <span id="footer-rights" aria-label="Rights notice">
-    {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
-  </span>
-  <br />
-  <small style="font-size: 0.6rem; color: #6c757d;">
-    {{ app_version }}
-  </small>
+<span id="footer-rights" aria-label="Rights notice">
+  {{ "All rights reserved" if lang != "he" else "כל הזכויות שמורות" }}
+</span>
+<br>
+<small
+  aria-label="Application version"
+  style="
+    display:block;
+    margin-top:2px;
+    font-size:0.6rem;
+    opacity:0.5;
+    letter-spacing:0.08em;
+  ">
+  {{ app_version }}
+</small>
 </div>
   </div>
 </div>
@@ -1089,19 +1097,14 @@
 </div>
 </footer>
 
-  <script>
-	  if ("serviceWorker" in navigator) {
-		window.addEventListener("load", () => {
-		  navigator.serviceWorker.register("/static/js/sw.js")
-			.then((reg) => {
-			  console.log("✅ Service Worker registered:", reg.scope);
-			})
-			.catch((err) => {
-			  console.error("❌ Service Worker registration failed:", err);
-			});
-		});
-	  }
-	</script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/static/js/sw.js").catch(() => {});
+    });
+  }
+</script>
+
 <!-- Cookie Consent Banner -->
 <div id="cookie-banner"
      class="d-none"
