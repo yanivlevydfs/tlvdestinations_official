@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime, date
 import time
 from typing import Any, Dict, List
-import google.generativeai as genai
+from google import genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -100,10 +100,10 @@ logger = get_app_logger("flights_explorer")
 
 logger.debug("Server starting…")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-# Set up Gemini API
 
-genai.configure(api_key=GEMINI_API_KEY)
-chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
+# Set up Gemini API (NEW SDK)
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+GEMINI_MODEL = "gemini-2.5-flash-lite"
 security = HTTPBasic()
 
 # Templates
@@ -1680,11 +1680,15 @@ I couldn't find it in our current destination catalog, please check the main tab
     logger.debug("Gemini prompt built successfully (length=%d chars)", len(prompt))
 
     try:
-        result = await chat_model.generate_content_async(prompt)
-        answer = getattr(result, "text", None) or "Currently I have no answer"
+        response = await gemini_client.aio.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+        )
+        answer = response.text or "Currently I have no answer"
     except Exception as e:
         logger.error("Gemini API error: %s", str(e).split('\n')[0])
         raise HTTPException(status_code=500, detail="Gemini API error")
+
 
     field_names = [
         "airline", "iata", "airport", "city", "country",

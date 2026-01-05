@@ -1,7 +1,7 @@
 # === Data / Utils ===
 pandas
 requests
-google.generativeai
+google-genai
 # === Maps & Geo ===
 folium
 airportsdata
