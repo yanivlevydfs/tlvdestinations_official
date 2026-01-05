@@ -356,7 +356,8 @@
 <!-- Route Changes Ticker (Card Style) -->
 <div class="container-fluid px-2 px-md-3">
 <div id="route-ticker" class="card shadow-sm mb-2 small p-2 mt-3 d-none">
-    <div class="ticker-title fw-semibold mb-1 text-primary text-start">
+    <div class="ticker-title fw-semibold mb-1 text-primary
+            {% if lang == 'he' %} rtl {% else %} ltr {% endif %}">
 	<i class="bi bi-airplane-engines-fill me-1"></i>
 	{% if lang == "he" %}
 	  עדכוני קווים
@@ -405,7 +406,8 @@
         <div class="offcanvas-body p-0">
           <div class="d-flex flex-column gap-3">
             <div class="card shadow-sm" style="margin-top: 0;">
-			<div class="card-header fw-semibold text-start header-title-desktop">
+			<div class="card-header fw-semibold header-title-desktop
+            {% if lang == 'he' %} rtl {% else %} ltr {% endif %}">
 			  <i class="bi bi-funnel-fill me-1"></i>
 			  {% if lang == "he" %}
 				חיפוש וסינון
