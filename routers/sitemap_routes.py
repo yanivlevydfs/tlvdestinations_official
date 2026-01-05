@@ -9,7 +9,7 @@ from pathlib import Path
 from datetime import date
 import logging
 from helpers.sitemap_utils import Url, build_sitemap
-from config_paths import STATIC_DIR    # clean import
+from config_paths import STATIC_DIR
 import app_state
 
 
@@ -62,9 +62,9 @@ def sitemap():
         df = app_state.DATASET_DF
 
         if df is None or df.empty:
-            logger.warning("⚠️ DATASET_DF is empty — skipping dynamic IATA links.")
+            logger.info("DATASET_DF is empty — skipping dynamic IATA links")
         elif "IATA" not in df.columns:
-            logger.warning("⚠️ DATASET_DF has no 'IATA' column — skipping dynamic links.")
+            logger.info("DATASET_DF missing 'IATA' column — skipping dynamic links")
         else:
             iatas = df["IATA"].dropna().unique()
             for iata in iatas:
@@ -78,7 +78,7 @@ def sitemap():
             logger.debug(f"🧭 Added {len(iatas)} dynamic destinations.")
 
     except Exception as e:
-        logger.warning(f"⚠️ Failed to load dynamic IATA links: {e}")
+        logger.info("Failed to load dynamic IATA links (continuing without them): %s", e)
 
 
     # --- 3. Include *all* static-generated HTML pages physically saved on disk ---
@@ -110,11 +110,12 @@ def sitemap():
                     logger.debug(f"📄 Added static file: {html_file.relative_to(STATIC_DIR)} → {url}")
 
                 except Exception as e:
-                    logger.warning(f"⚠️ Skipped file {html_file}: {e}")
+                    logger.debug("Skipped file %s: %s", html_file, e)
 
-        logger.debug(f"✅ Added {total_files:,} static HTML destination files from {static_dest_dir}")
+        logger.debug("Added %d static HTML destination files from %s",total_files,static_dest_dir,)
     else:
-        logger.warning(f"⚠️ Static destinations folder not found: {static_dest_dir}")
+        logger.info("Static destinations folder not found (optional): %s",static_dest_dir,)
+
 
     # --- 4. Build and write sitemap.xml ---
     xml = build_sitemap(urls)
@@ -123,8 +124,8 @@ def sitemap():
     try:
         out_path.parent.mkdir(exist_ok=True)
         out_path.write_text(xml, encoding="utf-8")
-        logger.debug(f"✅ Sitemap written to {out_path} with {len(urls)} URLs total")
+        logger.debug("Sitemap written to %s with %d URLs total",out_path,len(urls),)
     except Exception as e:
-        logger.error(f"❌ Failed to write sitemap.xml: {e}")
+        logger.error("Failed to write sitemap.xml",exc_info=True,)
 
     return Response(content=xml, media_type="application/xml")
