@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <title>{{ title | default("Fly TLV → Worldwide Destinations") }}</title>
+  <title>{{ title | default("Fly TLV → Worldwide Destinations Explorer") }}</title>
   <meta name="description" content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
   <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel" />
   <meta name="robots" content="index,follow" />
@@ -313,7 +313,7 @@ body.dark-mode .btn-outline-primary strong {
       <div class="d-flex align-items-center">
         <i class="bi bi-airplane-engines text-primary me-3 fs-5"></i>
         <span id="footer-brand" class="fw-semibold">
-          {{ "Fly TLV → Worldwide Destinations" if lang != 'he' else "TLV → מגלה יעדים בעולם" }}
+          {{ "Fly TLV → Worldwide Destinations Explorer" if lang != 'he' else "TLV → מגלה יעדים בעולם" }}
         </span>
       </div>
       <div id="footer-tagline" class="small text-muted mt-1">
