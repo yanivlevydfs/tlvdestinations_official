@@ -606,16 +606,10 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
   {% block scripts %}{% endblock %}
-  <script>
+<script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/static/js/sw.js")
-        .then((reg) => {
-          console.log("✅ Service Worker registered:", reg.scope);
-        })
-        .catch((err) => {
-          console.error("❌ Service Worker registration failed:", err);
-        });
+      navigator.serviceWorker.register("/static/js/sw.js").catch(() => {});
     });
   }
 </script>
