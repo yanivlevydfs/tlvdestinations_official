@@ -21,7 +21,8 @@ from fastapi.responses import HTMLResponse, JSONResponse, FileResponse,RedirectR
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from logging_setup import setup_logging, get_app_logger,setup_feedback_logger
+import logging
+from logging.handlers import RotatingFileHandler
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.openapi.utils import get_openapi
@@ -94,9 +95,25 @@ if enc != "utf-8":
             pass
 
 # --- Logging ---
-setup_logging(log_level="INFO", log_dir="logs", log_file_name="app.log")
-feedback_logger = setup_feedback_logger()
-logger = get_app_logger("flights_explorer")
+LOG_DIR = Path("logs")
+LOG_DIR.mkdir(exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    handlers=[
+        RotatingFileHandler(
+            LOG_DIR / "app.log",
+            maxBytes=10_000_000,  # 10 MB
+            backupCount=5,
+            encoding="utf-8",
+        ),
+        logging.StreamHandler(),
+    ],
+)
+logger = logging.getLogger("fly_tlv.flights_explorer")
+feedback_logger = logging.getLogger("fly_tlv.feedback")
+feedback_logger.setLevel(logging.INFO)
 
 logger.debug("Server starting…")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
