@@ -111,7 +111,13 @@ logging.basicConfig(
         logging.StreamHandler(),
     ],
 )
+# Silence httpx noise
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)  # important
+
+# App loggers
 logger = logging.getLogger("fly_tlv.flights_explorer")
+
 feedback_logger = logging.getLogger("fly_tlv.feedback")
 feedback_logger.setLevel(logging.INFO)
 
