@@ -1703,3 +1703,12 @@ body.dark-mode .card-header.header-title-desktop {
 body.dark-mode .card-header.header-title-desktop i {
   color: #ffffff;
 }
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
