@@ -113,8 +113,11 @@ logging.basicConfig(
 )
 # Silence httpx noise
 logging.getLogger("httpx").setLevel(logging.WARNING)
-logging.getLogger("httpcore").setLevel(logging.WARNING)  # important
-
+logging.getLogger("httpcore").setLevel(logging.WARNING)
+# Silence uvicorn noise
+logging.getLogger("uvicorn").setLevel(logging.WARNING)
+logging.getLogger("uvicorn.error").setLevel(logging.WARNING)
+logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
 # App loggers
 logger = logging.getLogger("fly_tlv.flights_explorer")
 
