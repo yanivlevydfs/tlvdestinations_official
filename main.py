@@ -108,7 +108,7 @@ logging.basicConfig(
             backupCount=5,
             encoding="utf-8",
         ),
-        logging.StreamHandler(),
+        logging.StreamHandler(sys.stdout),
     ],
 )
 # Silence httpx noise
