@@ -124,7 +124,7 @@ def ensure_previous_snapshot():
 
     curr = extract_routes(ISRAEL_FLIGHTS_FILE)
     _save_json(DEST_PREVIOUS, curr)
-    print("FIX APPLIED: Auto-created destinations_previous.json")
+    #print("FIX APPLIED: Auto-created destinations_previous.json")
 
 
 
