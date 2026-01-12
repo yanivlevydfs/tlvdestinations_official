@@ -1644,7 +1644,7 @@ body.dark-mode #trending-widget a:hover {
 #route-ticker .ticker-inner {
     display: inline-flex;
     gap: 24px;
-    animation: ticker-scroll 80s linear infinite;
+    animation: ticker-scroll 70s linear infinite;
 }
 /* Dark Mode – Route Ticker */
 body.dark-mode #route-ticker {
@@ -1682,6 +1682,12 @@ body.dark-mode #route-ticker .ticker-item.added {
 /* REMOVED ROUTES = FULL RED */
 body.dark-mode #route-ticker .ticker-item.removed {
     color: #ff7d7d !important;
+}
+.scroller:hover {
+  animation-play-state: paused;
+}
+.scroller {
+  animation: scroll 70s linear infinite;
 }
 #route-ticker:hover .ticker-inner {
     animation-play-state: paused;
