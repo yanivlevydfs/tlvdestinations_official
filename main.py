@@ -359,22 +359,48 @@ def reload_israel_flights_globals():
     logger.debug(f"🔁 Globals reloaded: {len(DATASET_DF)} dataset rows, {len(DATASET_DF_FLIGHTS)} flights")
 
 def load_travel_warnings_df() -> pd.DataFrame:
-    """Load travel warnings JSON from CACHE_DIR into a DataFrame."""
+    """Load travel warnings JSON into a JSON-safe DataFrame."""
     if not TRAVEL_WARNINGS_FILE.exists():
         logger.warning(f"⚠️ Travel warnings file not found: {TRAVEL_WARNINGS_FILE}")
         return pd.DataFrame()
+
     try:
         with open(TRAVEL_WARNINGS_FILE, encoding="utf-8") as f:
             data = json.load(f)
-        warnings = data.get("warnings", [])
-        df = pd.DataFrame(warnings)
-        # Keep last_update in metadata
+
+        df = pd.DataFrame(data.get("warnings", []))
+
+        # ---- JSON-SAFE NORMALIZATION (CRITICAL) ----
+        # 1) Kill NaN/NaT everywhere
+        df = df.replace({np.nan: None})
+        df = df.where(pd.notna(df), None)
+
+        # 2) Ensure text columns stay as objects (no float coercion)
+        TEXT_COLS = [
+            "continent", "country", "office",
+            "recommendations", "details_url", "level"
+        ]
+        for col in TEXT_COLS:
+            if col in df.columns:
+                df[col] = df[col].astype(object)
+
+        # 3) Keep nested objects (logo) as-is (dict is JSON-safe)
+        # No action needed; just ensure no NaN inside logo if present
+        if "logo" in df.columns:
+            df["logo"] = df["logo"].apply(
+                lambda v: v if isinstance(v, dict) else None
+            )
+
+        # Metadata
         df.attrs["last_update"] = data.get("updated")
-        logger.debug(f"✅ Loaded {len(df)} travel warnings from cache (updated {df.attrs['last_update']})")
+
+        logger.debug(
+            f"✅ Loaded {len(df)} travel warnings (updated {df.attrs['last_update']})"
+        )
         return df
 
-    except Exception as e:
-        logger.error(f"❌ Failed to load travel warnings: {e}")
+    except Exception:
+        logger.exception("❌ Failed to load travel warnings")
         return pd.DataFrame()
     
 TEMPLATES.env.filters["datetimeformat"] = datetimeformat
@@ -2231,12 +2257,8 @@ async def get_warnings(country: str):
     warnings = warnings[["recommendations", "details_url", "date"]].copy()
     warnings = warnings.rename(columns={"details_url": "link"})
 
-    # ✅ CRITICAL: convert NaN/NaT to None (JSON-safe)
-    warnings = warnings.replace({np.nan: None})
-    warnings = warnings.where(pd.notna(warnings), None)
+    return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
 
-    records = warnings.to_dict(orient="records")
-    return JSONResponse(content={"warnings": jsonable_encoder(records)})
 
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
