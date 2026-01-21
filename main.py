@@ -2414,16 +2414,32 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
             # First attempt
             geo_resp = await fetch_coords(WIKI_API, city_lookup)
 
-            # Fallback to EN
+            geo_data = None
+            if geo_resp and geo_resp.status_code == 200 and geo_resp.content:
+                try:
+                    geo_data = geo_resp.json()
+                except ValueError:
+                    geo_data = None
+
             if (
-                not geo_resp
-                or not geo_resp.json().get("query", {}).get("pages")
+                not geo_data
+                or "query" not in geo_data
+                or not geo_data["query"].get("pages")
             ) and FALLBACK_API:
-                logger.warning("⚠️ Hebrew page missing → English fallback")
+                logger.warning("⚠️ Hebrew page missing or invalid → English fallback")
                 geo_resp = await fetch_coords(FALLBACK_API, city_clean)
 
             # Extract page
-            data = geo_resp.json()
+            if not geo_resp or geo_resp.status_code != 200 or not geo_resp.content:
+                logger.warning(f"⚠️ No valid Wikipedia geo response for {city_clean}")
+                return {"city": city_lookup, "pois": [], "tips": []}
+
+            try:
+                data = geo_resp.json()
+            except ValueError:
+                logger.warning(f"⚠️ Non-JSON Wikipedia geo response for {city_clean}")
+                return {"city": city_lookup, "pois": [], "tips": []}
+
             pages = data.get("query", {}).get("pages", {})
             page = next(iter(pages.values()), {})
 
@@ -2449,7 +2465,15 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                     },
                 )
 
-                search_list = search_resp.json().get("query", {}).get("search", [])
+                if search_resp.status_code != 200 or not search_resp.content:
+                    return {"city": city_lookup, "pois": [], "tips": []}
+
+                try:
+                    search_data = search_resp.json()
+                except ValueError:
+                    return {"city": city_lookup, "pois": [], "tips": []}
+
+                search_list = search_data.get("query", {}).get("search", [])
                 if search_list:
 
                     resolved_page = None
@@ -2552,8 +2576,16 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
                         if not geo_fb_resp:
                             continue
 
-                        data_fb = geo_fb_resp.json()
+                        if geo_fb_resp.status_code != 200 or not geo_fb_resp.content:
+                            continue
+
+                        try:
+                            data_fb = geo_fb_resp.json()
+                        except ValueError:
+                            continue
+
                         page_fb = next(iter(data_fb.get("query", {}).get("pages", {}).values()), {})
+
                         coords_fb = page_fb.get("coordinates")
 
                         # Skip disambiguation
