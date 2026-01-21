@@ -14,6 +14,7 @@ import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import pandas as pd
 import requests
+import numpy as np
 import folium
 from airportsdata import load
 from folium.plugins import MarkerCluster
@@ -2216,92 +2217,27 @@ async def get_airports(country: str, city: str):
 
 @app.get("/api/warnings")
 async def get_warnings(country: str):
-    logger.info("[warnings] START request country=%r", country)
-
     df = TRAVEL_WARNINGS_DF.copy()
     df.columns = df.columns.str.strip().str.lower()
 
-    logger.info(
-        "[warnings] DF loaded rows=%d cols=%s",
-        len(df),
-        list(df.columns)
-    )
-
     he_country = EN_TO_HE_COUNTRY.get(country)
-    logger.info(
-        "[warnings] country mapping EN=%r -> HE=%r",
-        country,
-        he_country
-    )
-
     if not he_country:
-        logger.warning("[warnings] NO mapping for country=%r", country)
-        return JSONResponse(
-            status_code=400,
-            content={"error": f"No Hebrew mapping found for '{country}'"}
-        )
+        return JSONResponse(status_code=400, content={"error": f"No Hebrew mapping found for '{country}'"})
 
-    # ---- filtering ----
-    warnings = df[
-        (df["country"] == he_country) &
-        (df["office"] == "מל\"ל")
-    ]
-
-    logger.info(
-        "[warnings] after filter rows=%d (country=%r office=מל\"ל)",
-        len(warnings),
-        he_country
-    )
-
+    warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
     if warnings.empty:
-        logger.info("[warnings] EMPTY result set")
         return JSONResponse(content={"warnings": []})
 
-    # ---- select / rename ----
-    warnings = warnings[["recommendations", "details_url", "date"]]
+    warnings = warnings[["recommendations", "details_url", "date"]].copy()
     warnings = warnings.rename(columns={"details_url": "link"})
 
-    logger.info(
-        "[warnings] columns after select=%s dtypes=%s",
-        list(warnings.columns),
-        warnings.dtypes.astype(str).to_dict()
-    )
+    # ✅ CRITICAL: convert NaN/NaT to None (JSON-safe)
+    warnings = warnings.replace({np.nan: None})
+    warnings = warnings.where(pd.notna(warnings), None)
 
-    # ---- to dict ----
     records = warnings.to_dict(orient="records")
-    logger.info("[warnings] records built count=%d", len(records))
+    return JSONResponse(content={"warnings": jsonable_encoder(records)})
 
-    # ---- preview first record (types + values, truncated) ----
-    first = records[0]
-    logger.info(
-        "[warnings] first record types=%s",
-        {k: type(v).__name__ for k, v in first.items()}
-    )
-
-    logger.info(
-        "[warnings] first record values=%s",
-        {k: (v if isinstance(v, (str, int, float, type(None))) else repr(v))
-         for k, v in first.items()}
-    )
-
-    # ---- JSON encoder test (CRITICAL) ----
-    try:
-        encoded = jsonable_encoder(records)
-        logger.info("[warnings] jsonable_encoder OK")
-    except Exception:
-        logger.exception("[warnings] jsonable_encoder FAILED")
-        raise
-
-    # ---- final JSON dump test ----
-    try:
-        json.dumps(encoded, ensure_ascii=False)
-        logger.info("[warnings] json.dumps OK")
-    except Exception:
-        logger.exception("[warnings] json.dumps FAILED")
-        raise
-
-    logger.info("[warnings] RETURNING response OK")
-    return JSONResponse(content={"warnings": encoded})
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
     city: str = Query(..., description="City name in English (or Hebrew if lang=he)"),
