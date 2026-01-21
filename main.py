@@ -2231,8 +2231,28 @@ async def get_warnings(country: str):
     warnings = warnings[["recommendations", "details_url", "date"]]
     warnings = warnings.rename(columns={"details_url": "link"})
 
+    # ------------------------------
+    # 🔒 HEBREW-SAFE NORMALIZATION
+    # ------------------------------
+
+    # bytes → str (CRITICAL for Hebrew CSVs)
+    for col in ["recommendations", "link"]:
+        warnings[col] = warnings[col].apply(
+            lambda x: x.decode("utf-8", errors="ignore")
+            if isinstance(x, (bytes, bytearray))
+            else x
+        )
+
+    # date → ISO string or None
+    warnings["date"] = warnings["date"].astype(str)
+    warnings["date"] = warnings["date"].replace({"NaT": None})
+
+    # kill NaN / NaT everywhere
+    warnings = warnings.where(warnings.notna(), None)
+
     records = warnings.to_dict(orient="records")
-    return JSONResponse(content={"warnings": jsonable_encoder(records)})
+    return JSONResponse(content={"warnings": records})
+
 
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
