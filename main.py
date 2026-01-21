@@ -26,6 +26,7 @@ from logging.handlers import RotatingFileHandler
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.openapi.utils import get_openapi
+from fastapi.encoders import jsonable_encoder
 from fastapi import status
 import secrets
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -2224,13 +2225,14 @@ async def get_warnings(country: str):
 
     warnings = df[(df["country"] == he_country) & (df["office"] == 'מל"ל')]
 
-    if not warnings.empty:
-        # Keep only the required columns
-        warnings = warnings[["recommendations", "details_url", "date"]]
-        warnings = warnings.rename(columns={"details_url": "link"})
-        return JSONResponse(content={"warnings": warnings.to_dict(orient="records")})
+    if warnings.empty:
+        return JSONResponse(content={"warnings": []})
 
-    return JSONResponse(content={"warnings": []})
+    warnings = warnings[["recommendations", "details_url", "date"]]
+    warnings = warnings.rename(columns={"details_url": "link"})
+
+    records = warnings.to_dict(orient="records")
+    return JSONResponse(content={"warnings": jsonable_encoder(records)})
 
 @app.get("/api/wiki-summary")
 async def fetch_wikipedia_summary(
