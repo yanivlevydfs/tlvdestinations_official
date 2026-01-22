@@ -43,5 +43,8 @@
   "Ramon": "Eilat",
   "Nevatim": "Eilat",
   "Fascene": "Nosy Be",
-  "Washington": "Washington DC"
+  "Washington": "Washington, D.C.",
+  "Washington DC": "Washington, D.C.",
+  "Washington Dc": "Washington, D.C.",
+  "Washington D.C": "Washington, D.C."
 }
