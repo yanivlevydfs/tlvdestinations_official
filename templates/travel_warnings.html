@@ -260,9 +260,7 @@
     <th scope="col">{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
     <th scope="col">{{ 'Threat Level' if lang != 'he' else 'רמת איום' }}</th>
     <th scope="col">{{ 'Recommendations' if lang != 'he' else 'המלצות' }}</th>
-    <th scope="col">{{ 'Office' if lang != 'he' else 'משרד' }}</th>
-    <th scope="col">{{ 'Link' if lang != 'he' else 'לינק' }}</th>
-    <th scope="col">{{ 'Logo' if lang != 'he' else 'לוגו' }}</th>
+    <th scope="col">{{ 'Link' if lang != 'he' else 'לינק' }}</th>    
   </tr>
 </thead>
         <tbody>
@@ -290,15 +288,9 @@
               {% endif %}
             </td>
             <td>{{ w.recommendations }}</td>
-            <td>{{ w.office or "—" }}</td>
             <td>
               {% if w.details_url %}
                 <a href="{{ w.details_url }}" target="_blank" class="btn btn-sm btn-primary">פרטים</a>
-              {% else %}—{% endif %}
-            </td>
-            <td>
-              {% if w.logo and w.logo.src %}
-                <img src="{{ w.logo.src }}" alt="{{ w.logo.alt or '' }}" style="height:24px;">
               {% else %}—{% endif %}
             </td>
           </tr>
@@ -633,11 +625,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		text: `<i class="bi bi-printer me-1"></i> {{ 'Print' if lang != 'he' else 'הדפסה' }}`,
 		className: 'btn btn-secondary btn-sm'
 	  },
-	  {
-		extend: 'colvis',
-		text: `<i class="bi bi-eye me-1"></i> {{ 'Show/Hide Columns' if lang != 'he' else 'הצג/הסתר עמודות' }}`,
-		className: 'btn btn-outline-primary btn-sm buttons-colvis'
-	  }
 	],
 
     language: {
