@@ -1706,3 +1706,12 @@ body.dark-mode .card-header.header-title-desktop i {
   direction: rtl;
   text-align: right;
 }
+/* ✅ Show on mobile, hide on desktop */
+@media (min-width: 992px) {
+  table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before {
+    content: none !important;
+  }
+  table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control {
+    padding-left: 0 !important;
+  }
+}

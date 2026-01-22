@@ -152,7 +152,7 @@ function dtButtonsFor(lang) {
     buttons: dtButtonsFor(lang),
     responsive: true,
     fixedHeader: true,
-    pageLength: 20,
+    pageLength: 25,
     lengthMenu: [5, 10, 25, 50],
     columnDefs: [
       { targets: [0, 1, 2], responsivePriority: 1 },
