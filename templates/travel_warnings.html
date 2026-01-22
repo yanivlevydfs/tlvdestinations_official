@@ -6,6 +6,9 @@
 <link rel="canonical" href="https://fly-tlv.com/travel-warnings" />
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/travel-warnings" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/travel-warnings?lang=he" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
 <!-- ✅ Page-specific SEO -->
 <meta name="description" content="Up-to-date travel warnings by country from official government sources. Check threat levels and safety recommendations for travelers from Israel and abroad.">
@@ -272,7 +275,8 @@
           ) %}
           <tr>
             <td>{{ w.continent }}</td>
-            <td>{{ w.country }}</td>
+            <td class="dtr-control">{{ w.country }}</td>
+
             <td>
               <span class="search-text d-none">{{ level_value }}</span>
               {% if level_value == "High" %}
@@ -329,6 +333,10 @@
   height: 4px;
   border-radius: 2px;
   background: linear-gradient(90deg, #7c3aed, #0ea5e9);
+}
+#warnings-table td:nth-child(4) {
+  white-space: normal !important;
+  word-break: break-word;
 }
 
 /* CSV & Column Visibility Buttons */
@@ -581,7 +589,11 @@ body.dark-mode input::placeholder {
     overflow-x: visible !important;
   }
 }
-
+@media (min-width: 992px) {
+  #warnings-table td.dtr-control::before {
+    display: none !important;
+  }
+}
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -589,7 +601,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const currentLang = "{{ lang }}";
   const table = $('#warnings-table').DataTable({
     pageLength: 25,
-    responsive: true,
+    responsive: {
+  details: {
+    type: 'column',     // arrow in a column
+    target: 1           // 🟢 Country column gets the arrow
+  }
+},
+
 	searching: true,
     dom: 'Bfrtip',
 	pagingType: "simple",
