@@ -586,6 +586,30 @@ body.dark-mode input::placeholder {
     display: none !important;
   }
 }
+/* ————————————————
+   WRAP TEXT IN RESPONSIVE EXPANDED ROW
+   ———————————————— */
+
+/* Target the responsive child row container */
+#warnings-table tr.child td,
+#warnings-table tr.child td * {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+/* If DataTables renders details as <ul><li> */
+#warnings-table tr.child ul,
+#warnings-table tr.child ul li,
+#warnings-table tr.child ul li span {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+/* Optional: spacing between lines in expanded view */
+#warnings-table tr.child ul li {
+  margin-bottom: 0.4rem;
+}
+
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
