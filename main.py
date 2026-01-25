@@ -39,6 +39,7 @@ from helpers.securitymiddleware import SecurityMiddleware
 from json_repair import repair_json
 from json.decoder import JSONDecodeError
 import httpx
+from zoneinfo import ZoneInfo
 from routers.infra_docs import router as infra_docs
 from routers.error_handlers import (
     http_exception_handler,
@@ -82,6 +83,7 @@ from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
 from helpers.destination_diff import ensure_previous_snapshot, generate_destination_diff
 from routers.airlines_tlv import router as airlines_router
+from routers.tlv_shops import router as tlv_shops_router
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -184,6 +186,7 @@ app.include_router(generic_routes)
 app.include_router(sitemap_routes)
 app.include_router(destination_diff_routes)
 app.include_router(airlines_router)
+app.include_router(tlv_shops_router)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -207,13 +210,13 @@ def get_city_info(city_en: str, return_type: str = "both"):
     :param return_type: "both", "city", or "country"
     """
     if not CITY_TRANSLATIONS:
-        logger.error("⚠️ CITY_TRANSLATIONS not loaded. Call load_city_translations() first.")
+        logger.error("CITY_TRANSLATIONS not loaded. Call load_city_translations() first.")
         raise RuntimeError("CITY_TRANSLATIONS not loaded. Run load_city_translations() first.")
 
     city_key = next((k for k in CITY_TRANSLATIONS if k.lower() == city_en.lower()), None)
 
     if city_key is None:
-        logger.warning(f"⚠️ City '{city_en}' not found in translations.")
+        logger.warning(f"City '{city_en}' not found in translations.")
         return None
 
     entry = CITY_TRANSLATIONS[city_key]
@@ -235,20 +238,20 @@ def load_city_translations(file_path: Path = CITY_TRANSLATIONS_FILE):
 
     try:
         if not file_path.exists():
-            logger.error(f"❌ File not found: {file_path}")
+            logger.error(f"File not found: {file_path}")
             raise FileNotFoundError(f"City translations file not found: {file_path}")
 
         with open(file_path, "r", encoding="utf-8") as f:
             CITY_TRANSLATIONS = json.load(f)
 
-        logger.debug(f"✅ Loaded {len(CITY_TRANSLATIONS)} city entries from {file_path.name}.")
+        logger.debug(f"Loaded {len(CITY_TRANSLATIONS)} city entries from {file_path.name}.")
 
     except json.JSONDecodeError as e:
-        logger.error(f"❌ Failed to parse {file_path.name}: {e}")
+        logger.error(f"Failed to parse {file_path.name}: {e}")
         raise
 
     except Exception as e:
-        logger.error(f"❌ Unexpected error loading {file_path.name}: {e}")
+        logger.error(f"Unexpected error loading {file_path.name}: {e}")
         raise
 
 def load_city_name_corrections() -> dict:
@@ -263,10 +266,10 @@ def load_city_name_corrections() -> dict:
             CITY_NAME_CORRECTIONS = json.load(f)
             return CITY_NAME_CORRECTIONS
     except FileNotFoundError:
-        logger.error(f"⚠️ WARNING: {CITY_NAME_CORRECTIONS_FILE} not found!")
+        logger.error(f"WARNING: {CITY_NAME_CORRECTIONS_FILE} not found!")
         CITY_NAME_CORRECTIONS = {}
     except Exception as e:
-        logger.error(f"❌ Failed to load city_name_corrections.json: {e}")
+        logger.error(f"Failed to load city_name_corrections.json: {e}")
         CITY_NAME_CORRECTIONS = {}
 
     
@@ -299,15 +302,15 @@ def update_travel_warnings():
         if result and result.get("count"):
             # Saved and cached → reload global
             reload_travel_warnings_globals()
-            logger.debug(f"✅ Travel warnings updated via API and reloaded ({result['count']} records)")
+            logger.debug(f"Travel warnings updated via API and reloaded ({result['count']} records)")
             return
 
         # If API fails or returns nothing → fallback to local file
         reload_travel_warnings_globals()
-        logger.debug("⚠️ API unavailable → Reloaded travel warnings from local cache only")
+        logger.debug("API unavailable → Reloaded travel warnings from local cache only")
 
     except Exception:
-        logger.exception("❌ Scheduled travel warnings update failed (fallback to local cache)")
+        logger.exception("Scheduled travel warnings update failed (fallback to local cache)")
         reload_travel_warnings_globals()
 
 def reload_travel_warnings_globals():
@@ -315,9 +318,9 @@ def reload_travel_warnings_globals():
     try:
         df = load_travel_warnings_df()
         TRAVEL_WARNINGS_DF = df
-        logger.debug(f"🧠 TRAVEL_WARNINGS_DF global updated (rows={len(df)})")
+        logger.debug(f"TRAVEL_WARNINGS_DF global updated (rows={len(df)})")
     except Exception as e:
-        logger.exception("❌ Failed to reload TRAVEL_WARNINGS_DF from cache")
+        logger.exception("Failed to reload TRAVEL_WARNINGS_DF from cache")
         TRAVEL_WARNINGS_DF = pd.DataFrame()
 
 def update_flights():
@@ -327,9 +330,9 @@ def update_flights():
         reload_israel_flights_globals()
         generate_destination_diff()
         sitemap()
-        logger.debug("✅ Scheduled flight update + diff completed.")
+        logger.debug("Scheduled flight update + diff completed.")
     except Exception as e:
-        logger.exception("❌ Scheduled flight update failed.")
+        logger.exception("Scheduled flight update failed.")
 
 
 
@@ -361,7 +364,7 @@ def reload_israel_flights_globals():
 def load_travel_warnings_df() -> pd.DataFrame:
     """Load travel warnings JSON into a JSON-safe DataFrame."""
     if not TRAVEL_WARNINGS_FILE.exists():
-        logger.warning(f"⚠️ Travel warnings file not found: {TRAVEL_WARNINGS_FILE}")
+        logger.warning(f"Travel warnings file not found: {TRAVEL_WARNINGS_FILE}")
         return pd.DataFrame()
 
     try:
@@ -400,7 +403,7 @@ def load_travel_warnings_df() -> pd.DataFrame:
         return df
 
     except Exception:
-        logger.exception("❌ Failed to load travel warnings")
+        logger.exception("Failed to load travel warnings")
         return pd.DataFrame()
     
 TEMPLATES.env.filters["datetimeformat"] = datetimeformat
@@ -437,7 +440,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
 
         # --- 1️⃣ Direct fetch first ---
         try:
-            logger.debug(f"🌐 Fetching TW offset={offset} direct …")
+            logger.debug(f"Fetching TW offset={offset} direct …")
             r = requests.get(
                 TRAVEL_WARNINGS_API,
                 params=params,
@@ -446,7 +449,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             )
             r.raise_for_status()
         except Exception as e:
-            logger.warning(f"⚠️ Direct fetch failed ({e}) → switching to proxy.")
+            logger.warning(f"Direct fetch failed ({e}) → switching to proxy.")
             # --- 2️⃣ Proxy fallback ---
             proxy = get_random_proxy()
             proxy_url = f"http://{proxy['user']}:{proxy['pass']}@{proxy['host']}:{proxy['port']}"
@@ -461,7 +464,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
                 )
                 r.raise_for_status()
             except Exception as e2:
-                logger.error(f"❌ Proxy {proxy['host']} failed: {e2}")
+                logger.error(f"Proxy {proxy['host']} failed: {e2}")
                 continue
 
         # --- 3️⃣ Parse / repair JSON ---
@@ -471,9 +474,9 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             try:
                 fixed_json = repair_json(r.text)
                 data = json.loads(fixed_json)
-                logger.debug("🔧 JSON repaired successfully")
+                logger.debug("JSON repaired successfully")
             except Exception as parse_err:
-                logger.error(f"❌ JSON repair failed: {parse_err}")
+                logger.error(f"JSON repair failed: {parse_err}")
                 return None
 
 
@@ -484,16 +487,16 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             try:
                 fixed_json = repair_json(r.text)
                 data = json.loads(fixed_json)
-                logger.debug("🔧 JSON repaired")
+                logger.debug("JSON repaired")
             except Exception as parse_err:
-                logger.error(f"❌ JSON repair failed: {parse_err}")
+                logger.error(f"JSON repair failed: {parse_err}")
                 return None
 
         records = data.get("result", {}).get("records", [])
         total = data.get("result", {}).get("total", 0)
 
         if not records:
-            logger.warning("⚠️ No more records — stopping.")
+            logger.warning("No more records — stopping.")
             break
 
         # ------------------ PROCESS RECORDS ------------------
@@ -517,7 +520,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
             })
 
         offset += batch_size
-        logger.debug(f"📦 Loaded {len(all_records)}/{total}")
+        logger.debug(f"Loaded {len(all_records)}/{total}")
 
         # stop if last batch
         if len(records) < batch_size or offset >= total:
@@ -525,7 +528,7 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
 
     # ------------------ SAVE RESULT ------------------
     if not all_records:
-        logger.error("❌ No travel warnings fetched at all")
+        logger.error("No travel warnings fetched at all")
         return None
 
     result = {
@@ -537,16 +540,16 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
     try:
         with open(TRAVEL_WARNINGS_FILE, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
-        logger.debug("💾 Travel warnings cached to disk")
+        logger.debug("Travel warnings cached to disk")
     except Exception as e:
-        logger.error(f"❌ Failed saving travel warnings: {e}")
+        logger.error(f"Failed saving travel warnings: {e}")
         return None
 
     # ------------------ UPDATE GLOBAL DF ------------------
     TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
     TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
 
-    logger.debug(f"🧠 TRAVEL_WARNINGS_DF updated ({len(TRAVEL_WARNINGS_DF)} rows)")
+    logger.debug(f"TRAVEL_WARNINGS_DF updated ({len(TRAVEL_WARNINGS_DF)} rows)")
 
     return result
 
@@ -593,7 +596,7 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
         "limit": DEFAULT_LIMIT,
     }
 
-    logger.debug("🌐 Requesting Israel flight data (direct + proxy fallback)…")
+    logger.debug("Requesting Israel flight data (direct + proxy fallback)…")
 
     # ----------------------------
     # 1️⃣ TRY DIRECT REQUEST
@@ -602,7 +605,7 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
         r = requests.get(ISRAEL_API, params=params, headers=HEADERS, timeout=40)
         r.raise_for_status()
     except Exception as e:
-        logger.warning(f"⚠️ Direct fetch failed ({e}) → switching to proxy.")
+        logger.warning(f"Direct fetch failed ({e}) → switching to proxy.")
 
         # ----------------------------
         # 2️⃣ FALLBACK: ROTATING PROXY
@@ -611,7 +614,7 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
             proxy = get_random_proxy()
             proxy_url = f"http://{proxy['user']}:{proxy['pass']}@{proxy['host']}:{proxy['port']}"
             proxies = {"http": proxy_url, "https": proxy_url}
-            logger.debug(f"🌍 Trying proxy {proxy['host']} …")
+            logger.debug(f"Trying proxy {proxy['host']} …")
 
             try:
                 r = requests.get(
@@ -622,9 +625,9 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
                     timeout=40,
                 )
                 r.raise_for_status()
-                break  # ✅ success
+                break
             except Exception as e2:
-                logger.error(f"❌ Proxy {proxy['host']} failed → retrying: {e2}")
+                logger.error(f"Proxy {proxy['host']} failed → retrying: {e2}")
                 continue
 
     # ----------------------------
@@ -636,9 +639,9 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
         try:
             fixed_json = repair_json(r.text)
             data = json.loads(fixed_json)
-            logger.debug("🔧 JSON repaired successfully (flights)")
+            logger.debug("JSON repaired successfully (flights)")
         except Exception as parse_err:
-            logger.error(f"❌ Cannot parse JSON from gov.il flights: {parse_err}")
+            logger.error(f"Cannot parse JSON from gov.il flights: {parse_err}")
             return None
 
     # ✅ Everything below should always run after JSON is parsed
@@ -664,6 +667,7 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
         corrected_city = fix_city_name(raw_city)
 
         flights.append({
+            # --- Friendly / normalized fields (your current output) ---
             "airline": normalize_case(rec.get("CHOPERD", "")),
             "iata": iata,
             "airport": normalize_case(rec.get("CHLOC1D", "")),
@@ -673,6 +677,31 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
             "actual": normalize_case(rec.get("CHPTOL", "")),
             "direction": direction,
             "status": normalize_case(rec.get("CHRMINE", "")),
+            # --- Normalized raw fields (gov.il → API-friendly names) ---
+            "airline_code": normalize_case(rec.get("CHOPER", "")),          # CHOPER
+            "flight_number": normalize_case(rec.get("CHFLTN", "")),         # CHFLTN
+            "airline_name_raw": normalize_case(rec.get("CHOPERD", "")),     # CHOPERD
+
+            "scheduled_time_raw": normalize_case(rec.get("CHSTOL", "")),    # CHSTOL
+            "actual_time_raw": normalize_case(rec.get("CHPTOL", "")),       # CHPTOL
+
+            "movement_type": normalize_case(rec.get("CHAORD", "")),         # CHAORD (Arrival / Departure)
+
+            "airport_iata": normalize_case(rec.get("CHLOC1", "")),          # CHLOC1
+            "airport_name_raw": normalize_case(rec.get("CHLOC1D", "")),     # CHLOC1D
+            "airport_name_he": normalize_case(rec.get("CHLOC1TH", "")),     # CHLOC1TH
+            "city_raw": normalize_case(rec.get("CHLOC1T", "")),             # CHLOC1T
+            "city_code_raw": normalize_case(rec.get("CHLOC1CH", "")),       # CHLOC1CH
+            "country_raw": normalize_case(rec.get("CHLOCCT", "")),          # CHLOCCT
+
+            "terminal": rec.get("CHTERM", None),                             # CHTERM (numeric)
+
+            "checkin_counter": normalize_case(rec.get("CHCINT", "")),       # CHCINT
+            "checkin_zone": normalize_case(rec.get("CHCKZN", "")),          # CHCKZN
+
+            "status_en_raw": normalize_case(rec.get("CHRMINE", "")),        # CHRMINE
+            "status_he_raw": normalize_case(rec.get("CHRMINH", "")),        # CHRMINH
+
         })
 
     if not flights:
@@ -680,6 +709,8 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
         return None
 
     df = pd.DataFrame(flights)
+    #excel_path = "flights_snapshot.xlsx"
+    #df.to_excel(excel_path, index=False)
     df["iata"] = (
         df["iata"].astype(str).str.strip().str.upper().replace("NAN", None)
     )
@@ -710,6 +741,21 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
     Extract raw 'flights' records from israel_flights.json without aggregation.
     Returns a flat flight events DataFrame and optional ISO date string.
     """
+
+    EXPECTED_COLUMNS = [
+        "airline", "iata", "airport", "city", "country",
+        "scheduled", "actual", "direction", "status",
+
+        # new fields
+        "airline_code", "flight_number", "airline_name_raw",
+        "scheduled_time_raw", "actual_time_raw",
+        "movement_type",
+        "airport_iata", "airport_name_raw", "airport_name_he",
+        "city_raw", "city_code_raw", "country_raw",
+        "terminal", "checkin_counter", "checkin_zone",
+        "status_en_raw", "status_he_raw",
+    ]
+
     try:
         with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
             try:
@@ -726,76 +772,96 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
 
                     # Optional: rewrite the repaired version to disk
                     with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
-                        json.dump(meta, fw, ensure_ascii=False, indent=2)
-                        logger.warning("💾 Repaired israel_flights.json saved to disk")
+                        # writing fixed_text avoids re-serializing surprises
+                        fw.write(fixed_text)
+                    logger.warning("💾 Repaired israel_flights.json saved to disk")
 
                 except Exception as repair_err:
                     logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
-                    return pd.DataFrame(columns=[
-                        "airline", "iata", "airport", "city", "country",
-                        "scheduled", "actual", "direction", "status"
-                    ]), None
+                    return pd.DataFrame(columns=EXPECTED_COLUMNS), None
+
+        # Normalize legacy / malformed formats
+        if isinstance(meta, list):
+            meta = {"updated": None, "flights": meta}
 
         flights = meta.get("flights", [])
         if not flights:
             logger.warning("⚠️ No 'flights' found in israel_flights.json")
-            return pd.DataFrame(), None
+            return pd.DataFrame(columns=EXPECTED_COLUMNS), None
 
         df = pd.DataFrame(flights)
+
+        # Ensure backward compatibility when new fields are added
+        for col in EXPECTED_COLUMNS:
+            if col not in df.columns:
+                df[col] = None
+
+        df = df[EXPECTED_COLUMNS]
 
         # Extract update date if present
         updated = meta.get("updated")
         file_date = None
         if updated:
             try:
-                file_date = updated.split("T")[0]
+                file_date = str(updated).split("T")[0]
             except Exception:
-                pass
+                file_date = None
 
         return df, file_date
 
     except Exception as e:
         logger.error(f"Failed to read flights dataset: {e}", exc_info=True)
+        return pd.DataFrame(columns=EXPECTED_COLUMNS), None
 
-    # Return empty fallback DataFrame
-    return pd.DataFrame(columns=[
-        "airline", "iata", "airport", "city", "country",
-        "scheduled", "actual", "direction", "status"
-    ]), None
 
 def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     global AIRPORTS_DB
 
+    DATASET_COLUMNS = [
+        "IATA",
+        "Direction",
+        "Name",
+        "City",
+        "Country",
+        "lat",
+        "lon",
+        "Distance_km",
+        "FlightTime_hr",
+        "Airlines",
+        "AirlineCodes",
+        "FlightNumbers",
+        "Terminals",
+        "Statuses",
+    ]
+
     if not ISRAEL_FLIGHTS_FILE.exists():
-        return pd.DataFrame(columns=[
-            "IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"
-        ]), None
+        return pd.DataFrame(columns=DATASET_COLUMNS), None
 
     try:
-        # ✅ Attempt to load JSON normally
+        # ----------------------------
+        # LOAD + REPAIR JSON
+        # ----------------------------
         with open(ISRAEL_FLIGHTS_FILE, "r", encoding="utf-8") as f:
             try:
                 meta = json.load(f)
-            except JSONDecodeError as e:
-                logger.warning(f"⚠️ Corrupted israel_flights.json detected: {e}")
+            except JSONDecodeError:
                 f.seek(0)
-                broken_text = f.read()
-                try:
-                    fixed_text = repair_json(broken_text)
-                    meta = json.loads(fixed_text)
-                    logger.debug("✅ israel_flights.json repaired successfully using json-repair")
+                fixed_text = repair_json(f.read())
+                meta = json.loads(fixed_text)
+                with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
+                    fw.write(fixed_text)
 
-                    # Optional: persist repaired version
-                    with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
-                        json.dump(meta, fw, ensure_ascii=False, indent=2)
-                        logger.debug("💾 Repaired israel_flights.json saved to disk")
-                except Exception as repair_err:
-                    logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
-                    return pd.DataFrame(columns=[
-                        "IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"
-                    ]), None
+        # Normalize legacy format
+        if isinstance(meta, list):
+            meta = {"updated": None, "flights": meta}
 
         flights = meta.get("flights", [])
+        if not flights:
+            return pd.DataFrame(columns=DATASET_COLUMNS), None
+
+        # ----------------------------
+        # GROUP BY AIRPORT + DIRECTION
+        # ----------------------------
         grouped: dict[tuple[str, str], dict] = {}
 
         for rec in flights:
@@ -812,11 +878,30 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "City": rec.get("city") or "—",
                 "Country": rec.get("country") or "—",
                 "Airlines": set(),
+                "AirlineCodes": set(),
+                "FlightNumbers": set(),
+                "Terminals": set(),
+                "Statuses": set(),
             })
-            airline = rec.get("airline")
-            if airline:
-                entry["Airlines"].add(airline)
 
+            if rec.get("airline"):
+                entry["Airlines"].add(rec["airline"])
+
+            if rec.get("airline_code"):
+                entry["AirlineCodes"].add(rec["airline_code"])
+
+            if rec.get("flight_number"):
+                entry["FlightNumbers"].add(rec["flight_number"])
+
+            if rec.get("terminal"):
+                entry["Terminals"].add(rec["terminal"])
+
+            if rec.get("status"):
+                entry["Statuses"].add(rec["status"])
+
+        # ----------------------------
+        # FINAL ROWS
+        # ----------------------------
         rows = []
         for (iata, direction), info in grouped.items():
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
@@ -831,11 +916,24 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "Distance_km": dist_km,
                 "FlightTime_hr": flight_hr,
                 "Airlines": sorted(info["Airlines"]),
+                "AirlineCodes": sorted(info["AirlineCodes"]),
+                "FlightNumbers": sorted(info["FlightNumbers"]),
+                "Terminals": sorted(info["Terminals"]),
+                "Statuses": sorted(info["Statuses"]),
             })
 
         df = pd.DataFrame(rows)
 
-        # Extract last update date if present
+        # Ensure stable schema
+        for col in DATASET_COLUMNS:
+            if col not in df.columns:
+                df[col] = None
+
+        df = df[DATASET_COLUMNS]
+
+        # ----------------------------
+        # UPDATED DATE
+        # ----------------------------
         file_date = None
         updated = meta.get("updated")
         if updated:
@@ -849,9 +947,8 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
     except Exception as e:
         logger.error(f"Failed to read dataset file: {e}", exc_info=True)
-        return pd.DataFrame(columns=[
-            "IATA", "Name", "City", "Country", "lat", "lon", "Airlines", "Direction"
-        ]), None
+        return pd.DataFrame(columns=DATASET_COLUMNS), None
+
 
 def load_israel_flights_map():
     """
@@ -1832,7 +1929,6 @@ async def travel_warnings_page(request: Request, lang: str = Depends(get_lang)):
 async def flights_view(request: Request):
     global DATASET_DF_FLIGHTS
 
-    # ✅ Handle missing data
     if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
@@ -1840,24 +1936,51 @@ async def flights_view(request: Request):
             "lang": request.query_params.get("lang", "en")
         })
 
+    # 🇮🇱 Today in Israel (YYYY-MM-DD)
+    today_il = datetime.now(ZoneInfo("Asia/Jerusalem")).date()
+
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
     processed_flights = []
 
-    # ✅ Process times only for display, no filtering
     for f in flights:
-        s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
+        # --- Parse actual time
         a_short, a_full, a_iso = format_time(f.get("actual", ""))
+
+        if not a_iso or "T" not in a_iso:
+            continue  # skip rows with no actual date
+
+        try:
+            flight_date = datetime.fromisoformat(a_iso).date()
+        except ValueError:
+            continue
+
+        # 🔒 SERVER-SIDE FILTER: TODAY ONLY
+        if flight_date != today_il:
+            continue
+
+        # --- Scheduled formatting
+        s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
+
+        terminal = f.get("terminal")
 
         f["scheduled"] = s_short
         f["scheduled_full"] = s_full
         f["scheduled_iso"] = s_iso
+
         f["actual"] = a_short
         f["actual_full"] = a_full
         f["actual_iso"] = a_iso
 
+        f["terminal"] = str(terminal).strip() if terminal not in (None, "", "nan") else "—"
+
         processed_flights.append(f)
 
-    # ✅ Extract dropdown filters (all flights included)
+    # ✅ Dropdown data NOW comes only from today
+    terminals = sorted({
+        f["terminal"] for f in processed_flights
+        if f.get("terminal") and f["terminal"] != "—"
+    })
+
     countries = sorted({
         f.get("country", "").strip()
         for f in processed_flights if f.get("country")
@@ -1869,21 +1992,12 @@ async def flights_view(request: Request):
         if f.get("actual_iso") and "T" in f["actual_iso"]
     })
 
-    # ✅ Build actual_dates dropdown list (optional)
-    actual_dates_set = set()
-    for f in processed_flights:
-        iso = f.get("actual_iso")
-        if iso and "T" in iso:
-            try:
-                date_part = iso.split("T")[0]
-                label = datetime.strptime(date_part, "%Y-%m-%d").strftime("%b %d")
-                actual_dates_set.add((date_part, label))
-            except ValueError:
-                continue
-    actual_dates = sorted(actual_dates_set)
+    # 🚫 actual_dates NO LONGER NEEDED (always today)
+    actual_dates = [
+        (today_il.isoformat(), today_il.strftime("%b %d"))
+    ]
 
-    # ✅ Simple logs
-    logger.debug(f"✅ Loaded total flights: {len(processed_flights)} (no filtering applied)")
+    logger.debug(f"✅ Loaded TODAY flights (Israel): {len(processed_flights)}")
 
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
@@ -1891,11 +2005,13 @@ async def flights_view(request: Request):
         "countries": countries,
         "actual_dates": actual_dates,
         "actual_times": actual_times,
-        "last_update": get_dataset_date(),  # just show dataset date
+        "terminals": terminals,
+        "last_update": get_dataset_date(),
         "lang": request.query_params.get("lang", "en"),
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES
     })
 
+    
 @app.get("/destinations", include_in_schema=False)
 async def redirect_to_home(request: Request):
     global DATASET_DF

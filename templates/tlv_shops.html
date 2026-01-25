@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="canonical" href="https://fly-tlv.com/tlv-shops" />
+<link rel="alternate" hreflang="he" href="https://fly-tlv.com/tlv-shops?lang=he" />
+<link rel="alternate" hreflang="en" href="https://fly-tlv.com/tlv-shops?lang=en" />
+
+<link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+
+<meta name="description" content="חנויות ומסעדות בנמל התעופה בן גוריון (TLV). כולל מיקום, קטגוריה וחנויות דיוטי פרי.">
+<meta name="keywords" content="נתב״ג, חנויות בנתבג, מסעדות בנתבג, דיוטי פרי TLV">
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5 text-center"
+     lang="{{ lang }}"
+     dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+
+  <h2 class="mb-3">
+    <i class="bi bi-shop me-2"></i>
+    {{ 'חנויות ומסעדות בנתב״ג' if lang == 'he' else 'Shops & Restaurants at Ben Gurion Airport' }}
+  </h2>
+
+  <div class="table-responsive">
+    <table id="shopsTable" class="table table-bordered table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th></th>
+          <th>{{ 'חנות' if lang == 'he' else 'Shop' }}</th>
+          <th>{{ 'קטיגוריה' if lang == 'he' else 'Category' }}</th>
+          <th>{{ 'חנות ללא מכס' if lang == 'he' else 'Duty Free' }}</th>
+          <th>{{ 'מיקום' if lang == 'he' else 'Location' }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in shops %}
+        <tr>
+          <td class="dtr-control"></td>
+          <td class="fw-semibold">{{ s.name }}</td>
+          <td>{{ s.category }}</td>
+          <td>
+            {% if s.duty_free == "כן" %}
+              <span class="badge bg-success">כן</span>
+            {% elif s.duty_free == "לא" %}
+              <span class="badge bg-secondary">לא</span>
+            {% else %}
+              —
+            {% endif %}
+          </td>
+          <td>{{ s.location }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+$(document).ready(function () {
+  const lang = "{{ lang }}";
+
+  const table = $('#shopsTable').DataTable({
+    dom:
+      "<'row mb-3'<'col-md-auto'B><'col-md dt-filters'><'col-md-auto'f>>" +
+      "<'row'<'col-12'tr>>" +
+      "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+
+    pageLength: 25,
+    responsive: {
+      details: { type: 'column', target: 0 }
+    },
+    columnDefs: [
+      { targets: 0, className: 'dtr-control', orderable: false },
+    ],
+    buttons: [
+      { extend: 'copyHtml5', text: 'Copy' },
+      { extend: 'csvHtml5', text: 'CSV' },
+      { extend: 'excelHtml5', text: 'Excel' }
+    ]
+  });
+
+  // Build filters
+  $('.dt-filters').append(`
+    <div class="d-flex gap-3 flex-wrap align-items-center">
+      <select id="category-filter" class="form-select form-select-sm">
+        <option value="">{{ 'הכל' if lang == 'he' else 'All Categories' }}</option>
+        {% for c in categories %}
+          <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select>
+
+      <select id="duty-filter" class="form-select form-select-sm">
+        <option value="">{{ 'הכל' if lang == 'he' else 'All' }}</option>
+        {% for d in duty_free_values %}
+          <option value="{{ d }}">{{ d }}</option>
+        {% endfor %}
+      </select>
+
+      <select id="location-filter" class="form-select form-select-sm">
+        <option value="">{{ 'הכל' if lang == 'he' else 'All Locations' }}</option>
+        {% for l in locations %}
+          <option value="{{ l }}">{{ l }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  `);
+
+  const colIndex = (name) => {
+    let idx = -1;
+    $('#shopsTable thead th').each(function (i) {
+      if ($(this).text().trim() === name) idx = i;
+    });
+    return idx;
+  };
+
+  $('#category-filter').on('change', function () {
+    table.column(colIndex(lang === 'he' ? 'קטיגוריה' : 'Category'))
+         .search(this.value).draw();
+  });
+
+  $('#duty-filter').on('change', function () {
+    table.column(colIndex(lang === 'he' ? 'חנות ללא מכס' : 'Duty Free'))
+         .search(this.value).draw();
+  });
+
+  $('#location-filter').on('change', function () {
+    table.column(colIndex(lang === 'he' ? 'מיקום' : 'Location'))
+         .search(this.value).draw();
+  });
+
+});
+</script>
+{% endblock %}

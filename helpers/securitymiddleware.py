@@ -22,6 +22,7 @@ SAFE_PATHS = (
     "/stats",
     "/terms",
     "/travel-warnings",
+    "/tlv-shops", 
 
     "/favicon.ico", "/favicon.svg",
     "/robots.txt", "/sitemap.xml",

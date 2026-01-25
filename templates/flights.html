@@ -126,6 +126,7 @@
           <th scope="col">{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
           <th scope="col">{{ 'Scheduled' if lang != 'he' else 'מתוכננת' }}</th>
           <th scope="col">{{ 'Actual' if lang != 'he' else 'שעת נחיתה/המראה' }}</th>
+		  <th scope="col">{{ 'Terminal' if lang != 'he' else 'טרמינל' }}</th>
           <th scope="col">{{ 'Direction' if lang != 'he' else 'כיוון' }}</th>
           <th scope="col">{{ 'Status' if lang != 'he' else 'סטטוס' }}</th>
         </tr>
@@ -189,8 +190,10 @@
 				—
 			  {% endif %}
 			</td>
-
-          <td>
+			<td>
+			  {{ flight.terminal if flight.terminal else '—' }}
+			</td>
+			<td>
             {% if flight.direction == "D" %}
               <span class="badge bg-primary"> {{ 'Departure' if lang != 'he' else 'המראה' }} </span>
             {% elif flight.direction == "A" %}
@@ -607,28 +610,27 @@ responsive: {
   }
 },
 	
-    order: [[5, 'asc']],
+    order: [[6, 'asc']],
     pagingType: "simple",
     language: {
       url: lang === "he" ? "/static/js/lang.js" : "",
       infoFiltered: ""
     },
     columnDefs: [
-      {
-        targets: 0,
-        className: 'dtr-control',
-        orderable: false,
-        searchable: false
-      },
-      { targets: 1, responsivePriority: 1 },
-      { targets: 9, responsivePriority: 1 },
-      { targets: 6, responsivePriority: 2 },
-      { targets: 7, responsivePriority: 2 },
-      { targets: 8, responsivePriority: 3 },
-      { targets: [2, 3, 4, 5], responsivePriority: 100 }
-    ],
+    { targets: 0, className: 'dtr-control', orderable: false, searchable: false },
+
+	{ targets: 1, responsivePriority: 1 },   // Airline
+	{ targets: 10, responsivePriority: 1 },  // Status
+	{ targets: 8, responsivePriority: 2 },   // Terminal
+	{ targets: 6, responsivePriority: 2 },   // Scheduled
+	{ targets: 7, responsivePriority: 2 },   // Actual
+	{ targets: 9, responsivePriority: 3 },   // Direction
+
+	{ targets: [2, 3, 4, 5], responsivePriority: 100 }
+], 
 
     initComplete: function () {
+
       // --- Style search input
       const infoElem = $('#flightsTable_info');
       if (infoElem.length) infoElem.addClass('last-update-badge');
@@ -693,8 +695,18 @@ responsive: {
               {% endfor %}
             </select>
           </div>
+		  <div class="d-flex align-items-center">
+			  <label for="terminal-filter" class="me-2">
+				{{ 'Terminal' if lang != 'he' else 'טרמינל' }}
+			  </label>
+			  <select id="terminal-filter" class="form-select form-select-sm">
+				<option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+				{% for t in terminals %}
+				  <option value="{{ t }}">{{ t }}</option>
+				{% endfor %}
+			  </select>
+			</div>
         </div>
-
         <div class="d-md-none">
           <div class="card mt-3">
             <div class="card-body d-flex flex-column gap-3">
@@ -739,6 +751,17 @@ responsive: {
                   {% endfor %}
                 </select>
               </div>
+			  <div>
+				  <label for="terminal-filter-mobile" class="form-label">
+					{{ 'Terminal' if lang != 'he' else 'טרמינל' }}
+				  </label>
+				  <select id="terminal-filter-mobile" class="form-select form-select-sm w-100">
+					<option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+					{% for t in terminals %}
+					  <option value="{{ t }}">{{ t }}</option>
+					{% endfor %}
+				  </select>
+				</div>
               <div>
                 <label for="actual-time-filter-mobile" class="form-label">{{ 'Actual Time' if lang != 'he' else 'שעת בפועל' }}</label>
                 <select id="actual-time-filter-mobile" class="form-select form-select-sm w-100">
@@ -791,21 +814,54 @@ responsive: {
         if (idx !== -1) table.column(idx).search(this.value).draw();
       });
 
-      $('#actual-date-filter, #actual-date-filter-mobile, #actual-time-filter, #actual-time-filter-mobile').on('change', function () {
-        const date = $('#actual-date-filter').val() || $('#actual-date-filter-mobile').val();
-        const time = $('#actual-time-filter').val() || $('#actual-time-filter-mobile').val();
-        const idx = getColumnIndexByHeader("Scheduled");
-        let regex = "";
-        if (date && time) regex = `^${date}T${time}`;
-        else if (date) regex = `^${date}`;
-        else if (time) regex = `${time}$`;
-        if (idx !== -1) table.column(idx).search(regex, true, false).draw();
-      });
+	$('#actual-date-filter, #actual-date-filter-mobile, #actual-time-filter, #actual-time-filter-mobile')
+	  .on('change', function () {
+
+		const date =
+		  $('#actual-date-filter').val() ||
+		  $('#actual-date-filter-mobile').val();
+
+		const time =
+		  $('#actual-time-filter').val() ||
+		  $('#actual-time-filter-mobile').val();
+
+		// ✅ MUST be "Actual" column
+		const idx = getColumnIndexByHeader(
+		  lang === "he" ? "שעת נחיתה/המראה" : "Actual"
+		);
+
+		let regex = "";
+
+		if (date && time) {
+		  regex = `^${date}T${time}`;
+		} else if (date) {
+		  regex = `^${date}`;
+		} else if (time) {
+		  regex = `${time}$`;
+		}
+
+		if (idx !== -1) {
+		  table.column(idx).search(regex, true, false).draw();
+		}
+	});
+
 
       $(document).on('input', '#flights-search-mobile', function () {
         table.search(this.value).draw();
       });
+		$('#terminal-filter, #terminal-filter-mobile').on('change', function () {
+	  const val =
+		$('#terminal-filter').val() ||
+		$('#terminal-filter-mobile').val();
 
+	  const idx = getColumnIndexByHeader(
+		lang === "he" ? "טרמינל" : "Terminal"
+	  );
+
+	  if (idx !== -1) {
+		table.column(idx).search(val).draw();
+	  }
+	});
     } // initComplete
   });
 
