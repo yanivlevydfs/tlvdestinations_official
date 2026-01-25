@@ -1936,30 +1936,30 @@ async def flights_view(request: Request):
             "lang": request.query_params.get("lang", "en")
         })
 
-    # 🇮🇱 Today in Israel (YYYY-MM-DD)
+    # 🇮🇱 Today in Israel
     today_il = datetime.now(ZoneInfo("Asia/Jerusalem")).date()
 
     flights = DATASET_DF_FLIGHTS.to_dict(orient="records")
     processed_flights = []
 
     for f in flights:
-        # --- Parse actual time
-        a_short, a_full, a_iso = format_time(f.get("actual", ""))
+        # ── SCHEDULED = source of truth
+        s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
 
-        if not a_iso or "T" not in a_iso:
-            continue  # skip rows with no actual date
+        if not s_iso or "T" not in s_iso:
+            continue
 
         try:
-            flight_date = datetime.fromisoformat(a_iso).date()
+            flight_date = datetime.fromisoformat(s_iso).date()
         except ValueError:
             continue
 
-        # 🔒 SERVER-SIDE FILTER: TODAY ONLY
-        if flight_date != today_il:
+        # ✅ TODAY AND ONWARDS
+        if flight_date < today_il:
             continue
 
-        # --- Scheduled formatting
-        s_short, s_full, s_iso = format_time(f.get("scheduled", ""))
+        # ── ACTUAL (optional, for display only)
+        a_short, a_full, a_iso = format_time(f.get("actual", ""))
 
         terminal = f.get("terminal")
 
@@ -1971,19 +1971,25 @@ async def flights_view(request: Request):
         f["actual_full"] = a_full
         f["actual_iso"] = a_iso
 
-        f["terminal"] = str(terminal).strip() if terminal not in (None, "", "nan") else "—"
+        f["terminal"] = (
+            str(terminal).strip()
+            if terminal not in (None, "", "nan")
+            else "—"
+        )
 
         processed_flights.append(f)
 
-    # ✅ Dropdown data NOW comes only from today
+    # ── Dropdowns
     terminals = sorted({
-        f["terminal"] for f in processed_flights
+        f["terminal"]
+        for f in processed_flights
         if f.get("terminal") and f["terminal"] != "—"
     })
 
     countries = sorted({
         f.get("country", "").strip()
-        for f in processed_flights if f.get("country")
+        for f in processed_flights
+        if f.get("country")
     })
 
     actual_times = sorted({
@@ -1992,12 +1998,26 @@ async def flights_view(request: Request):
         if f.get("actual_iso") and "T" in f["actual_iso"]
     })
 
-    # 🚫 actual_dates NO LONGER NEEDED (always today)
-    actual_dates = [
-        (today_il.isoformat(), today_il.strftime("%b %d"))
-    ]
+    actual_dates_set = set()
 
-    logger.debug(f"✅ Loaded TODAY flights (Israel): {len(processed_flights)}")
+    for f in processed_flights:
+        iso = f.get("scheduled_iso")
+        if not iso or "T" not in iso:
+            continue
+
+        date_part = iso.split("T")[0]
+        try:
+            label = datetime.strptime(date_part, "%Y-%m-%d").strftime("%b %d")
+            actual_dates_set.add((date_part, label))
+        except ValueError:
+            pass
+
+    actual_dates = sorted(actual_dates_set)
+
+
+    logger.debug(
+        f"✅ Loaded flights TODAY+ (Israel): {len(processed_flights)}"
+    )
 
     return TEMPLATES.TemplateResponse("flights.html", {
         "request": request,
