@@ -728,12 +728,12 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
     try:
         with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
-        logger.debug(f"💾 Cached {len(flights)} flights to disk")
+        logger.debug(f"Cached {len(flights)} flights to disk")
     except Exception as e:
-        logger.error(f"❌ Failed writing flights cache: {e}")
+        logger.error(f"Failed writing flights cache: {e}")
         return None
 
-    logger.debug(f"✈ Flight data refreshed ({len(flights)} records)")    
+    logger.debug(f"Flight data refreshed ({len(flights)} records)")    
     return result
 
 def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
@@ -761,23 +761,23 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
             try:
                 meta = json.load(f)
             except JSONDecodeError as e:
-                logger.warning(f"⚠️ Corrupted israel_flights.json detected: {e}")
+                logger.warning(f"Corrupted israel_flights.json detected: {e}")
                 f.seek(0)
                 broken_text = f.read()
 
                 try:
                     fixed_text = repair_json(broken_text)
                     meta = json.loads(fixed_text)
-                    logger.warning("✅ israel_flights.json repaired successfully using json-repair")
+                    logger.warning("israel_flights.json repaired successfully using json-repair")
 
                     # Optional: rewrite the repaired version to disk
                     with open(ISRAEL_FLIGHTS_FILE, "w", encoding="utf-8") as fw:
                         # writing fixed_text avoids re-serializing surprises
                         fw.write(fixed_text)
-                    logger.warning("💾 Repaired israel_flights.json saved to disk")
+                    logger.warning("Repaired israel_flights.json saved to disk")
 
                 except Exception as repair_err:
-                    logger.error(f"❌ JSON repair failed: {repair_err}", exc_info=True)
+                    logger.error(f"JSON repair failed: {repair_err}", exc_info=True)
                     return pd.DataFrame(columns=EXPECTED_COLUMNS), None
 
         # Normalize legacy / malformed formats
@@ -904,6 +904,23 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         # ----------------------------
         rows = []
         for (iata, direction), info in grouped.items():
+
+            statuses = {str(s).strip().lower() for s in info["Statuses"] if s}
+
+            CANCEL_TOKENS = (
+                "cancel",     # canceled / cancelled
+                "מבוטל",
+                "מבוטלת",
+            )
+
+            # 🚫 Hide ONLY if *all* statuses are canceled
+            if statuses and all(
+                any(token in s for token in CANCEL_TOKENS)
+                for s in statuses
+            ):
+                continue
+
+            # ✅ otherwise KEEP
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
             lat, lon = coords.get("lat"), coords.get("lon")
             dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
@@ -923,14 +940,14 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             })
 
         df = pd.DataFrame(rows)
-
+                
         # Ensure stable schema
         for col in DATASET_COLUMNS:
             if col not in df.columns:
                 df[col] = None
 
         df = df[DATASET_COLUMNS]
-
+        
         # ----------------------------
         # UPDATED DATE
         # ----------------------------
