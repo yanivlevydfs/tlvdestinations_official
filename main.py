@@ -837,7 +837,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     if not ISRAEL_FLIGHTS_FILE.exists():
         return pd.DataFrame(columns=DATASET_COLUMNS), None
 
-    try:
+    try:        
         # ----------------------------
         # LOAD + REPAIR JSON
         # ----------------------------
@@ -863,6 +863,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         # GROUP BY AIRPORT + DIRECTION
         # ----------------------------
         grouped: dict[tuple[str, str], dict] = {}
+        airline_statuses: dict[tuple[str, str, str], list[str]] = defaultdict(list)
 
         for rec in flights:
             iata = rec.get("iata")
@@ -884,8 +885,12 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "Statuses": set(),
             })
 
-            if rec.get("airline"):
-                entry["Airlines"].add(rec["airline"])
+            airline = rec.get("airline")
+            status = rec.get("status", "").strip().lower()
+
+            if airline:
+                airline_statuses[(iata, direction, airline)].append(status)
+                entry["Airlines"].add(airline)
 
             if rec.get("airline_code"):
                 entry["AirlineCodes"].add(rec["airline_code"])
@@ -896,31 +901,38 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             if rec.get("terminal"):
                 entry["Terminals"].add(rec["terminal"])
 
-            if rec.get("status"):
-                entry["Statuses"].add(rec["status"])
+            if status:
+                entry["Statuses"].add(status)
 
         # ----------------------------
         # FINAL ROWS
         # ----------------------------
         rows = []
-        for (iata, direction), info in grouped.items():
+        CANCEL_TOKENS = ("cancel", "מבוטל", "מבוטלת","canceled","Canceled","cancelled","Cancelled")
 
+        for (iata, direction), info in grouped.items():
             statuses = {str(s).strip().lower() for s in info["Statuses"] if s}
 
-            CANCEL_TOKENS = (
-                "cancel",     # canceled / cancelled
-                "מבוטל",
-                "מבוטלת",
-            )
-
-            # 🚫 Hide ONLY if *all* statuses are canceled
+            # 🚫 Skip entire destination if ALL statuses are canceled
             if statuses and all(
                 any(token in s for token in CANCEL_TOKENS)
                 for s in statuses
             ):
                 continue
 
-            # ✅ otherwise KEEP
+            # ✅ Filter airlines with at least one active flight
+            active_airlines = [
+                airline for airline in info["Airlines"]
+                if any(
+                    all(token not in s for token in CANCEL_TOKENS)
+                    for s in airline_statuses.get((iata, direction, airline), [])
+                )
+            ]
+
+            # 🚫 Skip this destination if no active airlines remain
+            if not active_airlines:
+                continue
+
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
             lat, lon = coords.get("lat"), coords.get("lon")
             dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
@@ -932,7 +944,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "lon": lon,
                 "Distance_km": dist_km,
                 "FlightTime_hr": flight_hr,
-                "Airlines": sorted(info["Airlines"]),
+                "Airlines": sorted(active_airlines),
                 "AirlineCodes": sorted(info["AirlineCodes"]),
                 "FlightNumbers": sorted(info["FlightNumbers"]),
                 "Terminals": sorted(info["Terminals"]),
@@ -940,14 +952,14 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             })
 
         df = pd.DataFrame(rows)
-                
+
         # Ensure stable schema
         for col in DATASET_COLUMNS:
             if col not in df.columns:
                 df[col] = None
 
         df = df[DATASET_COLUMNS]
-        
+
         # ----------------------------
         # UPDATED DATE
         # ----------------------------
@@ -965,7 +977,6 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
     except Exception as e:
         logger.error(f"Failed to read dataset file: {e}", exc_info=True)
         return pd.DataFrame(columns=DATASET_COLUMNS), None
-
 
 def load_israel_flights_map():
     """
