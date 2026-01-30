@@ -1,97 +1,120 @@
 import os
-import re
 import json
 import requests
-import unicodedata
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from io import BytesIO
 from threading import Lock
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from PIL import Image
+
+# ───────────────────────────────────────────────
+# CONFIG
+# ───────────────────────────────────────────────
 API_KEY = "da33f3-b78037"
-api_url = f"https://aviation-edge.com/v2/public/airlineDatabase?key={API_KEY}"
+API_URL = f"https://aviation-edge.com/v2/public/airlineDatabase?key={API_KEY}"
 
-output_dir = "airline_logos"
-os.makedirs(output_dir, exist_ok=True)
+BASE_LOGO_URL = "https://uds.xplorer.com/img/airlines_logos/"
+OUTPUT_DIR = "airline_logos"
+CACHE_JSON = "airlines.json"
 
-base_logo_url = "https://uds.xplorer.com/img/airlines_logos/"
+MAX_WORKERS = 20
+WEBP_QUALITY = 85
+WEBP_METHOD = 6  # best compression
+
+# ───────────────────────────────────────────────
+# INIT
+# ───────────────────────────────────────────────
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 file_lock = Lock()
 
-json_path = "airlines.json"
+# ───────────────────────────────────────────────
+# DOWNLOAD + CONVERT (THREAD SAFE)
+# ───────────────────────────────────────────────
+def download_logo(airline: dict) -> str:
+    iata = airline.get("codeIataAirline", "").strip().lower()
 
-# ✅ Clean airline name for safe filenames
-def clean_name(name: str) -> str:
-    name = name.replace("\n", " ").replace("\r", " ").replace("\t", " ")
-    name = unicodedata.normalize("NFKD", name)
-    name = name.encode("ascii", "ignore").decode("ascii")
-    name = re.sub(r'[\\/:*?"<>|]', "", name)
-    name = re.sub(r"\s{2,}", " ", name)
-    return name.strip()
+    if not iata:
+        return "⏭ Skipped: missing IATA"
 
-# ✅ Download logo if not already saved
-def download_logo(airline):
-    iata = airline.get("codeIataAirline", "").strip().upper()
-    name = airline.get("nameAirline", "").strip()
+    filename = f"{iata}.webp"
+    path = os.path.join(OUTPUT_DIR, filename)
 
-    if not iata or not name:
-        return "⏭ Skipped: missing IATA or name"
-
-    filename = f"{clean_name(name)}.png"
-    path = os.path.join(output_dir, filename)
-
+    # First fast existence check
     with file_lock:
         if os.path.exists(path):
             return f"✅ Already exists: {filename}"
 
-    logo_url = f"{base_logo_url}{iata.lower()}_small.png"
+    logo_url = f"{BASE_LOGO_URL}{iata}_small.png"
 
     try:
         resp = requests.get(logo_url, timeout=10)
-        if resp.status_code == 200 and resp.content:
-            with file_lock:
-                if not os.path.exists(path):  # double-check in case saved during wait
-                    with open(path, "wb") as f:
-                        f.write(resp.content)
-            return f"✔ Saved: {filename}"
-        else:
-            return f"⚠ Not found: {name} ({iata})"
-    except requests.RequestException as e:
-        return f"❌ Error for {name}: {e}"
+        if resp.status_code != 200 or not resp.content:
+            return f"⚠ Not found: {iata.upper()}"
 
-# 🔁 Load from cache if possible, else fetch from API
-if os.path.exists(json_path):
+        # Convert PNG → WebP fully in memory
+        image = Image.open(BytesIO(resp.content)).convert("RGBA")
+
+        # Second guarded write
+        with file_lock:
+            if not os.path.exists(path):
+                image.save(
+                    path,
+                    format="WEBP",
+                    quality=WEBP_QUALITY,
+                    method=WEBP_METHOD,
+                    lossless=False
+                )
+
+        return f"✔ Saved: {filename}"
+
+    except Exception as e:
+        return f"❌ Error for {iata.upper()}: {e}"
+
+# ───────────────────────────────────────────────
+# LOAD AIRLINES (CACHE → API)
+# ───────────────────────────────────────────────
+if os.path.exists(CACHE_JSON):
     try:
-        with open(json_path, "r", encoding="utf-8") as f:
+        with open(CACHE_JSON, "r", encoding="utf-8") as f:
             airlines = json.load(f)
         print(f"📂 Loaded {len(airlines)} airlines from cache.\n")
     except Exception as e:
         print(f"❌ Failed to load cache: {e}")
-        exit(1)
+        raise SystemExit(1)
 else:
     try:
-        resp = requests.get(api_url, timeout=15)
+        resp = requests.get(API_URL, timeout=15)
         resp.raise_for_status()
         airlines = resp.json()
-        with open(json_path, "w", encoding="utf-8") as f:
+
+        with open(CACHE_JSON, "w", encoding="utf-8") as f:
             json.dump(airlines, f, ensure_ascii=False, indent=2)
+
         print(f"🌐 Fetched {len(airlines)} airlines from API.\n")
     except Exception as e:
-        print("❌ Error fetching airline data:", e)
-        exit(1)
+        print(f"❌ Error fetching airline data: {e}")
+        raise SystemExit(1)
 
-# 🚫 Filter out airlines that already have a logo
-airlines_to_download = []
+# ───────────────────────────────────────────────
+# FILTER: ONLY MISSING LOGOS
+# ───────────────────────────────────────────────
+airlines_to_download: list[dict] = []
+
 for airline in airlines:
-    name = airline.get("nameAirline", "").strip()
-    if not name:
+    iata = airline.get("codeIataAirline", "").strip().lower()
+    if not iata:
         continue
-    filename = f"{clean_name(name)}.png"
-    path = os.path.join(output_dir, filename)
+
+    path = os.path.join(OUTPUT_DIR, f"{iata}.webp")
     if not os.path.exists(path):
         airlines_to_download.append(airline)
 
 print(f"🔁 Starting downloads for {len(airlines_to_download)} new logos...\n")
 
-# 🚀 Download logos in parallel
-with ThreadPoolExecutor(max_workers=20) as executor:
+# ───────────────────────────────────────────────
+# PARALLEL EXECUTION
+# ───────────────────────────────────────────────
+with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
     futures = [executor.submit(download_logo, airline) for airline in airlines_to_download]
     for future in as_completed(futures):
         print(future.result())
