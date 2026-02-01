@@ -382,5 +382,6 @@
   "Amman": { "he": "עמאן", "country": "Jordan", "country_he": "ירדן" },
   "Jeddah": { "he": "ג׳דה", "country": "Saudi Arabia", "country_he": "ערב הסעודית" },
   "Medina": { "he": "מדינה", "country": "Saudi Arabia", "country_he": "ערב הסעודית" },
-  "Riyadh": { "he": "ריאד", "country": "Saudi Arabia", "country_he": "ערב הסעודית" }
+  "Riyadh": { "he": "ריאד", "country": "Saudi Arabia", "country_he": "ערב הסעודית" },
+  "Rovaniemi": {"he": "רובניימי","country": "Finland","country_he": "פינלנד"}
 }
