@@ -2115,6 +2115,7 @@ async def destination_detail(request: Request, iata: str):
         )
 
     dest = destination.iloc[0].to_dict()
+    print(dest)
 
     # ✅ 2. Normalize and find country ISO
     country_name = str(dest.get("Country", "")).strip()
