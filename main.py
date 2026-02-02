@@ -880,6 +880,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "Country": rec.get("country") or "—",
                 "Airlines": set(),
                 "AirlineCodes": set(),
+                "AirlineMap": {}, # NEW: maintain name->code mapping
                 "FlightNumbers": set(),
                 "Terminals": set(),
                 "Statuses": set(),
@@ -894,6 +895,8 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
 
             if rec.get("airline_code"):
                 entry["AirlineCodes"].add(rec["airline_code"])
+                if airline:
+                    entry["AirlineMap"][airline] = rec["airline_code"]
 
             if rec.get("flight_number"):
                 entry["FlightNumbers"].add(rec["flight_number"])
@@ -921,17 +924,24 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 continue
 
             # ✅ Filter airlines with at least one active flight
-            active_airlines = [
+            active_airlines = sorted([
                 airline for airline in info["Airlines"]
                 if any(
                     all(token not in s for token in CANCEL_TOKENS)
                     for s in airline_statuses.get((iata, direction, airline), [])
                 )
-            ]
+            ])
 
             # 🚫 Skip this destination if no active airlines remain
             if not active_airlines:
                 continue
+            
+            # ✅ Align airline codes with airline names
+            aligned_codes = []
+            for airline_name in active_airlines:
+                code = info["AirlineMap"].get(airline_name)
+                if code:
+                    aligned_codes.append(code)
 
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
             lat, lon = coords.get("lat"), coords.get("lon")
@@ -944,8 +954,8 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "lon": lon,
                 "Distance_km": dist_km,
                 "FlightTime_hr": flight_hr,
-                "Airlines": sorted(active_airlines),
-                "AirlineCodes": sorted(info["AirlineCodes"]),
+                "Airlines": active_airlines,
+                "AirlineCodes": aligned_codes,
                 "FlightNumbers": sorted(info["FlightNumbers"]),
                 "Terminals": sorted(info["Terminals"]),
                 "Statuses": sorted(info["Statuses"]),
