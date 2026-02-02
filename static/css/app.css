@@ -44,6 +44,7 @@ body.dark-mode .navbar {
   /* 🔄 Responsive text size */
   background: var(--accent);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--accent-glow);
   white-space: nowrap;
@@ -66,6 +67,7 @@ body.dark-mode .navbar {
   font-size: clamp(2rem, 5vw, 3.5rem);
   background: var(--accent);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--accent-glow);
 }
@@ -1945,4 +1947,11 @@ body.dark-mode .card-header.header-title-desktop i {
   #airports-table td.dtr-control::before {
     display: none !important;
   }
+}
+
+/* Fix for IATA breadcrumb background in dark mode */
+.accent-header .breadcrumb {
+  background: transparent !important;
+  padding-left: 0;
+  margin-bottom: 0.25rem;
 }

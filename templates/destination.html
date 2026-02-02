@@ -29,8 +29,7 @@
 <link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="en" />
 <link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}?lang=he" hreflang="he" />
 <link rel="alternate" href="https://fly-tlv.com/destinations/{{ destination.IATA }}" hreflang="x-default" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 
 <script type="application/ld+json">
 {
@@ -163,128 +162,94 @@
 
 
 <style>
-  /* Light hover effect (unchanged) */
-  .hover-opacity:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.04);
-    opacity: 0.9;
+  /* ============================================================ 
+     Slick 2026 — Glassmorphism & Accents
+     ============================================================ */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    border-radius: 1.25rem;
   }
 
-  /* ✅ GLOBAL dark mode base */
-  body.dark-mode {
-    color: #ffffff;
-    background-color: #121212;
+  body.dark-mode .glass-card {
+    background: rgba(18, 18, 18, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   }
 
-  /* ✅ Fix card background and text */
-  body.dark-mode .card,
-  body.dark-mode .card-header,
-  body.dark-mode .card-footer,
-  body.dark-mode .card-body {
-    background-color: #1e1e1e !important;
-    color: #ffffff !important;
-    border-color: #2c2c2c !important;
+  .accent-header {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: var(--accent-glow);
+    padding: 1.25rem;
   }
 
-  /* ✅ Force ALL inner text to white, including <p>, <strong>, <small>, etc. */
-  body.dark-mode .card *,
-  body.dark-mode .card-body *,
-  body.dark-mode .card-body p,
-  body.dark-mode .card-body small,
-  body.dark-mode .card-body .small,
-  body.dark-mode .card-body strong,
-  body.dark-mode .card-body span {
-    color: #ffffff !important;
-  }
-
-  /* ✅ Muted text should still be dimmed, but not black */
-  body.dark-mode .card-body .text-muted {
-    color: #b0b0b0 !important;
-  }
-
-  /* ✅ Fix background and text inside Wikipedia box */
-  body.dark-mode #city-overview,
-  body.dark-mode .bg-light {
-    background-color: #2a2a2a !important;
-    color: #ffffff !important;
-  }
-
-  /* ✅ Form elements */
-  body.dark-mode select.form-select,
-  body.dark-mode input,
-  body.dark-mode textarea {
-    background-color: #2a2a2a !important;
-    color: #ffffff !important;
-    border-color: #444 !important;
-  }
-
-  .country-badge {
-    white-space: nowrap;
-    line-height: 1.2;
-  }
-
-  /* 🔹 Mobile Fix */
-  @media (max-width: 576px) {
-    .country-badge {
-      display: inline-flex !important;
-      font-size: 0.9rem;
-      padding: 0.25rem 0.5rem !important;
-    }
-
-    .country-badge img {
-      width: 18px !important;
-      margin-left: 3px;
-    }
-
-    .card-header {
-      flex-direction: column !important;
-      text-align: center !important;
-      gap: 6px !important;
-    }
-  }
-
-  /* ============================================================
-   Purple compact warning chip — EXACT airline chip style
-   ============================================================ */
-  .warning-chip {
+  .airline-chip {
+    padding: 6px 14px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 50px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-
-    padding: 8px 14px;
-    border-radius: 22px;
-
-    background: rgba(112, 0, 150, 0.18);
-    border: 1px solid rgba(112, 0, 150, 0.45);
-
-    /* LIGHT MODE TEXT COLOR */
-    color: #000 !important;
-
-    font-size: 0.9rem;
-    transition: all 0.2s ease-in-out;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .warning-chip:hover {
-    background: rgba(112, 0, 150, 0.28);
-    border-color: rgba(112, 0, 150, 0.65);
+  .airline-logo-sm {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
-  /* Icons + spans inside chip (LIGHT MODE) */
-  .warning-chip span,
-  .warning-chip i,
-  .warning-chip a {
-    color: #000 !important;
+  .status-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 0.8rem;
   }
 
+  .status-on-time {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+  }
 
-  /* ============================================================
-   DARK MODE — everything white
-   ============================================================ */
-  body.dark-mode .warning-chip,
-  body.dark-mode .warning-chip span,
-  body.dark-mode .warning-chip i,
-  body.dark-mode .warning-chip a {
-    color: #fff !important;
+  .status-departed {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+  }
+
+  .status-delayed {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+  }
+
+  .status-landed {
+    background: rgba(107, 114, 128, 0.1);
+    color: #4b5563;
+  }
+
+  .quick-info-box {
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(243, 244, 246, 0.5);
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+  }
+
+  body.dark-mode .quick-info-box {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .quick-info-box:hover {
+    background: rgba(124, 58, 237, 0.05);
+    border-color: rgba(124, 58, 237, 0.2);
+    transform: translateY(-2px);
   }
 </style>
 
@@ -293,131 +258,164 @@
 {% block content %}
 
 <div class="container mt-5">
-  <div class="card shadow-lg">
-    <!-- ✅ Button aligned right -->
-    <div class="card-body pt-3 pb-0">
-      <div class="d-flex justify-content-between flex-wrap">
-        <!-- Left: Back to questionnaire -->
+  <div class="card glass-card shadow-lg border-0 overflow-hidden">
+    <!-- ✅ Navigation Bar inside card -->
+    <div class="card-body py-3 bg-white bg-opacity-10 border-bottom">
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="{{ '/' if lang != 'he' else '/?lang=he' }}"
+          class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2"
+          dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+          <i class="bi {{ 'bi-arrow-right' if lang == 'he' else 'bi-arrow-left' }} fs-5"></i>
+          <span class="fw-medium">{{ 'Back to Table' if lang != 'he' else 'חזרה לטבלה' }}</span>
+        </a>
+
         <a href="{{ '/travel-questionnaire' if lang != 'he' else '/travel-questionnaire?lang=he' }}"
-          class="btn btn-outline-primary btn-sm" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+          class="btn btn-cta btn-sm px-3" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
           {% if lang == 'he' %}
           🚀 מדריך נסיעה
           {% else %}
           🚀 Travel Guide
           {% endif %}
         </a>
-
-        <!-- Right: Back to table -->
-        <a href="{{ '/' if lang != 'he' else '/?lang=he' }}" class="btn btn-outline-primary btn-sm"
-          dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
-          {% if lang == 'he' %}
-          חזרה לטבלה →
-          {% else %}
-          ← Back to table
-          {% endif %}
-        </a>
       </div>
-
     </div>
-    <!-- ✅ Horizontal line divider -->
-    <hr class="mt-2 mb-0">
-    <!-- 🔷 Blue title/header bar -->
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap">
-      <h3 class="mb-0 fs-5">
-        {{ 'TLV to' if lang != 'he' else 'נתב״ג אל' }} {{ destination.Name }} ({{ destination.IATA }})
-      </h3>
-      <span
-        class="badge bg-light text-dark d-inline-flex align-items-center justify-content-center gap-1 px-2 py-1 flex-nowrap country-badge">
-        <span>{{ destination.Country }}</span>
-        {% if destination.CountryISO %}
-        <img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png"
-          alt="{{ destination.Country or 'Country flag' }}" class="rounded shadow-sm"
-          style="width: 22px; height: auto; object-fit: contain;" />
-        {% endif %}
-      </span>
+
+    <!-- 🔷 Hero/Header Section -->
+    <div class="accent-header">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark mb-1 small text-white-50">
+              <li class="breadcrumb-item">{{ 'TLV' if lang != 'he' else 'נתב״ג' }}</li>
+              <li class="breadcrumb-item active text-white" aria-current="page">{{ destination.IATA }}</li>
+            </ol>
+          </nav>
+          <h1 class="h2 mb-0 fw-bold">
+            {{ 'Flights to' if lang != 'he' else 'טיסות אל' }} {{ destination.Name }}
+          </h1>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span
+            class="badge bg-white bg-opacity-25 text-white border border-white border-opacity-25 fs-6 px-3 py-2 rounded-pill d-flex align-items-center gap-2">
+            {{ destination.Country }}
+            {% if destination.CountryISO %}
+            <img src="https://flagcdn.com/24x18/{{ destination.CountryISO | lower }}.png" width="20" class="rounded-sm"
+              alt="">
+            {% endif %}
+          </span>
+        </div>
+      </div>
     </div>
 
     <!-- Body -->
-    <div class="card-body">
+    <div class="card-body p-4">
       <!-- Compact Quick info grid -->
-      <div class="row text-center mb-3 g-3 align-items-stretch">
-        <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
-          <i class="bi bi-geo-alt-fill text-danger" style="font-size: 1.6rem;"></i>
-          <p class="mb-0 small mt-1"><strong>{{ destination.City }}</strong></p>
-          <small class="text-muted">{{ 'City' if lang != 'he' else 'עיר' }}</small>
+      <div class="row g-4 mb-5 text-center">
+        <div class="col-6 col-md-3">
+          <div class="quick-info-box h-100 d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-geo-alt-fill text-danger fs-3 mb-2"></i>
+            <span class="fw-bold d-block">{{ destination.City }}</span>
+            <small class="text-muted opacity-75">{{ 'City' if lang != 'he' else 'עיר' }}</small>
+          </div>
         </div>
-
-        <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
-          <i class="bi bi-signpost-split-fill text-success" style="font-size: 1.6rem;"></i>
-          <p class="mb-0 small mt-1">{{ destination.IATA }}</p>
-          <small class="text-muted">IATA</small>
+        <div class="col-6 col-md-3">
+          <div class="quick-info-box h-100 d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-tag-fill text-success fs-3 mb-2"></i>
+            <span class="fw-bold d-block">{{ destination.IATA }}</span>
+            <small class="text-muted opacity-75">IATA</small>
+          </div>
         </div>
-
-        <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
-          <i class="bi bi-rulers text-primary" style="font-size: 1.6rem;"></i>
-          <p class="mb-0 small mt-1">{{ "%.1f"|format(destination.Distance_km or 0) }} km</p>
-          <small class="text-muted">{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
+        <div class="col-6 col-md-3">
+          <div class="quick-info-box h-100 d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-broadcast fs-3 text-primary mb-2"></i>
+            <span class="fw-bold d-block">{{ "%.1f"|format(destination.Distance_km or 0) }} km</span>
+            <small class="text-muted opacity-75">{{ 'Distance' if lang != 'he' else 'מרחק' }}</small>
+          </div>
         </div>
-
-        <div class="col-6 col-md-3 d-flex flex-column justify-content-center align-items-center">
-          <i class="bi bi-clock-history text-warning" style="font-size: 1.6rem;"></i>
-          <p class="mb-0 small mt-1">{{ destination.FlightTime_hr or "—" }}</p>
-          <small class="text-muted">{{ 'Flight Time' if lang != 'he' else 'משך טיסה' }}</small>
+        <div class="col-6 col-md-3">
+          <div class="quick-info-box h-100 d-flex flex-column align-items-center justify-content-center">
+            <i class="bi bi-hourglass-split fs-3 text-warning mb-2"></i>
+            <span class="fw-bold d-block">{{ destination.FlightTime_hr or "—" }}</span>
+            <small class="text-muted opacity-75">{{ 'Est. Duration' if lang != 'he' else 'משך זמן' }}</small>
+          </div>
         </div>
       </div>
 
-      <!-- Coordinates -->
-      <p>
-        <strong>{{ 'Coordinates' if lang != 'he' else 'קואורדינטות' }}:</strong>
-        {{ destination.lat }}, {{ destination.lon }}
-      </p>
-      <div id="warning-container" class="mt-4 d-none text-end" dir="rtl">
+      <div class="row g-4">
+        <!-- Left Column: Details -->
+        <div class="col-lg-7">
 
-        <a class="warning-chip text-decoration-none">
-          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <div class="mb-4">
+            <h5 class="fw-bold mb-3">{{ 'Airlines Serving this Route' if lang != 'he' else 'חברות תעופה במסלול שירות זה'
+              }}</h5>
+            <div class="d-flex flex-wrap gap-3">
+              {% if destination.Airlines %}
+              {% for i in range(destination.Airlines | length) %}
+              {% set airline_name = destination.Airlines[i].strip() %}
+              {% set airline_code = destination.AirlineCodes[i] if destination.AirlineCodes and i <
+                destination.AirlineCodes|length else None %} {% set website=AIRLINE_WEBSITES.get(airline_name) %} <a
+                href="{{ website if website else 'https://www.google.com/search?q=' ~ airline_name | urlencode }}"
+                target="_blank" rel="noopener" class="airline-chip text-decoration-none" title="{{ airline_name }}">
+                {% if airline_code %}
+                <img src="{{ url_for('static', path='airlines_logo/airline_logos/' ~ airline_code | lower ~ '.webp') }}"
+                  class="airline-logo-sm" onerror="this.style.display='none'" alt="">
+                {% endif %}
+                <span class="fw-medium">{{ airline_name }}</span>
+                {% if airline_code %}
+                <small class="text-muted opacity-50">{{ airline_code | upper }}</small>
+                {% endif %}
+                <i class="bi bi-box-arrow-up-right ms-1 small opacity-50"></i>
+                </a>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted">{{ 'No active airline data' if lang != 'he' else 'אין נתוני חברת תעופה פעילים' }}
+                </p>
+                {% endif %}
+            </div>
+          </div>
 
-          <!-- Hebrew warning text injected here -->
-          <span id="warning-message"></span>
+          <!-- Flight Numbers Section -->
+          {% if destination.FlightNumbers %}
+          <div class="mb-4">
+            <h5 class="fw-bold mb-3">{{ 'Active Flight Numbers' if lang != 'he' else 'מספרי טיסות פעילים' }}</h5>
+            <div class="d-flex flex-wrap gap-2">
+              {% for fn in destination.FlightNumbers %}
+              <span class="badge bg-light border text-dark fw-normal px-2 py-1">
+                <i class="bi bi-hash opacity-50"></i>{{ fn }}
+              </span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
 
-          <!-- external link icon shown only if needed -->
-          <i class="bi bi-box-arrow-up-right ms-2 opacity-50" id="warning-link-icon" style="display:none;"></i>
-        </a>
-
+        <!-- Right Column: Context/Meta -->
+        <div class="col-lg-5">
+          <div class="p-3 bg-light bg-opacity-50 rounded-4 border border-dashed">
+            <h6 class="fw-bold mb-3">{{ 'Travel Details' if lang != 'he' else 'פרטי נסיעה' }}</h6>
+            <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+              <li class="d-flex justify-content-between">
+                <span class="text-muted small">{{ 'Terminal' if lang != 'he' else 'טרמינל' }}</span>
+                <span class="fw-bold">{{ destination.Terminals | join(', ') if destination.Terminals else '—' }}</span>
+              </li>
+              <li class="d-flex justify-content-between">
+                <span class="text-muted small">{{ 'Coordinates' if lang != 'he' else 'קואורדינטות' }}</span>
+                <span class="small font-monospace">{{ destination.lat }}, {{ destination.lon }}</span>
+              </li>
+              <li>
+                <div id="warning-container" class="d-none mt-2">
+                  <a class="warning-chip text-decoration-none w-100 justify-content-center">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <span id="warning-message" class="mx-2"></span>
+                    <i class="bi bi-box-arrow-up-right small opacity-50" id="warning-link-icon"
+                      style="display:none;"></i>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-
-      <!-- Airlines -->
-      <h6 class="mt-4 mb-2 fw-semibold">
-        <i class="bi bi-airplane-engines me-1 text-primary"></i>
-        {{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}:
-      </h6>
-
-      {% if destination.Airlines %}
-      <div class="d-flex flex-wrap gap-2">
-        {% for airline in destination.Airlines %}
-        {% set airline_name = airline.strip() %}
-        {% set website = AIRLINE_WEBSITES.get(airline_name) %}
-        {% if website %}
-        <a href="{{ website }}" target="_blank" rel="noopener" class="airline-chip text-decoration-none"
-          style="transition: all 0.2s ease-in-out;" title="Visit {{ airline_name | e }} website">
-          <span>{{ airline_name }}</span>
-          <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
-        </a>
-        {% else %}
-        <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank" rel="noopener"
-          class="airline-chip text-decoration-none" style="transition: all 0.2s ease-in-out;"
-          title="Search for {{ airline_name | e }} on Google">
-          <span>{{ airline_name }}</span>
-          <i class="bi bi-search ms-2 opacity-50"></i>
-        </a>
-        {% endif %}
-        {% endfor %}
-      </div>
-      {% else %}
-      <p class="text-muted">—</p>
-      {% endif %}
-	   	  {% if destination.Terminals %}
-		<p><strong>{{ 'Terminal(s)' if lang != 'he' else 'טרמינל/ים' }}:</strong> {{ destination.Terminals | join(', ') }}</p>
-	  {% endif %}
       <div class="card shadow-sm d-none d-lg-block mt-4 mb-4" aria-label="Advertisement">
         <div class="card-header small text-muted fw-semibold">
           <i class="bi bi-airplane-engines me-1 text-primary"></i> Flight Search
@@ -536,7 +534,7 @@
                   <div class="col-auto">
                     <div class="bg-light d-flex align-items-center justify-content-center rounded"
                       style="width:110px; height:110px; overflow:hidden;">
-                      {% if poi.image %}
+                      {% if poi.image and (poi.image.startswith('http') or poi.image.startswith('/')) %}
                       <img src="{{ poi.image }}" alt="{{ poi.name }}" class="img-fluid"
                         style="width:110px; height:110px; object-fit:cover;">
                       {% else %}
@@ -572,22 +570,6 @@
         </div>
       </div>
       {% endif %}
-      {% set has_coords = travel_info['pois'] | selectattr('lat') | list | length > 0 %}
-      {% if has_coords %}
-      <div class="card shadow-sm mt-4">
-        <div class="card-header text-primary fw-semibold">
-          <i class="bi bi-map me-1"></i>
-          {{ 'POI Map' if lang != 'he' else 'מפת נקודות עניין' }}
-        </div>
-        <div class="card-body p-0">
-          <div id="poiMap" style="height: 400px;"></div>
-        </div>
-      </div>
-
-      <!-- ✅ EMBED POI JSON SAFELY -->
-      <script id="poi-data" type="application/json">
-    {{ travel_info['pois'] | tojson(indent=0) | safe }}
-  </script>
 
       <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -656,74 +638,6 @@
 
 
 
-      <script>
-        function escapeHTML(str) {
-          return String(str).replace(/[&<>"']/g, function (m) {
-            return {
-              '&': '&amp;',
-              '<': '&lt;',
-              '>': '&gt;',
-              '"': '&quot;',
-              "'": '&#39;'
-            }[m];
-          });
-        }
-
-        window.addEventListener("load", () => {
-          const map = L.map('poiMap');
-          const rawJson = document.getElementById("poi-data").textContent;
-          let pois = [];
-
-          try {
-            pois = JSON.parse(rawJson);
-          } catch (e) {
-            console.error("❌ Failed to parse POI data:", e);
-            return;
-          }
-
-          const markers = L.layerGroup();
-          const bounds = [];
-
-          pois.forEach(poi => {
-            if (typeof poi.lat === 'number' && typeof poi.lon === 'number') {
-              const latlng = [poi.lat, poi.lon];
-              bounds.push(latlng);
-
-              const marker = L.marker(latlng);
-              let popup = poi.name ? `<strong>${escapeHTML(poi.name)}</strong>` : '';
-
-              if (
-                poi.description &&
-                typeof poi.description === 'string' &&
-                (!poi.name || !poi.description.startsWith(poi.name))
-              ) {
-                popup += `<br>${escapeHTML(poi.description)}`;
-              }
-
-              marker.bindPopup(popup);
-              markers.addLayer(marker);
-            }
-          });
-
-          markers.addTo(map);
-
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-          }).addTo(map);
-
-          if (bounds.length) {
-            map.fitBounds(bounds, { padding: [20, 20] });
-          } else {
-            map.setView([
-  {{ destination.lat or 0 }},
-  {{ destination.lon or 0 }}
-], 12);
-
-      }
-        setTimeout(() => map.invalidateSize(), 200);
-    });
-      </script>
-      {% endif %}
 
     </div>
     <div class="card-footer text-start">

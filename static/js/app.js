@@ -1,24 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-	
+
   // ---------- Constants & DOM refs ----------
   const THEMES = {
     light: 'https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css',
-    dark:  'https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css'
+    dark: 'https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css'
   };
 
   let table;  // will hold DataTable instance
   let currentLang = localStorage.getItem('fe-lang') || 'en';
 
-  const themeBtn     = document.getElementById('theme-toggle');
-  const themeIcon    = document.getElementById('theme-icon');
-  const themeLink    = document.getElementById('bs-theme-link');
-  const mapModal     = document.getElementById('mapModal');
-  const iframe       = document.getElementById('map-frame');
-  const langBtn      = document.getElementById('lang-toggle');
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  const themeLink = document.getElementById('bs-theme-link');
+  const mapModal = document.getElementById('mapModal');
+  const iframe = document.getElementById('map-frame');
+  const langBtn = document.getElementById('lang-toggle');
   const clearFiltersBtn = document.getElementById('clear-filters');
-  const viewMapBtn   = document.getElementById('view-map-btn');
+  const viewMapBtn = document.getElementById('view-map-btn');
   const installContainer = document.getElementById('install-app-container');
-  const installBtn   = document.getElementById('install-app-btn');
+  const installBtn = document.getElementById('install-app-btn');
   const directionSelect = document.getElementById('direction-select');
 
   // ---------- Theme (Bootswatch + persist) ----------
@@ -39,141 +39,141 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------- DataTable init / destroy helper ----------
-function dtButtonsFor(lang) {
-  // 🧱 Safe fallback if LANG or dtButtons missing
-  const safeLang = (typeof LANG !== "undefined" && LANG[lang]) ? LANG[lang] : LANG?.en || {};
-  const b = safeLang.dtButtons || { copy: "Copy", excel: "Excel", pdf: "PDF", print: "Print" };
+  function dtButtonsFor(lang) {
+    // 🧱 Safe fallback if LANG or dtButtons missing
+    const safeLang = (typeof LANG !== "undefined" && LANG[lang]) ? LANG[lang] : LANG?.en || {};
+    const b = safeLang.dtButtons || { copy: "Copy", excel: "Excel", pdf: "PDF", print: "Print" };
 
-  return [
-    {
-      extend: "copyHtml5",
-      className: "btn btn-primary btn-sm mobile-small-btn",
-      text: `<i class="bi bi-clipboard me-1"></i> ${b.copy}`,
-    },
-    {
-      extend: "excelHtml5",
-      className: "btn btn-primary btn-sm mobile-small-btn",
-      text: `<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}`,
-    },
-    {
-      extend: "pdfHtml5",
-      className: "btn btn-primary btn-sm mobile-small-btn",
-      text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`,
-      customize: function (doc) {
-        const now = new Date();
-        const timestamp = now
-          .toLocaleString("en-GB", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-          })
-          .replace(",", "");
+    return [
+      {
+        extend: "copyHtml5",
+        className: "btn btn-primary btn-sm mobile-small-btn",
+        text: `<i class="bi bi-clipboard me-1"></i> ${b.copy}`,
+      },
+      {
+        extend: "excelHtml5",
+        className: "btn btn-primary btn-sm mobile-small-btn",
+        text: `<i class="bi bi-file-earmark-excel me-1"></i> ${b.excel}`,
+      },
+      {
+        extend: "pdfHtml5",
+        className: "btn btn-primary btn-sm mobile-small-btn",
+        text: `<i class="bi bi-file-earmark-pdf me-1"></i> ${b.pdf}`,
+        customize: function (doc) {
+          const now = new Date();
+          const timestamp = now
+            .toLocaleString("en-GB", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+            .replace(",", "");
 
-        // 🕒 Header timestamp
-        doc.header = function () {
-          return {
-            text: `Exported: ${timestamp}`,
-            alignment: "right",
-            margin: [0, 10, 10, 0],
-            fontSize: 8,
+          // 🕒 Header timestamp
+          doc.header = function () {
+            return {
+              text: `Exported: ${timestamp}`,
+              alignment: "right",
+              margin: [0, 10, 10, 0],
+              fontSize: 8,
+            };
           };
-        };
 
-        // 🌍 RTL/LTR handling
-        doc.defaultStyle = {
-          font: "DejaVuSans",
-          alignment: lang === "he" ? "right" : "left",
-          rtl: lang === "he",
-        };
+          // 🌍 RTL/LTR handling
+          doc.defaultStyle = {
+            font: "DejaVuSans",
+            alignment: lang === "he" ? "right" : "left",
+            rtl: lang === "he",
+          };
 
-        const table = doc.content?.[1]?.table;
-        if (table?.body) {
-          // 🪞 Apply RTL text fixes
-          if (lang === "he") {
-            table.body.forEach((row) => {
-              row.forEach((cell, idx) => {
-                if (typeof cell === "string") {
-                  row[idx] = { text: cell, alignment: "right", rtl: true };
-                } else if (typeof cell === "object") {
-                  cell.alignment = "right";
-                  cell.rtl = true;
-                }
+          const table = doc.content?.[1]?.table;
+          if (table?.body) {
+            // 🪞 Apply RTL text fixes
+            if (lang === "he") {
+              table.body.forEach((row) => {
+                row.forEach((cell, idx) => {
+                  if (typeof cell === "string") {
+                    row[idx] = { text: cell, alignment: "right", rtl: true };
+                  } else if (typeof cell === "object") {
+                    cell.alignment = "right";
+                    cell.rtl = true;
+                  }
+                });
               });
-            });
-          }
+            }
 
-          // 🔍 Dynamically detect “Direction” column index
-          const headerRow = table.body[0] || [];
-          const dirIndex = headerRow.findIndex((c) =>
-            typeof c === "string"
-              ? /direction/i.test(c)
-              : /direction/i.test(c.text || "")
-          );
+            // 🔍 Dynamically detect “Direction” column index
+            const headerRow = table.body[0] || [];
+            const dirIndex = headerRow.findIndex((c) =>
+              typeof c === "string"
+                ? /direction/i.test(c)
+                : /direction/i.test(c.text || "")
+            );
 
-          if (dirIndex >= 0) {
-            table.body.forEach((row) => row.splice(dirIndex, 1));
-            if (table.widths && table.widths.length > dirIndex) {
-              table.widths.splice(dirIndex, 1);
+            if (dirIndex >= 0) {
+              table.body.forEach((row) => row.splice(dirIndex, 1));
+              if (table.widths && table.widths.length > dirIndex) {
+                table.widths.splice(dirIndex, 1);
+              }
             }
           }
-        }
+        },
       },
-    },
-    {
-      extend: "print",
-      className: "btn btn-primary btn-sm mobile-small-btn",
-      text: `<i class="bi bi-printer me-1"></i> ${b.print}`,
-    },
-  ];
-}
+      {
+        extend: "print",
+        className: "btn btn-primary btn-sm mobile-small-btn",
+        text: `<i class="bi bi-printer me-1"></i> ${b.print}`,
+      },
+    ];
+  }
 
- function initDataTable(lang) {
-  // 🧱 Guard language object safely
-  const safeLang =
-    (typeof LANG !== "undefined" && LANG[lang])
-      ? LANG[lang]
-      : LANG?.en || {};
+  function initDataTable(lang) {
+    // 🧱 Guard language object safely
+    const safeLang =
+      (typeof LANG !== "undefined" && LANG[lang])
+        ? LANG[lang]
+        : LANG?.en || {};
 
-  // 🧩 Detect "Direction" column index dynamically
-  const dirHeader = document.querySelectorAll('#airports-table thead th');
-  let dirIndex = 7; // fallback default
-  dirHeader.forEach((th, i) => {
-    const text = th.textContent?.trim().toLowerCase();
-    if (text.includes('direction') || text.includes('כיוון')) dirIndex = i;
-  });
+    // 🧩 Detect "Direction" column index dynamically
+    const dirHeader = document.querySelectorAll('#airports-table thead th');
+    let dirIndex = 7; // fallback default
+    dirHeader.forEach((th, i) => {
+      const text = th.textContent?.trim().toLowerCase();
+      if (text.includes('direction') || text.includes('כיוון')) dirIndex = i;
+    });
 
-  return $('#airports-table').DataTable({
-    dom:
-      "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-      "<'row'<'col-12'tr>>" +
-      "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-    buttons: dtButtonsFor(lang),
-    responsive: true,
-    fixedHeader: true,
-    pageLength: 25,
-    lengthMenu: [5, 10, 25, 50],
-    columnDefs: [
-      { targets: [0, 1, 2], responsivePriority: 1 },
-      { targets: [3], responsivePriority: 2 },
-      { targets: [4, 5, 6], responsivePriority: 10000 },
-      { targets: [dirIndex], visible: false, searchable: true } // ✅ dynamic
-    ],
-    order: [[1, 'asc']],
-    language: safeLang.dt || {},
-    pagingType: "simple",
-    initComplete: function () {
-      $('#airports-table_filter input')
-        .attr('id', 'airports-search')
-        .attr('name', 'airports-search')
-        .attr('placeholder', safeLang.placeholderSearch || 'Search…');
+    return $('#airports-table').DataTable({
+      dom:
+        "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+        "<'row'<'col-12'tr>>" +
+        "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+      buttons: dtButtonsFor(lang),
+      responsive: true,
+      fixedHeader: true,
+      pageLength: 25,
+      lengthMenu: [5, 10, 25, 50],
+      columnDefs: [
+        { targets: [0, 1, 2], responsivePriority: 1 },
+        { targets: [3], responsivePriority: 2 },
+        { targets: [4, 5, 6], responsivePriority: 10000 },
+        { targets: [dirIndex], visible: false, searchable: true } // ✅ dynamic
+      ],
+      order: [[1, 'asc']],
+      language: safeLang.dt || {},
+      pagingType: "simple",
+      initComplete: function () {
+        $('#airports-table_filter input')
+          .attr('id', 'airports-search')
+          .attr('name', 'airports-search')
+          .attr('placeholder', safeLang.placeholderSearch || 'Search…');
 
-      const info = document.querySelector('#airports-table_info');
-      if (info) info.classList.add('last-update-badge');
-    }
-  });
-}
+        const info = document.querySelector('#airports-table_info');
+        if (info) info.classList.add('last-update-badge');
+      }
+    });
+  }
 
 
   function escapeRegex(text) {
@@ -244,8 +244,8 @@ function dtButtonsFor(lang) {
       }
     }
 
-	const isDesktop = window.matchMedia("(min-width: 992px)").matches;
-	safeSet("brand-title", isDesktop ? d.brand_desktop : d.brand_mobile, true);
+    const isDesktop = window.matchMedia("(min-width: 992px)").matches;
+    safeSet("brand-title", isDesktop ? d.brand_desktop : d.brand_mobile, true);
     safeSet('view-map-btn', `<i class="bi bi-globe-americas me-1"></i> ${d.viewMap}`, true);
     safeSet('theme-toggle', `<i id="theme-icon" class="bi bi-moon-stars me-1"></i> ${d.theme}`, true);
     safeSet('lang-label', d.langToggleLabelOther);
@@ -389,31 +389,31 @@ function dtButtonsFor(lang) {
   updateActiveFilters(LANG[currentLang]);
 
   // ---------- View Map button logic ----------
-	if (viewMapBtn && mapModal && iframe) {
-	  viewMapBtn.addEventListener('click', () => {
-		//console.log('🗺️ View map clicked. iframe:', iframe, 'mapModal:', mapModal);
+  if (viewMapBtn && mapModal && iframe) {
+    viewMapBtn.addEventListener('click', () => {
+      //console.log('🗺️ View map clicked. iframe:', iframe, 'mapModal:', mapModal);
 
-		// If iframe has no src, set from data-src
-		const dataSrc = iframe.dataset?.src;
-		if (!iframe.src && dataSrc) {
-		  iframe.src = dataSrc;
-		}
+      // If iframe has no src, set from data-src
+      const dataSrc = iframe.dataset?.src;
+      if (!iframe.src && dataSrc) {
+        iframe.src = dataSrc;
+      }
 
-		try {
-		  const modal = new bootstrap.Modal(mapModal);
-		  modal.show();
-		  iframe.contentWindow?.postMessage('modal-shown', '*');
-		} catch (err) {
-		  console.error('❌ Error showing map modal:', err);
-		}
-	  });
-	} else if (viewMapBtn || mapModal || iframe) {
-	  // ⚠️ Warn only if SOME map elements exist, but not all
-	  console.warn('⚠️ Some view-map elements missing:', { viewMapBtn, mapModal, iframe });
-	} else {
-	  // ✅ No map section at all → no warning needed
-	  // console.debug('ℹ️ This page has no map section, skipping map logic.');
-	}
+      try {
+        const modal = new bootstrap.Modal(mapModal);
+        modal.show();
+        iframe.contentWindow?.postMessage('modal-shown', '*');
+      } catch (err) {
+        console.error('❌ Error showing map modal:', err);
+      }
+    });
+  } else if (viewMapBtn || mapModal || iframe) {
+    // ⚠️ Warn only if SOME map elements exist, but not all
+    console.warn('⚠️ Some view-map elements missing:', { viewMapBtn, mapModal, iframe });
+  } else {
+    // ✅ No map section at all → no warning needed
+    // console.debug('ℹ️ This page has no map section, skipping map logic.');
+  }
 
   // ---------- Install App Banner (mobile) ----------
   if (window.innerWidth <= 768) {
@@ -455,244 +455,244 @@ function dtButtonsFor(lang) {
     });
   }
 
-	// ---------- Direction filter ----------
-	if (directionSelect && $.fn.dataTable.isDataTable('#airports-table')) {
-	  const dt = table; // IMPORTANT: reuse existing instance
+  // ---------- Direction filter ----------
+  if (directionSelect && $.fn.dataTable.isDataTable('#airports-table')) {
+    const dt = table; // IMPORTANT: reuse existing instance
 
-	  function applyDirectionFilter(value) {
-		if (!value || value === 'all') {
-		  dt.column(7).search('', true, false).draw();
-		  return;
-		}
-		const regex = value === 'outbound' ? '^D$' : '^A$';
-		dt.column(7).search(regex, true, false).draw();
-	  }
-
-	  applyDirectionFilter(directionSelect.value);
-	  directionSelect.addEventListener('change', () => {
-		applyDirectionFilter(directionSelect.value);
-	  });
-	}
-
-(() => {
-  const COOKIE_KEY = 'cookie_consent_choice';
-  const PREFS_KEY = 'cookie_prefs';
-  const cookieLang = document.documentElement.lang || 'en';
-  const DEV_SHOW_COOKIE_BANNER = false;
-  if (DEV_SHOW_COOKIE_BANNER) localStorage.removeItem(COOKIE_KEY);
-
-  const TEXT = {
-    en: {
-      banner: {
-        message: "We use cookies to enhance your experience. Choose what you allow.",
-        accept: "Accept All",
-        reject: "Reject All",
-        customize: "Customize"
-      },
-      modal: {
-        title: "Customize Your Preferences",
-        desc: "Choose which types of cookies you allow. You can always change this later.",
-        essential: "Essential – Required for site to function.",
-        analytics: "Analytics – Help us understand usage.",
-        marketing: "Marketing – Personalized ads and campaigns.",
-        cancel: "Cancel",
-        save: "Save Preferences"
+    function applyDirectionFilter(value) {
+      if (!value || value === 'all') {
+        dt.column(7).search('', true, false).draw();
+        return;
       }
-    },
-    he: {
-      banner: {
-        message: "אנו משתמשים בעוגיות כדי לשפר את חוויית השימוש שלך. באפשרותך לבחור מה לאפשר.",
-        accept: "אשר הכול",
-        reject: "דחה הכול",
-        customize: "התאם אישית"
-      },
-      modal: {
-        title: "התאם את ההעדפות שלך",
-        desc: "בחר אילו קוקיות לאפשר. תוכל לשנות זאת בכל עת.",
-        essential: "חיוני – נדרש לפעולת האתר.",
-        analytics: "ניתוח – עוזר לנו להבין את השימוש באתר.",
-        marketing: "שיווק – פרסומות מותאמות אישית.",
-        cancel: "ביטול",
-        save: "שמור העדפות"
-      }
+      const regex = value === 'outbound' ? '^D$' : '^A$';
+      dt.column(7).search(regex, true, false).draw();
     }
-  };
 
-  const t = TEXT[cookieLang] || TEXT.en;
-
-  const cookieBanner = document.getElementById('cookie-banner');
-  const acceptBtn = document.getElementById('cookie-accept-btn');
-  const rejectBtn = document.getElementById('cookie-reject-btn');
-  const customizeBtn = document.getElementById('cookie-customize-btn');
-  const cookieMsg = document.getElementById('cookie-msg');
-  const customizeModalEl = document.getElementById('cookieCustomizeModal');
-  const savePrefsBtn = document.getElementById('save-cookie-prefs');
-  const analyticsToggle = document.getElementById('pref-analytics');
-  const marketingToggle = document.getElementById('pref-marketing');
-  const labelTitle = document.getElementById('cookieCustomizeLabel');
-  const labelDesc = document.getElementById('cookie-pref-desc');
-  const labelEssential = document.getElementById('label-essential');
-  const labelAnalytics = document.getElementById('label-analytics');
-  const labelMarketing = document.getElementById('label-marketing');
-  const cancelBtn = document.getElementById('modal-cancel-btn');
-
-  // Set texts
-  cookieMsg.textContent = t.banner.message;
-  acceptBtn.textContent = t.banner.accept;
-  rejectBtn.textContent = t.banner.reject;
-  customizeBtn.textContent = t.banner.customize;
-  labelTitle.textContent = t.modal.title;
-  labelDesc.textContent = t.modal.desc;
-  labelEssential.textContent = t.modal.essential;
-  labelAnalytics.textContent = t.modal.analytics;
-  labelMarketing.textContent = t.modal.marketing;
-  cancelBtn.textContent = t.modal.cancel;
-  savePrefsBtn.textContent = t.modal.save;
-
-  // Show banner only if not accepted
-  if (!localStorage.getItem(COOKIE_KEY)) {
-    cookieBanner.classList.remove('d-none');
+    applyDirectionFilter(directionSelect.value);
+    directionSelect.addEventListener('change', () => {
+      applyDirectionFilter(directionSelect.value);
+    });
   }
 
-  acceptBtn.addEventListener('click', () => {
-    localStorage.setItem(COOKIE_KEY, 'all');
-    localStorage.setItem(PREFS_KEY, JSON.stringify({ essential: true, analytics: true, marketing: true }));
-    cookieBanner.classList.add('d-none');
-  });
+  (() => {
+    const COOKIE_KEY = 'cookie_consent_choice';
+    const PREFS_KEY = 'cookie_prefs';
+    const cookieLang = document.documentElement.lang || 'en';
+    const DEV_SHOW_COOKIE_BANNER = false;
+    if (DEV_SHOW_COOKIE_BANNER) localStorage.removeItem(COOKIE_KEY);
 
-  rejectBtn.addEventListener('click', () => {
-    localStorage.setItem(COOKIE_KEY, 'essential');
-    localStorage.setItem(PREFS_KEY, JSON.stringify({ essential: true, analytics: false, marketing: false }));
-    cookieBanner.classList.add('d-none');
-  });
-
-  customizeBtn.addEventListener('click', () => {
-    const stored = localStorage.getItem(PREFS_KEY);
-    if (stored) {
-      const prefs = JSON.parse(stored);
-      analyticsToggle.checked = !!prefs.analytics;
-      marketingToggle.checked = !!prefs.marketing;
-    }
-	if (customizeModalEl) {
-	  const modal = new bootstrap.Modal(customizeModalEl);
-	  modal.show();
-	}
-  });
-
-  savePrefsBtn.addEventListener('click', () => {
-    const prefs = {
-      essential: true,
-      analytics: analyticsToggle.checked,
-      marketing: marketingToggle.checked
+    const TEXT = {
+      en: {
+        banner: {
+          message: "We use cookies to enhance your experience. Choose what you allow.",
+          accept: "Accept All",
+          reject: "Reject All",
+          customize: "Customize"
+        },
+        modal: {
+          title: "Customize Your Preferences",
+          desc: "Choose which types of cookies you allow. You can always change this later.",
+          essential: "Essential – Required for site to function.",
+          analytics: "Analytics – Help us understand usage.",
+          marketing: "Marketing – Personalized ads and campaigns.",
+          cancel: "Cancel",
+          save: "Save Preferences"
+        }
+      },
+      he: {
+        banner: {
+          message: "אנו משתמשים בעוגיות כדי לשפר את חוויית השימוש שלך. באפשרותך לבחור מה לאפשר.",
+          accept: "אשר הכול",
+          reject: "דחה הכול",
+          customize: "התאם אישית"
+        },
+        modal: {
+          title: "התאם את ההעדפות שלך",
+          desc: "בחר אילו קוקיות לאפשר. תוכל לשנות זאת בכל עת.",
+          essential: "חיוני – נדרש לפעולת האתר.",
+          analytics: "ניתוח – עוזר לנו להבין את השימוש באתר.",
+          marketing: "שיווק – פרסומות מותאמות אישית.",
+          cancel: "ביטול",
+          save: "שמור העדפות"
+        }
+      }
     };
-    localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
-    localStorage.setItem(COOKIE_KEY, 'custom');
-    cookieBanner.classList.add('d-none');
-    bootstrap.Modal.getInstance(customizeModalEl)?.hide();
-  });
-})();
 
-// ---------- 🔺 Triangle blink until user opens one ----------
-if (window.innerWidth <= 768) {
-  if (!localStorage.getItem('triangle_learned')) {
-    // show animation
-    document.body.classList.remove('user-learned');
+    const t = TEXT[cookieLang] || TEXT.en;
 
-    // detect first open on any row
-    document.addEventListener('click', e => {
-      const td = e.target.closest('td.dtr-control');
-      if (td) {
-        localStorage.setItem('triangle_learned', '1');
-        document.body.classList.add('user-learned');
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('cookie-accept-btn');
+    const rejectBtn = document.getElementById('cookie-reject-btn');
+    const customizeBtn = document.getElementById('cookie-customize-btn');
+    const cookieMsg = document.getElementById('cookie-msg');
+    const customizeModalEl = document.getElementById('cookieCustomizeModal');
+    const savePrefsBtn = document.getElementById('save-cookie-prefs');
+    const analyticsToggle = document.getElementById('pref-analytics');
+    const marketingToggle = document.getElementById('pref-marketing');
+    const labelTitle = document.getElementById('cookieCustomizeLabel');
+    const labelDesc = document.getElementById('cookie-pref-desc');
+    const labelEssential = document.getElementById('label-essential');
+    const labelAnalytics = document.getElementById('label-analytics');
+    const labelMarketing = document.getElementById('label-marketing');
+    const cancelBtn = document.getElementById('modal-cancel-btn');
+
+    // Set texts
+    cookieMsg.textContent = t.banner.message;
+    acceptBtn.textContent = t.banner.accept;
+    rejectBtn.textContent = t.banner.reject;
+    customizeBtn.textContent = t.banner.customize;
+    labelTitle.textContent = t.modal.title;
+    labelDesc.textContent = t.modal.desc;
+    labelEssential.textContent = t.modal.essential;
+    labelAnalytics.textContent = t.modal.analytics;
+    labelMarketing.textContent = t.modal.marketing;
+    cancelBtn.textContent = t.modal.cancel;
+    savePrefsBtn.textContent = t.modal.save;
+
+    // Show banner only if not accepted
+    if (!localStorage.getItem(COOKIE_KEY)) {
+      cookieBanner.classList.remove('d-none');
+    }
+
+    acceptBtn.addEventListener('click', () => {
+      localStorage.setItem(COOKIE_KEY, 'all');
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ essential: true, analytics: true, marketing: true }));
+      cookieBanner.classList.add('d-none');
+    });
+
+    rejectBtn.addEventListener('click', () => {
+      localStorage.setItem(COOKIE_KEY, 'essential');
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ essential: true, analytics: false, marketing: false }));
+      cookieBanner.classList.add('d-none');
+    });
+
+    customizeBtn.addEventListener('click', () => {
+      const stored = localStorage.getItem(PREFS_KEY);
+      if (stored) {
+        const prefs = JSON.parse(stored);
+        analyticsToggle.checked = !!prefs.analytics;
+        marketingToggle.checked = !!prefs.marketing;
+      }
+      if (customizeModalEl) {
+        const modal = new bootstrap.Modal(customizeModalEl);
+        modal.show();
       }
     });
-  } else {
-    // already interacted before
-    document.body.classList.add('user-learned');
-  }
-}
 
-// ---------- 🔧 Fix ResizeObserver + DataTable recalcs ----------
-(function fixResizeObserverAndDT() {
-  // 1) Silence Chrome's harmless ResizeObserver warning
-  const re = /ResizeObserver loop completed with undelivered notifications/;
-  const origErr = console.error;
-  console.error = (...args) => {
-    if (args[0] && re.test(String(args[0]))) return; // ignore only this warning
-    origErr.apply(console, args);
-  };
+    savePrefsBtn.addEventListener('click', () => {
+      const prefs = {
+        essential: true,
+        analytics: analyticsToggle.checked,
+        marketing: marketingToggle.checked
+      };
+      localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+      localStorage.setItem(COOKIE_KEY, 'custom');
+      cookieBanner.classList.add('d-none');
+      bootstrap.Modal.getInstance(customizeModalEl)?.hide();
+    });
+  })();
 
-  // 2) Safe DataTable adjust helper
-  const adjustDT = () => {
-    if (!window.jQuery || !$.fn.DataTable) return;
-    const $t = $('#airports-table');
-    if (!$t.length) return;
-    const dt = $t.DataTable();
-    dt.columns.adjust().responsive.recalc();
-  };
+  // ---------- 🔺 Triangle blink until user opens one ----------
+  if (window.innerWidth <= 768) {
+    if (!localStorage.getItem('triangle_learned')) {
+      // show animation
+      document.body.classList.remove('user-learned');
 
-  // 3) Run after load/layout settle
-  window.addEventListener('load', () => setTimeout(adjustDT, 250));
-
-  // 4) Recalc after major layout changes
-  window.addEventListener('resize', () => requestAnimationFrame(adjustDT));
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') setTimeout(adjustDT, 150);
-  });
-
-  $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
-})();
-
-// ---------- Destination click interception ----------
-// Run only on home or stats pages to prevent loops on destination pages
-// ---------- Destination click interception ----------
-// Run only on home or stats pages to prevent loops on destination pages
-if (!window.location.pathname.startsWith("/destinations/")) {
-  document.addEventListener("click", function (e) {
-    const a = e.target.closest("a[href^='/destinations/']");
-    if (!a) return;
-
-    e.preventDefault();
-
-    // --- Analytics (non-blocking) ---
-    const iata = (a.dataset.iata || a.href.split("/").pop()).toUpperCase();
-    const city = a.dataset.city || "";
-    const country = a.dataset.country || "";
-    fetch("/api/analytics/click", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ iata, city, country }),
-    }).catch(() => {});
-
-    // --- Loader ---
-    const loader = document.getElementById("global-loader");
-    const textEl = document.querySelector("#global-loader .loader-text");
-    const lang = document.documentElement.lang || "en";
-
-    if (loader && textEl) {
-      textEl.textContent =
-        lang === "he" ? "טוען את נתוני היעד…" : "Please Wait…";
-
-      loader.style.display = "flex";
-      // ✅ Force paint on mobile browsers
-      loader.style.transform = "translateZ(0)";
-      void loader.offsetHeight;
-
-      // ✅ Double rAF ensures repaint before navigation
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const url = new URL(a.href, window.location.origin);
-          if (lang === "he") url.searchParams.set("lang", "he");
-          window.location.href = url.toString();
-        });
+      // detect first open on any row
+      document.addEventListener('click', e => {
+        const td = e.target.closest('td.dtr-control');
+        if (td) {
+          localStorage.setItem('triangle_learned', '1');
+          document.body.classList.add('user-learned');
+        }
       });
     } else {
-      // Fallback: normal redirect if loader missing
-      window.location.href = a.href;
+      // already interacted before
+      document.body.classList.add('user-learned');
     }
-  });
-}
-  });
+  }
+
+  // ---------- 🔧 Fix ResizeObserver + DataTable recalcs ----------
+  (function fixResizeObserverAndDT() {
+    // 1) Silence Chrome's harmless ResizeObserver warning
+    const re = /ResizeObserver loop completed with undelivered notifications/;
+    const origErr = console.error;
+    console.error = (...args) => {
+      if (args[0] && re.test(String(args[0]))) return; // ignore only this warning
+      origErr.apply(console, args);
+    };
+
+    // 2) Safe DataTable adjust helper
+    const adjustDT = () => {
+      if (!window.jQuery || !$.fn.DataTable) return;
+      const $t = $('#airports-table');
+      if (!$t.length) return;
+      const dt = $t.DataTable();
+      dt.columns.adjust().responsive.recalc();
+    };
+
+    // 3) Run after load/layout settle
+    window.addEventListener('load', () => setTimeout(adjustDT, 250));
+
+    // 4) Recalc after major layout changes
+    window.addEventListener('resize', () => requestAnimationFrame(adjustDT));
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') setTimeout(adjustDT, 150);
+    });
+
+    $('#mapModal').on('shown.bs.modal', () => setTimeout(adjustDT, 300));
+  })();
+
+  // ---------- Destination click interception ----------
+  // Run only on home or stats pages to prevent loops on destination pages
+  // ---------- Destination click interception ----------
+  // Run only on home or stats pages to prevent loops on destination pages
+  if (!window.location.pathname.startsWith("/destinations/")) {
+    document.addEventListener("click", function (e) {
+      const a = e.target.closest("a[href^='/destinations/']");
+      if (!a) return;
+
+      e.preventDefault();
+
+      // --- Analytics (non-blocking) ---
+      const iata = (a.dataset.iata || a.href.split("/").pop()).toUpperCase();
+      const city = a.dataset.city || "";
+      const country = a.dataset.country || "";
+      fetch("/api/analytics/click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ iata, city, country }),
+      }).catch(() => { });
+
+      // --- Loader ---
+      const loader = document.getElementById("global-loader");
+      const textEl = document.querySelector("#global-loader .loader-text");
+      const lang = document.documentElement.lang || "en";
+
+      if (loader && textEl) {
+        textEl.textContent =
+          lang === "he" ? "טוען את נתוני היעד…" : "Destination loading…";
+
+        loader.style.display = "flex";
+        // ✅ Force paint on mobile browsers
+        loader.style.transform = "translateZ(0)";
+        void loader.offsetHeight;
+
+        // ✅ Double rAF ensures repaint before navigation
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const url = new URL(a.href, window.location.origin);
+            if (lang === "he") url.searchParams.set("lang", "he");
+            window.location.href = url.toString();
+          });
+        });
+      } else {
+        // Fallback: normal redirect if loader missing
+        window.location.href = a.href;
+      }
+    });
+  }
+});
 // ---------- Handle BFCache restore + Android Back ----------
 window.addEventListener("pageshow", (event) => {
   const loader = document.getElementById("global-loader");
