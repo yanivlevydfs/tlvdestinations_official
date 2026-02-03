@@ -660,7 +660,8 @@
                       data-airline="{{ airline_name }}" title="Visit {{ airline_name | e }} website">
                       {% if airline_code %}
                       <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
-                        alt="{{ airline_name }}" onerror="this.style.display='none'"
+                        alt="{{ airline_name }}"
+                        onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
                         style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
                       {% endif %}
                       {{ airline_name }}
@@ -672,7 +673,8 @@
                         data-airline="{{ airline_name }}" title="Search for {{ airline_name | e }} on Google">
                         {% if airline_code %}
                         <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
-                          alt="{{ airline_name }}" onerror="this.style.display='none'"
+                          alt="{{ airline_name }}"
+                          onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
                           style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
                         {% endif %}
                         {{ airline_name }}
