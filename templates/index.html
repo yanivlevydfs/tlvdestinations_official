@@ -652,24 +652,37 @@
                     {% for airline in ap.Airlines %}
                     {% set airline_name = airline.strip().title() %}
                     {% set website = AIRLINE_WEBSITES.get(airline_name) %}
-                    {% if website %}
-                    <a href="{{ website }}" target="_blank" rel="noopener" class="airline-chip text-decoration-none"
-                      data-log="airline" data-airline="{{ airline_name }}" title="Visit {{ airline_name | e }} website">
+
+                    {% set airline_code = "" %}
+                    {% if ap.AirlineCodes and loop.index0 < ap.AirlineCodes|length %} {% set
+                      airline_code=ap.AirlineCodes[loop.index0] %} {% endif %} {% if website %} <a href="{{ website }}"
+                      target="_blank" rel="noopener" class="airline-chip text-decoration-none" data-log="airline"
+                      data-airline="{{ airline_name }}" title="Visit {{ airline_name | e }} website">
+                      {% if airline_code %}
+                      <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
+                        alt="{{ airline_name }}" onerror="this.style.display='none'"
+                        style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                      {% endif %}
                       {{ airline_name }}
                       <i class="bi bi-box-arrow-up-right ms-1" style="font-size:0.85em;"></i>
-                    </a>
-                    {% else %}
-                    <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank"
-                      rel="noopener" class="airline-chip text-decoration-none" data-log="airline"
-                      data-airline="{{ airline_name }}" title="Search for {{ airline_name | e }} on Google">
-                      {{ airline_name }}
-                      <i class="bi bi-search ms-1" style="font-size:0.85em;"></i>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-                    {% else %}
-                    —
-                    {% endif %}
+                      </a>
+                      {% else %}
+                      <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank"
+                        rel="noopener" class="airline-chip text-decoration-none" data-log="airline"
+                        data-airline="{{ airline_name }}" title="Search for {{ airline_name | e }} on Google">
+                        {% if airline_code %}
+                        <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
+                          alt="{{ airline_name }}" onerror="this.style.display='none'"
+                          style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                        {% endif %}
+                        {{ airline_name }}
+                        <i class="bi bi-search ms-1" style="font-size:0.85em;"></i>
+                      </a>
+                      {% endif %}
+                      {% endfor %}
+                      {% else %}
+                      —
+                      {% endif %}
                   </td>
                   <td title="{{ ap.Distance_km }} kilometers">
                     {{ ap.Distance_km if ap.Distance_km else "—" }} km
