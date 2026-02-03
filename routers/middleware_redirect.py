@@ -24,7 +24,9 @@ async def redirect_and_log_404(request: Request, call_next):
        or client_host in ("localhost", "127.0.0.1", "::1"):
         response = await call_next(request)
         if response.status_code == 404 and not path.startswith("/%23"):
-            logger.error(f"⚠️ 404 (dev) from {client_host} → {path}")
+            # Suppress logs for missing airline logos (frontend fallback handles this)
+            if not path.startswith("/static/airlines_logo/airline_logos/"):
+                logger.error(f"⚠️ 404 (dev) from {client_host} → {path}")
         return response
     
     # 🚫 Skip redirect logic for known static endpoints
@@ -36,6 +38,8 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # ✅ 1. Enforce HTTPS (proxy-aware, Railway-safe)
     proto = request.headers.get("x-forwarded-proto", "").lower()
+    
+    # [Lines 40-74 omitted as they are unchanged]
 
     if proto == "http" and not os.getenv("RAILWAY_ENVIRONMENT"):
         redirect_url = redirect_url.replace("http://", "https://", 1)
@@ -74,6 +78,8 @@ async def redirect_and_log_404(request: Request, call_next):
 
     # ⚠️ Log real 404s only (ignore bots hitting /%23 junk)
     if response.status_code == 404 and not path.startswith("/%23"):
-        logger.debug(f"⚠️ 404 from {client_host} → {path}")
+        if not path.startswith("/static/airlines_logo/airline_logos/"):
+            logger.debug(f"⚠️ 404 from {client_host} → {path}")
+
 
     return response
