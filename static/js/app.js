@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const iframe = document.getElementById('map-frame');
   const langBtn = document.getElementById('lang-toggle');
   const clearFiltersBtn = document.getElementById('clear-filters');
+  const clearFiltersBtnMobile = document.getElementById('clear-filters-mobile');
   const viewMapBtn = document.getElementById('view-map-btn');
   const installContainer = document.getElementById('install-app-container');
   const installBtn = document.getElementById('install-app-btn');
@@ -455,6 +456,14 @@ document.addEventListener('DOMContentLoaded', () => {
       $('#query-filter').val('').trigger('input');
     });
   }
+
+  if (clearFiltersBtnMobile) {
+    clearFiltersBtnMobile.addEventListener('click', () => {
+      $('#country-filter-mobile').val('All').trigger('change');
+      $('#airline-filter-mobile').val('All').trigger('change');
+      $('#query-filter-mobile').val('').trigger('input');
+    });
+  }
   updateActiveFilters(LANG[currentLang]);
 
   // Init Mobile Filters (now that table is ready)
@@ -730,15 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       e.preventDefault();
 
-      // --- Analytics (non-blocking) ---
-      const iata = (a.dataset.iata || a.href.split("/").pop()).toUpperCase();
-      const city = a.dataset.city || "";
-      const country = a.dataset.country || "";
-      fetch("/api/analytics/click", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ iata, city, country }),
-      }).catch(() => { });
+
 
       // --- Loader ---
       const loader = document.getElementById("global-loader");
