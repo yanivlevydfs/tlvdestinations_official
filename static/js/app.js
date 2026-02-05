@@ -324,16 +324,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Column 4 is "Airlines"
     // DataTables().rows().every(...) iterates over all rows
     table.rows().every(function () {
-      const data = this.data()[4]; // string content of the cell
-      if (!data) return;
-      // Extract from data-airline="..."
-      const matches = data.match(/data-airline="([^"]*)"/g);
-      if (matches) {
-        matches.forEach(m => {
-          const name = m.match(/data-airline="([^"]*)"/)[1];
-          if (name) airlines.add(name);
-        });
-      }
+      const html = this.data()[4]; // string content of the cell
+      if (!html) return;
+
+      // Robust DOM parsing (fixes regex issues with quotes/encoding)
+      const temp = document.createElement('div');
+      temp.innerHTML = html;
+      const elements = temp.querySelectorAll('[data-airline]');
+      elements.forEach(el => {
+        const name = el.getAttribute('data-airline');
+        if (name) airlines.add(name);
+      });
     });
 
     const sorted = Array.from(airlines).sort();
