@@ -11,6 +11,7 @@ from typing import Any, Dict, List
 from google import genai
 from fastapi import FastAPI, Request, Response, Query, HTTPException, Depends, Body
 import random
+import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import pandas as pd
 import requests
@@ -85,7 +86,7 @@ from helpers.destination_diff import ensure_previous_snapshot, generate_destinat
 from routers.airlines_tlv import router as airlines_router
 
 from routers.tlv_shops import router as tlv_shops_router
-from routers.weather import router as weather_router, cleanup_weather_cache_task
+from routers.weather import router as weather_router, cleanup_weather_cache_task, prefetch_weather
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -293,7 +294,7 @@ def load_country_translations():
     
 APP_VERSION = get_git_version()
 TEMPLATES.env.globals["app_version"] = APP_VERSION
-
+   
 def update_travel_warnings():
     """
     Try to refresh the cached travel warnings.
@@ -1397,7 +1398,18 @@ async def on_startup():
 
     # 4) Load datasets or fetch from API
     try:
-        update_flights()
+        update_flights()        
+        # Prefetch weather for all destinations
+        #if not DATASET_DF.empty:
+        #    locs = (
+        #        DATASET_DF[['lat', 'lon']]
+        #        .dropna()
+        #        .drop_duplicates()
+        #        .to_dict('records')
+        #    )
+        #    logger.info(f"Triggering weather prefetch for {len(locs)} locations")
+        #    asyncio.create_task(prefetch_weather(locs))
+
     except Exception as e:
         logger.error("Error loading or fetching datasets", exc_info=True)
         DATASET_DF = pd.DataFrame()
@@ -1429,14 +1441,6 @@ async def on_startup():
             "interval",
             hours=24,
             id="warnings_refresh",
-            replace_existing=True,
-            next_run_time=datetime.now()
-        )
-        scheduler.add_job(
-            cleanup_weather_cache_task,
-            "interval",
-            hours=24,
-            id="weather_cache_cleanup",
             replace_existing=True,
             next_run_time=datetime.now()
         )

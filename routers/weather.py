@@ -4,6 +4,7 @@ import time
 from pathlib import Path
 from datetime import datetime, timedelta
 import httpx
+import asyncio
 from fastapi import APIRouter, HTTPException, Query
 
 # Setup logger
@@ -15,6 +16,7 @@ router = APIRouter(prefix="/api/weather", tags=["Weather"])
 CACHE_DIR = Path("cache")
 CACHE_FILE = CACHE_DIR / "weather_cache.json"
 CACHE_TTL_HOURS = 24
+CONCURRENCY_LIMIT = 5  # Limit concurrent requests to avoid rate limits
 
 # Ensure cache directory exists
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -29,6 +31,84 @@ def load_cache() -> dict:
     except Exception as e:
         logger.error(f"Failed to load weather cache: {e}")
         return {}
+    
+async def prefetch_weather(locations: list[dict]):
+    """
+    Bulk fetch weather for a list of locations.
+    locations: list of dicts with 'lat' and 'lon' keys.
+    """
+    if not locations:
+        return
+        
+    cache = load_cache()
+    tasks = []
+    
+    # Use a semaphore to limit concurrency
+    sem = asyncio.Semaphore(CONCURRENCY_LIMIT)
+    
+    async def fetch_with_sem(lat, lon, city):
+        async with sem:
+            try:
+                data = await fetch_open_meteo(lat, lon)
+                return {"lat": lat, "lon": lon, "city": city, "data": data}
+            except Exception as e:
+                logger.error(f"Failed to prefetch weather for {lat},{lon}: {e}")
+                return None
+
+    fetch_needed = []
+    for loc in locations:
+        lat, lon = loc.get("lat"), loc.get("lon")
+        city = loc.get("City") or loc.get("city") # Handle both cases
+        
+        if lat is None or lon is None:
+            continue
+            
+        key = f"{lat},{lon}"
+        
+        # Check if valid cache exists
+        if key in cache:
+            entry = cache[key]
+            # Verify if city is missing in existing cache (optional check, but good for backfill)
+            if "city" not in entry and city:
+                entry["city"] = city
+                # We might want to save this update even if data is fresh, 
+                # but currently we only save if we fetch new data or explicitly save here.
+                # For simplicity, let's just use the timestamp check for fetching.
+            
+            timestamp = entry.get("timestamp")
+            if timestamp:
+                cached_time = datetime.fromisoformat(timestamp)
+                if datetime.utcnow() - cached_time < timedelta(hours=CACHE_TTL_HOURS):
+                    continue # Valid cache exists
+        
+        # If we are here, we need to fetch
+        fetch_needed.append((lat, lon, city))
+
+    if not fetch_needed:
+        logger.info("All locations have valid cached weather data.")
+        return
+
+    logger.info(f"Prefetching weather for {len(fetch_needed)} locations...")
+    
+    for lat, lon, city in fetch_needed:
+        tasks.append(fetch_with_sem(lat, lon, city))
+        
+    results = await asyncio.gather(*tasks)
+    
+    updates = 0
+    for res in results:
+        if res:
+            key = f"{res['lat']},{res['lon']}"
+            cache[key] = {
+                "timestamp": datetime.utcnow().isoformat(),
+                "city": res.get("city"), # Store city name
+                "data": res["data"]
+            }
+            updates += 1
+            
+    if updates > 0:
+        save_cache(cache)
+        logger.info(f"Updated weather cache with {updates} new entries.")
 
 def save_cache(data: dict):
     """Save the weather cache to disk."""
