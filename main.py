@@ -83,7 +83,9 @@ from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
 from helpers.destination_diff import ensure_previous_snapshot, generate_destination_diff
 from routers.airlines_tlv import router as airlines_router
+
 from routers.tlv_shops import router as tlv_shops_router
+from routers.weather import router as weather_router, cleanup_weather_cache_task
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -186,7 +188,9 @@ app.include_router(generic_routes)
 app.include_router(sitemap_routes)
 app.include_router(destination_diff_routes)
 app.include_router(airlines_router)
+
 app.include_router(tlv_shops_router)
+app.include_router(weather_router)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -1426,7 +1430,16 @@ async def on_startup():
             hours=24,
             id="warnings_refresh",
             replace_existing=True,
-            next_run_time=datetime.now())           
+            next_run_time=datetime.now()
+        )
+        scheduler.add_job(
+            cleanup_weather_cache_task,
+            "interval",
+            hours=24,
+            id="weather_cache_cleanup",
+            replace_existing=True,
+            next_run_time=datetime.now()
+        )
         scheduler.start()
         logger.debug("✅ Scheduler started")
     except Exception as e:

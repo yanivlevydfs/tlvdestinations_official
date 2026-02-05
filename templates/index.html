@@ -405,6 +405,20 @@
                       {% endfor %}
                     </select>
                   </div>
+                  <div class="mb-3">
+                    <label for="airline-filter" class="form-label">
+                      {% if lang == "he" %}
+                      חברת תעופה
+                      {% else %}
+                      Airline
+                      {% endif %}
+                    </label>
+                    <select id="airline-filter" class="form-select" aria-label="Select airline">
+                      <option value="All">
+                        {% if lang == "he" %}הכול{% else %}All{% endif %}
+                      </option>
+                    </select>
+                  </div>
                   <div class="mb-3 mt-3">
                     <label for="query-filter" class="form-label">
                       {% if lang == "he" %}
@@ -592,6 +606,16 @@
                   {% for c in countries %}
                   <option value="{{ c }}">{{ c }}</option>
                   {% endfor %}
+                </select>
+              </div>
+              <div class="mb-2">
+                <label for="airline-filter-mobile" class="form-label mb-1 small">
+                  {% if lang == "he" %}חברת תעופה{% else %}Airline{% endif %}
+                </label>
+                <select id="airline-filter-mobile" class="form-select form-select-sm" aria-label="Select airline">
+                  <option value="All">
+                    {% if lang == "he" %}הכול{% else %}All{% endif %}
+                  </option>
                 </select>
               </div>
 

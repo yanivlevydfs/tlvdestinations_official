@@ -1,14 +1,15 @@
-/* ------ Language dictionary ------ */ 
+/* ------ Language dictionary ------ */
 window.LANG = {
   en: {
     brand_mobile: "Fly TLV<br>Worldwide Destinations Explorer",
-	brand_desktop: "Fly TLV → Worldwide Destinations Explorer",
+    brand_desktop: "Fly TLV → Worldwide Destinations Explorer",
     viewMap: "View Map",
     refresh: "Refresh Destinations",
     theme: "Theme",
     filters: "Filters",
     filtersHeader: "Search & Filter",
     country: "Country",
+    airline: "Airline",
     search: "Search",
     regions: "Region",
     clear: "Clear",
@@ -30,8 +31,8 @@ window.LANG = {
       search: "🔎 Search:",
       lengthMenu: "Show _MENU_ entries",
       info: "Showing _START_ to _END_ of _TOTAL_ destinations",
-	  infoFiltered: "",
-	  infoPostFix: "",
+      infoFiltered: "",
+      infoPostFix: "",
       paginate: { first: "First", last: "Last", next: "Next", previous: "Prev" }
     },
     dtButtons: {
@@ -42,7 +43,7 @@ window.LANG = {
     table: {
       iata: "IATA",
       name: "Airport",
-	  country: "Country",
+      country: "Country",
       city: "City",
       region: "Region",
       airlines: "Airlines",
@@ -71,6 +72,7 @@ window.LANG = {
     filters: "סינון",
     filtersHeader: "חיפוש וסינון",
     country: "מדינה",
+    airline: "חברת תעופה",
     search: "חיפוש",
     regions: "אזור",
     clear: "נקה",
@@ -92,8 +94,8 @@ window.LANG = {
       search: "🔎 חפש:",
       lengthMenu: "הצג _MENU_ רשומות",
       info: "מציג _START_ עד _END_ מתוך _TOTAL_ יעדים",
-	  infoFiltered: "",
-	  infoPostFix: "",
+      infoFiltered: "",
+      infoPostFix: "",
       paginate: { first: "ראשון", last: "אחרון", next: "הבא", previous: "הקודם" }
     },
     dtButtons: {
@@ -104,7 +106,7 @@ window.LANG = {
     table: {
       iata: "IATA",
       name: "שדה תעופה",
-	  country: "מדינה",
+      country: "מדינה",
       city: "עיר",
       region: "אזור",
       airlines: "חברות תעופה",

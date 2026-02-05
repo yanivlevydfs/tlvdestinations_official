@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const installContainer = document.getElementById('install-app-container');
   const installBtn = document.getElementById('install-app-btn');
   const directionSelect = document.getElementById('direction-select');
+  const airlineSelect = document.getElementById('airline-filter');
+  const airlineSelectMobile = document.getElementById('airline-filter-mobile');
 
   // ---------- Theme (Bootswatch + persist) ----------
   const savedTheme = localStorage.getItem('fe-theme') || 'light';
@@ -194,6 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (q) {
       parts.push(`${dict.search}: "${q}"`);
     }
+    // Airline
+    const airlineEl = document.getElementById('airline-filter');
+    const airline = airlineEl ? airlineEl.value : '';
+    if (airline && airline !== 'All') {
+      parts.push(`${dict.airline}: ${airline}`);
+    }
+
     if (lbl) {
       lbl.textContent = parts.length ? parts.join(' • ') : dict.noFilters;
     }
@@ -252,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     safeSet('filters-title', `<i class="bi bi-sliders me-2"></i>${d.filters}`, true);
     safeSet('lbl-country', d.country);
     safeSet('lbl-search', d.search);
+    // safeSet('lbl-airline', d.airline); // If label has ID
     safeSet('clear-filters', `<i class="bi bi-x-circle me-1"></i> ${d.clear}`, true);
     safeSet('active-filters', d.noFilters);
     safeSet('map-title', d.mapTitle);
@@ -283,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (prevCountry && prevCountry !== 'All') {
         table.column(2).search(escapeRegex(prevCountry), true, false).draw();
       }
+      populateAirlineFilter(lang);
     }
 
     applyUnitsInCells(d);
@@ -306,12 +317,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---------- Populate Airline Filter ----------
+  function populateAirlineFilter(lang) {
+    if (!table) return;
+    const airlines = new Set();
+    // Column 4 is "Airlines"
+    // DataTables().rows().every(...) iterates over all rows
+    table.rows().every(function () {
+      const data = this.data()[4]; // string content of the cell
+      if (!data) return;
+      // Extract from data-airline="..."
+      const matches = data.match(/data-airline="([^"]*)"/g);
+      if (matches) {
+        matches.forEach(m => {
+          const name = m.match(/data-airline="([^"]*)"/)[1];
+          if (name) airlines.add(name);
+        });
+      }
+    });
+
+    const sorted = Array.from(airlines).sort();
+
+    [airlineSelect, airlineSelectMobile].forEach(sel => {
+      if (!sel) return;
+      const currentVal = sel.value;
+      // Keep first option (All)
+      while (sel.options.length > 1) {
+        sel.remove(1);
+      }
+      sorted.forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        sel.appendChild(opt);
+      });
+      // Restore selection if valid
+      if (sorted.includes(currentVal)) {
+        sel.value = currentVal;
+      } else {
+        sel.value = "All"; // reset if not found (or on init)
+      }
+    });
+  }
+
   // ---------- Mobile filters ----------
   $('#country-filter-mobile').on('change', function () {
     const val = this.value === 'All' ? '' : this.value;
     $('#query-filter-mobile').val('');
     table.search('', true, false);
     table.column(2).search(escapeRegex(val), true, false).draw();
+    updateActiveFilters(LANG[currentLang]);
+  });
+
+  $('#airline-filter-mobile').on('change', function () {
+    const val = this.value === 'All' ? '' : this.value;
+    $('#query-filter-mobile').val('');
+    table.search('', true, false); // clear global search
+    // Assuming Airline is column 4
+    table.column(4).search(escapeRegex(val), true, false).draw();
     updateActiveFilters(LANG[currentLang]);
   });
 
@@ -325,11 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
       table.search(escapeRegex(val), true, false).draw();
       updateActiveFilters(LANG[currentLang]);
     }, 250);
-  });
-
-  $('#clear-filters-mobile').on('click', () => {
-    $('#country-filter-mobile').val('All').trigger('change');
-    $('#query-filter-mobile').val('').trigger('input');
   });
 
   // ---------- Chat button redirect ----------
@@ -353,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   try {
     table = initDataTable(savedLang2);
+    populateAirlineFilter(savedLang2);
     // Defer applyLanguage slightly to allow DOM + DT render
     setTimeout(() => applyLanguage(savedLang2, false), 50);
   } catch (err) {
@@ -365,6 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#query-filter').val('');
     table.search('', true, false);
     table.column(2).search(escapeRegex(val), true, false).draw();
+    updateActiveFilters(LANG[currentLang]);
+  });
+
+  $('#airline-filter').on('change', function () {
+    const val = this.value === 'All' ? '' : this.value;
+    $('#query-filter').val('');
+    table.search('', true, false);
+    table.column(4).search(escapeRegex(val), true, false).draw();
     updateActiveFilters(LANG[currentLang]);
   });
 
@@ -383,10 +450,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearFiltersBtn) {
     clearFiltersBtn.addEventListener('click', () => {
       $('#country-filter').val('All').trigger('change');
+      $('#airline-filter').val('All').trigger('change');
       $('#query-filter').val('').trigger('input');
     });
   }
   updateActiveFilters(LANG[currentLang]);
+
+  // Init Mobile Filters (now that table is ready)
+  if (table) {
+    $('#country-filter-mobile').val('All').trigger('change');
+    $('#airline-filter-mobile').val('All').trigger('change');
+    $('#query-filter-mobile').val('').trigger('input');
+  }
 
   // ---------- View Map button logic ----------
   if (viewMapBtn && mapModal && iframe) {
