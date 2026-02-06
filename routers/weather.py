@@ -85,10 +85,10 @@ async def prefetch_weather(locations: list[dict]):
         fetch_needed.append((lat, lon, city))
 
     if not fetch_needed:
-        logger.info("All locations have valid cached weather data.")
+        logger.debug("All locations have valid cached weather data.")
         return
 
-    logger.info(f"Prefetching weather for {len(fetch_needed)} locations...")
+    logger.debug(f"Prefetching weather for {len(fetch_needed)} locations...")
     
     for lat, lon, city in fetch_needed:
         tasks.append(fetch_with_sem(lat, lon, city))
@@ -108,7 +108,7 @@ async def prefetch_weather(locations: list[dict]):
             
     if updates > 0:
         save_cache(cache)
-        logger.info(f"Updated weather cache with {updates} new entries.")
+        logger.debug(f"Updated weather cache with {updates} new entries.")
 
 def save_cache(data: dict):
     """Save the weather cache to disk."""
@@ -130,8 +130,13 @@ async def fetch_open_meteo(lat: float, lon: float) -> dict:
         "forecast_days": 1
     }
     
+    # Headers with website details as requested
+    headers = {
+        "User-Agent": "FlyTLV/1.0 (info@flytlv.com)"
+    }
+    
     async with httpx.AsyncClient(timeout=10) as client:
-        resp = await client.get(url, params=params)
+        resp = await client.get(url, params=params, headers=headers)
         resp.raise_for_status()
         return resp.json()
 
@@ -154,7 +159,7 @@ async def get_weather(
         if timestamp:
             cached_time = datetime.fromisoformat(timestamp)
             if datetime.utcnow() - cached_time < timedelta(hours=CACHE_TTL_HOURS):
-                logger.info(f"Using cached weather for {key}")
+                logger.debug(f"Using cached weather for {key}")
                 return entry["data"]
 
     # Fetch new data

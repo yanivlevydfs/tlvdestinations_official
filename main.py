@@ -1398,8 +1398,8 @@ async def on_startup():
 
     # 4) Load datasets or fetch from API
     try:
-        update_flights()        
-        # Prefetch weather for all destinations
+        update_flights()
+        # 5) Weahter task fetching -  Prefetch weather for all destinations
         #if not DATASET_DF.empty:
         #    locs = (
         #        DATASET_DF[['lat', 'lon']]
@@ -2391,8 +2391,38 @@ async def travel_questionnaire(request: Request, lang: str = "en"):
 async def get_cities(country: str):
     df = DATASET_DF
     df.columns = df.columns.str.strip()  # Clean any extra spaces
-    cities = sorted(df[df["Country"] == country]["City"].dropna().unique())
-    return JSONResponse(content={"cities": cities})
+    
+    # Filter by country
+    country_df = df[df["Country"] == country]
+    
+    # Drop duplicates by City name, keeping the first valid lat/lon
+    unique_cities = country_df.drop_duplicates(subset=["City"]).sort_values("City")
+    
+    cities_data = []
+    for _, row in unique_cities.iterrows():
+        city_name = row["City"]
+        if not city_name:
+            continue
+            
+        lat = row.get("lat")
+        lon = row.get("lon")
+        
+        # Handle numpy types and NaNs for JSON safety
+        if lat is not None:
+             if hasattr(lat, "item"): lat = lat.item()
+             if isinstance(lat, float) and np.isnan(lat): lat = None
+             
+        if lon is not None:
+             if hasattr(lon, "item"): lon = lon.item()
+             if isinstance(lon, float) and np.isnan(lon): lon = None
+            
+        cities_data.append({
+            "name": city_name,
+            "lat": lat,
+            "lon": lon
+        })
+
+    return JSONResponse(content={"cities": cities_data})
 
 @app.get("/api/airports")
 async def get_airports(country: str, city: str):
@@ -2402,19 +2432,24 @@ async def get_airports(country: str, city: str):
     # Filter by country + city
     filtered = df[(df["Country"] == country) & (df["City"] == city)]
 
-    # Normalize Airlines column
+    # Normalize Airlines and AirlineCodes columns
     filtered.loc[:, "Airlines"] = filtered["Airlines"].astype(str)
+    if "AirlineCodes" in filtered.columns:
+        filtered.loc[:, "AirlineCodes"] = filtered["AirlineCodes"].astype(str)
+    else:
+        filtered["AirlineCodes"] = "[]"
 
     # Drop duplicate airport entries
-    unique_airports = filtered[["IATA", "Name", "Airlines"]].drop_duplicates(subset=["IATA", "Name"])
+    unique_airports = filtered[["IATA", "Name", "Airlines", "AirlineCodes"]].drop_duplicates(subset=["IATA", "Name"])
 
     airports = []
     for _, row in unique_airports.iterrows():
         airlines = []
+        airline_codes = []
 
+        # Parse Airlines
         val = row["Airlines"]
         if pd.notna(val) and val.strip().lower() != "nan":
-            # Try to parse list-like strings safely
             try:
                 parsed = ast.literal_eval(val)
                 if isinstance(parsed, list):
@@ -2422,13 +2457,31 @@ async def get_airports(country: str, city: str):
                 else:
                     airlines = [str(parsed).strip()]
             except Exception:
-                # fallback for comma-separated
                 airlines = [a.strip() for a in val.replace(";", ",").split(",") if a.strip()]
+        
+        # Parse AirlineCodes
+        val_codes = row.get("AirlineCodes", "")
+        if pd.notna(val_codes) and val_codes.strip().lower() != "nan":
+            try:
+                parsed = ast.literal_eval(val_codes)
+                if isinstance(parsed, list):
+                    airline_codes = [str(a).strip() for a in parsed if str(a).strip()]
+                else:
+                    airline_codes = [str(parsed).strip()]
+            except Exception:
+                airline_codes = [a.strip() for a in val_codes.replace(";", ",").split(",") if a.strip()]
+
+        # Get websites for airlines
+        airline_websites = []
+        for airline in airlines:
+            airline_websites.append(AIRLINE_WEBSITES.get(airline, ""))
 
         airports.append({
             "iata": row.IATA,
             "name": row.Name,
-            "airlines": airlines
+            "airlines": airlines,
+            "airline_codes": airline_codes,
+            "airline_websites": airline_websites
         })
 
     return JSONResponse(content={"airports": airports})
