@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  {{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}
+{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}
 {%- endblock %}
 
 {% block head_extra %}
@@ -11,34 +11,34 @@
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/contact?lang=he" />
 <link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/contact" />
 
-  <meta name="robots" content="index,follow" />
-  <meta name="description" content="{{
+<meta name="robots" content="index,follow" />
+<meta name="description" content="{{
     'Get in touch with the Fly TLV team for support, feedback, or inquiries.'
     if lang != 'he' else
     'צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות.'
   }}" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fly-tlv.com/contact{{ '' if lang != 'he' else '?lang=he' }}" />
-  <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
-  <meta property="og:title" content="{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}" />
-  <meta property="og:description" content="{{
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://fly-tlv.com/contact{{ '' if lang != 'he' else '?lang=he' }}" />
+<meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
+<meta property="og:title" content="{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}" />
+<meta property="og:description" content="{{
     'Get in touch with the Fly TLV team for support, feedback, or inquiries.'
     if lang != 'he' else
     'צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות.'
   }}" />
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}" />
-  <meta name="twitter:description" content="{{
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ 'Contact — Fly TLV' if lang != 'he' else 'צור קשר — Fly TLV' }}" />
+<meta name="twitter:description" content="{{
     'Get in touch with the Fly TLV team for support, feedback, or inquiries.'
     if lang != 'he' else
     'צרו קשר עם צוות Fly TLV לקבלת תמיכה, משוב או פניות.'
   }}" />
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
+<meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
 
 <script type="application/ld+json">
 {
@@ -135,7 +135,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-3 px-2 px-md-3">
+<div class="container py-4">
 
   <!-- Breadcrumbs -->
   <nav aria-label="breadcrumb" class="mb-3">
@@ -151,100 +151,63 @@
     </ol>
   </nav>
 
-  <!-- Page Header -->
-  <div class="card shadow-sm mb-4">
-    <div class="card-body d-flex align-items-center">
-      <i class="bi bi-envelope-at fs-3 text-primary me-3"></i>
-      <div>
-        <h1 class="h4 mb-1">{{ 'Contact Us' if lang != 'he' else 'צור קשר' }}</h1>
-        <p class="text-muted mb-0">
-          {{ 'We would love to hear from you — support, feedback, or ideas.' 
-             if lang != 'he'
-             else 'נשמח לשמוע מכם — תמיכה, משוב או רעיונות.' }}
-        </p>
-      </div>
-    </div>
+  <!-- Hero Section -->
+  <div class="page-hero">
+    <h1 class="text-gradient mb-2">
+      {{ 'Contact Us' if lang != 'he' else 'צור קשר' }}
+    </h1>
+    <p class="lead text-muted" style="max-width: 600px; margin: 0 auto;">
+      {{ 'We would love to hear from you — support, feedback, or ideas.'
+      if lang != 'he'
+      else 'נשמח לשמוע מכם — תמיכה, משוב או רעיונות.' }}
+    </p>
   </div>
 
   <!-- Contact Card -->
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
-    <div class="card shadow-sm">
-      <div class="card-header fw-semibold">
-        {{ 'Email' if lang != 'he' else 'דוא״ל' }}
-      </div>
-      <div class="card-body text-center">
-        <p class="mb-2">
-          {{ "For questions or feedback, please email us at:" 
-             if lang != 'he'
-             else "לשאלות או הערות, ניתן לשלוח דוא\"ל לכתובת:" }}
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="glass-card mb-5 p-4 p-md-5 text-center">
+
+        <i class="bi bi-envelope-at icon-lg icon-glow mb-4 text-primary"></i>
+
+        <h2 class="h4 fw-bold mb-3">{{ 'Email' if lang != 'he' else 'דוא״ל' }}</h2>
+
+        <p class="mb-3 text-muted">
+          {{ "For questions or feedback, please email us at:"
+          if lang != 'he'
+          else "לשאלות או הערות, ניתן לשלוח דוא\"ל לכתובת:" }}
         </p>
 
-        <p class="fs-5">
-          <span id="email-link"></span>
-          <noscript class="text-muted small d-block">
-            (Enable JavaScript to view email)
-          </noscript>
-        </p>
-        
+        <div class="p-3 rounded-3"
+          style="background: rgba(124, 58, 237, 0.05); border: 1px solid rgba(124, 58, 237, 0.1);">
+          <p class="fs-4 fw-bold mb-0 text-break">
+            <span id="email-link"></span>
+            <noscript class="text-muted small d-block">
+              (Enable JavaScript to view email)
+            </noscript>
+          </p>
+        </div>
+
         <script>
-          const user = String.fromCharCode(102,108,121,116,101,108,97,118,105,118); // flytelaviv
-          const domain = String.fromCharCode(103,109,97,105,108,46,99,111,109); // gmail.com
+          const user = String.fromCharCode(102, 108, 121, 116, 101, 108, 97, 118, 105, 118); // flytelaviv
+          const domain = String.fromCharCode(103, 109, 97, 105, 108, 46, 99, 111, 109); // gmail.com
           const email = `${user}@${domain}`;
-          document.getElementById("email-link").innerHTML = 
-            `<a href="mailto:${email}" class="text-decoration-none">${email}</a>`;
+          document.getElementById("email-link").innerHTML =
+            `<a href="mailto:${email}" class="text-decoration-none text-primary">${email}</a>`;
         </script>
+
+        <div class="mt-4">
+          <p class="small text-muted">
+            {{ "We aim to respond within 24-48 hours." if lang != 'he' else "אנו משתדלים לענות תוך 24-48 שעות." }}
+          </p>
+        </div>
+
       </div>
     </div>
   </div>
-</div>
+
 </div>
 <style>
-/* 🌙 Dark Mode — Card Base Styling */
-body.dark-mode .card,
-body.dark-mode .card-body,
-body.dark-mode .card-header {
-  background-color: #111 !important;  /* Dark background */
-  color: #e5e7eb !important;          /* Light text */
-}
-
-/* 🌙 Ensure anchor tags in dark cards are readable */
-body.dark-mode .card a {
-  color: #60a5fa !important; /* Light blue links */
-}
-
-body.dark-mode .card a:hover {
-  color: #93c5fd !important;
-  text-decoration: underline;
-}
-
-/* 🌙 Specific muted fix */
-body.dark-mode .text-muted {
-  color: #9ca3af !important; /* Soft gray */
-}
-
-/* Optional: Icon consistency */
-body.dark-mode .text-primary {
-  color: #60a5fa !important;
-}
-/* 🌙 Breadcrumbs: dark mode text */
-body.dark-mode .breadcrumb {
-  background-color: transparent;
-}
-
-body.dark-mode .breadcrumb-item a {
-  color: #93c5fd; /* light blue link */
-  text-decoration: none;
-}
-
-body.dark-mode .breadcrumb-item a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-body.dark-mode .breadcrumb-item.active {
-  color: #aaa; /* muted active item */
-}
-
+  /* Optional specific overrides if needed, otherwise handled by app.css */
 </style>
 {% endblock %}
