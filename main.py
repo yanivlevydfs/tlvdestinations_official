@@ -2278,7 +2278,27 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
             "cities": build_stats(sub, "City"),
         }
 
-    # --- Render ---
+    # --- Countries Stats ---
+    all_countries = sorted(df["Country"].dropna().unique())
+    countries_data = {}
+    for country in all_countries:
+        sub = df[df["Country"] == country]
+        countries_data[country] = {
+            "cities": build_stats(sub, "City"),
+            "airlines": build_stats(sub, "Airline")  # We'll map this to the "Countries" table slot or similar
+        }
+
+    # --- Cities Stats ---
+    all_cities = sorted(df["City"].dropna().unique())
+    cities_data = {}
+    for city in all_cities:
+        sub = df[df["City"] == city]
+        cities_data[city] = {
+            "airlines": build_stats(sub, "Airline"),
+            "countries": build_stats(sub, "Country") # Usually just 1 country, but keeps structure consistent
+        }
+
+    # --- Render --- (Updated for Country/City filters)
     return TEMPLATES.TemplateResponse("stats.html", {
         "request": request,
         "lang": lang,
@@ -2287,6 +2307,10 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         "top_cities": top_cities,
         "airlines": airlines,
         "airlines_data": airlines_data,
+        "all_countries": all_countries,
+        "countries_data": countries_data,
+        "all_cities": all_cities,
+        "cities_data": cities_data,
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)

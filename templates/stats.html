@@ -161,41 +161,72 @@
   </div>
 
 
-  <!-- Airline Filter -->
+  <!-- Filters Row -->
   <div class="card shadow-sm mb-4">
     <div class="card-body">
-      <div class="row align-items-center">
+      <div class="row g-3 align-items-center">
+        <!-- Label -->
         <div class="col-12 col-md-auto">
-          <label for="airline-filter" class="form-label fw-semibold mb-0">✈️ {% if lang == 'he' %}סינון לפי חברת תעופה{%
-            else %}Filter by Airline{% endif %}</label>
+          <label class="form-label fw-semibold mb-0">
+            <i class="bi bi-funnel-fill text-primary me-1"></i>
+            {% if lang == 'he' %}סינון לפי:{% else %}Filter by:{% endif %}
+          </label>
         </div>
+
+        <!-- 1. Airline Filter -->
         <div class="col-12 col-md">
-          <select id="airline-filter" class="form-select">
-            <option value="All">
-              {% if lang == 'he' %}כל החברות{% else %}All Airlines{% endif %}
+          <select id="airline-filter" class="form-select" aria-label="Filter by Airline">
+            <option value="All" selected>
+              {% if lang == 'he' %}חברת תעופה (הכל){% else %}Airline (All){% endif %}
             </option>
-            {% for airline in airlines %}<option value="{{ airline }}">{{ airline }}</option>
+            {% for airline in airlines %}
+            <option value="{{ airline }}">{{ airline }}</option>
             {% endfor %}
           </select>
         </div>
+
+        <!-- 2. Country Filter -->
+        <div class="col-12 col-md">
+          <select id="country-filter" class="form-select" aria-label="Filter by Country">
+            <option value="All" selected>
+              {% if lang == 'he' %}מדינה (הכל){% else %}Country (All){% endif %}
+            </option>
+            {% for c in all_countries %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- 3. City Filter -->
+        <div class="col-12 col-md">
+          <select id="city-filter" class="form-select" aria-label="Filter by City">
+            <option value="All" selected>
+              {% if lang == 'he' %}עיר (הכל){% else %}City (All){% endif %}
+            </option>
+            {% for city in all_cities %}
+            <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
       </div>
     </div>
   </div>
 
   <div class="row g-4">
-    <!-- Top Countries -->
+    <!-- Top Countries / Airlines -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold text-primary">
+        <div class="card-header fw-bold text-primary" id="left-chart-title">
           🌍 {% if lang == 'he' %}המדינות המובילות{% else %}Top Countries{% endif %}
         </div>
         <div class="card-body">
           <div class="table-responsive mb-3">
-            <table id="countries-table"
+            <table id="left-table"
               class="styled-table table table-striped table-hover table-sm align-middle text-center">
               <thead class="table-primary">
                 <tr>
-                  <th>{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
+                  <th id="left-col-header">{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
                   <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
                   <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
                 </tr>
@@ -216,19 +247,19 @@
       </div>
     </div>
 
-    <!-- Top Cities -->
+    <!-- Top Cities / Airlines -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold text-primary">
+        <div class="card-header fw-bold text-primary" id="right-chart-title">
           🏙️ {% if lang == 'he' %}הערים המובילות{% else %}Top Cities{% endif %}
         </div>
         <div class="card-body">
           <div class="table-responsive mb-3">
-            <table id="cities-table"
+            <table id="right-table"
               class="styled-table table table-striped table-hover table-sm align-middle text-center">
               <thead class="table-primary">
                 <tr>
-                  <th>{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
+                  <th id="right-col-header">{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
                   <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
                   <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
                 </tr>
@@ -283,84 +314,144 @@
 
 </div>
 {% endblock %}
-
 {% block scripts %}
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const airlinesData = {{ airlines_data | tojson
-  }};
-  const initialCountries = {{ top_countries | tojson }};
-  const initialCities = {{ top_cities | tojson }};
+document.addEventListener("DOMContentLoaded", function () {
 
-  function renderCharts(countries, cities) {
-    // Countries Chart
-    Plotly.newPlot("countries-chart", [
-      {
-        x: countries.map(r => r.Country),
-        y: countries.map(r => r.Departures),
-        name: "Departures",
-        type: "bar",
-        marker: { color: "rgba(124,58,237,0.8)" }
-      },
-      {
-        x: countries.map(r => r.Country),
-        y: countries.map(r => r.Arrivals),
-        name: "Arrivals",
-        type: "bar",
-        marker: { color: "rgba(34,211,238,0.8)" }
-      }
-    ], {
-      barmode: "group",
-      margin: { t: 30, r: 20, l: 40, b: 80 },
-      legend: { orientation: "h", y: -0.3 },
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)',
-      font: { color: document.body.classList.contains('dark-mode') ? '#e5e5e5' : '#333' }
-    }, { responsive: true });
+  // ---------- 1. Backend data ----------
+  const airlinesData     = {{ airlines_data | tojson | safe }};
+  const countriesData    = {{ countries_data | tojson | safe }};
+  const citiesData       = {{ cities_data | tojson | safe }};
+  const initialCountries = {{ top_countries | tojson | safe }};
+  const initialCities    = {{ top_cities | tojson | safe }};
+  const lang             = "{{ lang }}" || "en";
 
-    // Cities Chart
-    Plotly.newPlot("cities-chart", [
-      {
-        x: cities.map(r => r.City),
-        y: cities.map(r => r.Departures),
-        name: "Departures",
-        type: "bar",
-        marker: { color: "rgba(124,58,237,0.8)" }
-      },
-      {
-        x: cities.map(r => r.City),
-        y: cities.map(r => r.Arrivals),
-        name: "Arrivals",
-        type: "bar",
-        marker: { color: "rgba(34,211,238,0.8)" }
-      }
-    ], {
-      barmode: "group",
-      margin: { t: 30, r: 20, l: 40, b: 80 },
-      legend: { orientation: "h", y: -0.3 },
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)',
-      font: { color: document.body.classList.contains('dark-mode') ? '#e5e5e5' : '#333' }
-    }, { responsive: true });
+  // ---------- 2. Translations ----------
+  const T = {
+    Countries:  lang === "he" ? "מדינות" : "Countries",
+    Cities:     lang === "he" ? "ערים" : "Cities",
+    Airlines:   lang === "he" ? "חברות תעופה" : "Airlines",
+    Departures: lang === "he" ? "המראות" : "Departures",
+    Arrivals:   lang === "he" ? "נחיתות" : "Arrivals",
+    Country:    lang === "he" ? "מדינה" : "Country",
+    City:       lang === "he" ? "עיר" : "City",
+    Airline:    lang === "he" ? "חברת תעופה" : "Airline"
+  };
+
+  // ---------- 3. DOM ----------
+  const airlineSelect = document.getElementById("airline-filter");
+  const countrySelect = document.getElementById("country-filter");
+  const citySelect    = document.getElementById("city-filter");
+
+  // ---------- 4. Helpers ----------
+  function resetSelects(exceptId) {
+    if (airlineSelect && exceptId !== "airline-filter") airlineSelect.value = "All";
+    if (countrySelect && exceptId !== "country-filter") countrySelect.value = "All";
+    if (citySelect    && exceptId !== "city-filter")    citySelect.value = "All";
   }
 
-  // Initial render
-  renderCharts(initialCountries, initialCities);
+  function chartLayout() {
+    return {
+      barmode: "group",
+      margin: { t: 30, r: 20, l: 40, b: 80 },
+      legend: { orientation: "h", y: -0.3 },
+      paper_bgcolor: "rgba(0,0,0,0)",
+      plot_bgcolor: "rgba(0,0,0,0)",
+      font: {
+        color: document.body.classList.contains("dark-mode")
+          ? "#e5e5e5"
+          : "#333"
+      }
+    };
+  }
 
-  // Airline filter
-  document.getElementById("airline-filter").addEventListener("change", function () {
-    const selected = this.value;
-    const data = selected === "All" ? airlinesData["All"] : airlinesData[selected];
-    renderCharts(data.countries, data.cities);
+  // ---------- 5. Render ----------
+  function renderCharts(leftData, leftLabel, rightData, rightLabel, leftKey, rightKey) {
+    if (!Array.isArray(leftData) || !Array.isArray(rightData)) {
+      console.warn("Invalid chart data");
+      return;
+    }
 
-    // Update tables
-    document.querySelector("#countries-table tbody").innerHTML =
-      data.countries.map(r => `<tr><td>${r.Country}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+    document.getElementById("left-chart-title").innerText  = `🌍 ${leftLabel}`;
+    document.getElementById("right-chart-title").innerText = `🏙️ ${rightLabel}`;
 
-    document.querySelector("#cities-table tbody").innerHTML =
-      data.cities.map(r => `<tr><td>${r.City}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
-  });
+    document.getElementById("left-col-header").innerText =
+      leftKey === "Country" ? T.Country : leftKey === "Airline" ? T.Airline : T.City;
+
+    document.getElementById("right-col-header").innerText =
+      rightKey === "City" ? T.City : rightKey === "Country" ? T.Country : T.Airline;
+
+    const depColor = "rgba(124,58,237,0.8)";
+    const arrColor = "rgba(34,211,238,0.8)";
+
+    Plotly.react("countries-chart", [
+      { x: leftData.map(r => r[leftKey]),  y: leftData.map(r => r.Departures), name: T.Departures, type: "bar", marker: { color: depColor } },
+      { x: leftData.map(r => r[leftKey]),  y: leftData.map(r => r.Arrivals),   name: T.Arrivals,   type: "bar", marker: { color: arrColor } }
+    ], chartLayout(), { responsive: true });
+
+    Plotly.react("cities-chart", [
+      { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Departures), name: T.Departures, type: "bar", marker: { color: depColor } },
+      { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Arrivals),   name: T.Arrivals,   type: "bar", marker: { color: arrColor } }
+    ], chartLayout(), { responsive: true });
+
+    document.querySelector("#left-table tbody").innerHTML =
+      leftData.map(r => `<tr><td>${r[leftKey]}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+
+    document.querySelector("#right-table tbody").innerHTML =
+      rightData.map(r => `<tr><td>${r[rightKey]}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+  }
+
+  // ---------- 6. Update logic ----------
+  function updateCharts(type) {
+    let L, R, LK, RK, LL, RL;
+
+    if (type === "Airline" && airlineSelect) {
+      const v = airlineSelect.value;
+      resetSelects("airline-filter");
+      if (v === "All") {
+        L = initialCountries; LK = "Country"; LL = T.Countries;
+        R = initialCities;    RK = "City";    RL = T.Cities;
+      } else if (airlinesData[v]) {
+        L = airlinesData[v].countries; LK = "Country"; LL = T.Countries;
+        R = airlinesData[v].cities;    RK = "City";    RL = T.Cities;
+      }
+    }
+
+    if (type === "Country" && countrySelect) {
+      const v = countrySelect.value;
+      resetSelects("country-filter");
+      if (v === "All") {
+        L = initialCountries; LK = "Country"; LL = T.Countries;
+        R = initialCities;    RK = "City";    RL = T.Cities;
+      } else if (countriesData[v]) {
+        L = countriesData[v].airlines; LK = "Airline"; LL = T.Airlines;
+        R = countriesData[v].cities;   RK = "City";    RL = T.Cities;
+      }
+    }
+
+    if (type === "City" && citySelect) {
+      const v = citySelect.value;
+      resetSelects("city-filter");
+      if (v === "All") {
+        L = initialCountries; LK = "Country"; LL = T.Countries;
+        R = initialCities;    RK = "City";    RL = T.Cities;
+      } else if (citiesData[v]) {
+        L = citiesData[v].airlines;  LK = "Airline"; LL = T.Airlines;
+        R = citiesData[v].countries; RK = "Country"; RL = T.Countries;
+      }
+    }
+
+    if (L && R) renderCharts(L, LL, R, RL, LK, RK);
+  }
+
+  // ---------- 7. Events ----------
+  airlineSelect?.addEventListener("change", () => updateCharts("Airline"));
+  countrySelect?.addEventListener("change", () => updateCharts("Country"));
+  citySelect?.addEventListener("change", () => updateCharts("City"));
+
+  // ---------- 8. Initial ----------
+  renderCharts(initialCountries, T.Countries, initialCities, T.Cities, "Country", "City");
 });
 </script>
 {% endblock %}
