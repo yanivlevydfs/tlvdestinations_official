@@ -252,27 +252,41 @@
               <td class="dtr-control"></td>
               <td class="airline-cell">
                 {% if flight.airline and flight.airline != "—" %}
-                {% for airline in flight.airline.split(',') %}
+                {% set airline_list = flight.airline.split(',') %}
+                {% set code_list = flight.airline_code.split(',') if flight.airline_code else [] %}
+
+                {% for airline in airline_list %}
                 {% set airline_name = airline.strip().title() %}
                 {% set website = AIRLINE_WEBSITES.get(airline_name) %}
-                {% if website %}
-                <a href="{{ website }}" target="_blank" rel="noopener"
+                {% set current_code = code_list[loop.index0].strip() if loop.index0 < code_list|length else '' %} {%- if
+                  website -%} <a href="{{ website }}" target="_blank" rel="noopener"
                   class="airline-chip text-decoration-none fw-semibold" title="Visit {{ airline_name | e }} website">
+                  {% if current_code %}
+                  <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp" alt="{{ airline_name }}"
+                    onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
+                    style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                  {% endif %}
                   {{ airline_name }}
                   <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.85em;"></i>
-                </a>
-                {% else %}
-                <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank" rel="noopener"
-                  class="airline-chip text-decoration-none fw-semibold"
-                  title="Search for {{ airline_name | e }} on Google">
-                  {{ airline_name }}
-                  <i class="bi bi-search ms-1" style="font-size: 0.85em;"></i>
-                </a>
-                {% endif %}
-                {% endfor %}
-                {% else %}
-                —
-                {% endif %}
+                  </a>
+                  {%- else -%}
+                  <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank"
+                    rel="noopener" class="airline-chip text-decoration-none fw-semibold"
+                    title="Search for {{ airline_name | e }} on Google">
+                    {% if current_code %}
+                    <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp"
+                      alt="{{ airline_name }}"
+                      onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
+                      style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                    {% endif %}
+                    {{ airline_name }}
+                    <i class="bi bi-search ms-1" style="font-size: 0.85em;"></i>
+                  </a>
+                  {%- endif -%}
+                  {% endfor %}
+                  {% else %}
+                  —
+                  {% endif %}
               </td>
               <td>{{ flight.iata }}</td>
               <td>{{ flight.airport }}</td>
@@ -413,7 +427,7 @@
 
     const table = $('#flightsTable').DataTable({
       dom:
-        "<'row mb-3 align-items-center'<'col-12 col-md-auto dt-buttons'B><'col-12 col-md-auto ms-auto'f>>" +
+        "<'row mt-4 mb-4 align-items-center'<'col-12 col-md-auto mb-2 mb-md-0 dt-buttons'B><'col-12 col-md-auto ms-auto'f>>" +
         "<'row'<'col-12'tr>>" +
         "<'row mt-2'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
       buttons: dtButtons,
