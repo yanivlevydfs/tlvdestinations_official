@@ -21,6 +21,10 @@
   <link rel="icon" href="/static/favicon.ico" sizes="any">
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
   <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">
     (function () {
       var script = document.createElement("script");
@@ -338,6 +342,14 @@
   </div>
 
   <main class="container-fluid px-2 px-md-3 mt-2 mb-3" role="main">
+
+    <!-- 📱 Mobile Filter FAB -->
+    <button class="btn btn-primary btn-fab rounded-circle shadow-lg d-lg-none" type="button" data-bs-toggle="offcanvas"
+      data-bs-target="#filtersCanvas" aria-controls="filtersCanvas"
+      style="position: fixed; bottom: 20px; right: 20px; z-index: 1050; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+      <i class="bi bi-funnel-fill fs-4"></i>
+    </button>
+
     <div class="row g-3 align-items-start stretch-content">
 
       <!-- Filters Column -->

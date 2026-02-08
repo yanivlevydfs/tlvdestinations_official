@@ -8,25 +8,29 @@
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/chat" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/chat?lang=he" />
 
-  <!-- ✅ Page-specific SEO -->
-  <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
-  <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
+<!-- ✅ Page-specific SEO -->
+<meta name="description"
+  content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
+<meta name="keywords"
+  content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
-  <meta property="og:description" content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
-  <meta property="og:url" content="https://fly-tlv.com/chat">
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
-  <meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+<meta property="og:description"
+  content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
+<meta property="og:url" content="https://fly-tlv.com/chat">
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+<meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
-  <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
-  <meta name="twitter:image:alt" content="TLV airport stats overview">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+<meta name="twitter:description"
+  content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
+<meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+<meta name="twitter:image:alt" content="TLV airport stats overview">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script type="application/ld+json">
 {
@@ -137,7 +141,8 @@
   <!-- Chat Messages -->
   <div class="chat-messages" id="chat-messages">
     <div class="message ai">
-      👋 {{ "Hello! Ask me about destinations and flights from Ben Gurion Airport (TLV)." if lang == "en" else "שלום! שאל אותי על יעדים מנמל התעופה בן גוריון (TLV)." }}
+      👋 {{ "Hello! Ask me about destinations and flights from Ben Gurion Airport (TLV)." if lang == "en" else "שלום!
+      שאל אותי על יעדים מנמל התעופה בן גוריון (TLV)." }}
     </div>
   </div>
 
@@ -160,51 +165,51 @@
 </div>
 
 <script>
-async function loadSuggestions() {
-  try {
-    const res = await fetch("/api/chat/suggestions");
-    const data = await res.json();
-    const box = document.getElementById("suggested-questions");
-    box.innerHTML = data.questions.map(q => `
+  async function loadSuggestions() {
+    try {
+      const res = await fetch("/api/chat/suggestions");
+      const data = await res.json();
+      const box = document.getElementById("suggested-questions");
+      box.innerHTML = data.questions.map(q => `
       <span class="chip" onclick="setQuestion('${q.replace(/'/g, "\\'")}')">
         ${q}
       </span>
     `).join("");
-  } catch (err) {
-    console.error("Failed to load suggestions", err);
+    } catch (err) {
+      console.error("Failed to load suggestions", err);
+    }
   }
-}
 
-function appendMessage(text, sender) {
-  const msgBox = document.getElementById("chat-messages");
-  const div = document.createElement("div");
-  div.className = `message ${sender}`;
+  function appendMessage(text, sender) {
+    const msgBox = document.getElementById("chat-messages");
+    const div = document.createElement("div");
+    div.className = `message ${sender}`;
 
-  if (sender === "ai") {
-    // ✅ Render Markdown separately in a container div
-    const contentWrapper = document.createElement("div");
-    contentWrapper.className = "message-body";
-    contentWrapper.innerHTML = marked.parse(text);
-    div.appendChild(contentWrapper);
-	
-	    // ✅ Add copy button
-    const copyBtn = document.createElement("button");
-    copyBtn.className = "copy-btn";
-    copyBtn.title = "{{ 'Copy' if lang == 'en' else 'העתקה' }}";
-    copyBtn.innerHTML = "📋";
+    if (sender === "ai") {
+      // ✅ Render Markdown separately in a container div
+      const contentWrapper = document.createElement("div");
+      contentWrapper.className = "message-body";
+      contentWrapper.innerHTML = marked.parse(text);
+      div.appendChild(contentWrapper);
 
-    copyBtn.onclick = () => {
-      navigator.clipboard.writeText(contentWrapper.innerText.trim());
-      copyBtn.innerHTML = "✅";
-      setTimeout(() => (copyBtn.innerHTML = "📋"), 1200);
-    };
+      // ✅ Add copy button
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "copy-btn";
+      copyBtn.title = "{{ 'Copy' if lang == 'en' else 'העתקה' }}";
+      copyBtn.innerHTML = "📋";
 
-    div.appendChild(copyBtn);
-	
-    // ✅ Feedback box
-    const feedbackBox = document.createElement("div");
-    feedbackBox.className = "feedback-box";
-    feedbackBox.innerHTML = `
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(contentWrapper.innerText.trim());
+        copyBtn.innerHTML = "✅";
+        setTimeout(() => (copyBtn.innerHTML = "📋"), 1200);
+      };
+
+      div.appendChild(copyBtn);
+
+      // ✅ Feedback box
+      const feedbackBox = document.createElement("div");
+      feedbackBox.className = "feedback-box";
+      feedbackBox.innerHTML = `
       <div class="feedback-prompt">
         {{ 'Was this helpful?' if lang == 'en' else 'האם זה עזר?' }}
         <span class="feedback-btn" data-value="1">👍</span>
@@ -212,378 +217,402 @@ function appendMessage(text, sender) {
       </div>
     `;
 
-    feedbackBox.querySelectorAll(".feedback-btn").forEach(btn => {
-      btn.addEventListener("click", function handleClick() {
-        const value = this.getAttribute("data-value");
-        submitFeedback(value);
+      feedbackBox.querySelectorAll(".feedback-btn").forEach(btn => {
+        btn.addEventListener("click", function handleClick() {
+          const value = this.getAttribute("data-value");
+          submitFeedback(value);
 
-        feedbackBox.innerHTML = `
+          feedbackBox.innerHTML = `
           <div class="feedback-thanks text-muted small">
             ✅ {{ 'Thanks for your feedback!' if lang == 'en' else 'תודה על המשוב!' }}
           </div>
         `;
-      }, { once: true });
-    });
+        }, { once: true });
+      });
 
-    div.appendChild(feedbackBox);
-  } else {
-    div.textContent = text;
+      div.appendChild(feedbackBox);
+    } else {
+      div.textContent = text;
+    }
+
+    msgBox.appendChild(div);
+    msgBox.scrollTop = msgBox.scrollHeight;
   }
 
-  msgBox.appendChild(div);
-  msgBox.scrollTop = msgBox.scrollHeight;
-}
 
 
+  let lastAskedQuestion = "";
 
-let lastAskedQuestion = "";
-
-function setQuestion(q) {
-  document.getElementById("question").value = q;
-  ask();
-}
-
-function submitFeedback(score) {
-  fetch("/api/chat/feedback", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      question: lastAskedQuestion,
-      score: score
-    })
-  }).then(() => {
-    console.log("Feedback sent");
-  }).catch(err => {
-    console.error("Feedback failed", err);
-  });
-}
-
-async function ask() {
-  const question = document.getElementById("question").value.trim();
-  if (!question) return;
-
-  lastAskedQuestion = question;
-  appendMessage(question, "user");
-  document.getElementById("question").value = "";
-
-  try {
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question })
-    });
-    const data = await res.json();
-	appendMessage(data.answer || "{{ 'AI tried its best, but the answer escaped ☕🤦‍♂️ Try again later… or check https://fly-tlv.com!' if lang == 'en' else 'ה-AI באמת ניסה, אבל התשובה ברחה לו ☕🤦‍♂️ נסו שוב מאוחר יותר… או פשוט היכנסו ל-https://fly-tlv.com!' }}",  "ai"
-);
-
-
-  } catch (err) {
-    console.error("Chat error", err);
-    appendMessage("{{ 'AI is overworked and demanded a coffee break ☕ Try again in a few minutes… or hop over to https://fly-tlv.com!' if lang == 'en' else 'ה-AI עייף ויצא להפסקת קפה ☕ נסו שוב בעוד כמה דקות… או בינתיים בקרו ב-https://fly-tlv.com!' }}",  "ai"
-);
-
-  }
-}
-
-function scrollSuggestions(direction) {
-  const container = document.getElementById("suggested-questions");
-  const scrollAmount = 220;
-  const isRtl = getComputedStyle(container).direction === "rtl";
-
-  const delta = direction === "left" ? -scrollAmount : scrollAmount;
-  container.scrollBy({
-    left: isRtl ? -delta : delta,
-    behavior: "smooth"
-  });
-}
-
-document.getElementById("ask-btn").addEventListener("click", ask);
-document.getElementById("question").addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
+  function setQuestion(q) {
+    document.getElementById("question").value = q;
     ask();
   }
-});
 
-loadSuggestions();
+  function submitFeedback(score) {
+    fetch("/api/chat/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: lastAskedQuestion,
+        score: score
+      })
+    }).then(() => {
+      console.log("Feedback sent");
+    }).catch(err => {
+      console.error("Feedback failed", err);
+    });
+  }
+
+  async function ask() {
+    const question = document.getElementById("question").value.trim();
+    if (!question) return;
+
+    lastAskedQuestion = question;
+    appendMessage(question, "user");
+    document.getElementById("question").value = "";
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+      const data = await res.json();
+      appendMessage(data.answer || "{{ 'AI tried its best, but the answer escaped ☕🤦‍♂️ Try again later… or check https://fly-tlv.com!' if lang == 'en' else 'ה-AI באמת ניסה, אבל התשובה ברחה לו ☕🤦‍♂️ נסו שוב מאוחר יותר… או פשוט היכנסו ל-https://fly-tlv.com!' }}", "ai"
+      );
+
+
+    } catch (err) {
+      console.error("Chat error", err);
+      appendMessage("{{ 'AI is overworked and demanded a coffee break ☕ Try again in a few minutes… or hop over to https://fly-tlv.com!' if lang == 'en' else 'ה-AI עייף ויצא להפסקת קפה ☕ נסו שוב בעוד כמה דקות… או בינתיים בקרו ב-https://fly-tlv.com!' }}", "ai"
+      );
+
+    }
+  }
+
+  function scrollSuggestions(direction) {
+    const container = document.getElementById("suggested-questions");
+    const scrollAmount = 220;
+    const isRtl = getComputedStyle(container).direction === "rtl";
+
+    const delta = direction === "left" ? -scrollAmount : scrollAmount;
+    container.scrollBy({
+      left: isRtl ? -delta : delta,
+      behavior: "smooth"
+    });
+  }
+
+  document.getElementById("ask-btn").addEventListener("click", ask);
+  document.getElementById("question").addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      ask();
+    }
+  });
+
+  loadSuggestions();
 </script>
 
 <style>
-.chat-container {
-  max-width: 860px;
-  margin: 40px auto;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(14px);
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  height: 85vh;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-}
+  .chat-container {
+    max-width: 860px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
 
-.chat-header {
-  background: linear-gradient(135deg, #7c3aed, #22d3ee);
-  color: #fff;
-  padding: 16px 20px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
+  .chat-header {
+    background: linear-gradient(135deg, #7c3aed, #22d3ee);
+    color: #fff;
+    padding: 16px 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 🎯 Force center alignment */
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
 
-.chat-messages {
-  flex: 1;
-  padding: 24px 20px;
-  overflow-y: auto;
-  background: linear-gradient(to bottom, #fafafa, #f3f4f6);
-  scroll-behavior: smooth;
-}
+  .chat-messages {
+    flex: 1;
+    padding: 24px 20px;
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #fafafa, #f3f4f6);
+    scroll-behavior: smooth;
+  }
 
-.message {
-  margin-bottom: 18px;
-  padding: 16px 22px;
-  border-radius: 18px;
-  max-width: 90%;
-  line-height: 1.55;
-  font-size: 1rem;
-  word-wrap: break-word;
-  animation: fadeInUp 0.25s ease;
-}
-.message.user {
-  background: linear-gradient(135deg, #7c3aed, #22d3ee);
-  color: #fff;
-  margin-left: auto;
-  border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
-}
-.message.ai {
-  position: relative; 
-  background: #eef4ff;
-  color: #1e293b;
-  margin-right: auto;
-  border-bottom-left-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-  font-family: "Segoe UI", sans-serif;
-  font-size: 0.97rem;
-}
+  .message {
+    margin-bottom: 18px;
+    padding: 16px 22px;
+    border-radius: 18px;
+    max-width: 90%;
+    line-height: 1.55;
+    font-size: 1rem;
+    word-wrap: break-word;
+    animation: fadeInUp 0.25s ease;
+  }
 
-/* Suggestion bar wrapper */
-.suggestion-scroll-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: #f9fafb;
-  padding: 6px 0;
-  overflow: hidden;
-  border-radius: 16px;
-  margin: 0 16px;
+  .message.user {
+    background: linear-gradient(135deg, #7c3aed, #22d3ee);
+    color: #fff;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  }
 
-  /* No top border */
-  border-left: 1px solid #e5e7eb;
-  border-right: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
-  border-top: none;
-}
+  .message.ai {
+    position: relative;
+    background: #eef4ff;
+    color: #1e293b;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    font-family: "Segoe UI", sans-serif;
+    font-size: 0.97rem;
+  }
+
+  /* Suggestion bar wrapper */
+  .suggestion-scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #f9fafb;
+    padding: 6px 0;
+    overflow: hidden;
+    border-radius: 16px;
+    margin: 0 16px;
+
+    /* No top border */
+    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    border-top: none;
+  }
 
 
 
-/* Scroll buttons */
-.scroll-btn {
-  border: none;
-  background: transparent;
-  color: #7c3aed;
-  font-size: 1.6rem;
-  cursor: pointer;
-  padding: 4px 10px;
-  z-index: 2;
-  transition: transform 0.2s ease;
-  user-select: none;
-}
-.scroll-btn:hover {
-  transform: scale(1.2);
-}
+  /* Scroll buttons */
+  .scroll-btn {
+    border: none;
+    background: transparent;
+    color: #7c3aed;
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 4px 10px;
+    z-index: 2;
+    transition: transform 0.2s ease;
+    user-select: none;
+  }
 
-#suggested-questions {
-  flex: 1;
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-  gap: 10px;
-  padding: 6px 12px;
-  white-space: nowrap;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-#suggested-questions::-webkit-scrollbar {
-  display: none;
-}
+  .scroll-btn:hover {
+    transform: scale(1.2);
+  }
 
-#suggested-questions .chip {
-  flex: 0 0 auto;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  background: rgba(124, 58, 237, 0.08);
-  border: 1px solid rgba(124, 58, 237, 0.25);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-#suggested-questions .chip:hover {
-  background: #7c3aed;
-  color: #fff;
-  box-shadow: 0 0 6px rgba(124, 58, 237, 0.35);
-}
+  #suggested-questions {
+    flex: 1;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 10px;
+    padding: 6px 12px;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
 
-.chat-footer {
-  padding: 14px 18px;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  background: #fff;
-}
+  #suggested-questions::-webkit-scrollbar {
+    display: none;
+  }
 
-.chat-footer textarea {
-  flex: 1;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  padding: 10px 12px;
-  resize: none;
-  font-size: 0.95rem;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-  min-height: 46px;
-}
+  #suggested-questions .chip {
+    flex: 0 0 auto;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
 
-.chat-footer button {
-  border-radius: 12px;
-  background: linear-gradient(135deg, #7c3aed, #22d3ee);
-  color: #fff;
-  border: none;
-  font-weight: 600;
-  padding: 10px 16px;
-  transition: all 0.25s ease;
-}
-.chat-footer button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
-}
+  #suggested-questions .chip:hover {
+    background: #7c3aed;
+    color: #fff;
+    box-shadow: 0 0 6px rgba(124, 58, 237, 0.35);
+  }
 
-/* Dark mode */
-body.dark-mode .chat-container {
-  background: rgba(18, 18, 18, 0.85);
-}
-body.dark-mode .chat-messages {
-  background: #0f1116;
-}
-body.dark-mode .message.ai {
-  background: #1e293b;
-  color: #e5e5e5;
-}
-body.dark-mode #suggested-questions {
-  background: #0f1116;
-}
-body.dark-mode #suggested-questions .chip {
-  background: rgba(34, 211, 238, 0.08);
-  border-color: rgba(34, 211, 238, 0.35);
-  color: #22d3ee;
-  border-radius: 999px;
-}
-body.dark-mode #suggested-questions .chip:hover {
-  background: #22d3ee;
-  color: #0a0b0f;
-}
-.feedback-box {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.feedback-box span {
-  cursor: pointer;
-  font-size: 1.2rem;
-  transition: transform 0.2s ease;
-}
-.feedback-box span:hover {
-  transform: scale(1.2);
-}
+  .chat-footer {
+    padding: 14px 18px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #fff;
+  }
 
-.message.ai ul {
-  padding-left: 20px;
-  margin-top: 4px;
-}
-.message.ai li {
-  margin-bottom: 4px;
-}
-.message.ai strong {
-  font-weight: 600;
-}
-body.dark-mode .chat-footer {
-  background: #111827;
-  border-top: 1px solid #1f2937;
-}
+  .chat-footer textarea {
+    flex: 1;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    padding: 10px 12px;
+    resize: none;
+    font-size: 0.95rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    min-height: 46px;
+  }
 
-body.dark-mode .chat-footer textarea {
-  background: #1f2937;
-  color: #e5e7eb;
-  border-color: #374151;
-  box-shadow: none;
-}
+  .chat-footer button {
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7c3aed, #22d3ee);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    padding: 10px 16px;
+    transition: all 0.25s ease;
+  }
 
-body.dark-mode .chat-footer button {
-  background: linear-gradient(135deg, #7c3aed, #22d3ee);
-  color: #fff;
-}
-body.dark-mode .suggestion-scroll-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: #0f1116;
-  padding: 6px 0;
-  overflow: hidden;
-  border-radius: 16px;
-  margin: 0 16px;
+  .chat-footer button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.45);
+  }
 
-  /* Dark borders — only left, right, bottom */
-  border-left: 1px solid #1f2937;
-  border-right: 1px solid #1f2937;
-  border-bottom: 1px solid #1f2937;
-  border-top: none;
-}
-.copy-btn {
-  position: absolute; 
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-left: auto;
-  color: #9ca3af;
-  transition: opacity 0.2s ease;
-  opacity: 0.6;
-}
-.copy-btn:hover {
-  opacity: 1;
-}
+  /* Dark mode */
+  body.dark-mode .chat-container {
+    background: rgba(18, 18, 18, 0.85);
+  }
 
-/* Dark mode */
-body.dark-mode .copy-btn {
-  color: #94a3b8;
-}
-[dir="rtl"] .message.ai .copy-btn {
-  right: auto;
-  left: 12px;
-}
-[dir="ltr"] .message.ai .copy-btn {
-  left: auto;
-  right: 12px;
-}
+  body.dark-mode .chat-messages {
+    background: #0f1116;
+  }
+
+  body.dark-mode .message.ai {
+    background: #1e293b;
+    color: #e5e5e5;
+  }
+
+  body.dark-mode #suggested-questions {
+    background: #0f1116;
+  }
+
+  body.dark-mode #suggested-questions .chip {
+    background: rgba(34, 211, 238, 0.08);
+    border-color: rgba(34, 211, 238, 0.35);
+    color: #22d3ee;
+    border-radius: 999px;
+  }
+
+  body.dark-mode #suggested-questions .chip:hover {
+    background: #22d3ee;
+    color: #0a0b0f;
+  }
+
+  .feedback-box {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .feedback-box span {
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+  }
+
+  .feedback-box span:hover {
+    transform: scale(1.2);
+  }
+
+  .message.ai ul {
+    padding-left: 20px;
+    margin-top: 4px;
+  }
+
+  .message.ai li {
+    margin-bottom: 4px;
+  }
+
+  .message.ai strong {
+    font-weight: 600;
+  }
+
+  body.dark-mode .chat-footer {
+    background: #111827;
+    border-top: 1px solid #1f2937;
+  }
+
+  body.dark-mode .chat-footer textarea {
+    background: #1f2937;
+    color: #e5e7eb;
+    border-color: #374151;
+    box-shadow: none;
+  }
+
+  body.dark-mode .chat-footer button {
+    background: linear-gradient(135deg, #7c3aed, #22d3ee);
+    color: #fff;
+  }
+
+  body.dark-mode .suggestion-scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #0f1116;
+    padding: 6px 0;
+    overflow: hidden;
+    border-radius: 16px;
+    margin: 0 16px;
+
+    /* Dark borders — only left, right, bottom */
+    border-left: 1px solid #1f2937;
+    border-right: 1px solid #1f2937;
+    border-bottom: 1px solid #1f2937;
+    border-top: none;
+  }
+
+  .copy-btn {
+    position: absolute;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: auto;
+    color: #9ca3af;
+    transition: opacity 0.2s ease;
+    opacity: 0.6;
+  }
+
+  .copy-btn:hover {
+    opacity: 1;
+  }
+
+  /* Dark mode */
+  body.dark-mode .copy-btn {
+    color: #94a3b8;
+  }
+
+  [dir="rtl"] .message.ai .copy-btn {
+    right: auto;
+    left: 12px;
+  }
+
+  [dir="ltr"] .message.ai .copy-btn {
+    left: auto;
+    right: 12px;
+  }
 </style>
 {% endblock %}
