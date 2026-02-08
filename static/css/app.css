@@ -1,5 +1,5 @@
 /* ===== Fonts ===== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap');
+/* Fonts imported in HTML for performance */
 
 body {
   font-family: 'Inter', sans-serif;
@@ -16,25 +16,35 @@ body.dark-mode {
 
 /* ===== Accent System ===== */
 :root {
-  --accent: linear-gradient(135deg, #7c3aed, #22d3ee);
-  --accent-glow: 0 0 18px rgba(124, 58, 237, .45);
+  --accent: linear-gradient(135deg, #6366f1, #06b6d4);
+  /* Indigo-500 to Cyan-500 */
+  --accent-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(12px);
 }
 
 body.dark-mode {
-  --accent: linear-gradient(135deg, #22d3ee, #818cf8);
-  --accent-glow: 0 0 22px rgba(34, 211, 238, .55);
+  --accent: linear-gradient(135deg, #38bdf8, #818cf8);
+  /* Sky-400 to Indigo-400 */
+  --accent-glow: 0 0 25px rgba(56, 189, 248, 0.5);
+  --glass-bg: rgba(18, 18, 18, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ===== Navbar ===== */
+/* ===== Navbar ===== */
 .navbar {
-  backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, .6) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, .08);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background: var(--glass-bg) !important;
+  border-bottom: var(--glass-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 body.dark-mode .navbar {
-  background: rgba(18, 18, 18, .7) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  background: var(--glass-bg) !important;
+  border-bottom: var(--glass-border);
 }
 
 .navbar-brand {
@@ -47,11 +57,39 @@ body.dark-mode .navbar {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--accent-glow);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  display: inline-block;
+  /* Allow breaking for mobile stack */
+  white-space: normal;
+  text-align: center;
+}
+
+/* Base.html specific brand adjustments */
+#brand-title {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  height: auto;
+}
+
+#brand-title .brand-sub {
+  font-size: 1em;
+  /* ✨ Match parent size (like index.html) */
+  font-weight: inherit;
+  display: block;
+  margin-top: 2px;
+}
+
+@media (min-width: 992px) {
+  #brand-title {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  #brand-title .brand-sub {
+    margin-top: 0;
+    margin-left: 0;
+  }
 }
 
 /* ===== Hero Section ===== */

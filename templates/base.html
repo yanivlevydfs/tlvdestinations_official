@@ -194,80 +194,6 @@
 }
 </script>
 
-  <style>
-    /* Styling for the navbar brand to match Slick 2026 aesthetics */
-    #brand-title {
-      font-weight: 700;
-      text-decoration: none;
-      line-height: 1.1;
-      white-space: normal !important;
-      overflow: visible !important;
-      text-overflow: clip !important;
-      height: auto !important;
-      text-align: center;
-
-      /* 🛑 Overriding app.css .navbar-brand gradient to handle multi-line text properly */
-      background: none !important;
-      -webkit-text-fill-color: initial !important;
-      color: var(--bs-body-color);
-      text-shadow: none;
-    }
-
-    #brand-title .brand-main,
-    #brand-title .brand-sub,
-    #brand-title .brand-sep {
-      /* ✨ Apply gradient effect to all parts of the title */
-      background: var(--accent);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: var(--accent-glow);
-    }
-
-    #brand-title .brand-sub {
-      /* Ensure subtitle has correct font weight/size even with gradient */
-      font-weight: 600;
-    }
-
-    /* Desktop adjustments (lg and up) */
-    @media (min-width: 992px) {
-      #brand-title {
-        font-size: 1.4rem;
-        text-align: left;
-        line-height: 1.2;
-      }
-    }
-
-    /* Mobile adjustments (md and down) */
-    @media (max-width: 991px) {
-      .navbar .container-fluid {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      #brand-title {
-        font-size: 1.35rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow: visible !important;
-      }
-
-      #brand-title .brand-sub {
-        font-size: 0.85rem;
-        opacity: 0.95;
-        margin-top: 2px;
-        display: block;
-        line-height: 1.2;
-        /* Gradient is already applied by shared rule above */
-      }
-
-      /* Dark mode support for subtitle */
-      body.dark-mode #brand-title .brand-sub {
-        color: #ccc;
-      }
-    }
-  </style>
   {% block head %}{% endblock %}
 </head>
 
@@ -275,7 +201,7 @@
   <!-- ✅ NAVBAR -->
   <nav class="navbar navbar-expand-lg border-bottom sticky-top">
     <div class="container-fluid">
-      <a id="brand-title" class="navbar-brand d-flex align-items-center" href="/">
+      <a id="brand-title" class="navbar-brand" href="/">
         <span class="brand-main">Fly TLV</span>
         <span class="brand-sep d-none d-lg-inline mx-2">→</span>
         <span class="brand-sub">{{ "Worldwide Destinations Explorer" if lang != "he" else "יעדים ישירים מנתב״ג לכל
@@ -318,7 +244,7 @@
       <div class="mb-3 mb-md-0">
         <div class="d-flex align-items-center">
           <i class="bi bi-airplane-engines text-primary me-3 fs-5"></i>
-          <span id="footer-brand" class="fw-semibold">
+          <span id="footer-brand" class="fw-semibold navbar-brand" style="font-size: 1.1rem; white-space: normal;">
             {{ "Fly TLV → Worldwide Destinations Explorer" if lang != 'he' else "TLV → מגלה יעדים בעולם" }}
           </span>
         </div>
