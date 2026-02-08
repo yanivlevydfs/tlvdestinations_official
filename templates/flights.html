@@ -124,27 +124,28 @@
 </div>
 
 <div class="container-fluid px-3 px-lg-5" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
-  <!-- 🔍 Filter Card -->
+  <!-- 🔍 Filter Card (Redesigned to match index.html) -->
   <div class="card shadow-sm mb-4">
-    <div class="card-header py-2">
+    <div class="card-header fw-semibold header-title-desktop {{ 'rtl' if lang == 'he' else 'ltr' }}">
       <div class="d-flex align-items-center justify-content-between">
-        <span class="fw-bold small text-uppercase text-muted">
-          <i class="bi bi-funnel me-1"></i>
-          {{ 'Filters & Search' if lang != 'he' else 'סינון וחיפוש' }}
+        <span class="text-primary">
+          <i class="bi bi-funnel-fill me-1"></i>
+          {{ 'Search & Filter' if lang != 'he' else 'חיפוש וסינון' }}
         </span>
-        <!-- Optional: Clear filters button could go here -->
+        <i class="bi bi-info-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="right"
+          title="{{ 'Filter flight results by various criteria' if lang != 'he' else 'סנן את תוצאות הטיסה לפי קריטריונים שונים' }}"></i>
       </div>
     </div>
-    <div class="card-body bg-light-subtle">
+    <div class="card-body">
       <div class="row g-3 align-items-end">
 
-        <!-- 🔍 Search (Full width on mobile, auto on desktop) -->
+        <!-- 🔍 Search -->
         <div class="col-12 col-md-4 col-lg-3">
-          <label for="flights-search-input" class="form-label small fw-bold mb-1">
+          <label for="flights-search-input" class="form-label mb-1">
             {{ 'Search' if lang != 'he' else 'חיפוש' }}
           </label>
-          <div class="input-group input-group-sm">
-            <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+          <div class="input-group">
+            <span class="input-group-text bg-body"><i class="bi bi-search text-muted"></i></span>
             <input type="search" id="flights-search-input" class="form-control"
               placeholder="{{ 'Flight, Airline, City...' if lang != 'he' else 'טיסה, חברת תעופה, עיר...' }}">
           </div>
@@ -152,9 +153,9 @@
 
         <!-- 🛫 Direction -->
         <div class="col-6 col-md-2">
-          <label for="direction-filter" class="form-label small fw-bold mb-1">{{ 'Direction' if lang != 'he' else
+          <label for="direction-filter" class="form-label mb-1">{{ 'Direction' if lang != 'he' else
             'כיוון' }}</label>
-          <select id="direction-filter" class="form-select form-select-sm">
+          <select id="direction-filter" class="form-select">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
             <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
@@ -163,9 +164,9 @@
 
         <!-- 🚦 Status -->
         <div class="col-6 col-md-2">
-          <label for="status-filter" class="form-label small fw-bold mb-1">{{ 'Status' if lang != 'he' else 'סטטוס'
+          <label for="status-filter" class="form-label mb-1">{{ 'Status' if lang != 'he' else 'סטטוס'
             }}</label>
-          <select id="status-filter" class="form-select form-select-sm">
+          <select id="status-filter" class="form-select">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
             <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
@@ -176,9 +177,9 @@
 
         <!-- 🌍 Country -->
         <div class="col-6 col-md-2">
-          <label for="country-filter" class="form-label small fw-bold mb-1">{{ 'Country' if lang != 'he' else 'מדינה'
+          <label for="country-filter" class="form-label mb-1">{{ 'Country' if lang != 'he' else 'מדינה'
             }}</label>
-          <select id="country-filter" class="form-select form-select-sm">
+          <select id="country-filter" class="form-select">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for country in countries %}
             <option value="{{ country }}">{{ country }}</option>
@@ -188,9 +189,9 @@
 
         <!-- 🏢 Terminal -->
         <div class="col-6 col-md-2">
-          <label for="terminal-filter" class="form-label small fw-bold mb-1">{{ 'Terminal' if lang != 'he' else 'טרמינל'
+          <label for="terminal-filter" class="form-label mb-1">{{ 'Terminal' if lang != 'he' else 'טרמינל'
             }}</label>
-          <select id="terminal-filter" class="form-select form-select-sm">
+          <select id="terminal-filter" class="form-select">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for t in terminals %}
             <option value="{{ t }}">{{ t }}</option>
@@ -200,9 +201,9 @@
 
         <!-- 📅 Date -->
         <div class="col-6 col-md-3 col-lg-2">
-          <label for="actual-date-filter" class="form-label small fw-bold mb-1">{{ 'Date' if lang != 'he' else 'תאריך'
+          <label for="actual-date-filter" class="form-label mb-1">{{ 'Date' if lang != 'he' else 'תאריך'
             }}</label>
-          <select id="actual-date-filter" class="form-select form-select-sm">
+          <select id="actual-date-filter" class="form-select">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for value, label in actual_dates %}
             <option value="{{ value }}">{{ label }}</option>
@@ -212,9 +213,9 @@
 
         <!-- 🕒 Time -->
         <div class="col-6 col-md-3 col-lg-2">
-          <label for="actual-time-filter" class="form-label small fw-bold mb-1">{{ 'Time' if lang != 'he' else 'שעה'
+          <label for="actual-time-filter" class="form-label mb-1">{{ 'Time' if lang != 'he' else 'שעה'
             }}</label>
-          <select id="actual-time-filter" class="form-select form-select-sm">
+          <select id="actual-time-filter" class="form-select">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for t in actual_times %}
             <option value="{{ t }}">{{ t }}</option>
@@ -487,7 +488,9 @@
           if (lang === "he" && sel) {
             sel = { "Departure": "המראה", "Arrival": "נחיתה" }[sel] || sel;
           }
-          const idx = getColumnIndexByHeader("Direction");
+          // Fix: Use localized header name
+          const header = lang === "he" ? "כיוון" : "Direction";
+          const idx = getColumnIndexByHeader(header);
           if (idx !== -1) table.column(idx).search(sel).draw();
         });
 
@@ -497,13 +500,17 @@
           if (lang === "he" && sel) {
             sel = { "On Time": "בזמן", "Delayed": "בעיכוב", "Cancelled": "בוטלה", "Not Final": "לא סופי" }[sel] || sel;
           }
-          const idx = getColumnIndexByHeader("Status");
+          // Fix: Use localized header name
+          const header = lang === "he" ? "סטטוס" : "Status";
+          const idx = getColumnIndexByHeader(header);
           if (idx !== -1) table.column(idx).search(sel).draw();
         });
 
         // 3. Country
         $('#country-filter').on('change', function () {
-          const idx = getColumnIndexByHeader("Country");
+          // Fix: Use localized header name in Hebrew
+          const header = lang === "he" ? "מדינה" : "Country";
+          const idx = getColumnIndexByHeader(header);
           if (idx !== -1) table.column(idx).search(this.value).draw();
         });
 

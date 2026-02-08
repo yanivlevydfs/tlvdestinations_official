@@ -190,66 +190,81 @@
     </ol>
   </nav>
 
-  <!-- Search & Filter Card -->
+  <!-- Search & Filter Card (Redesigned) -->
   <div class="card shadow-sm mb-4 text-start">
-    <div class="card-header fw-semibold">
-      {% if lang == 'he' %} חיפוש וסינון {% else %} Search & Filter {% endif %}
+    <div class="card-header fw-semibold header-title-desktop {{ 'rtl' if lang == 'he' else 'ltr' }}">
+      <div class="d-flex align-items-center justify-content-between">
+        <span class="text-primary">
+          <i class="bi bi-funnel-fill me-1"></i>
+          {{ 'Search & Filter' if lang != 'he' else 'חיפוש וסינון' }}
+        </span>
+        <i class="bi bi-info-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="right"
+          title="{{ 'Filter warnings by continent, country, or threat level' if lang != 'he' else 'סנן אזהרות לפי יבשת, מדינה או רמת איום' }}"></i>
+      </div>
     </div>
     <div class="card-body">
-      <div class="row g-3">
+      <div class="row g-3 align-items-end">
+
+        <!-- Continent -->
         <div class="col-md-3">
-          <label for="continent-filter" class="form-label">
-            {% if lang == 'he' %} יבשת {% else %} Continent {% endif %}
+          <label for="continent-filter" class="form-label mb-1">
+            {{ 'Continent' if lang != 'he' else 'יבשת' }}
           </label>
           <select id="continent-filter" class="form-select">
-            <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for c in continents %}
             <option value="{{ c }}">{{ c }}</option>
             {% endfor %}
           </select>
         </div>
 
+        <!-- Country -->
         <div class="col-md-3">
-          <label for="country-filter" class="form-label">
-            {% if lang == 'he' %} מדינה {% else %} Country {% endif %}
+          <label for="country-filter" class="form-label mb-1">
+            {{ 'Country' if lang != 'he' else 'מדינה' }}
           </label>
           <select id="country-filter" class="form-select">
-            <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for c in countries %}
             <option value="{{ c }}">{{ c }}</option>
             {% endfor %}
           </select>
         </div>
 
+        <!-- Threat Level -->
         <div class="col-md-3">
-          <label for="level-filter" class="form-label">
-            {% if lang == 'he' %} רמת איום {% else %} Threat Level {% endif %}
+          <label for="level-filter" class="form-label mb-1">
+            {{ 'Threat Level' if lang != 'he' else 'רמת איום' }}
           </label>
           <select id="level-filter" class="form-select">
-            <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
-            <option value="High">{% if lang == 'he' %}גבוה{% else %}High{% endif %}</option>
-            <option value="Medium">{% if lang == 'he' %}בינוני{% else %}Medium{% endif %}</option>
-            <option value="Low">{% if lang == 'he' %}נמוך{% else %}Low{% endif %}</option>
-            <option value="Unknown">{% if lang == 'he' %}לא ידוע{% else %}Unknown{% endif %}</option>
+            <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
+            <option value="High">{{ 'High' if lang != 'he' else 'גבוה' }}</option>
+            <option value="Medium">{{ 'Medium' if lang != 'he' else 'בינוני' }}</option>
+            <option value="Low">{{ 'Low' if lang != 'he' else 'נמוך' }}</option>
+            <option value="Unknown">{{ 'Unknown' if lang != 'he' else 'לא ידוע' }}</option>
           </select>
         </div>
 
+        <!-- Free Search -->
         <div class="col-md-3">
-          <label for="query-filter" class="form-label">
-            {% if lang == 'he' %} חיפוש חופשי {% else %} Free Search {% endif %}
+          <label for="query-filter" class="form-label mb-1">
+            {{ 'Search' if lang != 'he' else 'חיפוש' }}
           </label>
-          <input type="text" id="query-filter" class="form-control"
-            placeholder="{% if lang == 'he' %}חיפוש בהמלצות, משרד...{% else %}Search recommendations, office...{% endif %}">
+          <div class="input-group">
+            <span class="input-group-text bg-body"><i class="bi bi-search text-muted"></i></span>
+            <input type="text" id="query-filter" class="form-control"
+              placeholder="{{ 'Search...' if lang != 'he' else 'חיפוש...' }}">
+          </div>
         </div>
       </div>
 
-      <div class="border-top pt-3 mt-3 d-flex gap-2 align-items-center">
-        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="clear-filters"
-          aria-label="{{ 'Clear Filters' if lang != 'he' else 'איפוס סינון' }}">
+      <!-- Filter Footer -->
+      <div class="border-top pt-3 mt-3 d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary" id="clear-filters">
           <i class="bi bi-x-circle me-1"></i>
-          {{ 'Clear' if lang != 'he' else 'איפוס' }}
+          {{ 'Clear' if lang != 'he' else 'נקה' }}
         </button>
-        <span class="ms-auto text-muted small" id="active-filters">
+        <span class="ms-auto text-muted small align-self-center" id="active-filters">
           {{ 'No filters applied' if lang != 'he' else 'ללא סינון' }}
         </span>
       </div>

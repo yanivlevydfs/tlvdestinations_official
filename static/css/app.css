@@ -824,6 +824,41 @@ table.dataTable>tbody>tr.child td.child {
 }
 
 /* ✅ Dark Mode */
+body.dark-mode .navbar-nav .nav-link.active {
+  color: #fff !important;
+  font-weight: 700;
+}
+
+/* Breadcrumbs Dark Mode */
+body.dark-mode .breadcrumb-item {
+  color: #e5e5e5;
+}
+
+body.dark-mode .breadcrumb-item.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+body.dark-mode .breadcrumb-item+.breadcrumb-item::before {
+  color: #a3a3a3;
+  /* Separator color */
+}
+
+body.dark-mode .breadcrumb-item a {
+  color: #6366f1;
+  /* Light Indigo for links */
+}
+
+body.dark-mode .breadcrumb-item a:hover {
+  color: #818cf8;
+  text-decoration: underline;
+}
+
+/* Fix Language Button Text Color */
+body.dark-mode #lang-toggle span {
+  color: inherit !important;
+}
+
 body.dark-mode .footer-link {
   color: #60a5fa !important;
   /* Bright blue for dark backgrounds */
@@ -2572,4 +2607,246 @@ html[dir="rtl"] .dt-buttons .btn {
 #warnings-table tr.child td * {
   white-space: normal !important;
   word-break: break-word !important;
+}
+
+/* Promo Card Gradient */
+.promo-card-bg {
+  background: linear-gradient(90deg, #c2e9fb 0%, #a1c4fd 100%);
+  color: #111827;
+}
+
+.promo-card-bg h5,
+.promo-card-bg p {
+  color: #111827 !important;
+}
+
+/* Dark Mode Promo Card */
+body.dark-mode .promo-card-bg {
+  background: var(--accent);
+  /* ✨ Matches site theme (Sky -> Indigo) */
+  color: #fff;
+}
+
+body.dark-mode .promo-card-bg h5,
+body.dark-mode .promo-card-bg p {
+  color: #fff !important;
+}
+
+/* 
+   MISSING DARK MODE OVERRIDES (Essential due to Litera theme lock)
+ */
+
+/* Modals */
+body.dark-mode .modal-content {
+  background-color: #1e1e1e;
+  color: #e5e5e5;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Navbar Toggler (Hamburger) - Invert dark icon to white */
+body.dark-mode .navbar-toggler-icon {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+body.dark-mode .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 
+   GLOBAL DARK MODE TEXT RESETS (Overrides Litera default colors)
+ */
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode li,
+body.dark-mode label,
+body.dark-mode .card,
+body.dark-mode .list-group-item {
+  color: #e5e5e5;
+}
+
+/* Force white on specific strong/bold elements if needed */
+body.dark-mode strong,
+body.dark-mode b {
+  color: #fff;
+}
+
+/* Ensure card backgrounds don't conflict, but allow text to be light */
+body.dark-mode .card-body {
+  color: #e5e5e5;
+}
+
+/* Fix muted text brightness */
+body.dark-mode .text-muted {
+  color: #a3a3a3 !important;
+}
+
+/* 
+   DARK MODE TABLES 
+   Overrides Bootstrap Litera table styles
+*/
+body.dark-mode .table {
+  color: #e5e5e5;
+  border-color: rgba(255, 255, 255, 0.1);
+  --bs-table-color: #e5e5e5;
+  --bs-table-bg: transparent;
+  --bs-table-border-color: rgba(255, 255, 255, 0.1);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.05);
+  --bs-table-striped-color: #e5e5e5;
+  --bs-table-active-bg: rgba(255, 255, 255, 0.1);
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.075);
+  --bs-table-hover-color: #fff;
+}
+
+body.dark-mode .table> :not(caption)>*>* {
+  background-color: transparent;
+  /* Ensure cells don't have white bg */
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: inherit;
+}
+
+body.dark-mode .table-striped>tbody>tr:nth-of-type(odd)>* {
+  background-color: var(--bs-table-striped-bg);
+  color: var(--bs-table-striped-color);
+  box-shadow: none;
+  /* Fix for some bootstrap versions adding shadow */
+}
+
+body.dark-mode .table-hover>tbody>tr:hover>* {
+  background-color: var(--bs-table-hover-bg);
+  color: var(--bs-table-hover-color);
+}
+
+/* DataTables specific fixes */
+body.dark-mode .dataTables_wrapper .dataTables_length,
+body.dark-mode .dataTables_wrapper .dataTables_filter,
+body.dark-mode .dataTables_wrapper .dataTables_info,
+body.dark-mode .dataTables_wrapper .dataTables_processing,
+body.dark-mode .dataTables_wrapper .dataTables_paginate {
+  color: #e5e5e5 !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: #e5e5e5 !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+  color: #666 !important;
+}
+
+/* 
+   DARK MODE LIST GROUPS (Analytics Widgets)
+   Overrides Bootstrap Litera list-group styles
+*/
+body.dark-mode .list-group-item {
+  background-color: transparent;
+  /* Remove white background */
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #e5e5e5;
+}
+
+body.dark-mode .list-group-item a {
+  color: #fff !important;
+  /* Make destination links white */
+}
+
+/* Specific Badge Tweaks for Dark Mode */
+body.dark-mode .badge-change-flat {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* 
+   DARK MODE FORMS & FILTERS (Flights Page)
+   Overrides Bootstrap default form styles and bg-light-subtle
+*/
+body.dark-mode .bg-light-subtle {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e5e5e5;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text {
+  background-color: var(--glass-bg);
+  /* Use glass background matching theme */
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+body.dark-mode .form-control::placeholder {
+  color: #a3a3a3;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 0.25rem rgba(129, 140, 248, 0.25);
+}
+
+/* Fix dropdown arrow color in dark mode */
+body.dark-mode .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Remove table responsive scrollbar entirely to fix user complaint "scroller - remove it" */
+.table-responsive {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+}
+
+.table-responsive::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+/* Ensure no override interferes */
+body.dark-mode .table-responsive::-webkit-scrollbar {
+  display: none;
+}
+
+/* 
+   DARK MODE CARD HEADERS
+   Ensure headers blend in and don't look like light blocks 
+*/
+body.dark-mode .card-header {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* Fix for user request:  */
+body.dark-mode .card-header .text-primary {
+  color: #fff !important;
+}
+
+
+/* Fix table text specifically */
+body.dark-mode .table {
+  color: #e5e5e5;
 }

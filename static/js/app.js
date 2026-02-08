@@ -28,16 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('fe-theme') || 'light';
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    if (themeLink) themeLink.href = THEMES.dark;
     if (themeIcon) themeIcon.className = 'bi bi-sun';
   }
+
   if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      const dark = !document.body.classList.contains('dark-mode');
-      document.body.classList.toggle('dark-mode', dark);
-      if (themeLink) themeLink.href = dark ? THEMES.dark : THEMES.light;
-      if (themeIcon) themeIcon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
-      localStorage.setItem('fe-theme', dark ? 'dark' : 'light');
+    themeBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent any default button behavior
+      const isDarkMode = document.body.classList.toggle('dark-mode');
+
+      // Fetch icon dynamically as it might be replaced by applyLanguage
+      const currentThemeIcon = document.getElementById('theme-icon');
+      if (currentThemeIcon) {
+        currentThemeIcon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars';
+      }
+
+      localStorage.setItem('fe-theme', isDarkMode ? 'dark' : 'light');
     });
   }
 
@@ -255,9 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isDesktop = window.matchMedia("(min-width: 992px)").matches;
-    safeSet("brand-title", isDesktop ? d.brand_desktop : d.brand_mobile, true);
+    safeSet('brand-title', isDesktop ? d.brand_desktop : d.brand_mobile, true);
     safeSet('view-map-btn', `<i class="bi bi-globe-americas me-1"></i> ${d.viewMap}`, true);
-    safeSet('theme-toggle', `<i id="theme-icon" class="bi bi-moon-stars me-1"></i> ${d.theme}`, true);
+
+    // Fix: Preserve current icon state (Sun/Moon)
+    const isDark = document.body.classList.contains('dark-mode');
+    const themeIconClass = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+    safeSet('theme-toggle', `<i id="theme-icon" class="${themeIconClass} me-1"></i> ${d.theme}`, true);
+
     safeSet('lang-label', d.langToggleLabelOther);
     safeSet('filters-title', `<i class="bi bi-sliders me-2"></i>${d.filters}`, true);
     safeSet('lbl-country', d.country);
