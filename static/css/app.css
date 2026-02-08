@@ -2322,6 +2322,7 @@ body.dark-mode .chip:hover {
   background: #8b5cf6;
   color: white;
 }
+
 /* 
    FLIGHTS PAGE & GENERIC TABLE STYLES
  */
@@ -2330,7 +2331,8 @@ body.dark-mode .chip:hover {
 .styled-table {
   border-collapse: separate !important;
   border-spacing: 0;
-  overflow: hidden; /* ensures rounding is visible */
+  overflow: hidden;
+  /* ensures rounding is visible */
   width: 100%;
 }
 
@@ -2344,6 +2346,7 @@ body.dark-mode .chip:hover {
 .styled-table thead th:first-child {
   border-top-left-radius: 12px;
 }
+
 .styled-table thead th:last-child {
   border-top-right-radius: 12px;
 }
@@ -2352,6 +2355,7 @@ body.dark-mode .chip:hover {
 .styled-table tbody tr:last-child td:first-child {
   border-bottom-left-radius: 12px;
 }
+
 .styled-table tbody tr:last-child td:last-child {
   border-bottom-right-radius: 12px;
 }
@@ -2373,7 +2377,8 @@ body.dark-mode .chip:hover {
   padding: 0.5em 1em;
   font-size: 0.85rem;
   font-weight: 600;
-  border-radius: 999px; /* pill shape */
+  border-radius: 999px;
+  /* pill shape */
   text-align: center;
   white-space: nowrap;
 }
@@ -2391,6 +2396,7 @@ body.dark-mode .chip:hover {
 
 /* Responsive Table Adjustments */
 @media (max-width: 768px) {
+
   /* Stack wrapper rows */
   .dataTables_wrapper .row.mb-3 {
     flex-direction: column;
@@ -2398,20 +2404,20 @@ body.dark-mode .chip:hover {
     text-align: center;
     gap: 1rem;
   }
-  
+
   /* Filters grid on mobile */
   .dt-filters .d-flex {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
-  
+
   .dt-filters label {
     font-size: 0.875rem;
     margin-bottom: 0.25rem;
     text-align: left;
   }
-  
+
   .dt-filters select {
     width: 100%;
   }
@@ -2482,14 +2488,16 @@ body.dark-mode input[type="search"]::placeholder {
   width: 60px;
   height: 4px;
   border-radius: 2px;
-  background: var(--accent); /* Use global accent */
+  background: var(--accent);
+  /* Use global accent */
 }
 
 /* Warnings Table Specifics */
 #warnings-table td:nth-child(4) {
   white-space: normal !important;
   word-break: break-word;
-  min-width: 250px; /* Ensure readability for recommendations */
+  min-width: 250px;
+  /* Ensure readability for recommendations */
 }
 
 /* Custom DataTables Buttons Colors */
@@ -2498,6 +2506,7 @@ body.dark-mode input[type="search"]::placeholder {
   border-color: #10b981 !important;
   color: white !important;
 }
+
 .buttons-csv:hover {
   background-color: #059669 !important;
   border-color: #059669 !important;
@@ -2508,6 +2517,7 @@ body.dark-mode input[type="search"]::placeholder {
   border-color: #3b82f6 !important;
   background-color: #3b82f6 !important;
 }
+
 .buttons-colvis:hover {
   background-color: #2563eb !important;
   border-color: #2563eb !important;
@@ -2525,4 +2535,3 @@ html[dir="rtl"] .dt-buttons .btn {
   white-space: normal !important;
   word-break: break-word !important;
 }
-
