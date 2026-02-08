@@ -8,30 +8,34 @@
 <link rel="alternate" hreflang="en" href="https://fly-tlv.com/stats" />
 <link rel="alternate" hreflang="he" href="https://fly-tlv.com/stats?lang=he" />
 <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
-  <!-- ✅ Page-specific SEO -->
-  <meta name="description" content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
-  <meta name="keywords" content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
-  <meta property="og:description" content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
-  <meta property="og:url" content="https://fly-tlv.com/stats">
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
-  <meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+<!-- ✅ Page-specific SEO -->
+<meta name="description"
+  content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
+<meta name="keywords"
+  content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
-  <meta name="twitter:description" content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
-  <meta name="twitter:image:alt" content="TLV airport stats overview">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+<meta property="og:description"
+  content="See live statistics from Ben Gurion Airport (TLV). Explore top countries, cities, and airlines for departures and arrivals.">
+<meta property="og:url" content="https://fly-tlv.com/stats">
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+<meta property="og:image:alt" content="Ben Gurion Airport TLV statistics dashboard">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ben Gurion Airport — Current Flight Statistics | Fly-TLV">
+<meta name="twitter:description"
+  content="Live departures and arrivals statistics from TLV airport. Updated charts with top destinations and airlines.">
+<meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+<meta name="twitter:image:alt" content="TLV airport stats overview">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://fly-tlv.com/#organization",
@@ -49,7 +53,6 @@
         "https://www.linkedin.com/company/flytlv"
       ]
     },
-
     {
       "@type": "WebSite",
       "@id": "https://fly-tlv.com/#website",
@@ -63,7 +66,6 @@
         "query-input": "required name=search_term_string"
       }
     },
-
     {
       "@type": "WebPage",
       "@id": "https://fly-tlv.com/stats#webpage",
@@ -91,7 +93,6 @@
         ]
       }
     },
-
     {
       "@type": "ItemList",
       "@id": "https://fly-tlv.com/#navigation",
@@ -103,19 +104,37 @@
         { "@type": "ListItem", "position": 4, "item": { "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" } }
       ]
     }
-
   ]
 }
 </script>
-
-
-
 {% endblock %}
 
 {% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section text-center py-5 shadow-sm mb-4" lang="{{ lang }}"
+  dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <div class="container position-relative z-1">
+    <h1 class="fw-bold mb-2">
+      {% if lang == 'he' %}
+      📊 נתוני טיסות עדכניים – נמל תעופה בן גוריון
+      {% else %}
+      📊 Ben Gurion Airport — Current Flight Statistics
+      {% endif %}
+    </h1>
+    <div class="last-update-badge mt-2 d-inline-flex align-items-center">
+      <i class="bi bi-clock-history"></i>
+      <span class="label-text">
+        {% if lang == 'he' %}עודכן לאחרונה:{% else %}Last update:{% endif %}
+      </span>
+      <strong>{{ last_update | default('—') }}</strong>
+    </div>
+  </div>
+</div>
+
 <div class="container my-4" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <!-- Breadcrumbs -->
-  <nav aria-label="breadcrumb" class="mb-3">
+  <nav aria-label="breadcrumb" class="mb-4">
     <ol class="breadcrumb mb-0">
       <li class="breadcrumb-item">
         <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
@@ -127,51 +146,39 @@
       </li>
     </ol>
   </nav>
-  <!-- Title -->
-	<h2 class="section-title text-center">
-		{% if lang == 'he' %}
-		  📊 נתוני טיסות עדכניים – נמל תעופה בן גוריון
-		{% else %}
-		  📊 Ben Gurion Airport — Current Flight Statistics
-		{% endif %}
-	  </h2>
+
   <!-- Kiwi / Travelpayouts Banner -->
-  <div class="card mt-3 shadow-sm" aria-label="Advertisement">
+  <div class="card mb-4 shadow-sm" aria-label="Advertisement">
     <div class="card-header small text-muted fw-semibold">
       <i class="bi bi-airplane-engines me-1 text-primary"></i>
       {% if lang == 'he' %} טיסות זולות {% else %} Cheap Flights {% endif %}
     </div>
     <div class="card-body text-center">
-      <script
-        async
+      <script async
         src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_banner&locale=en&stops=any&show_hotels=true&powered_by=true&border_radius=30&plain=true&color_button=%232563eb&color_button_text=%23ffffff&promo_id=3414&campaign_id=111"
-        charset="utf-8"
-      ></script>
+        charset="utf-8"></script>
     </div>
   </div>
 
-	<!-- Last Update -->
-	<div class="text-center mb-4">
-	  <span class="last-update-badge">
-		<i class="bi bi-clock-history"></i>
-		<span class="label-text">
-        {% if lang == 'he' %}עודכן לאחרונה:{% else %}Last update:{% endif %}</span>
-		<strong>{{ last_update | default('—') }}</strong>
-	  </span>
-	</div>
-
 
   <!-- Airline Filter -->
-  <div class="row mb-4">
-    <div class="col-12 col-md-6 offset-md-3">
-    <label for="airline-filter" class="form-label fw-semibold">✈️ {% if lang == 'he' %}סינון לפי חברת תעופה{% else %}Filter by Airline{% endif %}</label>
-      <select id="airline-filter" class="form-select">
-        <option value="All">
-          {% if lang == 'he' %}כל החברות{% else %}All Airlines{% endif %}
-        </option>
-        {% for airline in airlines %}<option value="{{ airline }}">{{ airline }}</option>
-        {% endfor %}
-      </select>
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-auto">
+          <label for="airline-filter" class="form-label fw-semibold mb-0">✈️ {% if lang == 'he' %}סינון לפי חברת תעופה{%
+            else %}Filter by Airline{% endif %}</label>
+        </div>
+        <div class="col-12 col-md">
+          <select id="airline-filter" class="form-select">
+            <option value="All">
+              {% if lang == 'he' %}כל החברות{% else %}All Airlines{% endif %}
+            </option>
+            {% for airline in airlines %}<option value="{{ airline }}">{{ airline }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -179,18 +186,19 @@
     <!-- Top Countries -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold">
+        <div class="card-header fw-bold text-primary">
           🌍 {% if lang == 'he' %}המדינות המובילות{% else %}Top Countries{% endif %}
         </div>
         <div class="card-body">
           <div class="table-responsive mb-3">
-            <table id="countries-table" class="table table-striped table-hover table-sm align-middle text-center">
+            <table id="countries-table"
+              class="styled-table table table-striped table-hover table-sm align-middle text-center">
               <thead class="table-primary">
-			    <tr>
-               <th>{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
-			   <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
-			   <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
-			    </tr>
+                <tr>
+                  <th>{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
+                  <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
+                  <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
+                </tr>
               </thead>
               <tbody>
                 {% for row in top_countries %}
@@ -211,16 +219,19 @@
     <!-- Top Cities -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
-		<div class="card-header fw-bold">
-		  🏙️ {% if lang == 'he' %}הערים המובילות{% else %}Top Cities{% endif %}
-		</div>
+        <div class="card-header fw-bold text-primary">
+          🏙️ {% if lang == 'he' %}הערים המובילות{% else %}Top Cities{% endif %}
+        </div>
         <div class="card-body">
           <div class="table-responsive mb-3">
-            <table id="cities-table" class="table table-striped table-hover table-sm align-middle text-center">
+            <table id="cities-table"
+              class="styled-table table table-striped table-hover table-sm align-middle text-center">
               <thead class="table-primary">
-              <th>{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
-              <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
-              <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
+                <tr>
+                  <th>{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
+                  <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
+                  <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
+                </tr>
               </thead>
               <tbody>
                 {% for row in top_cities %}
@@ -238,42 +249,47 @@
       </div>
     </div>
   </div>
-</div>
-        <!-- Ads Under Table -->
-        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
-          <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-airplane-engines me-1 text-primary"></i>
-			{% if lang == 'he' %} מבצעים על טיסות {% else %} Flight Deals {% endif %}
-          </div>
-          <div class="card-body text-center p-0">
-            <script
-              async
-              src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
-              charset="utf-8"
-            ></script>
-          </div>
-        </div>
 
-        <div class="card mt-3 shadow-sm" aria-label="Advertisement">
-          <div class="card-header small text-muted fw-semibold">
-            <i class="bi bi-airplane me-1 text-primary"></i>
-			{% if lang == 'he' %} סים זול {% else %} Cheap ESIM {% endif %}
-          </div>
-          <div class="card-body text-center p-0">
-            <script
-              async
-              src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
-              charset="utf-8"
-            ></script>
-          </div>
+  <!-- Ads Under Table -->
+  <div class="row mt-4">
+    <div class="col-12 col-md-6">
+      <div class="card shadow-sm h-100" aria-label="Advertisement">
+        <div class="card-header small text-muted fw-semibold">
+          <i class="bi bi-airplane-engines me-1 text-primary"></i>
+          {% if lang == 'he' %} מבצעים על טיסות {% else %} Flight Deals {% endif %}
         </div>
+        <div class="card-body text-center p-0 overflow-hidden">
+          <script async
+            src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
+            charset="utf-8"></script>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 mt-3 mt-md-0">
+      <div class="card shadow-sm h-100" aria-label="Advertisement">
+        <div class="card-header small text-muted fw-semibold">
+          <i class="bi bi-airplane me-1 text-primary"></i>
+          {% if lang == 'he' %} סים זול {% else %} Cheap ESIM {% endif %}
+        </div>
+        <div class="card-body text-center p-0 overflow-hidden">
+          <script async
+            src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
+            charset="utf-8"></script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const airlinesData = {{ airlines_data | tojson }};
+  document.addEventListener("DOMContentLoaded", function () {
+    const airlinesData = {{ airlines_data | tojson
+  }};
   const initialCountries = {{ top_countries | tojson }};
   const initialCities = {{ top_cities | tojson }};
 
@@ -298,6 +314,9 @@ document.addEventListener("DOMContentLoaded", function () {
       barmode: "group",
       margin: { t: 30, r: 20, l: 40, b: 80 },
       legend: { orientation: "h", y: -0.3 },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: { color: document.body.classList.contains('dark-mode') ? '#e5e5e5' : '#333' }
     }, { responsive: true });
 
     // Cities Chart
@@ -320,6 +339,9 @@ document.addEventListener("DOMContentLoaded", function () {
       barmode: "group",
       margin: { t: 30, r: 20, l: 40, b: 80 },
       legend: { orientation: "h", y: -0.3 },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: { color: document.body.classList.contains('dark-mode') ? '#e5e5e5' : '#333' }
     }, { responsive: true });
   }
 
@@ -341,121 +363,4 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
-<style>
-  /* 🎨 Dark Mode fixes for this page */
-
-  body.dark-mode .section-title {
-    color: #e5e5e5 !important;
-  }
-
-  body.dark-mode .card,
-  body.dark-mode .card-header,
-  body.dark-mode .card-body {
-    background-color: #111 !important;
-    color: #ddd !important;
-  }
-
-  body.dark-mode .card-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-  }
-
-  body.dark-mode .table {
-    color: #ddd !important;
-  }
-
-  body.dark-mode .table thead {
-    background-color: rgba(18,18,18,0.9) !important;
-  }
-
-  body.dark-mode .breadcrumb {
-    background-color: transparent !important;
-  }
-
-  body.dark-mode .breadcrumb-item {
-    color: #ccc !important;
-  }
-
-  body.dark-mode .breadcrumb-item a {
-    color: #93c5fd !important;
-    text-decoration: none;
-  }
-
-  body.dark-mode .breadcrumb-item a:hover {
-    color: #fff !important;
-    text-decoration: underline;
-  }
-
-  body.dark-mode .breadcrumb-item.active {
-    color: #999 !important;
-  }
-
-  body.dark-mode .text-muted {
-    color: #aaa !important;
-  }
-  body.dark-mode .card.shadow-sm {
-  border: 1px solid #fff !important;
-}
-.last-update-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.92rem;
-  font-weight: 500;
-  padding: 0.4rem 1rem;
-  border-radius: 999px;
-  background-color: rgba(165, 141, 252, 0.08); /* soft lavender */
-  border: 1px solid #c084fc; /* light purple border */
-  color: #4b5563; /* neutral-600 */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  white-space: nowrap;
-}
-
-.last-update-badge i {
-  font-size: 1rem;
-  color: #9ca3af; /* gray-400 */
-}
-
-.last-update-badge strong {
-  font-weight: 700;
-  color: #111827; /* gray-900 */
-}
-body.dark-mode .last-update-badge {
-  background-color: rgba(165, 141, 252, 0.12);
-  border-color: #a78bfa;
-  color: #d1d5db;
-}
-
-body.dark-mode .last-update-badge strong {
-  color: #fff;
-}
-
-body.dark-mode .last-update-badge i {
-  color: #c4b5fd;
-}
-/* ✅ Bootstrap's table-primary header fix */
-body.dark-mode .table-primary > * > tr > th {
-  background-color: #2e2e2e !important;
-  color: #ffffff !important;
-}
-
-/* ✅ Fix striped rows (table-striped) */
-body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-/* ✅ Ensure table cells also go light */
-body.dark-mode table th,
-body.dark-mode table td {
-  color: #e0e0e0 !important;
-  background-color: transparent !important;
-}
-
-/* ✅ Optional: fix select box (airline filter) */
-body.dark-mode select.form-select {
-  background-color: #222 !important;
-  color: #fff !important;
-  border-color: #444 !important;
-}
-
-</style>
 {% endblock %}

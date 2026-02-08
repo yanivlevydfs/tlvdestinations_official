@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  {{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}
+{{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}
 {%- endblock %}
 
 {% block head_extra %}
@@ -20,7 +20,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://fly-tlv.com/terms{{ '' if lang != 'he' else '?lang=he' }}" />
 <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
-<meta property="og:title" content="{{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}" />
+<meta property="og:title"
+  content="{{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}" />
 <meta property="og:description" content="{{
   'Comprehensive Terms & Conditions for Fly TLV in compliance with Israeli law (2025).'
   if lang != 'he' else
@@ -29,7 +30,8 @@
 <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="{{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}" />
+<meta name="twitter:title"
+  content="{{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}" />
 <meta name="twitter:description" content="{{
   'Full Terms & Conditions for Fly TLV — legal obligations and user rights under Israeli law.'
   if lang != 'he' else
@@ -194,512 +196,605 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-3 px-2 px-md-3">
-  <!-- Breadcrumb -->
-  <nav aria-label="breadcrumb" class="mb-3">
-    <ol class="breadcrumb mb-0">
-      <li class="breadcrumb-item">
-        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">{{ 'Home' if lang != 'he' else 'בית' }}</a>
-      </li>
-      <li class="breadcrumb-item active" aria-current="page">{{ 'Terms & Conditions' if lang != 'he' else 'תנאים והגבלות' }}</li>
-    </ol>
-  </nav>
 
-  <!-- Header Card -->
-<div class="card shadow-sm mb-4">
-  <div class="card-body d-flex align-items-center">
-    <i class="bi bi-file-earmark-text fs-3 text-primary me-3"></i>
-    <div>
-      <h1 class="h4 mb-1">
-        {{ 'Terms & Conditions' if lang != 'he' else 'תנאים והגבלות' }}
-      </h1>
-      <p class="text-muted mb-0">
-        {{ 'The legal terms governing your use of Fly‑TLV.com, in accordance with Israeli law (updated November 2025).' if lang != 'he'
-           else 'המסמך המשפטי המסדיר את השימוש באתר Fly‑TLV.com, בהתאם לדין הישראלי (עודכן בנובמבר 2025).' }}
-      </p>
+<!-- Hero Section -->
+<div class="hero-section text-center py-5 shadow-sm mb-4" lang="{{ lang }}"
+  dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <div class="container position-relative z-1">
+    <h1 class="fw-bold mb-3 display-5">
+      {{ 'Terms & Conditions' if lang != 'he' else 'תנאים והגבלות' }}
+    </h1>
+    <p class="lead mx-auto" style="max-width: 800px;">
+      {{ 'The legal terms governing your use of Fly‑TLV.com, in accordance with Israeli law (updated November 2025).' if
+      lang != 'he'
+      else 'המסמך המשפטי המסדיר את השימוש באתר Fly‑TLV.com, בהתאם לדין הישראלי (עודכן בנובמבר 2025).' }}
+    </p>
+    <div
+      class="last-update-badge mt-2 d-inline-flex align-items-center bg-white bg-opacity-50 text-dark border border-white border-opacity-25 shadow-sm">
+      <i class="bi bi-clock-history"></i>
+      <span class="label-text">
+        <strong>{{ 'Last updated:' if lang != 'he' else 'עודכן לאחרונה:' }}</strong> November 2025
+      </span>
     </div>
   </div>
 </div>
 
+<div class="container py-3 px-2 px-md-3" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">{{ 'Home' if lang != 'he' else 'בית' }}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">{{ 'Terms & Conditions' if lang != 'he' else 'תנאים
+        והגבלות' }}</li>
+    </ol>
+  </nav>
 
-<p class="text-muted">
-  <strong>{{ 'Last updated:' if lang != 'he' else 'עודכן לאחרונה:' }}</strong> November 2025
-</p>
-  
-  
+
   <!-- Section 1 -->
   <div class="card shadow-sm mb-4">
-    <div class="card-header fw-semibold">{{ '1. Definitions' if lang != 'he' else '1. הגדרות' }}</div>
+    <div class="card-header fw-semibold text-primary">{{ '1. Definitions' if lang != 'he' else '1. הגדרות' }}</div>
     <div class="card-body">
       <ul>
-        <li><strong>{{ 'User / you / your' if lang != 'he' else 'משתמש / אתה / שלך' }}</strong> — {{ 'Any visitor, customer, or person using the Website or Services.' if lang != 'he' else 'כל מבקר, לקוח או אדם המשתמש באתר או בשירותים.' }}</li>
-        <li><strong>{{ 'Content' if lang != 'he' else 'תוכן' }}</strong> — {{ 'Text, images, videos, graphics, software, data, or other materials on the Website.' if lang != 'he' else 'טקסטים, תמונות, סרטונים, תוכנה, נתונים או חומרים אחרים באתר.' }}</li>
-        <li><strong>{{ 'Services' if lang != 'he' else 'שירותים' }}</strong> — {{ 'Any offerings, transactions, bookings, features, or functions provided via the Website.' if lang != 'he' else 'כל הצעה, עסקה, הזמנה, פיצ’ר או פונקציה המסופקים דרך האתר.' }}</li>
-		<li><strong>{{ 'Third Parties' if lang != 'he' else 'צדדים שלישיים' }}</strong> — {{ 'External entities, companies, or individuals not owned or operated by Fly‑TLV.com, including content providers, partners, and linked services.' if lang != 'he' else 'גורמים חיצוניים, חברות או אנשים שאינם בבעלות או תחת ניהול Fly‑TLV.com, כולל ספקי תוכן, שותפים ושירותים מקושרים.' }}</li>
-		<li><strong>{{ 'Advertisers' if lang != 'he' else 'מפרסמים' }}</strong> — {{ 'Third-party entities that display ads or promotional content on the Website. Fly‑TLV.com is not responsible for their content, offerings, or practices.' if lang != 'he' else 'גורמים חיצוניים המציגים מודעות או תוכן פרסומי באתר. Fly‑TLV.com אינה אחראית על התוכן, ההצעות או הנהלים שלהם.' }}</li>
+        <li><strong>{{ 'User / you / your' if lang != 'he' else 'משתמש / אתה / שלך' }}</strong> — {{ 'Any visitor,
+          customer, or person using the Website or Services.' if lang != 'he' else 'כל מבקר, לקוח או אדם המשתמש באתר או
+          בשירותים.' }}</li>
+        <li><strong>{{ 'Content' if lang != 'he' else 'תוכן' }}</strong> — {{ 'Text, images, videos, graphics, software,
+          data, or other materials on the Website.' if lang != 'he' else 'טקסטים, תמונות, סרטונים, תוכנה, נתונים או
+          חומרים אחרים באתר.' }}</li>
+        <li><strong>{{ 'Services' if lang != 'he' else 'שירותים' }}</strong> — {{ 'Any offerings, transactions,
+          bookings, features, or functions provided via the Website.' if lang != 'he' else 'כל הצעה, עסקה, הזמנה, פיצ’ר
+          או פונקציה המסופקים דרך האתר.' }}</li>
+        <li><strong>{{ 'Third Parties' if lang != 'he' else 'צדדים שלישיים' }}</strong> — {{ 'External entities,
+          companies, or individuals not owned or operated by Fly‑TLV.com, including content providers, partners, and
+          linked services.' if lang != 'he' else 'גורמים חיצוניים, חברות או אנשים שאינם בבעלות או תחת ניהול Fly‑TLV.com,
+          כולל ספקי תוכן, שותפים ושירותים מקושרים.' }}</li>
+        <li><strong>{{ 'Advertisers' if lang != 'he' else 'מפרסמים' }}</strong> — {{ 'Third-party entities that display
+          ads or promotional content on the Website. Fly‑TLV.com is not responsible for their content, offerings, or
+          practices.' if lang != 'he' else 'גורמים חיצוניים המציגים מודעות או תוכן פרסומי באתר. Fly‑TLV.com אינה אחראית
+          על התוכן, ההצעות או הנהלים שלהם.' }}</li>
       </ul>
     </div>
   </div>
 
   <!-- Section 2 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '2. Acceptance & Changes' if lang != 'he' else '2. קבלה ושינויים' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '2. Acceptance & Changes' if lang != 'he' else '2. קבלה ושינויים' }}
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>
+          {{ 'By using this website, you acknowledge that you have read, understood, and agreed to be bound by these
+          Terms of Use.' if lang != 'he' else 'בשימוש באתר זה אתה מצהיר שקראת, הבנת והסכמת להיות כפוף לתנאי השימוש.' }}
+        </li>
+        <li>
+          {{ 'Fly‑TLV.com may update these Terms at any time. Continued use of the site after changes constitutes your
+          acceptance of the updated Terms.' if lang != 'he' else 'Fly‑TLV.com רשאית לעדכן את תנאי השימוש בכל עת. המשך
+          השימוש באתר מהווה הסכמה לתנאים המעודכנים.' }}
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="card-body">
-    <ul>
-      <li>
-        {{ 'By using this website, you acknowledge that you have read, understood, and agreed to be bound by these Terms of Use.' if lang != 'he' else 'בשימוש באתר זה אתה מצהיר שקראת, הבנת והסכמת להיות כפוף לתנאי השימוש.' }}
-      </li>
-      <li>
-        {{ 'Fly‑TLV.com may update these Terms at any time. Continued use of the site after changes constitutes your acceptance of the updated Terms.' if lang != 'he' else 'Fly‑TLV.com רשאית לעדכן את תנאי השימוש בכל עת. המשך השימוש באתר מהווה הסכמה לתנאים המעודכנים.' }}
-      </li>
-    </ul>
-  </div>
-</div>
 
 
   <!-- Section 3 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '3. Use of the Website & Restrictions' if lang != 'he' else '3. שימוש באתר והגבלות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '3. Use of the Website & Restrictions' if lang != 'he' else '3. שימוש באתר והגבלות' }}
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>
+          {{ 'Use the website only for lawful purposes and in accordance with these Terms of Use.' if lang != 'he' else
+          'השתמש באתר רק למטרות חוקיות ובהתאם לתנאי השימוש.' }}
+        </li>
+        <li>
+          {{ 'Do not attempt to hack, disrupt, reverse engineer, spread malware, or use bots, scrapers, or automation
+          tools without explicit permission.' if lang != 'he' else 'אין לנסות לפרוץ, לשבש, להנדס לאחור, להעביר קוד זדוני
+          או להשתמש בבוטים, סורקים או כלי אוטומציה כלשהם ללא אישור מפורש.' }}
+        </li>
+        <li>
+          {{ 'You may not copy, reproduce, distribute, or resell any content from the website without prior written
+          consent from Fly‑TLV.com.' if lang != 'he' else 'אין להעתיק, לשכפל, להפיץ או למכור תוכן מהאתר ללא אישור כתוב
+          מראש מ-Fly‑TLV.com.' }}
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="card-body">
-    <ul>
-      <li>
-        {{ 'Use the website only for lawful purposes and in accordance with these Terms of Use.' if lang != 'he' else 'השתמש באתר רק למטרות חוקיות ובהתאם לתנאי השימוש.' }}
-      </li>
-      <li>
-        {{ 'Do not attempt to hack, disrupt, reverse engineer, spread malware, or use bots, scrapers, or automation tools without explicit permission.' if lang != 'he' else 'אין לנסות לפרוץ, לשבש, להנדס לאחור, להעביר קוד זדוני או להשתמש בבוטים, סורקים או כלי אוטומציה כלשהם ללא אישור מפורש.' }}
-      </li>
-      <li>
-        {{ 'You may not copy, reproduce, distribute, or resell any content from the website without prior written consent from Fly‑TLV.com.' if lang != 'he' else 'אין להעתיק, לשכפל, להפיץ או למכור תוכן מהאתר ללא אישור כתוב מראש מ-Fly‑TLV.com.' }}
-      </li>
-    </ul>
-  </div>
-</div>
 
 
   <!-- Section 4 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '4. Intellectual Property' if lang != 'he' else '4. זכויות יוצרים וקניין רוחני' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '4. Intellectual Property' if lang != 'he' else '4. זכויות יוצרים וקניין רוחני' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        All content, including text, graphics, logos, icons, and software on this website, is the property of
+        Fly‑TLV.com or its licensors and is protected by applicable intellectual property laws. You may use the content
+        only for personal, non-commercial purposes. Any unauthorized use is strictly prohibited.
+        {% else %}
+        כל התוכן באתר, כולל טקסטים, גרפיקה, סמלים, אייקונים ותוכנות, הוא בבעלות Fly‑TLV.com או ברישיון שלה, ומוגן על פי
+        חוקי הקניין הרוחני הרלוונטיים. ניתן להשתמש בתוכן זה רק לצרכים אישיים ולא מסחריים. כל שימוש שאינו מורשה אסור
+        בהחלט.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        All content, including text, graphics, logos, icons, and software on this website, is the property of Fly‑TLV.com or its licensors and is protected by applicable intellectual property laws. You may use the content only for personal, non-commercial purposes. Any unauthorized use is strictly prohibited.
-      {% else %}
-        כל התוכן באתר, כולל טקסטים, גרפיקה, סמלים, אייקונים ותוכנות, הוא בבעלות Fly‑TLV.com או ברישיון שלה, ומוגן על פי חוקי הקניין הרוחני הרלוונטיים. ניתן להשתמש בתוכן זה רק לצרכים אישיים ולא מסחריים. כל שימוש שאינו מורשה אסור בהחלט.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 5 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '5. Advertising & Responsibility Disclaimer' if lang != 'he' else '5. פרסום ואחריות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '5. Advertising & Responsibility Disclaimer' if lang != 'he' else '5. פרסום ואחריות' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        This website does not offer orders, bookings, or payments. It is free to use and contains third-party
+        advertisements. Fly-TLV is not responsible for any content, accuracy, or services offered through external links
+        or ads. No complaints can be submitted to Fly-TLV regarding third-party content or advertisements, and Fly-TLV
+        provides no guarantees or liability of any kind.
+        {% else %}
+        אתר זה אינו מספק הזמנות, רכישות או תשלומים. השימוש בו חופשי, והוא כולל פרסומות של צדדים שלישיים. Fly-TLV אינה
+        אחראית על תוכן, דיוק או שירותים המוצעים בקישורים או בפרסומות חיצוניות. לא ניתן להגיש תלונות ל-Fly-TLV בגין
+        פרסומות או תוכן של צדדים שלישיים, ו-Fly-TLV אינה מספקת כל אחריות או התחייבות בנושא.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        This website does not offer orders, bookings, or payments. It is free to use and contains third-party advertisements. Fly-TLV is not responsible for any content, accuracy, or services offered through external links or ads. No complaints can be submitted to Fly-TLV regarding third-party content or advertisements, and Fly-TLV provides no guarantees or liability of any kind.
-      {% else %}
-        אתר זה אינו מספק הזמנות, רכישות או תשלומים. השימוש בו חופשי, והוא כולל פרסומות של צדדים שלישיים. Fly-TLV אינה אחראית על תוכן, דיוק או שירותים המוצעים בקישורים או בפרסומות חיצוניות. לא ניתן להגיש תלונות ל-Fly-TLV בגין פרסומות או תוכן של צדדים שלישיים, ו-Fly-TLV אינה מספקת כל אחריות או התחייבות בנושא.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 6 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '6. Disclaimers & Warranties' if lang != 'he' else '6. כתב ויתור ואחריות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '6. Disclaimers & Warranties' if lang != 'he' else '6. כתב ויתור ואחריות' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        The website and its content are provided “as is” and “as available” without any warranties of any kind, express
+        or implied. We do not guarantee the accuracy, reliability, availability, or completeness of any content or
+        services provided through the site.
+        {% else %}
+        האתר והתוכן שבו ניתנים כפי שהם ("As Is") וכפופים לזמינות ("As Available"), ללא אחריות מכל סוג, מפורשת או משתמעת.
+        איננו מתחייבים לדיוק, אמינות, זמינות או שלמות של כל תוכן או שירות המוצעים באתר.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        The website and its content are provided “as is” and “as available” without any warranties of any kind, express or implied. We do not guarantee the accuracy, reliability, availability, or completeness of any content or services provided through the site.
-      {% else %}
-        האתר והתוכן שבו ניתנים כפי שהם ("As Is") וכפופים לזמינות ("As Available"), ללא אחריות מכל סוג, מפורשת או משתמעת. איננו מתחייבים לדיוק, אמינות, זמינות או שלמות של כל תוכן או שירות המוצעים באתר.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 7 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '7. Limitation of Liability' if lang != 'he' else '7. הגבלת אחריות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '7. Limitation of Liability' if lang != 'he' else '7. הגבלת אחריות' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        Fly‑TLV.com shall not be liable for any indirect, incidental, special, or consequential damages arising out of
+        or related to the use of this website or reliance on any content or services. In any case, our total liability
+        is limited to the actual amount paid by you, if any.
+        {% else %}
+        Fly‑TLV.com לא תהיה אחראית לכל נזק עקיף, מקרי, מיוחד או תוצאתי הנובע מהשימוש באתר זה או מהסתמכות על תוכן או
+        שירותים כלשהם. בכל מקרה, האחריות הכוללת שלנו מוגבלת לסכום ששולם בפועל, אם בכלל.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        Fly‑TLV.com shall not be liable for any indirect, incidental, special, or consequential damages arising out of or related to the use of this website or reliance on any content or services. In any case, our total liability is limited to the actual amount paid by you, if any.
-      {% else %}
-        Fly‑TLV.com לא תהיה אחראית לכל נזק עקיף, מקרי, מיוחד או תוצאתי הנובע מהשימוש באתר זה או מהסתמכות על תוכן או שירותים כלשהם. בכל מקרה, האחריות הכוללת שלנו מוגבלת לסכום ששולם בפועל, אם בכלל.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 8 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '8. Indemnification' if lang != 'he' else '8. שיפוי' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '8. Indemnification' if lang != 'he' else '8. שיפוי' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        You agree to indemnify and hold harmless Fly‑TLV.com from and against any claims, damages, liabilities, losses,
+        or expenses arising out of your use of the site, violation of these terms, or misuse of any services or
+        information provided.
+        {% else %}
+        אתה מסכים לשפות ולפצות את Fly‑TLV.com בגין כל תביעה, נזק, אחריות, הפסד או הוצאה הנובעים מהשימוש שלך באתר, מהפרת
+        תנאים אלה או משימוש לרעה בכל שירות או מידע המסופקים.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        You agree to indemnify and hold harmless Fly‑TLV.com from and against any claims, damages, liabilities, losses, or expenses arising out of your use of the site, violation of these terms, or misuse of any services or information provided.
-      {% else %}
-        אתה מסכים לשפות ולפצות את Fly‑TLV.com בגין כל תביעה, נזק, אחריות, הפסד או הוצאה הנובעים מהשימוש שלך באתר, מהפרת תנאים אלה או משימוש לרעה בכל שירות או מידע המסופקים.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 9 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '9. Termination / Suspension' if lang != 'he' else '9. סיום או השעיה' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '9. Termination / Suspension' if lang != 'he' else '9. סיום או השעיה' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        We reserve the right to suspend or terminate your access to the site at any time, without prior notice, for any
+        reason. Provisions related to disclaimers, limitations of liability, and indemnification will survive such
+        termination.
+        {% else %}
+        אנו שומרים לעצמנו את הזכות להשעות או לסיים את הגישה שלך לאתר בכל עת וללא הודעה מוקדמת, מכל סיבה שהיא. סעיפים
+        הנוגעים להצהרות פטור, הגבלת אחריות ושיפוי יישארו בתוקף גם לאחר סיום ההתקשרות.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        We reserve the right to suspend or terminate your access to the site at any time, without prior notice, for any reason. Provisions related to disclaimers, limitations of liability, and indemnification will survive such termination.
-      {% else %}
-        אנו שומרים לעצמנו את הזכות להשעות או לסיים את הגישה שלך לאתר בכל עת וללא הודעה מוקדמת, מכל סיבה שהיא. סעיפים הנוגעים להצהרות פטור, הגבלת אחריות ושיפוי יישארו בתוקף גם לאחר סיום ההתקשרות.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
-<!-- Section 10 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '10. Links & Third‑Party Content' if lang != 'he' else '10. קישורים ותוכן צד שלישי' }}
+  <!-- Section 10 -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '10. Links & Third‑Party Content' if lang != 'he' else '10. קישורים ותוכן צד שלישי' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        This website may include links to third-party websites or display content provided by external sources.
+        Fly‑TLV.com has no control over such content and is not responsible for its accuracy, reliability, legality, or
+        any consequences arising from its use.
+        {% else %}
+        אתר זה עשוי לכלול קישורים לאתרים של צדדים שלישיים או להציג תוכן שמקורו בגורמים חיצוניים. ל‑Fly‑TLV.com אין שליטה
+        על תכנים אלה ואינה אחראית לדיוקם, אמינותם, חוקיותם או לתוצאות כלשהן הנובעות משימוש בהם.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        This website may include links to third-party websites or display content provided by external sources. Fly‑TLV.com has no control over such content and is not responsible for its accuracy, reliability, legality, or any consequences arising from its use.
-      {% else %}
-        אתר זה עשוי לכלול קישורים לאתרים של צדדים שלישיים או להציג תוכן שמקורו בגורמים חיצוניים. ל‑Fly‑TLV.com אין שליטה על תכנים אלה ואינה אחראית לדיוקם, אמינותם, חוקיותם או לתוצאות כלשהן הנובעות משימוש בהם.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 11 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '11. Governing Law & Disputes' if lang != 'he' else '11. דין וסמכות שיפוט' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '11. Governing Law & Disputes' if lang != 'he' else '11. דין וסמכות שיפוט' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        These Terms and any dispute arising from them shall be governed exclusively by the laws of the State of Israel.
+        The competent courts located in Tel Aviv shall have sole and exclusive jurisdiction over any such dispute.
+        {% else %}
+        תנאים אלה וכל סכסוך הנובע מהם יהיו כפופים אך ורק לדיני מדינת ישראל. הסמכות הבלעדית לדון בכל סכסוך כאמור תהיה
+        נתונה לבתי המשפט המוסמכים בתל אביב.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        These Terms and any dispute arising from them shall be governed exclusively by the laws of the State of Israel. The competent courts located in Tel Aviv shall have sole and exclusive jurisdiction over any such dispute.
-      {% else %}
-        תנאים אלה וכל סכסוך הנובע מהם יהיו כפופים אך ורק לדיני מדינת ישראל. הסמכות הבלעדית לדון בכל סכסוך כאמור תהיה נתונה לבתי המשפט המוסמכים בתל אביב.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
 
   <!-- Section 12 -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '12. Miscellaneous' if lang != 'he' else '12. שונות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '12. Miscellaneous' if lang != 'he' else '12. שונות' }}
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>
+          {{ 'These Terms constitute the entire agreement between you and Fly‑TLV.com regarding your use of the
+          Website.' if lang != 'he' else 'תנאים אלה מהווים את ההסכם המלא בינך לבין Fly‑TLV.com בנוגע לשימושך באתר.' }}
+        </li>
+        <li>
+          {{ 'If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall
+          remain in full force and effect.' if lang != 'he' else 'אם יימצא כי הוראה כלשהי בתנאים אלה אינה תקפה או אינה
+          ניתנת לאכיפה, יתר ההוראות ימשיכו לחול במלואן.' }}
+        </li>
+        <li>
+          {{ 'We are not liable for delays or failures caused by events beyond our reasonable control, including but not
+          limited to acts of God, technical failures, or third-party actions.' if lang != 'he' else 'איננו אחראים
+          לעיכובים או כשלים הנגרמים בשל נסיבות שאינן בשליטתנו הסבירה, לרבות אך לא מוגבל לאירועי כוח עליון, תקלות טכניות
+          או פעולות של צדדים שלישיים.' }}
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="card-body">
-    <ul>
-      <li>
-        {{ 'These Terms constitute the entire agreement between you and Fly‑TLV.com regarding your use of the Website.' if lang != 'he' else 'תנאים אלה מהווים את ההסכם המלא בינך לבין Fly‑TLV.com בנוגע לשימושך באתר.' }}
-      </li>
-      <li>
-        {{ 'If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall remain in full force and effect.' if lang != 'he' else 'אם יימצא כי הוראה כלשהי בתנאים אלה אינה תקפה או אינה ניתנת לאכיפה, יתר ההוראות ימשיכו לחול במלואן.' }}
-      </li>
-      <li>
-        {{ 'We are not liable for delays or failures caused by events beyond our reasonable control, including but not limited to acts of God, technical failures, or third-party actions.' if lang != 'he' else 'איננו אחראים לעיכובים או כשלים הנגרמים בשל נסיבות שאינן בשליטתנו הסבירה, לרבות אך לא מוגבל לאירועי כוח עליון, תקלות טכניות או פעולות של צדדים שלישיים.' }}
-      </li>
-    </ul>
-  </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '13. Content Accuracy & No Legal Advice' if lang != 'he' else '13. דיוק המידע ואי־מתן ייעוץ משפטי' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '13. Content Accuracy & No Legal Advice' if lang != 'he' else '13. דיוק המידע ואי־מתן ייעוץ משפטי' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        The content on this website is provided for general informational purposes only. While we strive to ensure
+        accuracy, we make no guarantees as to the completeness, reliability, or timeliness of any content. Nothing on
+        the website should be considered legal, financial, or professional advice, and you should consult a qualified
+        expert for specific guidance.
+        {% else %}
+        התוכן באתר זה נועד לצרכי מידע כללי בלבד. למרות שאנו שואפים לדיוק, אין אנו מתחייבים לשלמות, אמינות או עדכניות של
+        המידע. אין לראות באף תוכן באתר ייעוץ משפטי, פיננסי או מקצועי, ויש להתייעץ עם גורם מוסמך במידת הצורך.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        The content on this website is provided for general informational purposes only. While we strive to ensure accuracy, we make no guarantees as to the completeness, reliability, or timeliness of any content. Nothing on the website should be considered legal, financial, or professional advice, and you should consult a qualified expert for specific guidance.
-      {% else %}
-        התוכן באתר זה נועד לצרכי מידע כללי בלבד. למרות שאנו שואפים לדיוק, אין אנו מתחייבים לשלמות, אמינות או עדכניות של המידע. אין לראות באף תוכן באתר ייעוץ משפטי, פיננסי או מקצועי, ויש להתייעץ עם גורם מוסמך במידת הצורך.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '14. No Liability for User Conduct' if lang != 'he' else '14. אי־אחריות על פעולות המשתמשים' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '14. No Liability for User Conduct' if lang != 'he' else '14. אי־אחריות על פעולות המשתמשים' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        Fly‑TLV.com is not responsible for the behavior, actions, or any content shared, posted, or transmitted by users
+        on or through the website. Users are solely responsible for their own conduct, communications, and any
+        consequences that may arise from their interactions with others.
+        {% else %}
+        Fly‑TLV.com אינה אחראית להתנהגות, פעולות או תכנים שמשתמשים משתפים, מפרסמים או מעבירים באתר או באמצעותו. כל משתמש
+        אחראי באופן בלעדי להתנהלותו, לתקשורתו ולכל השלכות הנובעות מהאינטראקציה שלו עם אחרים.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        Fly‑TLV.com is not responsible for the behavior, actions, or any content shared, posted, or transmitted by users on or through the website. Users are solely responsible for their own conduct, communications, and any consequences that may arise from their interactions with others.
-      {% else %}
-        Fly‑TLV.com אינה אחראית להתנהגות, פעולות או תכנים שמשתמשים משתפים, מפרסמים או מעבירים באתר או באמצעותו. כל משתמש אחראי באופן בלעדי להתנהלותו, לתקשורתו ולכל השלכות הנובעות מהאינטראקציה שלו עם אחרים.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '15. Third‑Party Services & Integration' if lang != 'he' else '15. שירותי צד שלישי ושילוב מערכות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '15. Third‑Party Services & Integration' if lang != 'he' else '15. שירותי צד שלישי ושילוב מערכות' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        The Website may provide access to or integrate services operated by third parties (such as payment processors,
+        analytics tools, or advertising networks). Fly‑TLV.com does not control these external services and is not
+        liable for their content, performance, availability, or any resulting issues or damages.
+        {% else %}
+        האתר עשוי להעניק גישה או לשלב שירותים המופעלים על ידי צדדים שלישיים (כגון ספקי תשלומים, כלי אנליטיקה או רשתות
+        פרסום). Fly‑TLV.com אינה שולטת בשירותים אלה ואינה אחראית לתוכנם, לפעולתם, לזמינותם או לכל בעיה או נזק שעלולים
+        להיגרם כתוצאה מהם.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        The Website may provide access to or integrate services operated by third parties (such as payment processors, analytics tools, or advertising networks). Fly‑TLV.com does not control these external services and is not liable for their content, performance, availability, or any resulting issues or damages.
-      {% else %}
-        האתר עשוי להעניק גישה או לשלב שירותים המופעלים על ידי צדדים שלישיים (כגון ספקי תשלומים, כלי אנליטיקה או רשתות פרסום). Fly‑TLV.com אינה שולטת בשירותים אלה ואינה אחראית לתוכנם, לפעולתם, לזמינותם או לכל בעיה או נזק שעלולים להיגרם כתוצאה מהם.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '16. No Waiver of Rights' if lang != 'he' else '16. אין ויתור על זכויות' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '16. No Waiver of Rights' if lang != 'he' else '16. אין ויתור על זכויות' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        Our failure to enforce any right or provision of these Terms shall not be deemed a waiver of such right or
+        provision. Any rights not expressly granted herein remain fully reserved.
+        {% else %}
+        אי־אכיפת זכות או הוראה כלשהי מתוך תנאים אלה לא תיחשב ויתור על אותה זכות או הוראה. כל זכות שלא ניתנה במפורש במסמך
+        זה שמורה לנו במלואה.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        Our failure to enforce any right or provision of these Terms shall not be deemed a waiver of such right or provision. Any rights not expressly granted herein remain fully reserved.
-      {% else %}
-        אי־אכיפת זכות או הוראה כלשהי מתוך תנאים אלה לא תיחשב ויתור על אותה זכות או הוראה. כל זכות שלא ניתנה במפורש במסמך זה שמורה לנו במלואה.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '17. User‑Generated Content (UGC)' if lang != 'he' else '17. תוכן שנוצר על ידי משתמשים (UGC)' }}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '17. User‑Generated Content (UGC)' if lang != 'he' else '17. תוכן שנוצר על ידי משתמשים (UGC)' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        If the Website allows you to submit content (such as comments, reviews, or uploads), you retain full ownership
+        of your content. However, by submitting it, you grant Fly‑TLV.com a non-exclusive, worldwide, royalty-free
+        license to use, reproduce, display, and distribute the content in connection with the Website.
+        {% else %}
+        אם האתר מאפשר לך לשלוח תוכן (כגון תגובות, ביקורות או קבצים), הבעלות על התוכן נשארת בידיך. עם זאת, על ידי שליחתו
+        אתה מעניק ל‑Fly‑TLV.com רישיון עולמי, לא בלעדי וללא תמלוגים, להשתמש, לשכפל, להציג ולהפיץ את התוכן בקשר עם האתר.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        You are solely responsible for any content you submit and must ensure it does not violate any laws, intellectual
+        property rights, or the rights of others. Fly‑TLV.com reserves the right to remove or restrict any content at
+        its sole discretion, without notice.
+        {% else %}
+        אתה אחראי באופן בלעדי לכל תוכן שתשלח, ועליך לוודא שאינו מפר חוקים, זכויות קניין רוחני או זכויות של אחרים.
+        Fly‑TLV.com שומרת לעצמה את הזכות להסיר או להגביל כל תוכן לפי שיקול דעתה הבלעדי, וללא צורך במתן הודעה מוקדמת.
+        {% endif %}
+      </p>
+    </div>
   </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        If the Website allows you to submit content (such as comments, reviews, or uploads), you retain full ownership of your content. However, by submitting it, you grant Fly‑TLV.com a non-exclusive, worldwide, royalty-free license to use, reproduce, display, and distribute the content in connection with the Website.
-      {% else %}
-        אם האתר מאפשר לך לשלוח תוכן (כגון תגובות, ביקורות או קבצים), הבעלות על התוכן נשארת בידיך. עם זאת, על ידי שליחתו אתה מעניק ל‑Fly‑TLV.com רישיון עולמי, לא בלעדי וללא תמלוגים, להשתמש, לשכפל, להציג ולהפיץ את התוכן בקשר עם האתר.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        You are solely responsible for any content you submit and must ensure it does not violate any laws, intellectual property rights, or the rights of others. Fly‑TLV.com reserves the right to remove or restrict any content at its sole discretion, without notice.
-      {% else %}
-        אתה אחראי באופן בלעדי לכל תוכן שתשלח, ועליך לוודא שאינו מפר חוקים, זכויות קניין רוחני או זכויות של אחרים. Fly‑TLV.com שומרת לעצמה את הזכות להסיר או להגביל כל תוכן לפי שיקול דעתה הבלעדי, וללא צורך במתן הודעה מוקדמת.
-      {% endif %}
-    </p>
-  </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '18. Children’s Privacy & Age Limitations' if lang != 'he' else '18. פרטיות קטינים והגבלת גיל' }}
-  </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        The Website is not intended for individuals under the age of 18. We do not knowingly collect personal information from minors. If we become aware that a minor has submitted personal data, we will take immediate steps to delete such information.
-      {% else %}
-        האתר אינו מיועד לקטינים מתחת לגיל 18. איננו אוספים ביודעין מידע אישי מילדים. אם נלמד כי קטין מסר מידע אישי — נפעל למחיקתו באופן מיידי.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        Parents or legal guardians who believe that their child has provided us with personal data are encouraged to contact us to request removal of the information.
-      {% else %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '18. Children’s Privacy & Age Limitations' if lang != 'he' else '18. פרטיות קטינים והגבלת גיל' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        The Website is not intended for individuals under the age of 18. We do not knowingly collect personal
+        information from minors. If we become aware that a minor has submitted personal data, we will take immediate
+        steps to delete such information.
+        {% else %}
+        האתר אינו מיועד לקטינים מתחת לגיל 18. איננו אוספים ביודעין מידע אישי מילדים. אם נלמד כי קטין מסר מידע אישי —
+        נפעל למחיקתו באופן מיידי.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        Parents or legal guardians who believe that their child has provided us with personal data are encouraged to
+        contact us to request removal of the information.
+        {% else %}
         הורים או אפוטרופוסים הסבורים כי ילדיהם מסרו לנו מידע אישי מוזמנים ליצור קשר לצורך הסרת המידע.
-      {% endif %}
-    </p>
+        {% endif %}
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '19. Data Protection — Israeli Law & GDPR' if lang != 'he' else '19. הגנת מידע — חוק ישראלי ו-GDPR' }}
-  </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        We comply with Israel’s Protection of Privacy Law (1981, as amended), including Amendment 13 effective August 2025, and align our data practices with the principles of the European General Data Protection Regulation (GDPR).
-      {% else %}
-        אנו פועלים לפי חוק הגנת הפרטיות בישראל (1981, עם תיקון 13 שייכנס לתוקף באוגוסט 2025), ומשווים את נוהלי המידע שלנו לעקרונות תקנות ה‑GDPR של האיחוד האירופי.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        Data subjects have rights including access, correction, deletion, and the right to object to processing. You may exercise these rights by contacting us.
-      {% else %}
-        לנושאי מידע קיימות זכויות, כולל גישה, תיקון, מחיקה וזכות להתנגד לעיבוד. ניתן לממש זכויות אלו על ידי יצירת קשר עמנו.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        We implement appropriate technical and organizational safeguards to protect your data from unauthorized access, disclosure, alteration, or misuse.
-      {% else %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '19. Data Protection — Israeli Law & GDPR' if lang != 'he' else '19. הגנת מידע — חוק ישראלי ו-GDPR' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        We comply with Israel’s Protection of Privacy Law (1981, as amended), including Amendment 13 effective August
+        2025, and align our data practices with the principles of the European General Data Protection Regulation
+        (GDPR).
+        {% else %}
+        אנו פועלים לפי חוק הגנת הפרטיות בישראל (1981, עם תיקון 13 שייכנס לתוקף באוגוסט 2025), ומשווים את נוהלי המידע
+        שלנו לעקרונות תקנות ה‑GDPR של האיחוד האירופי.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        Data subjects have rights including access, correction, deletion, and the right to object to processing. You may
+        exercise these rights by contacting us.
+        {% else %}
+        לנושאי מידע קיימות זכויות, כולל גישה, תיקון, מחיקה וזכות להתנגד לעיבוד. ניתן לממש זכויות אלו על ידי יצירת קשר
+        עמנו.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        We implement appropriate technical and organizational safeguards to protect your data from unauthorized access,
+        disclosure, alteration, or misuse.
+        {% else %}
         אנו מיישמים אמצעים טכניים וארגוניים מתאימים כדי להגן על המידע שלך מגישה, חשיפה, שינוי או שימוש בלתי מורשים.
-      {% endif %}
-    </p>
+        {% endif %}
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '20. No Login Required & No Personal Data Collection' if lang != 'he' else '20. ללא התחברות וללא איסוף מידע אישי' }}
-  </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        Our Website and Services do not require users to create an account, log in, or submit personal information. We do not maintain user profiles, databases, or persistent identifiers.
-      {% else %}
-        האתר והשירותים שלנו אינם דורשים יצירת חשבון, התחברות או מסירת מידע אישי. איננו שומרים פרופילים, מאגרי מידע או מזהים מתמשכים של משתמשים.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '20. No Login Required & No Personal Data Collection' if lang != 'he' else '20. ללא התחברות וללא איסוף מידע
+      אישי' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        Our Website and Services do not require users to create an account, log in, or submit personal information. We
+        do not maintain user profiles, databases, or persistent identifiers.
+        {% else %}
+        האתר והשירותים שלנו אינם דורשים יצירת חשבון, התחברות או מסירת מידע אישי. איננו שומרים פרופילים, מאגרי מידע או
+        מזהים מתמשכים של משתמשים.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
         We do not track, store, or analyze user behavior, preferences, travel interests, or destination choices.
-      {% else %}
+        {% else %}
         איננו עוקבים, שומרים או מנתחים התנהגות, העדפות, תחומי עניין או בחירות יעדים של המשתמשים.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        Basic technical logs (such as anonymized IP addresses or error diagnostics) may be temporarily processed for security, debugging, and performance monitoring purposes only. These logs do not identify individuals.
-      {% else %}
-        עשויים להישמר לוגים טכניים בסיסיים בלבד (כגון כתובות IP מנותקות מזהות או נתוני שגיאות) לצורכי אבטחה, ניפוי באגים וניטור ביצועים בלבד — מבלי לזהות משתמשים.
-      {% endif %}
-    </p>
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        Basic technical logs (such as anonymized IP addresses or error diagnostics) may be temporarily processed for
+        security, debugging, and performance monitoring purposes only. These logs do not identify individuals.
+        {% else %}
+        עשויים להישמר לוגים טכניים בסיסיים בלבד (כגון כתובות IP מנותקות מזהות או נתוני שגיאות) לצורכי אבטחה, ניפוי באגים
+        וניטור ביצועים בלבד — מבלי לזהות משתמשים.
+        {% endif %}
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '21. Cookies & Analytics' if lang != 'he' else '21. עוגיות ואנליטיקה' }}
-  </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        We may use cookies or similar technologies to enhance user experience, remember preferences, and monitor website performance.
-      {% else %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '21. Cookies & Analytics' if lang != 'he' else '21. עוגיות ואנליטיקה' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        We may use cookies or similar technologies to enhance user experience, remember preferences, and monitor website
+        performance.
+        {% else %}
         אנו עשויים להשתמש בעוגיות או בטכנולוגיות דומות כדי לשפר את חוויית המשתמש, לשמור העדפות ולנטר ביצועים באתר.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
         We do not use cookies to identify users or track their behavior across external websites.
-      {% else %}
+        {% else %}
         איננו משתמשים בעוגיות כדי לזהות משתמשים או לעקוב אחר פעילותם באתרים חיצוניים.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        Some cookies may be placed by third-party analytics services (e.g., Google Analytics) or advertising platforms (e.g., Google AdSense), and are subject to their respective privacy policies.
-      {% else %}
-        חלק מהעוגיות עשויות להיות מוגדרות על ידי שירותי אנליטיקה חיצוניים (כגון Google Analytics) או פלטפורמות פרסום (כגון Google AdSense), בהתאם למדיניות הפרטיות שלהן.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        You can manage, limit, or block cookies through your browser settings. Disabling cookies may affect certain website features.
-      {% else %}
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        Some cookies may be placed by third-party analytics services (e.g., Google Analytics) or advertising platforms
+        (e.g., Google AdSense), and are subject to their respective privacy policies.
+        {% else %}
+        חלק מהעוגיות עשויות להיות מוגדרות על ידי שירותי אנליטיקה חיצוניים (כגון Google Analytics) או פלטפורמות פרסום
+        (כגון Google AdSense), בהתאם למדיניות הפרטיות שלהן.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        You can manage, limit, or block cookies through your browser settings. Disabling cookies may affect certain
+        website features.
+        {% else %}
         ניתן לנהל, להגביל או לחסום עוגיות באמצעות הגדרות הדפדפן שלך. חסימת עוגיות עשויה לפגוע בתפקוד חלק מהפיצ’רים באתר.
-      {% endif %}
-    </p>
+        {% endif %}
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '22. Accessibility & Assistive Technology Support' if lang != 'he' else '22. נגישות ותמיכה בטכנולוגיות מסייעות' }}
-  </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        We are committed to digital accessibility and strive to make the Website usable by people with disabilities, in accordance with Israeli Standard 5568.
-      {% else %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '22. Accessibility & Assistive Technology Support' if lang != 'he' else '22. נגישות ותמיכה בטכנולוגיות מסייעות'
+      }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        We are committed to digital accessibility and strive to make the Website usable by people with disabilities, in
+        accordance with Israeli Standard 5568.
+        {% else %}
         אנו מחויבים לנגישות דיגיטלית ושואפים לאפשר שימוש באתר לאנשים עם מוגבלות, בהתאם לתקן הישראלי 5568.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        The Website supports content zoom, keyboard navigation, high-contrast modes, and screen reader compatibility wherever feasible.
-      {% else %}
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        The Website supports content zoom, keyboard navigation, high-contrast modes, and screen reader compatibility
+        wherever feasible.
+        {% else %}
         האתר תומך בהגדלת תוכן (Zoom), ניווט באמצעות מקלדת, מצבי ניגודיות גבוהה ותאימות לקוראי מסך ככל שניתן.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        If you experience any accessibility barriers, please contact us and we will make every effort to resolve the issue promptly.
-      {% else %}
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        If you experience any accessibility barriers, please contact us and we will make every effort to resolve the
+        issue promptly.
+        {% else %}
         אם נתקלת במחסומי נגישות כלשהם, נשמח שתפנה אלינו ונעשה את מיטב יכולתנו לטפל בכך בהקדם.
-      {% endif %}
-    </p>
+        {% endif %}
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="card shadow-sm mb-4">
-  <div class="card-header fw-semibold">
-    {{ '23. Non-Profit Status & Advertising Disclosure' if lang != 'he' else '23. אי־רווחיות וחשיפת פרסומות' }}
-  </div>
-  <div class="card-body">
-    <p>
-      {% if lang != 'he' %}
-        Fly‑TLV.com is a non-profit informational platform created for the benefit of the public. It does not operate for commercial gain or offer paid products or subscriptions.
-      {% else %}
-        Fly‑TLV.com הוא אתר מידע ללא מטרות רווח, שנועד לשרת את הציבור. האתר אינו פועל למטרות מסחריות ואינו מציע מוצרים או מנויים בתשלום.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        Minimal advertising (e.g., Google Ads) may be displayed to help offset hosting and maintenance costs. Ads do not reflect endorsement or sponsorship.
-      {% else %}
-        ייתכן שיוצגו פרסומות מצומצמות (כגון מודעות Google) לצורך כיסוי עלויות האחסון והתחזוקה. הפרסומות אינן מהוות המלצה או חסות מטעם האתר.
-      {% endif %}
-    </p>
-    <p>
-      {% if lang != 'he' %}
-        We strive to maintain a clean, respectful user experience, and advertising is not tailored based on personal tracking or profiling.
-      {% else %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-semibold text-primary">
+      {{ '23. Non-Profit Status & Advertising Disclosure' if lang != 'he' else '23. אי־רווחיות וחשיפת פרסומות' }}
+    </div>
+    <div class="card-body">
+      <p>
+        {% if lang != 'he' %}
+        Fly‑TLV.com is a non-profit informational platform created for the benefit of the public. It does not operate
+        for commercial gain or offer paid products or subscriptions.
+        {% else %}
+        Fly‑TLV.com הוא אתר מידע ללא מטרות רווח, שנועד לשרת את הציבור. האתר אינו פועל למטרות מסחריות ואינו מציע מוצרים
+        או מנויים בתשלום.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        Minimal advertising (e.g., Google Ads) may be displayed to help offset hosting and maintenance costs. Ads do not
+        reflect endorsement or sponsorship.
+        {% else %}
+        ייתכן שיוצגו פרסומות מצומצמות (כגון מודעות Google) לצורך כיסוי עלויות האחסון והתחזוקה. הפרסומות אינן מהוות המלצה
+        או חסות מטעם האתר.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang != 'he' %}
+        We strive to maintain a clean, respectful user experience, and advertising is not tailored based on personal
+        tracking or profiling.
+        {% else %}
         אנו שואפים לחוויית משתמש נקייה ומכבדת, והפרסום באתר אינו מותאם אישית ואינו מבוסס על פרופיל או מעקב אישי.
-      {% endif %}
-    </p>
+        {% endif %}
+      </p>
+    </div>
   </div>
 </div>
-</div>
 
-<style>
-body.dark-mode .card-body { color: #e5e5e5 !important; }
-body.dark-mode .text-muted { color: #aaa !important; }
-body.dark-mode .card, body.dark-mode .card-body, body.dark-mode .card-header {
-  background-color: #111 !important; color: #ddd !important;
-}
-body.dark-mode .breadcrumb-item a { color: #93c5fd; }
-body.dark-mode .breadcrumb-item.active { color: #999; }
-</style>
 {% endblock %}

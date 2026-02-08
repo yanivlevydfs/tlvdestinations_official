@@ -11,13 +11,16 @@
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
 <!-- ✅ Page-specific SEO -->
-<meta name="description" content="Up-to-date travel warnings by country from official government sources. Check threat levels and safety recommendations for travelers from Israel and abroad.">
-<meta name="keywords" content="travel warnings, Israel travel advisory, TLV destinations, safe travel, security alerts, Ministry of Foreign Affairs, Ben Gurion Airport">
+<meta name="description"
+  content="Up-to-date travel warnings by country from official government sources. Check threat levels and safety recommendations for travelers from Israel and abroad.">
+<meta name="keywords"
+  content="travel warnings, Israel travel advisory, TLV destinations, safe travel, security alerts, Ministry of Foreign Affairs, Ben Gurion Airport">
 
 <!-- ✅ Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Travel Warnings — Updated by Country | Fly-TLV">
-<meta property="og:description" content="Explore current travel warnings, threat levels, and recommendations by country — updated from verified government offices.">
+<meta property="og:description"
+  content="Explore current travel warnings, threat levels, and recommendations by country — updated from verified government offices.">
 <meta property="og:url" content="https://fly-tlv.com/travel-warnings">
 <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
 <meta property="og:image:alt" content="Global travel risk map and advisories">
@@ -25,7 +28,8 @@
 <!-- ✅ Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Travel Warnings — Fly TLV">
-<meta name="twitter:description" content="Current travel warnings and risk levels by country, updated frequently from official Israeli and international sources.">
+<meta name="twitter:description"
+  content="Current travel warnings and risk levels by country, updated frequently from official Israeli and international sources.">
 <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
 <meta name="twitter:image:alt" content="Global travel risk map and advisories">
 
@@ -150,570 +154,267 @@
 
 {% endblock %}
 {% block content %}
-<div class="container my-4 text-center" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
-<!-- Breadcrumbs -->
-<nav aria-label="breadcrumb" class="mb-3 text-start" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
-  <ol class="breadcrumb mb-0">
-    <li class="breadcrumb-item">
-      <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
-        {{ 'Home' if lang != 'he' else 'בית' }}
-      </a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">
-      {{ 'Travel Warnings' if lang != 'he' else 'אזהרות מסע' }}
-    </li>
-  </ol>
-</nav>
 
-<h2 class="section-title">
-  {% if lang == 'he' %}🌍 אזהרות מסע{% else %}🌍 Travel Warnings{% endif %}
-</h2>
-
-
-{% if last_update %}
-  <div class="text-center mb-4">
-    <span class="last-update-badge">
+<!-- Hero Section -->
+<div class="hero-section text-center py-5 shadow-sm mb-4" lang="{{ lang }}"
+  dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <div class="container position-relative z-1">
+    <h1 class="fw-bold mb-2">
+      {% if lang == 'he' %}🌍 אזהרות מסע{% else %}🌍 Travel Warnings{% endif %}
+    </h1>
+    {% if last_update %}
+    <div
+      class="last-update-badge mt-2 d-inline-flex align-items-center bg-white bg-opacity-50 text-dark border border-white border-opacity-25 shadow-sm">
       <i class="bi bi-clock-history"></i>
       <span class="label-text">
         {% if lang == 'he' %}עודכן לאחרונה:{% else %}Last update:{% endif %}
       </span>
       <strong>{{ last_update }}</strong>
-    </span>
+    </div>
+    {% endif %}
   </div>
-{% endif %}
+</div>
 
+<div class="container py-4" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-4 text-start" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'Travel Warnings' if lang != 'he' else 'אזהרות מסע' }}
+      </li>
+    </ol>
+  </nav>
 
-  <!-- Search & Filter -->
-<div class="card shadow-sm mb-4 text-start">
-  <div class="card-header fw-semibold">
-    {% if lang == 'he' %} חיפוש וסינון {% else %} Search & Filter {% endif %}
-  </div>
-  <div class="card-body">
-    <div class="row g-3">
-      <div class="col-md-3">
-        <label for="continent-filter" class="form-label">
-          {% if lang == 'he' %} יבשת {% else %} Continent {% endif %}
-        </label>
-        <select id="continent-filter" class="form-select">
-          <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
-          {% for c in continents %}
+  <!-- Search & Filter Card -->
+  <div class="card shadow-sm mb-4 text-start">
+    <div class="card-header fw-semibold">
+      {% if lang == 'he' %} חיפוש וסינון {% else %} Search & Filter {% endif %}
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label for="continent-filter" class="form-label">
+            {% if lang == 'he' %} יבשת {% else %} Continent {% endif %}
+          </label>
+          <select id="continent-filter" class="form-select">
+            <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+            {% for c in continents %}
             <option value="{{ c }}">{{ c }}</option>
-          {% endfor %}
-        </select>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="country-filter" class="form-label">
+            {% if lang == 'he' %} מדינה {% else %} Country {% endif %}
+          </label>
+          <select id="country-filter" class="form-select">
+            <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+            {% for c in countries %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="level-filter" class="form-label">
+            {% if lang == 'he' %} רמת איום {% else %} Threat Level {% endif %}
+          </label>
+          <select id="level-filter" class="form-select">
+            <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
+            <option value="High">{% if lang == 'he' %}גבוה{% else %}High{% endif %}</option>
+            <option value="Medium">{% if lang == 'he' %}בינוני{% else %}Medium{% endif %}</option>
+            <option value="Low">{% if lang == 'he' %}נמוך{% else %}Low{% endif %}</option>
+            <option value="Unknown">{% if lang == 'he' %}לא ידוע{% else %}Unknown{% endif %}</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="query-filter" class="form-label">
+            {% if lang == 'he' %} חיפוש חופשי {% else %} Free Search {% endif %}
+          </label>
+          <input type="text" id="query-filter" class="form-control"
+            placeholder="{% if lang == 'he' %}חיפוש בהמלצות, משרד...{% else %}Search recommendations, office...{% endif %}">
+        </div>
       </div>
 
-		<div class="col-md-3">
-		  <label for="country-filter" class="form-label">
-			{% if lang == 'he' %} מדינה {% else %} Country {% endif %}
-		  </label>
-		  <select id="country-filter" class="form-select">
-			<option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
-			{% for c in countries %}
-			  <option value="{{ c }}">{{ c }}</option>
-			{% endfor %}
-		  </select>
-		</div>
-
-<div class="col-md-3">
-  <label for="level-filter" class="form-label">
-    {% if lang == 'he' %} רמת איום {% else %} Threat Level {% endif %}
-  </label>
-  <select id="level-filter" class="form-select">
-    <option value="">{% if lang == 'he' %} הצג הכל {% else %} Show All {% endif %}</option>
-    <option value="High">{% if lang == 'he' %}גבוה{% else %}High{% endif %}</option>
-    <option value="Medium">{% if lang == 'he' %}בינוני{% else %}Medium{% endif %}</option>
-    <option value="Low">{% if lang == 'he' %}נמוך{% else %}Low{% endif %}</option>
-    <option value="Unknown">{% if lang == 'he' %}לא ידוע{% else %}Unknown{% endif %}</option>
-  </select>
-</div>
-
-
-<div class="col-md-3">
-  <label for="query-filter" class="form-label">
-    {% if lang == 'he' %} חיפוש חופשי {% else %} Free Search {% endif %}
-  </label>
-  <input type="text" id="query-filter" class="form-control"
-         placeholder="{% if lang == 'he' %}חיפוש בהמלצות, משרד...{% else %}Search recommendations, office...{% endif %}">
-</div>
-
-
-<div class="border-top pt-3 mt-3 d-flex gap-2">
-  <button class="btn btn-sm btn-outline-secondary" id="clear-filters"
+      <div class="border-top pt-3 mt-3 d-flex gap-2 align-items-center">
+        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="clear-filters"
           aria-label="{{ 'Clear Filters' if lang != 'he' else 'איפוס סינון' }}">
-    <i class="bi bi-x-circle me-1"></i>
-    {{ 'Clear' if lang != 'he' else 'איפוס' }}
-  </button>
-  <span class="ms-auto text-muted small" id="active-filters">
-    {{ 'No filters applied' if lang != 'he' else 'ללא סינון' }}
-  </span>
-</div>
+          <i class="bi bi-x-circle me-1"></i>
+          {{ 'Clear' if lang != 'he' else 'איפוס' }}
+        </button>
+        <span class="ms-auto text-muted small" id="active-filters">
+          {{ 'No filters applied' if lang != 'he' else 'ללא סינון' }}
+        </span>
+      </div>
+    </div>
+  </div>
 
 
-  <!-- Table -->
+  <!-- Table Card -->
   <div class="card shadow-sm text-start">
-    <div class="card-body">
-	  <div class="table-responsive">
-      <table id="warnings-table" class="table table-striped table-hover w-100 align-middle">
-<thead class="table-primary">
-  <tr>
-    <th scope="col">{{ 'Continent' if lang != 'he' else 'יבשת' }}</th>
-    <th scope="col">{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
-    <th scope="col">{{ 'Threat Level' if lang != 'he' else 'רמת איום' }}</th>
-    <th scope="col">{{ 'Recommendations' if lang != 'he' else 'המלצות' }}</th>
-    <th scope="col">{{ 'Link' if lang != 'he' else 'לינק' }}</th>    
-  </tr>
-</thead>
-        <tbody>
-          {% for w in warnings %}
-          {% set level_value = (
+    <div class="card-body p-2 p-md-3">
+      <div class="table-responsive">
+        <table id="warnings-table" class="styled-table table table-striped table-hover w-100 align-middle">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">{{ 'Continent' if lang != 'he' else 'יבשת' }}</th>
+              <th scope="col">{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
+              <th scope="col">{{ 'Threat Level' if lang != 'he' else 'רמת איום' }}</th>
+              <th scope="col">{{ 'Recommendations' if lang != 'he' else 'המלצות' }}</th>
+              <th scope="col">{{ 'Link' if lang != 'he' else 'לינק' }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for w in warnings %}
+            {% set level_value = (
             "High" if w.level == "High" else
             "Medium" if w.level == "Medium" else
             "Low" if w.level == "Low" else
             "Unknown"
-          ) %}
-          <tr>
-            <td>{{ w.continent }}</td>
-            <td class="dtr-control">{{ w.country }}</td>
+            ) %}
+            <tr>
+              <td>{{ w.continent }}</td>
+              <td class="dtr-control">{{ w.country }}</td>
 
-            <td>
-              <span class="search-text d-none">{{ level_value }}</span>
-              {% if level_value == "High" %}
-                <span class="badge bg-danger">גבוה</span>
-              {% elif level_value == "Medium" %}
-                <span class="badge bg-warning text-dark">בינוני</span>
-              {% elif level_value == "Low" %}
-                <span class="badge bg-success">נמוך</span>
-              {% else %}
-                <span class="badge bg-secondary">לא ידוע</span>
-              {% endif %}
-            </td>
-            <td>{{ w.recommendations }}</td>
-            <td>
-              {% if w.details_url %}
-                <a href="{{ w.details_url }}" target="_blank" class="btn btn-sm btn-primary">פרטים</a>
-              {% else %}—{% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              <td>
+                <span class="search-text d-none">{{ level_value }}</span>
+                {% if level_value == "High" %}
+                <span class="flight-status-badge badge bg-danger">גבוה</span>
+                {% elif level_value == "Medium" %}
+                <span class="flight-status-badge badge bg-warning text-dark">בינוני</span>
+                {% elif level_value == "Low" %}
+                <span class="flight-status-badge badge bg-success">נמוך</span>
+                {% else %}
+                <span class="flight-status-badge badge bg-secondary">לא ידוע</span>
+                {% endif %}
+              </td>
+              <td>{{ w.recommendations }}</td>
+              <td>
+                {% if w.details_url %}
+                <a href="{{ w.details_url }}" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3">פרטים</a>
+                {% else %}—{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
- </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<style>
-/* Page title */
-.section-title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.5rem;
-}
-.section-title::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 4px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #7c3aed, #0ea5e9);
-}
-#warnings-table td:nth-child(4) {
-  white-space: normal !important;
-  word-break: break-word;
-}
-
-/* CSV & Column Visibility Buttons */
-.dt-buttons .btn {
-  margin-inline-end: 0.5rem;
-}
-
-/* Dark Mode Badge Fix */
-body.dark-mode .badge.bg-info {
-  color: #f8f9fa !important;
-}
-
-/* CSV Button (light & dark mode unified) */
-.buttons-csv {
-  background-color: #10b981;
-  border-color: #10b981;
-  color: white !important;
-}
-.buttons-csv:hover {
-  background-color: #059669;
-  border-color: #059669;
-  color: white !important; /* ✅ force white text on hover */
-}
-body.dark-mode .buttons-csv {
-  background-color: #10b981;
-  border-color: #10b981;
-  color: white !important;
-}
-body.dark-mode .buttons-csv:hover {
-  background-color: #059669;
-  border-color: #059669;
-  color: white !important;
-}
-
-/* ColVis Button (light mode) */
-.buttons-colvis {
-  color: white !important;
-  border-color: #3b82f6;
-  background-color: #3b82f6;
-}
-.buttons-colvis:hover {
-  background-color: #2563eb;
-  border-color: #2563eb;
-  color: white !important;
-}
-
-/* ColVis Button (dark mode) */
-body.dark-mode .buttons-colvis {
-  border-color: #3b82f6;
-  color: white !important;   /* ✅ always white text */
-  background-color: #3b82f6;
-}
-body.dark-mode .buttons-colvis:hover {
-  background-color: #1e3a8a;
-  color: white !important;   /* ✅ keep white text on hover */
-}
-
-.table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-  table th,
-  table td {
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-}
-
-.badge {
-  white-space: nowrap;
-}
-
-div.dt-buttons {
-  margin-top: 1rem;  
-  margin-inline-start: 0.5rem; /* 👈 Works in both RTL and LTR */
-  margin-inline-end: 0;        /* Optional reset */
-}
-
-div.dataTables_filter {
-  margin-top: 1rem;      /* space above search input */
-  float: left;           /* RTL search alignment */
-  text-align: left;
-}
-html[dir="rtl"] .dt-buttons .btn {
-  margin-left: 0.5rem !important;
-  margin-right: 0 !important;
-}
-/* 🌙 Dark Mode: Cards & Tables */
-body.dark-mode .card {
-  background-color: #111 !important;
-  color: #e5e5e5 !important;
-}
-
-body.dark-mode .card-header {
-  background-color: #1a1a1a !important;
-  color: #f0f0f0 !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
-/* ✅ White border for all cards in dark mode */
-body.dark-mode .card.shadow-sm {
-  border: 1px solid #fff !important;
-}
-
-/* 🌙 Table header */
-body.dark-mode table thead.table-primary {
-  background-color: #2563eb !important; /* nice blue header */
-  color: #fff !important;
-}
-
-/* 🌙 Badges */
-body.dark-mode .badge.bg-info {
-  color: #f8f9fa !important;
-}
-
-/* 🌙 Breadcrumbs */
-body.dark-mode .breadcrumb {
-  background-color: transparent !important;
-}
-
-body.dark-mode .breadcrumb-item + .breadcrumb-item::before{
-  color: #ccc !important;
-}
-
-body.dark-mode .breadcrumb-item a {
-  color: #93c5fd !important;
-  text-decoration: none;
-}
-
-body.dark-mode .breadcrumb-item a:hover {
-  color: #fff !important;
-  text-decoration: underline;
-}
-
-body.dark-mode .breadcrumb-item.active {
-  color: #999 !important;
-}
-
-/* 🌙 Muted text */
-body.dark-mode .text-muted {
-  color: #aaa !important;
-}
-div.dataTables_filter {
-  display: none !important;
-}
-/* ✅ Global dark mode table fixes */
-body.dark-mode table {
-  background-color: #121212 !important;
-  color: #e0e0e0 !important;
-}
-
-body.dark-mode thead {
-  background-color: #1f1f1f !important;
-  color: #ffffff !important;
-}
-
-body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #1a1a1a !important;
-}
-
-body.dark-mode .table-striped > tbody > tr:nth-of-type(even) {
-  background-color: #161616 !important;
-}
-
-body.dark-mode table td,
-body.dark-mode table th {
-  color: #e5e5e5 !important;
-}
-
-/* Fix table hover if used */
-body.dark-mode table.table-hover tbody tr:hover {
-  background-color: #2a2a2a !important;
-}
-
-/* Optional: soften table border */
-body.dark-mode table,
-body.dark-mode th,
-body.dark-mode td {
-  border-color: #333 !important;
-}
-
-@media (max-width: 768px) {
-  /* Hide columns 6 (משרד), 7 (לינק), and 8 (לוגו) */
-  th:nth-child(5),
-  td:nth-child(5),
-  th:nth-child(6),
-  td:nth-child(6),
-  th:nth-child(7),
-  td:nth-child(7),
-  th:nth-child(8),
-  td:nth-child(8) {
-    display: none;
-  }
-}
-
-
-/* 🌙 Dark mode base for table */
-body.dark-mode table,
-body.dark-mode th,
-body.dark-mode td {
-  background-color: #121212 !important;
-  color: #e5e5e5 !important;
-  border-color: #333 !important;
-}
-
-/* Striped rows */
-body.dark-mode .table-striped > tbody > tr.odd {
-  background-color: #1a1a1a !important;
-}
-body.dark-mode .table-striped > tbody > tr.even {
-  background-color: #161616 !important;
-}
-
-/* Hover effect */
-body.dark-mode table.table-hover tbody tr:hover {
-  background-color: #2a2a2a !important;
-}
-
-/* Table header */
-body.dark-mode thead.table-primary th {
-  background-color: #1a1a1a !important;
-  color: #f0f0f0 !important;
-}
-
-/* Optional: Remove box shadow if needed */
-body.dark-mode .card.shadow-sm {
-  box-shadow: none !important;
-}
-/* 🌙 Dark Mode — Fix dropdowns and input in filter card */
-body.dark-mode select.form-select,
-body.dark-mode input.form-control {
-  background-color: #1f1f1f !important;
-  color: #f0f0f0 !important;
-  border: 1px solid #444 !important;
-}
-
-body.dark-mode select.form-select option {
-  background-color: #1f1f1f;
-  color: #f0f0f0;
-}
-body.dark-mode input::placeholder {
-  color: #ccc !important;
-}
-@media (min-width: 992px) {
-  .table-responsive {
-    overflow-x: visible !important;
-  }
-}
-@media (min-width: 992px) {
-  #warnings-table td.dtr-control::before {
-    display: none !important;
-  }
-}
-/* ————————————————
-   WRAP TEXT IN RESPONSIVE EXPANDED ROW
-   ———————————————— */
-
-/* Target the responsive child row container */
-#warnings-table tr.child td,
-#warnings-table tr.child td * {
-  white-space: normal !important;
-  word-break: break-word !important;
-}
-
-/* If DataTables renders details as <ul><li> */
-#warnings-table tr.child ul,
-#warnings-table tr.child ul li,
-#warnings-table tr.child ul li span {
-  white-space: normal !important;
-  word-break: break-word !important;
-}
-
-/* Optional: spacing between lines in expanded view */
-#warnings-table tr.child ul li {
-  margin-bottom: 0.4rem;
-}
-
-</style>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const isMobile = window.innerWidth <= 768;
-  const currentLang = "{{ lang }}";
-  const table = $('#warnings-table').DataTable({
-    pageLength: 25,
-    responsive: {
-  details: {
-    type: 'column',     // arrow in a column
-    target: 1           // 🟢 Country column gets the arrow
-  }
-},
+  document.addEventListener('DOMContentLoaded', function () {
+    const isMobile = window.innerWidth <= 768;
+    const currentLang = "{{ lang }}";
+    const table = $('#warnings-table').DataTable({
+      pageLength: 25,
+      responsive: {
+        details: {
+          type: 'column',     // arrow in a column
+          target: 1           // 🟢 Country column gets the arrow
+        }
+      },
 
-	searching: true,
-    dom: 'Bfrtip',
-	pagingType: "simple",
-	buttons: isMobile ? [] : [
-	  {
-		extend: 'copyHtml5',
-		text: `<i class="bi bi-clipboard me-1"></i> {{ 'Copy' if lang != 'he' else 'העתק' }}`,
-		className: 'btn btn-primary btn-sm'
-	  },
-	  
-	  {
-		extend: 'excelHtml5',
-		text: `<i class="bi bi-file-earmark-excel me-1"></i> Excel`,
-		className: 'btn btn-success btn-sm'
-	  },
-	  {
-		extend: 'pdfHtml5',
-		text: `<i class="bi bi-file-earmark-pdf me-1"></i> PDF`,
-		className: 'btn btn-danger btn-sm'
-	  },
-	  {
-		extend: 'print',
-		text: `<i class="bi bi-printer me-1"></i> {{ 'Print' if lang != 'he' else 'הדפסה' }}`,
-		className: 'btn btn-secondary btn-sm'
-	  },
-	],
+      searching: true,
+      dom: 'Bfrtip',
+      pagingType: "simple",
+      buttons: isMobile ? [] : [
+        {
+          extend: 'copyHtml5',
+          text: `<i class="bi bi-clipboard me-1"></i> {{ 'Copy' if lang != 'he' else 'העתק' }}`,
+          className: 'btn btn-primary btn-sm'
+        },
 
-    language: {
-      url: "{{ 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/he.json' if lang == 'he' else 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/en-GB.json' }}",
-	  infoFiltered: ""
-    },
-    columnDefs: [{
-      targets: 2,
-      render: function (data, type, row, meta) {
-        if (type === 'display') return data;
-        const div = document.createElement('div');
-        div.innerHTML = data;
-        const hidden = div.querySelector('.search-text');
-        return hidden ? hidden.textContent.trim() : '';
-      }
-    }]
-  });
+        {
+          extend: 'excelHtml5',
+          text: `<i class="bi bi-file-earmark-excel me-1"></i> Excel`,
+          className: 'btn btn-success btn-sm'
+        },
+        {
+          extend: 'pdfHtml5',
+          text: `<i class="bi bi-file-earmark-pdf me-1"></i> PDF`,
+          className: 'btn btn-danger btn-sm'
+        },
+        {
+          extend: 'print',
+          text: `<i class="bi bi-printer me-1"></i> {{ 'Print' if lang != 'he' else 'הדפסה' }}`,
+          className: 'btn btn-secondary btn-sm'
+        },
+      ],
 
-  // Update "Active Filters" label
-  function updateActiveFilters() {
-    const continent = $('#continent-filter').val();
-    const country = $('#country-filter').val();
-    const level = $('#level-filter').val();
-    const query = $('#query-filter').val();
+      language: {
+        url: "{{ 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/he.json' if lang == 'he' else 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/en-GB.json' }}",
+        infoFiltered: ""
+      },
+      columnDefs: [{
+        targets: 2,
+        render: function (data, type, row, meta) {
+          if (type === 'display') return data;
+          const div = document.createElement('div');
+          div.innerHTML = data;
+          const hidden = div.querySelector('.search-text');
+          return hidden ? hidden.textContent.trim() : '';
+        }
+      }]
+    });
 
-    let filters = [];
-    if (continent) filters.push(`יבשת: ${continent}`);
-    if (country) filters.push(`מדינה: ${country}`);
-    if (level) filters.push(`רמת איום: ${level}`);
-    if (query) filters.push(`חיפוש: ${query}`);
-    const noFiltersText = currentLang === 'he' ? 'ללא סינון' : 'No filters applied';
-    $('#active-filters').text(filters.length ? filters.join(" | ") : noFiltersText);
-  }
+    // Update "Active Filters" label
+    function updateActiveFilters() {
+      const continent = $('#continent-filter').val();
+      const country = $('#country-filter').val();
+      const level = $('#level-filter').val();
+      const query = $('#query-filter').val();
 
-  // Filters
-  $('#continent-filter').on('change', function () {
-    table.column(0).search(this.value || '').draw();
+      let filters = [];
+      if (continent) filters.push(`יבשת: ${continent}`);
+      if (country) filters.push(`מדינה: ${country}`);
+      if (level) filters.push(`רמת איום: ${level}`);
+      if (query) filters.push(`חיפוש: ${query}`);
+      const noFiltersText = currentLang === 'he' ? 'ללא סינון' : 'No filters applied';
+      $('#active-filters').text(filters.length ? filters.join(" | ") : noFiltersText);
+    }
+
+    // Filters
+    $('#continent-filter').on('change', function () {
+      table.column(0).search(this.value || '').draw();
+      updateActiveFilters();
+    });
+
+    $('#country-filter').on('change', function () {
+      table.column(1).search(this.value || '').draw();
+      updateActiveFilters();
+    });
+
+    $('#level-filter').on('change', function () {
+      const searchTerm = this.value || '';
+      table.column(2).search(searchTerm).draw();
+      updateActiveFilters();
+    });
+
+    $('#query-filter').on('keyup change', function () {
+      table.search(this.value).draw();
+      updateActiveFilters();
+    });
+
+    $('#clear-filters').on('click', function () {
+      $('#continent-filter, #country-filter, #level-filter').val('');
+      $('#query-filter').val('');
+      table.search('').columns().search('').draw();
+      updateActiveFilters();
+    });
+
+    // Initial run
     updateActiveFilters();
   });
-
-  $('#country-filter').on('change', function () {
-    table.column(1).search(this.value || '').draw();
-    updateActiveFilters();
-  });
-
-$('#level-filter').on('change', function () {
-  const searchTerm = this.value || '';
-  table.column(2).search(searchTerm).draw();
-  updateActiveFilters();
-});
-
-  $('#query-filter').on('keyup change', function () {
-    table.search(this.value).draw();
-    updateActiveFilters();
-  });
-
-  $('#clear-filters').on('click', function () {
-    $('#continent-filter, #country-filter, #level-filter').val('');
-    $('#query-filter').val('');
-    table.search('').columns().search('').draw();
-    updateActiveFilters();
-  });
-
-  // Initial run
-  updateActiveFilters();
-});
 </script>
 {% endblock %}

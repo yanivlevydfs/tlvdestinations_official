@@ -1,58 +1,62 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  {{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}
+{{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}
 {%- endblock %}
 
 {% block head_extra %}
-  <!-- Canonical & hreflang -->
-  <link rel="canonical" href="https://fly-tlv.com/glossary{{ '' if lang != 'he' else '?lang=he' }}" />
-  <link rel="alternate" href="https://fly-tlv.com/glossary" hreflang="en-US" />
-  <link rel="alternate" href="https://fly-tlv.com/glossary?lang=he" hreflang="he-IL" />
-  <link rel="alternate" href="https://fly-tlv.com/glossary" hreflang="x-default" />
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+<!-- Canonical & hreflang -->
+<link rel="canonical" href="https://fly-tlv.com/glossary{{ '' if lang != 'he' else '?lang=he' }}" />
+<link rel="alternate" href="https://fly-tlv.com/glossary" hreflang="en-US" />
+<link rel="alternate" href="https://fly-tlv.com/glossary?lang=he" hreflang="he-IL" />
+<link rel="alternate" href="https://fly-tlv.com/glossary" hreflang="x-default" />
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
-  <!-- Essential SEO -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="application-name" content="Fly TLV" />
-  <meta name="author" content="Fly TLV Team" />
-  <meta name="theme-color" content="#004aad" />
+<!-- Essential SEO -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="application-name" content="Fly TLV" />
+<meta name="author" content="Fly TLV Team" />
+<meta name="theme-color" content="#004aad" />
 
-  <!-- SEO Description -->
-  <meta name="description" content="{{ 
+<!-- SEO Description -->
+<meta name="description" content="{{ 
     'This glossary explains the most common aviation terms for travelers flying from TLV — including codeshare, direct and non-stop flights, IATA, and more.'
     if lang != 'he' else
     'מילון זה מסביר את מונחי התעופה הנפוצים לטסים מנתב״ג — כולל קוד־שייר, טיסות ישירות וללא עצירות, IATA ועוד.'
   }}" />
 
-  <!-- Keywords -->
-  <meta name="keywords" content="aviation glossary, TLV flights, Ben Gurion Airport, direct flights, nonstop flights, codeshare, flight number, flight leg, flight length" />
+<!-- Keywords -->
+<meta name="keywords"
+  content="aviation glossary, TLV flights, Ben Gurion Airport, direct flights, nonstop flights, codeshare, flight number, flight leg, flight length" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="TLV → Worldwide Destinations" />
-  <meta property="og:url" content="https://fly-tlv.com/glossary" />
-  <meta property="og:title" content="{{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}" />
-  <meta property="og:description" content="{{ 
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="TLV → Worldwide Destinations" />
+<meta property="og:url" content="https://fly-tlv.com/glossary" />
+<meta property="og:title"
+  content="{{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}" />
+<meta property="og:description" content="{{ 
     'Explore the most common aviation terms like codeshare, direct flight, IATA, and more — especially for travelers flying from TLV.'
     if lang != 'he' else
     'גלה מונחי תעופה מרכזיים כמו קוד־שייר, טיסה ישירה, IATA ועוד — במיוחד לנוסעים מנתב״ג.'
   }}" />
-  <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
-  <meta property="og:image:alt" content="{{ 'World destinations map from TLV Ben Gurion Airport' if lang != 'he' else 'מפת יעדים מנתב״ג תל אביב' }}" />
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+<meta property="og:image:alt"
+  content="{{ 'World destinations map from TLV Ben Gurion Airport' if lang != 'he' else 'מפת יעדים מנתב״ג תל אביב' }}" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@flyTLV" />
-  <meta name="twitter:title" content="{{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}" />
-  <meta name="twitter:description" content="{{ 
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@flyTLV" />
+<meta name="twitter:title"
+  content="{{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}" />
+<meta name="twitter:description" content="{{ 
     'Discover what codeshare, flight leg, direct vs non-stop flights, and IATA really mean. A helpful glossary for TLV flyers.'
     if lang != 'he' else
     'גלה מה המשמעות של קוד‑שייר, קטעי טיסה, ישירה מול ללא עצירות, ו‑IATA. מילון שימושי לנוסעי TLV.'
   }}" />
-  <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+<meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
 
 <script type="application/ld+json">
 {
@@ -155,37 +159,45 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-3 px-2 px-md-4">
-{% set rtl = (lang == 'he') %}
-<nav aria-label="breadcrumb" class="mb-3">
-  <ol class="breadcrumb mb-0">
-    <li class="breadcrumb-item">
-      <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
-        {{ 'Home' if lang != 'he' else 'בית' }}
-      </a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">
-      {{ 'Aviation Glossary' if lang != 'he' else 'מילון תעופה' }}
-    </li>
-  </ol>
-</nav>
-  <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold">
+<!-- Hero Section -->
+<div class="hero-section text-center py-5 shadow-sm mb-4" lang="{{ lang }}"
+  dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+  <div class="container position-relative z-1">
+    <h1 class="fw-bold mb-3 display-5">
       {{ 'A Glossary of Aviation Terms' if lang != 'he' else 'מילון מונחי תעופה' }}
     </h1>
-    <p class="lead">
+    <p class="lead mx-auto" style="max-width: 800px;">
       {{
-        (
-          "Do you know the meaning of <strong>codeshare</strong>, and that there is actually a difference between <strong>non-stop</strong> and <strong>direct flights</strong>? Here you can learn the most common aviation terms and their meaning."
-          if lang != 'he'
-          else
-          "האם אתם יודעים מה המשמעות של <strong>קוד-שייר</strong>, ומה ההבדל בין <strong>טיסה ללא עצירות</strong> ל־<strong>טיסה ישירה</strong>? כאן תוכלו ללמוד את המונחים הנפוצים בתעופה."
-        ) | safe
+      (
+      "Do you know the meaning of <strong>codeshare</strong>, and that there is actually a difference between
+      <strong>non-stop</strong> and <strong>direct flights</strong>? Here you can learn the most common aviation terms
+      and their meaning."
+      if lang != 'he'
+      else
+      "האם אתם יודעים מה המשמעות של <strong>קוד-שייר</strong>, ומה ההבדל בין <strong>טיסה ללא עצירות</strong>
+      ל־<strong>טיסה ישירה</strong>? כאן תוכלו ללמוד את המונחים הנפוצים בתעופה."
+      ) | safe
       }}
     </p>
   </div>
+</div>
 
-  <div class="row row-cols-1 row-cols-md-2 g-4"  dir="{{ 'rtl' if rtl else 'ltr' }}">
+<div class="container py-3 px-2 px-md-4">
+  {% set rtl = (lang == 'he') %}
+  <nav aria-label="breadcrumb" class="mb-4" dir="{{ 'rtl' if rtl else 'ltr' }}">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="/{{ '' if lang != 'he' else '?lang=he' }}">
+          {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ 'Aviation Glossary' if lang != 'he' else 'מילון תעופה' }}
+      </li>
+    </ol>
+  </nav>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4" dir="{{ 'rtl' if rtl else 'ltr' }}">
 
     <!-- Airline -->
     <div class="col">
@@ -194,10 +206,15 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "An airline is a company that offers regular air transport services, either for passengers or for goods. Some of the biggest airlines in the world are American Airlines, China Southern Air Holding and Delta Air Lines. Many airlines have formed alliances that enable them to cooperate – the three biggest alliances in the world are Star Alliance, SkyTeam and Oneworld."
-              if lang != 'he'
-              else
-              "חברת תעופה היא חברה שמספקת שירותי הובלה אווירית סדירה לנוסעים או מטען. כמה מן החברות הגדולות בעולם הן American Airlines, China Southern Air Holding ו-Delta Air Lines. חברות רבות יצרו בריתות לשיתוף פעולה – שלוש הבריתות הגדולות בעולם הן Star Alliance, SkyTeam ו-Oneworld."
+            "An airline is a company that offers regular air transport services, either for passengers or for goods.
+            Some of the biggest airlines in the world are American Airlines, China Southern Air Holding and Delta Air
+            Lines. Many airlines have formed alliances that enable them to cooperate – the three biggest alliances in
+            the world are Star Alliance, SkyTeam and Oneworld."
+            if lang != 'he'
+            else
+            "חברת תעופה היא חברה שמספקת שירותי הובלה אווירית סדירה לנוסעים או מטען. כמה מן החברות הגדולות בעולם הן
+            American Airlines, China Southern Air Holding ו-Delta Air Lines. חברות רבות יצרו בריתות לשיתוף פעולה – שלוש
+            הבריתות הגדולות בעולם הן Star Alliance, SkyTeam ו-Oneworld."
             }}
           </p>
         </div>
@@ -211,10 +228,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "An air carrier can either be an airline or an aircraft assigned by, for example, a government agency to carry people or cargo."
-              if lang != 'he'
-              else
-              "נושא האוויר (Air Carrier) יכול להיות חברת תעופה או כלי טיס שהוקצה, למשל על-ידי סוכנות ממשלתית, לשאת אנשים או מטען."
+            "An air carrier can either be an airline or an aircraft assigned by, for example, a government agency to
+            carry people or cargo."
+            if lang != 'he'
+            else
+            "נושא האוויר (Air Carrier) יכול להיות חברת תעופה או כלי טיס שהוקצה, למשל על-ידי סוכנות ממשלתית, לשאת אנשים
+            או מטען."
             }}
           </p>
         </div>
@@ -228,10 +247,13 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "A codeshare agreement means that two or more airlines work together and offer seats on each other’s flights. Each flight is operated by one carrier, and the cooperating airlines can sell seats on that flight and assign it their own flight number."
-              if lang != 'he'
-              else
-              "הסכם קוד-שייר (Codeshare) פירושו ששתי חברות תעופה או יותר עובדות יחד ומציעות מקומות בטיסות זו של זו. כל טיסה מופעלת על-ידי נושא אחד, והשאר יכולות למכור מקומות בטיסה זו ולהקצות לה מספר טיסה משלהן."
+            "A codeshare agreement means that two or more airlines work together and offer seats on each other’s
+            flights. Each flight is operated by one carrier, and the cooperating airlines can sell seats on that flight
+            and assign it their own flight number."
+            if lang != 'he'
+            else
+            "הסכם קוד-שייר (Codeshare) פירושו ששתי חברות תעופה או יותר עובדות יחד ומציעות מקומות בטיסות זו של זו. כל
+            טיסה מופעלת על-ידי נושא אחד, והשאר יכולות למכור מקומות בטיסה זו ולהקצות לה מספר טיסה משלהן."
             }}
           </p>
         </div>
@@ -241,14 +263,18 @@
     <!-- Connection -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'Connection' if lang != 'he' else 'קשר / טיסה עם עצירות' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'Connection' if lang != 'he' else 'קשר / טיסה עם עצירות' }}
+        </div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "Choosing a connecting flight means that you will reach your destination through two or more flights. This means that you will land and change aircraft at least once during your flight. Sometimes you might need to move between terminals or re-check luggage."
-              if lang != 'he'
-              else
-              "בחירה בטיסה עם חיבור (Connection) משמעותה שתגיעו ליעד בעזרת שתי טיסות או יותר. זה אומר שתנחתו ותשנו מטוס לפחות פעם אחת במהלך המסלול. במקרים מסוימים תצטרכו לעבור בין טרמינלים או לבצע בידוק מחדש של המטען."
+            "Choosing a connecting flight means that you will reach your destination through two or more flights. This
+            means that you will land and change aircraft at least once during your flight. Sometimes you might need to
+            move between terminals or re-check luggage."
+            if lang != 'he'
+            else
+            "בחירה בטיסה עם חיבור (Connection) משמעותה שתגיעו ליעד בעזרת שתי טיסות או יותר. זה אומר שתנחתו ותשנו מטוס
+            לפחות פעם אחת במהלך המסלול. במקרים מסוימים תצטרכו לעבור בין טרמינלים או לבצע בידוק מחדש של המטען."
             }}
           </p>
         </div>
@@ -262,10 +288,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "A direct flight means you reach your destination without having to change planes, though it may include technical stops. For truly non-stop travel, look for a flight labeled ‘non-stop’."
-              if lang != 'he'
-              else
-              "טיסה ישירה פירושה שתגיעו ליעד מבלי להחליף מטוס, אך ייתכנו עצירות ביניים טכניות. אם אתם רוצים טיסה ללא עצירות כלל, חפשו טיסה המסומנת כ-non-stop."
+            "A direct flight means you reach your destination without having to change planes, though it may include
+            technical stops. For truly non-stop travel, look for a flight labeled ‘non-stop’."
+            if lang != 'he'
+            else
+            "טיסה ישירה פירושה שתגיעו ליעד מבלי להחליף מטוס, אך ייתכנו עצירות ביניים טכניות. אם אתם רוצים טיסה ללא
+            עצירות כלל, חפשו טיסה המסומנת כ-non-stop."
             }}
           </p>
         </div>
@@ -279,10 +307,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "A flight leg is a single non-stop flight between two airports. Your full journey may include multiple legs before reaching your final destination."
-              if lang != 'he'
-              else
-              "קטע טיסה (Flight Leg) הוא טיסה ללא עצירות בין שני שדות תעופה. המסלול הכולל שלכם עשוי לכלול כמה קטעים עד ההגעה ליעד הסופי."
+            "A flight leg is a single non-stop flight between two airports. Your full journey may include multiple legs
+            before reaching your final destination."
+            if lang != 'he'
+            else
+            "קטע טיסה (Flight Leg) הוא טיסה ללא עצירות בין שני שדות תעופה. המסלול הכולל שלכם עשוי לכלול כמה קטעים עד
+            ההגעה ליעד הסופי."
             }}
           </p>
         </div>
@@ -296,18 +326,21 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "Flight length refers to the distance of a route, usually in miles or kilometers, and often categorized as short-, medium-, or long-haul."
-              if lang != 'he'
-              else
-              "אורך טיסה מתאר את מרחק הנתיב, בדרך כלל במיילים או קילומטרים, ומסווג לרוב כ-short, medium או long-haul."
+            "Flight length refers to the distance of a route, usually in miles or kilometers, and often categorized as
+            short-, medium-, or long-haul."
+            if lang != 'he'
+            else
+            "אורך טיסה מתאר את מרחק הנתיב, בדרך כלל במיילים או קילומטרים, ומסווג לרוב כ-short, medium או long-haul."
             }}
           </p>
           <p class="card-text">
             {{
-              "Some airlines define hauls by distance (e.g., long-haul = 3000+ miles), others by duration (short-haul up to 3h, medium 3-6h, long 6-12h)."
-              if lang != 'he'
-              else
-              "חברות תעופה מסוימות מגדירות את סוגי הטיסות לפי מרחק (למשל long-haul מעל 3000 מייל), ואחרות לפי משך הזמן (short-haul עד 3 שעות, medium 3-6, long 6-12)."
+            "Some airlines define hauls by distance (e.g., long-haul = 3000+ miles), others by duration (short-haul up
+            to 3h, medium 3-6h, long 6-12h)."
+            if lang != 'he'
+            else
+            "חברות תעופה מסוימות מגדירות את סוגי הטיסות לפי מרחק (למשל long-haul מעל 3000 מייל), ואחרות לפי משך הזמן
+            (short-haul עד 3 שעות, medium 3-6, long 6-12)."
             }}
           </p>
         </div>
@@ -321,10 +354,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "Each flight has its own flight number, usually consisting of the airline’s two-letter IATA code and up to four digits. East/northbound flights are often even-numbered; west/southbound, odd."
-              if lang != 'he'
-              else
-              "לכל טיסה יש מספר ייחודי הכולל את קוד IATA בן שתי אותיות של החברה ועד ארבע ספרות. לרוב, טיסות מזרחה או צפונה מקבלות מספרים זוגיים, ומערבה או דרומה מספרים אי-זוגיים."
+            "Each flight has its own flight number, usually consisting of the airline’s two-letter IATA code and up to
+            four digits. East/northbound flights are often even-numbered; west/southbound, odd."
+            if lang != 'he'
+            else
+            "לכל טיסה יש מספר ייחודי הכולל את קוד IATA בן שתי אותיות של החברה ועד ארבע ספרות. לרוב, טיסות מזרחה או צפונה
+            מקבלות מספרים זוגיים, ומערבה או דרומה מספרים אי-זוגיים."
             }}
           </p>
         </div>
@@ -338,10 +373,11 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "Flight time is the duration of a flight, measured in hours and minutes — for example, New York (JFK) to Paris (CDG) takes about 7 hours."
-              if lang != 'he'
-              else
-              "זמן הטיסה הוא משך הטיסה, נמדד בשעות ודקות — לדוגמה, מניו יורק (JFK) לפריז (CDG) כשבע שעות."
+            "Flight time is the duration of a flight, measured in hours and minutes — for example, New York (JFK) to
+            Paris (CDG) takes about 7 hours."
+            if lang != 'he'
+            else
+            "זמן הטיסה הוא משך הטיסה, נמדד בשעות ודקות — לדוגמה, מניו יורק (JFK) לפריז (CDG) כשבע שעות."
             }}
           </p>
         </div>
@@ -355,10 +391,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "IATA (International Air Transport Association) is a global trade association representing nearly 300 airlines, accounting for over 80% of worldwide air traffic."
-              if lang != 'he'
-              else
-              "IATA (International Air Transport Association) היא התאחדות עולמית של כ-300 חברות תעופה, המהוות יותר מ-80% מתנועת האוויר בעולם."
+            "IATA (International Air Transport Association) is a global trade association representing nearly 300
+            airlines, accounting for over 80% of worldwide air traffic."
+            if lang != 'he'
+            else
+            "IATA (International Air Transport Association) היא התאחדות עולמית של כ-300 חברות תעופה, המהוות יותר מ-80%
+            מתנועת האוויר בעולם."
             }}
           </p>
         </div>
@@ -368,14 +406,16 @@
     <!-- Non-stop Flight -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'Non-stop Flight' if lang != 'he' else 'טיסה ללא עצירות' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'Non-stop Flight' if lang != 'he' else 'טיסה ללא עצירות' }}
+        </div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "A non-stop flight takes you directly to your destination without any intermediate landings — the most convenient option for air travel."
-              if lang != 'he'
-              else
-              "טיסה ללא עצירות (non-stop) מביאה אתכם ישירות ליעד ללא נחיתות ביניים — האפשרות הנוחה ביותר לטוס."
+            "A non-stop flight takes you directly to your destination without any intermediate landings — the most
+            convenient option for air travel."
+            if lang != 'he'
+            else
+            "טיסה ללא עצירות (non-stop) מביאה אתכם ישירות ליעד ללא נחיתות ביניים — האפשרות הנוחה ביותר לטוס."
             }}
           </p>
         </div>
@@ -389,26 +429,30 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "Transit means connecting — a flight with one or more stops before reaching your final destination."
-              if lang != 'he'
-              else
-              "טיסת מעבר (Transit) משמעותה טיסה עם עצירות ביניים אחת או יותר לפני ההגעה ליעד הסופי."
+            "Transit means connecting — a flight with one or more stops before reaching your final destination."
+            if lang != 'he'
+            else
+            "טיסת מעבר (Transit) משמעותה טיסה עם עצירות ביניים אחת או יותר לפני ההגעה ליעד הסופי."
             }}
           </p>
         </div>
       </div>
     </div>
-	    <!-- PNR -->
+    <!-- PNR -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'PNR (Passenger Name Record)' if lang != 'he' else 'PNR — רשומת שם נוסע' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'PNR (Passenger Name Record)' if lang != 'he' else 'PNR —
+          רשומת שם נוסע' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "A PNR is a unique booking record in the airline or travel agency system. It stores passenger details, flight segments, ticket numbers, and special requests. It can be shared between airlines and global distribution systems (GDS)."
-              if lang != 'he'
-              else
-              "PNR היא רשומת הזמנה ייחודית במערכת של חברת תעופה או סוכן נסיעות. היא מכילה פרטי נוסע, קטעי טיסה, מספרי כרטיסים ובקשות מיוחדות. ניתן לשתף אותה בין חברות תעופה ומערכות הפצה גלובליות (GDS)."
+            "A PNR is a unique booking record in the airline or travel agency system. It stores passenger details,
+            flight segments, ticket numbers, and special requests. It can be shared between airlines and global
+            distribution systems (GDS)."
+            if lang != 'he'
+            else
+            "PNR היא רשומת הזמנה ייחודית במערכת של חברת תעופה או סוכן נסיעות. היא מכילה פרטי נוסע, קטעי טיסה, מספרי
+            כרטיסים ובקשות מיוחדות. ניתן לשתף אותה בין חברות תעופה ומערכות הפצה גלובליות (GDS)."
             }}
           </p>
         </div>
@@ -418,14 +462,17 @@
     <!-- GDS -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'GDS (Global Distribution System)' if lang != 'he' else 'GDS — מערכת הפצה גלובלית' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'GDS (Global Distribution System)' if lang != 'he' else
+          'GDS — מערכת הפצה גלובלית' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "A GDS is a worldwide computerized network that enables travel agencies and booking platforms to access flight, hotel, and car rental data. Major GDSs include Amadeus, Sabre, and Travelport (Galileo)."
-              if lang != 'he'
-              else
-              "GDS היא מערכת ממוחשבת עולמית שמאפשרת לסוכנויות נסיעות ולפלטפורמות להזמין טיסות, מלונות והשכרת רכב. בין ה-GDS המרכזיות: Amadeus, Sabre ו-Travelport (Galileo)."
+            "A GDS is a worldwide computerized network that enables travel agencies and booking platforms to access
+            flight, hotel, and car rental data. Major GDSs include Amadeus, Sabre, and Travelport (Galileo)."
+            if lang != 'he'
+            else
+            "GDS היא מערכת ממוחשבת עולמית שמאפשרת לסוכנויות נסיעות ולפלטפורמות להזמין טיסות, מלונות והשכרת רכב. בין
+            ה-GDS המרכזיות: Amadeus, Sabre ו-Travelport (Galileo)."
             }}
           </p>
         </div>
@@ -435,14 +482,17 @@
     <!-- ICAO -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'ICAO (International Civil Aviation Organization)' if lang != 'he' else 'ICAO — ארגון התעופה האזרחית הבין־לאומי' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'ICAO (International Civil Aviation Organization)' if lang
+          != 'he' else 'ICAO — ארגון התעופה האזרחית הבין־לאומי' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "ICAO is a specialized UN agency that defines global standards for aviation safety, air navigation, airport codes, and environmental protection."
-              if lang != 'he'
-              else
-              "ICAO הוא סוכנות מיוחדת של האו״ם הקובעת תקנים עולמיים לבטיחות טיסה, ניווט אווירי, קודי שדות תעופה והגנה סביבתית."
+            "ICAO is a specialized UN agency that defines global standards for aviation safety, air navigation, airport
+            codes, and environmental protection."
+            if lang != 'he'
+            else
+            "ICAO הוא סוכנות מיוחדת של האו״ם הקובעת תקנים עולמיים לבטיחות טיסה, ניווט אווירי, קודי שדות תעופה והגנה
+            סביבתית."
             }}
           </p>
         </div>
@@ -452,14 +502,16 @@
     <!-- ATC -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'ATC (Air Traffic Control)' if lang != 'he' else 'ATC — פיקוח טיסה' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'ATC (Air Traffic Control)' if lang != 'he' else 'ATC —
+          פיקוח טיסה' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "ATC is the service responsible for managing aircraft movement in the air and on the ground to maintain safe distances between aircraft."
-              if lang != 'he'
-              else
-              "ATC הוא שירות שאחראי לניהול תנועת המטוסים באוויר ועל הקרקע, כדי לשמור על מרחקי בטיחות ביניהם."
+            "ATC is the service responsible for managing aircraft movement in the air and on the ground to maintain safe
+            distances between aircraft."
+            if lang != 'he'
+            else
+            "ATC הוא שירות שאחראי לניהול תנועת המטוסים באוויר ועל הקרקע, כדי לשמור על מרחקי בטיחות ביניהם."
             }}
           </p>
         </div>
@@ -469,14 +521,16 @@
     <!-- ETA / ETD -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'ETA / ETD' if lang != 'he' else 'ETA / ETD — זמן הגעה/המראה משוער' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'ETA / ETD' if lang != 'he' else 'ETA / ETD — זמן
+          הגעה/המראה משוער' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "ETA (Estimated Time of Arrival) and ETD (Estimated Time of Departure) indicate the expected arrival and departure times for a flight."
-              if lang != 'he'
-              else
-              "ETA (שעת הגעה משוערת) ו-ETD (שעת המראה משוערת) מציינות את הזמנים הצפויים להגעה ולהמראה של טיסה."
+            "ETA (Estimated Time of Arrival) and ETD (Estimated Time of Departure) indicate the expected arrival and
+            departure times for a flight."
+            if lang != 'he'
+            else
+            "ETA (שעת הגעה משוערת) ו-ETD (שעת המראה משוערת) מציינות את הזמנים הצפויים להגעה ולהמראה של טיסה."
             }}
           </p>
         </div>
@@ -490,10 +544,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "The process of confirming your presence on a flight, choosing seats, and receiving a boarding pass. Can be done online or at the airport."
-              if lang != 'he'
-              else
-              "תהליך שבו מאשרים את הנסיעה בטיסה, בוחרים מושבים ומקבלים כרטיס עלייה למטוס. ניתן לבצע אונליין או בשדה התעופה."
+            "The process of confirming your presence on a flight, choosing seats, and receiving a boarding pass. Can be
+            done online or at the airport."
+            if lang != 'he'
+            else
+            "תהליך שבו מאשרים את הנסיעה בטיסה, בוחרים מושבים ומקבלים כרטיס עלייה למטוס. ניתן לבצע אונליין או בשדה
+            התעופה."
             }}
           </p>
         </div>
@@ -503,14 +559,16 @@
     <!-- Boarding Pass -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'Boarding Pass' if lang != 'he' else 'כרטיס עלייה למטוס' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'Boarding Pass' if lang != 'he' else 'כרטיס עלייה למטוס' }}
+        </div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "A document — digital or printed — that allows passengers to enter the secure area and board their aircraft."
-              if lang != 'he'
-              else
-              "מסמך (דיגיטלי או מודפס) שמאפשר לנוסעים להיכנס לאזור הבידוק ולעלות למטוס."
+            "A document — digital or printed — that allows passengers to enter the secure area and board their
+            aircraft."
+            if lang != 'he'
+            else
+            "מסמך (דיגיטלי או מודפס) שמאפשר לנוסעים להיכנס לאזור הבידוק ולעלות למטוס."
             }}
           </p>
         </div>
@@ -523,10 +581,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "A four-letter airport code defined by ICAO, used for flight operations and navigation (e.g., Ben Gurion = LLBG, Heathrow = EGLL). Unlike IATA codes, ICAO codes are used by pilots and air-traffic systems."
-              if lang != 'he'
-              else
-              "קוד ICAO הוא קוד בן ארבע אותיות לשדות תעופה, המשמש לפעילות תעופתית וניווט (לדוגמה: נתב״ג = LLBG, הית׳רו = EGLL). בניגוד לקוד IATA, הוא מיועד לשימוש של טייסים ומערכות פיקוח טיסה."
+            "A four-letter airport code defined by ICAO, used for flight operations and navigation (e.g., Ben Gurion =
+            LLBG, Heathrow = EGLL). Unlike IATA codes, ICAO codes are used by pilots and air-traffic systems."
+            if lang != 'he'
+            else
+            "קוד ICAO הוא קוד בן ארבע אותיות לשדות תעופה, המשמש לפעילות תעופתית וניווט (לדוגמה: נתב״ג = LLBG, הית׳רו =
+            EGLL). בניגוד לקוד IATA, הוא מיועד לשימוש של טייסים ומערכות פיקוח טיסה."
             }}
           </p>
         </div>
@@ -540,10 +600,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "A runway is the strip of land where aircraft take off and land. Each runway is numbered by its magnetic heading (e.g., 08/26). Large airports often have parallel runways."
-              if lang != 'he'
-              else
-              "מסלול הוא רצועת הקרקע המשמשת להמראות ולנחיתות. לכל מסלול מספר המבוסס על כיוונו המגנטי (לדוגמה 08/26). בשדות תעופה גדולים יש לעיתים כמה מסלולים מקבילים."
+            "A runway is the strip of land where aircraft take off and land. Each runway is numbered by its magnetic
+            heading (e.g., 08/26). Large airports often have parallel runways."
+            if lang != 'he'
+            else
+            "מסלול הוא רצועת הקרקע המשמשת להמראות ולנחיתות. לכל מסלול מספר המבוסס על כיוונו המגנטי (לדוגמה 08/26). בשדות
+            תעופה גדולים יש לעיתים כמה מסלולים מקבילים."
             }}
           </p>
         </div>
@@ -557,10 +619,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "Taxiways are the paths connecting runways with terminals and hangars. Aircraft use them to move on the ground before take-off or after landing."
-              if lang != 'he'
-              else
-              "דרכי הסעה (Taxiways) מחברות בין המסלולים, הטרמינלים וההאנגרים. מטוסים נוסעים בהן על הקרקע לפני ההמראה או אחרי הנחיתה."
+            "Taxiways are the paths connecting runways with terminals and hangars. Aircraft use them to move on the
+            ground before take-off or after landing."
+            if lang != 'he'
+            else
+            "דרכי הסעה (Taxiways) מחברות בין המסלולים, הטרמינלים וההאנגרים. מטוסים נוסעים בהן על הקרקע לפני ההמראה או
+            אחרי הנחיתה."
             }}
           </p>
         </div>
@@ -570,14 +634,17 @@
     <!-- METAR -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'METAR' if lang != 'he' else 'דו״ח מזג אוויר METAR' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'METAR' if lang != 'he' else 'דו״ח מזג אוויר METAR' }}
+        </div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "METAR is an aviation weather report updated hourly, giving temperature, visibility, wind, and cloud conditions at an airport (e.g., LLBG 101120Z 27010KT CAVOK 28/16 Q1012)."
-              if lang != 'he'
-              else
-              "METAR הוא דו״ח מזג אוויר לתעופה, המתעדכן מדי שעה וכולל נתונים על טמפרטורה, ראות, רוח ומצב עננות בשדה תעופה (למשל: LLBG 101120Z 27010KT CAVOK 28/16 Q1012)."
+            "METAR is an aviation weather report updated hourly, giving temperature, visibility, wind, and cloud
+            conditions at an airport (e.g., LLBG 101120Z 27010KT CAVOK 28/16 Q1012)."
+            if lang != 'he'
+            else
+            "METAR הוא דו״ח מזג אוויר לתעופה, המתעדכן מדי שעה וכולל נתונים על טמפרטורה, ראות, רוח ומצב עננות בשדה תעופה
+            (למשל: LLBG 101120Z 27010KT CAVOK 28/16 Q1012)."
             }}
           </p>
         </div>
@@ -591,10 +658,12 @@
         <div class="card-body">
           <p class="card-text">
             {{
-              "TAF (Terminal Aerodrome Forecast) is a weather forecast for pilots, covering expected wind, visibility, and conditions at an airport for up to 30 hours."
-              if lang != 'he'
-              else
-              "TAF (תחזית תעופתית) היא תחזית מזג אוויר לטייסים, הכוללת מידע על רוחות, ראות ותנאים צפויים בשדה התעופה לטווח של עד 30 שעות."
+            "TAF (Terminal Aerodrome Forecast) is a weather forecast for pilots, covering expected wind, visibility, and
+            conditions at an airport for up to 30 hours."
+            if lang != 'he'
+            else
+            "TAF (תחזית תעופתית) היא תחזית מזג אוויר לטייסים, הכוללת מידע על רוחות, ראות ותנאים צפויים בשדה התעופה לטווח
+            של עד 30 שעות."
             }}
           </p>
         </div>
@@ -604,14 +673,17 @@
     <!-- CTOT / Slot Time -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'CTOT / Slot Time' if lang != 'he' else 'CTOT / זמן הקצאה' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'CTOT / Slot Time' if lang != 'he' else 'CTOT / זמן הקצאה'
+          }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "CTOT (Calculated Take-Off Time) or ‘slot time’ is an assigned window for an aircraft to depart, used by air-traffic flow management to prevent congestion."
-              if lang != 'he'
-              else
-              "CTOT (זמן המראה מחושב) או 'Slot Time' הוא חלון זמן מוקצה להמראת מטוס, שנקבע על-ידי בקרת התעבורה האווירית כדי למנוע עומסים."
+            "CTOT (Calculated Take-Off Time) or ‘slot time’ is an assigned window for an aircraft to depart, used by
+            air-traffic flow management to prevent congestion."
+            if lang != 'he'
+            else
+            "CTOT (זמן המראה מחושב) או 'Slot Time' הוא חלון זמן מוקצה להמראת מטוס, שנקבע על-ידי בקרת התעבורה האווירית
+            כדי למנוע עומסים."
             }}
           </p>
         </div>
@@ -621,14 +693,17 @@
     <!-- APIS -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'APIS (Advance Passenger Information System)' if lang != 'he' else 'APIS — מערכת מידע מקדימה לנוסעים' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'APIS (Advance Passenger Information System)' if lang !=
+          'he' else 'APIS — מערכת מידע מקדימה לנוסעים' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "APIS is an international security system where airlines transmit passenger passport data to border authorities before arrival or departure."
-              if lang != 'he'
-              else
-              "APIS היא מערכת ביטחון בינלאומית שבה חברות תעופה מעבירות לרשויות הגבול את פרטי הדרכונים של הנוסעים לפני ההמראה או הנחיתה."
+            "APIS is an international security system where airlines transmit passenger passport data to border
+            authorities before arrival or departure."
+            if lang != 'he'
+            else
+            "APIS היא מערכת ביטחון בינלאומית שבה חברות תעופה מעבירות לרשויות הגבול את פרטי הדרכונים של הנוסעים לפני
+            ההמראה או הנחיתה."
             }}
           </p>
         </div>
@@ -638,14 +713,17 @@
     <!-- SSR / ADS-B -->
     <div class="col">
       <div class="card shadow-sm h-100">
-        <div class="card-header fw-semibold text-primary">{{ 'SSR / ADS-B' if lang != 'he' else 'מערכות זיהוי — SSR / ADS-B' }}</div>
+        <div class="card-header fw-semibold text-primary">{{ 'SSR / ADS-B' if lang != 'he' else 'מערכות זיהוי — SSR /
+          ADS-B' }}</div>
         <div class="card-body">
           <p class="card-text">
             {{
-              "SSR (Secondary Surveillance Radar) and ADS-B (Automatic Dependent Surveillance-Broadcast) are systems that identify and track aircraft in real time, improving flight safety and monitoring."
-              if lang != 'he'
-              else
-              "SSR (רדאר משני) ו-ADS-B (מערכת שידור מיקום אוטומטית) הן טכנולוגיות שמזהות ועוקבות בזמן אמת אחר מטוסים, לשיפור בטיחות וניהול התעבורה האווירית."
+            "SSR (Secondary Surveillance Radar) and ADS-B (Automatic Dependent Surveillance-Broadcast) are systems that
+            identify and track aircraft in real time, improving flight safety and monitoring."
+            if lang != 'he'
+            else
+            "SSR (רדאר משני) ו-ADS-B (מערכת שידור מיקום אוטומטית) הן טכנולוגיות שמזהות ועוקבות בזמן אמת אחר מטוסים,
+            לשיפור בטיחות וניהול התעבורה האווירית."
             }}
           </p>
         </div>
@@ -655,6 +733,8 @@
 </div>
 <div class="alert alert-info mt-5 shadow-sm small">
   <i class="bi bi-book me-2"></i>
-  {{ "Learn more about aviation systems, codes, and air traffic management — soon on the Fly-TLV Aviation Data Insights section." if lang != 'he' else "למדו עוד על מערכות תעופה, קודים וניהול תנועה אווירית — בקרוב במדור 'Aviation Data Insights' של Fly-TLV." }}
+  {{ "Learn more about aviation systems, codes, and air traffic management — soon on the Fly-TLV Aviation Data Insights
+  section." if lang != 'he' else "למדו עוד על מערכות תעופה, קודים וניהול תנועה אווירית — בקרוב במדור 'Aviation Data
+  Insights' של Fly-TLV." }}
 </div>
 {% endblock %}

@@ -2322,3 +2322,207 @@ body.dark-mode .chip:hover {
   background: #8b5cf6;
   color: white;
 }
+/* 
+   FLIGHTS PAGE & GENERIC TABLE STYLES
+ */
+
+/* Table Structure & Rounding */
+.styled-table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+  overflow: hidden; /* ensures rounding is visible */
+  width: 100%;
+}
+
+.styled-table td,
+.styled-table thead th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Top corners */
+.styled-table thead th:first-child {
+  border-top-left-radius: 12px;
+}
+.styled-table thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Bottom corners */
+.styled-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.styled-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Remove bottom borders to look clean */
+.styled-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+.dataTables_wrapper {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Flight Status Badges */
+.flight-status-badge {
+  display: inline-block;
+  min-width: 90px;
+  padding: 0.5em 1em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px; /* pill shape */
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Filter Sections */
+.dt-filters label {
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.dt-filters select {
+  display: inline-block;
+  width: auto;
+}
+
+/* Responsive Table Adjustments */
+@media (max-width: 768px) {
+  /* Stack wrapper rows */
+  .dataTables_wrapper .row.mb-3 {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  /* Filters grid on mobile */
+  .dt-filters .d-flex {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .dt-filters label {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    text-align: left;
+  }
+  
+  .dt-filters select {
+    width: 100%;
+  }
+
+  /* Center info text */
+  .dataTables_info {
+    text-align: center;
+  }
+}
+
+/* Hebrew specific direction fix for mobile rows */
+html[lang="he"] .row.mt-2 {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+/* Dark Mode Table overrides */
+body.dark-mode .styled-table,
+body.dark-mode .styled-table td,
+body.dark-mode .styled-table th {
+  color: #e5e5e5 !important;
+  background-color: #1a1a1a !important;
+  border-color: #333 !important;
+}
+
+body.dark-mode .styled-table thead th {
+  background-color: #222 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .styled-table tbody tr:nth-child(even) {
+  background-color: #1f1f1f !important;
+}
+
+body.dark-mode input[type="search"],
+body.dark-mode input[type="text"],
+body.dark-mode select.form-select {
+  background-color: #111 !important;
+  color: #e5e5e5 !important;
+  border: 1px solid #555 !important;
+}
+
+body.dark-mode input[type="search"]::placeholder {
+  color: #888 !important;
+}
+
+
+/* 
+   TRAVEL WARNINGS SPECIFIC STYLES
+ */
+
+.section-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent); /* Use global accent */
+}
+
+/* Warnings Table Specifics */
+#warnings-table td:nth-child(4) {
+  white-space: normal !important;
+  word-break: break-word;
+  min-width: 250px; /* Ensure readability for recommendations */
+}
+
+/* Custom DataTables Buttons Colors */
+.buttons-csv {
+  background-color: #10b981 !important;
+  border-color: #10b981 !important;
+  color: white !important;
+}
+.buttons-csv:hover {
+  background-color: #059669 !important;
+  border-color: #059669 !important;
+}
+
+.buttons-colvis {
+  color: white !important;
+  border-color: #3b82f6 !important;
+  background-color: #3b82f6 !important;
+}
+.buttons-colvis:hover {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+/* RTL Button Spacing */
+html[dir="rtl"] .dt-buttons .btn {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+/* Responsive Table Mobile View Wrap */
+#warnings-table tr.child td,
+#warnings-table tr.child td * {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
