@@ -1,4 +1,3 @@
-# === Standard Library ===
 import app_state
 import os
 import sys
@@ -87,6 +86,7 @@ from routers.airlines_tlv import router as airlines_router
 
 from routers.tlv_shops import router as tlv_shops_router
 from routers.weather import router as weather_router, cleanup_weather_cache_task, prefetch_weather
+from routers.itineraryGenerator import router as generate_itinerary
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -189,7 +189,7 @@ app.include_router(generic_routes)
 app.include_router(sitemap_routes)
 app.include_router(destination_diff_routes)
 app.include_router(airlines_router)
-
+app.include_router(generate_itinerary)
 app.include_router(tlv_shops_router)
 app.include_router(weather_router)
 
@@ -3106,4 +3106,5 @@ async def get_travel_info(city: str, lang: str = "en") -> Dict[str, Any]:
     except Exception as e:
         logger.error("🔥 Unexpected error in get_travel_info()", exc_info=True)
         return {"city": city_lookup, "pois": [], "tips": [], "error": "Internal error"}
+
 

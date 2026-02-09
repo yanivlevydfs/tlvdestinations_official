@@ -245,6 +245,15 @@ if lang != 'he' else
       </div>
 
       <div class="mb-3 d-none" id="attractions-category-container">
+
+        <!-- AI Itinerary Button -->
+        <div class="text-center mb-4 fade-in-up">
+          <button id="btn-generate-itinerary" class="btn btn-gradient-primary btn-lg shadow-sm rounded-pill px-4">
+            <i class="bi bi-stars"></i> {{ 'Generate 3-Day Itinerary (AI)' if lang != 'he' else 'צור מסלול טיול ל-3 ימים
+            (AI)' }}
+          </button>
+        </div>
+
         <label class="form-label">
           🗺️ {{ 'What do you want to explore?' if lang != 'he' else 'מה תרצו לחקור?' }}
         </label>
@@ -269,6 +278,28 @@ if lang != 'he' else
         <ul id="attractions-list" class="list-group"></ul>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- ITINERARY MODAL -->
+<div class="modal fade" id="itineraryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="itineraryModalTitle">
+          <i class="bi bi-map-fill me-2"></i>3-Day Itinerary
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4" id="itineraryModalBody">
+        <!-- Content injected via JS -->
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          {{ 'Close' if lang != 'he' else 'סגור' }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -779,6 +810,103 @@ if lang != 'he' else
     }
 
 
+    // ------------------------------------
+    // AI ITINERARY GENERATOR
+    // ------------------------------------
+    const btnGenerateItinerary = document.getElementById("btn-generate-itinerary");
+    const itineraryModal = new bootstrap.Modal(document.getElementById('itineraryModal'));
+    const itineraryModalBody = document.getElementById("itineraryModalBody");
+    const itineraryModalTitle = document.getElementById("itineraryModalTitle");
+
+    btnGenerateItinerary.addEventListener("click", async () => {
+      if (!currentCityName) return;
+
+      const country = countrySelect.value;
+      const loadingText = lang === "he"
+        ? "✨ ה-AI שלנו מתכנן את הטיול המושלם עבורך..."
+        : "✨ Our AI is planning your perfect trip...";
+
+      itineraryModalBody.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h5 class="text-muted animate-pulse">${loadingText}</h5>
+        </div>
+      `;
+
+      itineraryModalTitle.innerText = lang === "he"
+        ? `מסלול טיול ל-3 ימים - ${currentCityName}`
+        : `3-Day Itinerary for ${currentCityName}`;
+
+      itineraryModal.show();
+
+      try {
+        const response = await fetch("/api/generate-itinerary", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            city: currentCityName,
+            country: country,
+            interests: [] // Can add interest selection later
+          })
+        });
+
+        if (!response.ok) throw new Error("API Error");
+
+        const data = await response.json();
+        renderItinerary(data);
+
+      } catch (e) {
+        console.error("Itinerary Generation Error:", e);
+        itineraryModalBody.innerHTML = `
+            <div class="text-center py-5 text-danger">
+                <i class="bi bi-exclamation-triangle display-1 mb-3"></i>
+                <h5>${lang === "he" ? "אופס! לא הצלחנו לייצר את המסלול כרגע." : "Oops! Could not generate itinerary at the moment."}</h5>
+                <p class="text-muted">${lang === "he" ? "נא לנסות שנית מאוחר יותר." : "Please try again later."}</p>
+            </div>
+        `;
+      }
+    });
+
+    function renderItinerary(data) {
+      if (!data.days) return;
+
+      let html = '<div class="itinerary-timeline">';
+
+      data.days.forEach(day => {
+        html += `
+                <div class="card mb-3 border-0 shadow-sm">
+                    <div class="card-header bg-white border-bottom-0 pt-3 pb-0">
+                        <h5 class="text-primary fw-bold mb-0">
+                            <span class="badge bg-primary me-2">${lang === "he" ? "יום" : "Day"} ${day.day}</span>
+                            ${day.theme || ""}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item border-0 ps-0">
+                                <i class="bi bi-brightness-alt-high-fill text-warning me-2"></i>
+                                <strong>${lang === "he" ? "בוקר" : "Morning"}:</strong> ${day.morning}
+                            </li>
+                            <li class="list-group-item border-0 ps-0">
+                                <i class="bi bi-sun-fill text-orange me-2"></i>
+                                <strong>${lang === "he" ? "צהריים" : "Afternoon"}:</strong> ${day.afternoon}
+                            </li>
+                            <li class="list-group-item border-0 ps-0">
+                                <i class="bi bi-moon-stars-fill text-dark me-2"></i>
+                                <strong>${lang === "he" ? "ערב" : "Evening"}:</strong> ${day.evening}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+      });
+
+      html += '</div>';
+
+      // Add a "Copy" or "Share" hint maybe?
+      itineraryModalBody.innerHTML = html;
+    }
+
   });
 </script>
 
@@ -961,12 +1089,33 @@ if lang != 'he' else
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #fff;
+    /* Ensure white background */
+    color: #000 !important;
+    /* Ensure black text */
+  }
+
+  #attractions-list .list-group-item h6 {
+    color: #000 !important;
+  }
+
+  #attractions-list .list-group-item .text-muted {
+    color: #6c757d !important;
+    /* Keep muted text gray */
   }
 
   body.dark-mode #attractions-list .list-group-item {
     background-color: #202020;
-    color: #f1f1f1;
+    color: #f1f1f1 !important;
     border-color: #303030;
+  }
+
+  body.dark-mode #attractions-list .list-group-item h6 {
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode #attractions-list .list-group-item .text-muted {
+    color: #adb5bd !important;
   }
 </style>
 {% endblock %}
