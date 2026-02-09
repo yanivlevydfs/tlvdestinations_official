@@ -385,5 +385,13 @@
   "Medina": { "he": "מדינה", "country": "Saudi Arabia", "country_he": "ערב הסעודית" },
   "Riyadh": { "he": "ריאד", "country": "Saudi Arabia", "country_he": "ערב הסעודית" },
   "Rovaniemi": {"he": "רובניימי","country": "Finland","country_he": "פינלנד"},
-  "Rostov": {"he": "רוסטוב","country": "Russia","country_he": "רוסיה"}
+  "Rostov": {"he": "רוסטוב","country": "Russia","country_he": "רוסיה"},
+  "Seoul": {"he": "סיאול", "country": "South Korea", "country_he": "דרום קוריאה"},
+  "Manila": {"he": "מנילה", "country": "Philippines", "country_he": "הפיליפינים"},
+  "Catania": {"he": "קטניה", "country": "Italy", "country_he": "איטליה"},
+  "Cagliari": {"he": "קליארי", "country": "Italy", "country_he": "איטליה"},
+  "Copenhagen": {"he": "קופנהגן", "country": "Denmark", "country_he": "דנמרק"},
+  "Dubrovnik": {"he": "דוברובניק", "country": "Croatia", "country_he": "קרואטיה"},
+  "Zagreb": {"he": "זאגרב", "country": "Croatia", "country_he": "קרואטיה"},
+  "Basel": {"he": "באזל", "country": "Switzerland", "country_he": "שווייץ"}
 }
