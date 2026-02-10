@@ -214,10 +214,10 @@
       </a>
 
       <div class="d-flex align-items-center justify-content-center gap-2">
-        <button id="view-map-btn" class="btn btn-outline-primary">
+        <a id="view-map-btn" href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="btn btn-outline-primary">
           <i class="bi bi-globe-americas me-1"></i>
           {{ 'View Map' if lang != 'he' else 'צפה במפה' }}
-        </button>
+        </a>
 
         <button id="ai-chat-btn" class="btn btn-outline-primary" type="button">
           <i class="bi bi-robot me-1"></i>
@@ -474,41 +474,8 @@
     });
   </script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const mapModal = document.getElementById('mapModal');
-      const iframe = document.getElementById('map-frame');
 
-      // Bootstrap event when modal is shown
-      mapModal.addEventListener('shown.bs.modal', () => {
-        if (!iframe.src) {
-          iframe.src = iframe.dataset.src;
-        }
-      });
 
-      // Optional: unload map when modal is closed (prevents multiple /map reloads in background)
-      mapModal.addEventListener('hidden.bs.modal', () => {
-        iframe.removeAttribute('src');
-      });
-    });
-  </script>
-  <!-- ✅ Map Modal -->
-  <div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl" style="max-width:95%">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            <i class="bi bi-map me-2"></i>
-            <span id="map-title">Flight Map</span>
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" style="height:80vh;overflow:hidden;padding:0">
-          <iframe id="map-frame" data-src="/map" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
   {% block scripts %}{% endblock %}
   <script>
     if ("serviceWorker" in navigator) {
@@ -519,14 +486,7 @@
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // MAP BUTTON -> show map modal
-      const mapBtn = document.getElementById('view-map-btn');
-      if (mapBtn) {
-        mapBtn.addEventListener('click', () => {
-          const mapModal = new bootstrap.Modal(document.getElementById('mapModal'));
-          mapModal.show();
-        });
-      }
+      // MAP BUTTON -> changed to direct link, handler removed
 
       // AI BUTTON -> redirect to chat
       const aiBtn = document.getElementById('ai-chat-btn');

@@ -1,0 +1,778 @@
+{% extends "base.html" %}
+
+{% block head %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<!-- Leaflet.markercluster CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
+<style>
+    /* Full Screen Map Layout */
+    body,
+    html {
+        height: 100%;
+        overflow: hidden;
+        /* Prevent body scroll, map handles it */
+    }
+
+    /* Override base container styles for full width */
+    main.container-fluid {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: calc(100vh - 58px);
+        /* Adjust for navbar height */
+        position: relative;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background: #f8f9fa;
+        /* soothing default */
+    }
+
+    /* Glassmorphism Sidebar / Overlay */
+    .map-overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        width: 380px;
+        max-width: calc(100vw - 40px);
+        max-height: calc(100% - 40px);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        pointer-events: none;
+        /* Let clicks pass through gaps */
+    }
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        pointer-events: auto;
+        /* Re-enable clicks */
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    body.dark-mode .glass-panel {
+        background: rgba(20, 20, 25, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e5e5e5;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Controls Section */
+    .search-box {
+        position: relative;
+    }
+
+    .search-box input {
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding-left: 40px;
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    body.dark-mode .search-box input {
+        background: rgba(40, 40, 50, 0.8);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+    }
+
+    .filter-group label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #6b7280;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    body.dark-mode .filter-group label {
+        color: #9ca3af;
+    }
+
+    .form-select {
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        font-size: 0.95rem;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    body.dark-mode .form-select {
+        background-color: rgba(40, 40, 50, 0.8);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    /* Stats Badge */
+    .stats-badge {
+        display: inline-flex;
+        align-items: center;
+        background: var(--accent);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Selected Destination Card (Bottom Panel on Mobile, Side on Desktop) */
+    #destination-card {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 420px;
+        max-width: 90vw;
+        max-height: 85vh;
+        overflow-y: auto;
+        z-index: 2000;
+        animation: fadeInScale 0.25s ease-out;
+    }
+
+    /* Backdrop */
+    #map-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(2px);
+        z-index: 1999;
+        animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -48%) scale(0.96);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dest-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    body.dark-mode .dest-header {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dest-title h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        background: var(--accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .dest-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+        color: #4b5563;
+    }
+
+    body.dark-mode .meta-item {
+        color: #d1d5db;
+    }
+
+    .meta-item i {
+        color: #7c3aed;
+        font-size: 1.1rem;
+    }
+
+    body.dark-mode .meta-item i {
+        color: #38bdf8;
+    }
+
+    /* Custom Leaflet Tooltip & Popup Overrides */
+    .leaflet-popup-content-wrapper {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .leaflet-popup-tip {
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .dark-mode .leaflet-popup-content-wrapper {
+        background: rgba(30, 30, 35, 0.95);
+        color: white;
+    }
+
+    .dark-mode .leaflet-popup-tip {
+        background: rgba(30, 30, 35, 0.95);
+    }
+
+    /* Mobile Responsive adjustments */
+    @media (max-width: 768px) {
+        .map-overlay {
+            width: 100%;
+            max-width: 100%;
+            left: 0;
+            top: auto;
+            bottom: 0;
+            max-height: 60vh;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .glass-panel {
+            border-radius: 16px 16px 0 0;
+            /* Bottom sheet style */
+            padding: 15px;
+        }
+
+        #controls-panel {
+            display: none !important;
+        }
+
+        /* Hide controls when destination card is open on mobile? 
+           Or just stack them. Let's make controls collapsible. */
+
+        #destination-card {
+            top: auto;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 100%;
+            transform: none;
+            border-radius: 16px 16px 0 0;
+            margin-bottom: 0;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+    }
+
+    /* Marker Cluster Customization */
+    .marker-cluster-small,
+    .marker-cluster-medium,
+    .marker-cluster-large {
+        background-color: rgba(124, 58, 237, 0.2);
+    }
+
+    .marker-cluster-small div,
+    .marker-cluster-medium div,
+    .marker-cluster-large div {
+        background-color: rgba(124, 58, 237, 0.8);
+        color: white;
+        font-weight: bold;
+    }
+
+    body.dark-mode .marker-cluster-small,
+    body.dark-mode .marker-cluster-medium,
+    body.dark-mode .marker-cluster-large {
+        background-color: rgba(56, 189, 248, 0.2);
+    }
+
+    body.dark-mode .marker-cluster-small div,
+    body.dark-mode .marker-cluster-medium div,
+    body.dark-mode .marker-cluster-large div {
+        background-color: rgba(56, 189, 248, 0.8);
+    }
+
+    /* Custom Scrollbar */
+    .glass-panel::-webkit-scrollbar,
+    #card-airlines::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .glass-panel::-webkit-scrollbar-track,
+    #card-airlines::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+    }
+
+    .glass-panel::-webkit-scrollbar-thumb,
+    #card-airlines::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
+
+    body.dark-mode .glass-panel::-webkit-scrollbar-track,
+    body.dark-mode #card-airlines::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark-mode .glass-panel::-webkit-scrollbar-thumb,
+    body.dark-mode #card-airlines::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="map"></div>
+
+<!-- Floating Map Overlay -->
+<div class="map-overlay">
+
+    <!-- 1. Search & Filter Controls -->
+    <div id="controls-panel" class="glass-panel">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="m-0 fw-bold">
+                <i class="bi bi-compass me-2 text-primary"></i>
+                {{ 'Explore' if lang != 'he' else 'גלה יעדים' }}
+            </h5>
+            <div id="dest-count" class="stats-badge">0</div>
+        </div>
+
+        <div class="search-box mb-3">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" id="map-search" class="form-control"
+                placeholder="{{ 'Search city, country or airline...' if lang != 'he' else 'חפש עיר, מדינה או חברת תעופה...' }}">
+        </div>
+
+        <div class="row g-2">
+            <div class="col-6 filter-group">
+                <label>{{ 'Country' if lang != 'he' else 'מדינה' }}</label>
+                <select id="map-country" class="form-select form-select-sm">
+                    <option value="All">{{ 'All Countries' if lang != 'he' else 'כל המדינות' }}</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            <div class="col-6 filter-group">
+                <label>{{ 'Airline' if lang != 'he' else 'חברת תעופה' }}</label>
+                <select id="map-airline" class="form-select form-select-sm">
+                    <option value="All">{{ 'All Airlines' if lang != 'he' else 'כל החברות' }}</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<!-- Backdrop -->
+<div id="map-backdrop" onclick="closeDestCard()"></div>
+
+<!-- 2. Selected Destination Details (Moved out of overlay) -->
+<div id="destination-card" class="glass-panel">
+    <div class="dest-header">
+        <div class="dest-title">
+            <h2 id="card-city">City Name</h2>
+            <div class="text-muted small" id="card-country">Country</div>
+        </div>
+        <button class="btn btn-sm btn-light rounded-circle" onclick="closeDestCard()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <div class="dest-meta">
+        <div class="meta-item" title="Distance from TLV">
+            <i class="bi bi-rulers"></i>
+            <div>
+                <div class="small text-muted">{{ 'Distance' if lang != 'he' else 'מרחק' }}</div>
+                <strong id="card-dist">— km</strong>
+            </div>
+        </div>
+        <div class="meta-item" title="Flight Time">
+            <i class="bi bi-clock-history"></i>
+            <div>
+                <div class="small text-muted">{{ 'Est. Time' if lang != 'he' else 'זמן משוער' }}</div>
+                <strong id="card-time">—</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="small text-muted fw-bold mb-2">{{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}</label>
+        <div id="card-airlines" class="d-flex flex-wrap gap-1"
+            style="max-height: 120px; overflow-y: auto; align-content: flex-start;">
+            <!-- Chips injected here -->
+        </div>
+    </div>
+
+    <div class="d-grid gap-2">
+        <a id="btn-google" href="#" target="_blank" class="btn btn-primary btn-sm rounded-pill">
+            <i class="bi bi-google me-1"></i> Google Flights
+        </a>
+        <div class="d-flex gap-2">
+            <a id="btn-skyscanner" href="#" target="_blank"
+                class="btn btn-outline-success btn-sm flex-grow-1 rounded-pill">
+                Skyscanner
+            </a>
+            <a id="btn-more" href="#" class="btn btn-outline-secondary btn-sm flex-grow-1 rounded-pill">
+                {{ 'More Info' if lang != 'he' else 'עוד פרטים' }}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+<script>
+    // --- Data Injection ---
+    const rawAirports = {{ airports | tojson }};
+    const airlineWebsites = {{ AIRLINE_WEBSITES | tojson }};
+
+    // Create a lower-case map for case-insensitive lookup
+    const airlineWebsitesLower = Object.keys(airlineWebsites).reduce((acc, key) => {
+        acc[key.toLowerCase()] = airlineWebsites[key];
+        return acc;
+    }, {});
+
+    const lang = "{{ lang }}";
+    const tlvCoords = [32.0055, 34.8854]; // Ben Gurion Airport
+
+    // --- State ---
+    let map = null;
+    let markers = null;
+    let polyline = null;
+    let allMarkers = []; // Store references for filtering
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        initMap();
+        populateFilters();
+        updateMarkers(); // Initial render
+
+        // Event Listeners
+        document.getElementById('map-search').addEventListener('input', debounce(updateMarkers, 300));
+        document.getElementById('map-country').addEventListener('change', updateMarkers);
+        document.getElementById('map-airline').addEventListener('change', updateMarkers);
+
+        // Theme Toggle Listener (if global theme changes, update map tiles)
+        const themeBtn = document.getElementById('theme-toggle');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                setTimeout(updateMapTiles, 100); // Wait for class toggle
+            });
+        }
+    });
+
+    function initMap() {
+        // 1. Create Map
+        map = L.map('map', {
+            zoomControl: false, // We'll move it
+            attributionControl: false
+        }).setView([35, 10], 4); // Center broadly on Europe/Middle East
+
+        // 2. Add Tiles (Dynamic)
+        updateMapTiles();
+
+        // 3. Add Custom Zoom Control (bottom right)
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // 4. Marker Cluster Group
+        markers = L.markerClusterGroup({
+            showCoverageOnHover: false,
+            maxClusterRadius: 40,
+            iconCreateFunction: function (cluster) {
+                const count = cluster.getChildCount();
+                const size = count < 10 ? 'small' : count < 30 ? 'medium' : 'large';
+                return L.divIcon({
+                    html: `<div>${count}</div>`,
+                    className: `marker-cluster marker-cluster-${size}`,
+                    iconSize: new L.Point(40, 40)
+                });
+            }
+        });
+        map.addLayer(markers);
+
+        // 5. Add TLV Marker (Home Base)
+        const tlvIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="background:#2563eb;width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 4px rgba(37,99,235,0.3);"></div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+
+        L.marker(tlvCoords, { icon: tlvIcon, zIndexOffset: 1000 })
+            .addTo(map)
+            .bindTooltip("Tel Aviv (TLV)", { permanent: true, direction: "right", className: "fw-bold" });
+    }
+
+    let tileLayer = null;
+    function updateMapTiles() {
+        // Check for dark mode class on body
+        const isDark = document.body.classList.contains('dark-mode');
+
+        const lightUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        const darkUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+
+        const url = isDark ? darkUrl : lightUrl;
+
+        if (tileLayer) {
+            map.removeLayer(tileLayer);
+        }
+
+        tileLayer = L.tileLayer(url, {
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+    }
+
+    function populateFilters() {
+        const countries = new Set();
+        const airlines = new Set();
+
+        rawAirports.forEach(ap => {
+            if (ap.Country) countries.add(ap.Country);
+            if (ap.Airlines && Array.isArray(ap.Airlines)) {
+                ap.Airlines.forEach(a => airlines.add(a));
+            }
+        });
+
+        // Fill Selects
+        const countrySel = document.getElementById('map-country');
+        Array.from(countries).sort().forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c;
+            countrySel.appendChild(opt);
+        });
+
+        const airlineSel = document.getElementById('map-airline');
+        Array.from(airlines).sort().forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a;
+            opt.textContent = a;
+            airlineSel.appendChild(opt);
+        });
+    }
+
+    function updateMarkers() {
+        markers.clearLayers();
+        allMarkers = [];
+
+        const query = document.getElementById('map-search').value.toLowerCase();
+        const countryFilter = document.getElementById('map-country').value;
+        const airlineFilter = document.getElementById('map-airline').value;
+
+        let filteredCount = 0;
+
+        rawAirports.forEach(ap => {
+            // --- Filter Logic ---
+            if (!ap.lat || !ap.lon) return;
+
+            const matchesQuery = !query ||
+                (ap.City && ap.City.toLowerCase().includes(query)) ||
+                (ap.Country && ap.Country.toLowerCase().includes(query)) ||
+                (ap.IATA && ap.IATA.toLowerCase().includes(query));
+
+            const matchesCountry = countryFilter === "All" || ap.Country === countryFilter;
+
+            const airlineList = ap.Airlines || [];
+            const matchesAirline = airlineFilter === "All" || airlineList.includes(airlineFilter);
+
+            if (matchesQuery && matchesCountry && matchesAirline) {
+                // --- Create Marker ---
+                const marker = L.marker([ap.lat, ap.lon], {
+                    icon: createCustomIcon(ap)
+                });
+
+                // Store data for click handler
+                marker.featureData = ap;
+
+                // Click Event
+                marker.on('click', () => {
+                    selectDestination(ap);
+                    // Draw Line
+                    drawRoute(ap.lat, ap.lon);
+                });
+
+                markers.addLayer(marker);
+                allMarkers.push(marker);
+                filteredCount++;
+            }
+        });
+
+        document.getElementById('dest-count').textContent = filteredCount;
+
+        // Auto fitting behavior
+        // if (filteredCount > 0 && filteredCount < 10) {
+        //     const group = new L.featureGroup(allMarkers);
+        //     map.fitBounds(group.getBounds(), { padding: [50, 50] });
+        // }
+    }
+
+    function createCustomIcon(ap) {
+        // Red plane icon or simple dot
+        const isDark = document.body.classList.contains('dark-mode');
+        const color = isDark ? '#3b82f6' : '#2563eb'; // Blue-500 / Blue-600
+
+        return L.divIcon({
+            className: 'custom-marker',
+            html: `<i class="bi bi-airplane-fill" style="color:${color};font-size:16px;transform:rotate(45deg);display:block;"></i>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+    }
+
+    function drawRoute(lat, lon) {
+        if (polyline) map.removeLayer(polyline);
+
+        const path = [tlvCoords, [lat, lon]];
+        polyline = L.polyline(path, {
+            color: '#6366f1', // Indigo
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '10, 10',
+            lineCap: 'round'
+        }).addTo(map);
+
+        map.fitBounds(polyline.getBounds(), { padding: [100, 100], maxZoom: 6 });
+    }
+
+    function selectDestination(ap) {
+        document.getElementById('map-backdrop').style.display = 'block';
+        const card = document.getElementById('destination-card');
+        card.style.display = 'block';
+
+        // Animate marker ?
+
+        // Populate Card
+        document.getElementById('card-city').textContent = ap.City || ap.Name;
+        document.getElementById('card-country').textContent = ap.Country;
+        document.getElementById('card-dist').textContent = (ap.Distance_km || '?') + ' km';
+        document.getElementById('card-time').textContent = ap.FlightTime_hr || '?';
+
+        // Airlines
+        const container = document.getElementById('card-airlines');
+        container.innerHTML = '';
+        if (ap.Airlines && ap.Airlines.length > 0) {
+            ap.Airlines.forEach((a, index) => {
+                // Use case-insensitive lookup
+                const url = airlineWebsitesLower[a.toLowerCase()];
+                const code = ap.AirlineCodes && ap.AirlineCodes[index] ? ap.AirlineCodes[index] : null;
+
+                const chip = document.createElement(url ? 'a' : 'span');
+                chip.className = 'airline-chip d-inline-flex align-items-center gap-1'; // enhanced styling
+
+                // Icon
+                if (code) {
+                    const img = document.createElement('img');
+                    img.src = `/static/airlines_logo/airline_logos/${code.toLowerCase()}.webp`;
+                    img.alt = a;
+                    img.style.height = '16px';
+                    img.style.width = 'auto';
+                    img.loading = 'lazy';
+                    img.onerror = function () {
+                        this.onerror = null;
+                        this.src = '/static/airlines_logo/airline_logos/default.webp';
+                    };
+                    chip.appendChild(img);
+                }
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = a;
+                chip.appendChild(textSpan);
+
+                if (url) {
+                    chip.href = url;
+                    chip.target = "_blank";
+                }
+                container.appendChild(chip);
+            });
+        } else {
+            container.innerHTML = '<span class="text-muted small">No info</span>';
+        }
+
+        // Links
+        document.getElementById('btn-google').href = `https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20${ap.IATA}`;
+        document.getElementById('btn-skyscanner').href = `https://www.skyscanner.net/transport/flights/tlv/${ap.IATA.toLowerCase()}/`;
+        document.getElementById('btn-more').href = `/destinations/${ap.IATA}`;
+    }
+
+    function closeDestCard() {
+        document.getElementById('map-backdrop').style.display = 'none';
+        document.getElementById('destination-card').style.display = 'none';
+        if (polyline) map.removeLayer(polyline);
+        map.setView([35, 10], 4); // Reset view
+    }
+
+    // Utility: Debounce
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+</script>
+{% endblock %}

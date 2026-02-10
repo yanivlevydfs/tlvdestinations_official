@@ -1123,7 +1123,12 @@ def home(
     )
 
 @app.get("/map", response_class=HTMLResponse)
-def map_view(country: str = "All", query: str = ""):
+def map_view(
+    request: Request,
+    country: str = "All",
+    query: str = "",
+    lang: str = Depends(get_lang)
+):
     global DATASET_DF_FLIGHTS, AIRPORTS_DB
 
     if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
@@ -1163,8 +1168,13 @@ def map_view(country: str = "All", query: str = ""):
 
         # Merge airlines across both directions
         if rec.get("airline"):
+            code = rec.get("airline_code")
             for a in rec["airline"].split(","):
-                grouped[iata]["Airlines"].add(a.strip())
+                a = a.strip()
+                if not a: continue
+                grouped[iata]["Airlines"].add(a)
+                if code:
+                    grouped[iata].setdefault("AirlineMap", {})[a] = code
 
     # ✅ Enrich data from AIRPORTS_DB and append
     merged_airports = {}
@@ -1184,6 +1194,10 @@ def map_view(country: str = "All", query: str = ""):
             dist_km = round(haversine_km(TLV["lat"], TLV["lon"], lat, lon), 1)
             flight_time_hr = get_flight_time(dist_km)
 
+        sorted_airlines = sorted(meta["Airlines"]) if meta["Airlines"] else ["—"]
+        airline_map = meta.get("AirlineMap", {})
+        airline_codes = [airline_map.get(a, "") for a in sorted_airlines]
+
         merged_airports[iata] = {
             "IATA": iata,
             "Name": meta["Name"].title(),
@@ -1191,7 +1205,8 @@ def map_view(country: str = "All", query: str = ""):
             "Country": meta["Country"].title(),
             "lat": lat,
             "lon": lon,
-            "Airlines": sorted(meta["Airlines"]) if meta["Airlines"] else ["—"],
+            "Airlines": sorted_airlines,
+            "AirlineCodes": airline_codes,
             "Distance_km": dist_km,
             "FlightTime_hr": flight_time_hr,
         }
@@ -1216,136 +1231,22 @@ def map_view(country: str = "All", query: str = ""):
             or q in str(ap.get("Country", "")).lower()
         ]
 
-    # ✅ Create Folium map
-    m = folium.Map(
-        location=[35, 28.5],
-        zoom_start=5,
-        tiles="CartoDB positron",
-        control_scale=True,
-        prefer_canvas=True,
-        zoom_control=True
+    # ✅ Render Template instead of Folium
+    # We pass the *list* of airports to the template, enabling client-side rendering (Leaflet).
+    # sets are already converted to sorted lists above.
+    
+    return TEMPLATES.TemplateResponse(
+        "map.html",
+        {
+            "request": request,
+            "airports": airports, 
+            "lang": lang,
+            "country": country,
+            "query": query,
+            "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
+             "version": APP_VERSION,
+        }
     )
-    cluster = MarkerCluster().add_to(m)
-
-    # Add TLV marker
-    folium.Marker(
-        [TLV["lat"], TLV["lon"]],
-        tooltip="Tel Aviv (TLV)",
-        icon=folium.Icon(color="blue", icon="plane", prefix="fa")
-    ).add_to(m)
-
-    bounds = [[TLV["lat"], TLV["lon"]]]
-
-    # ✅ Add destination markers
-    for ap in airports:
-        if not ap.get("lat") or not ap.get("lon"):
-            continue
-
-        km = ap["Distance_km"]
-        flight_time_hr = ap["FlightTime_hr"]
-        flights_url = f"https://www.google.com/travel/flights?q=flights%20from%20TLV%20to%20{ap['IATA']}"
-        skyscanner_url = f"https://www.skyscanner.net/transport/flights/tlv/{ap['IATA'].lower()}/"
-        gmaps_url = f"https://maps.google.com/?q={ap['City'].replace(' ','+')},{ap['Country'].replace(' ','+')}"
-        copy_js = f"navigator.clipboard && navigator.clipboard.writeText('{safe_js(ap['IATA'])}')"
-
-        airlines_val = ap.get("Airlines", [])
-        if isinstance(airlines_val, str):
-            airlines_val = [airlines_val]
-        chips = []
-
-        for a in airlines_val:
-            name = a.strip()
-            if not name:
-                continue
-            url = AIRLINE_WEBSITES.get(name)
-            style = (
-                "display:inline-block;"
-                "margin:2px 4px 2px 0;"
-                "padding:4px 10px;"
-                "font-size:12px;"
-                "border-radius:9999px;"
-                "background:#6f42c1;"
-                "color:white;"
-                "text-decoration:none;"
-                "border:none;"
-                "font-weight:500;"
-                "box-shadow:0 0 0 2px rgba(111,66,193,0.2);"
-                "transition:all 0.2s ease-in-out;"
-            )
-            if url:
-                chips.append(f"<a href='{escape(url)}' target='_blank' class='chip' style='{style}'>{escape(name)}</a>")
-            else:
-                chips.append(f"<span class='chip' style='{style}'>{escape(name)}</span>")
-
-        airline_html = (
-            "<div style='margin-top:6px;font-size:13px'>Airlines:<br>"
-            + "".join(chips) +
-            "</div>"
-        ) if chips else "<div style='margin-top:6px;font-size:13px'>Airlines: <b>—</b></div>"
-
-        # ---- Popup HTML ----
-        popup_html = f"""
-            <div style='font-family:system-ui;min-width:250px;max-width:300px'>
-                <div style='font-weight:600;font-size:15px'>{escape(ap['Name'])} ({escape(ap['IATA'])})</div>
-                <div style='color:#6b7280;font-size:12px;margin-top:2px'>{escape(ap['City'])} · {escape(ap['Country'])}</div>
-                <div style='margin-top:6px;font-size:13px'>Distance: <b>{km} km</b></div>
-                <div style='margin-top:2px;font-size:13px'>Flight time: <b>{flight_time_hr}</b></div>
-                {airline_html}
-                <div style='margin-top:8px;display:flex;gap:6px;flex-wrap:wrap'>
-                    <a href='{escape(flights_url)}' target='_blank' style='text-decoration:none;background:#2563eb;color:white;padding:4px 8px;border-radius:20px;font-size:13px'>Google Flights</a>
-                    <a href='{escape(skyscanner_url)}' target='_blank' style='text-decoration:none;background:#059669;color:white;padding:4px 8px;border-radius:20px;font-size:13px'>Skyscanner</a>
-                    <a href='{escape(gmaps_url)}' target='_blank' style='text-decoration:none;background:#111827;color:white;padding:4px 8px;border-radius:20px;font-size:13px'>Google Maps</a>
-                    <button onclick="{copy_js}" style='background:#6b7280;color:white;padding:4px 8px;border-radius:20px;border:none;cursor:pointer;font-size:13px'>Copy IATA</button>
-                </div>
-            </div>
-        """
-
-        folium.Marker(
-            [ap["lat"], ap["lon"]],
-            tooltip=f"{safe_js(ap['Name'])} ({safe_js(ap['IATA'])})",
-            popup=folium.Popup(popup_html, max_width=360),
-            icon=folium.Icon(color="red", icon="plane", prefix="fa"),
-        ).add_to(cluster)
-
-        folium.PolyLine(
-            [(TLV["lat"], TLV["lon"]), (ap["lat"], ap["lon"])],
-            color="#9CA3AF", weight=0.8, opacity=0.9, dash_array="8,10"
-        ).add_to(m)
-
-        bounds.append([ap["lat"], ap["lon"]])
-
-    if len(bounds) > 1:
-        try:
-            m.fit_bounds(bounds, padding=(30, 30))
-        except Exception:
-            pass
-
-    logger.debug(f"✅ /map rendered: {len(airports)} unique airports (merged by IATA)")
-
-    # ✅ Ensure map reflows inside modal if needed
-    bounds_js = json.dumps(bounds)
-    fix_script = f"""
-    <script>
-    window.addEventListener("message", function(e) {{
-      if (e.data === "modal-shown") {{
-        for (var key in window) {{
-          if (key.startsWith("map_")) {{
-            var map = window[key];
-            setTimeout(function() {{
-              map.invalidateSize();
-              if (Array.isArray({bounds_js}) && {bounds_js}.length > 1) {{
-                map.fitBounds({bounds_js}, {{padding:[30,30]}});
-              }}
-            }}, 200);
-          }}
-        }}
-      }}
-    }});
-    </script>
-    """
-
-    html = m.get_root().render().replace("</body>", fix_script + "</body>")
-    return HTMLResponse(content=html, media_type="text/html; charset=utf-8")
 
 
 # ───────────────────────────────────────────────

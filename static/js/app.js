@@ -484,31 +484,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------- View Map button logic ----------
+  // (Disabled: Navigates directly now)
+  /*
   if (viewMapBtn && mapModal && iframe) {
     viewMapBtn.addEventListener('click', () => {
-      //console.log('🗺️ View map clicked. iframe:', iframe, 'mapModal:', mapModal);
-
-      // If iframe has no src, set from data-src
-      const dataSrc = iframe.dataset?.src;
-      if (!iframe.src && dataSrc) {
-        iframe.src = dataSrc;
-      }
-
-      try {
-        const modal = new bootstrap.Modal(mapModal);
-        modal.show();
-        iframe.contentWindow?.postMessage('modal-shown', '*');
-      } catch (err) {
-        console.error('❌ Error showing map modal:', err);
-      }
+       // ... code removed ...
     });
-  } else if (viewMapBtn || mapModal || iframe) {
-    // ⚠️ Warn only if SOME map elements exist, but not all
-    console.warn('⚠️ Some view-map elements missing:', { viewMapBtn, mapModal, iframe });
-  } else {
-    // ✅ No map section at all → no warning needed
-    // console.debug('ℹ️ This page has no map section, skipping map logic.');
-  }
+  } */
 
   // ---------- Install App Banner (mobile) ----------
   if (window.innerWidth <= 768) {
