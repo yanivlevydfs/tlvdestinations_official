@@ -2850,3 +2850,12 @@ body.dark-mode .card-header .text-primary {
 body.dark-mode .table {
   color: #e5e5e5;
 }
+
+/* Route Ticker Colors */
+.ticker-item.added {
+  color: #198754; /* Green */
+}
+
+.ticker-item.removed {
+  color: #dc3545; /* Red */
+}
