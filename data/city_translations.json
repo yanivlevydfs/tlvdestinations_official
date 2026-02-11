@@ -565,5 +565,7 @@
   "Salalah": {"he": "סלאלה", "country": "Oman", "country_he": "עומאן"},
   "Sohar": {"he": "סוהאר", "country": "Oman", "country_he": "עומאן"},
   "Taif": {"he": "טאיף", "country": "Saudi Arabia", "country_he": "ערב הסעודית"},
-  "Tabuk": {"he": "טבוק", "country": "Saudi Arabia", "country_he": "ערב הסעודית"}
+  "Tabuk": {"he": "טבוק", "country": "Saudi Arabia", "country_he": "ערב הסעודית"},
+  "Santa Cruz de Tenerife": {"he": "סנטה קרוס דה טנריפה","country": "Spain","country_he": "ספרד"},
+  "Tenerife": {"he": "טנריף","country": "Spain","country_he": "ספרד"}  
 }
