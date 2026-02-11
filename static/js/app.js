@@ -733,6 +733,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+      // --- Analytics Tracking ---
+      const iata = a.getAttribute('data-iata');
+      const city = a.getAttribute('data-city') || a.getAttribute('data-airport') || 'Unknown';
+      const country = a.getAttribute('data-country') || 'Unknown';
+
+      if (iata) {
+        const payload = JSON.stringify({ iata: iata, city: city, country: country });
+        const endpoint = "/api/analytics/click";
+
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: 'application/json' });
+          navigator.sendBeacon(endpoint, blob);
+        } else {
+          fetch(endpoint, {
+            method: 'POST',
+            body: payload,
+            headers: { 'Content-Type': 'application/json' },
+            keepalive: true
+          }).catch(err => console.error("Analytics error:", err));
+        }
+      }
+
       // --- Loader ---
       const loader = document.getElementById("global-loader");
       const textEl = document.querySelector("#global-loader .loader-text");
