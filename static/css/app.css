@@ -2938,6 +2938,17 @@ body.dark-mode .btn-gradient-primary:hover {
   /* Red */
 }
 
+/* Dark Mode Ticker */
+body.dark-mode .ticker-item.added {
+  color: #4ade80;
+  /* Light Green */
+}
+
+body.dark-mode .ticker-item.removed {
+  color: #ef4444;
+  /* Light Red */
+}
+
 /* Fix Attractions Text Visibility in LIGHT MODE */
 body:not(.dark-mode) #attractions-list .text-muted,
 body:not(.dark-mode) #attractions-list .text-secondary {
@@ -2950,6 +2961,34 @@ body:not(.dark-mode) #attractions-list h6 {
   color: #000 !important;
   font-weight: 800 !important;
 }
+
 /* Fix Wikipedia Link Color (Blue in both modes) */
-#attractions-list a.text-primary { color: #2563eb !important; }
-body.dark-mode #attractions-list a.text-primary { color: #60a5fa !important; }
+#attractions-list a.text-primary {
+  color: #2563eb !important;
+}
+
+/* Fix Wikipedia About Card Text (Must generally match dark mode card style) */
+body.dark-mode #city-overview {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #e5e5e5 !important;
+}
+
+body.dark-mode #city-overview * {
+  color: #e5e5e5 !important;
+}
+
+/* Fix Travel Details Card in Dark Mode */
+body.dark-mode .travel-details-card {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #e5e5e5 !important;
+}
+
+body.dark-mode .travel-details-card .text-muted {
+  color: #a3a3a3 !important;
+}
+
+body.dark-mode .travel-details-card h6 {
+  color: #fff !important;
+}
