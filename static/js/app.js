@@ -742,21 +742,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const payload = JSON.stringify({ iata: iata, city: city, country: country });
         const endpoint = "/api/analytics/click";
 
-        // Use fetch for better debugging in this phase
-        fetch(endpoint, {
-          method: 'POST',
-          body: payload,
-          headers: { 'Content-Type': 'application/json' },
-          keepalive: true
-        })
-          .then(response => {
-            if (!response.ok) {
-              console.error("Analytics API Error:", response.status, response.statusText);
-            } else {
-              console.log("Analytics sent successfully for", iata);
-            }
-          })
-          .catch(err => console.error("Analytics Network Error:", err));
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: 'application/json' });
+          navigator.sendBeacon(endpoint, blob);
+        } else {
+          fetch(endpoint, {
+            method: 'POST',
+            body: payload,
+            headers: { 'Content-Type': 'application/json' },
+            keepalive: true
+          }).catch(err => console.error("Analytics error:", err));
+        }
       }
 
       // --- Loader ---

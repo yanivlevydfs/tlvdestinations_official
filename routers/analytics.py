@@ -129,45 +129,39 @@ async def track_click(event: ClickEvent):
     #     raise HTTPException(status_code=400, detail="City and country are required")
 
     today = datetime.now().strftime("%Y-%m-%d")
-    logging.info(f"Analytics: Received click for {iata} (City: {city}, Country: {country})")
+    conn = await get_conn()
 
-    try:
-        conn = await get_conn()
-        async with DB_LOCK:
-            logging.info("Analytics: Acquired DB_LOCK. Inserting...")
-            await conn.execute(
-                """
-                INSERT INTO destination_clicks (iata, city, country, total_clicks, last_clicked)
-                VALUES (?, NULLIF(?, ''), NULLIF(?, ''), 1, CURRENT_TIMESTAMP)
-                ON CONFLICT(iata) DO UPDATE SET
-                    total_clicks = destination_clicks.total_clicks + 1,
-                    city = COALESCE(excluded.city, destination_clicks.city),
-                    country = COALESCE(excluded.country, destination_clicks.country),
-                    last_clicked = CURRENT_TIMESTAMP
-                """,
-                (iata, city, country),
-            )
+    async with DB_LOCK:
+        await conn.execute(
+            """
+            INSERT INTO destination_clicks (iata, city, country, total_clicks, last_clicked)
+            VALUES (?, NULLIF(?, ''), NULLIF(?, ''), 1, CURRENT_TIMESTAMP)
+            ON CONFLICT(iata) DO UPDATE SET
+                total_clicks = destination_clicks.total_clicks + 1,
+                city = COALESCE(excluded.city, destination_clicks.city),
+                country = COALESCE(excluded.country, destination_clicks.country),
+                last_clicked = CURRENT_TIMESTAMP
+            """,
+            (iata, city, country),
+        )
 
-            await conn.execute(
-                """
-                INSERT INTO analytics_daily (date, iata, clicks)
-                VALUES (?, ?, 1)
-                ON CONFLICT(date, iata) DO UPDATE SET
-                    clicks = analytics_daily.clicks + 1
-                """,
-                (today, iata),
-            )
-            await conn.commit()
-            logging.info(f"Analytics: Successfully inserted data for {iata}")
+        await conn.execute(
+            """
+            INSERT INTO analytics_daily (date, iata, clicks)
+            VALUES (?, ?, 1)
+            ON CONFLICT(date, iata) DO UPDATE SET
+                clicks = analytics_daily.clicks + 1
+            """,
+            (today, iata),
+        )
 
-        # invalidate cache
-        global TOP_CACHE_EXP
-        TOP_CACHE_EXP = None
-        return {"status": "ok", "iata": iata}
+        await conn.commit()
 
-    except Exception as e:
-        logging.error(f"Analytics: Error inserting data for {iata}: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
+    # invalidate cache
+    global TOP_CACHE_EXP
+    TOP_CACHE_EXP = None
+
+    return {"status": "ok", "iata": iata}
 
 # ------------------------------------------------------
 # TOP DESTINATIONS (async + cached)
