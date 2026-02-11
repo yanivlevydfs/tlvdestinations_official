@@ -247,7 +247,7 @@ if lang != 'he' else
       <div class="mb-3 d-none" id="attractions-category-container">
 
         <!-- AI Itinerary Button -->
-        <div class="text-center mb-4 fade-in-up">
+        <div class="text-center mb-4 fade-in-up mt-5">
           <button id="btn-generate-itinerary" class="btn btn-gradient-primary btn-lg shadow-sm rounded-pill px-4">
             <i class="bi bi-stars"></i> {{ 'Generate 3-Day Itinerary (AI)' if lang != 'he' else 'צור מסלול טיול ל-3 ימים
             (AI)' }}
@@ -298,6 +298,9 @@ if lang != 'he' else
       <div class="modal-footer bg-light">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           {{ 'Close' if lang != 'he' else 'סגור' }}
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-copy-itinerary">
+          <i class="bi bi-clipboard me-1"></i> {{ 'Copy' if lang != 'he' else 'העתק' }}
         </button>
       </div>
     </div>
@@ -905,6 +908,25 @@ if lang != 'he' else
 
       // Add a "Copy" or "Share" hint maybe?
       itineraryModalBody.innerHTML = html;
+    }
+
+    // ------------------------------------
+    // COPY ITINERARY
+    // ------------------------------------
+    const btnCopyItinerary = document.getElementById("btn-copy-itinerary");
+    if (btnCopyItinerary) {
+      btnCopyItinerary.addEventListener("click", () => {
+        const text = itineraryModalBody.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = btnCopyItinerary.innerHTML;
+          btnCopyItinerary.innerHTML = `<i class="bi bi-check2"></i> ${lang === "he" ? "הועתק!" : "Copied!"}`;
+          setTimeout(() => {
+            btnCopyItinerary.innerHTML = originalText;
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+      });
     }
 
   });

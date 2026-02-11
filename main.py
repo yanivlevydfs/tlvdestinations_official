@@ -292,7 +292,7 @@ def load_country_translations():
         logger.exception(f"Unexpected error loading country translations: {e}")
         
     
-APP_VERSION = get_git_version()
+APP_VERSION = f"{get_git_version()}_{int(time.time())}"
 TEMPLATES.env.globals["app_version"] = APP_VERSION
    
 def update_travel_warnings():

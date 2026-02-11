@@ -45,7 +45,7 @@ async def generate_itinerary(payload: ItineraryRequest):
     logger.debug(f"🤖 Generating itinerary for {city}, {country} (Interests: {interests})")
 
     prompt = f"""
-    You are an expert travel guide. Create a personalized 3-day travel itinerary for **{city}, {country}**.
+    You are an expert travel guide. Create a **highly detailed, engaging, and personalized** 3-day travel itinerary for **{city}, {country}**.
     
     User Interests: {interests}
 
@@ -57,28 +57,33 @@ async def generate_itinerary(payload: ItineraryRequest):
             {{
                 "day": 1,
                 "theme": "Day Theme (e.g., Historic Center)",
-                "morning": "Activity description...",
-                "afternoon": "Activity description...",
-                "evening": "Activity description..."
+                "morning": "Detailed activity description, including specific landmarks, best times to visit, and why it's worth it.",
+                "afternoon": "Detailed activity description with lunch recommendation (cuisine type).",
+                "evening": "Detailed activity description with dinner or nightlife recommendation."
             }},
             {{
                 "day": 2,
                 "theme": "Day Theme",
-                "morning": "Activity description...",
-                "afternoon": "Activity description...",
-                "evening": "Activity description..."
+                "morning": "Detailed activity description...",
+                "afternoon": "Detailed activity description...",
+                "evening": "Detailed activity description..."
             }},
             {{
                 "day": 3,
                 "theme": "Day Theme",
-                "morning": "Activity description...",
-                "afternoon": "Activity description...",
-                "evening": "Activity description..."
+                "morning": "Detailed activity description...",
+                "afternoon": "Detailed activity description...",
+                "evening": "Detailed activity description..."
             }}
         ]
     }}
 
-    Keep descriptions concise (1-2 sentences). Focus on top-rated, real attractions.
+    **IMPORTANT INSTRUCTIONS:**
+    1. **Be Specific:** Do not just say "Visit a museum". Say "Visit the Louvre to see the Mona Lisa".
+    2. **Be Engaging:** Use exciting language. Make the user want to go there.
+    3. **Logical Flow:** Ensure the activities in a day are geographically close to each other.
+    4. **Dining:** Briefly mention specific memorable dishes or types of food to try.
+    5. **Descriptions:** Should be 2-3 sentences per time slot, providing context and tips.
     """
 
     try:

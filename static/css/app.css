@@ -56,6 +56,8 @@ body.dark-mode .navbar {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  /* Standard property */
   text-shadow: var(--accent-glow);
   /* Allow breaking for mobile stack */
   white-space: normal;
@@ -2097,6 +2099,8 @@ body.dark-mode .icon-glow {
   display: inline-block;
   background: var(--accent);
   -webkit-background-clip: text;
+  background-clip: text;
+  /* Standard property */
   -webkit-text-fill-color: transparent;
 }
 
@@ -2851,11 +2855,101 @@ body.dark-mode .table {
   color: #e5e5e5;
 }
 
+/* Premium AI Button - Slick 2026 */
+.btn-gradient-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important;
+  /* Vivid Violet-Purple */
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+  padding: 12px 32px;
+  /* Larger touch target */
+  border-radius: 50rem !important;
+  /* Full pill shape */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  background-size: 200% auto !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  /* Bouncy elastic transition */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Hover Effect - Shine & Scale */
+.btn-gradient-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6), 0 0 0 4px rgba(99, 102, 241, 0.1);
+  /* Glow ring */
+  background-position: right center !important;
+  /* Animate gradient */
+  color: #ffffff !important;
+}
+
+/* Shine Animation Element */
+.btn-gradient-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+  z-index: 2;
+}
+
+.btn-gradient-primary:hover::after {
+  left: 100%;
+  transition: 0.7s ease-in-out;
+}
+
+/* Active State */
+.btn-gradient-primary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+}
+
+/* 🌙 Dark Mode Specific Overrides */
+body.dark-mode .btn-gradient-primary {
+  background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%) !important;
+  /* Lighter gradient for dark mode */
+  color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+  /* Stronger glow in dark */
+}
+
+body.dark-mode .btn-gradient-primary:hover {
+  box-shadow: 0 8px 30px rgba(139, 92, 246, 0.7), 0 0 0 4px rgba(139, 92, 246, 0.2);
+}
+
 /* Route Ticker Colors */
 .ticker-item.added {
-  color: #198754; /* Green */
+  color: #198754;
+  /* Green */
 }
 
 .ticker-item.removed {
-  color: #dc3545; /* Red */
+  color: #dc3545;
+  /* Red */
 }
+
+/* Fix Attractions Text Visibility in LIGHT MODE */
+body:not(.dark-mode) #attractions-list .text-muted,
+body:not(.dark-mode) #attractions-list .text-secondary {
+  color: #2c3e50 !important;
+  /* Deep dark blue-gray (readable) */
+  font-weight: 500;
+}
+
+body:not(.dark-mode) #attractions-list h6 {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+/* Fix Wikipedia Link Color (Blue in both modes) */
+#attractions-list a.text-primary { color: #2563eb !important; }
+body.dark-mode #attractions-list a.text-primary { color: #60a5fa !important; }
