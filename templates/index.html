@@ -301,6 +301,10 @@
       </a>
 
       <div class="d-flex align-items-center justify-content-center gap-2">
+        <a id="home-btn" href="/{{ '?lang=he' if lang == 'he' else '' }}" class="btn btn-outline-primary"
+          aria-label="Go to homepage">
+          <i class="bi bi-house-door me-1"></i> {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
         <a id="view-map-btn" href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="btn btn-outline-primary"
           aria-label="Open destinations map">
           <i class="bi bi-globe-americas me-1"></i> View Map

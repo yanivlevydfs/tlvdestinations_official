@@ -39,6 +39,7 @@ SAFE_PATH_PREFIXES = (
     "/static/", "/assets/", "/css/", "/js/", "/fonts/", "/images/",
     "/icons/", "/og/", "/logos/", "/.well-known/",
     "/stats","/flights", "/destinations", "/travel-questionnaire",
+    "/api/analytics/",
 )
 
 

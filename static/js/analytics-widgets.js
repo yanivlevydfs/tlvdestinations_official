@@ -26,7 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         </li>
                     `).join("")}
                 </ul>
+                </ul>
             `;
+        })
+        .catch(err => {
+            console.error("Error loading top destinations:", err);
+            const container = document.getElementById("popular-widget");
+            if (container) container.innerHTML = "<div class='text-danger small'>Failed to load data.</div>";
         });
 
 
@@ -48,18 +54,18 @@ document.addEventListener("DOMContentLoaded", () => {
             container.innerHTML = `
                 <ul class="list-group">
                     ${data.map(row => {
-                        let badgeClass = "badge-change-flat";
-                        let arrow = "→";
+                let badgeClass = "badge-change-flat";
+                let arrow = "→";
 
-                        if (row.change > 0) {
-                            badgeClass = "badge-change-up";
-                            arrow = "↑";
-                        } else if (row.change < 0) {
-                            badgeClass = "badge-change-down";
-                            arrow = "↓";
-                        }
+                if (row.change > 0) {
+                    badgeClass = "badge-change-up";
+                    arrow = "↑";
+                } else if (row.change < 0) {
+                    badgeClass = "badge-change-down";
+                    arrow = "↓";
+                }
 
-                        return `
+                return `
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <a href="/destinations/${row.iata}" class="fw-bold text-decoration-none">
                                 ${row.city} (${row.iata})
@@ -69,9 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
                             </span>
                         </li>
                         `;
-                    }).join("")}
+            }).join("")}
+                </ul>
                 </ul>
             `;
+        })
+        .catch(err => {
+            console.error("Error loading trending destinations:", err);
+            const container = document.getElementById("trending-widget");
+            if (container) container.innerHTML = "<div class='text-danger small'>Failed to load data.</div>";
         });
 
 });
