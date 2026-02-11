@@ -115,7 +115,7 @@ class ClickEvent(BaseModel):
 # ------------------------------------------------------
 # TRACK CLICK (async, serialized writes)
 # ------------------------------------------------------
-@router.post("/api/analytics/click")
+@router.post("/api/data/log_visit")
 async def track_click(event: ClickEvent):
     iata = (event.iata or "").upper().strip()
     city = (event.city or "").strip()

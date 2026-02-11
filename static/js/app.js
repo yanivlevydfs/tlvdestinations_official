@@ -740,7 +740,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (iata) {
         const payload = JSON.stringify({ iata: iata, city: city, country: country });
-        const endpoint = "/api/analytics/click";
+        const endpoint = "/api/data/log_visit";
 
         if (navigator.sendBeacon) {
           const blob = new Blob([payload], { type: 'application/json' });
