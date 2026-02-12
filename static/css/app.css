@@ -1972,12 +1972,16 @@ body.dark-mode #route-ticker .update-date {
 
 /* ADDED ROUTES = FULL GREEN */
 body.dark-mode #route-ticker .ticker-item.added {
-  color: #6fe27c !important;
+  color: #2ecc71 !important;
 }
 
 /* REMOVED ROUTES = FULL RED */
 body.dark-mode #route-ticker .ticker-item.removed {
-  color: #ff7d7d !important;
+  color: #ff3b30 !important;
+}
+
+body.dark-mode #route-ticker strong {
+  color: inherit !important;
 }
 
 #route-ticker:hover .ticker-inner {
