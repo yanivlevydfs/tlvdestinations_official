@@ -184,6 +184,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  // ---------- Custom Filters (Lowcost) ----------
+  $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+    const isLowcostChecked =
+      $('#lowcost-filter').is(':checked') ||
+      $('#lowcost-filter-mobile').is(':checked');
+
+    if (!isLowcostChecked) return true;
+
+    // We need to check the HTML for 'lowcost-dot'.
+    // 'data' contains only the text content (stripped of HTML).
+    // settings.aoData[dataIndex]._aData contains the original HTML array for the row.
+    const rowData = settings.aoData[dataIndex]._aData;
+    const airlinesHtml = Array.isArray(rowData) ? rowData[4] : "";
+
+    return airlinesHtml.indexOf('lowcost-dot') !== -1;
+  });
+
   function escapeRegex(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
@@ -207,6 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const airline = airlineEl ? airlineEl.value : '';
     if (airline && airline !== 'All') {
       parts.push(`${dict.airline}: ${airline}`);
+    }
+
+    // Lowcost
+    const isLowcost = $('#lowcost-filter').is(':checked') || $('#lowcost-filter-mobile').is(':checked');
+    if (isLowcost) {
+      // Use currentLang from outer scope
+      parts.push(currentLang === 'he' ? 'לואו-קוסט בלבד' : 'Lowcost Only');
     }
 
     if (lbl) {
@@ -332,17 +356,25 @@ document.addEventListener('DOMContentLoaded', () => {
   function populateAirlineFilter(lang) {
     if (!table) return;
     const airlines = new Set();
+    const isLowcostMode = $('#lowcost-filter').is(':checked') || $('#lowcost-filter-mobile').is(':checked');
+
     // Column 4 is "Airlines"
     // DataTables().rows().every(...) iterates over all rows
     table.rows().every(function () {
       const html = this.data()[4]; // string content of the cell
       if (!html) return;
 
-      // Robust DOM parsing (fixes regex issues with quotes/encoding)
+      // Robust DOM parsing
       const temp = document.createElement('div');
       temp.innerHTML = html;
       const elements = temp.querySelectorAll('[data-airline]');
       elements.forEach(el => {
+        // If in lowcost mode, only include if the element has the lowcost dot
+        if (isLowcostMode) {
+          const hasDot = el.querySelector('.lowcost-dot');
+          if (!hasDot) return;
+        }
+
         const name = el.getAttribute('data-airline');
         if (name) airlines.add(name);
       });
@@ -367,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sorted.includes(currentVal)) {
         sel.value = currentVal;
       } else {
-        sel.value = "All"; // reset if not found (or on init)
+        sel.value = "All"; // reset if not found
       }
     });
   }
@@ -387,6 +419,14 @@ document.addEventListener('DOMContentLoaded', () => {
     table.search('', true, false); // clear global search
     // Assuming Airline is column 4
     table.column(4).search(escapeRegex(val), true, false).draw();
+    updateActiveFilters(LANG[currentLang]);
+  });
+
+  $('#lowcost-filter-mobile').on('change', function () {
+    const isChecked = this.checked;
+    $('#lowcost-filter').prop('checked', isChecked); // sync
+    table.draw();
+    populateAirlineFilter(currentLang);
     updateActiveFilters(LANG[currentLang]);
   });
 
@@ -447,6 +487,14 @@ document.addEventListener('DOMContentLoaded', () => {
     updateActiveFilters(LANG[currentLang]);
   });
 
+  $('#lowcost-filter').on('change', function () {
+    const isChecked = this.checked;
+    $('#lowcost-filter-mobile').prop('checked', isChecked); // sync
+    table.draw();
+    populateAirlineFilter(currentLang);
+    updateActiveFilters(LANG[currentLang]);
+  });
+
   let debounceTimer;
   $('#query-filter').on('input', function () {
     clearTimeout(debounceTimer);
@@ -463,6 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearFiltersBtn.addEventListener('click', () => {
       $('#country-filter').val('All').trigger('change');
       $('#airline-filter').val('All').trigger('change');
+      $('#lowcost-filter').prop('checked', false).trigger('change');
       $('#query-filter').val('').trigger('input');
     });
   }
@@ -471,6 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearFiltersBtnMobile.addEventListener('click', () => {
       $('#country-filter-mobile').val('All').trigger('change');
       $('#airline-filter-mobile').val('All').trigger('change');
+      $('#lowcost-filter-mobile').prop('checked', false).trigger('change');
       $('#query-filter-mobile').val('').trigger('input');
     });
   }

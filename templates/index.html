@@ -430,6 +430,16 @@
                       </option>
                     </select>
                   </div>
+                  <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="lowcost-filter">
+                    <label class="form-check-label small" for="lowcost-filter">
+                      {% if lang == "he" %}
+                      לואו-קוסט בלבד
+                      {% else %}
+                      Lowcost Only
+                      {% endif %}
+                    </label>
+                  </div>
                   <div class="mb-3 mt-3">
                     <label for="query-filter" class="form-label">
                       {% if lang == "he" %}
@@ -627,6 +637,12 @@
                     {% if lang == "he" %}הכול{% else %}All{% endif %}
                   </option>
                 </select>
+              </div>
+              <div class="mb-2 form-check">
+                <input type="checkbox" class="form-check-input" id="lowcost-filter-mobile">
+                <label class="form-check-label small" for="lowcost-filter-mobile">
+                  {% if lang == "he" %}לואו-קוסט בלבד{% else %}Lowcost Only{% endif %}
+                </label>
               </div>
 
               <div class="mb-2">
