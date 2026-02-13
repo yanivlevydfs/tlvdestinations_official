@@ -1964,6 +1964,21 @@ async def flights_view(request: Request):
             if terminal not in (None, "", "nan")
             else "—"
         )
+        
+        # Calculate lowcost status
+        # airline_code might be comma-separated like "LY, IZ" or "W6"
+        # airline might be "El Al, Arkia"
+        # We need a list of booleans corresponding to the airlines list in the template
+        
+        codes = str(f.get("airline_code", "")).split(",")
+        is_lowcost_list = []
+        for code in codes:
+            c = code.strip().upper()
+            if c:
+                is_lowcost_list.append(AIRLINE_LOWCOST_MAP.get(c, False))
+            else:
+                is_lowcost_list.append(False)
+        f["airline_lowcost"] = is_lowcost_list
 
         processed_flights.append(f)
 
@@ -2430,17 +2445,26 @@ async def get_airports(country: str, city: str):
             except Exception:
                 airline_codes = [a.strip() for a in val_codes.replace(";", ",").split(",") if a.strip()]
 
-        # Get websites for airlines
+        # Get websites and lowcost status for airlines
         airline_websites = []
-        for airline in airlines:
+        airline_lowcost = []
+        for i, airline in enumerate(airlines):
             airline_websites.append(AIRLINE_WEBSITES.get(airline, ""))
+            
+            # Look up lowcost by IATA code from the parallel list
+            is_lowcost = False
+            if i < len(airline_codes):
+                code = airline_codes[i].strip().upper()
+                is_lowcost = AIRLINE_LOWCOST_MAP.get(code, False)
+            airline_lowcost.append(is_lowcost)
 
         airports.append({
             "iata": row.IATA,
             "name": row.Name,
             "airlines": airlines,
             "airline_codes": airline_codes,
-            "airline_websites": airline_websites
+            "airline_websites": airline_websites,
+            "airline_lowcost": airline_lowcost
         })
 
     return JSONResponse(content={"airports": airports})

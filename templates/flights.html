@@ -145,7 +145,7 @@
             {{ 'Search' if lang != 'he' else 'חיפוש' }}
           </label>
           <div class="input-group">
-            <span class="input-group-text bg-body"><i class="bi bi-search text-muted"></i></span>
+            <span class="input-group-text"><i class="bi bi-search text-muted"></i></span>
             <input type="search" id="flights-search-input" class="form-control"
               placeholder="{{ 'Flight, Airline, City...' if lang != 'he' else 'טיסה, חברת תעופה, עיר...' }}">
           </div>
@@ -223,6 +223,16 @@
           </select>
         </div>
 
+        <!-- 💰 Lowcost Filter -->
+        <div class="col-6 col-md-3 col-lg-auto d-flex align-items-end">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="lowcost-checkbox">
+            <label class="form-check-label small" for="lowcost-checkbox">
+              {{ 'Low-cost only' if lang != 'he' else 'לואו-קוסט בלבד' }}
+            </label>
+          </div>
+        </div>
+
       </div> <!-- row -->
     </div> <!-- card-body -->
   </div> <!-- card -->
@@ -259,13 +269,18 @@
                 {% for airline in airline_list %}
                 {% set airline_name = airline.strip().title() %}
                 {% set website = AIRLINE_WEBSITES.get(airline_name) %}
-                {% set current_code = code_list[loop.index0].strip() if loop.index0 < code_list|length else '' %} {%- if
-                  website -%} <a href="{{ website }}" target="_blank" rel="noopener"
-                  class="airline-chip text-decoration-none fw-semibold" title="Visit {{ airline_name | e }} website">
+                {% set current_code = code_list[loop.index0].strip() if code_list and loop.index0 < code_list|length
+                  else '' %} {% set is_lowcost=flight.airline_lowcost[loop.index0] if flight.airline_lowcost and
+                  loop.index0 < flight.airline_lowcost|length else False %} {%- if website -%} <a href="{{ website }}"
+                  target="_blank" rel="noopener" class="airline-chip text-decoration-none fw-semibold"
+                  title="Visit {{ airline_name | e }} website">
                   {% if current_code %}
                   <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp" alt="{{ airline_name }}"
                     onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
-                    style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                    class="airline-logo-sm me-1" style="height: 16px; width: auto; vertical-align: middle;">
+                  {% endif %}
+                  {% if is_lowcost %}
+                  <span class="lowcost-dot" style="margin-right: 4px; margin-left: 2px;"></span>
                   {% endif %}
                   {{ airline_name }}
                   <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.85em;"></i>
@@ -278,7 +293,10 @@
                     <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp"
                       alt="{{ airline_name }}"
                       onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
-                      style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                      class="airline-logo-sm me-1" style="height: 16px; width: auto; vertical-align: middle;">
+                    {% endif %}
+                    {% if is_lowcost %}
+                    <span class="lowcost-dot" style="margin-right: 4px; margin-left: 2px;"></span>
                     {% endif %}
                     {{ airline_name }}
                     <i class="bi bi-search ms-1" style="font-size: 0.85em;"></i>
@@ -429,6 +447,7 @@
     const table = $('#flightsTable').DataTable({
       dom:
         "<'row mt-4 mb-4 align-items-center'<'col-12 col-md-auto mb-2 mb-md-0 dt-buttons'B><'col-12 col-md-auto ms-auto'f>>" +
+        "<'row'<'col-12'<'#flight-legend'>>>" +
         "<'row'<'col-12'tr>>" +
         "<'row mt-2'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
       buttons: dtButtons,
@@ -460,6 +479,15 @@
       ],
 
       initComplete: function () {
+        // --- Add Lowcost Legend ---
+        const legendText = lang === 'he' ? 'לואו-קוסט' : 'Low-cost airline';
+        $('#flight-legend').html(`
+          <div class="d-flex align-items-center small text-muted mb-2">
+             <span class="lowcost-dot" style="margin-bottom: 2px;"></span>
+             <span class="ms-1">${legendText}</span>
+          </div>
+        `);
+
         // --- Hide Default DataTables Filter ---
         $('.dataTables_filter').hide();
 
@@ -543,6 +571,23 @@
           if (idx !== -1) {
             table.column(idx).search(regex, true, false).draw();
           }
+        });
+        // 6. Lowcost Filter
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+          if (settings.nTable.id !== 'flightsTable') return true;
+
+          const isLowcostChecked = $('#lowcost-checkbox').is(':checked');
+          if (!isLowcostChecked) return true;
+
+          const api = new $.fn.dataTable.Api(settings);
+          const rowNode = api.row(dataIndex).node();
+          // Check if any .lowcost-dot exists in the row (column 1 mainly)
+          const hasDot = $(rowNode).find('.lowcost-dot').length > 0;
+          return hasDot;
+        });
+
+        $('#lowcost-checkbox').on('change', function () {
+          table.draw();
         });
       }
     });

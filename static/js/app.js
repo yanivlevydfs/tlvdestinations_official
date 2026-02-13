@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return $('#airports-table').DataTable({
       dom:
         "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+        "<'row mb-2'<'col-12'<'#lowcost-legend'>>>" +
         "<'row'<'col-12'tr>>" +
         "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
       buttons: dtButtonsFor(lang),
@@ -179,6 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const info = document.querySelector('#airports-table_info');
         if (info) info.classList.add('last-update-badge');
+
+        // Insert Lowcost Legend
+        const legendText = (lang === 'he') ? 'לואו-קוסט' : 'Low-cost airline';
+        $('#lowcost-legend').html(`
+          <div class="d-flex align-items-center gap-2 small text-muted">
+             <span class="lowcost-dot m-0"></span>
+             <span>${legendText}</span>
+          </div>
+        `);
       }
     });
   }
@@ -230,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isLowcost = $('#lowcost-filter').is(':checked') || $('#lowcost-filter-mobile').is(':checked');
     if (isLowcost) {
       // Use currentLang from outer scope
-      parts.push(currentLang === 'he' ? 'לואו-קוסט בלבד' : 'Lowcost Only');
+      parts.push(currentLang === 'he' ? 'לואו-קוסט בלבד' : 'Low-cost only');
     }
 
     if (lbl) {

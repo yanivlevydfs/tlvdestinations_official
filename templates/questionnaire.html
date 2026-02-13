@@ -222,6 +222,10 @@ if lang != 'he' else
       <!-- Airlines -->
       <div id="airlines-container" class="mt-4 d-none fade-in-up">
         <h6 class="text-muted small text-uppercase mb-2">{{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}</h6>
+        <div class="d-flex align-items-center gap-2 small text-muted mb-2">
+          <span class="lowcost-dot m-0"></span>
+          <span>{{ 'לואו-קוסט' if lang == 'he' else 'Low-cost airline' }}</span>
+        </div>
         <div id="airlines-chips" class="d-flex flex-wrap gap-2"></div>
       </div>
 
@@ -591,21 +595,30 @@ if lang != 'he' else
           // Exact same class as index.html
           chip.className = "airline-chip text-decoration-none";
 
-          // Add Logo if code exists
+          // 1. Logo (Optional)
           if (selected.airline_codes && selected.airline_codes[index]) {
             const code = selected.airline_codes[index].toLowerCase();
             const img = document.createElement("img");
             img.src = `/static/airlines_logo/airline_logos/${code}.webp`;
             img.alt = airline;
+            img.className = "airline-logo-sm me-1";
             img.style.height = "16px";
             img.style.width = "auto";
-            img.style.marginRight = "4px";
             img.style.verticalAlign = "middle";
             img.onerror = function () { this.style.display = 'none'; };
             chip.appendChild(img);
           }
 
-          // Airline Name text
+          // 2. Lowcost Dot (Optional)
+          if (selected.airline_lowcost && selected.airline_lowcost[index]) {
+            const dot = document.createElement("span");
+            dot.className = "lowcost-dot";
+            dot.style.marginRight = "5px";
+            dot.style.marginLeft = "2px";
+            chip.appendChild(dot);
+          }
+
+          // 3. Name
           const textNode = document.createTextNode(airline);
           chip.appendChild(textNode);
 
