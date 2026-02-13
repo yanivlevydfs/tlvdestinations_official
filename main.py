@@ -2141,6 +2141,8 @@ async def destination_detail(request: Request, iata: str):
         "destination": dest,
         "lang": lang,
         "AIRLINE_WEBSITES": AIRLINE_WEBSITES,
+        "AIRLINE_LOWCOST_MAP": AIRLINE_LOWCOST_MAP,
+        "version": APP_VERSION,
         "travel_info": travel_info_data,
         "wiki_summary": wiki_summary_data
     })

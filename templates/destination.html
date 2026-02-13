@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
 
-<link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}?v={{ time.time() }}">
+
 <!-- ✅ Page-specific SEO -->
 <meta name="description"
   content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
@@ -359,6 +359,9 @@
                 {% if airline_code %}
                 <img src="{{ url_for('static', path='airlines_logo/airline_logos/' ~ airline_code | lower ~ '.webp') }}"
                   class="airline-logo-sm" onerror="this.style.display='none'" alt="">
+                {% endif %}
+                {% if airline_code and AIRLINE_LOWCOST_MAP.get(airline_code | upper) %}
+                <span class="lowcost-dot is-lowcost" title="Low Cost Airline"></span>
                 {% endif %}
                 <span class="fw-medium">{{ airline_name }}</span>
                 {% if airline_code %}
