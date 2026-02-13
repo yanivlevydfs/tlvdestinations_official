@@ -2,11 +2,12 @@ from fastapi import APIRouter, Request, Depends, Response
 from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
 from pathlib import Path
 import logging
-from helpers.helper import get_lang
+from helpers.helper import get_lang, get_git_version
 from main import TEMPLATES
 from datetime import datetime
 from config_paths import BASE_DIR 
 logger = logging.getLogger("generic_router")
+APP_VERSION = get_git_version()
 
 router = APIRouter()
 
@@ -93,6 +94,7 @@ async def about(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("about.html", {
         "request": request,
         "lang": lang,
+        "version": APP_VERSION,
         "now": datetime.now()
     })
     
@@ -102,6 +104,7 @@ async def privacy(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("privacy.html", {
         "request": request,
         "lang": lang,
+        "version": APP_VERSION,
         "now": datetime.now()
     })
 
@@ -111,6 +114,7 @@ async def contact(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("contact.html", {
         "request": request,
         "lang": lang,
+        "version": APP_VERSION,
         "now": datetime.now()
     })
 
@@ -120,6 +124,7 @@ async def glossary_view(request: Request, lang: str = Depends(get_lang)):
         return TEMPLATES.TemplateResponse("aviation_glossary.html", {
             "request": request,
             "lang": lang,
+            "version": APP_VERSION,
             "now": datetime.now()
         })
     except Exception:
@@ -145,6 +150,7 @@ async def accessibility(request: Request, lang: str = Depends(get_lang)):
         {
             "request": request,
             "lang": lang,
+            "version": APP_VERSION,
             "now": datetime.now()
         }
     )
@@ -161,6 +167,7 @@ async def direct_vs_nonstop(request: Request, lang: str = Depends(get_lang)):
             {
                 "request": request,
                 "lang": lang,
+                "version": APP_VERSION,
                 "now": datetime.now()
             }
         )
@@ -196,6 +203,7 @@ async def terms_view(request: Request, lang: str = Depends(get_lang)):
             {
                 "request": request,
                 "lang": lang,
+                "version": APP_VERSION,
                 "now": datetime.now()
             }
         )
@@ -240,6 +248,7 @@ async def chat_page(request: Request, lang: str = Depends(get_lang)):
             {
                 "request": request,
                 "lang": lang,
+                "version": APP_VERSION,
                 "now": datetime.now()
             }
         )
