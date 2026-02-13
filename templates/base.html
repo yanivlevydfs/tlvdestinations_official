@@ -29,8 +29,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
 
   <!-- Canonical & hreflang for stats -->
-<link rel="manifest" href="/static/manifest.json">
-<link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
   <link rel="alternate" hreflang="en" href="https://fly-tlv.com/" />
   <link rel="alternate" hreflang="he" href="https://fly-tlv.com/?lang=he" />
   <link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/" />
@@ -221,12 +221,12 @@
         </a>
         <a id="view-map-btn" href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="btn btn-outline-primary">
           <i class="bi bi-globe-americas me-1"></i>
-          {{ 'View Map' if lang != 'he' else 'צפה במפה' }}
+          {{ 'Map' if lang != 'he' else 'מפה' }}
         </a>
 
         <button id="ai-chat-btn" class="btn btn-outline-primary" type="button">
           <i class="bi bi-robot me-1"></i>
-          {{ 'Ask AI' if lang != 'he' else 'שאל את הבוט' }}
+          AI
         </button>
 
         <button id="theme-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle theme">

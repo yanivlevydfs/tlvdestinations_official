@@ -3,7 +3,7 @@ window.LANG = {
   en: {
     brand_mobile: "Fly TLV<br>Worldwide Destinations Explorer",
     brand_desktop: "Fly TLV → Worldwide Destinations Explorer",
-    viewMap: "View Map",
+    viewMap: "Map",
     refresh: "Refresh Destinations",
     theme: "Theme",
     filters: "Filters",
@@ -66,9 +66,9 @@ window.LANG = {
   he: {
     brand_mobile: "טיסות מ־ת״א<br>כל היעדים בעולם",
     brand_desktop: "טיסות מ־ת״א ← כל היעדים בעולם",
-    viewMap: "צפה במפה",
+    viewMap: "מפה",
     refresh: "רענן יעדים",
-    theme: "מצב תצוגה",
+    theme: "תצוגה",
     filters: "סינון",
     filtersHeader: "חיפוש וסינון",
     country: "מדינה",

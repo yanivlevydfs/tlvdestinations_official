@@ -77,7 +77,8 @@ from helpers.attraction_filters import load_filters
 from config_paths import (
     BASE_DIR, CACHE_DIR, STATIC_DIR, TEMPLATES_DIR, DATA_DIR,
     AIRLINE_WEBSITES_FILE, ISRAEL_FLIGHTS_FILE, TRAVEL_WARNINGS_FILE,
-    COUNTRY_TRANSLATIONS, CITY_TRANSLATIONS_FILE, CITY_NAME_CORRECTIONS_FILE)
+    COUNTRY_TRANSLATIONS, CITY_TRANSLATIONS_FILE, CITY_NAME_CORRECTIONS_FILE,
+    AIRLINES_ALL_FILE)
 from routers.sitemap_routes import router as sitemap_routes
 from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
@@ -205,10 +206,28 @@ COUNTRY_NAME_TO_ISO: dict[str, str] = {}
 EN_TO_HE_COUNTRY = {}
 CITY_TRANSLATIONS = {}
 TRAVEL_WARNINGS_DF: pd.DataFrame = pd.DataFrame()
+AIRLINE_LOWCOST_MAP: dict[str, bool] = {}
+AIRLINE_LOWCOST_MAP: dict[str, bool] = {}
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
+def load_airlines_all():
+    global AIRLINE_LOWCOST_MAP
+    try:
+        with open(AIRLINES_ALL_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            # Create a map: IATA -> is_lowcost
+            AIRLINE_LOWCOST_MAP = {
+                entry.get("iata", "").upper(): entry.get("is_lowcost", False)
+                for entry in data
+                if entry.get("iata")
+            }
+            logger.debug(f"Loaded {len(AIRLINE_LOWCOST_MAP)} airlines for lowcost check")
+    except Exception as e:
+        logger.error(f"Failed to load airlines_all.json: {e}")
+        AIRLINE_LOWCOST_MAP = {}
+
 def get_city_info(city_en: str, return_type: str = "both"):
     """
     Get Hebrew city and country names by English city.
@@ -834,6 +853,8 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         "FlightTime_hr",
         "Airlines",
         "AirlineCodes",
+        "AirlineMap",
+        "AirlineLowCost", # NEW: Parallel list of booleans
         "FlightNumbers",
         "Terminals",
         "Statuses",
@@ -886,6 +907,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "Airlines": set(),
                 "AirlineCodes": set(),
                 "AirlineMap": {}, # NEW: maintain name->code mapping
+                "AirlineLowCost": [], # Will be computed at the end
                 "FlightNumbers": set(),
                 "Terminals": set(),
                 "Statuses": set(),
@@ -943,10 +965,18 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             
             # ✅ Align airline codes with airline names
             aligned_codes = []
+            aligned_is_lowcost = []
+
             for airline_name in active_airlines:
                 code = info["AirlineMap"].get(airline_name)
                 if code:
                     aligned_codes.append(code)
+                    # Lookup lowcost status by IATA code
+                    is_low = AIRLINE_LOWCOST_MAP.get(code.upper(), False)
+                    aligned_is_lowcost.append(is_low)
+                else:
+                    # Fallback if no code
+                    aligned_is_lowcost.append(False)
 
             coords = AIRPORTS_DB.get(iata, {}) if AIRPORTS_DB else {}
             lat, lon = coords.get("lat"), coords.get("lon")
@@ -961,6 +991,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "FlightTime_hr": flight_hr,
                 "Airlines": active_airlines,
                 "AirlineCodes": aligned_codes,
+                "AirlineLowCost": aligned_is_lowcost,
                 "FlightNumbers": sorted(info["FlightNumbers"]),
                 "Terminals": sorted(info["Terminals"]),
                 "Statuses": sorted(info["Statuses"]),
@@ -1269,6 +1300,7 @@ async def on_startup():
     load_city_translations()
     load_country_translations()
     load_city_name_corrections()
+    load_airlines_all()
     
     # 0) Load IATA DB once
     try:

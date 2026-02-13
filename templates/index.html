@@ -307,16 +307,16 @@
         </a>
         <a id="view-map-btn" href="/map{{ '?lang=he' if lang == 'he' else '' }}" class="btn btn-outline-primary"
           aria-label="Open destinations map">
-          <i class="bi bi-globe-americas me-1"></i> View Map
+          <i class="bi bi-globe-americas me-1"></i> {{ 'Map' if lang != 'he' else 'מפה' }}
         </a>
         <button id="ai-chat-btn" class="btn btn-outline-primary" type="button" aria-label="Open Fly TLV AI assistant">
-          <i class="bi bi-robot me-1"></i> Ask AI
+          <i class="bi bi-robot me-1"></i> AI
         </button>
         <button id="theme-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle theme">
-          <i id="theme-icon" class="bi bi-moon-stars me-1"></i> Theme
+          <i id="theme-icon" class="bi bi-moon-stars me-1"></i> {{ 'Theme' if lang != 'he' else 'ערכת נושא' }}
         </button>
         <button id="lang-toggle" class="btn btn-outline-primary" type="button" aria-label="Toggle language">
-          <i class="bi bi-translate me-1"></i> <span id="lang-label">עברית</span>
+          <i class="bi bi-translate me-1"></i> <span id="lang-label">{{ 'עברית' if lang != 'he' else 'English' }}</span>
         </button>
       </div>
     </div>
@@ -347,12 +347,7 @@
 
   <main class="container-fluid px-2 px-md-3 mt-2 mb-3" role="main">
 
-    <!-- 📱 Mobile Filter FAB -->
-    <button class="btn btn-primary btn-fab rounded-circle shadow-lg d-lg-none" type="button" data-bs-toggle="offcanvas"
-      data-bs-target="#filtersCanvas" aria-controls="filtersCanvas"
-      style="position: fixed; bottom: 20px; right: 20px; z-index: 1050; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
-      <i class="bi bi-funnel-fill fs-4"></i>
-    </button>
+
 
     <div class="row g-3 align-items-start stretch-content">
 
@@ -695,21 +690,13 @@
                     {% set airline_code = "" %}
                     {% if ap.AirlineCodes and loop.index0 < ap.AirlineCodes|length %} {% set
                       airline_code=ap.AirlineCodes[loop.index0] %} {% endif %} {% if website %} <a href="{{ website }}"
-                      target="_blank" rel="noopener" class="airline-chip text-decoration-none" data-log="airline"
-                      data-airline="{{ airline_name }}" title="Visit {{ airline_name | e }} website">
-                      {% if airline_code %}
-                      <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
-                        alt="{{ airline_name }}" loading="lazy"
-                        onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
-                        style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
-                      {% endif %}
-                      {{ airline_name }}
-                      <i class="bi bi-box-arrow-up-right ms-1" style="font-size:0.85em;"></i>
-                      </a>
-                      {% else %}
-                      <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank"
-                        rel="noopener" class="airline-chip text-decoration-none" data-log="airline"
-                        data-airline="{{ airline_name }}" title="Search for {{ airline_name | e }} on Google">
+                      class="airline-chip text-decoration-none" data-log="airline" data-airline="{{ airline_name }}"
+                      title="Visit {{ airline_name | e }} website">
+
+                      {% if ap.AirlineLowCost and loop.index0 < ap.AirlineLowCost|length and
+                        ap.AirlineLowCost[loop.index0] %} <span class="lowcost-dot" title="Low Cost Airline"></span>
+                        {% endif %}
+
                         {% if airline_code %}
                         <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
                           alt="{{ airline_name }}" loading="lazy"
@@ -717,13 +704,31 @@
                           style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
                         {% endif %}
                         {{ airline_name }}
-                        <i class="bi bi-search ms-1" style="font-size:0.85em;"></i>
-                      </a>
-                      {% endif %}
-                      {% endfor %}
-                      {% else %}
-                      —
-                      {% endif %}
+                        <i class="bi bi-box-arrow-up-right ms-1" style="font-size:0.85em;"></i>
+                        </a>
+                        {% else %}
+                        <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank"
+                          rel="noopener" class="airline-chip text-decoration-none" data-log="airline"
+                          data-airline="{{ airline_name }}" title="Search for {{ airline_name | e }} on Google">
+
+                          {% if ap.AirlineLowCost and loop.index0 < ap.AirlineLowCost|length and
+                            ap.AirlineLowCost[loop.index0] %} <span class="lowcost-dot" title="Low Cost Airline"></span>
+                            {% endif %}
+
+                            {% if airline_code %}
+                            <img src="/static/airlines_logo/airline_logos/{{ airline_code|lower }}.webp"
+                              alt="{{ airline_name }}" loading="lazy"
+                              onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
+                              style="height: 16px; width: auto; margin-right: 4px; vertical-align: middle;">
+                            {% endif %}
+                            {{ airline_name }}
+                            <i class="bi bi-search ms-1" style="font-size:0.85em;"></i>
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        —
+                        {% endif %}
                   </td>
                   <td title="{{ ap.Distance_km }} kilometers">
                     {{ ap.Distance_km if ap.Distance_km else "—" }} km

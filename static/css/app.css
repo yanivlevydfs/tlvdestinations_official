@@ -212,6 +212,30 @@ body.dark-mode .card {
 
 }
 
+.lowcost-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444; /* red-500 */
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
 /* ===== Table ===== */
 #airports-table {
   width: 100% !important;
