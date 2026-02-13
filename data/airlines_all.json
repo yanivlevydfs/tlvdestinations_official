@@ -1,4 +1,64 @@
 [
+	{
+    "iata": "QR",
+    "name": "Qatar Airways",
+    "name_en": "Qatar Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EY",
+    "name": "Etihad Airways",
+    "name_en": "Etihad Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CX",
+    "name": "Cathay Pacific Airways",
+    "name_en": "Cathay Pacific Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NH",
+    "name": "All Nippon Airways",
+    "name_en": "All Nippon Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KE",
+    "name": "Korean Air",
+    "name_en": "Korean Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TG",
+    "name": "Thai Airways International",
+    "name_en": "Thai Airways International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AC",
+    "name": "Air Canada",
+    "name_en": "Air Canada",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SQ",
+    "name": "Singapore Airlines",
+    "name_en": "Singapore Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VN",
+    "name": "Vietnam Airlines",
+    "name_en": "Vietnam Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MH",
+    "name": "Malaysia Airlines",
+    "name_en": "Malaysia Airlines",
+    "is_lowcost": false
+  },
   {
     "iata": "JV",
     "name": "Bearskin Airlines",
@@ -6677,4 +6737,5 @@
     "name_en": "MYAirline",
     "is_lowcost": false
   }
+  
 ]
