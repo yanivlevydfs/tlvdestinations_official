@@ -1228,6 +1228,7 @@ def map_view(
         sorted_airlines = sorted(meta["Airlines"]) if meta["Airlines"] else ["—"]
         airline_map = meta.get("AirlineMap", {})
         airline_codes = [airline_map.get(a, "") for a in sorted_airlines]
+        airline_lowcost = [AIRLINE_LOWCOST_MAP.get(c, False) if c else False for c in airline_codes]
 
         merged_airports[iata] = {
             "IATA": iata,
@@ -1238,6 +1239,7 @@ def map_view(
             "lon": lon,
             "Airlines": sorted_airlines,
             "AirlineCodes": airline_codes,
+            "AirlineLowcost": airline_lowcost,
             "Distance_km": dist_km,
             "FlightTime_hr": flight_time_hr,
         }

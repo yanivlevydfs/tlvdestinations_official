@@ -1,0 +1,6741 @@
+[
+	{
+    "iata": "QR",
+    "name": "Qatar Airways",
+    "name_en": "Qatar Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EY",
+    "name": "Etihad Airways",
+    "name_en": "Etihad Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CX",
+    "name": "Cathay Pacific Airways",
+    "name_en": "Cathay Pacific Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NH",
+    "name": "All Nippon Airways",
+    "name_en": "All Nippon Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KE",
+    "name": "Korean Air",
+    "name_en": "Korean Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TG",
+    "name": "Thai Airways International",
+    "name_en": "Thai Airways International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AC",
+    "name": "Air Canada",
+    "name_en": "Air Canada",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SQ",
+    "name": "Singapore Airlines",
+    "name_en": "Singapore Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VN",
+    "name": "Vietnam Airlines",
+    "name_en": "Vietnam Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MH",
+    "name": "Malaysia Airlines",
+    "name_en": "Malaysia Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JV",
+    "name": "Bearskin Airlines",
+    "name_en": "Bearskin Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JG",
+    "name": "Airline Container Leasing Inc.",
+    "name_en": "Airline Container Leasing Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VV",
+    "name": "Pattaya Airways",
+    "name_en": "Pattaya Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T7",
+    "name": "Twin Jet",
+    "name_en": "Twin Jet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HE",
+    "name": "LGW Luftfahrtgesellschaft Walter",
+    "name_en": "LGW Luftfahrtgesellschaft Walter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TI",
+    "name": "Tailwind Airlines",
+    "name_en": "Tailwind Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OI",
+    "name": "Hinterland Aviation",
+    "name_en": "Hinterland Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SQ",
+    "name": "Singapore Airlines",
+    "name_en": "Singapore Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3Y",
+    "name": "Kartika Airlines",
+    "name_en": "Kartika Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B2",
+    "name": "Belavia",
+    "name_en": "Belavia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5I",
+    "name": "Alsa Grupo SLU",
+    "name_en": "Alsa Grupo SLU",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MH",
+    "name": "Malaysia Airlines",
+    "name_en": "Malaysia Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SS",
+    "name": "Corsair International",
+    "name_en": "Corsair International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "00",
+    "name": "LANHSA",
+    "name_en": "LANHSA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N5",
+    "name": "Nolinor Aviation",
+    "name_en": "Nolinor Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VI",
+    "name": "Volga-Dnepr Airlines",
+    "name_en": "Volga-Dnepr Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SC",
+    "name": "Shandong Airlines",
+    "name_en": "Shandong Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NX",
+    "name": "Air Macau",
+    "name_en": "Air Macau",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SH",
+    "name": "Sharp Airlines",
+    "name_en": "Sharp Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "R3",
+    "name": "Yakutia Airlines",
+    "name_en": "Yakutia Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1B",
+    "name": "Abacus International Pte. Ltd.",
+    "name_en": "Abacus International Pte. Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9I",
+    "name": "Alliance Air",
+    "name_en": "Alliance Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XO",
+    "name": "South East Asian Airlines (SEAIR)International, Inc.",
+    "name_en": "South East Asian Airlines (SEAIR)International, Inc.",
+    "is_lowcost": true
+  },
+  {
+    "iata": "OS",
+    "name": "Austrian Airlines",
+    "name_en": "Austrian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CI",
+    "name": "China Airlines",
+    "name_en": "China Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z8",
+    "name": "Amaszonas",
+    "name_en": "Amaszonas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L9",
+    "name": "Lumiwings",
+    "name_en": "Lumiwings",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EL",
+    "name": "Ellinair",
+    "name_en": "Ellinair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DI",
+    "name": "Marabu Airlines",
+    "name_en": "Marabu Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NM",
+    "name": "SAS Natireva dba Air Moana",
+    "name_en": "SAS Natireva dba Air Moana",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IH",
+    "name": "Southern Sky",
+    "name_en": "Southern Sky",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EF",
+    "name": "Fly CamInter",
+    "name_en": "Fly CamInter",
+    "is_lowcost": true
+  },
+  {
+    "iata": "EB",
+    "name": "Wamos Air",
+    "name_en": "Wamos Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CD",
+    "name": "Corendon Dutch Airlines",
+    "name_en": "Corendon Dutch Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6I",
+    "name": "Air Alsie",
+    "name_en": "Air Alsie",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LH",
+    "name": "Lufthansa",
+    "name_en": "Lufthansa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8I",
+    "name": "Insel Air",
+    "name_en": "Insel Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4V",
+    "name": "Vision Air",
+    "name_en": "Vision Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IB",
+    "name": "Iberia",
+    "name_en": "Iberia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VS",
+    "name": "Virgin Atlantic",
+    "name_en": "Virgin Atlantic",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VY",
+    "name": "Vueling",
+    "name_en": "Vueling",
+    "is_lowcost": true
+  },
+  {
+    "iata": "2O",
+    "name": "Redemption Inc.",
+    "name_en": "Redemption Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4U",
+    "name": "Germanwings",
+    "name_en": "Germanwings",
+    "is_lowcost": true
+  },
+  {
+    "iata": "E7",
+    "name": "Equaflight Service",
+    "name_en": "Equaflight Service",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8K",
+    "name": "K-Mile Air Co. Ltd",
+    "name_en": "K-Mile Air Co. Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TJ",
+    "name": "Tradewind Aviation",
+    "name_en": "Tradewind Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2W",
+    "name": "World2Fly",
+    "name_en": "World2Fly",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5O",
+    "name": "ASL Airlines France",
+    "name_en": "ASL Airlines France",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CZ",
+    "name": "China Southern Airlines",
+    "name_en": "China Southern Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G7",
+    "name": "GoJet Airlines",
+    "name_en": "GoJet Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PY",
+    "name": "Surinam Airways",
+    "name_en": "Surinam Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5K",
+    "name": "Springjet",
+    "name_en": "Springjet",
+    "is_lowcost": true
+  },
+  {
+    "iata": "CK",
+    "name": "China Cargo Airlines",
+    "name_en": "China Cargo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q1",
+    "name": "Sqiva Sistem",
+    "name_en": "Sqiva Sistem",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XB",
+    "name": "IATA - Clearing HouseInternational Air Transport Association",
+    "name_en": "IATA - Clearing HouseInternational Air Transport Association",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0K",
+    "name": "GlobeAir",
+    "name_en": "GlobeAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9Q",
+    "name": "Caicos Express Airways",
+    "name_en": "Caicos Express Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IW",
+    "name": "Wings Air",
+    "name_en": "Wings Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "M0",
+    "name": "Aero Mongolia",
+    "name_en": "Aero Mongolia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FN",
+    "name": "fastjet",
+    "name_en": "fastjet",
+    "is_lowcost": true
+  },
+  {
+    "iata": "2J",
+    "name": "Air Burkina",
+    "name_en": "Air Burkina",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UJ",
+    "name": "Almasria Universal Airlines",
+    "name_en": "Almasria Universal Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8P",
+    "name": "Pacific Coastal Airlines",
+    "name_en": "Pacific Coastal Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q6",
+    "name": "Volaris Costa Rica",
+    "name_en": "Volaris Costa Rica",
+    "is_lowcost": true
+  },
+  {
+    "iata": "MF",
+    "name": "Xiamen Airlines",
+    "name_en": "Xiamen Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XS",
+    "name": "SITA - Airlines WorldwideTelecommunications and Information Svcs",
+    "name_en": "SITA - Airlines WorldwideTelecommunications and Information Svcs",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5B",
+    "name": "Bassaka Air Limited",
+    "name_en": "Bassaka Air Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XF",
+    "name": "Vladivostok Air",
+    "name_en": "Vladivostok Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5C",
+    "name": "Challenge Airlines IL",
+    "name_en": "Challenge Airlines IL",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QV",
+    "name": "Lao Airlines",
+    "name_en": "Lao Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "I2",
+    "name": "Iberia Express",
+    "name_en": "Iberia Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0H",
+    "name": "Uzbekistan Airways Express",
+    "name_en": "Uzbekistan Airways Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6Z",
+    "name": "Euro-Asia Air",
+    "name_en": "Euro-Asia Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HX",
+    "name": "Hong Kong Airlines",
+    "name_en": "Hong Kong Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NZ",
+    "name": "Air New Zealand",
+    "name_en": "Air New Zealand",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5D",
+    "name": "Aerolitoral S.A. de C.V.",
+    "name_en": "Aerolitoral S.A. de C.V.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A5",
+    "name": "HOP!",
+    "name_en": "HOP!",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OE",
+    "name": "FLYONE Romania",
+    "name_en": "FLYONE Romania",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KV",
+    "name": "KrasAvia",
+    "name_en": "KrasAvia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AB",
+    "name": "Bonza",
+    "name_en": "Bonza",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XZ",
+    "name": "AeroItalia",
+    "name_en": "AeroItalia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JY",
+    "name": "InterCaribbean Airways",
+    "name_en": "InterCaribbean Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HF",
+    "name": "Air Côte d'Ivoire",
+    "name_en": "Air Côte d'Ivoire",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PZ",
+    "name": "LATAM Paraguay",
+    "name_en": "LATAM Paraguay",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BG",
+    "name": "Biman Bangladesh Airlines",
+    "name_en": "Biman Bangladesh Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2U",
+    "name": "FlyKhiva",
+    "name_en": "FlyKhiva",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F6",
+    "name": "fly2sky",
+    "name_en": "fly2sky",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OT",
+    "name": "Aeropelican Air Services",
+    "name_en": "Aeropelican Air Services",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0Z",
+    "name": "Magnicharters",
+    "name_en": "Magnicharters",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4R",
+    "name": "CJSC Royal Flight airlines",
+    "name_en": "CJSC Royal Flight airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4H",
+    "name": "Hi Air",
+    "name_en": "Hi Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B6",
+    "name": "JetBlue Airways",
+    "name_en": "JetBlue Airways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "PR",
+    "name": "Philippine Airlines",
+    "name_en": "Philippine Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0W",
+    "name": "AS SALAAM AIR",
+    "name_en": "AS SALAAM AIR",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A4",
+    "name": "Azimuth",
+    "name_en": "Azimuth",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NI",
+    "name": "Portugália",
+    "name_en": "Portugália",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LO",
+    "name": "LOT Polish Airlines",
+    "name_en": "LOT Polish Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5S",
+    "name": "Global Aviation Services Group",
+    "name_en": "Global Aviation Services Group",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OD",
+    "name": "Batik Air Malaysia",
+    "name_en": "Batik Air Malaysia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "DR",
+    "name": "Ruili Airlines",
+    "name_en": "Ruili Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "BR",
+    "name": "Eva Air",
+    "name_en": "Eva Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7V",
+    "name": "Federal Air",
+    "name_en": "Federal Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "E4",
+    "name": "Enter Air",
+    "name_en": "Enter Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IX",
+    "name": "Air India Express",
+    "name_en": "Air India Express",
+    "is_lowcost": true
+  },
+  {
+    "iata": "LY",
+    "name": "El Al Israel Airlines",
+    "name_en": "El Al Israel Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DL",
+    "name": "Delta Air Lines",
+    "name_en": "Delta Air Lines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8S",
+    "name": "Shun Tak-China Travel Ship",
+    "name_en": "Shun Tak-China Travel Ship",
+    "is_lowcost": false
+  },
+  {
+    "iata": "X3",
+    "name": "TUI fly",
+    "name_en": "TUI fly",
+    "is_lowcost": true
+  },
+  {
+    "iata": "4D",
+    "name": "FLYYO",
+    "name_en": "FLYYO",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C5",
+    "name": "CommutAir",
+    "name_en": "CommutAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UY",
+    "name": "Air Caucasus",
+    "name_en": "Air Caucasus",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LC",
+    "name": "Aerotaxi La Costena",
+    "name_en": "Aerotaxi La Costena",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G5",
+    "name": "China Express Airlines",
+    "name_en": "China Express Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F7",
+    "name": "iFly Airlines",
+    "name_en": "iFly Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1H",
+    "name": "JSC \"Sirena-Travel\"",
+    "name_en": "JSC \"Sirena-Travel\"",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BN",
+    "name": "Luxwing",
+    "name_en": "Luxwing",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7Y",
+    "name": "Mann Yadanarpon Airlines",
+    "name_en": "Mann Yadanarpon Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KW",
+    "name": "AeroStan",
+    "name_en": "AeroStan",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CS",
+    "name": "Chair Airlines",
+    "name_en": "Chair Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "E6",
+    "name": "Bringer Air Cargo",
+    "name_en": "Bringer Air Cargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1Y",
+    "name": "Electronic Data Systems Corporation",
+    "name_en": "Electronic Data Systems Corporation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2Q",
+    "name": "Air Cargo Carriers, LLC.",
+    "name_en": "Air Cargo Carriers, LLC.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2G",
+    "name": "Angara Airlines",
+    "name_en": "Angara Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NY",
+    "name": "Air Iceland",
+    "name_en": "Air Iceland",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XT",
+    "name": "Globus LLС",
+    "name_en": "Globus LLС",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GS",
+    "name": "Tianjin Airlines",
+    "name_en": "Tianjin Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NA",
+    "name": "Nomad Aviation",
+    "name_en": "Nomad Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TQ",
+    "name": "Tandem Aero",
+    "name_en": "Tandem Aero",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7H",
+    "name": "New Pacific Airlines",
+    "name_en": "New Pacific Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "6V",
+    "name": "Levu",
+    "name_en": "Levu",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SP",
+    "name": "SATA Air Acores",
+    "name_en": "SATA Air Acores",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YM",
+    "name": "Air Montenegro",
+    "name_en": "Air Montenegro",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RK",
+    "name": "Ryanair UK",
+    "name_en": "Ryanair UK",
+    "is_lowcost": true
+  },
+  {
+    "iata": "2C",
+    "name": "SNCF",
+    "name_en": "SNCF",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GB",
+    "name": "ABX Air, Inc.",
+    "name_en": "ABX Air, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QQ",
+    "name": "Alliance Airlines",
+    "name_en": "Alliance Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4P",
+    "name": "Regional Sky",
+    "name_en": "Regional Sky",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7S",
+    "name": "Arctic Transportation Services, Inc Ryan Air",
+    "name_en": "Arctic Transportation Services, Inc Ryan Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZT",
+    "name": "Titan Airways Limited",
+    "name_en": "Titan Airways Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5T",
+    "name": "Canadian North",
+    "name_en": "Canadian North",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5G",
+    "name": "Shirak Avia",
+    "name_en": "Shirak Avia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JA",
+    "name": "JetSMART",
+    "name_en": "JetSMART",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TR",
+    "name": "Scoot",
+    "name_en": "Scoot",
+    "is_lowcost": true
+  },
+  {
+    "iata": "R2",
+    "name": "Transair Senegal",
+    "name_en": "Transair Senegal",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z7",
+    "name": "Amaszonas",
+    "name_en": "Amaszonas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MU",
+    "name": "China Eastern Airlines",
+    "name_en": "China Eastern Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XC",
+    "name": "Corendon Airlines",
+    "name_en": "Corendon Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ML",
+    "name": "Sky Mali",
+    "name_en": "Sky Mali",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JL",
+    "name": "Japan Airlines",
+    "name_en": "Japan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EO",
+    "name": "Ikar",
+    "name_en": "Ikar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UL",
+    "name": "Srilankan Airlines",
+    "name_en": "Srilankan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CX",
+    "name": "Cathay Pacific",
+    "name_en": "Cathay Pacific",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LM",
+    "name": "Loganair",
+    "name_en": "Loganair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CC",
+    "name": "Air Atlanta",
+    "name_en": "Air Atlanta",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UM",
+    "name": "Air Zimbabwe",
+    "name_en": "Air Zimbabwe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PH",
+    "name": "Phoenix Air Group",
+    "name_en": "Phoenix Air Group",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T8",
+    "name": "Terra Avia",
+    "name_en": "Terra Avia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VZ",
+    "name": "Thai Vietjet Air",
+    "name_en": "Thai Vietjet Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "5A",
+    "name": "Lanexang Airways",
+    "name_en": "Lanexang Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MS",
+    "name": "EgyptAir",
+    "name_en": "EgyptAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OO",
+    "name": "SkyWest Airlines",
+    "name_en": "SkyWest Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EM",
+    "name": "Empire Airlines",
+    "name_en": "Empire Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LJ",
+    "name": "Jin Air",
+    "name_en": "Jin Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "KP",
+    "name": "ASKY Airlines",
+    "name_en": "ASKY Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7A",
+    "name": "Express Airline",
+    "name_en": "Express Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0Q",
+    "name": "Hydro - Quebec",
+    "name_en": "Hydro - Quebec",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VR",
+    "name": "TACV Cabo Verde Airlines",
+    "name_en": "TACV Cabo Verde Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VU",
+    "name": "Vietravel Airlines",
+    "name_en": "Vietravel Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C1",
+    "name": "Tectimes Sudamerica",
+    "name_en": "Tectimes Sudamerica",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M9",
+    "name": "Motor Sich Airlines",
+    "name_en": "Motor Sich Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QT",
+    "name": "Tampa Cargo",
+    "name_en": "Tampa Cargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0X",
+    "name": "Air Excel",
+    "name_en": "Air Excel",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6Y",
+    "name": "SmartLynx Airlines",
+    "name_en": "SmartLynx Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VF",
+    "name": "AJet",
+    "name_en": "AJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CB",
+    "name": "Caribbean Air Export Import Inc.",
+    "name_en": "Caribbean Air Export Import Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EW",
+    "name": "Eurowings",
+    "name_en": "Eurowings",
+    "is_lowcost": true
+  },
+  {
+    "iata": "GG",
+    "name": "Sky Lease I, Inc.",
+    "name_en": "Sky Lease I, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UF",
+    "name": "Petroleum Air Services",
+    "name_en": "Petroleum Air Services",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BZ",
+    "name": "Blue Bird Airways",
+    "name_en": "Blue Bird Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZW",
+    "name": "Air Wisconsin Airlines Corporation(AWAC)",
+    "name_en": "Air Wisconsin Airlines Corporation(AWAC)",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5F",
+    "name": "FlyOne",
+    "name_en": "FlyOne",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OY",
+    "name": "Omni Air International",
+    "name_en": "Omni Air International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HM",
+    "name": "Air Seychelles",
+    "name_en": "Air Seychelles",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CN",
+    "name": "Grand China Air",
+    "name_en": "Grand China Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T5",
+    "name": "Turkmenistan Airlines",
+    "name_en": "Turkmenistan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VW",
+    "name": "Aeromar",
+    "name_en": "Aeromar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HC",
+    "name": "Aero-Tropics Air Services",
+    "name_en": "Aero-Tropics Air Services",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DX",
+    "name": "Danish Air Transport",
+    "name_en": "Danish Air Transport",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZN",
+    "name": "Zambia Airways (2014)",
+    "name_en": "Zambia Airways (2014)",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JM",
+    "name": "Jambojet",
+    "name_en": "Jambojet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CF",
+    "name": "China Postal Airlines Ltd.",
+    "name_en": "China Postal Airlines Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V1",
+    "name": "IBS Software Services Americas, Inc.",
+    "name_en": "IBS Software Services Americas, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6N",
+    "name": "Niger Airlines",
+    "name_en": "Niger Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BF",
+    "name": "French Bee",
+    "name_en": "French Bee",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IJ",
+    "name": "Spring Airlines Japan",
+    "name_en": "Spring Airlines Japan",
+    "is_lowcost": true
+  },
+  {
+    "iata": "AK",
+    "name": "AirAsia",
+    "name_en": "AirAsia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "KC",
+    "name": "Air Astana",
+    "name_en": "Air Astana",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P2",
+    "name": "Airkenya Express",
+    "name_en": "Airkenya Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D8",
+    "name": "Norwegian Air Sweden",
+    "name_en": "Norwegian Air Sweden",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OX",
+    "name": "Orient Thai Airlines",
+    "name_en": "Orient Thai Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DC",
+    "name": "Volo",
+    "name_en": "Volo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BH",
+    "name": "Hawkair",
+    "name_en": "Hawkair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1M",
+    "name": "JSC Transport Automated InformationSystems - TAIS",
+    "name_en": "JSC Transport Automated InformationSystems - TAIS",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WB",
+    "name": "RwandAir",
+    "name_en": "RwandAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "I5",
+    "name": "Air India Express",
+    "name_en": "Air India Express",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FZ",
+    "name": "Flydubai",
+    "name_en": "Flydubai",
+    "is_lowcost": true
+  },
+  {
+    "iata": "M2",
+    "name": "MHS Aviation",
+    "name_en": "MHS Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N8",
+    "name": "National Airlines",
+    "name_en": "National Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VH",
+    "name": "Viva Air Colombia",
+    "name_en": "Viva Air Colombia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "YP",
+    "name": "Air Premia",
+    "name_en": "Air Premia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "H8",
+    "name": "Hesa Airlines",
+    "name_en": "Hesa Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3N",
+    "name": "Air Urga",
+    "name_en": "Air Urga",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZF",
+    "name": "Azur Air",
+    "name_en": "Azur Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9E",
+    "name": "Endeavor Air",
+    "name_en": "Endeavor Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TD",
+    "name": "Tbilisi Airways",
+    "name_en": "Tbilisi Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XN",
+    "name": "Xpress Air",
+    "name_en": "Xpress Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ST",
+    "name": "Air Thanlwin",
+    "name_en": "Air Thanlwin",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P1",
+    "name": "Public Charters",
+    "name_en": "Public Charters",
+    "is_lowcost": false
+  },
+  {
+    "iata": "R8",
+    "name": "SkyFru",
+    "name_en": "SkyFru",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W5",
+    "name": "Mahan Airlines",
+    "name_en": "Mahan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VG",
+    "name": "VLM Airlines",
+    "name_en": "VLM Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7I",
+    "name": "Air Libya",
+    "name_en": "Air Libya",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YH",
+    "name": "Sunsplash Aviation, LLC.",
+    "name_en": "Sunsplash Aviation, LLC.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SD",
+    "name": "Sudan Airways",
+    "name_en": "Sudan Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QF",
+    "name": "Qantas",
+    "name_en": "Qantas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L1",
+    "name": "E-Savtravel",
+    "name_en": "E-Savtravel",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IN",
+    "name": "NAM Air",
+    "name_en": "NAM Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WJ",
+    "name": "JetSMART",
+    "name_en": "JetSMART",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6H",
+    "name": "Israir Airlines",
+    "name_en": "Israir Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GV",
+    "name": "Grant Aviation, Inc.",
+    "name_en": "Grant Aviation, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3E",
+    "name": "Electra Airways",
+    "name_en": "Electra Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HI",
+    "name": "Papillon Airways",
+    "name_en": "Papillon Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4I",
+    "name": "Air Antilles Express",
+    "name_en": "Air Antilles Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0B",
+    "name": "Blue Air",
+    "name_en": "Blue Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "YT",
+    "name": "Yeti Airlines Domestic Pvt. Ltd.",
+    "name_en": "Yeti Airlines Domestic Pvt. Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TP",
+    "name": "TAP Portugal",
+    "name_en": "TAP Portugal",
+    "is_lowcost": false
+  },
+  {
+    "iata": "I6",
+    "name": "IRYO",
+    "name_en": "IRYO",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q9",
+    "name": "Air Liaison",
+    "name_en": "Air Liaison",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OU",
+    "name": "Croatia Airlines",
+    "name_en": "Croatia Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MM",
+    "name": "Peach",
+    "name_en": "Peach",
+    "is_lowcost": true
+  },
+  {
+    "iata": "TH",
+    "name": "Raya Airways Sdn. Bhd.dba Raya Airways",
+    "name_en": "Raya Airways Sdn. Bhd.dba Raya Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V8",
+    "name": "Atran",
+    "name_en": "Atran",
+    "is_lowcost": false
+  },
+  {
+    "iata": "II",
+    "name": "IBC Airways",
+    "name_en": "IBC Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T0",
+    "name": "TACA Peru",
+    "name_en": "TACA Peru",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6W",
+    "name": "FlyBosnia",
+    "name_en": "FlyBosnia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7B",
+    "name": "Bees Airline",
+    "name_en": "Bees Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PB",
+    "name": "Provincial Airlines",
+    "name_en": "Provincial Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QI",
+    "name": "Ibom Air",
+    "name_en": "Ibom Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CJ",
+    "name": "BA Cityflyer",
+    "name_en": "BA Cityflyer",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GT",
+    "name": "Air Guilin",
+    "name_en": "Air Guilin",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DB",
+    "name": "Brit Air",
+    "name_en": "Brit Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0O",
+    "name": "Air Ocean",
+    "name_en": "Air Ocean",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KX",
+    "name": "Cayman Airways",
+    "name_en": "Cayman Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V4",
+    "name": "Vieques Air Link",
+    "name_en": "Vieques Air Link",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RE",
+    "name": "Airhub Airlines",
+    "name_en": "Airhub Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q3",
+    "name": "Anguilla Air",
+    "name_en": "Anguilla Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ME",
+    "name": "Middle East Airlines",
+    "name_en": "Middle East Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3O",
+    "name": "Air Arabia Maroc",
+    "name_en": "Air Arabia Maroc",
+    "is_lowcost": true
+  },
+  {
+    "iata": "VO",
+    "name": "Universal Air",
+    "name_en": "Universal Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EJ",
+    "name": "European Cargo Services BV",
+    "name_en": "European Cargo Services BV",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0N",
+    "name": "Jonair",
+    "name_en": "Jonair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OM",
+    "name": "MIAT Mongolian Airlines",
+    "name_en": "MIAT Mongolian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GK",
+    "name": "Jetstar Japan",
+    "name_en": "Jetstar Japan",
+    "is_lowcost": true
+  },
+  {
+    "iata": "7P",
+    "name": "Air Panama",
+    "name_en": "Air Panama",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZJ",
+    "name": "Zambezi Airlines",
+    "name_en": "Zambezi Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AV",
+    "name": "Avianca",
+    "name_en": "Avianca",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YK",
+    "name": "Avia Traffic Company",
+    "name_en": "Avia Traffic Company",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0R",
+    "name": "Renegade Air",
+    "name_en": "Renegade Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3Q",
+    "name": "Royal Zambian Airlines",
+    "name_en": "Royal Zambian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F5",
+    "name": "Aerotranscargo",
+    "name_en": "Aerotranscargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QH",
+    "name": "Bamboo Airways",
+    "name_en": "Bamboo Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4S",
+    "name": "Red Sea Airlines",
+    "name_en": "Red Sea Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SR",
+    "name": "Sundair",
+    "name_en": "Sundair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7R",
+    "name": "RusLine",
+    "name_en": "RusLine",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QA",
+    "name": "Cimber",
+    "name_en": "Cimber",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9R",
+    "name": "Southern Air",
+    "name_en": "Southern Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HY",
+    "name": "Uzbekistan Airways",
+    "name_en": "Uzbekistan Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0E",
+    "name": "Northwest",
+    "name_en": "Northwest",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1P",
+    "name": "Worldspan",
+    "name_en": "Worldspan",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SI",
+    "name": "Blue Islands",
+    "name_en": "Blue Islands",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W7",
+    "name": "Wings of Lebanon S.a.l",
+    "name_en": "Wings of Lebanon S.a.l",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PE",
+    "name": "People's Viennaline",
+    "name_en": "People's Viennaline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8T",
+    "name": "Air Tindi",
+    "name_en": "Air Tindi",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QU",
+    "name": "Skyline Express",
+    "name_en": "Skyline Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5Q",
+    "name": "BQB Lineas Aereas",
+    "name_en": "BQB Lineas Aereas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6T",
+    "name": "Longtail Aviation",
+    "name_en": "Longtail Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2Y",
+    "name": "PT. My Indo Airlines",
+    "name_en": "PT. My Indo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ED",
+    "name": "AirExplore",
+    "name_en": "AirExplore",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1J",
+    "name": "Navios Evolusi Solusindo",
+    "name_en": "Navios Evolusi Solusindo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WP",
+    "name": "Island Air",
+    "name_en": "Island Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UX",
+    "name": "Air Europa",
+    "name_en": "Air Europa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P6",
+    "name": "Pascan Aviation",
+    "name_en": "Pascan Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OL",
+    "name": "Polynesian Airlines",
+    "name_en": "Polynesian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5H",
+    "name": "ASL Airlines Ireland",
+    "name_en": "ASL Airlines Ireland",
+    "is_lowcost": true
+  },
+  {
+    "iata": "RZ",
+    "name": "Sansa Airlines",
+    "name_en": "Sansa Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MB",
+    "name": "MNG Airlines",
+    "name_en": "MNG Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TY",
+    "name": "Air Caledonie",
+    "name_en": "Air Caledonie",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9B",
+    "name": "AccesRail",
+    "name_en": "AccesRail",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IM",
+    "name": "JSC Aircompany ATMA",
+    "name_en": "JSC Aircompany ATMA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TX",
+    "name": "Air Caraibes",
+    "name_en": "Air Caraibes",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZL",
+    "name": "Regional Express",
+    "name_en": "Regional Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q8",
+    "name": "Trans Air Congo",
+    "name_en": "Trans Air Congo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1L",
+    "name": "CitizenPlane",
+    "name_en": "CitizenPlane",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KL",
+    "name": "KLM",
+    "name_en": "KLM",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XW",
+    "name": "NokScoot",
+    "name_en": "NokScoot",
+    "is_lowcost": true
+  },
+  {
+    "iata": "R7",
+    "name": "Aserca Airlines",
+    "name_en": "Aserca Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EC",
+    "name": "EasyJet Europe",
+    "name_en": "EasyJet Europe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UH",
+    "name": "Silk Avia",
+    "name_en": "Silk Avia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZM",
+    "name": "Air Manas",
+    "name_en": "Air Manas",
+    "is_lowcost": true
+  },
+  {
+    "iata": "JN",
+    "name": "J&M Alaska Air",
+    "name_en": "J&M Alaska Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FT",
+    "name": "FlyEgypt",
+    "name_en": "FlyEgypt",
+    "is_lowcost": true
+  },
+  {
+    "iata": "SL",
+    "name": "Thai Lion Air",
+    "name_en": "Thai Lion Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "LE",
+    "name": "Laparkan Airways, Inc.",
+    "name_en": "Laparkan Airways, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7L",
+    "name": "Silk Way West Airlines",
+    "name_en": "Silk Way West Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ID",
+    "name": "Batik Air Indonesia",
+    "name_en": "Batik Air Indonesia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L6",
+    "name": "Mauritania Airlines International",
+    "name_en": "Mauritania Airlines International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OP",
+    "name": "Passion Air",
+    "name_en": "Passion Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QX",
+    "name": "Horizon Air",
+    "name_en": "Horizon Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XQ",
+    "name": "SunExpress",
+    "name_en": "SunExpress",
+    "is_lowcost": true
+  },
+  {
+    "iata": "J6",
+    "name": "Jet Ops",
+    "name_en": "Jet Ops",
+    "is_lowcost": false
+  },
+  {
+    "iata": "US",
+    "name": "Silk Avia",
+    "name_en": "Silk Avia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0I",
+    "name": "Meraj Airlines",
+    "name_en": "Meraj Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Y2",
+    "name": "Air Century",
+    "name_en": "Air Century",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EN",
+    "name": "Air Dolomiti",
+    "name_en": "Air Dolomiti",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WI",
+    "name": "White Airways",
+    "name_en": "White Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5Z",
+    "name": "CemAir",
+    "name_en": "CemAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QS",
+    "name": "SmartWings",
+    "name_en": "SmartWings",
+    "is_lowcost": true
+  },
+  {
+    "iata": "J8",
+    "name": "Berjaya Air",
+    "name_en": "Berjaya Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PI",
+    "name": "Polar Airlines",
+    "name_en": "Polar Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JJ",
+    "name": "LATAM Brasil",
+    "name_en": "LATAM Brasil",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YF",
+    "name": "Department of National Defence",
+    "name_en": "Department of National Defence",
+    "is_lowcost": false
+  },
+  {
+    "iata": "H1",
+    "name": "Hahn Air",
+    "name_en": "Hahn Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZP",
+    "name": "Paranair",
+    "name_en": "Paranair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DU",
+    "name": "Norwegian Long Haul",
+    "name_en": "Norwegian Long Haul",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9M",
+    "name": "Central Mountain Air",
+    "name_en": "Central Mountain Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NW",
+    "name": "Northwest Airlines",
+    "name_en": "Northwest Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NF",
+    "name": "Air Vanuatu",
+    "name_en": "Air Vanuatu",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L4",
+    "name": "The Landline Company",
+    "name_en": "The Landline Company",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VT",
+    "name": "Air Tahiti",
+    "name_en": "Air Tahiti",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J2",
+    "name": "Azerbaijan Airlines",
+    "name_en": "Azerbaijan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4L",
+    "name": "Palau National Airlines",
+    "name_en": "Palau National Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0J",
+    "name": "Premium Jet AG",
+    "name_en": "Premium Jet AG",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PS",
+    "name": "UIA",
+    "name_en": "UIA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D7",
+    "name": "AirAsia X",
+    "name_en": "AirAsia X",
+    "is_lowcost": true
+  },
+  {
+    "iata": "MI",
+    "name": "Silkair",
+    "name_en": "Silkair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IQ",
+    "name": "Qazaq Air",
+    "name_en": "Qazaq Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SW",
+    "name": "Air Namibia",
+    "name_en": "Air Namibia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WM",
+    "name": "Winair",
+    "name_en": "Winair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EA",
+    "name": "East Horizon Airlines",
+    "name_en": "East Horizon Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XM",
+    "name": "Zimex Aviation",
+    "name_en": "Zimex Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WC",
+    "name": "Islena de Inversiones S.A. de C.V.dba Islena Airlines",
+    "name_en": "Islena de Inversiones S.A. de C.V.dba Islena Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CA",
+    "name": "Air China",
+    "name_en": "Air China",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WO",
+    "name": "Swoop",
+    "name_en": "Swoop",
+    "is_lowcost": false
+  },
+  {
+    "iata": "U6",
+    "name": "Ural Airlines",
+    "name_en": "Ural Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C8",
+    "name": "Cronos Airlines",
+    "name_en": "Cronos Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KI",
+    "name": "SKS Airways",
+    "name_en": "SKS Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FP",
+    "name": "Fly Pro",
+    "name_en": "Fly Pro",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BA",
+    "name": "British Airways",
+    "name_en": "British Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZS",
+    "name": "JSC Kazaviaspas",
+    "name_en": "JSC Kazaviaspas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J1",
+    "name": "One Jet, Inc.",
+    "name_en": "One Jet, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1S",
+    "name": "Sabre Inc.",
+    "name_en": "Sabre Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GM",
+    "name": "Chair Airlines",
+    "name_en": "Chair Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KD",
+    "name": "PT Kal Star Aviation",
+    "name_en": "PT Kal Star Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HB",
+    "name": "Asia Atlantic Airlines",
+    "name_en": "Asia Atlantic Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A3",
+    "name": "Aegean Airlines",
+    "name_en": "Aegean Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3P",
+    "name": "World 2 Fly Portugal",
+    "name_en": "World 2 Fly Portugal",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WS",
+    "name": "Westjet",
+    "name_en": "Westjet",
+    "is_lowcost": true
+  },
+  {
+    "iata": "NJ",
+    "name": "Ghadames Air Transport",
+    "name_en": "Ghadames Air Transport",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RT",
+    "name": "UVT Aero",
+    "name_en": "UVT Aero",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AI",
+    "name": "Air India",
+    "name_en": "Air India",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9J",
+    "name": "Dana Airlines Limited",
+    "name_en": "Dana Airlines Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T1",
+    "name": "TIK Systems",
+    "name_en": "TIK Systems",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GZ",
+    "name": "Air Rarotonga",
+    "name_en": "Air Rarotonga",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PF",
+    "name": "Primera Air",
+    "name_en": "Primera Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EG",
+    "name": "Ernest Airline",
+    "name_en": "Ernest Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AX",
+    "name": "Air X Charter",
+    "name_en": "Air X Charter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QK",
+    "name": "Jazz",
+    "name_en": "Jazz",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZK",
+    "name": "Great Lakes Airlines",
+    "name_en": "Great Lakes Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MD",
+    "name": "Air Madagascar",
+    "name_en": "Air Madagascar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K3",
+    "name": "Taquan Air",
+    "name_en": "Taquan Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1R",
+    "name": "Bird Information Systems Private Limited",
+    "name_en": "Bird Information Systems Private Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C2",
+    "name": "CEIBA Intercontinental",
+    "name_en": "CEIBA Intercontinental",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9T",
+    "name": "ACT Havayollari A.S.",
+    "name_en": "ACT Havayollari A.S.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YL",
+    "name": "Libyan Wings",
+    "name_en": "Libyan Wings",
+    "is_lowcost": false
+  },
+  {
+    "iata": "H9",
+    "name": "Himalaya Airlines",
+    "name_en": "Himalaya Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "V3",
+    "name": "Carpatair",
+    "name_en": "Carpatair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HS",
+    "name": "Héli Sécurité Hélicopter Airline",
+    "name_en": "Héli Sécurité Hélicopter Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WG",
+    "name": "Sunwing Airlines",
+    "name_en": "Sunwing Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "D6",
+    "name": "Sunrise Airways",
+    "name_en": "Sunrise Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BC",
+    "name": "Skymark Airlines",
+    "name_en": "Skymark Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "QJ",
+    "name": "Jet Airways Inc.",
+    "name_en": "Jet Airways Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JE",
+    "name": "Mango",
+    "name_en": "Mango",
+    "is_lowcost": true
+  },
+  {
+    "iata": "EE",
+    "name": "Regional Jet OÜ",
+    "name_en": "Regional Jet OÜ",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EK",
+    "name": "Emirates",
+    "name_en": "Emirates",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YD",
+    "name": "Ascend Airways",
+    "name_en": "Ascend Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "X1",
+    "name": "Hahn Air Technologies",
+    "name_en": "Hahn Air Technologies",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HZ",
+    "name": "Aurora",
+    "name_en": "Aurora",
+    "is_lowcost": false
+  },
+  {
+    "iata": "E2",
+    "name": "Eagle Atlantic Airlines",
+    "name_en": "Eagle Atlantic Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "F2",
+    "name": "Safarilink Aviation",
+    "name_en": "Safarilink Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1C",
+    "name": "A-ICE",
+    "name_en": "A-ICE",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FJ",
+    "name": "Fiji Airways",
+    "name_en": "Fiji Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4A",
+    "name": "Aero Transporte S.A.",
+    "name_en": "Aero Transporte S.A.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3A",
+    "name": "Chu Kong Passenger Transport Co. Ltd.",
+    "name_en": "Chu Kong Passenger Transport Co. Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9H",
+    "name": "Chang An Airlines",
+    "name_en": "Chang An Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RU",
+    "name": "AirBridgeCargo",
+    "name_en": "AirBridgeCargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LT",
+    "name": "Air Lituanica",
+    "name_en": "Air Lituanica",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZG",
+    "name": "ZIPAIR Tokyo",
+    "name_en": "ZIPAIR Tokyo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3U",
+    "name": "Sichuan Airlines",
+    "name_en": "Sichuan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LD",
+    "name": "AHK Air Hong Kong Limited",
+    "name_en": "AHK Air Hong Kong Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UR",
+    "name": "Uganda Airlines",
+    "name_en": "Uganda Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SE",
+    "name": "Sky Vision Airlines",
+    "name_en": "Sky Vision Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "I4",
+    "name": "Scott Air",
+    "name_en": "Scott Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S9",
+    "name": "Starbow",
+    "name_en": "Starbow",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RQ",
+    "name": "Kam Air",
+    "name_en": "Kam Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FO",
+    "name": "Flybondi",
+    "name_en": "Flybondi",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6L",
+    "name": "Aklak Air",
+    "name_en": "Aklak Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2R",
+    "name": "Sunlight Air",
+    "name_en": "Sunlight Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GA",
+    "name": "Garuda Indonesia",
+    "name_en": "Garuda Indonesia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IK",
+    "name": "Air Kiribati",
+    "name_en": "Air Kiribati",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GI",
+    "name": "Itek Air",
+    "name_en": "Itek Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7O",
+    "name": "Smartwings Hungary",
+    "name_en": "Smartwings Hungary",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N3",
+    "name": "Vuela El Salvador Volaris",
+    "name_en": "Vuela El Salvador Volaris",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TV",
+    "name": "Tibet Airlines",
+    "name_en": "Tibet Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LW",
+    "name": "Lauda Europe",
+    "name_en": "Lauda Europe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G4",
+    "name": "Allegiant Air",
+    "name_en": "Allegiant Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "VA",
+    "name": "Virgin Australia",
+    "name_en": "Virgin Australia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "AT",
+    "name": "Royal Air Maroc",
+    "name_en": "Royal Air Maroc",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CR",
+    "name": "UBM Aviation - OAG",
+    "name_en": "UBM Aviation - OAG",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NU",
+    "name": "Japan Transocean Air",
+    "name_en": "Japan Transocean Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BI",
+    "name": "Royal Brunei",
+    "name_en": "Royal Brunei",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7M",
+    "name": "MAYAir",
+    "name_en": "MAYAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KM",
+    "name": "KM Malta Airlines",
+    "name_en": "KM Malta Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W4",
+    "name": "Wizz Air",
+    "name_en": "Wizz Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "Z2",
+    "name": "Philippines AirAsia",
+    "name_en": "Philippines AirAsia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "9U",
+    "name": "Air Moldova",
+    "name_en": "Air Moldova",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V2",
+    "name": "Avialeasing Aviation Company",
+    "name_en": "Avialeasing Aviation Company",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IO",
+    "name": "IrAero",
+    "name_en": "IrAero",
+    "is_lowcost": false
+  },
+  {
+    "iata": "U3",
+    "name": "Sky Gates Airlines",
+    "name_en": "Sky Gates Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SZ",
+    "name": "Somon Air",
+    "name_en": "Somon Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GO",
+    "name": "ULS Airlines Cargo",
+    "name_en": "ULS Airlines Cargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "E5",
+    "name": "Air Arabia Egypt",
+    "name_en": "Air Arabia Egypt",
+    "is_lowcost": true
+  },
+  {
+    "iata": "VE",
+    "name": "Clic Air",
+    "name_en": "Clic Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LS",
+    "name": "Jet2.com",
+    "name_en": "Jet2.com",
+    "is_lowcost": true
+  },
+  {
+    "iata": "X7",
+    "name": "Challenge Airlines BE",
+    "name_en": "Challenge Airlines BE",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IR",
+    "name": "Iran Air",
+    "name_en": "Iran Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WT",
+    "name": "Swiftair",
+    "name_en": "Swiftair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QC",
+    "name": "Camair-Co",
+    "name_en": "Camair-Co",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NE",
+    "name": "Nesma Airlines",
+    "name_en": "Nesma Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DM",
+    "name": "Arajet",
+    "name_en": "Arajet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9A",
+    "name": "Eaglexpress Air Charter Sdn.Bhd.dbaEaglexpress Air",
+    "name_en": "Eaglexpress Air Charter Sdn.Bhd.dbaEaglexpress Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JD",
+    "name": "Beijing Capital Airlines",
+    "name_en": "Beijing Capital Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UO",
+    "name": "Hong Kong Express Airways",
+    "name_en": "Hong Kong Express Airways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "KT",
+    "name": "AirAsia Cambodia",
+    "name_en": "AirAsia Cambodia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "EZ",
+    "name": "Sun-Air of Scandinavia",
+    "name_en": "Sun-Air of Scandinavia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XH",
+    "name": "Special Ground Handling Service -XH",
+    "name_en": "Special Ground Handling Service -XH",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MC",
+    "name": "Air Mobility Command",
+    "name_en": "Air Mobility Command",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2I",
+    "name": "Star Peru",
+    "name_en": "Star Peru",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SY",
+    "name": "Sun Country Airlines",
+    "name_en": "Sun Country Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "AJ",
+    "name": "Aztec Airways",
+    "name_en": "Aztec Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8V",
+    "name": "Wright Air Service",
+    "name_en": "Wright Air Service",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TB",
+    "name": "Jetairfly",
+    "name_en": "Jetairfly",
+    "is_lowcost": true
+  },
+  {
+    "iata": "TA",
+    "name": "TACA Airlines",
+    "name_en": "TACA Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K7",
+    "name": "Air KBZ",
+    "name_en": "Air KBZ",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RR",
+    "name": "Buzz",
+    "name_en": "Buzz",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JX",
+    "name": "STARLUX AIRLINES",
+    "name_en": "STARLUX AIRLINES",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RW",
+    "name": "Royal Air Philippines",
+    "name_en": "Royal Air Philippines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FX",
+    "name": "FedEx",
+    "name_en": "FedEx",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WZ",
+    "name": "Red Wings",
+    "name_en": "Red Wings",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JT",
+    "name": "Lion Air",
+    "name_en": "Lion Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "7K",
+    "name": "MetroJet",
+    "name_en": "MetroJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L2",
+    "name": "Lynden Air Cargo, LLC",
+    "name_en": "Lynden Air Cargo, LLC",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DG",
+    "name": "Cebgo",
+    "name_en": "Cebgo",
+    "is_lowcost": true
+  },
+  {
+    "iata": "8D",
+    "name": "FITS Air",
+    "name_en": "FITS Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J7",
+    "name": "Afrijet Business Service",
+    "name_en": "Afrijet Business Service",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M3",
+    "name": "North Flying",
+    "name_en": "North Flying",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ET",
+    "name": "Ethiopian Airlines",
+    "name_en": "Ethiopian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AQ",
+    "name": "9 Air",
+    "name_en": "9 Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "XG",
+    "name": "SunExpress Deutschland",
+    "name_en": "SunExpress Deutschland",
+    "is_lowcost": true
+  },
+  {
+    "iata": "T6",
+    "name": "AirSWIFT",
+    "name_en": "AirSWIFT",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TG",
+    "name": "Thai Airways",
+    "name_en": "Thai Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4O",
+    "name": "Air Montenegro",
+    "name_en": "Air Montenegro",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A7",
+    "name": "Air Niamey",
+    "name_en": "Air Niamey",
+    "is_lowcost": true
+  },
+  {
+    "iata": "VJ",
+    "name": "VietjetAir",
+    "name_en": "VietjetAir",
+    "is_lowcost": true
+  },
+  {
+    "iata": "EH",
+    "name": "ANA Wings",
+    "name_en": "ANA Wings",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ON",
+    "name": "Nauru Airline",
+    "name_en": "Nauru Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A9",
+    "name": "Georgian Airways",
+    "name_en": "Georgian Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KZ",
+    "name": "Nippon Cargo Airlines",
+    "name_en": "Nippon Cargo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HD",
+    "name": "Air Do",
+    "name_en": "Air Do",
+    "is_lowcost": true
+  },
+  {
+    "iata": "PW",
+    "name": "Precision Air",
+    "name_en": "Precision Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6A",
+    "name": "Armenia Airways",
+    "name_en": "Armenia Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UE",
+    "name": "Ultimate Jetcharters",
+    "name_en": "Ultimate Jetcharters",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PU",
+    "name": "Punta Europa",
+    "name_en": "Punta Europa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BY",
+    "name": "Thomson Airways",
+    "name_en": "Thomson Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QY",
+    "name": "European Air Transport",
+    "name_en": "European Air Transport",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6U",
+    "name": "Air Cargo Germany",
+    "name_en": "Air Cargo Germany",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DE",
+    "name": "Condor",
+    "name_en": "Condor",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NL",
+    "name": "Shaheen Air",
+    "name_en": "Shaheen Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0V",
+    "name": "Heron Aviation",
+    "name_en": "Heron Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7N",
+    "name": "Pan American World Airways",
+    "name_en": "Pan American World Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D4",
+    "name": "Georgian Wings",
+    "name_en": "Georgian Wings",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1F",
+    "name": "INFINI Travel Information, Inc.",
+    "name_en": "INFINI Travel Information, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GJ",
+    "name": "Loong Air",
+    "name_en": "Loong Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N0",
+    "name": "Norse Atlantic Airways",
+    "name_en": "Norse Atlantic Airways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "DN",
+    "name": "DAN AIR",
+    "name_en": "DAN AIR",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OR",
+    "name": "TUI Airlines Netherlands",
+    "name_en": "TUI Airlines Netherlands",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JF",
+    "name": "Jet Asia Airways",
+    "name_en": "Jet Asia Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LR",
+    "name": "Avianca Costa Rica",
+    "name_en": "Avianca Costa Rica",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2H",
+    "name": "Eurostar",
+    "name_en": "Eurostar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UB",
+    "name": "Myanmar National Airlines",
+    "name_en": "Myanmar National Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XE",
+    "name": "ExpressJet",
+    "name_en": "ExpressJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8G",
+    "name": "Aero Dili",
+    "name_en": "Aero Dili",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CY",
+    "name": "Cyprus Airways",
+    "name_en": "Cyprus Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WW",
+    "name": "WOW Air ehf",
+    "name_en": "WOW Air ehf",
+    "is_lowcost": true
+  },
+  {
+    "iata": "IT",
+    "name": "Tigerair Taiwan",
+    "name_en": "Tigerair Taiwan",
+    "is_lowcost": true
+  },
+  {
+    "iata": "6K",
+    "name": "Air Anka",
+    "name_en": "Air Anka",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GY",
+    "name": "Colorful Guizhou Airlines",
+    "name_en": "Colorful Guizhou Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0M",
+    "name": "Premier Airlines",
+    "name_en": "Premier Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SA",
+    "name": "South African Airways",
+    "name_en": "South African Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YU",
+    "name": "EuroAtlantic Airways S.A.",
+    "name_en": "EuroAtlantic Airways S.A.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "U2",
+    "name": "EasyJet",
+    "name_en": "EasyJet",
+    "is_lowcost": true
+  },
+  {
+    "iata": "6D",
+    "name": "Travel Service Slovensko",
+    "name_en": "Travel Service Slovensko",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9S",
+    "name": "Air Samarkand",
+    "name_en": "Air Samarkand",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K6",
+    "name": "Cambodia Angkor Air",
+    "name_en": "Cambodia Angkor Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N7",
+    "name": "Nordic Regional Airline",
+    "name_en": "Nordic Regional Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P5",
+    "name": "Aerorepublica",
+    "name_en": "Aerorepublica",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TO",
+    "name": "Transavia",
+    "name_en": "Transavia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "BB",
+    "name": "Seaborne Airlines",
+    "name_en": "Seaborne Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4G",
+    "name": "Gazpromavia",
+    "name_en": "Gazpromavia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EV",
+    "name": "ExpressJet",
+    "name_en": "ExpressJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NP",
+    "name": "Nile Air",
+    "name_en": "Nile Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SB",
+    "name": "Aircalin",
+    "name_en": "Aircalin",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QL",
+    "name": "LASER Airlines",
+    "name_en": "LASER Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BL",
+    "name": "Jetstar Pacific Airlines",
+    "name_en": "Jetstar Pacific Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FL",
+    "name": "Fly Lili",
+    "name_en": "Fly Lili",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LB",
+    "name": "Bul Air",
+    "name_en": "Bul Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GW",
+    "name": "GetJet Airlines",
+    "name_en": "GetJet Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z6",
+    "name": "Dniproavia",
+    "name_en": "Dniproavia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8H",
+    "name": "BH Air",
+    "name_en": "BH Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3K",
+    "name": "Jetstar Asia",
+    "name_en": "Jetstar Asia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "QD",
+    "name": "Dobrolet",
+    "name_en": "Dobrolet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1Z",
+    "name": "Bird Information Systems Pvt. Ltd.",
+    "name_en": "Bird Information Systems Pvt. Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EU",
+    "name": "Chengdu Airlines",
+    "name_en": "Chengdu Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RP",
+    "name": "Chautauqua Airlines",
+    "name_en": "Chautauqua Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8W",
+    "name": "Fly All Ways",
+    "name_en": "Fly All Ways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KA",
+    "name": "Aero Nomad Airlines",
+    "name_en": "Aero Nomad Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RX",
+    "name": "Riyadh Air",
+    "name_en": "Riyadh Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S5",
+    "name": "Star Air",
+    "name_en": "Star Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A8",
+    "name": "Aerolink Uganda Limited",
+    "name_en": "Aerolink Uganda Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FU",
+    "name": "Fuzhou Airlines",
+    "name_en": "Fuzhou Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KS",
+    "name": "AirConnect",
+    "name_en": "AirConnect",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MJ",
+    "name": "MyWay Airlines",
+    "name_en": "MyWay Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FR",
+    "name": "Ryanair",
+    "name_en": "Ryanair",
+    "is_lowcost": true
+  },
+  {
+    "iata": "I9",
+    "name": "Central Airlines",
+    "name_en": "Central Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0T",
+    "name": "Total Linhas Aereas",
+    "name_en": "Total Linhas Aereas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XR",
+    "name": "Corendon Airlines Europe",
+    "name_en": "Corendon Airlines Europe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NC",
+    "name": "Northern Air Cargo",
+    "name_en": "Northern Air Cargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5E",
+    "name": "Aero",
+    "name_en": "Aero",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6G",
+    "name": "Sun Air Express",
+    "name_en": "Sun Air Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7E",
+    "name": "Sylt Air GmbH",
+    "name_en": "Sylt Air GmbH",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HV",
+    "name": "Transavia",
+    "name_en": "Transavia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "GF",
+    "name": "Gulf Air",
+    "name_en": "Gulf Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2M",
+    "name": "Maya Island Air",
+    "name_en": "Maya Island Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZY",
+    "name": "Sky Airlines",
+    "name_en": "Sky Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W2",
+    "name": "FlexFlight",
+    "name_en": "FlexFlight",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UV",
+    "name": "Helicópteros del Sureste",
+    "name_en": "Helicópteros del Sureste",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SG",
+    "name": "SpiceJet",
+    "name_en": "SpiceJet",
+    "is_lowcost": true
+  },
+  {
+    "iata": "6O",
+    "name": "Orbest",
+    "name_en": "Orbest",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AH",
+    "name": "Air Algerie",
+    "name_en": "Air Algerie",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5W",
+    "name": "Wizz Air",
+    "name_en": "Wizz Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "N2",
+    "name": "Aero Contractors Coy of Nigeria Ltd",
+    "name_en": "Aero Contractors Coy of Nigeria Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3V",
+    "name": "ASL Airways",
+    "name_en": "ASL Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KU",
+    "name": "Kuwait Airways",
+    "name_en": "Kuwait Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LK",
+    "name": "Lao Skyway",
+    "name_en": "Lao Skyway",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QG",
+    "name": "Citilink Airlines",
+    "name_en": "Citilink Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "YW",
+    "name": "Air Nostrum",
+    "name_en": "Air Nostrum",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TU",
+    "name": "Tunisair",
+    "name_en": "Tunisair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AR",
+    "name": "Aerolineas Argentinas",
+    "name_en": "Aerolineas Argentinas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UZ",
+    "name": "Buraq Air Transport (BRQ)",
+    "name_en": "Buraq Air Transport (BRQ)",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LX",
+    "name": "Swiss International Air Lines",
+    "name_en": "Swiss International Air Lines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F0",
+    "name": "Fly Jordan",
+    "name_en": "Fly Jordan",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q5",
+    "name": "40-Mile Air",
+    "name_en": "40-Mile Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4N",
+    "name": "Air North Charter and Training Ltd.",
+    "name_en": "Air North Charter and Training Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "R5",
+    "name": "Jordan Aviation",
+    "name_en": "Jordan Aviation",
+    "is_lowcost": true
+  },
+  {
+    "iata": "QZ",
+    "name": "PT Indonesia AirAsia",
+    "name_en": "PT Indonesia AirAsia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "PX",
+    "name": "Air Niugini",
+    "name_en": "Air Niugini",
+    "is_lowcost": false
+  },
+  {
+    "iata": "U5",
+    "name": "SkyUp MT",
+    "name_en": "SkyUp MT",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TK",
+    "name": "Turkish Airlines",
+    "name_en": "Turkish Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1G",
+    "name": "Travelport Global Distribution SystemB.V.",
+    "name_en": "Travelport Global Distribution SystemB.V.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GL",
+    "name": "Air Greenland",
+    "name_en": "Air Greenland",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B1",
+    "name": "TAB - Transportes Aéreos Bolivianos",
+    "name_en": "TAB - Transportes Aéreos Bolivianos",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UP",
+    "name": "Bahamasair",
+    "name_en": "Bahamasair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3X",
+    "name": "Premier Trans Aire Inc.",
+    "name_en": "Premier Trans Aire Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DF",
+    "name": "Condor",
+    "name_en": "Condor",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SF",
+    "name": "Tassili Airlines",
+    "name_en": "Tassili Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WN",
+    "name": "Southwest Airlines",
+    "name_en": "Southwest Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "YN",
+    "name": "Air Creebec",
+    "name_en": "Air Creebec",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XX",
+    "name": "Major Airline",
+    "name_en": "Major Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MT",
+    "name": "Thomas Cook Airlines",
+    "name_en": "Thomas Cook Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5Y",
+    "name": "Atlas Air",
+    "name_en": "Atlas Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0D",
+    "name": "Finistair",
+    "name_en": "Finistair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GD",
+    "name": "Aviair",
+    "name_en": "Aviair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KG",
+    "name": "Key Lime Air",
+    "name_en": "Key Lime Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UA",
+    "name": "United Airlines",
+    "name_en": "United Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZI",
+    "name": "Aigle Azur",
+    "name_en": "Aigle Azur",
+    "is_lowcost": false
+  },
+  {
+    "iata": "E9",
+    "name": "Iberojet",
+    "name_en": "Iberojet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D0",
+    "name": "DHL Air Limited",
+    "name_en": "DHL Air Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TW",
+    "name": "T'way Air",
+    "name_en": "T'way Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "RF",
+    "name": "Aero K",
+    "name_en": "Aero K",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J5",
+    "name": "Alaska Seaplane",
+    "name_en": "Alaska Seaplane",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6C",
+    "name": "Air Timor",
+    "name_en": "Air Timor",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5L",
+    "name": "Liat",
+    "name_en": "Liat",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZH",
+    "name": "Shenzhen Airlines",
+    "name_en": "Shenzhen Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QW",
+    "name": "Qingdao Airlines",
+    "name_en": "Qingdao Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4C",
+    "name": "LATAM Airlines Colombia",
+    "name_en": "LATAM Airlines Colombia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P0",
+    "name": "Proflight Zambia",
+    "name_en": "Proflight Zambia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZB",
+    "name": "Air Albania",
+    "name_en": "Air Albania",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BV",
+    "name": "Toki Air",
+    "name_en": "Toki Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "LG",
+    "name": "Luxair",
+    "name_en": "Luxair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0L",
+    "name": "Lodyssey",
+    "name_en": "Lodyssey",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NB",
+    "name": "Berniq Airways",
+    "name_en": "Berniq Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RJ",
+    "name": "Royal Jordanian",
+    "name_en": "Royal Jordanian",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KB",
+    "name": "Druk Air",
+    "name_en": "Druk Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BO",
+    "name": "BB Airways",
+    "name_en": "BB Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5P",
+    "name": "Panorama Airways",
+    "name_en": "Panorama Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1X",
+    "name": "Fly Branson Travel dba Branson AirExpress",
+    "name_en": "Fly Branson Travel dba Branson AirExpress",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PK",
+    "name": "Pakistan International Airlines",
+    "name_en": "Pakistan International Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZU",
+    "name": "SUN-AIR",
+    "name_en": "SUN-AIR",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7T",
+    "name": "Trenitalia",
+    "name_en": "Trenitalia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JO",
+    "name": "Jonika Airlines",
+    "name_en": "Jonika Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A2",
+    "name": "Animawings",
+    "name_en": "Animawings",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9K",
+    "name": "Cape Air",
+    "name_en": "Cape Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RI",
+    "name": "Tigerair Mandala",
+    "name_en": "Tigerair Mandala",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7G",
+    "name": "StarFlyer",
+    "name_en": "StarFlyer",
+    "is_lowcost": true
+  },
+  {
+    "iata": "H7",
+    "name": "HiSky",
+    "name_en": "HiSky",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AO",
+    "name": "Australian Airlines",
+    "name_en": "Australian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "55",
+    "name": "Buta Airways",
+    "name_en": "Buta Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MP",
+    "name": "Martinair",
+    "name_en": "Martinair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7D",
+    "name": "Maluti Sky",
+    "name_en": "Maluti Sky",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T2",
+    "name": "Nakina Air Service",
+    "name_en": "Nakina Air Service",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MK",
+    "name": "Air Mauritius",
+    "name_en": "Air Mauritius",
+    "is_lowcost": false
+  },
+  {
+    "iata": "O6",
+    "name": "Avianca Brazil",
+    "name_en": "Avianca Brazil",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WK",
+    "name": "Edelweiss Air",
+    "name_en": "Edelweiss Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AL",
+    "name": "ALPAVIA",
+    "name_en": "ALPAVIA",
+    "is_lowcost": true
+  },
+  {
+    "iata": "VN",
+    "name": "Vietnam Airlines",
+    "name_en": "Vietnam Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RC",
+    "name": "Atlantic Airways",
+    "name_en": "Atlantic Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BT",
+    "name": "airBaltic",
+    "name_en": "airBaltic",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L3",
+    "name": "DHL de Guatemala",
+    "name_en": "DHL de Guatemala",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NK",
+    "name": "Spirit Airlines",
+    "name_en": "Spirit Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "KR",
+    "name": "Cambodia Airways",
+    "name_en": "Cambodia Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SK",
+    "name": "Scandinavian Airlines",
+    "name_en": "Scandinavian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JP",
+    "name": "Adria Airways",
+    "name_en": "Adria Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C7",
+    "name": "Cinnamon Air",
+    "name_en": "Cinnamon Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8R",
+    "name": "Amelia",
+    "name_en": "Amelia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AZ",
+    "name": "ITA Airways",
+    "name_en": "ITA Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PQ",
+    "name": "SkyUp Airlines",
+    "name_en": "SkyUp Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "WE",
+    "name": "Thai Smile",
+    "name_en": "Thai Smile",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LV",
+    "name": "Airzena",
+    "name_en": "Airzena",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XJ",
+    "name": "Thai AirAsia X",
+    "name_en": "Thai AirAsia X",
+    "is_lowcost": true
+  },
+  {
+    "iata": "4F",
+    "name": "Freedom Airline Express",
+    "name_en": "Freedom Airline Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8E",
+    "name": "Bering Air",
+    "name_en": "Bering Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9W",
+    "name": "Jet Airways",
+    "name_en": "Jet Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TM",
+    "name": "LAM Mozambique Airlines",
+    "name_en": "LAM Mozambique Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CP",
+    "name": "Compass Airlines",
+    "name_en": "Compass Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6M",
+    "name": "Maximus Air",
+    "name_en": "Maximus Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TC",
+    "name": "Air Tanzania",
+    "name_en": "Air Tanzania",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6J",
+    "name": "Solaseed Air",
+    "name_en": "Solaseed Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VX",
+    "name": "Virgin America",
+    "name_en": "Virgin America",
+    "is_lowcost": true
+  },
+  {
+    "iata": "5V",
+    "name": "Everts Air Cargo",
+    "name_en": "Everts Air Cargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZA",
+    "name": "Skywings Angkor Airlines Co., Ltd.",
+    "name_en": "Skywings Angkor Airlines Co., Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OV",
+    "name": "SalamAir",
+    "name_en": "SalamAir",
+    "is_lowcost": true
+  },
+  {
+    "iata": "R4",
+    "name": "Rano Air",
+    "name_en": "Rano Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2F",
+    "name": "Afrinat International Airlines",
+    "name_en": "Afrinat International Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CE",
+    "name": "Chalair Aviation",
+    "name_en": "Chalair Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KK",
+    "name": "LEAV",
+    "name_en": "LEAV",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L8",
+    "name": "Lulutai Airlines",
+    "name_en": "Lulutai Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7F",
+    "name": "First Air",
+    "name_en": "First Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S7",
+    "name": "S7 Airlines",
+    "name_en": "S7 Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LZ",
+    "name": "Air Link",
+    "name_en": "Air Link",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A6",
+    "name": "Air Travel",
+    "name_en": "Air Travel",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4Z",
+    "name": "Airlink",
+    "name_en": "Airlink",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TF",
+    "name": "BRA",
+    "name_en": "BRA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2P",
+    "name": "PAL Express",
+    "name_en": "PAL Express",
+    "is_lowcost": true
+  },
+  {
+    "iata": "WA",
+    "name": "KLM Cityhopper",
+    "name_en": "KLM Cityhopper",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JH",
+    "name": "Fuji Dream Airlines",
+    "name_en": "Fuji Dream Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UD",
+    "name": "UR Airline",
+    "name_en": "UR Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W8",
+    "name": "Cargojet Airways Ltd.",
+    "name_en": "Cargojet Airways Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3W",
+    "name": "Malawian Airlines",
+    "name_en": "Malawian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UN",
+    "name": "Transaero Airlines",
+    "name_en": "Transaero Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GC",
+    "name": "Global Feeder Services",
+    "name_en": "Global Feeder Services",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IE",
+    "name": "Solomon Airlines",
+    "name_en": "Solomon Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SV",
+    "name": "Saudia",
+    "name_en": "Saudia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LU",
+    "name": "LATAM Express",
+    "name_en": "LATAM Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P4",
+    "name": "Aerolíneas Sosa",
+    "name_en": "Aerolíneas Sosa",
+    "is_lowcost": true
+  },
+  {
+    "iata": "X4",
+    "name": "Air Excursion, LLC",
+    "name_en": "Air Excursion, LLC",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XK",
+    "name": "Air Corsica",
+    "name_en": "Air Corsica",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VK",
+    "name": "FlyForValue",
+    "name_en": "FlyForValue",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FS",
+    "name": "FlyArystan",
+    "name_en": "FlyArystan",
+    "is_lowcost": true
+  },
+  {
+    "iata": "4Y",
+    "name": "Discover",
+    "name_en": "Discover",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AU",
+    "name": "Austral Lineas Aereas",
+    "name_en": "Austral Lineas Aereas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "O4",
+    "name": "Andes Líneas Aéreas",
+    "name_en": "Andes Líneas Aéreas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8U",
+    "name": "Afriqiyah Airways",
+    "name_en": "Afriqiyah Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CG",
+    "name": "Airlines PNG",
+    "name_en": "Airlines PNG",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V6",
+    "name": "Serve Air",
+    "name_en": "Serve Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0P",
+    "name": "Silver Air",
+    "name_en": "Silver Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1T",
+    "name": "Airfast Indonesia",
+    "name_en": "Airfast Indonesia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GX",
+    "name": "GX Airlines",
+    "name_en": "GX Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AY",
+    "name": "Finnair",
+    "name_en": "Finnair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WH",
+    "name": "Webjet Linhas Aereas",
+    "name_en": "Webjet Linhas Aereas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RO",
+    "name": "Tarom",
+    "name_en": "Tarom",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DK",
+    "name": "Sunclass Airlines Aps",
+    "name_en": "Sunclass Airlines Aps",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6R",
+    "name": "Alrosa",
+    "name_en": "Alrosa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F8",
+    "name": "Flair Airlines",
+    "name_en": "Flair Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FV",
+    "name": "Rossiya Airlines",
+    "name_en": "Rossiya Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W1",
+    "name": "World Ticket Ltd",
+    "name_en": "World Ticket Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K1",
+    "name": "SkyFru",
+    "name_en": "SkyFru",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JB",
+    "name": "Helijet",
+    "name_en": "Helijet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3C",
+    "name": "Calima Aviacion S.L",
+    "name_en": "Calima Aviacion S.L",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ND",
+    "name": "Sky Wings Airlines",
+    "name_en": "Sky Wings Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZE",
+    "name": "Eastar Jet",
+    "name_en": "Eastar Jet",
+    "is_lowcost": true
+  },
+  {
+    "iata": "XY",
+    "name": "flynas",
+    "name_en": "flynas",
+    "is_lowcost": true
+  },
+  {
+    "iata": "EX",
+    "name": "Thai Express Air Co. Ltd",
+    "name_en": "Thai Express Air Co. Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OG",
+    "name": "PLAY",
+    "name_en": "PLAY",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0G",
+    "name": "Grumeti Air",
+    "name_en": "Grumeti Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4Q",
+    "name": "Safi Airways",
+    "name_en": "Safi Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZR",
+    "name": "Aviacon Zitotrans Air Company JSC",
+    "name_en": "Aviacon Zitotrans Air Company JSC",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B7",
+    "name": "Uni Air",
+    "name_en": "Uni Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1N",
+    "name": "Navitaire",
+    "name_en": "Navitaire",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2Z",
+    "name": "Passaredo Transportes Aereos S.A.",
+    "name_en": "Passaredo Transportes Aereos S.A.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LA",
+    "name": "LATAM Chile",
+    "name_en": "LATAM Chile",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Y5",
+    "name": "Hayways",
+    "name_en": "Hayways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "4T",
+    "name": "Transwest Air/ Rise Air",
+    "name_en": "Transwest Air/ Rise Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4K",
+    "name": "Kenn Borek Air Ltd.",
+    "name_en": "Kenn Borek Air Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "O9",
+    "name": "NOVA Airlines",
+    "name_en": "NOVA Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q2",
+    "name": "Maldivian",
+    "name_en": "Maldivian",
+    "is_lowcost": false
+  },
+  {
+    "iata": "H2",
+    "name": "Sky Airline",
+    "name_en": "Sky Airline",
+    "is_lowcost": true
+  },
+  {
+    "iata": "Y7",
+    "name": "NordStar",
+    "name_en": "NordStar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7U",
+    "name": "Alpha Air Transport",
+    "name_en": "Alpha Air Transport",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FY",
+    "name": "Firefly",
+    "name_en": "Firefly",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RA",
+    "name": "Royal Nepal Airlines",
+    "name_en": "Royal Nepal Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T3",
+    "name": "Eastern Airways",
+    "name_en": "Eastern Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5J",
+    "name": "Cebu Pacific",
+    "name_en": "Cebu Pacific",
+    "is_lowcost": true
+  },
+  {
+    "iata": "5U",
+    "name": "TAG Airlines",
+    "name_en": "TAG Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B8",
+    "name": "Eritrean Airlines",
+    "name_en": "Eritrean Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2V",
+    "name": "Amtrak",
+    "name_en": "Amtrak",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S8",
+    "name": "Sounds Air Travel & Tourism Ltd.",
+    "name_en": "Sounds Air Travel & Tourism Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "86",
+    "name": "Up Israel",
+    "name_en": "Up Israel",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XL",
+    "name": "LATAM Ecuador",
+    "name_en": "LATAM Ecuador",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UC",
+    "name": "LAN Chile Cargo",
+    "name_en": "LAN Chile Cargo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DD",
+    "name": "Nok Air",
+    "name_en": "Nok Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FQ",
+    "name": "Brindabella Airlines",
+    "name_en": "Brindabella Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "O2",
+    "name": "Linear Air",
+    "name_en": "Linear Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4W",
+    "name": "Warbelow's Air Ventures",
+    "name_en": "Warbelow's Air Ventures",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7Q",
+    "name": "FlyOne Asia",
+    "name_en": "FlyOne Asia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AM",
+    "name": "Aeromexico",
+    "name_en": "Aeromexico",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SU",
+    "name": "Aeroflot",
+    "name_en": "Aeroflot",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V5",
+    "name": "Aerovías DAP",
+    "name_en": "Aerovías DAP",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OZ",
+    "name": "Asiana Airlines",
+    "name_en": "Asiana Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HA",
+    "name": "Hawaiian Airlines",
+    "name_en": "Hawaiian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YY",
+    "name": "Major Airline",
+    "name_en": "Major Airline",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RM",
+    "name": "Air Dilijans",
+    "name_en": "Air Dilijans",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9V",
+    "name": "Avior Airlines",
+    "name_en": "Avior Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Y1",
+    "name": "Travel Technology Interactive SA",
+    "name_en": "Travel Technology Interactive SA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G2",
+    "name": "Gullivair",
+    "name_en": "Gullivair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YR",
+    "name": "Grand Canyon Airlines, Inc.dba Scenic Airlines",
+    "name_en": "Grand Canyon Airlines, Inc.dba Scenic Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0C",
+    "name": "AIS Airlines",
+    "name_en": "AIS Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "R0",
+    "name": "Sapsan",
+    "name_en": "Sapsan",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AS",
+    "name": "Alaska Airlines",
+    "name_en": "Alaska Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P7",
+    "name": "Small Planet Airlines",
+    "name_en": "Small Planet Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DH",
+    "name": "Douniah Airlines",
+    "name_en": "Douniah Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BS",
+    "name": "US-Bangla Airlines",
+    "name_en": "US-Bangla Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UU",
+    "name": "Air Austral",
+    "name_en": "Air Austral",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PJ",
+    "name": "Air Saint Pierre",
+    "name_en": "Air Saint Pierre",
+    "is_lowcost": false
+  },
+  {
+    "iata": "44",
+    "name": "IHY Izmir Havayollari A.S.",
+    "name_en": "IHY Izmir Havayollari A.S.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OW",
+    "name": "Skyward Express",
+    "name_en": "Skyward Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D2",
+    "name": "Severstal Air",
+    "name_en": "Severstal Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AF",
+    "name": "Air France",
+    "name_en": "Air France",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KH",
+    "name": "Kyrgyz Air",
+    "name_en": "Kyrgyz Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZC",
+    "name": "Korongo Airlines",
+    "name_en": "Korongo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "X6",
+    "name": "Challenge Air Cargo Ltd",
+    "name_en": "Challenge Air Cargo Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JR",
+    "name": "Joy Air",
+    "name_en": "Joy Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XI",
+    "name": "Aeronautical Telecommunications Ltd.(AEROTEL)",
+    "name_en": "Aeronautical Telecommunications Ltd.(AEROTEL)",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DY",
+    "name": "Norwegian Air Shuttle",
+    "name_en": "Norwegian Air Shuttle",
+    "is_lowcost": true
+  },
+  {
+    "iata": "6B",
+    "name": "TUIfly Nordic",
+    "name_en": "TUIfly Nordic",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8C",
+    "name": "Air Transport International L.L.C.",
+    "name_en": "Air Transport International L.L.C.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QB",
+    "name": "Qeshm Air",
+    "name_en": "Qeshm Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B9",
+    "name": "Iran Airtour",
+    "name_en": "Iran Airtour",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Y9",
+    "name": "Lynx Air",
+    "name_en": "Lynx Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DQ",
+    "name": "Alexandria Airlines",
+    "name_en": "Alexandria Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "E8",
+    "name": "Tayaran Jet",
+    "name_en": "Tayaran Jet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Y8",
+    "name": "Suparna Airlines",
+    "name_en": "Suparna Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M4",
+    "name": "Mistral Air",
+    "name_en": "Mistral Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZV",
+    "name": "Zagros Airlines",
+    "name_en": "Zagros Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CL",
+    "name": "Lufthansa CityLine",
+    "name_en": "Lufthansa CityLine",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SM",
+    "name": "Air Cairo",
+    "name_en": "Air Cairo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B3",
+    "name": "Bhutan Airlines",
+    "name_en": "Bhutan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PA",
+    "name": "airblue",
+    "name_en": "airblue",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NN",
+    "name": "VIM Airlines",
+    "name_en": "VIM Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DS",
+    "name": "easyJet Switzerland",
+    "name_en": "easyJet Switzerland",
+    "is_lowcost": true
+  },
+  {
+    "iata": "RD",
+    "name": "French Armed Forces",
+    "name_en": "French Armed Forces",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CM",
+    "name": "Copa Airlines",
+    "name_en": "Copa Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ES",
+    "name": "DHL Aviation EEMEA B.S.C.(c)",
+    "name_en": "DHL Aviation EEMEA B.S.C.(c)",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S1",
+    "name": "Lufthansa Systems",
+    "name_en": "Lufthansa Systems",
+    "is_lowcost": false
+  },
+  {
+    "iata": "X9",
+    "name": "Avion Express",
+    "name_en": "Avion Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PC",
+    "name": "Pegasus Airlines",
+    "name_en": "Pegasus Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BX",
+    "name": "Air Busan",
+    "name_en": "Air Busan",
+    "is_lowcost": true
+  },
+  {
+    "iata": "P3",
+    "name": "Porter Airlines",
+    "name_en": "Porter Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DP",
+    "name": "Pobeda",
+    "name_en": "Pobeda",
+    "is_lowcost": true
+  },
+  {
+    "iata": "MW",
+    "name": "Malta Air",
+    "name_en": "Malta Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S4",
+    "name": "SATA",
+    "name_en": "SATA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WX",
+    "name": "Cityjet",
+    "name_en": "Cityjet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IG",
+    "name": "Global Aviation GEA",
+    "name_en": "Global Aviation GEA",
+    "is_lowcost": true
+  },
+  {
+    "iata": "XD",
+    "name": "Air Transport Association of Americad\\b\\a Airlines for America",
+    "name_en": "Air Transport Association of Americad\\b\\a Airlines for America",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PV",
+    "name": "St Barth Commuter",
+    "name_en": "St Barth Commuter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WF",
+    "name": "Wideroe",
+    "name_en": "Wideroe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IU",
+    "name": "Super Air Jet",
+    "name_en": "Super Air Jet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AP",
+    "name": "AlbaStar",
+    "name_en": "AlbaStar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F1",
+    "name": "Farelogix",
+    "name_en": "Farelogix",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LL",
+    "name": "Level",
+    "name_en": "Level",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TN",
+    "name": "Air Tahiti Nui",
+    "name_en": "Air Tahiti Nui",
+    "is_lowcost": false
+  },
+  {
+    "iata": "R1",
+    "name": "Zapways, Inc.",
+    "name_en": "Zapways, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FC",
+    "name": "Link Airways",
+    "name_en": "Link Airways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "AA",
+    "name": "American Airlines",
+    "name_en": "American Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J0",
+    "name": "Buffalo Airways Ltd.",
+    "name_en": "Buffalo Airways Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z3",
+    "name": "PM Air LLC",
+    "name_en": "PM Air LLC",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EI",
+    "name": "Aer Lingus",
+    "name_en": "Aer Lingus",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DZ",
+    "name": "Donghai Airlines",
+    "name_en": "Donghai Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QN",
+    "name": "Skytrans",
+    "name_en": "Skytrans",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J9",
+    "name": "Jazeera Airways",
+    "name_en": "Jazeera Airways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "8B",
+    "name": "TransNusa",
+    "name_en": "TransNusa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W9",
+    "name": "Wizz Air",
+    "name_en": "Wizz Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "JU",
+    "name": "Air Serbia",
+    "name_en": "Air Serbia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KQ",
+    "name": "Kenya Airways",
+    "name_en": "Kenya Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HH",
+    "name": "Qanot Sharq",
+    "name_en": "Qanot Sharq",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UG",
+    "name": "Tunisair Express",
+    "name_en": "Tunisair Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K8",
+    "name": "Kan Air",
+    "name_en": "Kan Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "L7",
+    "name": "Linea Aerea Carguera de Colombia S.A.",
+    "name_en": "Linea Aerea Carguera de Colombia S.A.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2E",
+    "name": "Smokey Bay Air, Inc.",
+    "name_en": "Smokey Bay Air, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "P8",
+    "name": "Air Mekong",
+    "name_en": "Air Mekong",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D9",
+    "name": "Donavia",
+    "name_en": "Donavia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IV",
+    "name": "GP Aviation",
+    "name_en": "GP Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YO",
+    "name": "Heli Air Monaco",
+    "name_en": "Heli Air Monaco",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RL",
+    "name": "Royal Flight",
+    "name_en": "Royal Flight",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VC",
+    "name": "Charter Air Transport, Inc.",
+    "name_en": "Charter Air Transport, Inc.",
+    "is_lowcost": true
+  },
+  {
+    "iata": "Q7",
+    "name": "SkyBahamas Airlines",
+    "name_en": "SkyBahamas Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BJ",
+    "name": "Nouvelair",
+    "name_en": "Nouvelair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZZ",
+    "name": "American Eagle",
+    "name_en": "American Eagle",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4J",
+    "name": "JetAir Caribbean",
+    "name_en": "JetAir Caribbean",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IP",
+    "name": "Pelita Air",
+    "name_en": "Pelita Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "U1",
+    "name": "Videcom International Limited",
+    "name_en": "Videcom International Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JZ",
+    "name": "Jatayu Airlines",
+    "name_en": "Jatayu Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MN",
+    "name": "Asman Airlines",
+    "name_en": "Asman Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HG",
+    "name": "Niki",
+    "name_en": "Niki",
+    "is_lowcost": true
+  },
+  {
+    "iata": "8J",
+    "name": "EcoJet",
+    "name_en": "EcoJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5N",
+    "name": "Smartavia",
+    "name_en": "Smartavia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FB",
+    "name": "Bulgaria Air",
+    "name_en": "Bulgaria Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WY",
+    "name": "Oman Air",
+    "name_en": "Oman Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CQ",
+    "name": "Coastal Travels",
+    "name_en": "Coastal Travels",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XV",
+    "name": "BVI Airways",
+    "name_en": "BVI Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "I3",
+    "name": "InnoAviation",
+    "name_en": "InnoAviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HP",
+    "name": "PopulAir",
+    "name_en": "PopulAir",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CU",
+    "name": "Cubana de Aviación",
+    "name_en": "Cubana de Aviación",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HW",
+    "name": "North-Wright Airways",
+    "name_en": "North-Wright Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KJ",
+    "name": "Air Incheon",
+    "name_en": "Air Incheon",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VL",
+    "name": "Lufthansa City",
+    "name_en": "Lufthansa City",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1V",
+    "name": "Galileo International",
+    "name_en": "Galileo International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WR",
+    "name": "WestJet Encore",
+    "name_en": "WestJet Encore",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YC",
+    "name": "Yamal Airlines",
+    "name_en": "Yamal Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M8",
+    "name": "SkyJet",
+    "name_en": "SkyJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5X",
+    "name": "UPS",
+    "name_en": "UPS",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0F",
+    "name": "FlyALS",
+    "name_en": "FlyALS",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3L",
+    "name": "Air Arabia Abu Dhabi",
+    "name_en": "Air Arabia Abu Dhabi",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M6",
+    "name": "Amerijet International Inc.",
+    "name_en": "Amerijet International Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OC",
+    "name": "Oriental Air Bridge",
+    "name_en": "Oriental Air Bridge",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NO",
+    "name": "Neos",
+    "name_en": "Neos",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4E",
+    "name": "Stabo Air Limited",
+    "name_en": "Stabo Air Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W3",
+    "name": "Arik Air",
+    "name_en": "Arik Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5R",
+    "name": "Rutas Aereas, C.A. dba  RUTACA",
+    "name_en": "Rutas Aereas, C.A. dba  RUTACA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C6",
+    "name": "Centrum Air",
+    "name_en": "Centrum Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ZX",
+    "name": "Air Georgian Ltd. dba Air Alliance",
+    "name_en": "Air Georgian Ltd. dba Air Alliance",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PM",
+    "name": "Canaryfly",
+    "name_en": "Canaryfly",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2K",
+    "name": "Avianca Ecuador",
+    "name_en": "Avianca Ecuador",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PP",
+    "name": "Jet Aviation Business",
+    "name_en": "Jet Aviation Business",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8N",
+    "name": "Regional Air Services",
+    "name_en": "Regional Air Services",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FG",
+    "name": "Ariana Afghan Airlines",
+    "name_en": "Ariana Afghan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HJ",
+    "name": "Humo Air",
+    "name_en": "Humo Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1E",
+    "name": "Travelsky Technology Limited",
+    "name_en": "Travelsky Technology Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2T",
+    "name": "Bermudair",
+    "name_en": "Bermudair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HU",
+    "name": "Hainan Airlines",
+    "name_en": "Hainan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QP",
+    "name": "Akasa Air",
+    "name_en": "Akasa Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BE",
+    "name": "Flybe",
+    "name_en": "Flybe",
+    "is_lowcost": true
+  },
+  {
+    "iata": "JI",
+    "name": "Armenian Airlines",
+    "name_en": "Armenian Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SX",
+    "name": "SkyWork Airlines",
+    "name_en": "SkyWork Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PN",
+    "name": "West Air",
+    "name_en": "West Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "8A",
+    "name": "Panama Airways",
+    "name_en": "Panama Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V7",
+    "name": "Volotea",
+    "name_en": "Volotea",
+    "is_lowcost": true
+  },
+  {
+    "iata": "U9",
+    "name": "Tatarstan Airlines",
+    "name_en": "Tatarstan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A0",
+    "name": "BA Euroflyer",
+    "name_en": "BA Euroflyer",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XU",
+    "name": "African Express Airways (K)  Limited",
+    "name_en": "African Express Airways (K)  Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EY",
+    "name": "Etihad Airways",
+    "name_en": "Etihad Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LN",
+    "name": "Libyan Airlines",
+    "name_en": "Libyan Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IA",
+    "name": "Iraqi Airways",
+    "name_en": "Iraqi Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UQ",
+    "name": "Urumqi Air",
+    "name_en": "Urumqi Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "H6",
+    "name": "Bulgarian Air Charter",
+    "name_en": "Bulgarian Air Charter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D3",
+    "name": "Daallo Airlines",
+    "name_en": "Daallo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1K",
+    "name": "MixVel",
+    "name_en": "MixVel",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VQ",
+    "name": "Novoair",
+    "name_en": "Novoair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G9",
+    "name": "Air Arabia",
+    "name_en": "Air Arabia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "TS",
+    "name": "Air Transat",
+    "name_en": "Air Transat",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CV",
+    "name": "Cargolux",
+    "name_en": "Cargolux",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HK",
+    "name": "Skippers Aviation",
+    "name_en": "Skippers Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HT",
+    "name": "Ningxia Cargo Airlines CO.,LTD",
+    "name_en": "Ningxia Cargo Airlines CO.,LTD",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HR",
+    "name": "Hahn Air",
+    "name_en": "Hahn Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OK",
+    "name": "Czech Airlines",
+    "name_en": "Czech Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KN",
+    "name": "China United Airlines",
+    "name_en": "China United Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "NQ",
+    "name": "Air Japan",
+    "name_en": "Air Japan",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F9",
+    "name": "Frontier Airlines",
+    "name_en": "Frontier Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "U4",
+    "name": "Buddha Air",
+    "name_en": "Buddha Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S2",
+    "name": "Jet Lite",
+    "name_en": "Jet Lite",
+    "is_lowcost": true
+  },
+  {
+    "iata": "OJ",
+    "name": "NYXAIR",
+    "name_en": "NYXAIR",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7J",
+    "name": "Tajik Air",
+    "name_en": "Tajik Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GP",
+    "name": "APG Airlines",
+    "name_en": "APG Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B4",
+    "name": "be0nd",
+    "name_en": "be0nd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AE",
+    "name": "Mandarin Airlines",
+    "name_en": "Mandarin Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2S",
+    "name": "Southwind",
+    "name_en": "Southwind",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AD",
+    "name": "Azul Brazilian Airlines",
+    "name_en": "Azul Brazilian Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "BM",
+    "name": "BMI Regional",
+    "name_en": "BMI Regional",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J3",
+    "name": "Northwestern Air",
+    "name_en": "Northwestern Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FE",
+    "name": "Far Eastern Air Transport",
+    "name_en": "Far Eastern Air Transport",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CH",
+    "name": "Bemidji Airlines",
+    "name_en": "Bemidji Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IS",
+    "name": "Sepehran Airlines",
+    "name_en": "Sepehran Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FH",
+    "name": "Freebird Airlines",
+    "name_en": "Freebird Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PL",
+    "name": "Southern Air Charter",
+    "name_en": "Southern Air Charter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8F",
+    "name": "STP Airways",
+    "name_en": "STP Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0S",
+    "name": "Sunday Airlines",
+    "name_en": "Sunday Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4M",
+    "name": "Mavi Gok Airlines",
+    "name_en": "Mavi Gok Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KY",
+    "name": "Kunming Airlines",
+    "name_en": "Kunming Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MO",
+    "name": "Calm Air International",
+    "name_en": "Calm Air International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "R6",
+    "name": "DOT LT",
+    "name_en": "DOT LT",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1A",
+    "name": "Amadeus IT Group SA",
+    "name_en": "Amadeus IT Group SA",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9G",
+    "name": "Sun PhuQuoc Airways",
+    "name_en": "Sun PhuQuoc Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SJ",
+    "name": "Sriwijaya Air",
+    "name_en": "Sriwijaya Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "I8",
+    "name": "Izhavia",
+    "name_en": "Izhavia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "ER",
+    "name": "Air East",
+    "name_en": "Air East",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S3",
+    "name": "SATCO",
+    "name_en": "SATCO",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2N",
+    "name": "SmartLynx Malta",
+    "name_en": "SmartLynx Malta",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HN",
+    "name": "Heston Airlines dba Heston Airlines",
+    "name_en": "Heston Airlines dba Heston Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1U",
+    "name": "ITA Software Inc.",
+    "name_en": "ITA Software Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K4",
+    "name": "Kalitta Air",
+    "name_en": "Kalitta Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MZ",
+    "name": "Merpati Nusantara Airlines",
+    "name_en": "Merpati Nusantara Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OB",
+    "name": "Boliviana de Aviación",
+    "name_en": "Boliviana de Aviación",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GH",
+    "name": "Globus Airlines",
+    "name_en": "Globus Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N4",
+    "name": "Nordwind Airlines",
+    "name_en": "Nordwind Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CT",
+    "name": "Air Atlanta Europe",
+    "name_en": "Air Atlanta Europe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DW",
+    "name": "Aero-Charter Ukraine",
+    "name_en": "Aero-Charter Ukraine",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VB",
+    "name": "VivaAerobus",
+    "name_en": "VivaAerobus",
+    "is_lowcost": true
+  },
+  {
+    "iata": "X5",
+    "name": "Air Europa Express",
+    "name_en": "Air Europa Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F4",
+    "name": "Air Flamenco",
+    "name_en": "Air Flamenco",
+    "is_lowcost": false
+  },
+  {
+    "iata": "5M",
+    "name": "Hi Fly Ltd",
+    "name_en": "Hi Fly Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G3",
+    "name": "Gol Transportes Aéreos",
+    "name_en": "Gol Transportes Aéreos",
+    "is_lowcost": true
+  },
+  {
+    "iata": "JQ",
+    "name": "Jetstar",
+    "name_en": "Jetstar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TL",
+    "name": "Airnorth",
+    "name_en": "Airnorth",
+    "is_lowcost": false
+  },
+  {
+    "iata": "6E",
+    "name": "IndiGo",
+    "name_en": "IndiGo",
+    "is_lowcost": true
+  },
+  {
+    "iata": "0U",
+    "name": "Speed train",
+    "name_en": "Speed train",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DO",
+    "name": "Sky High Dominicana",
+    "name_en": "Sky High Dominicana",
+    "is_lowcost": false
+  },
+  {
+    "iata": "U7",
+    "name": "Tashkent Air",
+    "name_en": "Tashkent Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FD",
+    "name": "Thai AirAsia",
+    "name_en": "Thai AirAsia",
+    "is_lowcost": true
+  },
+  {
+    "iata": "P9",
+    "name": "APA Guam",
+    "name_en": "APA Guam",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9C",
+    "name": "Spring Airlines",
+    "name_en": "Spring Airlines",
+    "is_lowcost": true
+  },
+  {
+    "iata": "DV",
+    "name": "SCAT",
+    "name_en": "SCAT",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QO",
+    "name": "Quikjet Cargo Airlines Pvt. Ltd",
+    "name_en": "Quikjet Cargo Airlines Pvt. Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "CO",
+    "name": "Cobalt Air",
+    "name_en": "Cobalt Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "S6",
+    "name": "Sunrise Airways",
+    "name_en": "Sunrise Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BK",
+    "name": "Okay Airways",
+    "name_en": "Okay Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IZ",
+    "name": "Arkia",
+    "name_en": "Arkia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WL",
+    "name": "World Atlantic Airlines",
+    "name_en": "World Atlantic Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3G",
+    "name": "Gambia Bird Airlines",
+    "name_en": "Gambia Bird Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XA",
+    "name": "ARINC(Aeronautical Radio, Inc.)",
+    "name_en": "ARINC(Aeronautical Radio, Inc.)",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HQ",
+    "name": "Thomas Cook Airlines Belgium",
+    "name_en": "Thomas Cook Airlines Belgium",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MR",
+    "name": "Hunnu Air",
+    "name_en": "Hunnu Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9L",
+    "name": "West Link Airlines",
+    "name_en": "West Link Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TE",
+    "name": "Sky-Taxi",
+    "name_en": "Sky-Taxi",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2L",
+    "name": "Helvetic Airways",
+    "name_en": "Helvetic Airways",
+    "is_lowcost": true
+  },
+  {
+    "iata": "EP",
+    "name": "Iran Aseman Airlines",
+    "name_en": "Iran Aseman Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QR",
+    "name": "Qatar Airways",
+    "name_en": "Qatar Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "D5",
+    "name": "DHL Aero Expreso S.A.",
+    "name_en": "DHL Aero Expreso S.A.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G6",
+    "name": "FlyArna",
+    "name_en": "FlyArna",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Y4",
+    "name": "Volaris",
+    "name_en": "Volaris",
+    "is_lowcost": true
+  },
+  {
+    "iata": "DT",
+    "name": "TAAG Angola Airlines",
+    "name_en": "TAAG Angola Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "01",
+    "name": "JetHunter",
+    "name_en": "JetHunter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WU",
+    "name": "Western Air",
+    "name_en": "Western Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "H5",
+    "name": "CM Airlines",
+    "name_en": "CM Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "VP",
+    "name": "Villa Air",
+    "name_en": "Villa Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MX",
+    "name": "Breeze Airways",
+    "name_en": "Breeze Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3T",
+    "name": "Tarco Air",
+    "name_en": "Tarco Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "1D",
+    "name": "Radixx Solutions International, Inc.",
+    "name_en": "Radixx Solutions International, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C4",
+    "name": "Conquest Air, Inc.",
+    "name_en": "Conquest Air, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RV",
+    "name": "8165343 Canada Inc. dba Air Canada rouge",
+    "name_en": "8165343 Canada Inc. dba Air Canada rouge",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2A",
+    "name": "Deutsche Bahn AG",
+    "name_en": "Deutsche Bahn AG",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JS",
+    "name": "Air Koryo",
+    "name_en": "Air Koryo",
+    "is_lowcost": false
+  },
+  {
+    "iata": "G8",
+    "name": "Guyane Express Fly",
+    "name_en": "Guyane Express Fly",
+    "is_lowcost": true
+  },
+  {
+    "iata": "U8",
+    "name": "Tus Airways",
+    "name_en": "Tus Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9P",
+    "name": "Fly Jinnah",
+    "name_en": "Fly Jinnah",
+    "is_lowcost": true
+  },
+  {
+    "iata": "UK",
+    "name": "Vistara",
+    "name_en": "Vistara",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z0",
+    "name": "Norse Atlantic UK",
+    "name_en": "Norse Atlantic UK",
+    "is_lowcost": false
+  },
+  {
+    "iata": "QM",
+    "name": "Monacair",
+    "name_en": "Monacair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AN",
+    "name": "Advanced Air",
+    "name_en": "Advanced Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "T4",
+    "name": "TRIP Linhas Aéreas",
+    "name_en": "TRIP Linhas Aéreas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3F",
+    "name": "FlyOne",
+    "name_en": "FlyOne",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B5",
+    "name": "BBN Airlines",
+    "name_en": "BBN Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "SN",
+    "name": "Brussels Airlines",
+    "name_en": "Brussels Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AG",
+    "name": "Aruba Airlines",
+    "name_en": "Aruba Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "XP",
+    "name": "Avelo Airlines",
+    "name_en": "Avelo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "A1",
+    "name": "A.P.G. Distribution System",
+    "name_en": "A.P.G. Distribution System",
+    "is_lowcost": false
+  },
+  {
+    "iata": "X8",
+    "name": "Airmax S.A.",
+    "name_en": "Airmax S.A.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YG",
+    "name": "YTO Cargo Airlines",
+    "name_en": "YTO Cargo Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M7",
+    "name": "Mas de Carga S.A. de C.V. dba Masair",
+    "name_en": "Mas de Carga S.A. de C.V. dba Masair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "C3",
+    "name": "Trade Air",
+    "name_en": "Trade Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2D",
+    "name": "Eastern Airlines, LLC",
+    "name_en": "Eastern Airlines, LLC",
+    "is_lowcost": false
+  },
+  {
+    "iata": "W6",
+    "name": "Wizz Air",
+    "name_en": "Wizz Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "3H",
+    "name": "Air Inuit",
+    "name_en": "Air Inuit",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8L",
+    "name": "Lucky Air",
+    "name_en": "Lucky Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "GQ",
+    "name": "Sky Express",
+    "name_en": "Sky Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RS",
+    "name": "Air Seoul",
+    "name_en": "Air Seoul",
+    "is_lowcost": true
+  },
+  {
+    "iata": "FI",
+    "name": "Icelandair",
+    "name_en": "Icelandair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K9",
+    "name": "TezJet",
+    "name_en": "TezJet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IF",
+    "name": "Fly Baghdad",
+    "name_en": "Fly Baghdad",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9X",
+    "name": "Southern Airways Express",
+    "name_en": "Southern Airways Express",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K2",
+    "name": "Eurolot",
+    "name_en": "Eurolot",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YQ",
+    "name": "TAR Aerolíneas",
+    "name_en": "TAR Aerolíneas",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MQ",
+    "name": "Envoy Air",
+    "name_en": "Envoy Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "LQ",
+    "name": "Lanmei Airlines",
+    "name_en": "Lanmei Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TZ",
+    "name": "Scoot",
+    "name_en": "Scoot",
+    "is_lowcost": true
+  },
+  {
+    "iata": "O3",
+    "name": "SF Airlines Company Ltd",
+    "name_en": "SF Airlines Company Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YV",
+    "name": "Mesa Airlines",
+    "name_en": "Mesa Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YI",
+    "name": "Fly Oya",
+    "name_en": "Fly Oya",
+    "is_lowcost": false
+  },
+  {
+    "iata": "K5",
+    "name": "SeaPort Airlines",
+    "name_en": "SeaPort Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RN",
+    "name": "Eswatini Air",
+    "name_en": "Eswatini Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9F",
+    "name": "Eurostar",
+    "name_en": "Eurostar",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BU",
+    "name": "Compagnie Africaine d'Aviation",
+    "name_en": "Compagnie Africaine d'Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JW",
+    "name": "Vanilla Air",
+    "name_en": "Vanilla Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "YS",
+    "name": "Flightlink",
+    "name_en": "Flightlink",
+    "is_lowcost": false
+  },
+  {
+    "iata": "O8",
+    "name": "Marathon Airlines",
+    "name_en": "Marathon Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GR",
+    "name": "Aurigny Air Services",
+    "name_en": "Aurigny Air Services",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z4",
+    "name": "Fly Red Sea",
+    "name_en": "Fly Red Sea",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RG",
+    "name": "Rotana Jet",
+    "name_en": "Rotana Jet",
+    "is_lowcost": false
+  },
+  {
+    "iata": "EQ",
+    "name": "TAME Linea Aerea del Ecuador",
+    "name_en": "TAME Linea Aerea del Ecuador",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IY",
+    "name": "Yemenia",
+    "name_en": "Yemenia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FM",
+    "name": "Shanghai Airlines",
+    "name_en": "Shanghai Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YJ",
+    "name": "Asian Wings Airways Limited",
+    "name_en": "Asian Wings Airways Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7Z",
+    "name": "Halcyonair",
+    "name_en": "Halcyonair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NH",
+    "name": "All Nippon Airways",
+    "name_en": "All Nippon Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GE",
+    "name": "Lift",
+    "name_en": "Lift",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KE",
+    "name": "Korean Air",
+    "name_en": "Korean Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NG",
+    "name": "NOVAIR",
+    "name_en": "NOVAIR",
+    "is_lowcost": false
+  },
+  {
+    "iata": "M5",
+    "name": "Kenmore Air",
+    "name_en": "Kenmore Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V9",
+    "name": "L'Odyssey",
+    "name_en": "L'Odyssey",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Q4",
+    "name": "Euroairlines",
+    "name_en": "Euroairlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "0A",
+    "name": "Emetebe",
+    "name_en": "Emetebe",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N9",
+    "name": "Shree Airlines",
+    "name_en": "Shree Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UW",
+    "name": "Uni-Top Airlines",
+    "name_en": "Uni-Top Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "DJ",
+    "name": "Air Djibouti",
+    "name_en": "Air Djibouti",
+    "is_lowcost": false
+  },
+  {
+    "iata": "S0",
+    "name": "Aerolineas Sosa",
+    "name_en": "Aerolineas Sosa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YX",
+    "name": "Republic Airlines",
+    "name_en": "Republic Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7C",
+    "name": "Jeju Air",
+    "name_en": "Jeju Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "3M",
+    "name": "Silver Airways",
+    "name_en": "Silver Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AW",
+    "name": "Africa World Airlines",
+    "name_en": "Africa World Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BQ",
+    "name": "SkyAlps",
+    "name_en": "SkyAlps",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UT",
+    "name": "Utair",
+    "name_en": "Utair",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NS",
+    "name": "Hebei Airlines",
+    "name_en": "Hebei Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3D",
+    "name": "DoKaSch",
+    "name_en": "DoKaSch",
+    "is_lowcost": false
+  },
+  {
+    "iata": "9N",
+    "name": "Tropic Air Limited",
+    "name_en": "Tropic Air Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8M",
+    "name": "Myanmar Airways International",
+    "name_en": "Myanmar Airways International",
+    "is_lowcost": false
+  },
+  {
+    "iata": "TT",
+    "name": "Texel Air Ltd",
+    "name_en": "Texel Air Ltd",
+    "is_lowcost": true
+  },
+  {
+    "iata": "OA",
+    "name": "Olympic Air",
+    "name_en": "Olympic Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "HO",
+    "name": "Juneyao Airlines",
+    "name_en": "Juneyao Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "H4",
+    "name": "HiSky",
+    "name_en": "HiSky",
+    "is_lowcost": false
+  },
+  {
+    "iata": "8Q",
+    "name": "Onur Air",
+    "name_en": "Onur Air",
+    "is_lowcost": true
+  },
+  {
+    "iata": "RH",
+    "name": "Hong Kong Air Cargo Carrier Limited",
+    "name_en": "Hong Kong Air Cargo Carrier Limited",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PD",
+    "name": "Porter Airlines",
+    "name_en": "Porter Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BW",
+    "name": "Caribbean Airlines",
+    "name_en": "Caribbean Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "UI",
+    "name": "Auric Air",
+    "name_en": "Auric Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YB",
+    "name": "Harbor Air",
+    "name_en": "Harbor Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "F3",
+    "name": "Flyadeal",
+    "name_en": "Flyadeal",
+    "is_lowcost": false
+  },
+  {
+    "iata": "2B",
+    "name": "Ak Bars Aero",
+    "name_en": "Ak Bars Aero",
+    "is_lowcost": true
+  },
+  {
+    "iata": "LF",
+    "name": "Contour Aviation",
+    "name_en": "Contour Aviation",
+    "is_lowcost": false
+  },
+  {
+    "iata": "KF",
+    "name": "Blue1",
+    "name_en": "Blue1",
+    "is_lowcost": false
+  },
+  {
+    "iata": "BP",
+    "name": "Air Botswana",
+    "name_en": "Air Botswana",
+    "is_lowcost": false
+  },
+  {
+    "iata": "JC",
+    "name": "Japan Air Commuter",
+    "name_en": "Japan Air Commuter",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4X",
+    "name": "Avion Express Malta",
+    "name_en": "Avion Express Malta",
+    "is_lowcost": false
+  },
+  {
+    "iata": "B0",
+    "name": "La Compagnie",
+    "name_en": "La Compagnie",
+    "is_lowcost": false
+  },
+  {
+    "iata": "AC",
+    "name": "Air Canada",
+    "name_en": "Air Canada",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PO",
+    "name": "Polar Air Cargo Worldwide, Inc.",
+    "name_en": "Polar Air Cargo Worldwide, Inc.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "WV",
+    "name": "Fly Namibia",
+    "name_en": "Fly Namibia",
+    "is_lowcost": false
+  },
+  {
+    "iata": "OQ",
+    "name": "Chongqing Airlines",
+    "name_en": "Chongqing Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "4B",
+    "name": "Aviastar-TU",
+    "name_en": "Aviastar-TU",
+    "is_lowcost": false
+  },
+  {
+    "iata": "J4",
+    "name": "BADR AIRLINES",
+    "name_en": "BADR AIRLINES",
+    "is_lowcost": false
+  },
+  {
+    "iata": "YE",
+    "name": "Yan Air Ltd",
+    "name_en": "Yan Air Ltd",
+    "is_lowcost": false
+  },
+  {
+    "iata": "MG",
+    "name": "Eznis Airways",
+    "name_en": "Eznis Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "PG",
+    "name": "Bangkok Airways",
+    "name_en": "Bangkok Airways",
+    "is_lowcost": false
+  },
+  {
+    "iata": "V0",
+    "name": "Conviasa",
+    "name_en": "Conviasa",
+    "is_lowcost": false
+  },
+  {
+    "iata": "NT",
+    "name": "Binter Canarias",
+    "name_en": "Binter Canarias",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RY",
+    "name": "Jiangxi Air",
+    "name_en": "Jiangxi Air",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FF",
+    "name": "Airshop B.V.",
+    "name_en": "Airshop B.V.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FW",
+    "name": "Ibex Airlines",
+    "name_en": "Ibex Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "RB",
+    "name": "Syrian Arab Airlines",
+    "name_en": "Syrian Arab Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "FA",
+    "name": "Safair",
+    "name_en": "Safair",
+    "is_lowcost": true
+  },
+  {
+    "iata": "3Z",
+    "name": "Travel Service Polska Sp. z.o.o.",
+    "name_en": "Travel Service Polska Sp. z.o.o.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "N6",
+    "name": "Nomad Aviation (PTY) Ltd.",
+    "name_en": "Nomad Aviation (PTY) Ltd.",
+    "is_lowcost": false
+  },
+  {
+    "iata": "IL",
+    "name": "PT.Trigana Air Service",
+    "name_en": "PT.Trigana Air Service",
+    "is_lowcost": false
+  },
+  {
+    "iata": "7W",
+    "name": "Windrose Airlines",
+    "name_en": "Windrose Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "GU",
+    "name": "Aviateca",
+    "name_en": "Aviateca",
+    "is_lowcost": false
+  },
+  {
+    "iata": "3R",
+    "name": "Avior Airlines",
+    "name_en": "Avior Airlines",
+    "is_lowcost": false
+  },
+  {
+    "iata": "Z9",
+    "name": "MYAirline",
+    "name_en": "MYAirline",
+    "is_lowcost": false
+  }
+  
+]

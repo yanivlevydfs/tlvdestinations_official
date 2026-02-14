@@ -716,10 +716,17 @@
                 // Use case-insensitive lookup
                 const url = airlineWebsitesLower[a.toLowerCase()];
                 const code = ap.AirlineCodes && ap.AirlineCodes[index] ? ap.AirlineCodes[index] : null;
+                const isLowcost = ap.AirlineLowcost && ap.AirlineLowcost[index];
 
                 const chip = document.createElement(url ? 'a' : 'span');
                 chip.className = 'airline-chip d-inline-flex align-items-center gap-1'; // enhanced styling
-
+                // Lowcost Dot
+                if (isLowcost) {
+                    const dot = document.createElement('span');
+                    dot.className = 'lowcost-dot';
+                    dot.style.marginRight = '2px';
+                    chip.appendChild(dot);
+                }
                 // Icon
                 if (code) {
                     const img = document.createElement('img');
