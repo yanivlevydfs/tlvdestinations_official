@@ -22,6 +22,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, FileResponse,RedirectR
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.concurrency import run_in_threadpool
 import logging
 from logging.handlers import RotatingFileHandler
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -2280,8 +2281,9 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)
-def refresh_data_webhook():
+async def refresh_data_webhook():
     global DATASET_DF, DATASET_DATE, DATASET_DF_FLIGHTS
+
     ensure_previous_snapshot()
     logger.warning("🔁 Incoming request: /api/refresh-data")
 
@@ -2290,35 +2292,33 @@ def refresh_data_webhook():
         "fetch_travel_warnings": None
     }
 
-    # Run each fetch with logging
     try:
-        res1 = fetch_israel_flights()
+        res1 = await run_in_threadpool(fetch_israel_flights)
         if res1:
-            logger.debug("✅ fetch_israel_flights completed successfully")
             reload_israel_flights_globals()
             response["fetch_israel_flights"] = "Success"
         else:
-            logger.error("❌ fetch_israel_flights returned None")
             response["fetch_israel_flights"] = "Failed: returned None"
     except Exception as e:
         logger.exception("❌ Exception in fetch_israel_flights")
         response["fetch_israel_flights"] = f"Exception: {str(e)}"
 
     try:
-        res2 = fetch_travel_warnings()
+        res2 = await run_in_threadpool(fetch_travel_warnings)
         if res2:
-            logger.debug("✅ fetch_travel_warnings completed successfully")
             response["fetch_travel_warnings"] = "Success"
         else:
-            logger.error("❌ fetch_travel_warnings returned None")
             response["fetch_travel_warnings"] = "Failed: returned None"
     except Exception as e:
         logger.exception("❌ Exception in fetch_travel_warnings")
         response["fetch_travel_warnings"] = f"Exception: {str(e)}"
 
-    logger.debug("🔁 Refresh summary: %s", json.dumps(response, indent=2, ensure_ascii=False))
     return response
-      
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(STATIC_DIR / "favicon.ico")
+    
 @app.get("/feed.xml", response_class=Response)
 def flight_feed():
     now = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000")

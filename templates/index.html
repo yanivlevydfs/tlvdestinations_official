@@ -681,7 +681,7 @@
                   <th>Airlines</th>
                   <th>Distance</th>
                   <th>Flight Time</th>
-                  <th>Direction</th>
+                  <th class="d-none">Direction</th>
                 </tr>
               </thead>
               <tbody>
@@ -752,7 +752,7 @@
                   <td title="Estimated flight time">
                     {{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }}
                   </td>
-                  <td>{{ ap.Direction }}</td>
+                  <td class="d-none">{{ ap.Direction }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
