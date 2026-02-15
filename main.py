@@ -735,6 +735,12 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
     df = pd.DataFrame(flights)
     #excel_path = "flights_snapshot.xlsx"
     #df.to_excel(excel_path, index=False)
+    
+    # ---- 🛡️ JSON SAFETY FIX ----
+    # 1) Replace NaN/NaT with None
+    df = df.replace({np.nan: None})
+    df = df.where(pd.notna(df), None)
+    
     df["iata"] = (
         df["iata"].astype(str).str.strip().str.upper().replace("NAN", None)
     )
@@ -814,6 +820,10 @@ def _read_flights_file() -> tuple[pd.DataFrame, str | None]:
             return pd.DataFrame(columns=EXPECTED_COLUMNS), None
 
         df = pd.DataFrame(flights)
+        
+        # ---- 🛡️ JSON SAFETY FIX ----
+        df = df.replace({np.nan: None})
+        df = df.where(pd.notna(df), None)
 
         # Ensure backward compatibility when new fields are added
         for col in EXPECTED_COLUMNS:
@@ -998,6 +1008,10 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             })
 
         df = pd.DataFrame(rows)
+
+        # ---- 🛡️ JSON SAFETY FIX ----
+        df = df.replace({np.nan: None})
+        df = df.where(pd.notna(df), None)
 
         # Ensure stable schema
         for col in DATASET_COLUMNS:

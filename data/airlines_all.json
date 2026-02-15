@@ -96,6 +96,14 @@
     "charter_capable": null
   },
   {
+  "iata": "E4",
+  "icao": "ENT",
+  "name": "Enter Air",
+  "is_lowcost": true,
+  "operator_type": "charter",
+  "charter_capable": true
+},
+  {
     "iata": "AN",
     "icao": "AAA",
     "name": "Ansett Australia",
