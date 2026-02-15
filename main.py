@@ -2473,8 +2473,21 @@ async def get_airports(country: str, city: str):
 
 @app.get("/api/warnings")
 async def get_warnings(country: str):
+    global TRAVEL_WARNINGS_DF
+
+    if TRAVEL_WARNINGS_DF is None or TRAVEL_WARNINGS_DF.empty:
+        return JSONResponse(content={"warnings": []})
+
     df = TRAVEL_WARNINGS_DF.copy()
+    
+    # Normalize column names (strip whitespace and convert to lowercase)
     df.columns = df.columns.str.strip().str.lower()
+
+    # Check for required columns to avoid KeyError
+    required_cols = {"country", "office", "recommendations", "details_url", "date"}
+    if not required_cols.issubset(set(df.columns)):
+        logger.warning(f"⚠️ TRAVEL_WARNINGS_DF missing columns: {required_cols - set(df.columns)}. Returning empty warnings.")
+        return JSONResponse(content={"warnings": []})
 
     he_country = EN_TO_HE_COUNTRY.get(country)
     if not he_country:
