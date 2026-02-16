@@ -448,7 +448,7 @@
                       Search
                       {% endif %}
                     </label>
-                    <input type="text" id="query-filter" class="form-control"
+                    <input type="text" id="query-filter" class="form-control" list="search-suggestions"
                       placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
                       aria-label="Search airport, city, or country" />
                   </div>
@@ -650,6 +650,7 @@
                   {% if lang == "he" %}חיפוש{% else %}Search{% endif %}
                 </label>
                 <input type="text" id="query-filter-mobile" class="form-control form-control-sm"
+                  list="search-suggestions"
                   placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
                   aria-label="Search airport, city, or country" />
               </div>
@@ -1135,6 +1136,11 @@
   <script src="/static/js/route-ticker.js?v={{ version }}"></script>
   <script src="/static/js/travelpayoutscript.js" data-noptimize="1" data-cfasync="false"
     data-wpfc-render="false"></script>
+  <script src="/static/js/travelpayoutscript.js" data-noptimize="1" data-cfasync="false"
+    data-wpfc-render="false"></script>
+
+  <!-- Search Autocomplete Datalist -->
+  <datalist id="search-suggestions"></datalist>
 </body>
 
 </html>

@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return $('#airports-table').DataTable({
       dom:
-        "<'row mb-2'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+        "<'row mb-2'<'col-12'B>>" +
         "<'row mb-2'<'col-12'<'#lowcost-legend'>>>" +
         "<'row'<'col-12'tr>>" +
         "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -475,9 +475,49 @@ document.addEventListener('DOMContentLoaded', () => {
     table = initDataTable(savedLang2);
     populateAirlineFilter(savedLang2);
     // Defer applyLanguage slightly to allow DOM + DT render
-    setTimeout(() => applyLanguage(savedLang2, false), 50);
+    setTimeout(() => {
+      applyLanguage(savedLang2, false);
+      populateSearchSuggestions(); // 🆕 Populate autocomplete
+    }, 50);
   } catch (err) {
     console.error("❌ Failed to initialize DataTable or language:", err);
+  }
+
+  // ---------- Autocomplete Population ----------
+  function populateSearchSuggestions() {
+    if (!table) return;
+    const suggestions = new Set();
+
+    // Iterate over all data in the table (not just visible pages)
+    table.rows().every(function () {
+      const data = this.data();
+      // data indices: 0=IATA, 1=Airport, 2=Country, 3=City, 4=Airlines (HTML)
+      if (data[1]) suggestions.add(data[1].replace(/<[^>]*>?/gm, '').trim()); // Airport Name
+      if (data[2]) suggestions.add(data[2]); // Country
+      if (data[3]) suggestions.add(data[3]); // City
+
+      // Extract Airlines from col 4
+      if (data[4]) {
+        const temp = document.createElement('div');
+        temp.innerHTML = data[4];
+        const chips = temp.querySelectorAll('[data-airline]');
+        chips.forEach(chip => {
+          const name = chip.getAttribute('data-airline');
+          if (name) suggestions.add(name);
+        });
+      }
+    });
+
+    const datalist = document.getElementById('search-suggestions');
+    if (datalist) {
+      datalist.innerHTML = ''; // Clear existing
+      Array.from(suggestions).sort().forEach(val => {
+        if (!val) return;
+        const opt = document.createElement('option');
+        opt.value = val;
+        datalist.appendChild(opt);
+      });
+    }
   }
 
   // ---------- Desktop filters ----------
