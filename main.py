@@ -571,12 +571,22 @@ def fetch_travel_warnings(batch_size: int = 500) -> dict | None:
         return None
 
     # ------------------ UPDATE GLOBAL DF ------------------
-    TRAVEL_WARNINGS_DF = pd.DataFrame(all_records)
-    TRAVEL_WARNINGS_DF.attrs["last_update"] = result["updated"]
+    df = pd.DataFrame(all_records)
+    
+    # sanitize NaNs
+    df = df.replace({np.nan: None})
+    df = df.where(pd.notna(df), None)
 
+    df.attrs["last_update"] = result["updated"]
+
+    TRAVEL_WARNINGS_DF = df
     logger.debug(f"TRAVEL_WARNINGS_DF updated ({len(TRAVEL_WARNINGS_DF)} rows)")
 
     return result
+
+def update_travel_warnings():
+    """Wrapper for scheduler to run fetch_travel_warnings synchronously"""
+    fetch_travel_warnings()
 
 def get_dataset_date() -> str | None:
     if not ISRAEL_FLIGHTS_FILE.exists():
