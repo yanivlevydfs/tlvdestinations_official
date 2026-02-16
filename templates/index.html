@@ -412,7 +412,9 @@
                     </label>
                     <select id="country-filter" class="form-select" aria-label="Select country">
                       {% for c in countries %}
-                      <option value="{{ c }}">{{ c }}</option>
+                      <option value="{{ c }}">
+                        {% if c == 'All' and lang == 'he' %}הכל{% else %}{{ c }}{% endif %}
+                      </option>
                       {% endfor %}
                     </select>
                   </div>
@@ -426,7 +428,7 @@
                     </label>
                     <select id="airline-filter" class="form-select" aria-label="Select airline">
                       <option value="All">
-                        {% if lang == "he" %}הכול{% else %}All{% endif %}
+                        {% if lang == "he" %}הכל{% else %}All{% endif %}
                       </option>
                     </select>
                   </div>
@@ -624,7 +626,9 @@
                 </label>
                 <select id="country-filter-mobile" class="form-select form-select-sm" aria-label="Select country">
                   {% for c in countries %}
-                  <option value="{{ c }}">{{ c }}</option>
+                  <option value="{{ c }}">
+                    {% if c == 'All' and lang == 'he' %}הכל{% else %}{{ c }}{% endif %}
+                  </option>
                   {% endfor %}
                 </select>
               </div>
