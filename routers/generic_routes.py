@@ -269,3 +269,45 @@ async def chat_page(request: Request, lang: str = Depends(get_lang)):
             },
             status_code=500
         )
+
+@router.get("/travel-questionnaire", response_class=HTMLResponse)
+async def travel_questionnaire(request: Request, lang: str = Depends(get_lang)):
+    # Local import to avoid circular dependency
+    from main import DATASET_DF, get_dataset_date
+
+    client = request.client.host if request.client else "unknown"
+
+    try:
+        logger.debug(f"GET /travel-questionnaire | lang={lang} | client={client}")
+        
+        # Get unique countries
+        countries = sorted(DATASET_DF["Country"].dropna().unique()) if not DATASET_DF.empty else []
+
+        return TEMPLATES.TemplateResponse(
+            "questionnaire.html",
+            {
+                "request": request,
+                "lang": lang,
+                "version": APP_VERSION,
+                "now": datetime.now(),
+                "countries": countries,
+                "last_update": get_dataset_date()
+            }
+        )
+
+    except Exception as e:
+        logger.error(f"❌ Failed to render questionnaire.html | {e} | client={client}")
+
+        return TEMPLATES.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "lang": lang,
+                "message": (
+                    "The travel guide page could not be loaded."
+                    if lang != "he"
+                    else "לא ניתן לטעון את המדריך."
+                )
+            },
+            status_code=500
+        )

@@ -2275,6 +2275,85 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
             "countries": build_stats(sub, "Country") # Usually just 1 country, but keeps structure consistent
         }
 
+    # --- Low-Cost Stats ---
+    # Filter for low-cost airlines using the global map
+    # We insist on 'Airline' column being present in AIRLINE_LOWCOST_MAP with True value
+    # But AIRLINE_LOWCOST_MAP matches IATA codes, so we need to map Airline Name -> IATA or use existing IATA column if available
+    # The dataframe has "iata" column (lowercase) and "Airline" (name).
+    # efficient approach:
+    # 1. Get unique airlines from DF
+    # 2. Check if they are lowcost.
+    # Problem: AIRLINE_LOWCOST_MAP is IATA -> bool. We need Name -> bool OR use IATA from DF.
+    # The DF has 'iata' (flight number prefix? or airline IATA?).
+    # Let's look at fetch_israel_flights: "iata": (rec.get("CHLOC1") or "").strip().upper() -> This is AIRPORT IATA? No...
+    # wait, "iata" in fetch_israel_flights is "CHLOC1" which is Destination Airport IATA usually.
+    # 'airline_code' is "CHOPER".
+    # So we should use 'airline_code' from DF to lookup in AIRLINE_LOWCOST_MAP.
+
+    # Re-verify DF columns from main.py:2221
+    # df = DATASET_DF_FLIGHTS.copy()
+    # It has "airline_code" (raw).
+
+    lowcost_airlines_stats = {
+        "count": 0,
+        "airlines": [],
+        "destinations": [],
+        "destinations_count": 0
+    }
+
+    if "airline_code" in df.columns:
+        # Create a set of lowcost IATA codes present in our flight data
+        # AIRLINE_LOWCOST_MAP keys are IATA codes (upper)
+        
+        # 1. Identify low-cost flights
+        def is_lowcost(row):
+            # Safe boolean conversion:
+            # 1. key missing? -> False
+            # 2. value is None/null? -> False
+            # 3. value is True? -> True
+            code = str(row.get("airline_code", "")).upper().strip()
+            val = AIRLINE_LOWCOST_MAP.get(code)
+            return bool(val)
+
+        
+        lowcost_mask = df.apply(is_lowcost, axis=1)
+        lowcost_df = df[lowcost_mask]
+        
+        # 3. Identify Legacy (Non-Low-Cost) flights
+        # We simply invert the mask
+        legacy_df = df[~lowcost_mask]
+
+        # 4. Calculate stats for Low-Cost
+        unique_lc_airlines = lowcost_df["Airline"].unique()
+        unique_lc_destinations = lowcost_df["City"].unique()
+
+        lowcost_airlines_stats["count"] = len(unique_lc_airlines)
+        lowcost_airlines_stats["airlines"] = sorted(unique_lc_airlines.tolist())
+        lowcost_airlines_stats["destinations_count"] = len(unique_lc_destinations)
+        lowcost_airlines_stats["destinations"] = sorted(unique_lc_destinations.tolist())
+
+        # 5. Calculate stats for Legacy
+        legacy_airlines_stats = {
+            "count": 0,
+            "airlines": [],
+            "destinations": [],
+            "destinations_count": 0
+        }
+        
+        unique_legacy_airlines = legacy_df["Airline"].unique()
+        unique_legacy_destinations = legacy_df["City"].unique()
+
+        legacy_airlines_stats["count"] = len(unique_legacy_airlines)
+        legacy_airlines_stats["airlines"] = sorted(unique_legacy_airlines.tolist())
+        legacy_airlines_stats["destinations_count"] = len(unique_legacy_destinations)
+        legacy_airlines_stats["destinations"] = sorted(unique_legacy_destinations.tolist())
+
+    else:
+        # Fallback if no airline_code column
+        legacy_airlines_stats = {
+            "count": 0, "airlines": [], "destinations": [], "destinations_count": 0
+        }
+
     # --- Render --- (Updated for Country/City filters)
     return TEMPLATES.TemplateResponse("stats.html", {
         "request": request,
@@ -2288,6 +2367,8 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         "countries_data": countries_data,
         "all_cities": all_cities,
         "cities_data": cities_data,
+        "lowcost_stats": lowcost_airlines_stats,
+        "legacy_stats": legacy_airlines_stats,
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)
@@ -2376,17 +2457,6 @@ def flight_feed():
 </rss>"""
 
     return Response(content=rss, media_type="application/rss+xml")
-    
-@app.get("/travel-questionnaire", include_in_schema=False)
-async def travel_questionnaire(request: Request, lang: str = "en"):
-    countries = sorted(DATASET_DF["Country"].dropna().unique())
-    return TEMPLATES.TemplateResponse("questionnaire.html", {
-        "request": request,
-        "countries": countries,
-        "lang": lang,
-        "last_update": get_dataset_date()
-    })
-
 @app.get("/api/cities")
 async def get_cities(country: str):
     df = DATASET_DF

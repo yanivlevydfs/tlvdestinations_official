@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isDesktop = window.matchMedia("(min-width: 992px)").matches;
-    safeSet('brand-title', isDesktop ? d.brand_desktop : d.brand_mobile, true);
+    // safeSet('brand-title', isDesktop ? d.brand_desktop : d.brand_mobile, true); // Let HTML control title
     safeSet('view-map-btn', `<i class="bi bi-globe-americas me-1"></i> ${d.viewMap}`, true);
 
     // Fix: Preserve current icon state (Sun/Moon)

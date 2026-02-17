@@ -1,11 +1,10 @@
 /* ------ Language dictionary ------ */
 window.LANG = {
   en: {
-    brand_mobile: "Fly TLV<br>Worldwide Destinations Explorer",
-    brand_desktop: "Fly TLV → Worldwide Destinations Explorer",
+    // brand_mobile & brand_desktop removed - controlled by HTML
     viewMap: "Map",
     refresh: "Refresh Destinations",
-    theme: "Theme",
+    theme: "",
     filters: "Filters",
     filtersHeader: "Search & Filter",
     country: "Country",
@@ -64,11 +63,10 @@ window.LANG = {
   },
 
   he: {
-    brand_mobile: "טיסות מ־ת״א<br>כל היעדים בעולם",
-    brand_desktop: "טיסות מ־ת״א ← כל היעדים בעולם",
+    // brand_mobile & brand_desktop removed - controlled by HTML
     viewMap: "מפה",
     refresh: "רענן יעדים",
-    theme: "תצוגה",
+    theme: "",
     filters: "סינון",
     filtersHeader: "חיפוש וסינון",
     country: "מדינה",

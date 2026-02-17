@@ -216,7 +216,8 @@ body.dark-mode .card {
   display: inline-block;
   width: 8px;
   height: 8px;
-  background-color: #ef4444; /* red-500 */
+  background-color: #ef4444;
+  /* red-500 */
   border-radius: 50%;
   margin-right: 6px;
   vertical-align: middle;
@@ -228,9 +229,11 @@ body.dark-mode .card {
   0% {
     box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
   }
+
   70% {
     box-shadow: 0 0 0 4px rgba(239, 68, 68, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
   }
@@ -3054,4 +3057,319 @@ body.dark-mode ::-webkit-scrollbar-thumb:hover {
 body.dark-mode {
   scrollbar-width: thin;
   scrollbar-color: #475569 #0f1116;
+}
+
+/* =========================================
+   🚀 2026 NAVIGATION REDESIGN
+   ========================================= */
+
+/* Navbar Container */
+.navbar {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.85) !important;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .navbar {
+  background: rgba(15, 23, 42, 0.85) !important;
+  /* Slate-900 with opacity */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Nav Links - Desktop */
+.navbar-nav .nav-link {
+  color: #334155;
+  /* Slate-700 */
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.show {
+  color: #2563eb;
+  /* Blue-600 */
+}
+
+body.dark-mode .navbar-nav .nav-link {
+  color: #94a3b8;
+  /* Slate-400 */
+}
+
+body.dark-mode .navbar-nav .nav-link:hover,
+body.dark-mode .navbar-nav .nav-link.show {
+  color: #38bdf8;
+  /* Sky-400 */
+}
+
+/* Dropdown Menu - Glassmorphism */
+.dropdown-menu {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  margin-top: 10px !important;
+  /* Spacing from nav */
+  border-radius: 16px;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+  display: block;
+  /* Prepare for animation */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.dark-mode .dropdown-menu {
+  background: rgba(30, 41, 59, 0.95);
+  /* Slate-800 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Dropdown Items */
+.dropdown-item {
+  color: #475569;
+  /* Slate-600 */
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-bottom: 2px;
+}
+
+.dropdown-item:hover {
+  background: rgba(37, 99, 235, 0.08);
+  /* Blue tint */
+  color: #2563eb;
+  transform: translateX(4px);
+}
+
+body.dark-mode .dropdown-item {
+  color: #cbd5e1;
+  /* Slate-300 */
+}
+
+body.dark-mode .dropdown-item:hover {
+  background: rgba(56, 189, 248, 0.1);
+  /* Sky tint */
+  color: #38bdf8;
+}
+
+/* Animations */
+@keyframes slideInUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate.slideIn {
+  animation: slideInUpFade 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* Offcanvas (Mobile Menu) - Slick styling */
+@media (max-width: 991.98px) {
+  .offcanvas-lg {
+    position: fixed !important;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    /* Standard width */
+    max-width: 85vw;
+    height: 100vh !important;
+    z-index: 1045 !important;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    visibility: hidden;
+    /* Hide by default */
+  }
+
+  .offcanvas-lg.show {
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  body.dark-mode .offcanvas-lg {
+    background: rgba(15, 23, 42, 0.98);
+    /* Slate-900 */
+    color: #fff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.offcanvas-header .btn-close {
+  opacity: 0.8;
+  transition: transform 0.2s;
+}
+
+.offcanvas-header .btn-close:hover {
+  transform: rotate(90deg);
+  opacity: 1;
+}
+
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Highlight Active Dropdown Parent */
+.nav-item.dropdown:hover>.nav-link {
+  color: #2563eb;
+}
+
+body.dark-mode .nav-item.dropdown:hover>.nav-link {
+  color: #38bdf8;
+}
+
+/* Mobile Nav Item Sizing */
+@media (max-width: 991.98px) {
+  .dropdown-menu {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    padding-left: 1rem;
+    margin-top: 0 !important;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  body.dark-mode .dropdown-menu {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .nav-link {
+    padding: 12px 0;
+    font-size: 1.15rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  }
+
+  .nav-item:last-child .nav-link {
+    border-bottom: none;
+  }
+
+  body.dark-mode .nav-link {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* =========================================
+   Navigation Redesign (Task 24) - Amazing UX
+   ========================================= */
+
+/* 1. Mobile Divider Fix (The "Upper Line") */
+@media (max-width: 991.98px) {
+  .nav-actions {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    /* Explicitly remove border as requested */
+    border-top: none !important;
+  }
+}
+
+/* 2. Desktop "Slick" Pill Navigation */
+@media (min-width: 992px) {
+  .navbar-nav {
+    gap: 0.25rem;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 50rem;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    color: #4b5563;
+    /* Gray-600 */
+    font-weight: 600;
+    /* Bolder */
+    letter-spacing: 0.01em;
+  }
+
+  /* Hover & Active State */
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active,
+  .navbar-nav .nav-item.show .nav-link {
+    background-color: rgba(99, 102, 241, 0.1);
+    /* Indigo-light */
+    color: #4f46e5 !important;
+    /* Indigo-600 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    /* Soft shadow */
+  }
+
+  /* Dark Mode Desktop */
+  body.dark-mode .navbar-nav .nav-link {
+    color: #cbd5e1;
+    /* Slate-300 */
+  }
+
+  body.dark-mode .navbar-nav .nav-link:hover,
+  body.dark-mode .navbar-nav .nav-link.active,
+  body.dark-mode .navbar-nav .nav-item.show .nav-link {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #818cf8 !important;
+    /* Indigo-400 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Icons Animation */
+  .navbar-nav .nav-link i {
+    font-size: 1.1em;
+    vertical-align: -2px;
+    margin-right: 6px;
+    transition: transform 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover i {
+    transform: rotate(-10deg) scale(1.1);
+  }
+}
+
+/* 3. Mobile "Amazing" List Styling */
+@media (max-width: 991.98px) {
+
+  /* Override existing simple styles */
+  .offcanvas-body .nav-link {
+    padding: 0.8rem 1rem !important;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    border-bottom: none !important;
+    /* Remove old lines */
+    background: transparent;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+
+  .offcanvas-body .nav-link:hover,
+  .offcanvas-body .nav-item.show .nav-link {
+    background-color: rgba(99, 102, 241, 0.08);
+    color: #4f46e5 !important;
+    padding-left: 1.5rem !important;
+    /* Slide effect */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  body.dark-mode .offcanvas-body .nav-link:hover,
+  body.dark-mode .offcanvas-body .nav-item.show .nav-link {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #fff !important;
+  }
 }

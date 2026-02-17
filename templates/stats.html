@@ -213,6 +213,223 @@
     </div>
   </div>
 
+  <style>
+    /* Stats Custom Theme */
+    .card-lowcost {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    }
+
+    .card-legacy {
+      background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+    }
+
+    .stats-card-inner {
+      background: #ffffff;
+      color: #1f2937;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .text-adaptive {
+      color: #111827;
+    }
+
+    /* Dark Mode Overrides */
+    body.dark-mode .card-lowcost {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 1px solid rgba(56, 189, 248, 0.2) !important;
+    }
+
+    body.dark-mode .card-legacy {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border: 1px solid rgba(167, 139, 250, 0.2) !important;
+    }
+
+    body.dark-mode .stats-card-inner {
+      background: #1e293b;
+      /* Slate-800 */
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .text-adaptive {
+      color: #f3f4f6;
+    }
+
+    body.dark-mode .text-muted {
+      color: #94a3b8 !important;
+    }
+
+    body.dark-mode .badge.bg-light.text-dark {
+      background-color: #334155 !important;
+      /* Slate-700 */
+      color: #f1f5f9 !important;
+      border-color: #475569 !important;
+    }
+  </style>
+
+  <div class="row g-4 mb-4">
+    <!-- Low Cost Insights -->
+    <div class="col-12 col-xl-6">
+      <div class="card card-lowcost shadow-sm border-0 h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="stats-card-inner p-2 rounded-circle shadow-sm me-2">
+              <i class="bi bi-wallet2 text-success fs-4"></i>
+            </div>
+            <h5 class="card-title fw-bold mb-0 text-adaptive">
+              {% if lang == 'he' %}תובנות לואו-קוסט{% else %}Low-Cost Insights{% endif %}
+            </h5>
+          </div>
+
+          <div class="row g-3 text-center">
+            <!-- Count: Airlines -->
+            <div class="col-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100">
+                <div class="text-muted small fw-bold text-uppercase mb-1">
+                  {% if lang == 'he' %}חברות לואו-קוסט{% else %}Low-Cost Airlines{% endif %}
+                </div>
+                <div class="fs-2 fw-bold text-primary">{{ lowcost_stats.count }}</div>
+              </div>
+            </div>
+
+            <!-- Count: Destinations -->
+            <div class="col-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100">
+                <div class="text-muted small fw-bold text-uppercase mb-1">
+                  {% if lang == 'he' %}יעדי לואו-קוסט{% else %}Low-Cost Destinations{% endif %}
+                </div>
+                <div class="fs-2 fw-bold text-success">{{ lowcost_stats.destinations_count }}</div>
+              </div>
+            </div>
+
+            <!-- List: Airlines -->
+            <div class="col-12 col-md-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100 text-start">
+                <div class="d-flex justify-content-between align-items-center mb-2" data-bs-toggle="collapse"
+                  href="#collapseLCAirlines" role="button" aria-expanded="false" aria-controls="collapseLCAirlines"
+                  style="cursor: pointer;">
+                  <span class="text-muted small fw-bold text-uppercase">
+                    {% if lang == 'he' %}רשימת חברות{% else %}Airlines List{% endif %}
+                  </span>
+                  <i class="bi bi-chevron-down small"></i>
+                </div>
+                <div class="collapse" id="collapseLCAirlines">
+                  <div class="d-flex flex-wrap gap-1" style="max-height: 100px; overflow-y: auto;">
+                    {% for airline in lowcost_stats.airlines %}
+                    <span class="badge bg-light text-dark border">{{ airline }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- List: Destinations -->
+            <div class="col-12 col-md-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100 text-start">
+                <div class="d-flex justify-content-between align-items-center mb-2" data-bs-toggle="collapse"
+                  href="#collapseLCDestinations" role="button" aria-expanded="false"
+                  aria-controls="collapseLCDestinations" style="cursor: pointer;">
+                  <span class="text-muted small fw-bold text-uppercase">
+                    {% if lang == 'he' %}רשימת יעדים{% else %}Destinations List{% endif %}
+                  </span>
+                  <i class="bi bi-chevron-down small"></i>
+                </div>
+                <div class="collapse" id="collapseLCDestinations">
+                  <div class="d-flex flex-wrap gap-1" style="max-height: 100px; overflow-y: auto;">
+                    {% for city in lowcost_stats.destinations %}
+                    <span class="badge bg-light text-dark border">{{ city }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legacy / Full Service Insights -->
+    <div class="col-12 col-xl-6">
+      <div class="card card-legacy shadow-sm border-0 h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="stats-card-inner p-2 rounded-circle shadow-sm me-2">
+              <i class="bi bi-airplane-engines text-primary fs-4"></i>
+            </div>
+            <h5 class="card-title fw-bold mb-0 text-adaptive">
+              {% if lang == 'he' %}חברות סדירות / מלאות{% else %}Legacy & Full-Service{% endif %}
+            </h5>
+          </div>
+
+          <div class="row g-3 text-center">
+            <!-- Count: Airlines -->
+            <div class="col-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100">
+                <div class="text-muted small fw-bold text-uppercase mb-1">
+                  {% if lang == 'he' %}חברות תעופה{% else %}Airlines{% endif %}
+                </div>
+                <div class="fs-2 fw-bold text-purple" style="color: #9333ea;">{{ legacy_stats.count }}</div>
+              </div>
+            </div>
+
+            <!-- Count: Destinations -->
+            <div class="col-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100">
+                <div class="text-muted small fw-bold text-uppercase mb-1">
+                  {% if lang == 'he' %}יעדים{% else %}Destinations{% endif %}
+                </div>
+                <div class="fs-2 fw-bold text-danger">{{ legacy_stats.destinations_count }}</div>
+              </div>
+            </div>
+
+            <!-- List: Airlines -->
+            <div class="col-12 col-md-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100 text-start">
+                <div class="d-flex justify-content-between align-items-center mb-2" data-bs-toggle="collapse"
+                  href="#collapseLegacyAirlines" role="button" aria-expanded="false"
+                  aria-controls="collapseLegacyAirlines" style="cursor: pointer;">
+                  <span class="text-muted small fw-bold text-uppercase">
+                    {% if lang == 'he' %}רשימת חברות{% else %}Airlines List{% endif %}
+                  </span>
+                  <i class="bi bi-chevron-down small"></i>
+                </div>
+                <div class="collapse" id="collapseLegacyAirlines">
+                  <div class="d-flex flex-wrap gap-1" style="max-height: 100px; overflow-y: auto;">
+                    {% for airline in legacy_stats.airlines %}
+                    <span class="badge bg-light text-dark border">{{ airline }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- List: Destinations -->
+            <div class="col-12 col-md-6">
+              <div class="stats-card-inner rounded p-3 shadow-sm h-100 text-start">
+                <div class="d-flex justify-content-between align-items-center mb-2" data-bs-toggle="collapse"
+                  href="#collapseLegacyDestinations" role="button" aria-expanded="false"
+                  aria-controls="collapseLegacyDestinations" style="cursor: pointer;">
+                  <span class="text-muted small fw-bold text-uppercase">
+                    {% if lang == 'he' %}רשימת יעדים{% else %}Destinations List{% endif %}
+                  </span>
+                  <i class="bi bi-chevron-down small"></i>
+                </div>
+                <div class="collapse" id="collapseLegacyDestinations">
+                  <div class="d-flex flex-wrap gap-1" style="max-height: 100px; overflow-y: auto;">
+                    {% for city in legacy_stats.destinations %}
+                    <span class="badge bg-light text-dark border">{{ city }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row g-4">
     <!-- Top Countries / Airlines -->
     <div class="col-12 col-lg-6">
@@ -317,38 +534,39 @@
 {% block scripts %}
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
-  // ---------- 1. Backend data ----------
-  const airlinesData     = {{ airlines_data | tojson | safe }};
-  const countriesData    = {{ countries_data | tojson | safe }};
-  const citiesData       = {{ cities_data | tojson | safe }};
+    // ---------- 1. Backend data ----------
+    const airlinesData = {{ airlines_data | tojson | safe
+  }};
+  const countriesData = {{ countries_data | tojson | safe }};
+  const citiesData = {{ cities_data | tojson | safe }};
   const initialCountries = {{ top_countries | tojson | safe }};
-  const initialCities    = {{ top_cities | tojson | safe }};
-  const lang             = "{{ lang }}" || "en";
+  const initialCities = {{ top_cities | tojson | safe }};
+  const lang = "{{ lang }}" || "en";
 
   // ---------- 2. Translations ----------
   const T = {
-    Countries:  lang === "he" ? "מדינות" : "Countries",
-    Cities:     lang === "he" ? "ערים" : "Cities",
-    Airlines:   lang === "he" ? "חברות תעופה" : "Airlines",
+    Countries: lang === "he" ? "מדינות" : "Countries",
+    Cities: lang === "he" ? "ערים" : "Cities",
+    Airlines: lang === "he" ? "חברות תעופה" : "Airlines",
     Departures: lang === "he" ? "המראות" : "Departures",
-    Arrivals:   lang === "he" ? "נחיתות" : "Arrivals",
-    Country:    lang === "he" ? "מדינה" : "Country",
-    City:       lang === "he" ? "עיר" : "City",
-    Airline:    lang === "he" ? "חברת תעופה" : "Airline"
+    Arrivals: lang === "he" ? "נחיתות" : "Arrivals",
+    Country: lang === "he" ? "מדינה" : "Country",
+    City: lang === "he" ? "עיר" : "City",
+    Airline: lang === "he" ? "חברת תעופה" : "Airline"
   };
 
   // ---------- 3. DOM ----------
   const airlineSelect = document.getElementById("airline-filter");
   const countrySelect = document.getElementById("country-filter");
-  const citySelect    = document.getElementById("city-filter");
+  const citySelect = document.getElementById("city-filter");
 
   // ---------- 4. Helpers ----------
   function resetSelects(exceptId) {
     if (airlineSelect && exceptId !== "airline-filter") airlineSelect.value = "All";
     if (countrySelect && exceptId !== "country-filter") countrySelect.value = "All";
-    if (citySelect    && exceptId !== "city-filter")    citySelect.value = "All";
+    if (citySelect && exceptId !== "city-filter") citySelect.value = "All";
   }
 
   function chartLayout() {
@@ -373,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    document.getElementById("left-chart-title").innerText  = `🌍 ${leftLabel}`;
+    document.getElementById("left-chart-title").innerText = `🌍 ${leftLabel}`;
     document.getElementById("right-chart-title").innerText = `🏙️ ${rightLabel}`;
 
     document.getElementById("left-col-header").innerText =
@@ -386,13 +604,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const arrColor = "rgba(34,211,238,0.8)";
 
     Plotly.react("countries-chart", [
-      { x: leftData.map(r => r[leftKey]),  y: leftData.map(r => r.Departures), name: T.Departures, type: "bar", marker: { color: depColor } },
-      { x: leftData.map(r => r[leftKey]),  y: leftData.map(r => r.Arrivals),   name: T.Arrivals,   type: "bar", marker: { color: arrColor } }
+      { x: leftData.map(r => r[leftKey]), y: leftData.map(r => r.Departures), name: T.Departures, type: "bar", marker: { color: depColor } },
+      { x: leftData.map(r => r[leftKey]), y: leftData.map(r => r.Arrivals), name: T.Arrivals, type: "bar", marker: { color: arrColor } }
     ], chartLayout(), { responsive: true });
 
     Plotly.react("cities-chart", [
       { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Departures), name: T.Departures, type: "bar", marker: { color: depColor } },
-      { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Arrivals),   name: T.Arrivals,   type: "bar", marker: { color: arrColor } }
+      { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Arrivals), name: T.Arrivals, type: "bar", marker: { color: arrColor } }
     ], chartLayout(), { responsive: true });
 
     document.querySelector("#left-table tbody").innerHTML =
@@ -411,10 +629,10 @@ document.addEventListener("DOMContentLoaded", function () {
       resetSelects("airline-filter");
       if (v === "All") {
         L = initialCountries; LK = "Country"; LL = T.Countries;
-        R = initialCities;    RK = "City";    RL = T.Cities;
+        R = initialCities; RK = "City"; RL = T.Cities;
       } else if (airlinesData[v]) {
         L = airlinesData[v].countries; LK = "Country"; LL = T.Countries;
-        R = airlinesData[v].cities;    RK = "City";    RL = T.Cities;
+        R = airlinesData[v].cities; RK = "City"; RL = T.Cities;
       }
     }
 
@@ -423,10 +641,10 @@ document.addEventListener("DOMContentLoaded", function () {
       resetSelects("country-filter");
       if (v === "All") {
         L = initialCountries; LK = "Country"; LL = T.Countries;
-        R = initialCities;    RK = "City";    RL = T.Cities;
+        R = initialCities; RK = "City"; RL = T.Cities;
       } else if (countriesData[v]) {
         L = countriesData[v].airlines; LK = "Airline"; LL = T.Airlines;
-        R = countriesData[v].cities;   RK = "City";    RL = T.Cities;
+        R = countriesData[v].cities; RK = "City"; RL = T.Cities;
       }
     }
 
@@ -435,9 +653,9 @@ document.addEventListener("DOMContentLoaded", function () {
       resetSelects("city-filter");
       if (v === "All") {
         L = initialCountries; LK = "Country"; LL = T.Countries;
-        R = initialCities;    RK = "City";    RL = T.Cities;
+        R = initialCities; RK = "City"; RL = T.Cities;
       } else if (citiesData[v]) {
-        L = citiesData[v].airlines;  LK = "Airline"; LL = T.Airlines;
+        L = citiesData[v].airlines; LK = "Airline"; LL = T.Airlines;
         R = citiesData[v].countries; RK = "Country"; RL = T.Countries;
       }
     }
