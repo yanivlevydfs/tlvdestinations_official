@@ -214,132 +214,143 @@
           העולם" }}</span>
       </a>
 
-      <!-- Mobile Toggle -->
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navOffcanvas"
-        aria-controls="navOffcanvas" aria-label="Toggle navigation">
-        <i class="bi bi-list fs-1 text-primary"></i>
-      </button>
+      <!-- Blue Buttons for Mobile (Direct Links + Toggles) -->
+      <div class="d-lg-none d-flex flex-wrap gap-2 mt-2 align-items-center">
+        <a class="btn btn-primary btn-sm rounded-pill" href="/{{ '?lang=he' if lang == 'he' else '' }}">
+          <i class="bi bi-house-door"></i> {{ 'Home' if lang != 'he' else 'בית' }}
+        </a>
+        <a class="btn btn-primary btn-sm rounded-pill" href="/chat{{ '?lang=he' if lang == 'he' else '' }}">
+          <i class="bi bi-robot"></i> {{ 'AI Chat' if lang != 'he' else 'צ׳אט' }}
+        </a>
+        <a class="btn btn-primary btn-sm rounded-pill" href="/map{{ '?lang=he' if lang == 'he' else '' }}">
+          <i class="bi bi-globe-americas"></i> {{ 'Map' if lang != 'he' else 'מפה' }}
+        </a>
 
-      <!-- Offcanvas Menu (Mobile + Desktop Collapse effectively) -->
-      <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="navOffcanvas" aria-labelledby="navOffcanvasLabel">
-        <div class="offcanvas-header border-bottom d-lg-none">
-          <h5 class="offcanvas-title fw-bold text-primary" id="navOffcanvasLabel">Menu</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#navOffcanvas"
-            aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-center flex-grow-1 pe-3 gap-1 gap-lg-3">
+        <!-- Mobile Language Toggle -->
+        <button id="lang-toggle-mobile" class="btn btn-primary btn-sm rounded-pill" type="button">
+          <i class="bi bi-translate"></i> {{ 'עברית' if lang != 'he' else 'English' }}
+        </button>
 
-            <!-- Home -->
-            <li class="nav-item">
-              <a class="nav-link fs-5 fs-lg-6 fw-semibold" href="/{{ '?lang=he' if lang == 'he' else '' }}">
-                <i class="bi bi-house-door me-1"></i> {{ 'Home' if lang != 'he' else 'בית' }}
-              </a>
-            </li>
-
-            <!-- Tools Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fs-5 fs-lg-6 fw-semibold" href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-tools me-1"></i> {{ 'Tools' if lang != 'he' else 'כלים' }}
-              </a>
-              <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
-                <li><a class="dropdown-item rounded-3 py-2" href="/chat{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-robot me-2 text-primary"></i> {{ 'AI Chat' if lang != 'he' else 'צ׳אט AI' }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/map{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-globe-americas me-2 text-info"></i> {{ 'Map' if lang != 'he' else 'מפה' }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/stats{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-bar-chart-fill me-2 text-success"></i> {{ 'Statistics' if lang != 'he' else
-                    'סטטיסטיקה' }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/feed.xml"><i
-                      class="bi bi-rss-fill me-2 text-warning"></i> {{ 'RSS Feed' if lang != 'he' else 'ערוץ RSS' }}</a>
-                </li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/tlv-shops{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-shop me-2 text-danger"></i> {{ 'TLV Shops' if lang != 'he' else 'חנויות נתב״ג' }}</a>
-                </li>
-                <li><a class="dropdown-item rounded-3 py-2"
-                    href="/travel-questionnaire{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-compass me-2 text-primary"></i> {{ 'Travel Guide' if lang != 'he' else 'מדריך טיולים'
-                    }}</a>
-                </li>
-              </ul>
-            </li>
-
-            <!-- Flights Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fs-5 fs-lg-6 fw-semibold" href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-airplane me-1"></i> {{ 'Flights' if lang != 'he' else 'טיסות' }}
-              </a>
-              <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
-                <li><a class="dropdown-item rounded-3 py-2" href="/flights{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-airplane-engines me-2 text-primary"></i> {{ 'Flights' if lang != 'he' else 'טיסות'
-                    }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2"
-                    href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-exclamation-triangle-fill me-2 text-danger"></i> {{ 'Travel Warnings' if lang != 'he'
-                    else 'אזהרות מסע' }}</a></li>
-              </ul>
-            </li>
-
-            <!-- Articles Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fs-5 fs-lg-6 fw-semibold" href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-journal-text me-1"></i> {{ 'Articles' if lang != 'he' else 'מאמרים' }}
-              </a>
-              <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
-                <li><a class="dropdown-item rounded-3 py-2" href="/glossary{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-book me-2 text-purple"></i> {{ 'Glossary' if lang != 'he' else 'מילון מונחים' }}</a>
-                </li>
-                <li><a class="dropdown-item rounded-3 py-2"
-                    href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-arrow-left-right me-2 text-info"></i> {{ 'Direct vs Nonstop' if lang != 'he' else
-                    'ישיר מול ללא-עצירות' }}</a></li>
-              </ul>
-            </li>
-
-            <!-- About Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fs-5 fs-lg-6 fw-semibold" href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-info-circle me-1"></i> {{ 'About' if lang != 'he' else 'אודות' }}
-              </a>
-              <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
-                <li><a class="dropdown-item rounded-3 py-2" href="/about{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-building me-2"></i> {{ 'About' if lang != 'he' else 'עלינו' }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2"
-                    href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-person-wheelchair me-2"></i> {{ 'Accessibility' if lang != 'he' else 'נגישות' }}</a>
-                </li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/privacy{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-shield-lock me-2"></i> {{ 'Privacy Policy' if lang != 'he' else 'מדיניות פרטיות'
-                    }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/contact{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-envelope me-2"></i> {{ 'Contact' if lang != 'he' else 'צור קשר' }}</a></li>
-                <li><a class="dropdown-item rounded-3 py-2" href="/terms{{ '?lang=he' if lang == 'he' else '' }}"><i
-                      class="bi bi-file-text me-2"></i> {{ 'Terms & Conditions' if lang != 'he' else 'תנאים והגבלות'
-                    }}</a></li>
-              </ul>
-            </li>
-
-          </ul>
-
-          <!-- Actions -->
-          <div class="d-flex align-items-center justify-content-center gap-2 nav-actions">
-            <button id="theme-toggle" class="btn btn-light rounded-circle shadow-sm p-2" type="button"
-              aria-label="Toggle theme" style="width: 40px; height: 40px;">
-              <i id="theme-icon" class="bi bi-moon-stars"></i>
-            </button>
-            <button id="lang-toggle" class="btn btn-primary rounded-pill px-3 fw-bold shadow-sm" type="button"
-              aria-label="Toggle language">
-              <i class="bi bi-translate me-1"></i>
-              <span id="lang-label" class="small">{{ 'עברית' if lang != 'he' else 'English' }}</span>
-            </button>
-          </div>
-
-        </div>
+        <!-- Mobile Theme Toggle -->
+        <button id="theme-toggle-mobile" class="btn btn-primary btn-sm rounded-pill" type="button">
+          <i class="bi bi-moon-stars theme-icon-mobile"></i>
+        </button>
       </div>
+
+      <!-- Desktop Menu (Collapse effectively) -->
+      <div class="collapse navbar-collapse" id="navDesktop">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1 gap-lg-3">
+
+          <!-- Home -->
+          <li class="nav-item">
+            <a class="nav-link fs-6 fw-semibold" href="/{{ '?lang=he' if lang == 'he' else '' }}">
+              <i class="bi bi-house-door me-1"></i> {{ 'Home' if lang != 'he' else 'בית' }}
+            </a>
+          </li>
+
+          <!-- Tools Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fs-6 fw-semibold" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-tools me-1"></i> {{ 'Tools' if lang != 'he' else 'כלים' }}
+            </a>
+            <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
+              <li><a class="dropdown-item rounded-3 py-2" href="/chat{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-robot me-2 text-primary"></i> {{ 'AI Chat' if lang != 'he' else 'צ׳אט AI' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/map{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-globe-americas me-2 text-info"></i> {{ 'Map' if lang != 'he' else 'מפה' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/stats{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-bar-chart-fill me-2 text-success"></i> {{ 'Statistics' if lang != 'he' else
+                  'סטטיסטיקה' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/feed.xml"><i
+                    class="bi bi-rss-fill me-2 text-warning"></i> {{ 'RSS Feed' if lang != 'he' else 'ערוץ RSS' }}</a>
+              </li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/tlv-shops{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-shop me-2 text-danger"></i> {{ 'TLV Shops' if lang != 'he' else 'חנויות נתב״ג' }}</a>
+              </li>
+              <li><a class="dropdown-item rounded-3 py-2"
+                  href="/travel-questionnaire{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-compass me-2 text-primary"></i> {{ 'Travel Guide' if lang != 'he' else 'מדריך טיולים'
+                  }}</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Flights Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fs-6 fw-semibold" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-airplane me-1"></i> {{ 'Flights' if lang != 'he' else 'טיסות' }}
+            </a>
+            <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
+              <li><a class="dropdown-item rounded-3 py-2" href="/flights{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-airplane-engines me-2 text-primary"></i> {{ 'Flights' if lang != 'he' else 'טיסות'
+                  }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2"
+                  href="/travel-warnings{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-exclamation-triangle-fill me-2 text-danger"></i> {{ 'Travel Warnings' if lang != 'he'
+                  else 'אזהרות מסע' }}</a></li>
+            </ul>
+          </li>
+
+          <!-- Articles Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fs-6 fw-semibold" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-journal-text me-1"></i> {{ 'Articles' if lang != 'he' else 'מאמרים' }}
+            </a>
+            <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
+              <li><a class="dropdown-item rounded-3 py-2" href="/glossary{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-book me-2 text-purple"></i> {{ 'Glossary' if lang != 'he' else 'מילון מונחים' }}</a>
+              </li>
+              <li><a class="dropdown-item rounded-3 py-2"
+                  href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-arrow-left-right me-2 text-info"></i> {{ 'Direct vs Nonstop' if lang != 'he' else
+                  'ישיר מול ללא-עצירות' }}</a></li>
+            </ul>
+          </li>
+
+          <!-- About Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fs-6 fw-semibold" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-info-circle me-1"></i> {{ 'About' if lang != 'he' else 'אודות' }}
+            </a>
+            <ul class="dropdown-menu border-0 shadow-lg animate slideIn p-2 rounded-4">
+              <li><a class="dropdown-item rounded-3 py-2" href="/about{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-building me-2"></i> {{ 'About' if lang != 'he' else 'עלינו' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2"
+                  href="/accessibility{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-person-wheelchair me-2"></i> {{ 'Accessibility' if lang != 'he' else 'נגישות' }}</a>
+              </li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/privacy{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-shield-lock me-2"></i> {{ 'Privacy Policy' if lang != 'he' else 'מדיניות פרטיות'
+                  }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/contact{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-envelope me-2"></i> {{ 'Contact' if lang != 'he' else 'צור קשר' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/terms{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-file-text me-2"></i> {{ 'Terms & Conditions' if lang != 'he' else 'תנאים והגבלות'
+                  }}</a></li>
+            </ul>
+          </li>
+
+        </ul>
+
+        <!-- Actions -->
+        <div class="d-flex align-items-center justify-content-center gap-2 nav-actions">
+          <button id="theme-toggle" class="btn btn-light rounded-circle shadow-sm p-2" type="button"
+            aria-label="Toggle theme" style="width: 40px; height: 40px;">
+            <i id="theme-icon" class="bi bi-moon-stars"></i>
+          </button>
+          <button id="lang-toggle" class="btn btn-primary rounded-pill px-3 fw-bold shadow-sm" type="button"
+            aria-label="Toggle language">
+            <i class="bi bi-translate me-1"></i>
+            <span id="lang-label" class="small">{{ 'עברית' if lang != 'he' else 'English' }}</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
     </div>
   </nav>
 
@@ -553,20 +564,46 @@
 
       // --- Unified Language Persistence ---
       const langBtn = document.getElementById('lang-toggle');
-      if (langBtn) {
-        langBtn.addEventListener('click', () => {
-          const currentLang = document.documentElement.getAttribute('lang') || 'en';
-          const newLang = currentLang === 'he' ? 'en' : 'he';
-          localStorage.setItem('fe-lang', newLang);
+      const langBtnMobile = document.getElementById('lang-toggle-mobile');
 
-          const url = new URL(window.location.href);
-          if (newLang === 'he') {
-            url.searchParams.set('lang', 'he');
-          } else {
-            url.searchParams.delete('lang');
-          }
-          window.location.href = url.toString();
+      function toggleLanguage() {
+        const currentLang = document.documentElement.getAttribute('lang') || 'en';
+        const newLang = currentLang === 'he' ? 'en' : 'he';
+        localStorage.setItem('fe-lang', newLang);
+
+        const url = new URL(window.location.href);
+        if (newLang === 'he') {
+          url.searchParams.set('lang', 'he');
+        } else {
+          url.searchParams.delete('lang');
+        }
+        window.location.href = url.toString();
+      }
+
+      if (langBtn) langBtn.addEventListener('click', toggleLanguage);
+      if (langBtnMobile) langBtnMobile.addEventListener('click', toggleLanguage);
+
+      // --- Mobile Theme Toggle Logic ---
+      const themeBtnMobile = document.getElementById('theme-toggle-mobile');
+      if (themeBtnMobile) {
+        themeBtnMobile.addEventListener('click', () => {
+          const dark = !document.body.classList.contains('dark-mode');
+          document.body.classList.toggle('dark-mode', dark);
+
+          // Update both desktop and mobile icons
+          if (themeIcon) themeIcon.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars';
+          const themeIconMobile = themeBtnMobile.querySelector('i');
+          if (themeIconMobile) themeIconMobile.className = dark ? 'bi bi-sun' : 'bi bi-moon-stars theme-icon-mobile';
+
+          localStorage.setItem('fe-theme', dark ? 'dark' : 'light');
         });
+
+        // Init mobile icon state
+        const savedTheme = localStorage.getItem('fe-theme') || 'light';
+        const themeIconMobile = themeBtnMobile.querySelector('i');
+        if (savedTheme === 'dark' && themeIconMobile) {
+          themeIconMobile.className = 'bi bi-sun';
+        }
       }
 
       // --- Auto-load stored language ---
