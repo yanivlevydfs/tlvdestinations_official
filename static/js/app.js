@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeLink = document.getElementById('bs-theme-link');
   const mapModal = document.getElementById('mapModal');
   const iframe = document.getElementById('map-frame');
-  const langBtn = document.getElementById('lang-toggle');
+
+  // Restore missing declarations
   const clearFiltersBtn = document.getElementById('clear-filters');
   const clearFiltersBtnMobile = document.getElementById('clear-filters-mobile');
   const viewMapBtn = document.getElementById('view-map-btn');
@@ -24,6 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const airlineSelect = document.getElementById('airline-filter');
   const airlineSelectMobile = document.getElementById('airline-filter-mobile');
 
+  // ---------- Language Toggle Logic ----------
+  function toggleLanguage() {
+    const currentLang = document.documentElement.getAttribute('lang') || 'en';
+    const newLang = currentLang === 'he' ? 'en' : 'he';
+    localStorage.setItem('fe-lang', newLang);
+
+    const url = new URL(window.location.href);
+    if (newLang === 'he') {
+      url.searchParams.set('lang', 'he');
+    } else {
+      url.searchParams.delete('lang');
+    }
+    window.location.href = url.toString();
+  }
+
+  const langBtn = document.getElementById('lang-toggle');
+  const langBtnMobile = document.getElementById('lang-toggle-mobile');
+
+  if (langBtn) langBtn.addEventListener('click', toggleLanguage);
+  if (langBtnMobile) langBtnMobile.addEventListener('click', toggleLanguage);
+
   // ---------- Theme (Bootswatch + persist) ----------
   const savedTheme = localStorage.getItem('fe-theme') || 'light';
   if (savedTheme === 'dark') {
@@ -31,19 +53,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeIcon) themeIcon.className = 'bi bi-sun';
   }
 
-  if (themeBtn) {
-    themeBtn.addEventListener('click', (e) => {
-      e.preventDefault(); // Prevent any default button behavior
-      const isDarkMode = document.body.classList.toggle('dark-mode');
+  function toggleTheme(e) {
+    e.preventDefault();
+    const isDarkMode = document.body.classList.toggle('dark-mode');
 
-      // Fetch icon dynamically as it might be replaced by applyLanguage
-      const currentThemeIcon = document.getElementById('theme-icon');
-      if (currentThemeIcon) {
-        currentThemeIcon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars';
-      }
+    // Update Desktop Icon
+    const currentThemeIcon = document.getElementById('theme-icon');
+    if (currentThemeIcon) {
+      currentThemeIcon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars';
+    }
 
-      localStorage.setItem('fe-theme', isDarkMode ? 'dark' : 'light');
-    });
+    // Update Mobile Icon
+    const themeBtnMobile = document.getElementById('theme-toggle-mobile');
+    if (themeBtnMobile) {
+      const icon = themeBtnMobile.querySelector('i');
+      if (icon) icon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars theme-icon-mobile';
+    }
+
+    localStorage.setItem('fe-theme', isDarkMode ? 'dark' : 'light');
+  }
+
+  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+
+  const themeBtnMobile = document.getElementById('theme-toggle-mobile');
+  if (themeBtnMobile) {
+    themeBtnMobile.addEventListener('click', toggleTheme);
+    // Init mobile icon
+    const icon = themeBtnMobile.querySelector('i');
+    if (savedTheme === 'dark' && icon) icon.className = 'bi bi-sun';
   }
 
   // ---------- DataTable init / destroy helper ----------
