@@ -3324,3 +3324,19 @@ body.dark-mode .nav-item.dropdown:hover>.nav-link {
     color: #fff !important;
   }
 }
+
+/* Force glow and gradient on mobile buttons */
+.btn-mobile-glow {
+  background: var(--accent) !important;
+  box-shadow: var(--accent-glow) !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.btn-mobile-glow:hover,
+.btn-mobile-glow:active,
+.btn-mobile-glow:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6) !important;
+  color: #fff !important;
+}
