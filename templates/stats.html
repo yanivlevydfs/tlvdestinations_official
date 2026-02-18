@@ -161,58 +161,6 @@
   </div>
 
 
-  <!-- Filters Row -->
-  <div class="card shadow-sm mb-4">
-    <div class="card-body">
-      <div class="row g-3 align-items-center">
-        <!-- Label -->
-        <div class="col-12 col-md-auto">
-          <label class="form-label fw-semibold mb-0">
-            <i class="bi bi-funnel-fill text-primary me-1"></i>
-            {% if lang == 'he' %}סינון לפי:{% else %}Filter by:{% endif %}
-          </label>
-        </div>
-
-        <!-- 1. Airline Filter -->
-        <div class="col-12 col-md">
-          <select id="airline-filter" class="form-select" aria-label="Filter by Airline">
-            <option value="All" selected>
-              {% if lang == 'he' %}חברת תעופה (הכל){% else %}Airline (All){% endif %}
-            </option>
-            {% for airline in airlines %}
-            <option value="{{ airline }}">{{ airline }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <!-- 2. Country Filter -->
-        <div class="col-12 col-md">
-          <select id="country-filter" class="form-select" aria-label="Filter by Country">
-            <option value="All" selected>
-              {% if lang == 'he' %}מדינה (הכל){% else %}Country (All){% endif %}
-            </option>
-            {% for c in all_countries %}
-            <option value="{{ c }}">{{ c }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <!-- 3. City Filter -->
-        <div class="col-12 col-md">
-          <select id="city-filter" class="form-select" aria-label="Filter by City">
-            <option value="All" selected>
-              {% if lang == 'he' %}עיר (הכל){% else %}City (All){% endif %}
-            </option>
-            {% for city in all_cities %}
-            <option value="{{ city }}">{{ city }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
   <style>
     /* Stats Custom Theme */
     .card-lowcost {
@@ -231,6 +179,36 @@
 
     .text-adaptive {
       color: #111827;
+    }
+
+    /* Flags & Logos */
+    .country-flag {
+      width: 20px;
+      height: 15px;
+      object-fit: cover;
+      border-radius: 2px;
+      margin-inline-end: 8px;
+      vertical-align: middle;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .airline-logo-small {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      margin-inline-end: 6px;
+      vertical-align: middle;
+    }
+
+    .styled-table thead th {
+      border-top: none;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .styled-table tbody td {
+      vertical-align: middle;
     }
 
     /* Dark Mode Overrides */
@@ -430,108 +408,174 @@
     </div>
   </div>
 
-  <div class="row g-4">
-    <!-- Top Countries / Airlines -->
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold text-primary" id="left-chart-title">
-          🌍 {% if lang == 'he' %}המדינות המובילות{% else %}Top Countries{% endif %}
+  <!-- Filters Row -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-center">
+        <!-- Label -->
+        <div class="col-12 col-md-auto">
+          <label class="form-label fw-semibold mb-0">
+            <i class="bi bi-funnel-fill text-primary me-1"></i>
+            {% if lang == 'he' %}סינון לפי:{% else %}Filter by:{% endif %}
+          </label>
         </div>
-        <div class="card-body">
-          <div class="table-responsive mb-3">
-            <table id="left-table"
-              class="styled-table table table-striped table-hover table-sm align-middle text-center">
-              <thead class="table-primary">
-                <tr>
-                  <th id="left-col-header">{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
-                  <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
-                  <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in top_countries %}
-                <tr>
-                  <td>{{ row.Country }}</td>
-                  <td>{{ row.Departures }}</td>
-                  <td>{{ row.Arrivals }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div id="countries-chart" style="height:320px;"></div>
+
+        <!-- 1. Airline Filter -->
+        <div class="col-12 col-md">
+          <select id="airline-filter" class="form-select" aria-label="Filter by Airline">
+            <option value="All" selected>
+              {% if lang == 'he' %}חברת תעופה (הכל){% else %}Airline (All){% endif %}
+            </option>
+            {% for airline in airlines %}
+            <option value="{{ airline }}">{{ airline }}</option>
+            {% endfor %}
+          </select>
         </div>
+
+        <!-- 2. Country Filter -->
+        <div class="col-12 col-md">
+          <select id="country-filter" class="form-select" aria-label="Filter by Country">
+            <option value="All" selected>
+              {% if lang == 'he' %}מדינה (הכל){% else %}Country (All){% endif %}
+            </option>
+            {% for c in all_countries %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- 3. City Filter -->
+        <div class="col-12 col-md">
+          <select id="city-filter" class="form-select" aria-label="Filter by City">
+            <option value="All" selected>
+              {% if lang == 'he' %}עיר (הכל){% else %}City (All){% endif %}
+            </option>
+            {% for city in all_cities %}
+            <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Top Cities / Airlines -->
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header fw-bold text-primary" id="right-chart-title">
-          🏙️ {% if lang == 'he' %}הערים המובילות{% else %}Top Cities{% endif %}
+<div class="row g-4">
+  <!-- Top Countries / Airlines -->
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-bold text-primary" id="left-chart-title">
+        🌍 {% if lang == 'he' %}המדינות המובילות{% else %}Top Countries{% endif %}
+      </div>
+      <div class="card-body">
+        <div class="table-responsive mb-3">
+          <table id="left-table" class="styled-table table table-striped table-hover table-sm align-middle text-center">
+            <thead class="table-primary">
+              <tr>
+                <th id="left-col-header">{% if lang == 'he' %}מדינה{% else %}Country{% endif %}</th>
+                <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
+                <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in top_countries %}
+              <tr>
+                <td class="text-start ps-3">
+                  {% set iso = country_iso_map.get(row.Country|lower, "") %}
+                  {% if iso %}
+                  <img src="https://flagcdn.com/24x18/{{ iso|lower }}.png" alt="{{ row.Country }}" class="country-flag">
+                  {% endif %}
+                  {{ row.Country }}
+                </td>
+                <td>{{ row.Departures }}</td>
+                <td>{{ row.Arrivals }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <div class="card-body">
-          <div class="table-responsive mb-3">
-            <table id="right-table"
-              class="styled-table table table-striped table-hover table-sm align-middle text-center">
-              <thead class="table-primary">
-                <tr>
-                  <th id="right-col-header">{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
-                  <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
-                  <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in top_cities %}
-                <tr>
-                  <td>{{ row.City }}</td>
-                  <td>{{ row.Departures }}</td>
-                  <td>{{ row.Arrivals }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div id="cities-chart" style="height:320px;"></div>
-        </div>
+        <div id="countries-chart" style="height:320px;"></div>
       </div>
     </div>
   </div>
 
-  <!-- Ads Under Table -->
-  <div class="row mt-4">
-    <div class="col-12 col-md-6">
-      <div class="card shadow-sm h-100" aria-label="Advertisement">
-        <div class="card-header small text-muted fw-semibold">
-          <i class="bi bi-airplane-engines me-1 text-primary"></i>
-          {% if lang == 'he' %} מבצעים על טיסות {% else %} Flight Deals {% endif %}
-        </div>
-        <div class="card-body text-center p-0 overflow-hidden">
-          <script async
-            src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
-            charset="utf-8"></script>
-        </div>
+  <!-- Top Cities / Airlines -->
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-bold text-primary" id="right-chart-title">
+        🏙️ {% if lang == 'he' %}הערים המובילות{% else %}Top Cities{% endif %}
       </div>
-    </div>
-
-    <div class="col-12 col-md-6 mt-3 mt-md-0">
-      <div class="card shadow-sm h-100" aria-label="Advertisement">
-        <div class="card-header small text-muted fw-semibold">
-          <i class="bi bi-airplane me-1 text-primary"></i>
-          {% if lang == 'he' %} סים זול {% else %} Cheap ESIM {% endif %}
+      <div class="card-body">
+        <div class="table-responsive mb-3">
+          <table id="right-table"
+            class="styled-table table table-striped table-hover table-sm align-middle text-center">
+            <thead class="table-primary">
+              <tr>
+                <th id="right-col-header">{% if lang == 'he' %}עיר{% else %}City{% endif %}</th>
+                <th>{% if lang == 'he' %}המראות{% else %}Departures{% endif %}</th>
+                <th>{% if lang == 'he' %}נחיתות{% else %}Arrivals{% endif %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in top_cities %}
+              <tr>
+                <td class="text-start ps-3">
+                  {% set iso = country_iso_map.get(row.Country|lower, "") %}
+                  {% if iso %}
+                  <img src="https://flagcdn.com/24x18/{{ iso|lower }}.png" alt="{{ row.Country }}" class="country-flag"
+                    title="{{ row.Country }}">
+                  {% endif %}
+                  {{ row.City }}
+                </td>
+                <td>{{ row.Departures }}</td>
+                <td>{{ row.Arrivals }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <div class="card-body text-center p-0 overflow-hidden">
-          <script async
-            src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
-            charset="utf-8"></script>
-        </div>
+        <div id="cities-chart" style="height:320px;"></div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Ads Under Table -->
+<div class="row mt-4">
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100" aria-label="Advertisement">
+      <div class="card-header small text-muted fw-semibold">
+        <i class="bi bi-airplane-engines me-1 text-primary"></i>
+        {% if lang == 'he' %} מבצעים על טיסות {% else %} Flight Deals {% endif %}
+      </div>
+      <div class="card-body text-center p-0 overflow-hidden">
+        <script async
+          src="https://tpembd.com/content?currency=ils&trs=461563&shmarker=674907.kiwi_under_tb1&locale=en&powered_by=true&limit=4&primary_color=0049AEff&results_background_color=FFFFFF&form_background_color=FFFFFF&promo_id=4563&campaign_id=111"
+          charset="utf-8"></script>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3 mt-md-0">
+    <div class="card shadow-sm h-100" aria-label="Advertisement">
+      <div class="card-header small text-muted fw-semibold">
+        <i class="bi bi-airplane me-1 text-primary"></i>
+        {% if lang == 'he' %} סים זול {% else %} Cheap ESIM {% endif %}
+      </div>
+      <div class="card-body text-center p-0 overflow-hidden">
+        <script async
+          src="https://tpembd.com/content?trs=461563&shmarker=674907.kiwi_under_tb2&locale=en&powered_by=true&color_button=%230049AE&color_focused=%230049AE&secondary=%23FFFFFF&dark=%2311100f&light=%23FFFFFF&special=%23C4C4C4&border_radius=30&plain=false&no_labels=true&promo_id=8588&campaign_id=541"
+          charset="utf-8"></script>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 {% endblock %}
 {% block scripts %}
+<script src="/static/js/lang.js?v={{ version }}"></script>
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -543,18 +587,24 @@
   const citiesData = {{ cities_data | tojson | safe }};
   const initialCountries = {{ top_countries | tojson | safe }};
   const initialCities = {{ top_cities | tojson | safe }};
+  const countryIsoMap = {{ country_iso_map | tojson | safe }};
+  const airlineToCode = {{ airline_to_code | tojson | safe }};
   const lang = "{{ lang }}" || "en";
 
   // ---------- 2. Translations ----------
+  const L = (window.LANG && window.LANG[lang]) ? window.LANG[lang] : (window.LANG ? window.LANG["en"] : {});
+
   const T = {
-    Countries: lang === "he" ? "מדינות" : "Countries",
-    Cities: lang === "he" ? "ערים" : "Cities",
-    Airlines: lang === "he" ? "חברות תעופה" : "Airlines",
-    Departures: lang === "he" ? "המראות" : "Departures",
-    Arrivals: lang === "he" ? "נחיתות" : "Arrivals",
-    Country: lang === "he" ? "מדינה" : "Country",
-    City: lang === "he" ? "עיר" : "City",
-    Airline: lang === "he" ? "חברת תעופה" : "Airline"
+    Countries: L.countries || "Countries",
+    Cities: L.cities || "Cities",
+    Airlines: (L.table && L.table.airlines) ? L.table.airlines : "Airlines",
+    TopCountries: L.topCountries || "Top Countries",
+    TopCities: L.topCities || "Top Cities",
+    Departures: L.departures || "Departures",
+    Arrivals: L.arrivals || "Arrivals",
+    Country: L.country || "Country",
+    City: (L.table && L.table.city) ? L.table.city : "City",
+    Airline: L.airline || "Airline"
   };
 
   // ---------- 3. DOM ----------
@@ -567,6 +617,20 @@
     if (airlineSelect && exceptId !== "airline-filter") airlineSelect.value = "All";
     if (countrySelect && exceptId !== "country-filter") countrySelect.value = "All";
     if (citySelect && exceptId !== "city-filter") citySelect.value = "All";
+  }
+
+  function getFlag(countryName) {
+    if (!countryName) return "";
+    // keys in countryIsoMap are lower-case or 2-letter codes
+    var iso = countryIsoMap[countryName.toLowerCase()] || countryIsoMap[countryName];
+    if (!iso) return "";
+    return `<img src="https://flagcdn.com/24x18/${iso.toLowerCase()}.png" alt="${countryName}" class="country-flag">`;
+  }
+
+  function getLogo(airlineName) {
+    if (!airlineName || !airlineToCode[airlineName]) return "";
+    const code = airlineToCode[airlineName].toLowerCase();
+    return `<img src="/static/airlines_logo/airline_logos/${code}.webp" alt="${airlineName}" class="airline-logo-small" onerror="this.style.display='none'">`;
   }
 
   function chartLayout() {
@@ -586,13 +650,10 @@
 
   // ---------- 5. Render ----------
   function renderCharts(leftData, leftLabel, rightData, rightLabel, leftKey, rightKey) {
-    if (!Array.isArray(leftData) || !Array.isArray(rightData)) {
-      console.warn("Invalid chart data");
-      return;
-    }
+    if (!leftData || !rightData) return;
 
-    document.getElementById("left-chart-title").innerText = `🌍 ${leftLabel}`;
-    document.getElementById("right-chart-title").innerText = `🏙️ ${rightLabel}`;
+    document.getElementById("left-chart-title").innerText = leftLabel;
+    document.getElementById("right-chart-title").innerText = rightLabel;
 
     document.getElementById("left-col-header").innerText =
       leftKey === "Country" ? T.Country : leftKey === "Airline" ? T.Airline : T.City;
@@ -613,11 +674,31 @@
       { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Arrivals), name: T.Arrivals, type: "bar", marker: { color: arrColor } }
     ], chartLayout(), { responsive: true });
 
-    document.querySelector("#left-table tbody").innerHTML =
-      leftData.map(r => `<tr><td>${r[leftKey]}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+    // Render Left Table
+    document.querySelector("#left-table tbody").innerHTML = leftData.map(r => {
+      let labelHtml = r[leftKey];
+      if (leftKey === "Country") {
+        labelHtml = getFlag(r[leftKey]) + r[leftKey];
+      } else if (leftKey === "Airline") {
+        labelHtml = getLogo(r[leftKey]) + r[leftKey];
+      } else if (leftKey === "City") {
+        if (r.Country) labelHtml = getFlag(r.Country) + r[leftKey];
+      }
+      return `<tr><td class="text-start ps-3">${labelHtml}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`;
+    }).join("");
 
-    document.querySelector("#right-table tbody").innerHTML =
-      rightData.map(r => `<tr><td>${r[rightKey]}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`).join("");
+    // Render Right Table
+    document.querySelector("#right-table tbody").innerHTML = rightData.map(r => {
+      let labelHtml = r[rightKey];
+      if (rightKey === "Country") {
+        labelHtml = getFlag(r[rightKey]) + r[rightKey];
+      } else if (rightKey === "Airline") {
+        labelHtml = getLogo(r[rightKey]) + r[rightKey];
+      } else if (rightKey === "City") {
+        if (r.Country) labelHtml = getFlag(r.Country) + r[rightKey];
+      }
+      return `<tr><td class="text-start ps-3">${labelHtml}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`;
+    }).join("");
   }
 
   // ---------- 6. Update logic ----------
@@ -628,11 +709,11 @@
       const v = airlineSelect.value;
       resetSelects("airline-filter");
       if (v === "All") {
-        L = initialCountries; LK = "Country"; LL = T.Countries;
-        R = initialCities; RK = "City"; RL = T.Cities;
+        L = initialCountries; LK = "Country"; LL = T.TopCountries;
+        R = initialCities; RK = "City"; RL = T.TopCities;
       } else if (airlinesData[v]) {
-        L = airlinesData[v].countries; LK = "Country"; LL = T.Countries;
-        R = airlinesData[v].cities; RK = "City"; RL = T.Cities;
+        L = airlinesData[v].countries; LK = "Country"; LL = `🌍 ${T.Countries}`; // "Countries" for this Airline
+        R = airlinesData[v].cities; RK = "City"; RL = `🏙️ ${T.Cities}`;       // "Cities" for this Airline
       }
     }
 
@@ -640,11 +721,11 @@
       const v = countrySelect.value;
       resetSelects("country-filter");
       if (v === "All") {
-        L = initialCountries; LK = "Country"; LL = T.Countries;
-        R = initialCities; RK = "City"; RL = T.Cities;
+        L = initialCountries; LK = "Country"; LL = T.TopCountries;
+        R = initialCities; RK = "City"; RL = T.TopCities;
       } else if (countriesData[v]) {
-        L = countriesData[v].airlines; LK = "Airline"; LL = T.Airlines;
-        R = countriesData[v].cities; RK = "City"; RL = T.Cities;
+        L = countriesData[v].airlines; LK = "Airline"; LL = `✈️ ${T.Airlines}`;
+        R = countriesData[v].cities; RK = "City"; RL = `🏙️ ${T.Cities}`;
       }
     }
 
@@ -652,11 +733,11 @@
       const v = citySelect.value;
       resetSelects("city-filter");
       if (v === "All") {
-        L = initialCountries; LK = "Country"; LL = T.Countries;
-        R = initialCities; RK = "City"; RL = T.Cities;
+        L = initialCountries; LK = "Country"; LL = T.TopCountries;
+        R = initialCities; RK = "City"; RL = T.TopCities;
       } else if (citiesData[v]) {
-        L = citiesData[v].airlines; LK = "Airline"; LL = T.Airlines;
-        R = citiesData[v].countries; RK = "Country"; RL = T.Countries;
+        L = citiesData[v].airlines; LK = "Airline"; LL = `✈️ ${T.Airlines}`;
+        R = citiesData[v].countries; RK = "Country"; RL = `🌍 ${T.Countries}`;
       }
     }
 
@@ -669,7 +750,7 @@
   citySelect?.addEventListener("change", () => updateCharts("City"));
 
   // ---------- 8. Initial ----------
-  renderCharts(initialCountries, T.Countries, initialCities, T.Cities, "Country", "City");
-});
+  renderCharts(initialCountries, T.TopCountries, initialCities, T.TopCities, "Country", "City");
+  });
 </script>
 {% endblock %}

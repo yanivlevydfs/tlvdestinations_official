@@ -2227,32 +2227,56 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
     })
 
     # --- Helper: aggregate safely ---
-    def build_stats(sub_df, group_field):
+    def build_stats(sub_df, group_field, include_country=False):
+        # Allow grouping by multiple fields if needed for "City" -> "Country" mapping
+        groups = [group_field, "Direction"]
+        if include_country and group_field == "City" and "Country" in sub_df.columns:
+            groups.insert(1, "Country")
+
         stats = (
-            sub_df.groupby([group_field, "Direction"])
+            sub_df.groupby(groups)
                   .size()
                   .unstack(fill_value=0)
                   .reset_index()
         )
+        
+        # Rename cols
         stats = stats.rename(columns={"Departure": "Departures", "Arrival": "Arrivals"})
-        for col in ["Departures", "Arrivals"]:  # ensure both always exist
+        
+        # Ensure cols exist
+        for col in ["Departures", "Arrivals"]: 
             if col not in stats:
                 stats[col] = 0
+                
         stats["Total"] = stats["Departures"] + stats["Arrivals"]
-        return stats.sort_values("Total", ascending=False).head(10).to_dict("records")
+        
+        # Sort and take top 10
+        top = stats.sort_values("Total", ascending=False).head(10).to_dict("records")
+        return top
 
     # --- Global Stats ---
     top_countries = build_stats(df, "Country")
-    top_cities = build_stats(df, "City")
+    top_cities = build_stats(df, "City", include_country=True)
 
     # --- Airlines Stats ---
     airlines = sorted(df["Airline"].dropna().unique())
     airlines_data = {"All": {"countries": top_countries, "cities": top_cities}}
+    
+    # helper for airline codes
+    airline_to_code = {}
+    if "airline_code" in df.columns:
+        existing_codes = df[["Airline", "airline_code"]].dropna().drop_duplicates()
+        for _, row in existing_codes.iterrows():
+            name = row["Airline"]
+            code = str(row["airline_code"]).split(",")[0].strip() # Take first if multiple
+            if name and code:
+                airline_to_code[name] = code
+
     for airline in airlines:
         sub = df[df["Airline"] == airline]
         airlines_data[airline] = {
             "countries": build_stats(sub, "Country"),
-            "cities": build_stats(sub, "City"),
+            "cities": build_stats(sub, "City", include_country=True),
         }
 
     # --- Countries Stats ---
@@ -2262,7 +2286,7 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         sub = df[df["Country"] == country]
         countries_data[country] = {
             "cities": build_stats(sub, "City"),
-            "airlines": build_stats(sub, "Airline")  # We'll map this to the "Countries" table slot or similar
+            "airlines": build_stats(sub, "Airline")
         }
 
     # --- Cities Stats ---
@@ -2272,28 +2296,10 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         sub = df[df["City"] == city]
         cities_data[city] = {
             "airlines": build_stats(sub, "Airline"),
-            "countries": build_stats(sub, "Country") # Usually just 1 country, but keeps structure consistent
+            "countries": build_stats(sub, "Country")
         }
 
     # --- Low-Cost Stats ---
-    # Filter for low-cost airlines using the global map
-    # We insist on 'Airline' column being present in AIRLINE_LOWCOST_MAP with True value
-    # But AIRLINE_LOWCOST_MAP matches IATA codes, so we need to map Airline Name -> IATA or use existing IATA column if available
-    # The dataframe has "iata" column (lowercase) and "Airline" (name).
-    # efficient approach:
-    # 1. Get unique airlines from DF
-    # 2. Check if they are lowcost.
-    # Problem: AIRLINE_LOWCOST_MAP is IATA -> bool. We need Name -> bool OR use IATA from DF.
-    # The DF has 'iata' (flight number prefix? or airline IATA?).
-    # Let's look at fetch_israel_flights: "iata": (rec.get("CHLOC1") or "").strip().upper() -> This is AIRPORT IATA? No...
-    # wait, "iata" in fetch_israel_flights is "CHLOC1" which is Destination Airport IATA usually.
-    # 'airline_code' is "CHOPER".
-    # So we should use 'airline_code' from DF to lookup in AIRLINE_LOWCOST_MAP.
-
-    # Re-verify DF columns from main.py:2221
-    # df = DATASET_DF_FLIGHTS.copy()
-    # It has "airline_code" (raw).
-
     lowcost_airlines_stats = {
         "count": 0,
         "airlines": [],
@@ -2302,25 +2308,16 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
     }
 
     if "airline_code" in df.columns:
-        # Create a set of lowcost IATA codes present in our flight data
-        # AIRLINE_LOWCOST_MAP keys are IATA codes (upper)
-        
         # 1. Identify low-cost flights
         def is_lowcost(row):
-            # Safe boolean conversion:
-            # 1. key missing? -> False
-            # 2. value is None/null? -> False
-            # 3. value is True? -> True
             code = str(row.get("airline_code", "")).upper().strip()
             val = AIRLINE_LOWCOST_MAP.get(code)
             return bool(val)
 
-        
         lowcost_mask = df.apply(is_lowcost, axis=1)
         lowcost_df = df[lowcost_mask]
         
         # 3. Identify Legacy (Non-Low-Cost) flights
-        # We simply invert the mask
         legacy_df = df[~lowcost_mask]
 
         # 4. Calculate stats for Low-Cost
@@ -2349,7 +2346,6 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         legacy_airlines_stats["destinations"] = sorted(unique_legacy_destinations.tolist())
 
     else:
-        # Fallback if no airline_code column
         legacy_airlines_stats = {
             "count": 0, "airlines": [], "destinations": [], "destinations_count": 0
         }
@@ -2369,6 +2365,8 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         "cities_data": cities_data,
         "lowcost_stats": lowcost_airlines_stats,
         "legacy_stats": legacy_airlines_stats,
+        "country_iso_map": COUNTRY_NAME_TO_ISO,  # ✅ Pass ISO Map
+        "airline_to_code": airline_to_code,      # ✅ Pass Airline Codes
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)
