@@ -1,4 +1,4 @@
-# Flights Explorer (Flask)
+# Flights Explorer (FastAPI)
 
 ## 1) Install
 python -m venv .venv
@@ -6,18 +6,26 @@ python -m venv .venv
 # or: source .venv/bin/activate
 pip install -r requirements.txt
 
-## 2) Set API key (optional, else app runs using disk cache only)
+## 2) Set Environment Variables (optional)
 # PowerShell:
-setx AVIATION_EDGE_KEY "YOUR_KEY"
+setx GEMINI_API_KEY "YOUR_KEY"
 # Bash/macOS:
-export AVIATION_EDGE_KEY="YOUR_KEY"
+export GEMINI_API_KEY="YOUR_KEY"
 
-## 3) Run
-python app.py
-# open http://127.0.0.1:5000/
+## 3) Run (Development)
+You can use the provided `run.bat` script on Windows:
+```cmd
+run.bat
+```
+Or run Uvicorn directly:
+```bash
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+# Open http://127.0.0.1:8000/
 
 ## Notes
-- First-time data build: Click "♻ Refresh routes (daily)" — progress bar shows.
-- Data is cached in ./cache/ (per-airport + full dataset).
-- Subsequent loads are instant; dataset auto-refreshes daily on first visit.
-- Map opens in a modal; URL remains on "/".
+- **Architecture**: The application runs on FastAPI (migrated from Flask). It serves Jinja2 templates and manages global data with Pandas.
+- **Data Gathering**: Flight and travel warnings data is fetched from Israeli government APIs. It automatically handles errors, fallback proxy rotations, and repairs JSON on-the-fly.
+- **Caching**: Data is cached in `./cache/` (`israel_flights.json`, `travel_warnings.json`).
+- **Subsequent loads**: Application startup is instant using cached data. The dataset auto-refreshes seamlessly via a background scheduler.
+- **More Info**: For an in-depth code and structural overview, see `ARCHITECTURE.md`.
