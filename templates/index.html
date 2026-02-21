@@ -2,6 +2,16 @@
 <html lang="{{ 'he' if lang == 'he' else 'en' }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
 
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-WC7LZVW5');</script>
+  <!-- End Google Tag Manager -->
   {% set localeParam = 'he' if lang == 'he' else 'en' %}
   <meta charset="utf-8" />
   <meta name="description" content="{{
@@ -273,6 +283,10 @@
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WC7LZVW5" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <div id="global-loader" style="
     position: fixed;
     inset: 0;
@@ -992,16 +1006,24 @@
             </h2>
             <p class="mb-2">
               {% if lang == "he" %}
-              ברוכים הבאים ל-Fly TLV, המדריך המקיף שלכם לגילוי כל היעדים הזמינים בטיסות ישירות מנמל התעופה בן גוריון (TLV). מטרתנו היא לספק למטיילים עדכונים ברורים על חברות התעופה, לוחות הזמנים, מרחקי הטיסה וזמני הטיסה המשוערים לכל רחבי העולם.
+              ברוכים הבאים ל-Fly TLV, המדריך המקיף שלכם לגילוי כל היעדים הזמינים בטיסות ישירות מנמל התעופה בן גוריון
+              (TLV). מטרתנו היא לספק למטיילים עדכונים ברורים על חברות התעופה, לוחות הזמנים, מרחקי הטיסה וזמני הטיסה
+              המשוערים לכל רחבי העולם.
               {% else %}
-              Welcome to Fly TLV, your comprehensive guide to exploring all available direct flight destinations from Ben Gurion Airport (TLV). Our goal is to provide travelers with clear insights regarding airlines, schedules, flight distances, and estimated travel times across the globe.
+              Welcome to Fly TLV, your comprehensive guide to exploring all available direct flight destinations from
+              Ben Gurion Airport (TLV). Our goal is to provide travelers with clear insights regarding airlines,
+              schedules, flight distances, and estimated travel times across the globe.
               {% endif %}
             </p>
             <p class="mb-0">
               {% if lang == "he" %}
-              בין אם אתם מתכננים חופשת סוף שבוע קצרה או נסיעת עסקים ארוכה, הפלטפורמה שלנו ממפה את כל הקווים הפעילים כדי שתוכלו לתכנן את הנסיעה שלכם בקלות. אנו בודקים ומתעדכנים תדיר בלוחות הזמנים של הפעילות התעופתית בישראל כדי לתת לכם תמונת מצב מדויקת ככל האפשר.
+              בין אם אתם מתכננים חופשת סוף שבוע קצרה או נסיעת עסקים ארוכה, הפלטפורמה שלנו ממפה את כל הקווים הפעילים כדי
+              שתוכלו לתכנן את הנסיעה שלכם בקלות. אנו בודקים ומתעדכנים תדיר בלוחות הזמנים של הפעילות התעופתית בישראל כדי
+              לתת לכם תמונת מצב מדויקת ככל האפשר.
               {% else %}
-              Whether you are planning a short weekend getaway or a long business trip, our platform maps out all active routes so you can plan your journey with ease. We regularly monitor and update the aviation schedules in Israel to give you the most accurate picture possible of direct availability.
+              Whether you are planning a short weekend getaway or a long business trip, our platform maps out all active
+              routes so you can plan your journey with ease. We regularly monitor and update the aviation schedules in
+              Israel to give you the most accurate picture possible of direct availability.
               {% endif %}
             </p>
           </div>
