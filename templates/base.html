@@ -23,12 +23,12 @@
   <meta name="description"
     content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
   <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel" />
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
   <!-- Favicon -->
   <link rel="icon" href="/static/favicon.ico" />
   <!-- Standard favicon (still needed) -->
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="/manifest.{{ 'he' if lang == 'he' else 'en' }}.json">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
   <!-- Android Chrome / PWA -->
@@ -39,20 +39,22 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
 
   <!-- Canonical & hreflang for stats -->
-  <link rel="manifest" href="/static/manifest.json">
   <link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
-  <link rel="alternate" hreflang="en" href="https://fly-tlv.com/" />
-  <link rel="alternate" hreflang="he" href="https://fly-tlv.com/?lang=he" />
-  <link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/" />
+  <link rel="alternate" hreflang="en" href="https://fly-tlv.com{{ request.url.path }}" />
+  <link rel="alternate" hreflang="he" href="https://fly-tlv.com{{ request.url.path }}?lang=he" />
+  <link rel="alternate" hreflang="x-default" href="https://fly-tlv.com{{ request.url.path }}" />
   <link rel="alternate" type="application/rss+xml" title="TLV Flights Feed" href="https://fly-tlv.com/feed.xml" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fly-tlv.com/" />
+  <meta property="og:url" content="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
+  <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
   <meta property="og:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}" />
   <meta property="og:description"
     content="{{ description | default('Discover all direct destinations from Tel Aviv (TLV) across the globe with maps, airlines, and travel details.') }}" />
   <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:image:alt"
     content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}" />
 
@@ -125,8 +127,8 @@
       "@id": "https://fly-tlv.com/#website",
       "name": "Fly TLV — Worldwide Destinations Explorer",
       "url": "https://fly-tlv.com/",
-      "inLanguage": "en-US",
-      "description": "Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data.",
+      "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
+      "description": "{{ description | default('Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data.') }}",
       "publisher": { "@id": "https://fly-tlv.com/#organization" },
       "hasPart": {
         "@type": "WebPage",

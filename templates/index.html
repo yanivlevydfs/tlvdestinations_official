@@ -49,7 +49,7 @@
 
 
   <!-- Standard favicon (still needed) -->
-  <link rel="manifest" href="/manifest.json?lang={{ lang }}">
+  <link rel="manifest" href="/manifest.{{ 'he' if lang == 'he' else 'en' }}.json">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
   <!-- Android Chrome / PWA -->
@@ -61,14 +61,14 @@
 
   <!-- Canonical & Hreflang -->
   <link rel="canonical" href="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
-  <link rel="alternate" hreflang="en" href="https://fly-tlv.com/" />
-  <link rel="alternate" hreflang="he" href="https://fly-tlv.com/?lang=he" />
-  <link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/" />
+  <link rel="alternate" hreflang="en" href="https://fly-tlv.com{{ request.url.path }}" />
+  <link rel="alternate" hreflang="he" href="https://fly-tlv.com{{ request.url.path }}?lang=he" />
+  <link rel="alternate" hreflang="x-default" href="https://fly-tlv.com{{ request.url.path }}" />
   <link rel="alternate" type="application/rss+xml" title="TLV Flights Feed" href="https://fly-tlv.com/feed.xml" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fly-tlv.com/{{ '' if lang != 'he' else '?lang=he' }}" />
+  <meta property="og:url" content="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
   <meta property="og:title" content="{{
       'Tel Aviv (TLV) — Explore All Direct Destinations Worldwide'
