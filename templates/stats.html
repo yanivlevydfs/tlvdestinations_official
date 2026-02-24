@@ -127,7 +127,7 @@
       <span class="label-text">
         {% if lang == 'he' %}עודכן לאחרונה:{% else %}Last update:{% endif %}
       </span>
-      <strong>{{ last_update | default('—') }}</strong>
+      <strong>{{ last_update[:16] if last_update and last_update != '—' else last_update }}</strong>
     </div>
   </div>
 </div>
@@ -456,6 +456,20 @@
           </select>
         </div>
 
+        <!-- 4. Date/History Filter (DB Sourced) -->
+        <div class="col-12 col-md">
+          <select id="history-filter" class="form-select border-primary fw-semibold" aria-label="Filter by Date">
+            <option value="" {% if not active_snapshot_id %}selected{% endif %}>
+              🕒 {% if lang == 'he' %}תאריך: חי (הכי עדכני){% else %}Date: Live (Latest){% endif %}
+            </option>
+            {% for snap in available_snapshots %}
+            <option value="{{ snap.id }}" {% if active_snapshot_id==snap.id %}selected{% endif %}>
+              📅 {{ snap.timestamp[:16] }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
       </div>
     </div>
   </div>
@@ -593,6 +607,20 @@
 
   // ---------- 2. Translations ----------
   const L = (window.LANG && window.LANG[lang]) ? window.LANG[lang] : (window.LANG ? window.LANG["en"] : {});
+
+  const historyFilter = document.getElementById("history-filter");
+  if (historyFilter) {
+    historyFilter.addEventListener("change", function () {
+      const val = this.value;
+      const url = new URL(window.location.href);
+      if (val) {
+        url.searchParams.set("snapshot_id", val);
+      } else {
+        url.searchParams.delete("snapshot_id");
+      }
+      window.location.href = url.toString();
+    });
+  }
 
   const T = {
     Countries: L.countries || "Countries",

@@ -7,6 +7,206 @@
     "operator_type": "unknown",
     "charter_capable": null
   },
+     {
+      "iata": "W4",
+      "icao": null,
+      "name": "Wizz Air Malta",
+      "is_lowcost": true,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "W6",
+      "icao": "WZZ",
+      "name": "Wizz Air",
+      "is_lowcost": true,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "W9",
+      "icao": null,
+      "name": "Wizz Air UK",
+      "is_lowcost": true,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "LY",
+      "icao": "ELY",
+      "name": "El Al Israel Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "IZ",
+      "icao": null,
+      "name": "Arkia Israeli Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": true
+    },
+    {
+      "iata": "6H",
+      "icao": null,
+      "name": "Israir Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": true
+    },
+    {
+      "iata": "U8",
+      "icao": null,
+      "name": "Tus Airways",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": true
+    },
+    {
+      "iata": "BZ",
+      "icao": null,
+      "name": "Blue Bird Airways",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": true
+    },
+    {
+      "iata": "EY",
+      "icao": "ETD",
+      "name": "Etihad Airways",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "AF",
+      "icao": "AFR",
+      "name": "Air France",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "AM",
+      "icao": "AMX",
+      "name": "Aerom\u00e9xico",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "SK",
+      "icao": "SAS",
+      "name": "Scandinavian Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "LO",
+      "icao": "LOT",
+      "name": "LOT Polish Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "ET",
+      "icao": "ETH",
+      "name": "Ethiopian Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "A9",
+      "icao": "TGZ",
+      "name": "Georgian Airways",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": true
+    },
+    {
+      "iata": "DL",
+      "icao": "DAL",
+      "name": "Delta Air Lines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "VS",
+      "icao": "VIR",
+      "name": "Virgin Atlantic",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "FZ",
+      "icao": "FDB",
+      "name": "Flydubai",
+      "is_lowcost": true,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "QF",
+      "icao": "QFA",
+      "name": "Qantas Airways",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "TG",
+      "icao": "THA",
+      "name": "Thai Airways",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "VN",
+      "icao": "HVN",
+      "name": "Vietnam Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "EK",
+      "icao": "UAE",
+      "name": "Emirates",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": false
+    },
+    {
+      "iata": "WZ",
+      "icao": "RWZ",
+      "name": "Red Wings Airlines",
+      "is_lowcost": false,
+      "operator_type": "airline",
+      "charter_capable": true
+    },
+    {
+    "iata": "WZ",
+    "icao": "RWZ",
+    "name": "Red Wings Airlines",
+    "is_lowcost": false,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+  "iata": "A2",
+  "icao": "AWG",
+  "name": "Anima Wings Aviation",
+  "is_lowcost": true,
+  "operator_type": "airline",
+  "charter_capable": true
+  },
   {
     "iata": "",
     "icao": "GNL",
@@ -42630,6 +42830,14 @@
     "is_lowcost": null,
     "operator_type": "unknown",
     "charter_capable": null
+  },
+    {
+    "iata": "6H",
+    "icao": null,
+    "name": "Israir Airlines",
+    "is_lowcost": false,
+    "operator_type": "airline",
+    "charter_capable": true
   },
   {
     "iata": "C4",

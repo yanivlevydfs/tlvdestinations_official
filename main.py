@@ -89,6 +89,12 @@ from routers.airlines_tlv import router as airlines_router
 from routers.tlv_shops import router as tlv_shops_router
 from routers.weather import router as weather_router, cleanup_weather_cache_task, prefetch_weather
 from routers.itineraryGenerator import router as generate_itinerary
+from helpers.history_db import (
+    save_flight_snapshot, 
+    get_flight_stats_from_db, 
+    get_available_snapshots
+)
+from routers.history import router as history_router
 
 os.environ["PYTHONUTF8"] = "1"
 try:
@@ -165,6 +171,8 @@ app = FastAPI(
     redoc_url=None,       # disable default /redoc
     openapi_url=None      # disable default /openapi.json
 )
+
+
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.mount("/.well-known",StaticFiles(directory=STATIC_DIR / ".well-known"),name="well-known")
@@ -194,6 +202,7 @@ app.include_router(airlines_router)
 app.include_router(generate_itinerary)
 app.include_router(tlv_shops_router)
 app.include_router(weather_router)
+app.include_router(history_router)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset
@@ -682,6 +691,10 @@ def fetch_israel_flights(batch_size: int = 500) -> dict | None:
     # ✅ Everything below should always run after JSON is parsed
     records = data.get("result", {}).get("records", [])
     logger.debug(f"✈ Received {len(records)} raw flight rows")
+
+    if records:
+        # 💾 Save to history DB
+        save_flight_snapshot(records)
 
     if not records:
         logger.warning("⚠ Gov.il returned 0 records for flights.")
@@ -1393,16 +1406,14 @@ async def on_startup():
             "interval",
             hours=3,
             id="govil_refresh",
-            replace_existing=True,
-            next_run_time=datetime.now()
+            replace_existing=True
         )
         scheduler.add_job(
             update_travel_warnings,
             "interval",
             hours=24,
             id="warnings_refresh",
-            replace_existing=True,
-            next_run_time=datetime.now()
+            replace_existing=True
         )
         scheduler.start()
         logger.debug("✅ Scheduler started")
@@ -2207,23 +2218,30 @@ async def receive_feedback(payload: dict):
     return {"status": "ok"}
     
 @app.get("/stats", response_class=HTMLResponse)
-async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
-    global DATASET_DF_FLIGHTS
+async def flight_stats_view(request: Request, snapshot_id: int = None, lang: str = Depends(get_lang)):
+    # 💾 Fetch data from history DB (specific snapshot or latest)
+    records, timestamp = get_flight_stats_from_db(snapshot_id)
+    
+    # Get available snapshots for the filter dropdown
+    available_snapshots = get_available_snapshots(limit=30)
 
-    if DATASET_DF_FLIGHTS is None or DATASET_DF_FLIGHTS.empty:
+    if not records:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
-            "message": "No live flight statistics available.",
+            "message": "No live flight statistics available in database.",
             "lang": lang
         })
 
-    # Copy & normalize dataframe
-    df = DATASET_DF_FLIGHTS.copy()
+    # Convert records to DataFrame for processing
+    df = pd.DataFrame(records)
+    
+    # Map direction and human-readable columns
+    # airline_name, city_name, country_name, direction, airline_code
     df["Direction"] = df["direction"].map({"D": "Departure", "A": "Arrival"})
     df = df.rename(columns={
-        "airline": "Airline",
-        "city": "City",
-        "country": "Country"
+        "airline_name": "Airline",
+        "city_name": "City",
+        "country_name": "Country"
     })
 
     # --- Helper: aggregate safely ---
@@ -2354,7 +2372,7 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
     return TEMPLATES.TemplateResponse("stats.html", {
         "request": request,
         "lang": lang,
-        "last_update": get_dataset_date(),
+        "last_update": timestamp or "—",
         "top_countries": top_countries,
         "top_cities": top_cities,
         "airlines": airlines,
@@ -2367,6 +2385,8 @@ async def flight_stats_view(request: Request, lang: str = Depends(get_lang)):
         "legacy_stats": legacy_airlines_stats,
         "country_iso_map": COUNTRY_NAME_TO_ISO,  # ✅ Pass ISO Map
         "airline_to_code": airline_to_code,      # ✅ Pass Airline Codes
+        "available_snapshots": available_snapshots, # ✅ Pass History snapshots
+        "active_snapshot_id": snapshot_id         # ✅ Pass active snapshot ID
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)
