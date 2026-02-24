@@ -30,7 +30,7 @@ async def redirect_and_log_404(request: Request, call_next):
         return response
     
     # 🚫 Skip redirect logic for known static endpoints
-    if path in ("/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml","/manifest.en.json","/manifest.he.json"):
+    if path in ("/favicon.ico", "/favicon.svg", "/robots.txt", "/sitemap.xml", "/manifest.json", "/manifest.en.json", "/manifest.he.json"):
         return await call_next(request)
     # 🌍 Production: clean & normalize URLs
     url = str(request.url)

@@ -1,7 +1,7 @@
 [
   {
-    "iata": "",
-    "icao": null,
+    "iata": "-",
+    "icao": "N/A",
     "name": "Private flight",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -96,13 +96,13 @@
     "charter_capable": null
   },
   {
-    "iata": "E4",
-    "icao": "ENT",
-    "name": "Enter Air",
-    "is_lowcost": true,
-    "operator_type": "charter",
-    "charter_capable": true
-  },
+  "iata": "E4",
+  "icao": "ENT",
+  "name": "Enter Air",
+  "is_lowcost": true,
+  "operator_type": "charter",
+  "charter_capable": true
+},
   {
     "iata": "AN",
     "icao": "AAA",
@@ -113,7 +113,7 @@
   },
   {
     "iata": "1B",
-    "icao": null,
+    "icao": "",
     "name": "Abacus International",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -123,8 +123,8 @@
     "iata": "W9",
     "icao": "SGR",
     "name": "Eastwind Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -284,7 +284,7 @@
     "icao": "AAY",
     "name": "Allegiant Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -472,7 +472,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "E4",
     "icao": "GIE",
     "name": "Elysian Airlines",
     "is_lowcost": null,
@@ -529,7 +529,7 @@
   },
   {
     "iata": "7A",
-    "icao": null,
+    "icao": "",
     "name": "Aztec Worldwide Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -537,7 +537,7 @@
   },
   {
     "iata": "8T",
-    "icao": null,
+    "icao": "",
     "name": "Air Tindi",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -923,7 +923,7 @@
     "iata": "I9",
     "icao": "IBU",
     "name": "Indigo",
-    "is_lowcost": null,
+    "is_lowcost": true,
     "operator_type": "unknown",
     "charter_capable": null
   },
@@ -1051,8 +1051,8 @@
     "iata": "JA",
     "icao": "BON",
     "name": "B&H Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -1161,7 +1161,7 @@
   },
   {
     "iata": "2O",
-    "icao": null,
+    "icao": "",
     "name": "Air Salone",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -1172,7 +1172,7 @@
     "icao": "NGO",
     "name": "Air-Angol",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -1204,7 +1204,7 @@
     "icao": "VOE",
     "name": "VOLOTEA Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -1291,8 +1291,8 @@
     "iata": "G8",
     "icao": "GUJ",
     "name": "Gujarat Airways",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -1340,7 +1340,7 @@
     "icao": "AGO",
     "name": "Angola Air Charter",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -1804,7 +1804,7 @@
     "icao": "WER",
     "name": "AeroWorld",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -2225,7 +2225,7 @@
   },
   {
     "iata": "HP",
-    "icao": null,
+    "icao": "",
     "name": "Phoenix Airways",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -2379,8 +2379,8 @@
     "iata": "TT",
     "icao": "TGW",
     "name": "Tiger Airways Australia",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -2612,7 +2612,7 @@
     "icao": "ABY",
     "name": "Air Arabia",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -3779,8 +3779,8 @@
     "iata": "FO",
     "icao": "ATM",
     "name": "Airlines Of Tasmania",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -4523,8 +4523,8 @@
     "iata": "IX",
     "icao": "AXB",
     "name": "Air India Express",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -4580,7 +4580,7 @@
     "icao": "AXM",
     "name": "AirAsia",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -5148,7 +5148,7 @@
     "icao": "SIP",
     "name": "Air Spirit",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -6260,7 +6260,7 @@
     "icao": "CLX",
     "name": "Cargolux",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -6483,8 +6483,8 @@
     "iata": "D9",
     "icao": "DNV",
     "name": "Aeroflot-Don",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -6884,7 +6884,7 @@
     "icao": "PGT",
     "name": "Pegasus Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -6961,7 +6961,7 @@
   },
   {
     "iata": "OF",
-    "icao": null,
+    "icao": "",
     "name": "Transports et Travaux A",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -7180,7 +7180,7 @@
     "icao": "GFO",
     "name": "Aerovias del Golfo",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -7764,7 +7764,7 @@
     "icao": "ISX",
     "name": "Island Spirit",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -8596,7 +8596,7 @@
     "icao": "MNG",
     "name": "Aero Mongolia",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -8612,7 +8612,7 @@
     "icao": "MOP",
     "name": "Aeropublicitaria De Angola",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -8793,7 +8793,7 @@
   },
   {
     "iata": "8D",
-    "icao": null,
+    "icao": "",
     "name": "Servant Air",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -9171,8 +9171,8 @@
     "iata": "AD",
     "icao": "AZU",
     "name": "Azul",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -9524,7 +9524,7 @@
     "icao": "RIT",
     "name": "Asian Spirit",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -9539,8 +9539,8 @@
     "iata": "RK",
     "icao": "RKH",
     "name": "Royal Khmer Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -9715,8 +9715,8 @@
     "iata": "P5",
     "icao": "RPB",
     "name": "AeroRep",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -10691,8 +10691,8 @@
     "iata": "8Q",
     "icao": null,
     "name": "Maldivian Air Taxi",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -10868,7 +10868,7 @@
     "icao": "BSA",
     "name": "Black Stallion Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -11036,7 +11036,7 @@
     "icao": "BGL",
     "name": "Benin Golf Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -11145,7 +11145,7 @@
   },
   {
     "iata": "LZ",
-    "icao": null,
+    "icao": "",
     "name": "Balkan Bulgarian Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -13324,7 +13324,7 @@
     "icao": "CEB",
     "name": "Cebu Pacific",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -13492,7 +13492,7 @@
     "icao": "CEM",
     "name": "Central Mongolia Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -14171,8 +14171,8 @@
     "iata": "G3",
     "icao": "SEH",
     "name": "Sky Express",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -14353,7 +14353,7 @@
   },
   {
     "iata": "DQ",
-    "icao": null,
+    "icao": "",
     "name": "Coastal Air",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -14779,8 +14779,8 @@
     "iata": "DE",
     "icao": "CFG",
     "name": "Condor Flugdienst",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -14881,7 +14881,7 @@
   },
   {
     "iata": "CO",
-    "icao": null,
+    "icao": "",
     "name": "Continental Express",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -15361,7 +15361,7 @@
   },
   {
     "iata": "YK",
-    "icao": null,
+    "icao": "",
     "name": "Cyprus Turkish Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -15985,7 +15985,7 @@
   },
   {
     "iata": "2A",
-    "icao": null,
+    "icao": "",
     "name": "Deutsche Bahn",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -16044,7 +16044,7 @@
     "icao": "XAX",
     "name": "AirAsia X",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -16139,8 +16139,8 @@
     "iata": "D8",
     "icao": "DJB",
     "name": "Djibouti Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -16545,7 +16545,7 @@
   },
   {
     "iata": "H7",
-    "icao": null,
+    "icao": "",
     "name": "Eagle Air",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -17569,7 +17569,7 @@
   },
   {
     "iata": "RZ",
-    "icao": null,
+    "icao": "",
     "name": "Euro Exec Express",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -17828,7 +17828,7 @@
     "icao": "EWG",
     "name": "Eurowings",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -18113,10 +18113,10 @@
   },
   {
     "iata": "U2",
-    "icao": null,
+    "icao": "",
     "name": "United Feeder Service",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -18563,8 +18563,8 @@
     "iata": "FY",
     "icao": "NWR",
     "name": "Northwest Regional Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -19236,7 +19236,7 @@
     "icao": "VLG",
     "name": "Vueling Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -19460,7 +19460,7 @@
     "icao": "FFT",
     "name": "Frontier Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -19468,7 +19468,7 @@
     "icao": "ITR",
     "name": "Frontier Commuter",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -19476,7 +19476,7 @@
     "icao": "FTA",
     "name": "Frontier Flying Service",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -19484,7 +19484,7 @@
     "icao": "FNG",
     "name": "Frontier Guard",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -19801,7 +19801,7 @@
   },
   {
     "iata": "1G",
-    "icao": null,
+    "icao": "",
     "name": "Galileo International",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -20083,8 +20083,8 @@
     "iata": "4U",
     "icao": "GWI",
     "name": "Germanwings",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20300,7 +20300,7 @@
     "icao": null,
     "name": "Genesis",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20332,7 +20332,7 @@
     "icao": "GBT",
     "name": "Gold Belt Air Transport",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20340,7 +20340,7 @@
     "icao": "GDA",
     "name": "GoldAir",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20348,7 +20348,7 @@
     "icao": "GDK",
     "name": "Goldeck-Flug",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20356,7 +20356,7 @@
     "icao": "GAO",
     "name": "Golden Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20364,7 +20364,7 @@
     "icao": "GDD",
     "name": "Golden Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20372,7 +20372,7 @@
     "icao": "GPA",
     "name": "Golden Pacific Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20380,7 +20380,7 @@
     "icao": "GRS",
     "name": "Golden Rule Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20388,7 +20388,7 @@
     "icao": "GLD",
     "name": "Golden Star Air Cargo",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20396,7 +20396,7 @@
     "icao": "GOS",
     "name": "Goldfields Air Services",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20404,7 +20404,7 @@
     "icao": "GAQ",
     "name": "Golfe Air Quebec",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20412,7 +20412,7 @@
     "icao": "GLE",
     "name": "Goliaf Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -20699,8 +20699,8 @@
     "iata": "J9",
     "icao": "JZR",
     "name": "Jazeera Airways",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -21091,8 +21091,8 @@
     "iata": "X3",
     "icao": "HLX",
     "name": "TUIfly",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -21147,8 +21147,8 @@
     "iata": "HA",
     "icao": "HAL",
     "name": "Hawaiian Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -21169,7 +21169,7 @@
   },
   {
     "iata": "BH",
-    "icao": null,
+    "icao": "",
     "name": "Hawkair",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -21644,7 +21644,7 @@
     "icao": "NLH",
     "name": "Norwegian Long Haul AS",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -21819,8 +21819,8 @@
     "iata": "UO",
     "icao": "HKE",
     "name": "Hong Kong Express Airways",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -22169,7 +22169,7 @@
   },
   {
     "iata": "1U",
-    "icao": null,
+    "icao": "",
     "name": "Polyot Sirena",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -22396,7 +22396,7 @@
     "icao": "IGO",
     "name": "IndiGo Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -22444,7 +22444,7 @@
     "icao": "AWQ",
     "name": "Indonesia AirAsia",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -23057,7 +23057,7 @@
   },
   {
     "iata": "IS",
-    "icao": null,
+    "icao": "",
     "name": "Island Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -23361,7 +23361,7 @@
   },
   {
     "iata": "1M",
-    "icao": null,
+    "icao": "",
     "name": "JSC Transport Automated Information Systems",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -23483,8 +23483,8 @@
     "iata": "VJ",
     "icao": "RAC",
     "name": "Royal Air Cambodge",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -23545,7 +23545,7 @@
   },
   {
     "iata": "QJ",
-    "icao": null,
+    "icao": "",
     "name": "Jet Airways",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -23708,7 +23708,7 @@
     "icao": "JSA",
     "name": "Jetstar Asia Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -23747,8 +23747,8 @@
     "iata": "LS",
     "icao": "EXS",
     "name": "Jet2.com",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -23772,7 +23772,7 @@
     "icao": "JBU",
     "name": "JetBlue Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -23939,8 +23939,8 @@
     "iata": "SG",
     "icao": "SEJ",
     "name": "Spicejet",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -23948,7 +23948,7 @@
     "icao": "JST",
     "name": "Jetstar Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -25524,7 +25524,7 @@
     "icao": "LCG",
     "name": "Lignes Aeriennes Congolaises",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -25600,7 +25600,7 @@
     "charter_capable": null
   },
   {
-    "iata": "8Z",
+    "iata": "8z",
     "icao": "LER",
     "name": "Linea Aerea de Servicio Ejecutivo Regional",
     "is_lowcost": null,
@@ -25724,15 +25724,15 @@
     "icao": "WGT",
     "name": "Lion Air Services",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
     "iata": "JT",
     "icao": "LNI",
     "name": "Lion Mentari Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -26220,7 +26220,7 @@
     "icao": "MGL",
     "name": "MIAT Mongolian Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -26297,7 +26297,7 @@
   },
   {
     "iata": "DM",
-    "icao": null,
+    "icao": "",
     "name": "Maersk",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -27067,8 +27067,8 @@
     "iata": "XJ",
     "icao": "MES",
     "name": "Mesaba Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -27364,7 +27364,7 @@
     "icao": "OXO",
     "name": "Million Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -27577,7 +27577,7 @@
   },
   {
     "iata": "8I",
-    "icao": null,
+    "icao": "",
     "name": "Myway Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -27843,8 +27843,8 @@
     "iata": "VZ",
     "icao": "MYT",
     "name": "MyTravel Airways",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -28056,7 +28056,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "NA",
     "icao": null,
     "name": "Al-Naser Airlines",
     "is_lowcost": null,
@@ -28073,7 +28073,7 @@
   },
   {
     "iata": "9O",
-    "icao": null,
+    "icao": "",
     "name": "National Airways Cameroon",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -28289,7 +28289,7 @@
   },
   {
     "iata": "1N",
-    "icao": null,
+    "icao": "",
     "name": "Navitaire",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -29124,7 +29124,7 @@
     "icao": "NAX",
     "name": "Norwegian Air Shuttle",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -29132,7 +29132,7 @@
     "icao": "TFN",
     "name": "Norwegian Aviation College",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -29243,8 +29243,8 @@
     "iata": "XY",
     "icao": "KNE",
     "name": "Nas Air",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -29329,7 +29329,7 @@
   },
   {
     "iata": "O2",
-    "icao": null,
+    "icao": "",
     "name": "Oceanic Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -29980,7 +29980,7 @@
     "icao": "PIC",
     "name": "Jetstar Pacific",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -30500,7 +30500,7 @@
     "icao": "KGC",
     "name": "Peach Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -31068,7 +31068,7 @@
     "icao": "POF",
     "name": "Police Aux Frontiers",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -31404,7 +31404,7 @@
     "icao": "TVF",
     "name": "Transavia France",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -31593,10 +31593,10 @@
   },
   {
     "iata": "P0",
-    "icao": null,
+    "icao": "",
     "name": "Proflight Commuter Services",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -31913,7 +31913,7 @@
   },
   {
     "iata": "R6",
-    "icao": null,
+    "icao": "",
     "name": "RACSA",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -32137,7 +32137,7 @@
   },
   {
     "iata": "1D",
-    "icao": null,
+    "icao": "",
     "name": "Radixx Solutions International",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -32473,7 +32473,7 @@
   },
   {
     "iata": "FN",
-    "icao": null,
+    "icao": "",
     "name": "Regional Airlines",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -32700,7 +32700,7 @@
     "icao": null,
     "name": "Thai Lion Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -32897,7 +32897,7 @@
   },
   {
     "iata": "R4",
-    "icao": null,
+    "icao": "",
     "name": "Rossiya",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -33156,7 +33156,7 @@
     "icao": "NOW",
     "name": "Royal Norwegian Air Force",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -33380,7 +33380,7 @@
     "icao": "RYR",
     "name": "Ryanair",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -33492,7 +33492,7 @@
     "icao": "SAJ",
     "name": "Golden Eagle Air Services (FAA)",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -33843,8 +33843,8 @@
     "iata": "SY",
     "icao": "SCX",
     "name": "Sun Country Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -33916,7 +33916,7 @@
     "icao": "SDN",
     "name": "Spirit of Africa Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -34116,7 +34116,7 @@
     "icao": "SFS",
     "name": "Southern Frontier Air Transport",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -34220,7 +34220,7 @@
     "icao": "SGP",
     "name": "Sagolair Transportes Ejecutivos",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -34401,7 +34401,7 @@
   },
   {
     "iata": "8S",
-    "icao": null,
+    "icao": "",
     "name": "Scorpio Aviation",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -34524,7 +34524,7 @@
     "icao": "TXP",
     "name": "Texas Spirit",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -34572,7 +34572,7 @@
     "icao": "SJJ",
     "name": "Spirit Aviation",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -34724,7 +34724,7 @@
     "icao": "MNP",
     "name": "Spirit of Manila Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -34755,8 +34755,8 @@
     "iata": "DG",
     "icao": "SRQ",
     "name": "South East Asian Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -35268,7 +35268,7 @@
     "icao": "SVN",
     "name": "Savanair (Angola)",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -35307,8 +35307,8 @@
     "iata": "WN",
     "icao": "SWA",
     "name": "Southwest Airlines",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -35508,7 +35508,7 @@
     "icao": "SXS",
     "name": "SunExpress",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -35628,7 +35628,7 @@
     "icao": "TXC",
     "name": "Transaviaexport",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -35683,8 +35683,8 @@
     "iata": "E5",
     "icao": "RBG",
     "name": "Air Arabia Egypt",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -36289,7 +36289,7 @@
   },
   {
     "iata": "1Z",
-    "icao": null,
+    "icao": "",
     "name": "Sabre Pacific",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -36297,7 +36297,7 @@
   },
   {
     "iata": "1S",
-    "icao": null,
+    "icao": "",
     "name": "Sabre",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -36313,7 +36313,7 @@
   },
   {
     "iata": "1Q",
-    "icao": null,
+    "icao": "",
     "name": "Sirena",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -36329,7 +36329,7 @@
   },
   {
     "iata": "2C",
-    "icao": null,
+    "icao": "",
     "name": "SNCF",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -36364,7 +36364,7 @@
     "icao": "NKS",
     "name": "Spirit Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -36723,8 +36723,8 @@
     "iata": "H2",
     "icao": "SKU",
     "name": "Sky Airline",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -37395,8 +37395,8 @@
     "iata": "S5",
     "icao": "TSJ",
     "name": "Trast Aero",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -38268,7 +38268,7 @@
     "icao": "TGW",
     "name": "Tiger Airways",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -38348,7 +38348,7 @@
     "icao": "AIQ",
     "name": "Thai AirAsia",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -39044,7 +39044,7 @@
     "icao": "TRA",
     "name": "Transavia Holland",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -39756,7 +39756,7 @@
     "icao": "DTA",
     "name": "TAAG Angola Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -39796,7 +39796,7 @@
     "icao": "FNV",
     "name": "Transaviaservice",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -39924,7 +39924,7 @@
     "icao": "KTB",
     "name": "Transaviabaltika",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -40041,7 +40041,7 @@
   },
   {
     "iata": "2H",
-    "icao": null,
+    "icao": "",
     "name": "Thalys",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -40524,7 +40524,7 @@
     "icao": "TRB",
     "name": "Ukraine Transavia",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -40905,7 +40905,7 @@
   },
   {
     "iata": "UH",
-    "icao": null,
+    "icao": "",
     "name": "US Helicopter Corporation",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -40987,8 +40987,8 @@
     "iata": "VF",
     "icao": "VLU",
     "name": "Valuair",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -41187,8 +41187,8 @@
     "iata": "Y4",
     "icao": "VOI",
     "name": "Volaris",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -41729,7 +41729,7 @@
   },
   {
     "iata": "7W",
-    "icao": null,
+    "icao": "",
     "name": "Wayraper",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -41833,7 +41833,7 @@
   },
   {
     "iata": "8O",
-    "icao": null,
+    "icao": "",
     "name": "West Coast Air",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -42116,7 +42116,7 @@
     "icao": "WSI",
     "name": "Wind Spirit Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -42204,7 +42204,7 @@
     "icao": "WZZ",
     "name": "Wizz Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -42212,7 +42212,7 @@
     "icao": "WVL",
     "name": "Wizz Air Hungary",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -42257,7 +42257,7 @@
   },
   {
     "iata": "1P",
-    "icao": null,
+    "icao": "",
     "name": "Worldspan",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -42976,7 +42976,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "--",
     "icao": "ELK",
     "name": "ELK Airways",
     "is_lowcost": null,
@@ -43003,8 +43003,8 @@
     "iata": "Z2",
     "icao": null,
     "name": "Zest Air",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -43072,7 +43072,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "-.",
     "icao": null,
     "name": "Nazca",
     "is_lowcost": null,
@@ -43195,8 +43195,8 @@
     "iata": "VB",
     "icao": null,
     "name": "Pacific Express",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -43392,7 +43392,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "ЯП",
     "icao": null,
     "name": "Polar Airlines",
     "is_lowcost": null,
@@ -43473,19 +43473,19 @@
   },
   {
     "iata": "6Y",
-    "icao": "ART",
+    "icao": null,
     "name": "SmartLynx Airlines",
     "is_lowcost": null,
-    "operator_type": "acmi_charter",
-    "charter_capable": true
+    "operator_type": "unknown",
+    "charter_capable": null
   },
   {
-    "iata": "QS",
-    "icao": "TVS",
-    "name": "Smartwings",
-    "is_lowcost": true,
-    "operator_type": "hybrid_lowcost_charter",
-    "charter_capable": true
+  "iata": "QS",
+  "icao": "TVS",
+  "name": "Smartwings",  
+  "is_lowcost": true,
+  "operator_type": "hybrid_lowcost_charter",
+  "charter_capable": true  
   },
   {
     "iata": "",
@@ -43532,7 +43532,7 @@
     "icao": "TDK",
     "name": "Transavia Denmark",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -43744,47 +43744,47 @@
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "??",
+    "icao": "??!",
     "name": "British Air Ferries",
     "is_lowcost": null,
     "operator_type": "unknown",
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "++",
+    "icao": "---",
     "name": "Lombards Air",
     "is_lowcost": null,
     "operator_type": "unknown",
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "-+",
+    "icao": "--+",
     "name": "U.S. Air",
     "is_lowcost": null,
     "operator_type": "unknown",
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "\\\\'",
+    "icao": "\\\\'\\\\",
     "name": "Jayrow",
     "is_lowcost": null,
     "operator_type": "unknown",
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "::",
+    "icao": ":::",
     "name": "Llloyd Helicopters",
     "is_lowcost": null,
     "operator_type": "unknown",
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": ";;",
     "icao": null,
     "name": "Wilderness Air",
     "is_lowcost": null,
@@ -43792,7 +43792,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "^^",
     "icao": null,
     "name": "Whitaker Air",
     "is_lowcost": null,
@@ -43820,7 +43820,7 @@
     "icao": "WAU",
     "name": "Wizz Air Ukraine",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -43848,8 +43848,8 @@
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "&T",
+    "icao": "T&O",
     "name": "Tom\\\\'s & co airliners",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -43892,7 +43892,7 @@
     "icao": "FDB",
     "name": "Fly Dubai",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44004,15 +44004,15 @@
     "icao": "MXD",
     "name": "Malindo Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
     "iata": "9C",
     "icao": null,
     "name": "China SSS",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44160,7 +44160,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "МИ",
     "icao": null,
     "name": "KMV",
     "is_lowcost": null,
@@ -44244,7 +44244,7 @@
     "icao": "ZTF",
     "name": "Mongolian International Air Lines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44516,7 +44516,7 @@
     "icao": "MDP",
     "name": "Medallion Air",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44676,7 +44676,7 @@
     "icao": "VOO",
     "name": "Volotea",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44692,7 +44692,7 @@
     "icao": null,
     "name": "Peach Aviation",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44739,8 +44739,8 @@
     "iata": "I5",
     "icao": "IDS",
     "name": "Indonesia Sky",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44804,7 +44804,7 @@
     "icao": "SCO",
     "name": "Scoot",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -44900,7 +44900,7 @@
     "icao": "WAJ",
     "name": "AirAsia Japan",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -45041,7 +45041,7 @@
   },
   {
     "iata": "",
-    "icao": null,
+    "icao": "КТК",
     "name": "Катэкавиа",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -45140,7 +45140,7 @@
     "icao": "GMR",
     "name": "Golden Myanmar Airlines",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -45296,8 +45296,8 @@
     "charter_capable": null
   },
   {
-    "iata": "",
-    "icao": null,
+    "iata": "..",
+    "icao": "...",
     "name": "Avilu",
     "is_lowcost": null,
     "operator_type": "unknown",
@@ -45476,7 +45476,7 @@
     "icao": "VC9",
     "name": "Volotea Costa Rica",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -45672,7 +45672,7 @@
     "charter_capable": null
   },
   {
-    "iata": "",
+    "iata": "АЯ",
     "icao": null,
     "name": "Аэросервис",
     "is_lowcost": null,
@@ -45700,7 +45700,7 @@
     "icao": "JJP",
     "name": "Jetstar Japan",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -45764,7 +45764,7 @@
     "icao": "IBK",
     "name": "Norwegian Air International (D8)",
     "is_lowcost": true,
-    "operator_type": "lowcost",
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {
@@ -45843,8 +45843,8 @@
     "iata": "K3",
     "icao": null,
     "name": "Atlantic Air Cargo",
-    "is_lowcost": true,
-    "operator_type": "lowcost",
+    "is_lowcost": null,
+    "operator_type": "unknown",
     "charter_capable": null
   },
   {

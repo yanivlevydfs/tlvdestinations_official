@@ -56,8 +56,21 @@ async def ads_txt(request: Request):
     return FileResponse(file_path, media_type="text/plain")
 
 @router.get("/manifest.json", include_in_schema=False)
+@router.get("/manifest.en.json", include_in_schema=False)
+@router.get("/manifest.he.json", include_in_schema=False)
 async def manifest(request: Request):
-    lang = request.query_params.get("lang", "en").lower()
+    path = request.url.path
+    lang = request.query_params.get("lang", "").lower()
+
+    # Detect lang from path if not in query params (Legacy support)
+    if not lang:
+        if "manifest.he.json" in path:
+            lang = "he"
+        elif "manifest.en.json" in path:
+            lang = "en"
+        else:
+            lang = "en"
+
     if lang not in ("en", "he"):
         lang = "en"
 
@@ -67,7 +80,7 @@ async def manifest(request: Request):
     manifest_en = base_path / "manifest.en.json"
     manifest_he = base_path / "manifest.he.json"
 
-    # Choose manifest based on ?lang
+    # Choose manifest based on detected lang
     selected_manifest = (
         manifest_he if lang == "he" and manifest_he.exists()
         else manifest_en
@@ -75,7 +88,7 @@ async def manifest(request: Request):
 
     if selected_manifest.exists():
         logger.debug(
-            f"📄 GET /manifest.json | lang={lang} | client={client} | file={selected_manifest.name}"
+            f"📄 GET {path} | lang={lang} | client={client} | file={selected_manifest.name}"
         )
         return FileResponse(
             selected_manifest, 
