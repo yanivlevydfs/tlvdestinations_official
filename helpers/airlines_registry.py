@@ -11,7 +11,7 @@ from pathlib import Path
 logger = logging.getLogger("airlines_registry")
 
 AIRLINES_URL = "https://api.travelpayouts.com/data/en/airlines.json"
-AIRLINES_FILE = DATA_DIR / "airlines_all.json"
+AIRLINES_FILE = DATA_DIR / "lowcost_airlines.json"
 
 IATA_RE = re.compile(r"^[A-Z0-9]{2}$")
 

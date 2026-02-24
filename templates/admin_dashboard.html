@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .analytics-card {
+        background: var(--bg-card, rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease;
+    }
+
+    .analytics-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    #rawTable_wrapper {
+        margin-top: 1rem;
+    }
+
+    .theme-dark .analytics-card {
+        background: rgba(30, 30, 40, 0.7);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 mb-0">
+            <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
+            Analytics Dashboard
+        </h1>
+        <div class="text-muted small">
+            Monitoring Fly TLV Traffic — 2026 Admin Panel
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="analytics-card h-100">
+                <h5 class="mb-4">Top Destinations Distribution</h5>
+                <div class="chart-container">
+                    <canvas id="topDestChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="analytics-card h-100">
+                <h5 class="mb-4">Key Metrics</h5>
+                <div id="metrics-content">
+                    <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                        <span>Active Destinations</span>
+                        <span class="badge bg-primary rounded-pill" id="total-dest-count">-</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                        <span>Total Tracked Clicks</span>
+                        <span class="badge bg-success rounded-pill" id="total-clicks-sum">-</span>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-danger btn-sm" onclick="resetAnalytics()">
+                            <i class="bi bi-trash me-1"></i> Reset Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raw Data Table -->
+    <div class="analytics-card">
+        <h5 class="mb-3">Detailed Traffic Logs</h5>
+        <div class="table-responsive">
+            <table class="table table-hover" id="rawTable">
+                <thead>
+                    <tr>
+                        <th>IATA</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Clicks</th>
+                        <th>Last Interaction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        loadAnalytics();
+    });
+
+    function loadAnalytics() {
+        fetch('/api/analytics/top?limit=10')
+            .then(r => r.json())
+            .then(data => {
+                renderChart(data);
+                renderTable(data);
+                updateMetrics(data);
+            })
+            .catch(err => console.error("Failed to load analytics:", err));
+    }
+
+    function renderChart(data) {
+        const ctx = document.getElementById('topDestChart').getContext('2d');
+        const isDark = document.documentElement.classList.contains('theme-dark') ||
+            document.body.classList.contains('theme-dark');
+
+        const labelColor = isDark ? '#adb5bd' : '#495057';
+        const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(r => r.iata),
+                datasets: [{
+                    label: 'Total Clicks',
+                    data: data.map(r => r.total_clicks),
+                    backgroundColor: 'rgba(52, 152, 219, 0.6)',
+                    borderColor: '#3498db',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: labelColor },
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        ticks: { color: labelColor },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderTable(data) {
+        const tbody = document.querySelector('#rawTable tbody');
+        tbody.innerHTML = '';
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><span class="badge bg-light text-dark font-monospace">${row.iata}</span></td>
+                <td>${row.city || '—'}</td>
+                <td>${row.country || '—'}</td>
+                <td class="fw-bold text-primary">${row.total_clicks}</td>
+                <td>${new Date(row.last_clicked).toLocaleString()}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function updateMetrics(data) {
+        const totalClicks = data.reduce((sum, item) => sum + item.total_clicks, 0);
+        document.getElementById('total-dest-count').textContent = data.length;
+        document.getElementById('total-clicks-sum').textContent = totalClicks.toLocaleString();
+    }
+
+    async function resetAnalytics() {
+        if (!confirm("Are you SURE you want to clear all analytics data? This cannot be undone.")) return;
+
+        try {
+            const r = await fetch('/api/analytics/reset');
+            if (r.ok) {
+                location.reload();
+            } else {
+                alert("Failed to reset stats.");
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Error connecting to server.");
+        }
+    }
+</script>
+{% endblock %}

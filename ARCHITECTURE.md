@@ -25,7 +25,7 @@ tlvdestinations_official/
 │   ├── destination_diff_routes.py # Difference calculation routes
 │   └── tlv_shops.py            # Shops information routes
 ├── data/                       # Static reference JSONs
-│   ├── airlines_all.json       # General airline data
+│   ├── lowcost_airlines.json    # General airline data
 │   ├── city_translations.json  # Translations for city names
 │   ├── country_translations.json # Translations for country names
 │   └── city_name_corrections.json # Hardcoded city name fixes
@@ -82,4 +82,4 @@ The application relies heavily on data provided by **data.gov.il** (Israel Airpo
 ## 4. Notable Implementation Details
 - **City Name Corrections**: The app strictly uses `data/city_name_corrections.json` to fix typos and mismatched English names from the government flight data without hardcoding rules in Python.
 - **Distance & Time**: Uses Haversine formulas to calculate flight distances from TLV and estimates flight time automatically.
-- **Low-Cost Detection**: The `load_airline_websites()` and related functions map known airline codes to their "Low-Cost" classification for frontend filtering.
+- **Low-Cost Detection**: The `load_airline_websites()` and related functions map known airline codes to their "Low-Cost" classification for frontend filtering. (References: `lowcost_airlines.json`)

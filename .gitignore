@@ -135,3 +135,8 @@ analytics/destinations.db-wal
 analytics/destinations.db-shm
 analytics/destinations.db
 static/sitemap.xml
+data/destinations.db
+data/flights_history.db
+data/flights_history.db
+data/flights_history.db
+data/flights_history.db

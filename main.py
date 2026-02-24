@@ -15,9 +15,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import pandas as pd
 import requests
 import numpy as np
-import folium
 from airportsdata import load
-from folium.plugins import MarkerCluster
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse,RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
@@ -217,7 +215,6 @@ EN_TO_HE_COUNTRY = {}
 CITY_TRANSLATIONS = {}
 TRAVEL_WARNINGS_DF: pd.DataFrame = pd.DataFrame()
 AIRLINE_LOWCOST_MAP: dict[str, bool] = {}
-AIRLINE_LOWCOST_MAP: dict[str, bool] = {}
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -235,7 +232,7 @@ def load_airlines_all():
             }
             logger.debug(f"Loaded {len(AIRLINE_LOWCOST_MAP)} airlines for lowcost check")
     except Exception as e:
-        logger.error(f"Failed to load airlines_all.json: {e}")
+        logger.error(f"Failed to load lowcost_airlines.json: {e}")
         AIRLINE_LOWCOST_MAP = {}
 
 def get_city_info(city_en: str, return_type: str = "both"):

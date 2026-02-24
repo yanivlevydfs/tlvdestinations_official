@@ -1,0 +1,2442 @@
+[
+  {
+    "iata": "W4",
+    "icao": null,
+    "name": "Wizz Air Malta",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "T6",
+    "icao": "RNX",
+    "name": "1time Airline",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ES",
+    "icao": "RBG",
+    "name": "Air Arabia Egypt",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "3O",
+    "icao": "MAC",
+    "name": "Air Arabia Maroc",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "AL",
+    "icao": "ALD",
+    "name": "Air Leisure",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "P4",
+    "icao": "APK",
+    "name": "Air Peace",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "T9",
+    "icao": "AW",
+    "name": "Aviator Aviation",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FN",
+    "icao": "FTZ",
+    "name": "Fastjet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SH",
+    "icao": "FFV",
+    "name": "Five Forty Aviation",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Jambojet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "8J",
+    "icao": "JFU",
+    "name": "Jet4you",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "MN",
+    "icao": "CAW",
+    "name": "kulula.com",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JE",
+    "icao": "MNO",
+    "name": "Mango Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NE",
+    "icao": "NMD",
+    "name": "Namibia Flyafrica",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FA",
+    "icao": "SFR",
+    "name": "Safair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "C9",
+    "icao": "SWZ",
+    "name": "Skywise Airline",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "AQ",
+    "icao": "JYH",
+    "name": "Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "KI",
+    "icao": "DHI",
+    "name": "Adam Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "E4",
+    "icao": "RSO",
+    "name": "Aero Asia International",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "AK",
+    "icao": "AXM",
+    "name": "Air Asia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": "IAD",
+    "name": "Air Asia India",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JW",
+    "icao": "WAJ",
+    "name": "Air Asia Japan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "D7",
+    "icao": "XAX",
+    "name": "Air Asia X",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Z2",
+    "icao": "EZD",
+    "name": "Air Asia Zest",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "PA",
+    "icao": "ABO",
+    "name": "Air Blue",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BX",
+    "icao": "ABL",
+    "name": "Air Busan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "HD",
+    "icao": "ADO",
+    "name": "Air Do",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IX",
+    "icao": "AXB",
+    "name": "Air India Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ZM",
+    "icao": "MBB",
+    "name": "Air Manas",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "OP",
+    "icao": "PPL",
+    "name": "Air Pegasus",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "RS",
+    "icao": "ASV",
+    "name": "Air Seoul",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DG",
+    "icao": "SRQ",
+    "name": "Cebgo",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "5J",
+    "icao": "CEB",
+    "name": "Cebu Pacific Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "EU",
+    "icao": "UEA",
+    "name": "Chengdu Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "PN",
+    "icao": "CHB",
+    "name": "China West Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "QG",
+    "icao": "CTY",
+    "name": "Citilink",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "YM",
+    "icao": null,
+    "name": "Compass Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ZE",
+    "icao": "ESR",
+    "name": "Eastar Jet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SJ",
+    "icao": "FOM",
+    "name": "Freedom Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "G8",
+    "icao": "GOW",
+    "name": "GoAir",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Y5",
+    "icao": "GMR",
+    "name": "Golden Myanmar Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "UO",
+    "icao": "HKE",
+    "name": "Hong Kong Express Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Impulse Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "6E",
+    "icao": "IGO",
+    "name": "IndiGo",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "QZ",
+    "icao": "AWQ",
+    "name": "Indonesia Air Asia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "7C",
+    "icao": "JJA",
+    "name": "Jeju Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "S2",
+    "icao": "JLL",
+    "name": "JetKonnect",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JQ",
+    "icao": "JST",
+    "name": "Jetstar",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "3K",
+    "icao": "JSA",
+    "name": "Jetstar Asia Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "GK",
+    "icao": "JJP",
+    "name": "Jetstar Japan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BL",
+    "icao": "PIC",
+    "name": "Jetstar Pacific Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "LJ",
+    "icao": "JNA",
+    "name": "Jin Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IT",
+    "icao": "KFR",
+    "name": "Kingfisher Red",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "KC",
+    "icao": "KIC",
+    "name": "Kiwi Travel International Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JT",
+    "icao": "LNI",
+    "name": "Lion Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "8L",
+    "icao": "LKE",
+    "name": "Lucky Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "OD",
+    "icao": "MXD",
+    "name": "Malindo Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "MJ",
+    "icao": "MLR",
+    "name": "Mihin Lanka",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DD",
+    "icao": "NOK",
+    "name": "Nok Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XW",
+    "icao": "NCT",
+    "name": "NokScoot Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "O8",
+    "icao": "OHK",
+    "name": "Oasis Hong Kong Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "OX",
+    "icao": "OTG",
+    "name": "ONE-two-GO",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DJ",
+    "icao": "PBN",
+    "name": "Pacific Blue",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "2P",
+    "icao": "GAP",
+    "name": "PAL Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "MM",
+    "icao": "APJ",
+    "name": "Peach Aviation",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "PQ",
+    "icao": "APG",
+    "name": "Philippines Air Asia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DR",
+    "icao": "RLH",
+    "name": "Ruili Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TZ",
+    "icao": "SCO",
+    "name": "Scoot",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XO",
+    "icao": "SGD",
+    "name": "SEAir International",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BC",
+    "icao": "SKY",
+    "name": "Skymark Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "6J",
+    "icao": "SNJ",
+    "name": "Solaseed Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SG",
+    "icao": "SEJ",
+    "name": "SpiceJet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "9C",
+    "icao": "CQH",
+    "name": "Spring Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IJ",
+    "icao": "SJO",
+    "name": "Spring Airlines Japan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "7G",
+    "icao": "SFJ",
+    "name": "StarFlyer",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NZ",
+    "icao": null,
+    "name": "Tasman Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FD",
+    "icao": "AIQ",
+    "name": "Thai AirAsia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XJ",
+    "icao": "TAX",
+    "name": "Thai AirAsia X",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SL",
+    "icao": "TLM",
+    "name": "Thai Lion Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VZ",
+    "icao": "TVJ",
+    "name": "Thái VietJet Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TT",
+    "icao": "TGG",
+    "name": "Tiger Airways Australia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "RI",
+    "icao": "MDL",
+    "name": "Tigerair Mandala",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TR",
+    "icao": "TGW",
+    "name": "Tigerair Singapore",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IT",
+    "icao": "TTW",
+    "name": "Tigerair Taiwan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "2T",
+    "icao": "TRJ",
+    "name": "Trujet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TW",
+    "icao": "TWB",
+    "name": "T'way Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VA",
+    "icao": "VAU",
+    "name": "V Australia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VF",
+    "icao": "VLU",
+    "name": "ValuAir",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JW",
+    "icao": "VNL",
+    "name": "Vanilla Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VJ",
+    "icao": "VJC",
+    "name": "Vietjet Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VA",
+    "icao": "VOZ",
+    "name": "Virgin Australia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DJ",
+    "icao": "PBN",
+    "name": "Virgin Samoa",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ZG",
+    "icao": "VVM",
+    "name": "Viva Macau",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IW",
+    "icao": "WON",
+    "name": "Wings Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "AB Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "RE",
+    "icao": "REA",
+    "name": "Aer Arann",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SH",
+    "icao": null,
+    "name": "Aeris",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Air Europe",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "4P",
+    "icao": null,
+    "name": "Air Polonia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Air Scotland",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Air Service Plus",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WO",
+    "icao": "WOW",
+    "name": "Air Southwest",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "2B",
+    "icao": "AWT",
+    "name": "Albawings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "KK",
+    "icao": "KKK",
+    "name": "Atlasjet Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Basiq Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "LZ",
+    "icao": "LBY",
+    "name": "Belle Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "0B",
+    "icao": "BMS",
+    "name": "Blue Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BV",
+    "icao": "BPA",
+    "name": "Blue Panorama",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "KF",
+    "icao": "BLE",
+    "name": "Bluet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WW",
+    "icao": "BMI",
+    "name": "BMIBaby",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Britsh.JET",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Büzz",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "C0",
+    "icao": null,
+    "name": "Centralwings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Ciao Fly",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XG",
+    "icao": "CLI",
+    "name": "Clickair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "CO",
+    "icao": "FCB",
+    "name": "Cobalt Aero",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Colar Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DE",
+    "icao": "CFG",
+    "name": "Condor Flugdienst",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XC",
+    "icao": "CAI",
+    "name": "Corendon Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "D5",
+    "icao": "DAU",
+    "name": "Dauair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DI",
+    "icao": null,
+    "name": "DBA",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "2G",
+    "icao": null,
+    "name": "Debonair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DI",
+    "icao": "DET",
+    "name": "Deutsche BA",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "5D",
+    "icao": "DBR",
+    "name": "Dutchbird",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "U2",
+    "icao": "EZY",
+    "name": "easyJet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DS",
+    "icao": "EZS",
+    "name": "Easyjet Switzerland",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VE",
+    "icao": "EUJ",
+    "name": "Eujet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "EW",
+    "icao": "EWG",
+    "name": "Eurowings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "E2",
+    "icao": "EWE",
+    "name": "Eurowings Europe",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "FareAU",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "F7",
+    "icao": "BBO",
+    "name": "Flybaboo",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BE",
+    "icao": "BEE",
+    "name": "Flybe",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Y2",
+    "icao": "GSM",
+    "name": "FlyGlobespan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": "FFW",
+    "name": "Flying Finn",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "FlyMe",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "LF",
+    "icao": null,
+    "name": "FlyNordic",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Flywest",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ST",
+    "icao": null,
+    "name": "Germania Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "4U",
+    "icao": "GWI",
+    "name": "Germanwings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "GO",
+    "icao": null,
+    "name": "GO",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "2L",
+    "icao": "DAW",
+    "name": "Helvetic Always",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "5K",
+    "icao": "HFY",
+    "name": "Hilly",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "HC",
+    "icao": null,
+    "name": "Iceland Expres",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "3L",
+    "icao": "ISK",
+    "name": "InterSky",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "9X",
+    "icao": "ACL",
+    "name": "ItAli Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Jet Green",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "LS",
+    "icao": "EXS",
+    "name": "Jet2.com",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "GX",
+    "icao": null,
+    "name": "JetMagic",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NM",
+    "icao": null,
+    "name": "Manx2",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IG",
+    "icao": "ISS",
+    "name": "Menidiana",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ZB",
+    "icao": "MON",
+    "name": "Monarch scheduled",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "8I",
+    "icao": "MYW",
+    "name": "MyAir MyWay Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Mytravellite",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "HG",
+    "icao": "NLY",
+    "name": "Niki",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DY",
+    "icao": "NAX",
+    "name": "Norwegian Air Shuttle",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "8Q",
+    "icao": "OHY",
+    "name": "Onur Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "H9",
+    "icao": "PGT",
+    "name": "Pegasus Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DP",
+    "icao": "PBD",
+    "name": "Pobeda",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FR",
+    "icao": "RYR",
+    "name": "Ryanair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NE",
+    "icao": "ESK",
+    "name": "Sky Europe Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "5P",
+    "icao": "TVL",
+    "name": "SkyEurope Hungary",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XW",
+    "icao": "SXR",
+    "name": "SkyExpress",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "QS",
+    "icao": "TVS",
+    "name": "SmartWings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Snalskjutsen",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Snowflake",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NB",
+    "icao": "SNB",
+    "name": "Sterling",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XQ",
+    "icao": "SXS",
+    "name": "SunExpress",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XG",
+    "icao": "SXD",
+    "name": "SunExpress Deutschland",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Sverigeflyg",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TO",
+    "icao": "TVF",
+    "name": "Transavia France",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "HV",
+    "icao": "TRA",
+    "name": "Transavia.com",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TB",
+    "icao": "JAF",
+    "name": "TUI fly Belgium",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "X3",
+    "icao": "TUI",
+    "name": "TUIFly",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": "VBA",
+    "name": "V Bird",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TV",
+    "icao": "VEX",
+    "name": "Virgin Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Virgin Express France",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": "TV",
+    "icao": null,
+    "name": "Virgin Express Ireland",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VA",
+    "icao": "PVL",
+    "name": "Volareweb.com",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "V7",
+    "icao": "VOE",
+    "name": "Volotea",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VY",
+    "icao": "VLG",
+    "name": "Vueling",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "IV",
+    "icao": "JET",
+    "name": "Wind Jet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "W6",
+    "icao": "WZZ",
+    "name": "Wizz Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "8Z",
+    "icao": "WVL",
+    "name": "Wizz Air Bulgaria",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WU",
+    "icao": "WAU",
+    "name": "Wizz Air Ukraine",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WW",
+    "icao": "WOW",
+    "name": "WOW Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JN",
+    "icao": null,
+    "name": "XL Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "P4",
+    "icao": "APK",
+    "name": "Aero Lineas Sosa",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JR",
+    "icao": "SER",
+    "name": "AeroCalifornia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "C4",
+    "icao": "MSD",
+    "name": "Alma de Mexico",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "6A",
+    "icao": "CHP",
+    "name": "Aviacsa",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "O6",
+    "icao": "ONE",
+    "name": "Avianca Brazil",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VS",
+    "icao": "VLI",
+    "name": "Avolar",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "AD",
+    "icao": "AZU",
+    "name": "Azul Linheas Aereas Brazileiras",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "7R",
+    "icao": "BRB",
+    "name": "BRA Transportes Aereos",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "A2",
+    "icao": "CFV",
+    "name": "Calafia Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "EF",
+    "icao": "EFY",
+    "name": "Easy Fly",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "G3",
+    "icao": "GLO",
+    "name": "GOL Linheas Aereas",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "4O",
+    "icao": "AIJ",
+    "name": "Interjet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ZE",
+    "icao": "LCD",
+    "name": "Lineas Aereas Aztecas",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "QA",
+    "icao": "CBE",
+    "name": "Mexicana Click",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "H2",
+    "icao": "SKU",
+    "name": "Sky Airline",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "T9",
+    "icao": "AVV",
+    "name": "Transcarga",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VB",
+    "icao": "VIV",
+    "name": "Viva Aerobus",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FC",
+    "icao": "VVC",
+    "name": "VivaColombia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Y6",
+    "icao": "VOI",
+    "name": "Volaris",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Q6",
+    "icao": "VOC",
+    "name": "Volaris Costa Rica",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WH",
+    "icao": "WEB",
+    "name": "Webjet Linheas Aereas",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "G9",
+    "icao": "ABY",
+    "name": "Air Arabia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "9P",
+    "icao": "PTR",
+    "name": "Air Arabia Jordan",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FZ",
+    "icao": "FDB",
+    "name": "flyDubai",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XY",
+    "icao": "KNE",
+    "name": "Flynas",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "J9",
+    "icao": "JZR",
+    "name": "Jazeera Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "R5",
+    "icao": "JAV",
+    "name": "Jordan Aviation",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "OV",
+    "icao": "OMS",
+    "name": "Salam Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Z5",
+    "icao": "SMY",
+    "name": "Sama",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ZA",
+    "icao": "CYD",
+    "name": "Access Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Air Canada Tango",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WV",
+    "icao": "KKB",
+    "name": "Air South",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FL",
+    "icao": "TRS",
+    "name": "Air Tran Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "G4",
+    "icao": "AAY",
+    "name": "Allegiant Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TZ",
+    "icao": "AMT",
+    "name": "ATA Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "C6",
+    "icao": "CJA",
+    "name": "CanJet Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Continental Lite",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Delta Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WP",
+    "icao": "SGR",
+    "name": "Eastwind Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "F8",
+    "icao": "FLE",
+    "name": "Flair Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "F9",
+    "icao": "FFT",
+    "name": "Frontier Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "YV",
+    "icao": null,
+    "name": "Gol",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "HQ",
+    "icao": "HMY",
+    "name": "Harmony Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DH",
+    "icao": "IDE",
+    "name": "Independance Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "B6",
+    "icao": "JBU",
+    "name": "JetBlue Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SG",
+    "icao": null,
+    "name": "Jetsgo",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "KP",
+    "icao": "KIA",
+    "name": "Kiwi International Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": "LBH",
+    "name": "Laker Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": "USA",
+    "name": "Metrojet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "ML",
+    "icao": "MDW",
+    "name": "Midway Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "YX",
+    "icao": "MEP",
+    "name": "Midwest Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": "MSS",
+    "name": "Morris Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "N7",
+    "icao": "NAN",
+    "name": "National Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NY",
+    "icao": "NYA",
+    "name": "New York Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "PS",
+    "icao": "PSX",
+    "name": "Pacific Southwest Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "PE",
+    "icao": null,
+    "name": "People Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "P9",
+    "icao": "PRQ",
+    "name": "Pro Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "QQ",
+    "icao": "ROA",
+    "name": "Reno Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Shuttle by United",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "RS",
+    "icao": "ASV",
+    "name": "Sky Regional Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SX",
+    "icao": "SKB",
+    "name": "Skybus Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XP",
+    "icao": null,
+    "name": "SkyValue USA",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Song",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WN",
+    "icao": "SWA",
+    "name": "Southwest Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NK",
+    "icao": "NKS",
+    "name": "Spirit Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "SY",
+    "icao": "SCX",
+    "name": "Sun Country Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WG",
+    "icao": "SWG",
+    "name": "Sunwing",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": null,
+    "icao": null,
+    "name": "Ted",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FF",
+    "icao": "TOW",
+    "name": "Tower Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "U5",
+    "icao": "GWY",
+    "name": "USA 3000",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "J7",
+    "icao": "VJA",
+    "name": "Valujet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NJ",
+    "icao": "VGD",
+    "name": "Vanguard",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VC",
+    "icao": "SRY",
+    "name": "Via Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VX",
+    "icao": "VRD",
+    "name": "Virgin America",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "W7",
+    "icao": "KMR",
+    "name": "Western Pacific",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WS",
+    "icao": "WJA",
+    "name": "Westjet Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "WR",
+    "icao": "WEN",
+    "name": "Encore Westjet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "3D",
+    "icao": "WZP",
+    "name": "ZIP",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Z4",
+    "icao": "OOM",
+    "name": "Zoom Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FR",
+    "icao": "RYR",
+    "name": "Ryanair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "RK",
+    "icao": "RUK",
+    "name": "Ryanair UK",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "W9",
+    "icao": "WUK",
+    "name": "Wizz Air UK",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "U2",
+    "icao": "EZY",
+    "name": "EasyJet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DS",
+    "icao": "EZS",
+    "name": "EasyJet Switzerland",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "EJU",
+    "icao": "EJU",
+    "name": "EasyJet Europe",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "LS",
+    "icao": "EXS",
+    "name": "Jet2.com",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": "BE",
+    "icao": "BEE",
+    "name": "Flybe",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BY",
+    "icao": "TOM",
+    "name": "TUI Airways",
+    "is_lowcost": false,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": "PC",
+    "icao": "PGT",
+    "name": "Pegasus Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "XQ",
+    "icao": "SXS",
+    "name": "SunExpress",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": "VF",
+    "icao": "TKJ",
+    "name": "AJet",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "OG",
+    "icao": "FMM",
+    "name": "Play Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "HV",
+    "icao": "TRA",
+    "name": "Transavia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "W6",
+    "icao": "WZZ",
+    "name": "Wizz Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "BT",
+    "icao": "BTI",
+    "name": "airBaltic",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "VY",
+    "icao": "VLG",
+    "name": "Vueling Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "I2",
+    "icao": "IBS",
+    "name": "Iberia Express",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TO",
+    "icao": "TVF",
+    "name": "Transavia France",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "MW",
+    "icao": "MAY",
+    "name": "Malta Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "QS",
+    "icao": "TVS",
+    "name": "SmartWings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": true
+  },
+  {
+    "iata": "EW",
+    "icao": "EWG",
+    "name": "Eurowings",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DY",
+    "icao": "NAX",
+    "name": "Norwegian Air Shuttle",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "N0",
+    "icao": "NBT",
+    "name": "Norse Atlantic Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "G9",
+    "icao": "ABY",
+    "name": "Air Arabia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FZ",
+    "icao": "FDB",
+    "name": "FlyDubai",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "DD",
+    "icao": "NOK",
+    "name": "Nok Air",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FD",
+    "icao": "AIQ",
+    "name": "Thai AirAsia",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "TR",
+    "icao": "TGW",
+    "name": "Scoot",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "6E",
+    "icao": "IGO",
+    "name": "IndiGo",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "GK",
+    "icao": "JJP",
+    "name": "Peach Aviation",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JQ",
+    "icao": "JST",
+    "name": "Jetstar Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "B6",
+    "icao": "JBU",
+    "name": "JetBlue Airways",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "F9",
+    "icao": "FFT",
+    "name": "Frontier Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "NK",
+    "icao": "NKS",
+    "name": "Spirit Airlines",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "Y4",
+    "icao": "VOI",
+    "name": "Volaris",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "JA",
+    "icao": "JAT",
+    "name": "JetSmart",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "G3",
+    "icao": "GLO",
+    "name": "Gol Linhas Aéreas Inteligentes",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+    "iata": "FA",
+    "icao": "SFR",
+    "name": "FlySafair",
+    "is_lowcost": true,
+    "operator_type": "airline",
+    "charter_capable": false
+  },
+  {
+  "iata": "GQ",
+  "icao": "SEH",
+  "name": "SKY Express",
+  "is_lowcost": true,
+  "operator_type": "airline",
+  "charter_capable": false  
+}
+]

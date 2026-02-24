@@ -5,7 +5,7 @@ import requests
 OPENFLIGHTS_URL = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat"
 
 # Your curated dataset (has is_lowcost)
-LOCAL_AIRLINES_ALL = "airlines_all.json"
+LOCAL_AIRLINES_ALL = "lowcost_airlines.json"
 
 # Common LCC brand keywords (heuristic fallback)
 LCC_KEYWORDS = [
