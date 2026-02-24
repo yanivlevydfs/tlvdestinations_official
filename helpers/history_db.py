@@ -4,11 +4,11 @@ import threading
 from pathlib import Path
 from datetime import datetime
 from contextlib import contextmanager
-from config_paths import DATA_DIR
+from config_paths import DATA_DIR, HISTORY_DB_PATH
 
 logger = logging.getLogger("fly_tlv.history_db")
 
-DB_PATH = DATA_DIR / "flights_history.db"
+DB_PATH = HISTORY_DB_PATH
 
 class DatabaseManager:
     """Production-grade SQLite Connection Manager with WAL mode and performance optimizations."""
