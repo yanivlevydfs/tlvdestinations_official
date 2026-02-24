@@ -9,13 +9,8 @@ import sqlite3
 
 router = APIRouter(tags=["Analytics"])
 
-# ------------------------------------------------------
-# PATHS
-# ------------------------------------------------------
-BASE_DIR = Path(__file__).resolve().parents[1]
-ANALYTICS_DIR = BASE_DIR / "analytics"
-DB_PATH = ANALYTICS_DIR / "destinations.db"
-ANALYTICS_DIR.mkdir(parents=True, exist_ok=True)
+from config_paths import ANALYTICS_DB_PATH
+DB_PATH = ANALYTICS_DB_PATH
 
 # ------------------------------------------------------
 # GLOBALS

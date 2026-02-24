@@ -23,10 +23,12 @@ RAILWAY_DB_DIR: Path = Path("/db")
 # History DB Path - use Railway volume if available
 if RAILWAY_DB_DIR.exists():
     HISTORY_DB_PATH = RAILWAY_DB_DIR / "flights_history.db"
-    logger.info("Railway volume detected. History DB path set to: %s", HISTORY_DB_PATH)
+    ANALYTICS_DB_PATH = RAILWAY_DB_DIR / "destinations.db"
+    logger.info("Railway volume detected. History DB: %s, Analytics DB: %s", HISTORY_DB_PATH, ANALYTICS_DB_PATH)
 else:
     HISTORY_DB_PATH = DATA_DIR / "flights_history.db"
-    logger.info("Using default History DB path: %s", HISTORY_DB_PATH)
+    ANALYTICS_DB_PATH = DATA_DIR / "destinations.db"
+    logger.info("Using default DB paths. History DB: %s, Analytics DB: %s", HISTORY_DB_PATH, ANALYTICS_DB_PATH)
 
 # ------------------------------------------------------------------
 # Static sub-structure (used by sitemap & pre-rendering)
