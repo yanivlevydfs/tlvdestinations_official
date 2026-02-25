@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ 'Why a Destination Disappears from the Flight Schedule?' if lang != 'he' else 'למה יעד נעלם מלוח הטיסות? ומה זה אומר
+עליכם כנוסעים' }}
+| Fly-TLV
+{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="https://fly-tlv.com/disappearing-destinations" />
+<link rel="alternate" hreflang="en" href="https://fly-tlv.com/disappearing-destinations" />
+<link rel="alternate" hreflang="he" href="https://fly-tlv.com/disappearing-destinations?lang=he" />
+
+<meta name="description"
+    content="{{ 'Understand why flight routes from TLV disappear. Insights on demand, seasonality, and airline strategy.' if lang != 'he' else 'הבינו למה קווי טיסה מנתב״ג נעלמים. תובנות על ביקוש, עונתיות ואסטרטגיה של חברות תעופה.' }}">
+<meta name="keywords"
+    content="TLV flights, Ben Gurion Airport, flight routes, canceled flights, flight statistics, travel guide, Tel Aviv">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title"
+    content="{{ 'Why a Destination Disappears from the Flight Schedule?' if lang != 'he' else 'למה יעד נעלם מלוח הטיסות? ומה זה אומר עליכם כנוסעים' }}">
+<meta property="og:description"
+    content="{{ 'It is not always politics. Most of the time, it is just economics. Here is how to understand what is really happening.' if lang != 'he' else 'זה לא תמיד פוליטי. לרוב - זה פשוט כלכלה. הנה איך להבין מה באמת קורה.' }}">
+<meta property="og:url" content="https://fly-tlv.com/disappearing-destinations">
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ 'Why a Destination Disappears from the Flight Schedule?' if lang != 'he' else 'למה יעד נעלם מלוח הטיסות? ומה זה אומר עליכם כנוסעים' }}",
+  "image": "https://fly-tlv.com/static/og/flytlv_og.jpg",
+  "author": {
+    "@type": "Organization",
+    "name": "Fly-TLV"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fly-TLV",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fly-tlv.com/static/icons/favicon-512.png"
+    }
+  },
+  "datePublished": "2024-02-25",
+  "description": "{{ 'Understanding the dynamics of direct flight routes from Ben Gurion Airport.' if lang != 'he' else 'הבנת הדינמיקה של קווי טיסה ישירים מנמל התעופה בן גוריון.' }}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+    <nav aria-label="breadcrumb" class="d-none d-lg-block">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/{{ '?lang=he' if lang == 'he' else '' }}">{{ 'Home' if lang != 'he'
+                    else 'בית' }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'Articles' if lang != 'he' else 'מאמרים' }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'Disappearing Destinations' if lang != 'he' else
+                'יעדים שנעלמים' }}</li>
+        </ol>
+    </nav>
+
+    <div class="text-center mb-5 mt-4">
+        <h1 class="display-4 fw-bold text-primary">
+            {% if lang == "he" %}
+            למה יעד נעלם מלוח הטיסות? ומה זה אומר עליכם כנוסעים ✈️
+            {% else %}
+            Why a Destination Disappears from the Flight Schedule? ✈️
+            {% endif %}
+        </h1>
+        <p class="lead text-muted">
+            {% if lang == "he" %}
+            לא פעם רואים יעד ישיר מ־**Ben Gurion Airport (TLV)** — ואז פתאום הוא נעלם.
+            {% else %}
+            You often see a direct destination from **Ben Gurion Airport (TLV)** — and then suddenly it disappears.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Intro Card -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 p-3 mb-4">
+                <div class="card-body">
+                    <p class="fs-5 mb-0">
+                        {% if lang == "he" %}
+                        זה לא תמיד פוליטי. לא תמיד ביטחוני. ולרוב — זה פשוט כלכלה. הנה איך להבין מה באמת קורה.
+                        {% else %}
+                        It's not always political. Not always security-related. And most of the time — it's just
+                        economics. Here's how to understand what's really happening.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. Low Demand -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-danger text-white py-3 fw-bold fs-5">
+                    1️⃣ {% if lang == "he" %} ביקוש נמוך = קו לא רווחי {% else %} Low Demand = Unprofitable Route {%
+                    endif %}
+                </div>
+                <div class="card-body p-4">
+                    <p>{% if lang == "he" %}חברת תעופה תפעיל קו רק אם:{% else %}An airline will operate a route only
+                        if:{% endif %}</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item bg-transparent"><i class="bi bi-person-check text-danger me-2"></i>
+                            {% if lang == "he" %}יש מספיק נוסעים{% else %}There are enough passengers{% endif %}</li>
+                        <li class="list-group-item bg-transparent"><i class="bi bi-cash-stack text-danger me-2"></i> {%
+                            if lang == "he" %}המחיר הממוצע מצדיק את העלויות{% else %}The average price justifies the
+                            costs{% endif %}</li>
+                        <li class="list-group-item bg-transparent"><i class="bi bi-graph-up text-danger me-2"></i> {% if
+                            lang == "he" %}יש תחרות סבירה{% else %}There is reasonable competition{% endif %}</li>
+                    </ul>
+                    <p class="mb-0">
+                        {% if lang == "he" %}
+                        אם מטוס יוצא חצי ריק – הקו ייסגר, גם אם הוא “נשמע מבטיח”.
+                        {% else %}
+                        If a plane leaves half-empty – the route will be closed, even if it "sounds promising".
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Seasonality -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-info text-white py-3 fw-bold fs-5">
+                    2️⃣ {% if lang == "he" %} עונתיות – לא כישלון, אלא מודל עסקי {% else %} Seasonality – Not a Failure,
+                    but a Business Model {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <p>
+                        {% if lang == "he" %}
+                        הרבה קווים לאיי יוון או יעדי נופש פועלים רק בקיץ. זה לא ביטול – זה מודל עונתי.
+                        {% else %}
+                        Many routes to the Greek islands or holiday destinations operate only in the summer. This is not
+                        a cancellation – it's a seasonal model.
+                        {% endif %}
+                    </p>
+                    <div class="alert alert-info border-0 rounded-4 mt-3 mb-0">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        {% if lang == "he" %}
+                        בחורף הביקוש יורד ← המטוסים עוברים ליעדים אחרים.
+                        {% else %}
+                        In winter, demand drops ← the planes move to other destinations.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Single Operator Risk -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-warning text-dark py-3 fw-bold fs-5">
+                    3️⃣ {% if lang == "he" %} כשיש רק מפעיל אחד – הסיכון גבוה {% else %} High Risk with a Single
+                    Operator {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <p>
+                        {% if lang == "he" %}
+                        אם יעד מופעל ע"י חברה אחת בלבד (למשל לואו-קוסט כמו **Wizz Air** או **Ryanair**), והיא מחליטה
+                        לשנות אסטרטגיה – הקו פשוט נעלם.
+                        {% else %}
+                        If a destination is operated by only one airline (e.g., low-cost like **Wizz Air** or
+                        **Ryanair**), and it decides to change strategy – the route simply disappears.
+                        {% endif %}
+                    </p>
+                    <div class="mt-3">
+                        <h6 class="fw-bold">{% if lang == "he" %}יעד יציב יותר הוא כזה שבו:{% else %}A more stable
+                            destination is one where:{% endif %}</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> {% if lang == "he"
+                                %}פועלות 2+ חברות{% else %}2+ airlines operate{% endif %}</li>
+                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> {% if lang == "he"
+                                %}יש תדירות גבוהה{% else %}High frequency{% endif %}</li>
+                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> {% if lang == "he"
+                                %}יש גם לואו-קוסט וגם סדירה{% else %}Both Low-Cost and Scheduled airlines exist{% endif
+                                %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Asset Reallocation -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-dark text-white py-3 fw-bold fs-5">
+                    4️⃣ {% if lang == "he" %} מטוס יקר = החלטות מהירות {% else %} Expensive Asset = Quick Decisions {%
+                    endif %}
+                </div>
+                <div class="card-body p-4">
+                    <p>
+                        {% if lang == "he" %}
+                        חברת תעופה לא “קשורה רגשית” ליעד. מטוס הוא נכס יקר שמועבר למקום שמייצר יותר רווח.
+                        {% else %}
+                        An airline is not "emotionally attached" to a destination. A plane is an expensive asset that is
+                        moved to a place that generates more profit.
+                        {% endif %}
+                    </p>
+                    <p class="mb-0">
+                        {% if lang == "he" %}
+                        אם עיר אחרת מביאה תשואה גבוהה יותר — המטוס יעבור לשם.
+                        {% else %}
+                        If another city brings a higher return — the plane will be moved there.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Traveler Impact -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3 fw-bold fs-5">
+                    5️⃣ {% if lang == "he" %} מה זה אומר לכם כנוסעים? {% else %} What Does This Mean for You as a
+                    Passenger? {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item bg-transparent d-flex align-items-start px-0">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <div class="fw-bold">{% if lang == "he" %}יעד חדש עם תדירות נמוכה{% else %}New
+                                    destination with low frequency{% endif %}</div>
+                                <div class="small text-muted">{% if lang == "he" %}לא לבנות עליו לטווח רחוק{% else
+                                    %}Don't count on it for the long term{% endif %}</div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex align-items-start px-0">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <div class="fw-bold">{% if lang == "he" %}יעד עם טיסה יומית ויותר ממפעיל אחד{% else
+                                    %}Destination with a daily flight and more than one operator{% endif %}</div>
+                                <div class="small text-muted">{% if lang == "he" %}סיכוי גבוה שיישאר{% else %}High
+                                    chance it will stay{% endif %}</div>
+                            </div>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex align-items-start px-0">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <div class="fw-bold">{% if lang == "he" %}יעד עונתי{% else %}Seasonal destination{%
+                                    endif %}</div>
+                                <div class="small text-muted">{% if lang == "he" %}לתכנן מראש לפי חודשים{% else %}Plan
+                                    ahead by months{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="col-12 col-lg-10">
+            <div class="card bg-primary text-white border-0 rounded-4 p-4 shadow-lg text-center mt-3">
+                <h2 class="fw-bold mb-4">{% if lang == "he" %}לסיכום{% else %}In Summary{% endif %}</h2>
+                <p class="fs-5">
+                    {% if lang == "he" %}
+                    רשת היעדים הישירים מ-TLV היא דינמית. קווים נפתחים ונסגרים בהתאם לביקוש, תחרות ורווחיות.
+                    {% else %}
+                    The direct destination network from TLV is dynamic. Routes open and close based on demand,
+                    competition, and profitability.
+                    {% endif %}
+                </p>
+                <div class="alert bg-white bg-opacity-10 text-white border-0 rounded-4 mt-3 mb-0">
+                    {% if lang == "he" %}
+                    הדרך החכמה להזמין היא לא רק למצוא מחיר טוב — אלא להבין את היציבות של הקו. Fly-TLV מאפשר לראות אילו
+                    יעדים אמיתיים ופעילים — ולא רק “היו פעם”.
+                    {% else %}
+                    The smart way to book is not just finding a good price — but understanding the stability of the
+                    route. Fly-TLV allows you to see which destinations are real and active — and not just "once were".
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="col-12 col-lg-10 text-center mt-5">
+            <a href="/{{ '?lang=he' if lang == 'he' else '' }}"
+                class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+                <i class="bi bi-airplane-engines me-2"></i> {{ 'Explore Active Destinations' if lang != 'he' else 'חקור
+                יעדים פעילים' }}
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

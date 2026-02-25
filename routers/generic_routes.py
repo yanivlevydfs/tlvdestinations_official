@@ -324,3 +324,71 @@ async def travel_questionnaire(request: Request, lang: str = Depends(get_lang)):
             },
             status_code=500
         )
+
+@router.get("/pro-tips", response_class=HTMLResponse)
+async def pro_tips_view(request: Request, lang: str = Depends(get_lang)):
+    client = request.client.host if request.client else "unknown"
+
+    try:
+        logger.debug(f"GET /pro-tips | lang={lang} | client={client}")
+
+        return TEMPLATES.TemplateResponse(
+            "pro_tips.html",
+            {
+                "request": request,
+                "lang": lang,
+                "version": APP_VERSION,
+                "now": datetime.now()
+            }
+        )
+
+    except Exception as e:
+        logger.error(f"❌ Failed to render pro_tips.html | {e} | client={client}")
+
+        return TEMPLATES.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "lang": lang,
+                "message": (
+                    "The Fly-TLV Pro Tips page could not be loaded."
+                    if lang != "he"
+                    else "לא ניתן לטעון את עמוד הטיפים למקצוענים."
+                )
+            },
+            status_code=500
+        )
+
+@router.get("/disappearing-destinations", response_class=HTMLResponse)
+async def disappearing_destinations_view(request: Request, lang: str = Depends(get_lang)):
+    client = request.client.host if request.client else "unknown"
+
+    try:
+        logger.debug(f"GET /disappearing-destinations | lang={lang} | client={client}")
+
+        return TEMPLATES.TemplateResponse(
+            "disappearing_destinations.html",
+            {
+                "request": request,
+                "lang": lang,
+                "version": APP_VERSION,
+                "now": datetime.now()
+            }
+        )
+
+    except Exception as e:
+        logger.error(f"❌ Failed to render disappearing_destinations.html | {e} | client={client}")
+
+        return TEMPLATES.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "lang": lang,
+                "message": (
+                    "The Disappearing Destinations article could not be loaded."
+                    if lang != "he"
+                    else "לא ניתן לטעון את המאמר על יעדים שנעלמים."
+                )
+            },
+            status_code=500
+        )

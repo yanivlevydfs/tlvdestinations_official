@@ -170,7 +170,13 @@
         { "@type": "ListItem", "position": 25, "item": { "@type": "SiteNavigationElement", "name": "Travel Guide", "url": "https://fly-tlv.com/travel-questionnaire" } },
         { "@type": "ListItem", "position": 26, "item": { "@type": "SiteNavigationElement", "name": "מדריך טיולים", "url": "https://fly-tlv.com/travel-questionnaire?lang=he" } },
         { "@type": "ListItem", "position": 27, "item": { "@type": "SiteNavigationElement", "name": "Sitemap", "url": "https://fly-tlv.com/sitemap.xml" } },
-        { "@type": "ListItem", "position": 28, "item": { "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" } }
+        { "@type": "ListItem", "position": 28, "item": { "@type": "SiteNavigationElement", "name": "מפת אתר", "url": "https://fly-tlv.com/sitemap.xml?lang=he" } },
+        { "@type": "ListItem", "position": 29, "item": { "@type": "SiteNavigationElement", "name": "Pro Tips", "url": "https://fly-tlv.com/pro-tips" } },
+        { "@type": "ListItem", "position": 30, "item": { "@type": "SiteNavigationElement", "name": "טיפים למקצוענים", "url": "https://fly-tlv.com/pro-tips?lang=he" } },
+        { "@type": "ListItem", "position": 31, "item": { "@type": "SiteNavigationElement", "name": "Disappearing Destinations", "url": "https://fly-tlv.com/disappearing-destinations" } },
+        { "@type": "ListItem", "position": 32, "item": { "@type": "SiteNavigationElement", "name": "יעדים שנעלמים", "url": "https://fly-tlv.com/disappearing-destinations?lang=he" } },
+        { "@type": "ListItem", "position": 33, "item": { "@type": "SiteNavigationElement", "name": "Duty Free", "url": "https://fly-tlv.com/tlv-shops" } },
+        { "@type": "ListItem", "position": 34, "item": { "@type": "SiteNavigationElement", "name": "דיוטי פרי", "url": "https://fly-tlv.com/tlv-shops?lang=he" } }
       ]
     },
     {
@@ -267,8 +273,7 @@
         </button>
       </div>
 
-      <!-- ✅ BREADCRUMBS (Sitelinks Optimization) -->
-      {% block breadcrumbs %}{% endblock %}
+
 
       <!-- Desktop Menu (Collapse effectively) -->
       <div class="collapse navbar-collapse" id="navDesktop">
@@ -340,6 +345,14 @@
                   href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}"><i
                     class="bi bi-arrow-left-right me-2 text-info"></i> {{ 'Direct vs Nonstop' if lang != 'he' else
                   'ישיר מול ללא-עצירות' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/pro-tips{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-lightbulb-fill me-2 text-warning"></i> {{ 'Pro Tips' if lang != 'he' else
+                  'טיפים למקצוענים' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2"
+                  href="/disappearing-destinations{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-patch-exclamation me-2 text-danger"></i> {{ 'Disappearing Destinations' if lang != 'he'
+                  else
+                  'יעדים שנעלמים' }}</a></li>
             </ul>
           </li>
 
@@ -486,6 +499,11 @@
           aria-current="{{ 'page' if request.url.path.startswith('/map') else 'false' }}">
           {{ "Map" if lang == "en" else "מפה" }}
         </a>
+        <a href="/tlv-shops{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link"
+          aria-label="Tax-free shops at Ben Gurion Airport"
+          aria-current="{{ 'page' if request.url.path.startswith('/tlv-shops') else 'false' }}">
+          {{ "Duty Free" if lang == "en" else "דיוטי פרי" }}
+        </a>
 
         <a href="/sitemap.xml" class="footer-link" rel="sitemap" aria-label="Website sitemap"
           aria-current="{{ 'page' if request.url.path == '/sitemap.xml' else 'false' }}">
@@ -508,6 +526,16 @@
           aria-label="Direct versus nonstop explanation page"
           aria-current="{{ 'page' if request.url.path.startswith('/direct-vs-nonstop') else 'false' }}">
           {{ "Direct vs Nonstop" if lang == "en" else "ישיר מול ללא-עצירות" }}
+        </a>
+        <a href="/pro-tips{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link"
+          aria-label="Pro Tips for travelers"
+          aria-current="{{ 'page' if request.url.path.startswith('/pro-tips') else 'false' }}">
+          {{ "Pro Tips" if lang == "en" else "טיפים למקצוענים" }}
+        </a>
+        <a href="/disappearing-destinations{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link"
+          aria-label="Why destinations disappear from the schedule"
+          aria-current="{{ 'page' if request.url.path.startswith('/disappearing-destinations') else 'false' }}">
+          {{ "Disappearing Destinations" if lang == "en" else "יעדים שנעלמים" }}
         </a>
         <a href="/terms{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="noopener"
           hreflang="{{ lang }}"

@@ -164,6 +164,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="container mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item"><a href="/{{ '?lang=he' if lang == 'he' else '' }}">{{ 'Home' if lang != 'he' else
+          'בית' }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ 'Glossary' if lang != 'he' else 'מילון מונחים' }}</li>
+    </ol>
+  </nav>
+</div>
 <!-- Hero Section -->
 <div class="hero-section text-center py-5 shadow-sm mb-4" lang="{{ lang }}"
   dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">

@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ 'How to Read Direct Flights from TLV Like a Pro' if lang != 'he' else 'איך לקרוא טיסות ישירות מ-TLV כמו מקצוענים' }}
+| Fly-TLV
+{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="https://fly-tlv.com/pro-tips" />
+<link rel="alternate" hreflang="en" href="https://fly-tlv.com/pro-tips" />
+<link rel="alternate" hreflang="he" href="https://fly-tlv.com/pro-tips?lang=he" />
+
+<meta name="description"
+    content="{{ 'Learn how to analyze direct flights from Ben Gurion Airport (TLV) correctly. Tips on low-cost, frequency, and flight types.' if lang != 'he' else 'למדו איך לקרוא ולנתח טיסות ישירות מנתב״ג כמו מקצוענים. טיפים על לואו-קוסט, תדירות וסוגי טיסות.' }}">
+<meta name="keywords"
+    content="TLV flights, Ben Gurion Airport, flight tips, low-cost flights, direct flights, travel guide, Tel Aviv">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title"
+    content="{{ 'How to Read Direct Flights from TLV Like a Pro' if lang != 'he' else 'איך לקרוא טיסות ישירות מ-TLV כמו מקצוענים' }}">
+<meta property="og:description"
+    content="{{ 'Smart travelers check connectivity first. Here is what you need to know about TLV direct flights.' if lang != 'he' else 'מטיילים חכמים בודקים קודם קישוריות. הנה מה שאתם חייבים לדעת על טיסות מנתב״ג.' }}">
+<meta property="og:url" content="https://fly-tlv.com/pro-tips">
+<meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_og.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ 'How to Read Direct Flights from TLV Like a Pro' if lang != 'he' else 'איך לקרוא טיסות ישירות מ-TLV כמו מקצוענים' }}",
+  "image": "https://fly-tlv.com/static/og/flytlv_og.jpg",
+  "author": {
+    "@type": "Organization",
+    "name": "Fly-TLV"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Fly-TLV",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fly-tlv.com/static/icons/favicon-512.png"
+    }
+  },
+  "datePublished": "2024-02-25",
+  "description": "{{ 'Detailed guide on understanding direct flight patterns from Ben Gurion Airport.' if lang != 'he' else 'מדריך מפורט להבנת דפוסי טיסות ישירות מנמל התעופה בן גוריון.' }}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+    <nav aria-label="breadcrumb" class="d-none d-lg-block">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/{{ '?lang=he' if lang == 'he' else '' }}">{{ 'Home' if lang != 'he'
+                    else
+                    'בית' }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'Pro Tips' if lang != 'he' else 'טיפים למקצוענים'
+                }}
+            </li>
+        </ol>
+    </nav>
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">
+            {% if lang == "he" %}
+            איך לקרוא טיסות ישירות מ-TLV כמו מקצוענים ✈️
+            {% else %}
+            How to Read Direct Flights from TLV Like a Pro ✈️
+            {% endif %}
+        </h1>
+        <p class="lead text-muted">
+            {% if lang == "he" %}
+            רוב האנשים מחפשים יעד. מטיילים חכמים בודקים קודם קישוריות.
+            {% else %}
+            Most people search for a destination. Smart travelers check connectivity first.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Intro Card -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 p-3 mb-4">
+                <div class="card-body">
+                    <p class="fs-5">
+                        {% if lang == "he" %}
+                        מ־Ben Gurion Airport (TLV) יוצאות עשרות טיסות ישירות – אבל לא כולן שוות באותה צורה. הנה מה שכדאי
+                        להבין לפני שמזמינים.
+                        {% else %}
+                        Dozens of direct flights depart from Ben Gurion Airport (TLV) – but they are not all created
+                        equal. Here is what you should understand before booking.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. Not all Direct is the same -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3 fw-bold fs-5">
+                    1️⃣ {% if lang == "he" %} לא כל “ישיר” הוא אותו דבר {% else %} Not all “Direct” is the Same {% endif
+                    %}
+                </div>
+                <div class="card-body p-4">
+                    <ul class="list-unstyled space-y-3">
+                        <li class="mb-3">
+                            <strong class="text-primary">{% if lang == "he" %}טיסה סדירה (Scheduled){% else %}Scheduled
+                                Flight{% endif %}</strong> –
+                            {% if lang == "he" %}מופיעה בלוח הטיסות כל השנה או עונתית קבועה.{% else %}Appears in the
+                            flight schedule all year round or as a fixed seasonal flight.{% endif %}
+                        </li>
+                        <li class="mb-3">
+                            <strong class="text-primary">{% if lang == "he" %}צ'רטר (Charter){% else %}Charter{% endif
+                                %}</strong> –
+                            {% if lang == "he" %}טיסה שמופעלת לפי ביקוש (בעיקר חגים/קיץ).{% else %}Operated based on
+                            demand (especially during holidays/summer).{% endif %}
+                        </li>
+                        <li class="mb-3">
+                            <strong class="text-primary">{% if lang == "he" %}עונתית (Seasonal){% else %}Seasonal{%
+                                endif %}</strong> –
+                            {% if lang == "he" %}קיימת רק חלק מהשנה (למשל איי יוון בקיץ).{% else %}Exists only part of
+                            the year (e.g., Greek islands in summer).{% endif %}
+                        </li>
+                    </ul>
+                    <div class="alert alert-info border-0 rounded-3 mt-3">
+                        <strong>{% if lang == "he" %}טיפ:{% else %}Tip:{% endif %}</strong>
+                        {% if lang == "he" %}
+                        אם יעד קיים רק כצ'רטר – התדירות והמחיר יכולים להשתנות דרמטית.
+                        {% else %}
+                        If a destination is only available as a charter – frequency and price can vary dramatically.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Low Cost vs Legacy -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-info text-white py-3 fw-bold fs-5">
+                    2️⃣ {% if lang == "he" %} לואו-קוסט ≠ הכי זול {% else %} Low-Cost ≠ Cheapest {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <p>
+                        {% if lang == "he" %}
+                        חברות כמו Ryanair או Wizz Air מציעות מחיר בסיס נמוך, אבל צריך לבדוק:
+                        {% else %}
+                        Airlines like Ryanair or Wizz Air offer low base prices, but you must check:
+                        {% endif %}
+                    </p>
+                    <div class="row text-center mt-3">
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded-4">
+                                <i class="bi bi-briefcase fs-2 text-primary"></i>
+                                <div class="mt-2 small fw-bold">{% if lang == "he" %}מזוודה? בתשלום{% else %}Suitcase?
+                                    Paid{% endif %}</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded-4">
+                                <i class="bi bi-person-badge fs-2 text-primary"></i>
+                                <div class="mt-2 small fw-bold">{% if lang == "he" %}מושב? בתשלום{% else %}Seat? Paid{%
+                                    endif %}</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded-4">
+                                <i class="bi bi-pencil-square fs-2 text-primary"></i>
+                                <div class="mt-2 small fw-bold">{% if lang == "he" %}שינוי? מוגבל{% else %}Changes?
+                                    Limited{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4">
+                        {% if lang == "he" %}
+                        לפעמים כרטיס של El Al Israel Airlines או חברה סדירה אחרת יוצא משתלם יותר כשמחשבים הכול.
+                        {% else %}
+                        Sometimes a ticket with El Al Israel Airlines or another regular airline is more worthwhile when
+                        calculating the total cost.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Frequency -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-success text-white py-3 fw-bold fs-5">
+                    3️⃣ {% if lang == "he" %} תדירות היא מדד קריטי {% else %} Frequency is a Critical Metric {% endif %}
+                </div>
+                <div class="card-body p-4 text-center">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-4 text-start h-100">
+                                <div class="fw-bold mb-2">✈️ {% if lang == "he" %}טיסה יומית{% else %}Daily Flight{%
+                                    endif %}</div>
+                                <div class="text-success small"><i class="bi bi-check-circle-fill"></i> {% if lang ==
+                                    "he" %}גמישות גבוהה{% else %}High flexibility{% endif %}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-4 text-start h-100">
+                                <div class="fw-bold mb-2">✈️ {% if lang == "he" %}טיסה פעמיים בשבוע{% else
+                                    %}Twice-weekly Flight{% endif %}</div>
+                                <div class="text-danger small"><i class="bi bi-exclamation-triangle-fill"></i> {% if
+                                    lang == "he" %}סיכון לביטול/שינוי{% else %}Risk of cancellation/change{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-start">
+                        {% if lang == "he" %}
+                        ככל שהתדירות גבוהה יותר – היעד יציב יותר לאורך זמן.
+                        {% else %}
+                        The higher the frequency – the more stable the destination remains over time.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Distance -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-warning text-dark py-3 fw-bold fs-5">
+                    4️⃣ {% if lang == "he" %} מרחק וזמן טיסה {% else %} Distance and Flight Time {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle">
+                            <tbody>
+                                <tr>
+                                    <td><i class="bi bi-geo-alt-fill text-primary"></i></td>
+                                    <td><strong>{% if lang == "he" %}יוון/קפריסין{% else %}Greece/Cyprus{% endif
+                                            %}</strong></td>
+                                    <td class="text-end">~1–2 {% if lang == "he" %}שעות{% else %}hours{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-geo-alt-fill text-primary"></i></td>
+                                    <td><strong>{% if lang == "he" %}מרכז אירופה{% else %}Central Europe{% endif
+                                            %}</strong></td>
+                                    <td class="text-end">~3–4 {% if lang == "he" %}שעות{% else %}hours{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="bi bi-geo-alt-fill text-primary"></i></td>
+                                    <td><strong>{% if lang == "he" %}מערב אירופה{% else %}Western Europe{% endif
+                                            %}</strong></td>
+                                    <td class="text-end">~4–5 {% if lang == "he" %}שעות{% else %}hours{% endif %}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-2 text-muted italic">
+                        {% if lang == "he" %}
+                        הבדל של שעה לכאן או לכאן משנה אם זה סופ"ש קצר.
+                        {% else %}
+                        An hour's difference can make or break a short weekend trip.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Strong Destinations -->
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                <div class="card-header bg-dark text-white py-3 fw-bold fs-5">
+                    5️⃣ {% if lang == "he" %} איך לזהות יעד “חזק” באמת? {% else %} Identifying a Truly “Strong”
+                    Destination {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <p>{% if lang == "he" %}יעד חזק לרוב יכלול:{% else %}A strong destination will usually include:{%
+                        endif %}</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent"><i class="bi bi-check-all text-success me-2"></i> {%
+                            if lang == "he" %}יותר מחברה אחת שטסה אליו{% else %}More than one airline flying there{%
+                            endif %}</li>
+                        <li class="list-group-item bg-transparent"><i class="bi bi-check-all text-success me-2"></i> {%
+                            if lang == "he" %}שילוב של לואו-קוסט + סדירה{% else %}A mix of Low-Cost + Scheduled
+                            airlines{% endif %}</li>
+                        <li class="list-group-item bg-transparent"><i class="bi bi-check-all text-success me-2"></i> {%
+                            if lang == "he" %}פעילות גם בקיץ וגם בחורף{% else %}Active in both summer and winter
+                            seasons{% endif %}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="col-12 col-lg-10">
+            <div class="card bg-primary text-white border-0 rounded-4 p-4 shadow-lg text-center">
+                <h2 class="fw-bold mb-4">{% if lang == "he" %}לסיכום{% else %}In Summary{% endif %}</h2>
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="fw-bold">{% if lang == "he" %}מי מפעיל{% else %}Operator{% endif %}</div>
+                        <i class="bi bi-buildings fs-1"></i>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="fw-bold">{% if lang == "he" %}באיזו תדירות{% else %}Frequency{% endif %}</div>
+                        <i class="bi bi-calendar-check fs-1"></i>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="fw-bold">{% if lang == "he" %}איזה מחיר{% else %}Pricing{% endif %}</div>
+                        <i class="bi bi-currency-dollar fs-1"></i>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="fw-bold">{% if lang == "he" %}האם עונתי{% else %}Stability{% endif %}</div>
+                        <i class="bi bi-graph-up-arrow fs-1"></i>
+                    </div>
+                </div>
+                <p class="mt-4 fs-5">
+                    {% if lang == "he" %}
+                    כך מזמינים חכם — לא רק זול.
+                    {% else %}
+                    That's how you book smart — not just cheap.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="col-12 col-lg-10 text-center mt-5">
+            <p class="lead fw-bold">
+                {% if lang == "he" %}
+                רוצים לראות את כל הטיסות הישירות מ-TLV בצורה מסודרת ומעודכנת?
+                {% else %}
+                Want to see all direct flights from TLV in an organized and up-to-date manner?
+                {% endif %}
+            </p>
+            <a href="/map{{ '?lang=he' if lang == 'he' else '' }}"
+                class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+                <i class="bi bi-globe-americas me-2"></i> Fly-TLV
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

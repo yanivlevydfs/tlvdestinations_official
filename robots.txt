@@ -1,8 +1,14 @@
 User-agent: *
+# Block all API endpoints and internal docs to save crawl budget
+Disallow: /api/
 Disallow: /docs
-Disallow: /api/refresh-data
 Allow: /
 
+# Explicitly allow AdSense crawler (Critical for ad revenue)
+User-agent: Mediapartners-Google
+Allow: /
+
+# AI Bots - Proactively allowed for inclusion in AI search/summaries
 User-agent: GPTBot
 Allow: /
 
@@ -10,6 +16,12 @@ User-agent: CCBot
 Allow: /
 
 User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
 Allow: /
 
 Sitemap: https://fly-tlv.com/sitemap.xml

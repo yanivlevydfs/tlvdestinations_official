@@ -251,8 +251,8 @@
         { "@type": "ListItem", "position": 10, "item": { "@type": "SiteNavigationElement", "name": "צור קשר", "url": "https://fly-tlv.com/contact?lang=he" } },
         { "@type": "ListItem", "position": 11, "item": { "@type": "SiteNavigationElement", "name": "AI Bot", "url": "https://fly-tlv.com/chat" } },
         { "@type": "ListItem", "position": 12, "item": { "@type": "SiteNavigationElement", "name": "צ׳אט", "url": "https://fly-tlv.com/chat?lang=he" } },
-        { "@type": "ListItem", "position": 13, "item": { "@type": "SiteNavigationElement", "name": "Flights", "url": "https://fly-tlv.com/destinations" } },
-        { "@type": "ListItem", "position": 14, "item": { "@type": "SiteNavigationElement", "name": "טיסות", "url": "https://fly-tlv.com/destinations?lang=he" } },
+        { "@type": "ListItem", "position": 13, "item": { "@type": "SiteNavigationElement", "name": "Flights", "url": "https://fly-tlv.com/flights" } },
+        { "@type": "ListItem", "position": 14, "item": { "@type": "SiteNavigationElement", "name": "טיסות", "url": "https://fly-tlv.com/flights?lang=he" } },
         { "@type": "ListItem", "position": 15, "item": { "@type": "SiteNavigationElement", "name": "Travel Warnings", "url": "https://fly-tlv.com/travel-warnings" } },
         { "@type": "ListItem", "position": 16, "item": { "@type": "SiteNavigationElement", "name": "אזהרות מסע", "url": "https://fly-tlv.com/travel-warnings?lang=he" } },
         { "@type": "ListItem", "position": 17, "item": { "@type": "SiteNavigationElement", "name": "Map", "url": "https://fly-tlv.com/map" } },
@@ -267,8 +267,12 @@
         { "@type": "ListItem", "position": 26, "item": { "@type": "SiteNavigationElement", "name": "ישיר מול ללא-עצירות", "url": "https://fly-tlv.com/direct-vs-nonstop?lang=he" } },
         { "@type": "ListItem", "position": 27, "item": { "@type": "SiteNavigationElement", "name": "Terms & Conditions", "url": "https://fly-tlv.com/terms" } },
         { "@type": "ListItem", "position": 28, "item": { "@type": "SiteNavigationElement", "name": "תנאי שימוש", "url": "https://fly-tlv.com/terms?lang=he" } },
-        { "@type": "ListItem", "position": 29, "item": { "@type": "SiteNavigationElement", "name": "RSS Feed", "url": "https://fly-tlv.com/rss.xml" } },
-        { "@type": "ListItem", "position": 30, "item": { "@type": "SiteNavigationElement", "name": "פיד RSS", "url": "https://fly-tlv.com/rss.xml?lang=he" } }
+        { "@type": "ListItem", "position": 29, "item": { "@type": "SiteNavigationElement", "name": "Pro Tips", "url": "https://fly-tlv.com/pro-tips" } },
+        { "@type": "ListItem", "position": 30, "item": { "@type": "SiteNavigationElement", "name": "טיפים למקצוענים", "url": "https://fly-tlv.com/pro-tips?lang=he" } },
+        { "@type": "ListItem", "position": 31, "item": { "@type": "SiteNavigationElement", "name": "Disappearing Destinations", "url": "https://fly-tlv.com/disappearing-destinations" } },
+        { "@type": "ListItem", "position": 32, "item": { "@type": "SiteNavigationElement", "name": "יעדים שנעלמים", "url": "https://fly-tlv.com/disappearing-destinations?lang=he" } },
+        { "@type": "ListItem", "position": 33, "item": { "@type": "SiteNavigationElement", "name": "Duty Free", "url": "https://fly-tlv.com/tlv-shops" } },
+        { "@type": "ListItem", "position": 34, "item": { "@type": "SiteNavigationElement", "name": "דיוטי פרי", "url": "https://fly-tlv.com/tlv-shops?lang=he" } }
       ]
     }
   ]
@@ -408,6 +412,13 @@
                   href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}"><i
                     class="bi bi-arrow-left-right me-2 text-info"></i> {{ 'Direct vs Nonstop' if lang != 'he' else
                   'ישיר מול ללא-עצירות' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/pro-tips{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-lightbulb-fill me-2 text-warning"></i> {{ 'Pro Tips' if lang != 'he' else
+                  'טיפים למקצוענים' }}</a></li>
+              <li><a class="dropdown-item rounded-3 py-2"
+                  href="/disappearing-destinations{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-patch-exclamation me-2 text-danger"></i> {{ 'Disappearing Destinations' if lang != 'he'
+                  else 'יעדים שנעלמים' }}</a></li>
             </ul>
           </li>
 
@@ -623,6 +634,38 @@
                   <span class="btn btn-outline-primary btn-sm px-4">
                     {{ 'Try Now' if lang != 'he' else 'נסה עכשיו' }}
                   </span>
+                </div>
+              </div>
+
+              <!-- Articles Card -->
+              <div class="card mt-3 shadow-sm" aria-label="Articles">
+                <div class="card-header small text-muted fw-semibold d-flex align-items-center">
+                  <i class="bi bi-journal-text me-2 text-primary fs-5"></i>
+                  {{ 'Articles & Guides' if lang != 'he' else 'מאמרים ומדריכים' }}
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush small">
+                    <a href="/pro-tips{{ '?lang=he' if lang == 'he' else '' }}"
+                      class="list-group-item list-group-item-action border-0 py-2">
+                      <i class="bi bi-lightbulb text-warning me-2"></i> {{ 'Pro Tips' if lang != 'he' else 'טיפים
+                      למקצוענים' }}
+                    </a>
+                    <a href="/direct-vs-nonstop{{ '?lang=he' if lang == 'he' else '' }}"
+                      class="list-group-item list-group-item-action border-0 py-2">
+                      <i class="bi bi-arrow-left-right text-info me-2"></i> {{ 'Direct vs Nonstop' if lang != 'he' else
+                      'ישיר מול ללא-עצירות' }}
+                    </a>
+                    <a href="/glossary{{ '?lang=he' if lang == 'he' else '' }}"
+                      class="list-group-item list-group-item-action border-0 py-2">
+                      <i class="bi bi-book text-purple me-2"></i> {{ 'Aviation Glossary' if lang != 'he' else 'מילון
+                      מונחים' }}
+                    </a>
+                    <a href="/disappearing-destinations{{ '?lang=he' if lang == 'he' else '' }}"
+                      class="list-group-item list-group-item-action border-0 py-2">
+                      <i class="bi bi-patch-exclamation text-danger me-2"></i> {{ 'Disappearing Destinations' if lang !=
+                      'he' else 'יעדים שנעלמים' }}
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -1098,6 +1141,11 @@
           aria-current="{{ 'page' if request.url.path.startswith('/map') else 'false' }}">
           {{ "Map" if lang == "en" else "מפה" }}
         </a>
+        <a href="/tlv-shops{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link"
+          aria-label="Tax-free shops at Ben Gurion Airport"
+          aria-current="{{ 'page' if request.url.path.startswith('/tlv-shops') else 'false' }}">
+          {{ "Duty Free" if lang == "en" else "דיוטי פרי" }}
+        </a>
 
         <a href="/sitemap.xml" class="footer-link" rel="sitemap" aria-label="Website sitemap"
           aria-current="{{ 'page' if request.url.path == '/sitemap.xml' else 'false' }}">
@@ -1120,6 +1168,16 @@
           aria-label="Direct versus nonstop flights explanation"
           aria-current="{{ 'page' if request.url.path.startswith('/direct-vs-nonstop') else 'false' }}">
           {{ "Direct vs Nonstop" if lang == "en" else "ישיר מול ללא-עצירות" }}
+        </a>
+        <a href="/pro-tips{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link"
+          aria-label="Pro Tips for reading flight data"
+          aria-current="{{ 'page' if request.url.path.startswith('/pro-tips') else 'false' }}">
+          {{ "Pro Tips" if lang == "en" else "טיפים למקצוענים" }}
+        </a>
+        <a href="/disappearing-destinations{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link"
+          aria-label="Why destinations disappear from the flight schedule"
+          aria-current="{{ 'page' if request.url.path.startswith('/disappearing-destinations') else 'false' }}">
+          {{ "Disappearing Destinations" if lang == "en" else "יעדים שנעלמים" }}
         </a>
         <a href="/terms{{ '?lang=he' if lang == 'he' else '' }}" class="footer-link" rel="noopener"
           hreflang="{{ lang }}"
