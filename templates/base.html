@@ -19,9 +19,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
-  <title>{{ title | default("Fly TLV → Worldwide Destinations Explorer") }}</title>
+  <title>{{ title | default("Fly TLV — The smart way to explore direct destinations from Tel Aviv (TLV)") }}</title>
   <meta name="description"
-    content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) worldwide — schedules, airlines, maps, and travel insights.') }}">
+    content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV) — airlines, schedules, distances, and estimated flight times. Plan your next trip with confidence.') }}">
   <meta name="keywords" content="flights, Tel Aviv, TLV, destinations, airports, airlines, worldwide travel" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
@@ -49,9 +49,10 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fly-tlv.com{{ request.url.path }}{{ '?lang=he' if lang == 'he' else '' }}" />
   <meta property="og:locale" content="{{ 'en_US' if lang != 'he' else 'he_IL' }}" />
-  <meta property="og:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}" />
+  <meta property="og:title"
+    content="{{ title | default('Fly TLV — The smart way to explore direct destinations from Tel Aviv (TLV)') }}" />
   <meta property="og:description"
-    content="{{ description | default('Discover all direct destinations from Tel Aviv (TLV) across the globe with maps, airlines, and travel details.') }}" />
+    content="{{ description | default('A clear overview of all nonstop destinations from Ben Gurion Airport — including airlines, schedules, distances, and estimated flight times.') }}" />
   <meta property="og:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -60,9 +61,10 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{ title | default('Flights Explorer — All TLV Destinations Worldwide') }}" />
+  <meta name="twitter:title"
+    content="{{ title | default('Fly TLV — The smart way to explore direct destinations from Tel Aviv (TLV)') }}" />
   <meta name="twitter:description"
-    content="{{ description | default('Direct worldwide destinations from Tel Aviv (TLV) with airlines, maps, and travel insights.') }}" />
+    content="{{ description | default('Explore all direct destinations from Tel Aviv (TLV). Clear overview of airlines, schedules, distances, and flight times.') }}" />
   <meta name="twitter:image" content="https://fly-tlv.com/static/og/flytlv_world.jpg" />
   <meta name="twitter:image:alt"
     content="{{ 'Map of worldwide destinations from Tel Aviv (TLV)' if lang != 'he' else 'מפת כל היעדים בעולם מתל אביב' }}" />
@@ -128,17 +130,12 @@
       "name": "Fly TLV — Worldwide Destinations Explorer",
       "url": "https://fly-tlv.com/",
       "inLanguage": "{{ 'he-IL' if lang == 'he' else 'en-US' }}",
-      "description": "{{ description | default('Explore all destinations worldwide from Tel Aviv (TLV) with airlines, maps, distances, and travel data.') }}",
+      "description": "{{ description | default('The smart way to explore direct destinations from Tel Aviv (TLV). A clear overview of all nonstop destinations from Ben Gurion Airport — airlines, schedules, distances, and estimated flight times.') }}",
       "publisher": { "@id": "https://fly-tlv.com/#organization" },
       "hasPart": {
         "@type": "WebPage",
         "url": "https://fly-tlv.com/?lang=he",
-        "inLanguage": "he-IL"
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://fly-tlv.com/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
+        "inLanguage": "he"
       }
     },
     {
@@ -267,6 +264,9 @@
         </button>
       </div>
 
+      <!-- ✅ BREADCRUMBS (Sitelinks Optimization) -->
+      {% block breadcrumbs %}{% endblock %}
+
       <!-- Desktop Menu (Collapse effectively) -->
       <div class="collapse navbar-collapse" id="navDesktop">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1 gap-lg-3">
@@ -381,7 +381,6 @@
 
       </div>
     </div>
-    </div>
   </nav>
 
   <!-- ✅ MAIN CONTENT -->
@@ -390,7 +389,7 @@
   </main>
 
   <!-- ✅ FOOTER -->
-  <footer class="mt-3 border-top footer-bg">
+  <footer class="mt-3 border-top footer-bg" itemscope itemtype="https://schema.org/WPFooter">
     <!-- First container -->
     <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
       <div class="mb-3 mb-md-0">
@@ -407,7 +406,7 @@
       </div>
 
       <div class="col-md-7">
-        <div id="footer-marketing">
+        <div id="footer-marketing" itemprop="description">
           {% if lang == "he" %}
           ✈️ <strong>הדרך החכמה לגלות יעדים ישירים מתל אביב (TLV)</strong><br>
           חיפוש טיסות יכול להיות מבלבל — אילו חברות באמת מפעילות את הקו, באילו ימים ניתן לטוס, והאם זו טיסה ישירה או רק
@@ -656,50 +655,6 @@
         navigator.serviceWorker.register("/static/js/sw.js").catch(() => { });
       });
     }
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // MAP BUTTON -> changed to direct link, handler removed
-
-      // AI BUTTON -> redirect to chat
-      const aiBtn = document.getElementById('ai-chat-btn');
-      if (aiBtn) {
-        aiBtn.addEventListener('click', () => {
-          const lang = document.documentElement.getAttribute('lang');
-          window.location.href = lang === 'he' ? '/chat?lang=he' : '/chat';
-        });
-      }
-
-      // LANGUAGE BUTTON -> toggle lang param in URL
-      const langBtn = document.getElementById('lang-toggle');
-      if (langBtn) {
-        langBtn.addEventListener('click', () => {
-          const currentLang = document.documentElement.getAttribute('lang') || 'en';
-          const newLang = currentLang === 'he' ? 'en' : 'he';
-
-          const url = new URL(window.location.href);
-          if (newLang === 'he') {
-            url.searchParams.set('lang', 'he');
-          } else {
-            url.searchParams.delete('lang');
-          }
-          window.location.href = url.toString();
-        });
-      }
-    });
-  </script>
-  <script>
-    (function () {
-      const url = new URL(window.location.href);
-      const urlLang = url.searchParams.get('lang');
-      const storedLang = localStorage.getItem('fe-lang');
-
-      if (!urlLang && storedLang === 'he') {
-        // Reload page with lang=he
-        url.searchParams.set('lang', 'he');
-        window.location.replace(url.toString());
-      }
-    })();
   </script>
   <script>
     nl_lang = "en";
