@@ -13,7 +13,7 @@
 <meta name="description"
   content="Live flight statistics from Ben Gurion Airport (TLV). Explore the top destinations, airlines, countries, and cities with departures and arrivals updated in real-time.">
 <meta name="keywords"
-  content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, arrivals, departures, Tel Aviv flights">
+  content="Ben Gurion Airport, TLV flights, flight statistics, top destinations, airlines, departures, Tel Aviv flights">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -54,19 +54,6 @@
       ]
     },
     {
-      "@type": "WebSite",
-      "@id": "https://fly-tlv.com/#website",
-      "url": "https://fly-tlv.com/",
-      "name": "Fly TLV — Direct Destinations from Tel Aviv",
-      "publisher": { "@id": "https://fly-tlv.com/#organization" },
-      "inLanguage": "en-US",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://fly-tlv.com/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
       "@type": "WebPage",
       "@id": "https://fly-tlv.com/stats#webpage",
       "url": "https://fly-tlv.com/stats",
@@ -92,17 +79,6 @@
           }
         ]
       }
-    },
-    {
-      "@type": "ItemList",
-      "@id": "https://fly-tlv.com/#navigation",
-      "name": "Site Navigation",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "item": { "@type": "SiteNavigationElement", "name": "Home", "url": "https://fly-tlv.com/" } },
-        { "@type": "ListItem", "position": 2, "item": { "@type": "SiteNavigationElement", "name": "בית", "url": "https://fly-tlv.com/?lang=he" } },
-        { "@type": "ListItem", "position": 3, "item": { "@type": "SiteNavigationElement", "name": "About", "url": "https://fly-tlv.com/about" } },
-        { "@type": "ListItem", "position": 4, "item": { "@type": "SiteNavigationElement", "name": "עלינו", "url": "https://fly-tlv.com/about?lang=he" } }
-      ]
     }
   ]
 }
@@ -456,17 +432,27 @@
           </select>
         </div>
 
-        <!-- 4. Date/History Filter (DB Sourced) -->
+        <!-- 4. Time Period Filter -->
         <div class="col-12 col-md">
-          <select id="history-filter" class="form-select border-primary fw-semibold" aria-label="Filter by Date">
-            <option value="" {% if not active_snapshot_id %}selected{% endif %}>
-              🕒 {% if lang == 'he' %}תאריך: חי (הכי עדכני){% else %}Date: Live (Latest){% endif %}
+          <select id="period-filter" class="form-select border-primary fw-semibold" aria-label="Filter by Period">
+            <option value="current" {% if period=='current' or not period %}selected{% endif %}>
+              🕒 {{ 'Current (Live)' if lang != 'he' else 'עכשיו (חי)' }}
             </option>
-            {% for snap in available_snapshots %}
-            <option value="{{ snap.id }}" {% if active_snapshot_id==snap.id %}selected{% endif %}>
-              📅 {{ snap.timestamp[:16] }}
+            <option value="daily" {% if period=='daily' %}selected{% endif %}>
+              📅 {{ 'Last 24 Hours' if lang != 'he' else '24 שעות אחרונות' }}
             </option>
-            {% endfor %}
+            <option value="weekly" {% if period=='weekly' %}selected{% endif %}>
+              📅 {{ 'Last 7 Days' if lang != 'he' else '7 ימים אחרונים' }}
+            </option>
+            <option value="monthly" {% if period=='monthly' %}selected{% endif %}>
+              📅 {{ 'Last 30 Days' if lang != 'he' else '30 יום אחרונים' }}
+            </option>
+            <option value="six_months" {% if period=='six_months' %}selected{% endif %}>
+              📅 {{ 'Last 6 Months' if lang != 'he' else '6 חודשים אחרונים' }}
+            </option>
+            <option value="one_year" {% if period=='one_year' %}selected{% endif %}>
+              📅 {{ 'Last 1 Year' if lang != 'he' else 'שנה אחרונה' }}
+            </option>
           </select>
         </div>
 
@@ -593,7 +579,6 @@
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-
     // ---------- 1. Backend data ----------
     const airlinesData = {{ airlines_data | tojson | safe
   }};
@@ -608,15 +593,15 @@
   // ---------- 2. Translations ----------
   const L = (window.LANG && window.LANG[lang]) ? window.LANG[lang] : (window.LANG ? window.LANG["en"] : {});
 
-  const historyFilter = document.getElementById("history-filter");
-  if (historyFilter) {
-    historyFilter.addEventListener("change", function () {
+  const periodFilter = document.getElementById("period-filter");
+  if (periodFilter) {
+    periodFilter.addEventListener("change", function () {
       const val = this.value;
       const url = new URL(window.location.href);
       if (val) {
-        url.searchParams.set("snapshot_id", val);
+        url.searchParams.set("period", val);
       } else {
-        url.searchParams.delete("snapshot_id");
+        url.searchParams.delete("period");
       }
       window.location.href = url.toString();
     });
@@ -649,7 +634,6 @@
 
   function getFlag(countryName) {
     if (!countryName) return "";
-    // keys in countryIsoMap are lower-case or 2-letter codes
     var iso = countryIsoMap[countryName.toLowerCase()] || countryIsoMap[countryName];
     if (!iso) return "";
     return `<img src="https://flagcdn.com/24x18/${iso.toLowerCase()}.png" alt="${countryName}" class="country-flag">`;
@@ -669,9 +653,7 @@
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
       font: {
-        color: document.body.classList.contains("dark-mode")
-          ? "#e5e5e5"
-          : "#333"
+        color: document.body.classList.contains("dark-mode") ? "#e5e5e5" : "#333"
       }
     };
   }
@@ -679,15 +661,10 @@
   // ---------- 5. Render ----------
   function renderCharts(leftData, leftLabel, rightData, rightLabel, leftKey, rightKey) {
     if (!leftData || !rightData) return;
-
     document.getElementById("left-chart-title").innerText = leftLabel;
     document.getElementById("right-chart-title").innerText = rightLabel;
-
-    document.getElementById("left-col-header").innerText =
-      leftKey === "Country" ? T.Country : leftKey === "Airline" ? T.Airline : T.City;
-
-    document.getElementById("right-col-header").innerText =
-      rightKey === "City" ? T.City : rightKey === "Country" ? T.Country : T.Airline;
+    document.getElementById("left-col-header").innerText = leftKey === "Country" ? T.Country : leftKey === "Airline" ? T.Airline : T.City;
+    document.getElementById("right-col-header").innerText = rightKey === "City" ? T.City : rightKey === "Country" ? T.Country : T.Airline;
 
     const depColor = "rgba(124,58,237,0.8)";
     const arrColor = "rgba(34,211,238,0.8)";
@@ -702,29 +679,19 @@
       { x: rightData.map(r => r[rightKey]), y: rightData.map(r => r.Arrivals), name: T.Arrivals, type: "bar", marker: { color: arrColor } }
     ], chartLayout(), { responsive: true });
 
-    // Render Left Table
     document.querySelector("#left-table tbody").innerHTML = leftData.map(r => {
       let labelHtml = r[leftKey];
-      if (leftKey === "Country") {
-        labelHtml = getFlag(r[leftKey]) + r[leftKey];
-      } else if (leftKey === "Airline") {
-        labelHtml = getLogo(r[leftKey]) + r[leftKey];
-      } else if (leftKey === "City") {
-        if (r.Country) labelHtml = getFlag(r.Country) + r[leftKey];
-      }
+      if (leftKey === "Country") labelHtml = getFlag(r[leftKey]) + r[leftKey];
+      else if (leftKey === "Airline") labelHtml = getLogo(r[leftKey]) + r[leftKey];
+      else if (leftKey === "City" && r.Country) labelHtml = getFlag(r.Country) + r[leftKey];
       return `<tr><td class="text-start ps-3">${labelHtml}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`;
     }).join("");
 
-    // Render Right Table
     document.querySelector("#right-table tbody").innerHTML = rightData.map(r => {
       let labelHtml = r[rightKey];
-      if (rightKey === "Country") {
-        labelHtml = getFlag(r[rightKey]) + r[rightKey];
-      } else if (rightKey === "Airline") {
-        labelHtml = getLogo(r[rightKey]) + r[rightKey];
-      } else if (rightKey === "City") {
-        if (r.Country) labelHtml = getFlag(r.Country) + r[rightKey];
-      }
+      if (rightKey === "Country") labelHtml = getFlag(r[rightKey]) + r[rightKey];
+      else if (rightKey === "Airline") labelHtml = getLogo(r[rightKey]) + r[rightKey];
+      else if (rightKey === "City" && r.Country) labelHtml = getFlag(r.Country) + r[rightKey];
       return `<tr><td class="text-start ps-3">${labelHtml}</td><td>${r.Departures}</td><td>${r.Arrivals}</td></tr>`;
     }).join("");
   }
@@ -732,7 +699,6 @@
   // ---------- 6. Update logic ----------
   function updateCharts(type) {
     let L, R, LK, RK, LL, RL;
-
     if (type === "Airline" && airlineSelect) {
       const v = airlineSelect.value;
       resetSelects("airline-filter");
@@ -740,11 +706,10 @@
         L = initialCountries; LK = "Country"; LL = T.TopCountries;
         R = initialCities; RK = "City"; RL = T.TopCities;
       } else if (airlinesData[v]) {
-        L = airlinesData[v].countries; LK = "Country"; LL = `🌍 ${T.Countries}`; // "Countries" for this Airline
-        R = airlinesData[v].cities; RK = "City"; RL = `🏙️ ${T.Cities}`;       // "Cities" for this Airline
+        L = airlinesData[v].countries; LK = "Country"; LL = `🌍 ${T.Countries}`;
+        R = airlinesData[v].cities; RK = "City"; RL = `🏙️ ${T.Cities}`;
       }
     }
-
     if (type === "Country" && countrySelect) {
       const v = countrySelect.value;
       resetSelects("country-filter");
@@ -756,7 +721,6 @@
         R = countriesData[v].cities; RK = "City"; RL = `🏙️ ${T.Cities}`;
       }
     }
-
     if (type === "City" && citySelect) {
       const v = citySelect.value;
       resetSelects("city-filter");
@@ -768,7 +732,6 @@
         R = citiesData[v].countries; RK = "Country"; RL = `🌍 ${T.Countries}`;
       }
     }
-
     if (L && R) renderCharts(L, LL, R, RL, LK, RK);
   }
 
@@ -782,3 +745,4 @@
   });
 </script>
 {% endblock %}
+```

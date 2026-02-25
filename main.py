@@ -90,7 +90,8 @@ from routers.itineraryGenerator import router as generate_itinerary
 from helpers.history_db import (
     save_flight_snapshot, 
     get_flight_stats_from_db, 
-    get_available_snapshots
+    get_available_snapshots,
+    get_flight_stats_by_period
 )
 from routers.history import router as history_router
 
@@ -2215,17 +2216,14 @@ async def receive_feedback(payload: dict):
     return {"status": "ok"}
     
 @app.get("/stats", response_class=HTMLResponse)
-async def flight_stats_view(request: Request, snapshot_id: int = None, lang: str = Depends(get_lang)):
-    # 💾 Fetch data from history DB (specific snapshot or latest)
-    records, timestamp = get_flight_stats_from_db(snapshot_id)
+async def flight_stats_view(request: Request, period: str = "current", lang: str = Depends(get_lang)):
+    # 💾 Fetch data from history DB by period (current, daily, weekly, monthly)
+    records, timestamp = get_flight_stats_by_period(period)
     
-    # Get available snapshots for the filter dropdown
-    available_snapshots = get_available_snapshots(limit=30)
-
     if not records:
         return TEMPLATES.TemplateResponse("error.html", {
             "request": request,
-            "message": "No live flight statistics available in database.",
+            "message": f"No flight statistics available for period: {period}",
             "lang": lang
         })
 
@@ -2234,7 +2232,9 @@ async def flight_stats_view(request: Request, snapshot_id: int = None, lang: str
     
     # Map direction and human-readable columns
     # airline_name, city_name, country_name, direction, airline_code
-    df["Direction"] = df["direction"].map({"D": "Departure", "A": "Arrival"})
+    if "direction" in df.columns:
+        df["Direction"] = df["direction"].map({"D": "Departure", "A": "Arrival"})
+    
     df = df.rename(columns={
         "airline_name": "Airline",
         "city_name": "City",
@@ -2247,6 +2247,13 @@ async def flight_stats_view(request: Request, snapshot_id: int = None, lang: str
         groups = [group_field, "Direction"]
         if include_country and group_field == "City" and "Country" in sub_df.columns:
             groups.insert(1, "Country")
+
+        if "Direction" not in sub_df.columns:
+             # Fallback if direction is missing
+             stats = sub_df.groupby([group_field]).size().reset_index(name="Total")
+             stats["Departures"] = stats["Total"]
+             stats["Arrivals"] = 0
+             return stats.sort_values("Total", ascending=False).head(10).to_dict("records")
 
         stats = (
             sub_df.groupby(groups)
@@ -2365,7 +2372,7 @@ async def flight_stats_view(request: Request, snapshot_id: int = None, lang: str
             "count": 0, "airlines": [], "destinations": [], "destinations_count": 0
         }
 
-    # --- Render --- (Updated for Country/City filters)
+    # --- Render --- (Updated for period filter)
     return TEMPLATES.TemplateResponse("stats.html", {
         "request": request,
         "lang": lang,
@@ -2382,8 +2389,7 @@ async def flight_stats_view(request: Request, snapshot_id: int = None, lang: str
         "legacy_stats": legacy_airlines_stats,
         "country_iso_map": COUNTRY_NAME_TO_ISO,  # ✅ Pass ISO Map
         "airline_to_code": airline_to_code,      # ✅ Pass Airline Codes
-        "available_snapshots": available_snapshots, # ✅ Pass History snapshots
-        "active_snapshot_id": snapshot_id         # ✅ Pass active snapshot ID
+        "period": period                         # ✅ Pass active period
     })
 
 @app.get("/api/refresh-data", response_class=JSONResponse)

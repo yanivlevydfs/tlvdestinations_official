@@ -235,3 +235,44 @@ def get_flight_stats_from_db(request_id: int = None):
     except Exception as e:
         logger.error(f"Error fetching stats: {e}", exc_info=True)
         return None, None
+
+def get_flight_stats_by_period(period: str = "current"):
+    """Fetch flight statistics for a specific period (current, daily, weekly, monthly)."""
+    try:
+        with db_manager.get_connection() as conn:
+            cursor = conn.cursor()
+            
+            if period == "current" or not period:
+                return get_flight_stats_from_db()
+
+            if period == "daily":
+                interval = "-1 day"
+            elif period == "weekly":
+                interval = "-7 days"
+            elif period == "monthly":
+                interval = "-30 days"
+            elif period == "six_months":
+                interval = "-6 months"
+            elif period == "one_year":
+                interval = "-1 year"
+            else:
+                return get_flight_stats_from_db()
+
+            # Query unique flights in the period to avoid double-counting from multiple snapshots
+            query = f"""
+                SELECT airline_name, city_name, country_name, direction, airline_code
+                FROM (
+                    SELECT DISTINCT airline_name, flight_number, scheduled_time, direction, city_name, country_name, airline_code
+                    FROM flights_history
+                    WHERE timestamp >= datetime('now', '{interval}')
+                )
+            """
+            cursor.execute(query)
+            flights = [dict(r) for r in cursor.fetchall()]
+            
+            timestamp_label = f"Last {period.capitalize()}"
+            return flights, timestamp_label
+
+    except Exception as e:
+        logger.error(f"Error fetching stats for period {period}: {e}", exc_info=True)
+        return None, None
