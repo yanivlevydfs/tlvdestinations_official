@@ -1,6 +1,7 @@
 User-agent: *
 # Block all API endpoints and internal docs to save crawl budget
 Disallow: /api/
+Disallow: /admin/
 Disallow: /docs
 Allow: /
 
