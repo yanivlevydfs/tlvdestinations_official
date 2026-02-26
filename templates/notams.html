@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/css/notams.css?v={{ version }}">
+{% endblock %}
+
+{% block content %}
+<div class="notam-container" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
+    <!-- Navigation Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/{{ '?lang=he' if lang == 'he' else '' }}">{{ "Home" if lang != 'he'
+                    else "בית" }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ "NOTAM Router" if lang != 'he' else "נתב נוטאם" }}
+            </li>
+        </ol>
+    </nav>
+
+    <header class="notam-header">
+        <h1>{{ "NOTAM Router" if lang != 'he' else "נתב נוטאם (NOTAM)" }}</h1>
+        <p>{{ "Essential flight safety information for pilots and travelers." if lang != 'he' else "מידע בטיחות טיסה
+            חיוני לטייסים ומטיילים." }}</p>
+        <div class="last-update-badge">
+            <i class="bi bi-calendar3"></i>
+            {{ current_date }}
+        </div>
+    </header>
+
+    <div class="search-card">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-9">
+                <select id="airport-select" class="form-control" style="width: 100%;">
+                    <option value="">{{ "-- Choose Airport --" if lang != 'he' else "-- בחר שדה תעופה --" }}</option>
+                    {% for airport in airports %}
+                    <option value="{{ airport.iata }}">{{ airport.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button id="fetch-btn" class="btn btn-cta w-100 py-3">
+                    <i class="bi bi-search me-2"></i>
+                    {{ "Search" if lang != 'he' else "חפש" }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+        <p class="mt-2 text-muted">{{ "Loading NOTAMs..." if lang != 'he' else "טוען נוטאמים..." }}</p>
+    </div>
+
+    <div id="results-container">
+        <!-- Results will be injected here -->
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#airport-select').select2({
+            placeholder: '{{ "-- Choose Airport --" if lang != "he" else "-- בחר שדה תעופה --" }}',
+            allowClear: true
+        });
+
+        $('#fetch-btn').on('click', function () {
+            const iata = $('#airport-select').val();
+            if (!iata) return;
+
+            $('#results-container').empty();
+            $('#loader').fadeIn();
+
+            const lang = '{{ lang }}';
+            const date = '{{ current_date }}';
+
+            $.ajax({
+                url: `/api/notams?iata=${iata}&date=${date}`,
+                method: 'GET',
+                success: function (data) {
+                    $('#loader').hide();
+                    if (data && data.length > 0) {
+                        data.forEach((notam, index) => {
+                            const delay = index * 0.1;
+                            const friendlyText = notam.friendly_text || notam.condition;
+                            const isParsed = notam.friendly_text && notam.friendly_text !== notam.condition;
+
+                            const card = `
+                                <div class="card notam-card" style="animation-delay: ${delay}s">
+                                    <div class="notam-card-header">
+                                        <div class="fw-bold d-flex align-items-center"><i class="bi bi-broadcast me-2"></i> ${notam.number.toUpperCase()}</div>
+                                        <div class="notam-label-pill">${notam.class}</div>
+                                    </div>
+                                    <div class="notam-card-body">
+                                        <div class="description-box">
+                                            <div class="desc-label"><i class="bi bi-info-circle-fill"></i> ${lang === 'he' ? 'סיכום המידע' : 'Information Summary'}</div>
+                                            <div class="desc-content">${friendlyText}</div>
+                                        </div>
+                                        
+                                        <div class="notam-meta-grid">
+                                            <div class="meta-item">
+                                                <div class="meta-label"><i class="bi bi-calendar-event me-1"></i> ${lang === 'he' ? 'התחלה' : 'Starts'}</div>
+                                                <div class="meta-value">${notam.startdateutc.replace('t', ' ')}</div>
+                                            </div>
+                                            <div class="meta-item">
+                                                <div class="meta-label"><i class="bi bi-calendar-x me-1"></i> ${lang === 'he' ? 'סיום' : 'Ends'}</div>
+                                                <div class="meta-value">${notam.enddateutc.replace('t', ' ')}</div>
+                                            </div>
+                                            <div class="meta-item">
+                                                <div class="meta-label"><i class="bi bi-geo-alt-fill me-1"></i> ${lang === 'he' ? 'מיקום' : 'Location'}</div>
+                                                <div class="meta-value text-uppercase">${notam.location}</div>
+                                            </div>
+                                        </div>
+                                        
+                                        ${isParsed ? `
+                                        <details class="tech-details">
+                                            <summary><i class="bi bi-chevron-down"></i> ${lang === 'he' ? 'הצג טקסט מקור טכני' : 'Show technical source text'}</summary>
+                                            <div class="code-block">${notam.condition}</div>
+                                        </details>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `;
+                            $('#results-container').append(card);
+                        });
+                    } else {
+                        $('#results-container').html(`
+                            <div class="alert alert-info rounded-4 p-4 text-center">
+                                <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+                                ${lang === 'he' ? 'לא נמצאו נוטאמים עבור שדה זה בתאריך המבוקש.' : 'No NOTAMs found for this airport on the selected date.'}
+                            </div>
+                        `);
+                    }
+                },
+                error: function () {
+                    $('#loader').hide();
+                    $('#results-container').html(`
+                        <div class="alert alert-danger rounded-4 p-4 text-center">
+                            <i class="bi bi-exclamation-triangle fs-3 d-block mb-2"></i>
+                            ${lang === 'he' ? 'אירעה שגיאה בטעינת הנתונים. אנא נסה שוב מאוחר יותר.' : 'An error occurred while loading data. Please try again later.'}
+                        </div>
+                    `);
+                }
+            });
+        });
+
+        // Handle enter key
+        $('#airport-select').on('select2:select', function () {
+            $('#fetch-btn').trigger('click');
+        });
+    });
+</script>
+{% endblock %}

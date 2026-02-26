@@ -3340,3 +3340,487 @@ body.dark-mode .nav-item.dropdown:hover>.nav-link {
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.6) !important;
   color: #fff !important;
 }
+
+/* ===== Premium Select2 Skinning (WOW Design) ===== */
+.select2-container--default .select2-selection--single {
+  height: 3.2rem !important;
+  border-radius: 0.85rem !important;
+  border: var(--glass-border) !important;
+  background: var(--glass-bg) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 1rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  color: inherit !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: inherit !important;
+  font-weight: 500 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 100% !important;
+  right: 1rem !important;
+}
+
+body.dark-mode .select2-dropdown {
+  background: #16171d !important;
+  color: #e5e5e5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+}
+
+body.dark-mode .select2-results__option {
+  color: #a1a1aa !important;
+}
+
+body.dark-mode .select2-results__option--highlighted[aria-selected] {
+  background: var(--accent) !important;
+  color: white !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border-radius: 0.5rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  padding: 0.5rem !important;
+}
+
+body.dark-mode .select2-search--dropdown .select2-search__field {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #9ca3af !important;
+}
+
+
+/* Mobile Select2 Tweaks */
+@media (max-width: 991px) {
+  .select2-container--default .select2-selection--single {
+    height: 2.8rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Wow focus effect */
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+  transform: translateY(-1px);
+}
+
+
+/* ===== Premium Search Box Styling (WOW Design) ===== */
+.query-wrapper {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-input {
+  height: 3.2rem !important;
+  border-radius: 0.85rem !important;
+  border: var(--glass-border) !important;
+  background: var(--glass-bg) !important;
+  padding-left: 2.8rem !important;
+  padding-right: 2.8rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  color: inherit !important;
+}
+
+.premium-input:focus {
+  background: var(--glass-bg) !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+.search-icon-inner {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 1.1rem;
+  pointer-events: none;
+  transition: color 0.3s ease;
+  z-index: 5;
+}
+
+.premium-input:focus~.search-icon-inner {
+  color: #6366f1;
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9ca3af;
+  padding: 4px;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  z-index: 5;
+  line-height: 1;
+}
+
+.btn-clear-search:hover {
+  color: #ef4444;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Fix for RTL */
+[dir='rtl'] .premium-input {
+  padding-left: 2.8rem !important;
+  padding-right: 2.8rem !important;
+}
+
+[dir='rtl'] .search-icon-inner {
+  left: auto;
+  right: 1rem;
+}
+
+[dir='rtl'] .btn-clear-search {
+  right: auto;
+  left: 0.8rem;
+}
+
+@media (max-width: 991px) {
+  .premium-input {
+    height: 2.8rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+
+/* ===== Premium Low-Cost Toggle (WOW Design) ===== */
+.premium-switch-container {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  border-radius: 0.85rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.premium-switch-container:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .premium-switch-container:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-switch .form-check-input {
+  width: 2.8rem !important;
+  height: 1.5rem !important;
+  margin-top: 0 !important;
+  cursor: pointer !important;
+  background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-4 -4 8 8%22><circle r=%223%22 fill=%22%239ca3af%22/></svg>') !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #6366f1 !important;
+  border-color: #6366f1 !important;
+  background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-4 -4 8 8%22><circle r=%223%22 fill=%22%23fff%22/></svg>') !important;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4) !important;
+}
+
+body.dark-mode .form-switch .form-check-input {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .form-switch .form-check-input:checked {
+  background-color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5) !important;
+}
+
+
+/* ===== Premium Theme Switch (WOW Design) ===== */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch {
+  width: 52px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.theme-switch-icon {
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.theme-switch-icon i {
+  font-size: 13px;
+  color: #6366f1;
+  transition: all 0.3s ease;
+}
+
+/* Dark mode state */
+body.dark-mode .theme-switch {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .theme-switch-icon {
+  left: 27px;
+  background: #1e1e2e;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+body.dark-mode .theme-switch-icon i {
+  color: #fbbf24;
+  transform: rotate(-15deg);
+}
+
+.theme-switch:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+@media (max-width: 991px) {
+  .theme-switch {
+    width: 48px;
+    height: 26px;
+  }
+
+  .theme-switch-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  body.dark-mode .theme-switch-icon {
+    left: 25px;
+  }
+}
+
+
+/* ===== Extreme WOW Theme Switch ===== */
+.theme-switch {
+  width: 64px !important;
+  height: 32px !important;
+  background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+}
+
+.theme-switch-icon {
+  width: 26px !important;
+  height: 26px !important;
+  left: 3px !important;
+  background: #fdf6e3 !important;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.5) !important;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+}
+
+.theme-switch-icon i {
+  font-size: 14px !important;
+  color: #f59e0b !important;
+}
+
+/* Decorative elements (clouds/stars) */
+.theme-switch::before {
+  content: '';
+  position: absolute;
+  right: 8px;
+  font-size: 10px;
+  opacity: 0.6;
+  transition: all 0.5s ease;
+}
+
+body.dark-mode .theme-switch {
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-mode .theme-switch::before {
+  content: '';
+  right: auto;
+  left: 8px;
+  opacity: 0.8;
+}
+
+body.dark-mode .theme-switch-icon {
+  left: 33px !important;
+  background: #1e1e2e !important;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6) !important;
+}
+
+body.dark-mode .theme-switch-icon i {
+  color: #e0e7ff !important;
+  text-shadow: 0 0 5px #6366f1 !important;
+}
+
+.theme-switch:active .theme-switch-icon {
+  width: 32px !important;
+}
+
+
+/* ===== Refined Table Aesthetics (Airlines, IATA, Headers) ===== */
+.iata-badge {
+  font-weight: 800;
+  color: var(--bs-primary);
+  background: rgba(99, 102, 241, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+body.dark-mode .iata-badge {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.airport-link {
+  color: var(--bs-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.airport-link:hover {
+  color: #4f46e5;
+  text-decoration: underline !important;
+}
+
+body.dark-mode .airport-link {
+  color: #e0e7ff;
+}
+
+/* Airline Chips Refinement */
+.airline-chip {
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.airline-chip-inner {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4b5563;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .airline-chip-inner {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
+}
+
+.airline-chip:hover .airline-chip-inner {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--bs-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.airline-chip-inner img {
+  height: 14px;
+  width: auto;
+  margin-right: 6px;
+  filter: grayscale(0.2);
+  transition: all 0.3s ease;
+}
+
+.airline-chip:hover img {
+  filter: grayscale(0);
+  transform: scale(1.1);
+}
+
+.airline-chip-inner i {
+  font-size: 0.75rem;
+  margin-left: 6px;
+  opacity: 0.5;
+}
+
+/* Hide DataTables Sort Icons and Add Premium Ones */
+#airports-table thead th.sorting::after,
+#airports-table thead th.sorting::before,
+#airports-table thead th.sorting_asc::after,
+#airports-table thead th.sorting_desc::after {
+  display: none !important;
+}
+
+#airports-table thead th {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+#airports-table thead th:hover {
+  background: rgba(99, 102, 241, 0.15) !important;
+}
+
+#airports-table thead th::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  opacity: 0.2;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+#airports-table thead th.sorting_asc::after {
+  content: '';
+  opacity: 1;
+  color: var(--bs-primary);
+}
+
+#airports-table thead th.sorting_desc::after {
+  content: '';
+  opacity: 1;
+  color: var(--bs-primary);
+}
+
+/* Light Mode Table Row Background */
+body:not(.dark-mode) #airports-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.015);
+}

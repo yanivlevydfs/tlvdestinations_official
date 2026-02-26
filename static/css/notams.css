@@ -1,0 +1,326 @@
+/* Premium NOTAM UI Styles - "WOW" Edition */
+.notam-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.notam-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.notam-header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    background: var(--accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--accent-glow);
+    margin-bottom: 0.25rem;
+    letter-spacing: -1px;
+}
+
+.notam-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+    opacity: 0.9;
+}
+
+body.dark-mode .notam-header p {
+    color: #a1a1aa;
+}
+
+.search-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Select2 Skinning */
+.select2-container--default .select2-selection--single {
+    height: 3.2rem;
+    border-radius: 0.85rem;
+    border: var(--glass-border) !important;
+    background: var(--glass-bg) !important;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.dark-mode .select2-dropdown {
+    background: #16171d;
+    color: #e5e5e5;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+body.dark-mode .select2-results__option--highlighted[aria-selected] {
+    background: var(--accent);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: inherit !important;
+    font-weight: 500;
+}
+
+/* NOTAM Cards - Compact & Wow */
+.notam-card {
+    margin-bottom: 1.25rem;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    animation: floatIn 0.6s ease forwards;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: #fff;
+}
+
+.notam-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+body.dark-mode .notam-card {
+    background: rgba(22, 23, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.notam-card-header {
+    background: var(--accent);
+    padding: 0.85rem 1.5rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.notam-card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+}
+
+.notam-card:hover .notam-card-header::after {
+    transform: translateX(100%);
+}
+
+.notam-card-body {
+    padding: 1.25rem 1.5rem;
+}
+
+.description-box {
+    position: relative;
+    padding-left: 1rem;
+    border-left: 3px solid #6366f1;
+    margin-bottom: 1rem;
+}
+
+body.dark-mode .description-box {
+    border-left-color: #38bdf8;
+}
+
+.description-box .desc-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6366f1;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+body.dark-mode .description-box .desc-label {
+    color: #38bdf8;
+}
+
+.description-box .desc-content {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #111827;
+    line-height: 1.4;
+}
+
+body.dark-mode .description-box .desc-content {
+    color: #f3f4f6;
+}
+
+.notam-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 0.85rem;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+body.dark-mode .notam-meta-grid {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.meta-item .meta-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.meta-item .meta-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+body.dark-mode .meta-item .meta-value {
+    color: #d1d5db;
+}
+
+.notam-label-pill {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tech-details {
+    margin-top: 0.5rem;
+}
+
+.tech-details summary {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #9ca3af;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 0.2s;
+}
+
+.tech-details summary:hover {
+    color: #6366f1;
+}
+
+.tech-details .code-block {
+    margin-top: 0.75rem;
+    padding: 1rem;
+    background: #1a1b23;
+    color: #10b981;
+    border-radius: 0.75rem;
+    font-family: 'Fira Code', 'Monaco', monospace;
+    font-size: 0.8rem;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.loader {
+    display: none;
+    text-align: center;
+    margin: 3rem 0;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(99, 102, 241, 0.1);
+    border-top: 4px solid #6366f1;
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar Style */
+#results-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+#results-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+body.dark-mode #results-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+}

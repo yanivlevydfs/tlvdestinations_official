@@ -83,6 +83,7 @@ from routers.sitemap_routes import sitemap
 from routers.destination_diff_routes import router as destination_diff_routes
 from helpers.destination_diff import ensure_previous_snapshot, generate_destination_diff
 from routers.airlines_tlv import router as airlines_router
+from routers.notams import router as notams_router
 
 from routers.tlv_shops import router as tlv_shops_router
 from routers.weather import router as weather_router, cleanup_weather_cache_task, prefetch_weather
@@ -202,6 +203,7 @@ app.include_router(generate_itinerary)
 app.include_router(tlv_shops_router)
 app.include_router(weather_router)
 app.include_router(history_router)
+app.include_router(notams_router)
 
 # ───────────────────────────────────────────────
 # Global in-memory dataset

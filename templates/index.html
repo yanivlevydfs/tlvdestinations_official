@@ -114,6 +114,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.bootstrap5.min.css" />
   <link rel="stylesheet" href="/static/css/app.css?v={{ version }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   <!-- JavaScript Dependencies -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -149,6 +150,7 @@
 
   <!-- Bootstrap bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- Ads script -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7964221655161384"
@@ -379,6 +381,10 @@
                     class="bi bi-compass me-2 text-primary"></i> {{ 'Travel Guide' if lang != 'he' else 'מדריך טיולים'
                   }}</a>
               </li>
+              <li><a class="dropdown-item rounded-3 py-2" href="/notams{{ '?lang=he' if lang == 'he' else '' }}"><i
+                    class="bi bi-broadcast-pin me-2 text-warning"></i> {{ 'NOTAM Router' if lang != 'he' else 'נתב
+                  NOTAM' }}</a>
+              </li>
             </ul>
           </li>
 
@@ -576,27 +582,29 @@
                       </option>
                     </select>
                   </div>
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="lowcost-filter">
-                    <label class="form-check-label small" for="lowcost-filter">
-                      {% if lang == "he" %}
-                      לואו-קוסט בלבד
-                      {% else %}
-                      Low-cost only
-                      {% endif %}
-                    </label>
+                  <div class="mb-3 premium-switch-container">
+                    <div class="form-check form-switch p-0 d-flex align-items-center justify-content-between">
+                      <label class="form-check-label fw-semibold" for="lowcost-filter">
+                        <i class="bi bi-tag-fill me-1 text-primary"></i>
+                        {% if lang == "he" %}
+                        לואו-קוסט בלבד
+                        {% else %}
+                        Low-cost only
+                        {% endif %}
+                      </label>
+                      <input type="checkbox" class="form-check-input ms-0" id="lowcost-filter" role="switch">
+                    </div>
                   </div>
                   <div class="mb-3 mt-3">
-                    <label for="query-filter" class="form-label">
-                      {% if lang == "he" %}
-                      חיפוש
-                      {% else %}
-                      Search
-                      {% endif %}
-                    </label>
-                    <input type="text" id="query-filter" class="form-control" list="search-suggestions"
-                      placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
-                      aria-label="Search airport, city, or country" />
+                    <div class="query-wrapper position-relative">
+                      <i class="bi bi-search search-icon-inner"></i>
+                      <input type="text" id="query-filter" class="form-control premium-input" list="search-suggestions"
+                        placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
+                        aria-label="Search airport, city, or country" />
+                      <button type="button" class="btn-clear-search d-none" id="clear-search-desktop">
+                        <i class="bi bi-x-circle-fill"></i>
+                      </button>
+                    </div>
                   </div>
                   <div class="border-top pt-3 mt-3 d-flex gap-2">
                     <button class="btn btn-sm btn-outline-secondary" id="clear-filters" aria-label="Clear all filters">
@@ -818,21 +826,27 @@
                   </option>
                 </select>
               </div>
-              <div class="mb-2 form-check">
-                <input type="checkbox" class="form-check-input" id="lowcost-filter-mobile">
-                <label class="form-check-label small" for="lowcost-filter-mobile">
-                  {% if lang == "he" %}לואו-קוסט בלבד{% else %}Low-cost only{% endif %}
-                </label>
+              <div class="mb-3 premium-switch-container">
+                <div class="form-check form-switch p-0 d-flex align-items-center justify-content-between">
+                  <label class="form-check-label small fw-semibold" for="lowcost-filter-mobile">
+                    <i class="bi bi-tag-fill me-1 text-primary"></i>
+                    {% if lang == "he" %}לואו-קוסט בלבד{% else %}Low-cost only{% endif %}
+                  </label>
+                  <input type="checkbox" class="form-check-input ms-0" id="lowcost-filter-mobile" role="switch">
+                </div>
               </div>
 
               <div class="mb-2">
-                <label for="query-filter-mobile" class="form-label mb-1 small">
-                  {% if lang == "he" %}חיפוש{% else %}Search{% endif %}
-                </label>
-                <input type="text" id="query-filter-mobile" class="form-control form-control-sm"
-                  list="search-suggestions"
-                  placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
-                  aria-label="Search airport, city, or country" />
+                <div class="query-wrapper position-relative">
+                  <i class="bi bi-search search-icon-inner"></i>
+                  <input type="text" id="query-filter-mobile" class="form-control form-control-sm premium-input"
+                    list="search-suggestions"
+                    placeholder="{% if lang == 'he' %}חפש שדה, עיר או מדינה{% else %}Search airport, city, country{% endif %}"
+                    aria-label="Search airport, city, or country" />
+                  <button type="button" class="btn-clear-search d-none" id="clear-search-mobile">
+                    <i class="bi bi-x-circle-fill"></i>
+                  </button>
+                </div>
               </div>
 
               <div class="border-top pt-2 mt-2 d-flex gap-2">

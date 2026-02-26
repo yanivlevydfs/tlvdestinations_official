@@ -479,14 +479,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let debounceTimerMobile;
   $('#query-filter-mobile').on('input', function () {
+    const input = $(this);
+    const btn = $('#clear-search-mobile');
+    toggleClearBtn(input, btn);
+
     clearTimeout(debounceTimerMobile);
     const val = this.value;
-    $('#country-filter-mobile').val('All');
+    $('#country-filter-mobile').val('All').trigger('change.select2'); // Sync Select2 UI
     table.column(2).search('', true, false);
     debounceTimerMobile = setTimeout(() => {
       table.search(escapeRegex(val), true, false).draw();
       updateActiveFilters(LANG[currentLang]);
     }, 250);
+  });
+
+  $('#clear-search-mobile').on('click', function () {
+    $('#query-filter-mobile').val('').trigger('input');
   });
 
   // ---------- Chat button redirect ----------
@@ -511,6 +519,16 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     table = initDataTable(savedLang2);
     populateAirlineFilter(savedLang2);
+
+    // Initialize Select2 for filters
+    const s2Options = {
+      placeholder: savedLang2 === 'he' ? 'בחר...' : 'Choose...',
+      allowClear: true,
+      width: '100%'
+    };
+    $('#country-filter, #airline-filter, #direction-select').select2(s2Options);
+    $('#country-filter-mobile, #airline-filter-mobile, #direction-select-mobile').select2(s2Options);
+
     // Defer applyLanguage slightly to allow DOM + DT render
     setTimeout(() => {
       applyLanguage(savedLang2, false);
@@ -582,16 +600,32 @@ document.addEventListener('DOMContentLoaded', () => {
     updateActiveFilters(LANG[currentLang]);
   });
 
+  function toggleClearBtn(input, btn) {
+    if (input.val()) {
+      btn.removeClass('d-none');
+    } else {
+      btn.addClass('d-none');
+    }
+  }
+
   let debounceTimer;
   $('#query-filter').on('input', function () {
+    const input = $(this);
+    const btn = $('#clear-search-desktop');
+    toggleClearBtn(input, btn);
+
     clearTimeout(debounceTimer);
     const val = this.value;
-    $('#country-filter').val('All');
+    $('#country-filter').val('All').trigger('change.select2'); // Sync Select2 UI
     table.column(2).search('', true, false);
     debounceTimer = setTimeout(() => {
       table.search(escapeRegex(val), true, false).draw();
       updateActiveFilters(LANG[currentLang]);
     }, 250);
+  });
+
+  $('#clear-search-desktop').on('click', function () {
+    $('#query-filter').val('').trigger('input');
   });
 
   if (clearFiltersBtn) {
