@@ -556,7 +556,7 @@
                     </label>
                     <select id="country-filter" class="form-select" aria-label="Select country">
                       {% for c in countries %}
-                      <option value="{{ c }}">
+                      <option value="{{ c }}" {% if c==country %}selected{% endif %}>
                         {% if c == 'All' and lang == 'he' %}הכל{% else %}{{ c }}{% endif %}
                       </option>
                       {% endfor %}
@@ -802,7 +802,7 @@
                 </label>
                 <select id="country-filter-mobile" class="form-select form-select-sm" aria-label="Select country">
                   {% for c in countries %}
-                  <option value="{{ c }}">
+                  <option value="{{ c }}" {% if c==country %}selected{% endif %}>
                     {% if c == 'All' and lang == 'he' %}הכל{% else %}{{ c }}{% endif %}
                   </option>
                   {% endfor %}
@@ -855,13 +855,13 @@
               aria-label="Table of all direct destinations from Tel Aviv">
               <thead class="table-primary">
                 <tr>
-                  <th>IATA</th>
-                  <th>Airport</th>
-                  <th>Country</th>
-                  <th>City</th>
-                  <th>Airlines</th>
-                  <th>Distance</th>
-                  <th>Flight Time</th>
+                  <th>{{ 'IATA' if lang != 'he' else 'IATA' }}</th>
+                  <th>{{ 'Airport' if lang != 'he' else 'שדה תעופה' }}</th>
+                  <th>{{ 'Country' if lang != 'he' else 'מדינה' }}</th>
+                  <th>{{ 'City' if lang != 'he' else 'עיר' }}</th>
+                  <th>{{ 'Airlines' if lang != 'he' else 'חברות תעופה' }}</th>
+                  <th>{{ 'Distance' if lang != 'he' else 'מרחק' }}</th>
+                  <th>{{ 'Flight Time' if lang != 'he' else 'זמן טיסה' }}</th>
                   <th class="d-none">Direction</th>
                 </tr>
               </thead>
@@ -871,13 +871,15 @@
                   <td>{{ ap.IATA }}</td>
                   <td>
                     <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold"
-                      aria-label="View destination {{ ap.Name }}" data-log="destination" data-iata="{{ ap.IATA }}"
-                      data-airport="{{ ap.Name }}" data-city="{{ ap.City }}" data-country="{{ ap.Country }}">
-                      {{ ap.Name }}
+                      aria-label="View destination {{ ap.Name if lang != 'he' else ap.Name_he }}" data-log="destination"
+                      data-iata="{{ ap.IATA }}" data-airport="{{ ap.Name if lang != 'he' else ap.Name_he }}"
+                      data-city="{{ ap.City if lang != 'he' else ap.City_he }}"
+                      data-country="{{ ap.Country if lang != 'he' else ap.Country_he }}">
+                      {{ ap.Name if lang != 'he' else ap.Name_he }}
                     </a>
                   </td>
-                  <td>{{ ap.Country }}</td> <!-- ✅ Country first -->
-                  <td>{{ ap.City }}</td> <!-- ✅ City second -->
+                  <td>{{ ap.Country if lang != 'he' else ap.Country_he }}</td> <!-- ✅ Country first -->
+                  <td>{{ ap.City if lang != 'he' else ap.City_he }}</td> <!-- ✅ City second -->
                   <td class="airline-cell">
                     {% if ap.Airlines and ap.Airlines[0] != "—" %}
                     {% for airline in ap.Airlines %}

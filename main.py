@@ -890,6 +890,9 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
         "FlightNumbers",
         "Terminals",
         "Statuses",
+        "Name_he",
+        "City_he",
+        "Country_he",
     ]
 
     if not ISRAEL_FLIGHTS_FILE.exists():
@@ -943,6 +946,7 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "FlightNumbers": set(),
                 "Terminals": set(),
                 "Statuses": set(),
+                "Name_he": rec.get("airport_name_he") or "—",
             })
 
             airline = rec.get("airline")
@@ -1015,6 +1019,17 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             dist_km = haversine_km(TLV["lat"], TLV["lon"], lat, lon) if lat and lon else None
             flight_hr = get_flight_time(dist_km) if dist_km else "—"
 
+            # Populate Hebrew translations
+            city_he = info["City"]
+            country_he = info["Country"]
+            try:
+                city_info = get_city_info(info["City"])
+                if city_info:
+                    city_he = city_info.get("city_he", info["City"])
+                    country_he = city_info.get("country_he", info["Country"])
+            except Exception:
+                pass
+
             rows.append({
                 **info,
                 "lat": lat,
@@ -1027,6 +1042,9 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
                 "FlightNumbers": sorted(info["FlightNumbers"]),
                 "Terminals": sorted(info["Terminals"]),
                 "Statuses": sorted(info["Statuses"]),
+                "Name_he": info.get("Name_he") or "—",
+                "City_he": city_he,
+                "Country_he": country_he,
             })
 
         df = pd.DataFrame(rows)
@@ -1154,7 +1172,12 @@ def home(
 
     # Filter by country
     if country != "All":
-        df = df[df["Country"].str.lower() == country.lower()]
+        # Match against either English or Hebrew name for robustness
+        df = df[(df["Country"].str.lower() == country.lower()) | (df["Country_he"].str.lower() == country.lower())]
+        
+        # Normalize 'country' to the current language's version for the dropdown to match
+        if not df.empty:
+            country = df.iloc[0]["Country_he" if lang == "he" else "Country"]
 
     # Text query (case-insensitive search on several fields)
     if query:
@@ -1163,14 +1186,20 @@ def home(
             df["Name"].str.lower().str.contains(q) |
             df["City"].str.lower().str.contains(q) |
             df["Country"].str.lower().str.contains(q) |
-            df["Airlines"].str.lower().str.contains(q)
+            df["Airlines"].str.lower().str.contains(q) |
+            df["Name_he"].str.lower().str.contains(q) |
+            df["City_he"].str.lower().str.contains(q) |
+            df["Country_he"].str.lower().str.contains(q)
         ]
 
     # Final airports list
     airports = df.to_dict(orient="records")
 
     # All unique countries for dropdown
-    countries = ["All"] + sorted(DATASET_DF["Country"].dropna().unique().tolist())
+    if lang == "he":
+        countries = ["All"] + sorted(DATASET_DF["Country_he"].dropna().unique().tolist())
+    else:
+        countries = ["All"] + sorted(DATASET_DF["Country"].dropna().unique().tolist())
     last_update = get_dataset_date()
     logger.debug(f"GET /  country={country} query='{query}'  rows={len(airports)}")
     return TEMPLATES.TemplateResponse(
