@@ -6,12 +6,7 @@ if lang != 'he' else
 'אודות — TLV → Worldwide Destinations | כל היעדים משדה התעופה בן גוריון תל אביב' }}
 {%- endblock %}
 
-{% block head_extra %}
-<!-- Canonical & hreflang -->
-<link rel="canonical" href="https://fly-tlv.com/about{{ '' if lang != 'he' else '?lang=he' }}" />
-<link rel="alternate" href="https://fly-tlv.com/about" hreflang="en-US" />
-<link rel="alternate" href="https://fly-tlv.com/about?lang=he" hreflang="he-IL" />
-<link rel="alternate" href="https://fly-tlv.com/about" hreflang="x-default" />
+{% block head %}
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
 <!-- Essential SEO -->

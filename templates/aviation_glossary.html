@@ -4,12 +4,7 @@
 {{ 'Aviation Glossary — TLV → Worldwide Destinations' if lang != 'he' else 'מילון תעופה — TLV → כל היעדים בעולם' }}
 {%- endblock %}
 
-{% block head_extra %}
-<!-- Canonical & hreflang -->
-<link rel="canonical" href="https://fly-tlv.com/glossary{{ '' if lang != 'he' else '?lang=he' }}" />
-<link rel="alternate" href="https://fly-tlv.com/glossary" hreflang="en-US" />
-<link rel="alternate" href="https://fly-tlv.com/glossary?lang=he" hreflang="he-IL" />
-<link rel="alternate" href="https://fly-tlv.com/glossary" hreflang="x-default" />
+{% block head %}
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
 <!-- Essential SEO -->

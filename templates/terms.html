@@ -4,11 +4,8 @@
 {{ 'Terms & Conditions — Fly TLV' if lang != 'he' else 'תנאים והגבלות — Fly TLV' }}
 {%- endblock %}
 
-{% block head_extra %}
-<link rel="canonical" href="https://fly-tlv.com/terms" />
-<link rel="alternate" hreflang="en" href="https://fly-tlv.com/terms" />
-<link rel="alternate" hreflang="he" href="https://fly-tlv.com/terms?lang=he" />
-<link rel="alternate" hreflang="x-default" href="https://fly-tlv.com/terms" />
+{% block head %}
+<meta name="robots" content="index,follow" />
 
 <meta name="robots" content="index,follow" />
 <meta name="description" content="{{

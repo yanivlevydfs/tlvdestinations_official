@@ -2,7 +2,8 @@ User-agent: *
 # Block all API endpoints and internal docs to save crawl budget
 Disallow: /api/
 Disallow: /admin/
-Disallow: /docs
+Disallow: /docs/
+Disallow: /*?q=
 Allow: /
 
 # Explicitly allow AdSense crawler (Critical for ad revenue)

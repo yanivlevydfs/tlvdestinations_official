@@ -5,12 +5,7 @@ if lang != 'he' else
 'מדריך נסיעות — TLV → כל היעדים משדה התעופה בן גוריון תל אביב' }}
 {%- endblock %}
 
-{% block head_extra %}
-<!-- Canonical & hreflang -->
-<link rel="canonical" href="https://fly-tlv.com/travel-questionnaire{{ '' if lang != 'he' else '?lang=he' }}" />
-<link rel="alternate" href="https://fly-tlv.com/travel-questionnaire" hreflang="en-US" />
-<link rel="alternate" href="https://fly-tlv.com/travel-questionnaire?lang=he" hreflang="he-IL" />
-<link rel="alternate" href="https://fly-tlv.com/travel-questionnaire" hreflang="x-default" />
+{% block head %}
 
 <!-- SEO essentials -->
 <meta charset="utf-8" />

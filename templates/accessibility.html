@@ -4,11 +4,8 @@
 {{ 'Accessibility Statement — Fly TLV' if lang != 'he' else 'הצהרת נגישות — Fly TLV' }}
 {%- endblock %}
 
-{% block head_extra %}
-<link rel="canonical" href="https://fly-tlv.com/accessibility{{ '' if lang != 'he' else '?lang=he' }}" />
-<link rel="alternate" href="https://fly-tlv.com/accessibility" hreflang="en" />
-<link rel="alternate" href="https://fly-tlv.com/accessibility?lang=he" hreflang="he" />
-<link rel="alternate" href="https://fly-tlv.com/accessibility" hreflang="x-default" />
+{% block head %}
+<meta name="robots" content="index,follow" />
 
 <meta name="robots" content="index,follow" />
 <meta name="description" content="{{
