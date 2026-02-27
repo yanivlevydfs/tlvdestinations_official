@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ---------- Garbage Collection (Fixes QuotaExceededError) ----------
+  try {
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('snowplowOutQueue')) {
+        localStorage.removeItem(key);
+      }
+    });
+  } catch (e) {
+    console.warn("Could not clear localStorage garbage");
+  }
+
   // ---------- Constants & DOM refs ----------
   const THEMES = {
     light: 'https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css',
@@ -192,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return $('#airports-table').DataTable({
       dom:
-        "<'row mb-2'<'col-12'B>>" +
+        "<'row mb-2 d-none'<'col-12 btn-container-hidden'B>>" +
         "<'row mb-2'<'col-12'<'#lowcost-legend'>>>" +
         "<'row'<'col-12'tr>>" +
         "<'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -227,6 +238,37 @@ document.addEventListener('DOMContentLoaded', () => {
              <span>${legendText}</span>
           </div>
         `);
+        // Move Export Buttons to Sidebar
+        const dtButtons = document.querySelector('.btn-container-hidden .dt-buttons');
+        const desktopContainer = document.getElementById('export-buttons-desktop');
+
+        if (dtButtons) {
+          // Clear containers first in case of re-init
+          if (desktopContainer) desktopContainer.innerHTML = '';
+
+          // Create desktop clone
+          if (desktopContainer) {
+            const dtDesktop = dtButtons.cloneNode(true);
+            desktopContainer.appendChild(dtDesktop);
+          }
+
+          // Attach event listeners to all clones to trigger original buttons
+          document.querySelectorAll('#export-buttons-desktop .btn').forEach((btn, index) => {
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              // Find the original button based on its classes
+              const originalBtns = document.querySelectorAll('.btn-container-hidden .dt-buttons .btn');
+              // The clones retain the exact same order as the original buttons
+              const cloneList = document.querySelectorAll('#export-buttons-desktop .btn');
+
+              const btnIndex = Array.from(cloneList).indexOf(btn);
+              if (originalBtns[btnIndex]) {
+                originalBtns[btnIndex].click();
+              }
+            });
+          });
+        }
+
         // Remove pre-init class to prevent FOUC
         $('#airports-table').removeClass('dataTable-pre-init');
       }
