@@ -333,13 +333,16 @@ body.dark-mode tr.parent td.dtr-control:before {
   border-radius: 50px !important;
   /* Fully round pills */
   font-weight: 500 !important;
-  font-size: 0.85rem !important;
-  padding: 0.55rem 0 !important;
+  font-size: 0.75rem !important;
+  /* Smaller text */
+  padding: 0.35rem 0 !important;
+  /* Smaller padding */
   margin: 0 !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  gap: 0.4rem;
+  gap: 0.3rem;
+  /* Smaller gap */
   background-size: 300% 300%;
   animation: gradient-flow 6s ease infinite;
   box-shadow: var(--accent-glow) !important;
@@ -347,7 +350,8 @@ body.dark-mode tr.parent td.dtr-control:before {
 }
 
 #export-buttons-desktop .dt-buttons .btn i {
-  font-size: 1rem;
+  font-size: 0.85rem;
+  /* Smaller icon */
 }
 
 #export-buttons-desktop .dt-buttons .btn:hover {
