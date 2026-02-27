@@ -639,7 +639,25 @@
       });
 
       // --- Unified Language Persistence ---
+      const langBtn = document.getElementById('lang-toggle');
+      const langBtnMobile = document.getElementById('lang-toggle-mobile');
 
+      function toggleLanguage() {
+        const currentLang = document.documentElement.getAttribute('lang') || 'en';
+        const newLang = currentLang === 'he' ? 'en' : 'he';
+        localStorage.setItem('fe-lang', newLang);
+
+        const url = new URL(window.location.href);
+        if (newLang === 'he') {
+          url.searchParams.set('lang', 'he');
+        } else {
+          url.searchParams.delete('lang');
+        }
+        window.location.href = url.toString();
+      }
+
+      if (langBtn) langBtn.addEventListener('click', toggleLanguage);
+      if (langBtnMobile) langBtnMobile.addEventListener('click', toggleLanguage);
       // --- Auto-load stored language ---
       const storedLang = localStorage.getItem('fe-lang');
       const url = new URL(window.location.href);
