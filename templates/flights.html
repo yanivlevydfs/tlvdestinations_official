@@ -293,7 +293,17 @@
                   —
                   {% endif %}
               </td>
-              <td><span class="wow-flight-badge"><i class="bi bi-hash"></i>{{ flight.flight_number }}</span></td>
+              <td>
+                <span class="wow-flight-badge" title="{{ flight.flight_number }}">
+                  {%- if flight.airline_code -%}
+                  {%- set codes = flight.airline_code.split(',') -%}
+                  {%- if codes|length > 0 and codes[0].strip() -%}
+                  {{ codes[0].strip().upper() }}
+                  {%- endif -%}
+                  {%- endif -%}
+                  {{ flight.flight_number }}
+                </span>
+              </td>
               <td>{{ flight.iata }}</td>
               <td>{{ flight.airport }}</td>
               <td><a href="/destinations/{{ flight.iata }}" class="text-decoration-none fw-bold">{{ flight.city }}</a>
