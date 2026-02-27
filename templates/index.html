@@ -363,8 +363,10 @@
         </button>
 
         <!-- Mobile Theme Toggle -->
-        <button id="theme-toggle-mobile" class="btn btn-primary btn-sm rounded-pill btn-mobile-glow" type="button">
-          <i class="bi bi-moon-stars theme-icon-mobile"></i>
+        <button id="theme-toggle-mobile" class="theme-switch switch-sm" type="button" aria-label="Toggle theme">
+          <span class="switch-thumb">
+            <i class="bi bi-moon-stars theme-icon-mobile"></i>
+          </span>
         </button>
       </div>
 
@@ -480,9 +482,10 @@
 
         <!-- Actions -->
         <div class="d-flex align-items-center justify-content-center gap-2 nav-actions">
-          <button id="theme-toggle" class="btn btn-light rounded-circle shadow-sm p-2" type="button"
-            aria-label="Toggle theme" style="width: 40px; height: 40px;">
-            <i id="theme-icon" class="bi bi-moon-stars"></i>
+          <button id="theme-toggle" class="theme-switch" type="button" aria-label="Toggle theme">
+            <span class="switch-thumb">
+              <i id="theme-icon" class="bi bi-moon-stars"></i>
+            </span>
           </button>
           <button id="lang-toggle" class="btn btn-primary rounded-pill px-3 fw-bold shadow-sm" type="button"
             aria-label="Toggle language">

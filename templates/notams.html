@@ -2,7 +2,7 @@
 
 {% block head %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="/static/css/notams.css?v={{ version }}">
+<link rel="stylesheet" href="/static/css/notams.css?v={{ version }}&cb=v5">
 {% endblock %}
 
 {% block content %}
@@ -12,18 +12,18 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/{{ '?lang=he' if lang == 'he' else '' }}">{{ "Home" if lang != 'he'
                     else "בית" }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ "NOTAM Router" if lang != 'he' else "נתב נוטאם" }}
+            <li class="breadcrumb-item active" aria-current="page">{{ "NOTAM" if lang != 'he' else "נוטאם" }}
             </li>
         </ol>
     </nav>
 
     <header class="notam-header">
-        <h1>{{ "NOTAM Router" if lang != 'he' else "נתב נוטאם (NOTAM)" }}</h1>
+        <h1>{{ "NOTAM" if lang != 'he' else "נתב נוטאם (NOTAM)" }}</h1>
         <p>{{ "Essential flight safety information for pilots and travelers." if lang != 'he' else "מידע בטיחות טיסה
             חיוני לטייסים ומטיילים." }}</p>
         <div class="last-update-badge">
             <i class="bi bi-calendar3"></i>
-            {{ current_date }}
+            {{ current_date.split('-')[2] }}-{{ current_date.split('-')[1] }}-{{ current_date.split('-')[0] }}
         </div>
     </header>
 
@@ -44,6 +44,15 @@
                 </button>
             </div>
         </div>
+    </div>
+
+    <!-- Premium Attribution Credit -->
+    <div class="text-center mt-3 mb-4">
+        <a href="https://aviation-edge.com/notam-api/" target="_blank" rel="noopener noreferrer"
+            class="attribution-badge">
+            <i class="bi bi-clouds-fill text-muted"></i> Powered By Aviation-Edge <i
+                class="bi bi-box-arrow-up-right ms-1 text-muted" style="font-size: 0.65rem;"></i>
+        </a>
     </div>
 
     <div id="loader" class="loader">

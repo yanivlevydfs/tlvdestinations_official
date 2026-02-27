@@ -58,42 +58,31 @@ document.addEventListener('DOMContentLoaded', () => {
   if (langBtn) langBtn.addEventListener('click', toggleLanguage);
   if (langBtnMobile) langBtnMobile.addEventListener('click', toggleLanguage);
 
-  // ---------- Theme (Bootswatch + persist) ----------
+  // ---------- Theme logic ----------
   const savedTheme = localStorage.getItem('fe-theme') || 'light';
+
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    if (themeIcon) themeIcon.className = 'bi bi-sun';
+    document.querySelectorAll('.theme-switch i').forEach(icon => {
+      icon.className = 'bi bi-sun';
+    });
   }
 
   function toggleTheme(e) {
     e.preventDefault();
     const isDarkMode = document.body.classList.toggle('dark-mode');
 
-    // Update Desktop Icon
-    const currentThemeIcon = document.getElementById('theme-icon');
-    if (currentThemeIcon) {
-      currentThemeIcon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars';
-    }
-
-    // Update Mobile Icon
-    const themeBtnMobile = document.getElementById('theme-toggle-mobile');
-    if (themeBtnMobile) {
-      const icon = themeBtnMobile.querySelector('i');
-      if (icon) icon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars theme-icon-mobile';
-    }
+    // Update all theme switch icons (mobile and desktop)
+    document.querySelectorAll('.theme-switch i').forEach(icon => {
+      icon.className = isDarkMode ? 'bi bi-sun' : 'bi bi-moon-stars';
+    });
 
     localStorage.setItem('fe-theme', isDarkMode ? 'dark' : 'light');
   }
 
-  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
-
-  const themeBtnMobile = document.getElementById('theme-toggle-mobile');
-  if (themeBtnMobile) {
-    themeBtnMobile.addEventListener('click', toggleTheme);
-    // Init mobile icon
-    const icon = themeBtnMobile.querySelector('i');
-    if (savedTheme === 'dark' && icon) icon.className = 'bi bi-sun';
-  }
+  document.querySelectorAll('.theme-switch').forEach(btn => {
+    btn.addEventListener('click', toggleTheme);
+  });
 
   // ---------- DataTable init / destroy helper ----------
   function dtButtonsFor(lang) {
@@ -399,10 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // safeSet('brand-title', isDesktop ? d.brand_desktop : d.brand_mobile, true); // Let HTML control title
     safeSet('view-map-btn', `<i class="bi bi-globe-americas me-1"></i> ${d.viewMap}`, true);
 
-    // Fix: Preserve current icon state (Sun/Moon)
-    const isDark = document.body.classList.contains('dark-mode');
-    const themeIconClass = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
-    safeSet('theme-toggle', `<i id="theme-icon" class="${themeIconClass} me-1"></i> ${d.theme}`, true);
+
 
     safeSet('lang-label', d.langToggleLabelOther);
     safeSet('filters-title', `<i class="bi bi-sliders me-2"></i>${d.filters}`, true);

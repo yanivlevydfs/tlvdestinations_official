@@ -3679,147 +3679,92 @@ body.dark-mode .form-switch .form-check-input:checked {
 }
 
 
-/* ===== Premium Theme Switch (WOW Design) ===== */
-.theme-switch-wrapper {
-  display: flex;
-  align-items: center;
-}
-
+/* ===== Theme Toggle Switch (Clean & Modern) ===== */
 .theme-switch {
   width: 52px;
   height: 28px;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  background: #cbd5e1;
+  /* Subtle slate gray for light mode */
+  border-radius: 30px;
   position: relative;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
   padding: 0;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+  outline: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.theme-switch-icon {
+body.dark-mode .theme-switch {
+  background: var(--accent, #6366f1);
+}
+
+.theme-switch .switch-thumb {
   width: 22px;
   height: 22px;
-  background: white;
+  background: #fff;
   border-radius: 50%;
   position: absolute;
-  left: 3px;
+  top: 3px;
+  inset-inline-start: 3px;
+  /* RTL aware (Left in LTR, Right in RTL) */
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-.theme-switch-icon i {
-  font-size: 13px;
-  color: #6366f1;
-  transition: all 0.3s ease;
+/* LTR Default */
+body.dark-mode .theme-switch .switch-thumb {
+  transform: translateX(24px);
 }
 
-/* Dark mode state */
-body.dark-mode .theme-switch {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+/* RTL Override */
+html[dir="rtl"] body.dark-mode .theme-switch .switch-thumb {
+  transform: translateX(-24px);
 }
 
-body.dark-mode .theme-switch-icon {
-  left: 27px;
-  background: #1e1e2e;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+.theme-switch .switch-thumb i {
+  font-size: 11px;
+  color: #64748b;
+  transition: transform 0.5s ease, color 0.3s ease;
 }
 
-body.dark-mode .theme-switch-icon i {
-  color: #fbbf24;
-  transform: rotate(-15deg);
+body.dark-mode .theme-switch .switch-thumb i {
+  color: #f59e0b;
+  transform: rotate(360deg);
 }
 
-.theme-switch:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+/* For mobile menu */
+.theme-switch.switch-sm {
+  width: 44px;
+  height: 24px;
 }
 
-@media (max-width: 991px) {
-  .theme-switch {
-    width: 48px;
-    height: 26px;
-  }
-
-  .theme-switch-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  body.dark-mode .theme-switch-icon {
-    left: 25px;
-  }
+.theme-switch.switch-sm .switch-thumb {
+  width: 18px;
+  height: 18px;
+  top: 3px;
+  inset-inline-start: 3px;
 }
 
-
-/* ===== Extreme WOW Theme Switch ===== */
-.theme-switch {
-  width: 64px !important;
-  height: 32px !important;
-  background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%) !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+/* Mobile LTR */
+body.dark-mode .theme-switch.switch-sm .switch-thumb {
+  transform: translateX(20px);
 }
 
-.theme-switch-icon {
-  width: 26px !important;
-  height: 26px !important;
-  left: 3px !important;
-  background: #fdf6e3 !important;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.5) !important;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+/* Mobile RTL */
+html[dir="rtl"] body.dark-mode .theme-switch.switch-sm .switch-thumb {
+  transform: translateX(-20px);
 }
 
-.theme-switch-icon i {
-  font-size: 14px !important;
-  color: #f59e0b !important;
-}
-
-/* Decorative elements (clouds/stars) */
-.theme-switch::before {
-  content: '';
-  position: absolute;
-  right: 8px;
+.theme-switch.switch-sm .switch-thumb i {
   font-size: 10px;
-  opacity: 0.6;
-  transition: all 0.5s ease;
 }
 
-body.dark-mode .theme-switch {
-  background: linear-gradient(180deg, #0f172a 0%, #020617 100%) !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-}
 
-body.dark-mode .theme-switch::before {
-  content: '';
-  right: auto;
-  left: 8px;
-  opacity: 0.8;
-}
-
-body.dark-mode .theme-switch-icon {
-  left: 33px !important;
-  background: #1e1e2e !important;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6) !important;
-}
-
-body.dark-mode .theme-switch-icon i {
-  color: #e0e7ff !important;
-  text-shadow: 0 0 5px #6366f1 !important;
-}
-
-.theme-switch:active .theme-switch-icon {
-  width: 32px !important;
-}
 
 
 /* ===== Refined Table Aesthetics (Airlines, IATA, Headers) ===== */
