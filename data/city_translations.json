@@ -670,5 +670,6 @@
   "Sundsvall": {"he": "סונדסוואל","country": "Sweden","country_he": "שוודיה"},
   "Kristiansand": {"he": "קריסטיאנסנד","country": "Norway","country_he": "נורווגיה"},
   "Haugesund": {"he": "האוגסונד","country": "Norway","country_he": "נורווגיה"},
-  "Vaduz": {"he": "ואדוץ","country": "Liechtenstein","country_he": "ליכטנשטיין"}
+  "Vaduz": {"he": "ואדוץ","country": "Liechtenstein","country_he": "ליכטנשטיין"},
+  "Dovrer": {"he": "דוברר","country": "United States","country_he": "ארצות הברית"}
 }

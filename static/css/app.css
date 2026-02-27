@@ -3824,3 +3824,140 @@ body.dark-mode .airline-chip-inner {
 body:not(.dark-mode) #airports-table tbody tr:nth-child(even) {
   background-color: rgba(0, 0, 0, 0.015);
 }
+
+/* =========================================
+   Mobile Filter Premium UI Update
+   ========================================= */
+.filter-wow {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.1) !important;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .filter-wow {
+  background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Subtle glow effect behind the card */
+.filter-wow::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 50%);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.dark-mode .filter-wow::before {
+  background: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
+}
+
+.filter-wow .card-header,
+.filter-wow .card-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* Refined inputs within the new wow filter */
+.filter-wow .form-select,
+.filter-wow .form-control {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(4px);
+}
+
+.filter-wow .form-select:focus,
+.filter-wow .form-control:focus {
+  background-color: #fff !important;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+  transform: translateY(-1px);
+}
+
+body.dark-mode .filter-wow .form-select,
+body.dark-mode .filter-wow .form-control {
+  background-color: rgba(30, 41, 59, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc !important;
+}
+
+body.dark-mode .filter-wow .form-select:focus,
+body.dark-mode .filter-wow .form-control:focus {
+  background-color: #1e293b !important;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+}
+
+.filter-wow .form-label {
+  font-weight: 600;
+  color: #334155;
+  letter-spacing: -0.01em;
+}
+
+body.dark-mode .filter-wow .form-label {
+  color: #cbd5e1;
+}
+
+/* Pop for the "Search & Filter" text */
+.wow-header-text {
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+  /* fallback */
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .wow-header-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* The clear button inside the filter */
+.btn-wow-clear {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  color: #475569;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.btn-wow-clear:hover {
+  background: #fff;
+  color: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+body.dark-mode .btn-wow-clear {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+}
+
+body.dark-mode .btn-wow-clear:hover {
+  background: #334155;
+  color: #f8fafc;
+  border-color: rgba(56, 189, 248, 0.4);
+}

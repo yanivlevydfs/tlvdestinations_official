@@ -518,19 +518,21 @@
           </div>
           <div class="offcanvas-body p-0">
             <div class="d-flex flex-column gap-3">
-              <div id="search-section" class="card shadow-sm" style="margin-top: 0;">
+              <div id="search-section" class="card shadow-sm filter-wow" style="margin-top: 0;">
                 <div class="card-header fw-semibold header-title-desktop
-            {% if lang == 'he' %} rtl {% else %} ltr {% endif %}">
-                  <i class="bi bi-funnel-fill me-1"></i>
-                  {% if lang == "he" %}
-                  חיפוש וסינון
-                  {% else %}
-                  Search & Filter
-                  {% endif %}
+            {% if lang == 'he' %} rtl {% else %} ltr {% endif %} d-flex align-items-center">
+                  <i class="bi bi-funnel-fill me-2 text-primary icon-glow"></i>
+                  <span class="wow-header-text">
+                    {% if lang == "he" %}
+                    חיפוש וסינון
+                    {% else %}
+                    Search & Filter
+                    {% endif %}
+                  </span>
 
-                  <i class="bi bi-info-circle ms-1 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" {% if
-                    lang=="he" %} title="סינון וחיפוש לפי יעד, מדינה וחברות תעופה" aria-label="מידע על חיפוש וסינון" {%
-                    else %} title="Filter and search by destination, country, and airlines"
+                  <i class="bi bi-info-circle ms-auto text-muted" data-bs-toggle="tooltip" data-bs-placement="left" {%
+                    if lang=="he" %} title="סינון וחיפוש לפי יעד, מדינה וחברות תעופה" aria-label="מידע על חיפוש וסינון"
+                    {% else %} title="Filter and search by destination, country, and airlines"
                     aria-label="Search and filter information" {% endif %}>
                   </i>
                 </div>
@@ -606,16 +608,17 @@
                       </button>
                     </div>
                   </div>
-                  <div class="border-top pt-3 mt-3 d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-secondary" id="clear-filters" aria-label="Clear all filters">
+                  <div class="border-top pt-3 mt-3 d-flex gap-2 align-items-center">
+                    <button class="btn btn-sm btn-wow-clear py-1 px-3" id="clear-filters"
+                      aria-label="Clear all filters">
                       <i class="bi bi-x-circle me-1"></i>
                       {% if lang == "he" %}
-                      נקה
+                      נקה מסננים
                       {% else %}
-                      Clear
+                      Clear Filters
                       {% endif %}
                     </button>
-                    <span class="ms-auto text-muted small" id="active-filters">
+                    <span class="ms-auto text-muted small mt-1" id="active-filters">
                       {% if lang == "he" %}
                       ללא מסננים
                       {% else %}
@@ -774,23 +777,27 @@
               </div>
             </div>
           </div>
-          <!-- Mobile Inline Filters - Compact Version -->
-          <div class="card shadow-sm mb-2 d-lg-none small p-2">
-            <div class="card-header fw-semibold py-2 px-3 small header-title-mobile">
-              <i class="bi bi-funnel-fill me-1"></i>
-              {% if lang == "he" %}
-              חיפוש וסינון
-              {% else %}
-              Search & Filter
-              {% endif %}
-              <i class="bi bi-info-circle ms-1 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" {% if
-                lang=="he" %} title="סינון וחיפוש לפי יעד, מדינה וחברות תעופה" aria-label="מידע על חיפוש וסינון" {% else
-                %} title="Filter and search by destination, country, and airlines"
-                aria-label="Search and filter information" {% endif %}>
-              </i>
+          <!-- Mobile Inline Filters - Premium Version -->
+          <div class="card shadow-sm mb-3 d-lg-none filter-wow">
+            <div class="card-header fw-semibold py-3 px-3 fs-6 d-flex justify-content-between align-items-center">
+              <div>
+                <i class="bi bi-funnel-fill me-2 text-primary icon-glow"></i>
+                <span class="wow-header-text">
+                  {% if lang == "he" %}
+                  חיפוש וסינון
+                  {% else %}
+                  Search & Filter
+                  {% endif %}
+                </span>
+                <i class="bi bi-info-circle ms-1 text-muted small" data-bs-toggle="tooltip" data-bs-placement="right" {%
+                  if lang=="he" %} title="סינון וחיפוש לפי יעד, מדינה וחברות תעופה" aria-label="מידע על חיפוש וסינון" {%
+                  else %} title="Filter and search by destination, country, and airlines"
+                  aria-label="Search and filter information" {% endif %}>
+                </i>
+              </div>
             </div>
-            <div class="card-body p-2">
-              <div class="mb-2">
+            <div class="card-body p-3">
+              <div class="mb-3">
                 <label for="direction-select-mobile" class="form-label mb-1 small">
                   {% if lang == "he" %}כיוון{% else %}Direction{% endif %}
                 </label>
@@ -849,13 +856,13 @@
                 </div>
               </div>
 
-              <div class="border-top pt-2 mt-2 d-flex gap-2">
-                <button class="btn btn-sm btn-outline-secondary py-1 px-2" id="clear-filters-mobile"
+              <div class="border-top pt-3 mt-3 d-flex gap-2">
+                <button class="btn btn-sm btn-wow-clear py-1 px-3" id="clear-filters-mobile"
                   aria-label="Clear all mobile filters">
                   <i class="bi bi-x-circle me-1"></i>
-                  {% if lang == "he" %}נקה{% else %}Clear{% endif %}
+                  {% if lang == "he" %}נקה מסננים{% else %}Clear Filters{% endif %}
                 </button>
-                <span class="ms-auto text-muted small" id="active-filters-mobile">
+                <span class="ms-auto text-muted small mt-1" id="active-filters-mobile">
                   {% if lang == "he" %}ללא מסננים{% else %}No filters{% endif %}
                 </span>
               </div>
