@@ -226,6 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
              <span>${legendText}</span>
           </div>
         `);
+        // Remove pre-init class to prevent FOUC
+        $('#airports-table').removeClass('dataTable-pre-init');
       }
     });
   }
@@ -378,6 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
       populateAirlineFilter(lang);
     }
 
+    // Fallback safeguard to make sure table is visible
+    setTimeout(() => {
+      $('#airports-table').removeClass('dataTable-pre-init');
+    }, 100);
+
     applyUnitsInCells(d);
     currentLang = lang;
     localStorage.setItem('fe-lang', lang);
@@ -526,8 +533,8 @@ document.addEventListener('DOMContentLoaded', () => {
       allowClear: true,
       width: '100%'
     };
-    $('#country-filter, #airline-filter, #direction-select').select2(s2Options);
-    $('#country-filter-mobile, #airline-filter-mobile, #direction-select-mobile').select2(s2Options);
+    $('#country-filter, #airline-filter, #direction-select').select2(s2Options).removeClass('select2-pre-init');
+    $('#country-filter-mobile, #airline-filter-mobile, #direction-select-mobile').select2(s2Options).removeClass('select2-pre-init');
 
     // Defer applyLanguage slightly to allow DOM + DT render
     setTimeout(() => {
@@ -536,6 +543,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 50);
   } catch (err) {
     console.error("❌ Failed to initialize DataTable or language:", err);
+  } finally {
+    // ALWAYS force the table to reveal if JS errors out
+    $('#airports-table').removeClass('dataTable-pre-init');
   }
 
   // ---------- Autocomplete Population ----------
