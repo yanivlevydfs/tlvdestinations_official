@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   let table;  // will hold DataTable instance
-  let currentLang = localStorage.getItem('fe-lang') || 'en';
+  const actualRenderedLang = document.documentElement.getAttribute('lang') || 'en';
+  let currentLang = actualRenderedLang;
 
   const themeBtn = document.getElementById('theme-toggle');
   const themeIcon = document.getElementById('theme-icon');
@@ -298,21 +299,41 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyUnitsInCells(dict) {
     const rows = document.querySelectorAll('#airports-table tbody tr');
     rows.forEach(tr => {
-      const d = tr.children[6];
-      const t = tr.children[7];
+      const d = tr.children[5]; // Distance is index 5
+      const t = tr.children[6]; // Flight time is index 6
       if (!d || !t) return;
-      let newD = d.textContent;
-      let newT = t.textContent;
-      if (newD.includes('Kilometer')) newD = newD.replace('Kilometer', dict.units.km);
-      if (newD.includes('קילומטר') && dict.units.km === 'Kilometer') {
-        newD = newD.replace('קילומטר', 'Kilometer');
+
+      let newD = d.innerHTML;
+      let newT = t.innerHTML;
+
+      // Translate km <-> ק"מ
+      if (dict.units && dict.units.km) {
+        if (newD.includes('km') && dict.units.km !== 'km') {
+          newD = newD.replace('km', dict.units.km);
+        } else if (newD.includes('ק"מ') && dict.units.km === 'km') {
+          newD = newD.replace('ק"מ', 'km');
+        } else if (newD.includes('Kilometer')) {
+          newD = newD.replace('Kilometer', dict.units.km);
+        } else if (newD.includes('קילומטר') && dict.units.km === 'Kilometer') {
+          newD = newD.replace('קילומטר', 'Kilometer');
+        }
       }
-      if (newT.includes('Hours')) newT = newT.replace('Hours', dict.units.hr);
-      if (newT.includes('שעות') && dict.units.hr === 'Hours') {
-        newT = newT.replace('שעות', 'Hours');
+
+      // Translate hrs <-> שעות
+      if (dict.units && dict.units.hr) {
+        if (newT.includes('hrs') && dict.units.hr !== 'hrs') {
+          newT = newT.replace('hrs', dict.units.hr);
+        } else if (newT.includes('שעות') && dict.units.hr === 'hrs') {
+          newT = newT.replace('שעות', 'hrs');
+        } else if (newT.includes('Hours')) {
+          newT = newT.replace('Hours', dict.units.hr);
+        } else if (newT.includes('שעות') && dict.units.hr === 'Hours') {
+          newT = newT.replace('שעות', 'Hours');
+        }
       }
-      if (newD !== d.textContent) d.textContent = newD;
-      if (newT !== t.textContent) t.textContent = newT;
+
+      if (newD !== d.innerHTML) d.innerHTML = newD;
+      if (newT !== t.innerHTML) t.innerHTML = newT;
     });
   }
 
@@ -513,7 +534,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------- Initialize DataTable + language safely ----------
-  const savedLang2 = localStorage.getItem('fe-lang') || 'en';
+  // Always trust the server-rendered HTML lang attribute over localStorage
+  // This prevents mixed English/Hebrew UI when URL doesn't match local cache.
+  const savedLang2 = document.documentElement.getAttribute('lang') || 'en';
+
   const safeLangObj =
     (typeof LANG !== "undefined" && LANG[savedLang2])
       ? LANG[savedLang2]
@@ -522,6 +546,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!LANG || !LANG[savedLang2]) {
     console.warn(`⚠️ Missing LANG data for '${savedLang2}', falling back to English.`);
   }
+
+  // Auto-sync localStorage just in case it was wrong
+  localStorage.setItem('fe-lang', savedLang2);
 
   try {
     table = initDataTable(savedLang2);

@@ -915,7 +915,7 @@
               <tbody>
                 {% for ap in airports %}
                 <tr>
-                  <td>{{ ap.IATA }}</td>
+                  <td><span class="iata-badge">{{ ap.IATA }}</span></td>
                   <td>
                     <a href="/destinations/{{ ap.IATA }}" class="text-decoration-none fw-bold"
                       aria-label="View destination {{ ap.Name if lang != 'he' else ap.Name_he }}" data-log="destination"
@@ -977,10 +977,24 @@
                         {% endif %}
                   </td>
                   <td title="{{ ap.Distance_km }} kilometers">
-                    {{ ap.Distance_km if ap.Distance_km else "—" }} km
+                    {% if ap.Distance_km %}
+                    <span class="metric-badge distance-badge">
+                      <i class="bi bi-geo-alt"></i>
+                      {{ ap.Distance_km }} km
+                    </span>
+                    {% else %}
+                    —
+                    {% endif %}
                   </td>
                   <td title="Estimated flight time">
-                    {{ ap.FlightTime_hr if ap.FlightTime_hr else "—" }}
+                    {% if ap.FlightTime_hr %}
+                    <span class="metric-badge time-badge">
+                      <i class="bi bi-stopwatch"></i>
+                      {{ ap.FlightTime_hr }}
+                    </span>
+                    {% else %}
+                    —
+                    {% endif %}
                   </td>
                   <td class="d-none">{{ ap.Direction }}</td>
                 </tr>
