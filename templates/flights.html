@@ -11,6 +11,57 @@
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
+<style>
+  /* Prevent FOUC of table by hiding it before DataTables initializes */
+  table.dataTable-pre-init {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  /* Smooth fade-in when JS removes dataTable-pre-init */
+  table:not(.dataTable-pre-init) {
+    animation: fadeInTable 0.5s ease-in forwards;
+  }
+
+  /* PREVENT PAGE JUMP: limit initial raw HTML rows to match DataTables pageLength (25) */
+  table.dataTable-pre-init tbody tr:nth-child(n+26) {
+    display: none !important;
+  }
+
+  @keyframes fadeInTable {
+    from {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    to {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  /* Prevent jump when export buttons are injected */
+  #export-buttons-desktop {
+    min-height: 31px;
+    opacity: 0;
+    animation: fadeInTable 0.5s ease-in 0.1s forwards;
+  }
+
+  /* Force DataTables export buttons to stay on a single line */
+  .dt-buttons {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dt-buttons .btn {
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+  }
+</style>
 
 <!-- ✅ Page-specific SEO -->
 <meta name="description"
@@ -96,7 +147,7 @@
 <div class="hero-section text-center py-5 shadow-sm mb-4" lang="{{ lang }}"
   dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <div class="container position-relative z-1">
-    <h1 class="fw-bold mb-2">
+    <h1 class="fw-bold mb-2 wow-header-text" style="font-size: clamp(2rem, 5vw, 3.5rem);">
       <i class="bi bi-airplane-engines me-2"></i>
       {{ 'Ben Gurion Airport Flight Schedule' if lang != 'he' else 'לוח טיסות — נמל תעופה בן גוריון' }}
     </h1>
@@ -110,14 +161,14 @@
 
 <div class="container-fluid px-3 px-lg-5" lang="{{ lang }}" dir="{{ 'rtl' if lang == 'he' else 'ltr' }}">
   <!-- 🔍 Filter Card (Redesigned to match index.html) -->
-  <div class="card shadow-sm mb-4">
+  <div class="card shadow-sm mb-4 filter-wow">
     <div class="card-header fw-semibold header-title-desktop {{ 'rtl' if lang == 'he' else 'ltr' }}">
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="text-primary">
-          <i class="bi bi-funnel-fill me-1"></i>
+      <div class="d-flex align-items-center">
+        <i class="bi bi-funnel-fill me-2 text-primary icon-glow"></i>
+        <span class="wow-header-text">
           {{ 'Search & Filter' if lang != 'he' else 'חיפוש וסינון' }}
         </span>
-        <i class="bi bi-info-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="right"
+        <i class="bi bi-info-circle ms-auto text-muted" data-bs-toggle="tooltip" data-bs-placement="right"
           title="{{ 'Filter flight results by various criteria' if lang != 'he' else 'סנן את תוצאות הטיסה לפי קריטריונים שונים' }}"></i>
       </div>
     </div>
@@ -129,9 +180,9 @@
           <label for="flights-search-input" class="form-label mb-1">
             {{ 'Search' if lang != 'he' else 'חיפוש' }}
           </label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-search text-muted"></i></span>
-            <input type="search" id="flights-search-input" class="form-control"
+          <div class="query-wrapper position-relative">
+            <i class="bi bi-search search-icon-inner"></i>
+            <input type="search" id="flights-search-input" class="form-control premium-input"
               placeholder="{{ 'Flight, Airline, City...' if lang != 'he' else 'טיסה, חברת תעופה, עיר...' }}">
           </div>
         </div>
@@ -140,7 +191,7 @@
         <div class="col-6 col-md-2">
           <label for="direction-filter" class="form-label mb-1">{{ 'Direction' if lang != 'he' else
             'כיוון' }}</label>
-          <select id="direction-filter" class="form-select">
+          <select id="direction-filter" class="form-select premium-input">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             <option value="Departure">{{ 'Departure' if lang != 'he' else 'המראה' }}</option>
             <option value="Arrival">{{ 'Arrival' if lang != 'he' else 'נחיתה' }}</option>
@@ -151,7 +202,7 @@
         <div class="col-6 col-md-2">
           <label for="status-filter" class="form-label mb-1">{{ 'Status' if lang != 'he' else 'סטטוס'
             }}</label>
-          <select id="status-filter" class="form-select">
+          <select id="status-filter" class="form-select premium-input">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             <option value="On Time">{{ 'On Time' if lang != 'he' else 'בזמן' }}</option>
             <option value="Delayed">{{ 'Delayed' if lang != 'he' else 'בעיכוב' }}</option>
@@ -164,7 +215,7 @@
         <div class="col-6 col-md-2">
           <label for="country-filter" class="form-label mb-1">{{ 'Country' if lang != 'he' else 'מדינה'
             }}</label>
-          <select id="country-filter" class="form-select">
+          <select id="country-filter" class="form-select premium-input">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for country in countries %}
             <option value="{{ country }}">{{ country }}</option>
@@ -176,7 +227,7 @@
         <div class="col-6 col-md-2">
           <label for="terminal-filter" class="form-label mb-1">{{ 'Terminal' if lang != 'he' else 'טרמינל'
             }}</label>
-          <select id="terminal-filter" class="form-select">
+          <select id="terminal-filter" class="form-select premium-input">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for t in terminals %}
             <option value="{{ t }}">{{ t }}</option>
@@ -188,7 +239,7 @@
         <div class="col-6 col-md-3 col-lg-2">
           <label for="actual-date-filter" class="form-label mb-1">{{ 'Date' if lang != 'he' else 'תאריך'
             }}</label>
-          <select id="actual-date-filter" class="form-select">
+          <select id="actual-date-filter" class="form-select premium-input">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for value, label in actual_dates %}
             <option value="{{ value }}">{{ label }}</option>
@@ -200,7 +251,7 @@
         <div class="col-6 col-md-3 col-lg-2">
           <label for="actual-time-filter" class="form-label mb-1">{{ 'Time' if lang != 'he' else 'שעה'
             }}</label>
-          <select id="actual-time-filter" class="form-select">
+          <select id="actual-time-filter" class="form-select premium-input">
             <option value="">{{ 'All' if lang != 'he' else 'הכל' }}</option>
             {% for t in actual_times %}
             <option value="{{ t }}">{{ t }}</option>
@@ -209,27 +260,54 @@
         </div>
 
         <!-- 💰 Lowcost Filter -->
-        <div class="col-6 col-md-3 col-lg-auto d-flex align-items-end">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" id="lowcost-checkbox">
-            <label class="form-check-label small" for="lowcost-checkbox">
+        <div class="col-6 col-md-3 col-lg-auto d-flex align-items-end mb-1">
+          <div
+            class="form-check form-switch p-0 d-flex align-items-center justify-content-between premium-switch-container"
+            style="min-height: 2.2rem;">
+            <label class="form-check-label small fw-semibold me-2" for="lowcost-checkbox">
+              <i class="bi bi-tag-fill me-1 text-primary"></i>
               {{ 'Low-cost only' if lang != 'he' else 'לואו-קוסט בלבד' }}
             </label>
+            <input class="form-check-input ms-0" type="checkbox" id="lowcost-checkbox" role="switch">
           </div>
         </div>
 
       </div> <!-- row -->
+
+      <!-- Desktop Export Buttons & Clear Filters Row -->
+      <div class="row mt-3 pt-3 border-top align-items-center">
+        <!-- Left Side: Export Buttons & Legend -->
+        <div class="col-12 col-md-8 d-none d-md-flex flex-row align-items-center gap-3">
+          <div id="export-buttons-desktop" class="d-flex">
+            <!-- DataTables buttons injected here -->
+          </div>
+          <!-- Static Legend -->
+          <div class="d-flex align-items-center small text-muted">
+            <span class="lowcost-dot" style="margin-bottom: 2px;"></span>
+            <span class="ms-1">{{ 'Low-cost airline' if lang != 'he' else 'לואו-קוסט' }}</span>
+          </div>
+        </div>
+        <!-- Right Side: Clear Filters Button -->
+        <div class="col-12 col-md-4 text-md-end mt-2 mt-md-0">
+          <button class="btn btn-wow-clear py-2 px-4 shadow-sm" id="clear-filters" aria-label="Clear all filters">
+            <i class="bi bi-x-circle me-1"></i>
+            {{ 'Clear Filters' if lang != 'he' else 'נקה מסננים' }}
+          </button>
+        </div>
+      </div>
+
     </div> <!-- card-body -->
   </div> <!-- card -->
 
   <!-- Main Glass Card -->
-  <div class="card shadow-sm p-0 overflow-hidden">
-    <div class="card-body p-2 p-md-3">
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
       <div class="table-responsive">
-        <table id="flightsTable" class="styled-table display table table-bordered table-hover w-100">
+        <table id="flightsTable" class="table table-striped table-hover w-100 align-middle dataTable-pre-init"
+          aria-label="Table of flights">
           <thead class="table-primary">
             <tr>
-              <th></th> <!-- ✅ Responsive control column -->
+              <th class="d-md-none"></th> <!-- ✅ Responsive control column -->
               <th scope="col">{{ 'Airline' if lang != 'he' else 'חברת תעופה' }}</th>
               <th scope="col">{{ 'Flight No.' if lang != 'he' else 'מספר טיסה' }}</th>
               <th scope="col">IATA</th>
@@ -246,7 +324,7 @@
           <tbody>
             {% for flight in flights %}
             <tr>
-              <td class="dtr-control"></td>
+              <td class="dtr-control d-md-none"></td>
               <td class="airline-cell">
                 {% if flight.airline and flight.airline != "—" %}
                 {% set airline_list = flight.airline.split(',') %}
@@ -305,10 +383,13 @@
                 </span>
               </td>
               <td>{{ flight.iata }}</td>
-              <td>{{ flight.airport }}</td>
-              <td><a href="/destinations/{{ flight.iata }}" class="text-decoration-none fw-bold">{{ flight.city }}</a>
+              <td>{{ flight.airport if lang != 'he' else (flight.airport_name_he if flight.airport_name_he else
+                flight.airport) }}</td>
+              <td><a href="/destinations/{{ flight.iata }}" class="text-decoration-none fw-bold">{{ flight.city if lang
+                  != 'he' else (flight.city_he if flight.city_he else flight.city) }}</a>
               </td>
-              <td>{{ flight.country }}</td>
+              <td>{{ flight.country if lang != 'he' else (flight.country_he if flight.country_he else flight.country) }}
+              </td>
               <!-- Scheduled -->
               <td title="{{ flight.scheduled_full if flight.scheduled_full else '' }}">
                 {% if flight.scheduled_full %}
@@ -443,11 +524,26 @@
 
     const table = $('#flightsTable').DataTable({
       dom:
-        "<'row mt-4 mb-4 align-items-center'<'col-12 col-md-auto mb-2 mb-md-0 dt-buttons'B><'col-12 col-md-auto ms-auto'f>>" +
-        "<'row'<'col-12'<'#flight-legend'>>>" +
+        "<'row align-items-center'<'col-12 col-md-auto ms-auto dt-search-hidden'f>>" +
         "<'row'<'col-12'tr>>" +
-        "<'row mt-2'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
-      buttons: dtButtons,
+        "<'row mt-3 px-3 align-items-center'<'col-sm-12 col-md-5 small text-muted text-center text-md-start mb-2 mb-md-0'i><'col-sm-12 col-md-7 d-flex justify-content-center justify-content-md-end'p>>",
+      buttons: [
+        {
+          extend: 'copyHtml5',
+          text: '<i class="bi bi-clipboard"></i> ' + (lang === "he" ? 'העתק' : 'Copy'),
+          className: 'btn btn-wow-copy px-4 py-2'
+        },
+        {
+          extend: 'csvHtml5',
+          text: '<i class="bi bi-filetype-csv"></i> CSV',
+          className: 'btn btn-wow-csv px-4 py-2'
+        },
+        {
+          extend: 'excelHtml5',
+          text: '<i class="bi bi-file-earmark-excel"></i> Excel',
+          className: 'btn btn-wow-excel px-4 py-2'
+        }
+      ],
       pageLength: 25,
       responsive: {
         details: {
@@ -477,22 +573,20 @@
       ],
 
       initComplete: function () {
-        // --- Add Lowcost Legend ---
-        const legendText = lang === 'he' ? 'לואו-קוסט' : 'Low-cost airline';
-        $('#flight-legend').html(`
-          <div class="d-flex align-items-center small text-muted mb-2">
-             <span class="lowcost-dot" style="margin-bottom: 2px;"></span>
-             <span class="ms-1">${legendText}</span>
-          </div>
-        `);
+        const api = this.api();
+        // --- Move Export Buttons to Desktop Container and fix pill layout ---
+        api.buttons().container().removeClass('btn-group flex-wrap').addClass('d-flex flex-nowrap gap-2').appendTo('#export-buttons-desktop');
 
         // --- Hide Default DataTables Filter ---
-        $('.dataTables_filter').hide();
+        $('.dt-search-hidden').hide();
 
         // --- Bind Search Input ---
         $('#flights-search-input').on('keyup search input', function () {
-          table.search(this.value).draw();
+          api.search(this.value).draw();
         });
+
+        // Remove pre-init class to prevent FOUC and trigger fade-in animation
+        $('#flightsTable').removeClass('dataTable-pre-init');
 
         // --- Helper: Get Column Index by Header Text ---
         const getColumnIndexByHeader = (headerText) => {
@@ -514,10 +608,11 @@
           if (lang === "he" && sel) {
             sel = { "Departure": "המראה", "Arrival": "נחיתה" }[sel] || sel;
           }
-          // Fix: Use localized header name
           const header = lang === "he" ? "כיוון" : "Direction";
           const idx = getColumnIndexByHeader(header);
-          if (idx !== -1) table.column(idx).search(sel).draw();
+          if (idx !== -1) {
+            api.column(idx).search(sel ? '^\\s*' + $.fn.dataTable.util.escapeRegex(sel) + '\\s*$' : '', true, false).draw();
+          }
         });
 
         // 2. Status
@@ -526,34 +621,31 @@
           if (lang === "he" && sel) {
             sel = { "On Time": "בזמן", "Delayed": "בעיכוב", "Cancelled": "בוטלה", "Not Final": "לא סופי" }[sel] || sel;
           }
-          // Fix: Use localized header name
           const header = lang === "he" ? "סטטוס" : "Status";
           const idx = getColumnIndexByHeader(header);
-          if (idx !== -1) table.column(idx).search(sel).draw();
+          if (idx !== -1) {
+            api.column(idx).search(sel ? '^\\s*' + $.fn.dataTable.util.escapeRegex(sel) + '\\s*$' : '', true, false).draw();
+          }
         });
 
         // 3. Country
         $('#country-filter').on('change', function () {
-          // Fix: Use localized header name in Hebrew
           const header = lang === "he" ? "מדינה" : "Country";
           const idx = getColumnIndexByHeader(header);
-          if (idx !== -1) table.column(idx).search(this.value).draw();
+          if (idx !== -1) api.column(idx).search(this.value ? '^\\s*' + $.fn.dataTable.util.escapeRegex(this.value) + '\\s*$' : '', true, false).draw();
         });
 
         // 4. Terminal
         $('#terminal-filter').on('change', function () {
           const idx = getColumnIndexByHeader(lang === "he" ? "טרמינל" : "Terminal");
-          if (idx !== -1) table.column(idx).search(this.value).draw();
+          if (idx !== -1) api.column(idx).search(this.value ? '^\\s*' + $.fn.dataTable.util.escapeRegex(this.value) + '\\s*$' : '', true, false).draw();
         });
 
         // 5. Date & Time (Combined Logic)
         $('#actual-date-filter, #actual-time-filter').on('change', function () {
-          const date = $('#actual-date-filter').val();
-          const time = $('#actual-time-filter').val();
+          const date = $.fn.dataTable.util.escapeRegex($('#actual-date-filter').val());
+          const time = $.fn.dataTable.util.escapeRegex($('#actual-time-filter').val());
 
-          // Must target the "Actual" or "Scheduled" column depending on preference, 
-          // typically "Actual" for flight boards.
-          // Adjust column name if header differs in HE/EN
           const headerName = lang === "he" ? "שעת נחיתה/המראה" : "Actual";
           const idx = getColumnIndexByHeader(headerName);
 
@@ -564,10 +656,10 @@
             regex = `^${date}`;
           } else if (time) {
             regex = `${time}$`;
-          } // else empty -> reset search
+          }
 
           if (idx !== -1) {
-            table.column(idx).search(regex, true, false).draw();
+            api.column(idx).search(regex, true, false).draw();
           }
         });
         // 6. Lowcost Filter
@@ -577,15 +669,27 @@
           const isLowcostChecked = $('#lowcost-checkbox').is(':checked');
           if (!isLowcostChecked) return true;
 
-          const api = new $.fn.dataTable.Api(settings);
-          const rowNode = api.row(dataIndex).node();
-          // Check if any .lowcost-dot exists in the row (column 1 mainly)
+          const apiLocal = new $.fn.dataTable.Api(settings);
+          const rowNode = apiLocal.row(dataIndex).node();
           const hasDot = $(rowNode).find('.lowcost-dot').length > 0;
           return hasDot;
         });
 
         $('#lowcost-checkbox').on('change', function () {
-          table.draw();
+          api.draw();
+        });
+
+        // --- Clear Filters ---
+        $('#clear-filters').on('click', function () {
+          $('#direction-filter').val('');
+          $('#status-filter').val('');
+          $('#country-filter').val('');
+          $('#terminal-filter').val('');
+          $('#actual-date-filter').val('');
+          $('#actual-time-filter').val('');
+          $('#lowcost-checkbox').prop('checked', false);
+          $('#flights-search-input').val('');
+          api.search('').columns().search('').draw();
         });
       }
     });

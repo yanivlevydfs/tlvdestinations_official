@@ -2047,6 +2047,19 @@ async def flights_view(request: Request):
                 is_lowcost_list.append(False)
         f["airline_lowcost"] = is_lowcost_list
 
+        # Attach Hebrew Translations for City and Country dynamically
+        country_en = f.get("country", "")
+        city_en = f.get("city", "")
+        f["country_he"] = EN_TO_HE_COUNTRY.get(country_en, country_en)
+        
+        city_info = get_city_info(city_en, return_type="both")
+        if city_info and isinstance(city_info, dict):
+            f["city_he"] = city_info.get("city_he", city_en)
+            if not f["country_he"] or f["country_he"] == country_en:
+                f["country_he"] = city_info.get("country_he", f["country_he"])
+        else:
+            f["city_he"] = city_en
+
         processed_flights.append(f)
 
     # ── Dropdowns

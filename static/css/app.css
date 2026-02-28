@@ -4035,6 +4035,91 @@ body.dark-mode .btn-wow-clear:hover {
   border-color: rgba(56, 189, 248, 0.4);
 }
 
+/* Export Buttons */
+.btn-wow-copy,
+.btn-wow-csv,
+.btn-wow-excel {
+  border-radius: 20px;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem !important;
+  min-width: 90px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.btn-wow-copy {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0284c7;
+}
+
+.btn-wow-copy:hover {
+  background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
+  color: #0c4a6e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(2, 132, 199, 0.15);
+}
+
+.btn-wow-csv {
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+  color: #7e22ce;
+}
+
+.btn-wow-csv:hover {
+  background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%);
+  color: #581c87;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(126, 34, 206, 0.15);
+}
+
+.btn-wow-excel {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #16a34a;
+}
+
+.btn-wow-excel:hover {
+  background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+  color: #14532d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(22, 163, 74, 0.15);
+}
+
+body.dark-mode .btn-wow-copy,
+body.dark-mode .btn-wow-csv,
+body.dark-mode .btn-wow-excel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .btn-wow-copy {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.4) 0%, rgba(3, 105, 161, 0.4) 100%);
+  color: #38bdf8;
+}
+
+body.dark-mode .btn-wow-copy:hover {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.6) 0%, rgba(3, 105, 161, 0.6) 100%);
+  color: #bae6fd;
+}
+
+body.dark-mode .btn-wow-csv {
+  background: linear-gradient(135deg, rgba(107, 33, 168, 0.4) 0%, rgba(88, 28, 135, 0.4) 100%);
+  color: #c084fc;
+}
+
+body.dark-mode .btn-wow-csv:hover {
+  background: linear-gradient(135deg, rgba(107, 33, 168, 0.6) 0%, rgba(88, 28, 135, 0.6) 100%);
+  color: #e9d5ff;
+}
+
+body.dark-mode .btn-wow-excel {
+  background: linear-gradient(135deg, rgba(21, 128, 61, 0.4) 0%, rgba(22, 101, 52, 0.4) 100%);
+  color: #4ade80;
+}
+
+body.dark-mode .btn-wow-excel:hover {
+  background: linear-gradient(135deg, rgba(21, 128, 61, 0.6) 0%, rgba(22, 101, 52, 0.6) 100%);
+  color: #86efac;
+}
+
 /* ===== WOW 2026 Flight Number Badge ===== */
 .wow-flight-badge {
   display: inline-flex;
