@@ -343,13 +343,13 @@
                   loop.index0 < flight.airline_lowcost|length else False %} {%- if website -%} <a href="{{ website }}"
                   target="_blank" rel="noopener" class="airline-chip text-decoration-none fw-semibold"
                   title="Visit {{ airline_name | e }} website">
+                  {% if is_lowcost %}
+                  <span class="lowcost-dot" style="margin-right: 4px; margin-left: 2px;"></span>
+                  {% endif %}
                   {% if current_code %}
                   <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp" alt="{{ airline_name }}"
                     onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
                     class="airline-logo-sm me-1" style="height: 16px; width: auto; vertical-align: middle;">
-                  {% endif %}
-                  {% if is_lowcost %}
-                  <span class="lowcost-dot" style="margin-right: 4px; margin-left: 2px;"></span>
                   {% endif %}
                   {{ airline_name }}
                   <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.85em;"></i>
@@ -358,14 +358,14 @@
                   <a href="https://www.google.com/search?q={{ airline_name | urlencode }}" target="_blank"
                     rel="noopener" class="airline-chip text-decoration-none fw-semibold"
                     title="Search for {{ airline_name | e }} on Google">
+                    {% if is_lowcost %}
+                    <span class="lowcost-dot" style="margin-right: 4px; margin-left: 2px;"></span>
+                    {% endif %}
                     {% if current_code %}
                     <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp"
                       alt="{{ airline_name }}"
                       onerror="this.onerror=null;this.src='/static/airlines_logo/airline_logos/default.webp';"
                       class="airline-logo-sm me-1" style="height: 16px; width: auto; vertical-align: middle;">
-                    {% endif %}
-                    {% if is_lowcost %}
-                    <span class="lowcost-dot" style="margin-right: 4px; margin-left: 2px;"></span>
                     {% endif %}
                     {{ airline_name }}
                     <i class="bi bi-search ms-1" style="font-size: 0.85em;"></i>
