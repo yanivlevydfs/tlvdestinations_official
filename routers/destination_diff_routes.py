@@ -41,6 +41,7 @@ class DiffCounts(BaseModel):
     current: int
     added: int
     removed: int
+    cancelled: int
 
 
 class DiffResponse(BaseModel):
@@ -48,6 +49,7 @@ class DiffResponse(BaseModel):
     counts: DiffCounts
     added: list[RouteRecord]
     removed: list[RouteRecord]
+    cancelled: list[RouteRecord]
 
 
 # ================================================================
@@ -115,6 +117,7 @@ def api_destination_diff(
             counts=DiffCounts(**diff_raw["counts"]),
             added=[RouteRecord(**rec) for rec in diff_raw["added"]],
             removed=[RouteRecord(**rec) for rec in diff_raw["removed"]],
+            cancelled=[RouteRecord(**rec) for rec in diff_raw["cancelled"]],
         )
 
         return diff_response

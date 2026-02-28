@@ -63,12 +63,35 @@ function formatAddedRoute(r, dateText, isHebrew) {
         `.trim();
 }
 
+function formatCancelledFlight(r, dateText, isHebrew) {
+    const flightDisplay = r.flight_number ? ` ${r.flight_number}` : '';
+    return isHebrew
+        ? `
+        <span class="ticker-item removed">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            טיסה${flightDisplay} של
+            <strong>${r.airline}</strong>
+            ל<strong>${r.city}</strong>
+            מבוטלת.
+            <span class="update-date">להיום, ${dateText}</span>
+        </span>
+        `.trim()
+        : `
+        <span class="ticker-item removed">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            Flight${flightDisplay} by
+            <strong>${r.airline}</strong> to
+            <strong>${r.city}</strong> is cancelled.
+            <span class="update-date">for today, ${dateText}</span>
+        </span>
+        `.trim();
+}
 
 // -------------------------
 // Main loader
 // -------------------------
 async function loadRouteTicker() {
-	const isHebrew = document.documentElement.lang === "he" ||localStorage.getItem("fe-lang") === "he";
+    const isHebrew = document.documentElement.lang === "he" || localStorage.getItem("fe-lang") === "he";
     const card = document.getElementById("route-ticker");
     if (!card) return;
 
@@ -90,19 +113,24 @@ async function loadRouteTicker() {
         const diff = await res.json();
         const added = diff.added || [];
         const removed = diff.removed || [];
+        const cancelled = diff.cancelled || [];
         const dateText = formatDateUTC(diff.generated);
 
         let items = [];
 
+        // Cancelled flights
+        for (const r of cancelled) {
+            items.push(formatCancelledFlight(r, dateText, isHebrew));
+        }
+
         // Added routes
         for (const r of added) {
             items.push(formatAddedRoute(r, dateText, isHebrew));
-
         }
 
         // Removed routes
         for (const r of removed) {
-			items.push(formatRemovedRoute(r, dateText, isHebrew));
+            items.push(formatRemovedRoute(r, dateText, isHebrew));
         }
 
         // No changes → hide completely

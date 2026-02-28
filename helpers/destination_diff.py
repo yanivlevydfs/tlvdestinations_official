@@ -144,6 +144,16 @@ def compute_diff(prev: List[Dict], curr: List[Dict]) -> Dict:
     added   = [curr_map[k] for k in added_keys]
     removed = [prev_map[k] for k in removed_keys]
 
+    # Detect cancelled flights from current dataset
+    cancelled = []
+    for r in curr:
+        status = (r.get("status") or "").strip().lower()
+        if "cancel" in status or "בוטל" in status:
+            cancelled.append(r)
+
+    # Sort cancelled flights by airline and city
+    cancelled = sorted(cancelled, key=lambda r: (r.get("airline", "").lower(), r.get("city", "")))
+
     return {
         "generated": datetime.now(UTC).isoformat(),
         "counts": {
@@ -151,9 +161,11 @@ def compute_diff(prev: List[Dict], curr: List[Dict]) -> Dict:
             "current": len(curr),
             "added": len(added),
             "removed": len(removed),
+            "cancelled": len(cancelled),
         },
         "added": added,
         "removed": removed,
+        "cancelled": cancelled,
     }
 
 
