@@ -145,6 +145,13 @@ async function loadRouteTicker() {
         // Show card
         card.classList.remove("d-none");
 
+        // Dynamically adjust scroll speed based on item count
+        // Default scroll speed is 100s. We increase it by 5s per item to maintain read speed.
+        const baseSpeed = 20;
+        const speedPerItem = 6;
+        const totalSpeed = baseSpeed + (items.length * speedPerItem);
+        inner.style.animationDuration = `${totalSpeed}s`;
+
     } catch (err) {
         console.error("Ticker diff error:", err);
         card.classList.add("d-none");
