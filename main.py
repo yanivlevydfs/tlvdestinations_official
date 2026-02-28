@@ -2324,6 +2324,45 @@ async def flight_stats_view(request: Request, period: str = "current", lang: str
     top_countries = build_stats(df, "Country")
     top_cities = build_stats(df, "City", include_country=True)
 
+    # --- Delayed & Cancelled Stats ---
+    # Detect cancelled
+    def is_cancelled(row):
+        s_en = str(row.get("status_en", "")).lower()
+        s_he = str(row.get("status_he", "")).lower()
+        return "cancel" in s_en or "בוטל" in s_he
+
+    cancelled_mask = df.apply(is_cancelled, axis=1)
+    df_cancelled = df[cancelled_mask]
+    cancelled_airlines_stats = build_stats(df_cancelled, "Airline")
+    cancelled_cities_stats = build_stats(df_cancelled, "City", include_country=True)
+    
+    # Detect delayed
+    def is_delayed(row):
+        s_en = str(row.get("status_en", "")).lower()
+        s_he = str(row.get("status_he", "")).lower()
+        # Fallback to explicit status tags
+        if "delay" in s_en or "מעוכב" in s_he:
+            return True
+            
+        sch = row.get("scheduled_time")
+        act = row.get("actual_time")
+        
+        if pd.isna(sch) or pd.isna(act) or not sch or not act:
+            return False
+            
+        try:
+            from datetime import datetime
+            sch_dt = datetime.fromisoformat(str(sch))
+            act_dt = datetime.fromisoformat(str(act))
+            return act_dt > sch_dt
+        except ValueError:
+            return False
+
+    delayed_mask = df.apply(is_delayed, axis=1)
+    df_delayed = df[delayed_mask]
+    delayed_airlines_stats = build_stats(df_delayed, "Airline")
+    delayed_cities_stats = build_stats(df_delayed, "City", include_country=True)
+
     # --- Airlines Stats ---
     airlines = sorted(df["Airline"].dropna().unique())
     airlines_data = {"All": {"countries": top_countries, "cities": top_cities}}
@@ -2431,6 +2470,10 @@ async def flight_stats_view(request: Request, period: str = "current", lang: str
         "cities_data": cities_data,
         "lowcost_stats": lowcost_airlines_stats,
         "legacy_stats": legacy_airlines_stats,
+        "delayed_airlines_stats": delayed_airlines_stats,
+        "delayed_cities_stats": delayed_cities_stats,
+        "cancelled_airlines_stats": cancelled_airlines_stats,
+        "cancelled_cities_stats": cancelled_cities_stats,
         "country_iso_map": COUNTRY_NAME_TO_ISO,  # ✅ Pass ISO Map
         "airline_to_code": airline_to_code,      # ✅ Pass Airline Codes
         "period": period                         # ✅ Pass active period

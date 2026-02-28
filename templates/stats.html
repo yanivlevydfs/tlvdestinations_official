@@ -541,6 +541,97 @@
   </div>
 </div>
 
+<!-- Delayed and Cancelled Stats Row -->
+<div class="row g-4 mt-2">
+  <!-- Cancelled Airlines -->
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm h-100" style="border-top: 4px solid #dc3545;">
+      <div class="card-header fw-bold text-danger">
+        <i class="bi bi-x-circle-fill me-1"></i>
+        {% if lang == 'he' %}חברות עם הכי הרבה ביטולים{% else %}Top Cancelled Airlines{% endif %}
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="styled-table table table-striped table-hover table-sm align-middle text-center mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="text-start">{% if lang == 'he' %}חברת תעופה{% else %}Airline{% endif %}</th>
+                <th>{% if lang == 'he' %}כמות ביטולים{% else %}Cancellations{% endif %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in cancelled_airlines_stats %}
+              <tr>
+                <td class="text-start ps-3">
+                  {% set airline_name = row.Airline %}
+                  {% set current_code = airline_to_code.get(airline_name) %}
+                  {% if current_code %}
+                  <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp" alt="{{ airline_name }}"
+                    class="airline-logo-small" onerror="this.style.display='none'">
+                  {% endif %}
+                  {{ airline_name }}
+                </td>
+                <td class="fw-bold text-danger">{{ row.Total }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="2" class="text-muted">
+                  {% if lang == 'he' %}אין נתונים על ביטולים{% else %}No cancellation data available{% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delayed Airlines -->
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm h-100" style="border-top: 4px solid #fd7e14;">
+      <div class="card-header fw-bold" style="color: #fd7e14;">
+        <i class="bi bi-clock-history me-1"></i>
+        {% if lang == 'he' %}חברות עם הכי הרבה עיכובים{% else %}Top Delayed Airlines{% endif %}
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="styled-table table table-striped table-hover table-sm align-middle text-center mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="text-start">{% if lang == 'he' %}חברת תעופה{% else %}Airline{% endif %}</th>
+                <th>{% if lang == 'he' %}כמות עיכובים{% else %}Delays{% endif %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in delayed_airlines_stats %}
+              <tr>
+                <td class="text-start ps-3">
+                  {% set airline_name = row.Airline %}
+                  {% set current_code = airline_to_code.get(airline_name) %}
+                  {% if current_code %}
+                  <img src="/static/airlines_logo/airline_logos/{{ current_code|lower }}.webp" alt="{{ airline_name }}"
+                    class="airline-logo-small" onerror="this.style.display='none'">
+                  {% endif %}
+                  {{ airline_name }}
+                </td>
+                <td class="fw-bold" style="color: #d97706;">{{ row.Total }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="2" class="text-muted">
+                  {% if lang == 'he' %}אין נתונים על עיכובים{% else %}No delay data available{% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Ads Under Table -->
 <div class="row mt-4">
   <div class="col-12 col-md-6">

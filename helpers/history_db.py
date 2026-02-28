@@ -225,7 +225,7 @@ def get_flight_stats_from_db(request_id: int = None):
             timestamp = row["timestamp"]
             
             cursor.execute("""
-                SELECT airline_name, city_name, country_name, direction, airline_code 
+                SELECT airline_name, city_name, country_name, direction, airline_code, status_en, status_he, actual_time, scheduled_time 
                 FROM flights_history 
                 WHERE request_id = ?
             """, (active_request_id,))
@@ -260,9 +260,9 @@ def get_flight_stats_by_period(period: str = "current"):
 
             # Query unique flights in the period to avoid double-counting from multiple snapshots
             query = f"""
-                SELECT airline_name, city_name, country_name, direction, airline_code
+                SELECT airline_name, city_name, country_name, direction, airline_code, status_en, status_he, actual_time, scheduled_time
                 FROM (
-                    SELECT DISTINCT airline_name, flight_number, scheduled_time, direction, city_name, country_name, airline_code
+                    SELECT DISTINCT airline_name, flight_number, scheduled_time, direction, city_name, country_name, airline_code, status_en, status_he, actual_time
                     FROM flights_history
                     WHERE timestamp >= datetime('now', '{interval}')
                 )
