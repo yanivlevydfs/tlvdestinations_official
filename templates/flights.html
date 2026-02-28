@@ -23,6 +23,11 @@
     animation: fadeInTable 0.5s ease-in forwards;
   }
 
+  /* Fallback in case JS fails */
+  table.dataTable-pre-init {
+    animation: fadeInTable 0.5s ease-in 0.8s forwards;
+  }
+
   /* PREVENT PAGE JUMP: limit initial raw HTML rows to match DataTables pageLength (25) */
   table.dataTable-pre-init tbody tr:nth-child(n+26) {
     display: none !important;
@@ -302,8 +307,8 @@
   <!-- Main Glass Card -->
   <div class="card shadow-sm mb-4">
     <div class="card-body">
-      <div class="table-responsive">
-        <table id="flightsTable" class="table table-striped table-hover w-100 align-middle dataTable-pre-init"
+      <div class="table-responsive rounded-3 overflow-hidden border">
+        <table id="flightsTable" class="table table-striped table-hover mb-0 w-100 align-middle dataTable-pre-init"
           aria-label="Table of flights">
           <thead class="table-primary">
             <tr>
@@ -391,7 +396,8 @@
               <td>{{ flight.country if lang != 'he' else (flight.country_he if flight.country_he else flight.country) }}
               </td>
               <!-- Scheduled -->
-              <td title="{{ flight.scheduled_full if flight.scheduled_full else '' }}">
+              <td title="{{ flight.scheduled_full if flight.scheduled_full else '' }}"
+                data-sort="{{ flight.scheduled_iso if flight.scheduled_iso else 'zzzz' }}">
                 {% if flight.scheduled_full %}
                 <time datetime="{{ flight.scheduled_full }}">{{ flight.scheduled }}</time>
                 {% else %}
@@ -400,7 +406,8 @@
               </td>
 
               <!-- Actual -->
-              <td title="{{ flight.actual_full if flight.actual_full else '' }}">
+              <td title="{{ flight.actual_full if flight.actual_full else '' }}"
+                data-sort="{{ flight.actual_iso if flight.actual_iso else 'zzzz' }}">
                 {% if flight.actual_iso %}
                 <span class="d-none">{{ flight.actual_iso }}</span> {# 👈 this makes ISO searchable #}
                 <time datetime="{{ flight.actual_iso }}">{{ flight.actual }}</time>
@@ -562,14 +569,15 @@
         { targets: 0, className: 'dtr-control', orderable: false, searchable: false },
 
         { targets: 1, responsivePriority: 1 },   // Airline
-        { targets: 2, responsivePriority: 2 },   // Flight No
+        { targets: 5, responsivePriority: 1 },   // City
         { targets: 11, responsivePriority: 1 },  // Status
-        { targets: 9, responsivePriority: 2 },   // Terminal
-        { targets: 7, responsivePriority: 2 },   // Scheduled
         { targets: 8, responsivePriority: 2 },   // Actual
-        { targets: 10, responsivePriority: 3 },  // Direction
+        { targets: 2, responsivePriority: 3 },   // Flight No
+        { targets: 9, responsivePriority: 4 },   // Terminal
+        { targets: 7, responsivePriority: 5 },   // Scheduled
+        { targets: 10, responsivePriority: 6 },  // Direction
 
-        { targets: [3, 4, 5, 6], responsivePriority: 100 }
+        { targets: [3, 4, 6], responsivePriority: 100 }
       ],
 
       initComplete: function () {
@@ -651,11 +659,11 @@
 
           let regex = "";
           if (date && time) {
-            regex = `^${date}T${time}`;
+            regex = `^\\s*${date}T${time}`;
           } else if (date) {
-            regex = `^${date}`;
+            regex = `^\\s*${date}`;
           } else if (time) {
-            regex = `${time}$`;
+            regex = `T${time}`;
           }
 
           if (idx !== -1) {
