@@ -671,5 +671,6 @@
   "Kristiansand": {"he": "קריסטיאנסנד","country": "Norway","country_he": "נורווגיה"},
   "Haugesund": {"he": "האוגסונד","country": "Norway","country_he": "נורווגיה"},
   "Vaduz": {"he": "ואדוץ","country": "Liechtenstein","country_he": "ליכטנשטיין"},
-  "Dover, Delaware": {"he": "דובר, דלאוור","country": "United States","country_he": "ארצות הברית"}
+  "Dover, Delaware": {"he": "דובר, דלאוור","country": "United States","country_he": "ארצות הברית"},
+  "Vitoria": {"he": "ויטוריה", "country": "Spain", "country_he": "ספרד"}
 }
