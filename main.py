@@ -982,11 +982,11 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             statuses = {str(s).strip().lower() for s in info["Statuses"] if s}
 
             # 🚫 Skip entire destination if ALL statuses are canceled
-            if statuses and all(
-                any(token in s for token in CANCEL_TOKENS)
-                for s in statuses
-            ):
-                continue
+            # if statuses and all(
+            #     any(token in s for token in CANCEL_TOKENS)
+            #     for s in statuses
+            # ):
+            #     continue
 
             # ✅ Filter airlines with at least one active flight
             active_airlines = sorted([
@@ -998,8 +998,12 @@ def _read_dataset_file() -> tuple[pd.DataFrame, str | None]:
             ])
 
             # 🚫 Skip this destination if no active airlines remain
+            # if not active_airlines:
+            #     continue
+            
+            # If no active airlines, show all airlines for this destination
             if not active_airlines:
-                continue
+                active_airlines = sorted(list(info["Airlines"]))
             
             # ✅ Align airline codes with airline names
             aligned_codes = []
